@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1e3d">
+<title>Wordkeep</title>
+
+<link rel="manifest" href='data:application/manifest+json,{"name":"Wordkeep","short_name":"Wordkeep","start_url":".","display":"standalone","background_color":"%230f1e3d","theme_color":"%230f1e3d","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2242%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%2296%22 y=%22130%22 font-size=%22110%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EW%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%22256%22 y=%22350%22 font-size=%22300%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EW%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230f1e3d'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EW%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script src="https://js.puter.com/v2/"></script>
+
+<style>
+:root{
+  --navy:#0f1e3d; --navy-2:#1a2f57; --ink:#0f1e3d;
+  --paper:#fbfcfe; --line:#e2e8f2; --muted:#6b7791;
+  --accent:#f0b429;
+  --good:#1f9d6b; --bad:#d8524a;
+  --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  background:var(--paper); color:var(--ink);
+  padding-bottom:calc(76px + env(safe-area-inset-bottom));
+  overscroll-behavior-y:none;
+}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;margin:0}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+@media(min-width:700px){.wrap{max-width:640px}}
+
+header{
+  background:var(--navy); color:#fff;
+  padding:calc(env(safe-area-inset-top) + 20px) 18px 20px;
+  border-radius:0 0 22px 22px;
+}
+header .brand{display:flex;align-items:baseline;gap:10px}
+header h1{font-size:26px;letter-spacing:.5px}
+header .tag{font-size:12px;color:#aab8d8;letter-spacing:2px;text-transform:uppercase}
+header .count{margin-top:12px;font-size:13px;color:#c3cee6;display:flex;gap:14px;flex-wrap:wrap}
+header .count b{color:var(--accent);font-size:15px}
+header .due-chip{background:rgba(240,180,41,.16);border:1px solid rgba(240,180,41,.4);
+  border-radius:99px;padding:3px 12px;font-size:12.5px;color:var(--accent);font-weight:600}
+
+main{padding-top:20px}
+.view{display:none;animation:fade .25s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.field{width:100%;padding:14px 16px;font-size:16px;border:1.5px solid var(--line);
+  border-radius:12px;background:#fff;color:var(--ink);font-family:inherit}
+.field:focus{outline:none;border-color:var(--navy)}
+label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
+  letter-spacing:.5px;margin:0 0 6px 2px;text-transform:uppercase}
+.btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:600;
+  font-family:inherit;cursor:pointer;transition:transform .06s,filter .15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--navy);color:#fff;width:100%}
+.btn-primary:disabled{opacity:.5}
+.btn-ghost{background:#eef2f9;color:var(--navy)}
+.btn-gold{background:var(--accent);color:var(--navy)}
+.row{display:flex;gap:10px}
+
+.hint{font-size:12.5px;color:var(--muted);margin:6px 2px 0;line-height:1.5}
+.preview{margin-top:14px;padding:16px;border-radius:14px;background:#f5f8fd;border:1px solid var(--line)}
+.preview .ja-big{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.preview .ja-src{font-size:11px;color:var(--muted);margin-bottom:10px}
+.preview .pw{font-family:Georgia,serif;font-size:18px;font-weight:600;color:var(--muted)}
+.preview .phon{color:var(--muted);font-size:13px;margin-left:8px}
+.preview .pos{display:inline-block;font-size:11px;color:var(--navy);background:#e5edf8;
+  border-radius:6px;padding:2px 8px;margin:8px 0 4px;font-weight:600}
+.preview .def{font-size:14px;line-height:1.55;margin:2px 0;color:#3a4560}
+.preview .ex{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
+.preview .warn{font-size:13px;color:#a8352e}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #c3cee6;
+  border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.list-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px;gap:10px}
+.search{flex:1}
+.card{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:flex-start;gap:12px}
+.card:last-child{border-bottom:none}
+.card .w{font-family:Georgia,serif;font-size:18px;font-weight:600}
+.card .kata{font-size:12px;color:var(--accent);font-weight:600;margin-left:6px}
+.card .m{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.card .meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.tag-sm{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600}
+.tag-due{background:#fdeeed;color:#a8352e}
+.tag-next{background:#eef2f9;color:var(--muted)}
+.tag-new{background:#eafaf3;color:#0d6b47}
+.del{background:none;border:none;color:#c0c9db;font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14.5px;line-height:1.7}
+.empty .big{font-size:34px;margin-bottom:10px}
+
+.deck{perspective:1200px;margin:8px 0 18px}
+.flip{position:relative;width:100%;min-height:320px;transform-style:preserve-3d;
+  transition:transform .5s;cursor:pointer}
+.flip.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:30px;text-align:center;box-shadow:var(--shadow)}
+.face.front{background:var(--navy);color:#fff}
+.face.back{background:#fff;border:1px solid var(--line);transform:rotateY(180deg);overflow:auto}
+.face .fw{font-family:Georgia,serif;font-size:34px;font-weight:600}
+.face .fk{color:var(--accent);font-size:16px;margin-top:8px}
+.face .flip-hint{position:absolute;bottom:16px;font-size:12px;opacity:.6}
+.face.back .bpos{font-size:12px;color:var(--navy);background:#e5edf8;border-radius:6px;padding:3px 10px;margin-bottom:8px}
+.face.back .bdef{font-size:16px;line-height:1.5;color:#3a4560}
+.face.back .bex{font-size:13.5px;color:var(--muted);font-style:italic;margin-top:12px;line-height:1.5}
+.face.back .bja{font-size:22px;color:var(--navy);font-weight:700;margin-top:2px}
+.deck-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.deck-nav .pos-ind{font-size:13px;color:var(--muted)}
+
+.q-word{text-align:center;margin:10px 0 22px}
+.q-word .qw{font-family:Georgia,serif;font-size:36px;font-weight:600}
+.q-word .qk{color:var(--accent);font-size:16px;margin-top:6px}
+.q-word .qprompt{font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.opt{width:100%;text-align:left;padding:15px 18px;margin-bottom:10px;border:1.5px solid var(--line);
+  border-radius:13px;background:#fff;font-size:15.5px;font-family:inherit;cursor:pointer;transition:.15s;line-height:1.4}
+.opt:active{transform:scale(.99)}
+.opt.correct{border-color:var(--good);background:#eafaf3;color:#0d6b47}
+.opt.wrong{border-color:var(--bad);background:#fdeeed;color:#a8352e}
+.opt:disabled{cursor:default}
+.q-feedback{margin-top:16px;padding:16px;border-radius:14px;font-size:15px;line-height:1.55}
+.q-feedback.ok{background:#eafaf3;border:1px solid #bfe8d5}
+.q-feedback.ng{background:#fdeeed;border:1px solid #f3cfcc}
+.q-feedback .ans{font-family:Georgia,serif;font-size:19px;font-weight:600;color:var(--navy)}
+.q-feedback .nextin{font-size:12.5px;color:var(--muted);margin-top:8px}
+.q-progress{height:6px;background:#e8eef7;border-radius:99px;overflow:hidden;margin-bottom:20px}
+.q-progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.q-score{text-align:center;padding:40px 20px}
+.q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--navy)}
+.q-score .lbl{color:var(--muted);margin:6px 0 26px}
+.q-mode-tabs{display:flex;gap:8px;margin-bottom:16px}
+.q-mode-tabs button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
+  background:#fff;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.q-mode-tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.set-row{display:flex;justify-content:space-between;align-items:center;padding:16px;
+  border-bottom:1px solid var(--line);gap:12px}
+.set-row:last-child{border-bottom:none}
+.set-row .st{font-weight:600;font-size:15px}
+.set-row .sd{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:230px;line-height:1.45}
+.seg{display:inline-flex;background:#eef2f9;border-radius:10px;padding:3px;flex-shrink:0}
+.seg button{border:none;background:none;padding:8px 14px;border-radius:8px;font-size:13px;
+  font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit}
+.seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.switch{width:50px;height:30px;border-radius:99px;background:#cdd6e6;position:relative;cursor:pointer;transition:.2s;border:none;flex-shrink:0}
+.switch.on{background:var(--good)}
+.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+.switch.on i{left:23px}
+.set-section-t{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;
+  text-transform:uppercase;margin:22px 2px 8px}
+
+nav.tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:50}
+nav.tabbar button{flex:1;background:none;border:none;display:flex;flex-direction:column;
+  align-items:center;gap:3px;color:var(--muted);font-size:11px;cursor:pointer;
+  font-family:inherit;padding:4px 0;position:relative}
+nav.tabbar button.on{color:var(--navy)}
+nav.tabbar .ic{width:24px;height:24px;font-size:19px}
+nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:var(--shadow)}
+.badge{position:absolute;top:-2px;right:22%;background:var(--bad);color:#fff;font-size:10px;
+  font-weight:700;border-radius:99px;min-width:16px;height:16px;padding:0 4px;
+  display:flex;align-items:center;justify-content:center}
+
+.toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+  background:var(--navy);color:#fff;padding:11px 20px;border-radius:99px;font-size:14px;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:99;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand"><h1>Wordkeep</h1><span class="tag">Cebu</span></div>
+    <div class="count" id="hdrCount"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="v-add" class="view active">
+    <div style="margin:6px 2px 14px">
+      <h2 style="font-size:20px">単語を追加</h2>
+      <p class="hint">聞き取ったカタカナのままでOK。AIが本来の英単語を推測して、日本語訳・定義・例文まで自動取得する。</p>
+    </div>
+    <div class="panel" style="padding:18px">
+      <label class="lab">英単語 or カタカナ（AIが推測）</label>
+      <div class="row">
+        <input id="inWord" class="field" placeholder="ホリファイド / prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px">調べる</button>
+      </div>
+      <div id="lookupBox"></div>
+
+      <label class="lab" style="margin-top:16px">カタカナ（任意）</label>
+      <input id="inKata" class="field" placeholder="プレファー">
+
+      <label class="lab" style="margin-top:16px">日本語の意味</label>
+      <input id="inJa" class="field" placeholder="調べると自動で入ります（編集可）">
+
+      <button class="btn btn-primary" id="btnSave" style="margin-top:18px" disabled>リストに追加</button>
+      <p class="hint" id="saveHint">まず英単語を入力してね。</p>
+    </div>
+  </section>
+
+  <section id="v-list" class="view">
+    <div class="list-head">
+      <input id="search" class="field search" placeholder="検索…">
+      <span class="hint" id="listCount" style="white-space:nowrap"></span>
+    </div>
+    <div class="panel" id="listPanel"></div>
+  </section>
+
+  <section id="v-study" class="view">
+    <h2 style="font-size:20px;margin:6px 2px 4px">単語帳</h2>
+    <p class="hint" id="studyHint" style="margin-bottom:12px">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
+    <div id="studyBody"></div>
+  </section>
+
+  <section id="v-quiz" class="view">
+    <div id="quizBody"></div>
+  </section>
+
+  <section id="v-set" class="view">
+    <h2 style="font-size:20px;margin:6px 2px 14px">設定</h2>
+
+    <div class="set-section-t">出題形式</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st">クイズのタイプ</div><div class="sd" id="quizTypeDesc"></div></div>
+        <div class="seg" id="segQuizType">
+          <button data-v="choice">4択</button>
+          <button data-v="input">意味入力</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <div><div class="st">出題の向き</div><div class="sd">英→意味 か、意味→英 か</div></div>
+        <div class="seg" id="segDir">
+          <button data-v="e2j">英→意</button>
+          <button data-v="j2e">意→英</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <div><div class="st">1回の問題数</div><div class="sd">まとめて何問出すか</div></div>
+        <div class="seg" id="segLen">
+          <button data-v="5">5</button>
+          <button data-v="10">10</button>
+          <button data-v="0">全部</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-section-t">復習（間隔反復）</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st">復習スケジュール</div><div class="sd">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。</div></div>
+      </div>
+      <div class="set-row">
+        <div><div class="st">苦手を優先</div><div class="sd">復習対象の中でも間違えた単語を出やすくする</div></div>
+        <button class="switch" id="swWeak"><i></i></button>
+      </div>
+    </div>
+
+    <div class="set-section-t">データ</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st">バックアップ書き出し</div><div class="sd">JSONファイルとして保存（端末内保存なので時々推奨）</div></div>
+        <button class="btn btn-ghost" id="btnExport">書き出す</button>
+      </div>
+      <div class="set-row">
+        <div><div class="st">読み込み</div><div class="sd">バックアップから復元・統合</div></div>
+        <button class="btn btn-ghost" id="btnImport">読み込む</button>
+      </div>
+    </div>
+    <input type="file" id="fileImport" accept="application/json" style="display:none">
+    <p class="hint" style="margin:14px 2px 30px">単語データはこの端末のブラウザ内だけに保存されます（あなたの分だけ）。消えると困るので、たまにバックアップを。</p>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <button data-tab="v-list" class="on"><span class="ic">📚</span>リスト</button>
+  <button data-tab="v-study"><span class="ic">🗂️</span>単語帳</button>
+  <button data-tab="v-add"><span class="add-dot" style="font-size:24px;font-weight:400">＋</span></button>
+  <button data-tab="v-quiz"><span class="ic">🔁</span>復習<span class="badge" id="dueBadge" style="display:none"></span></button>
+  <button data-tab="v-set"><span class="ic">⚙️</span>設定</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- config ---------- */
+const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
+const DAY=86400000;
+
+/* ---------- storage ---------- */
+const KEY='wordkeep.v2';
+const OLDKEY='wordkeep.v1';
+const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true}};
+let DB=load();
+
+function migrateWord(w){
+  if(typeof w.box!=='number')w.box=-1;
+  if(typeof w.nextDue!=='number')w.nextDue=w.added||Date.now();
+  if(!w.hist)w.hist=[];
+  if(!Array.isArray(w.examples))w.examples=[];
+  return w;
+}
+function load(){
+  let raw=localStorage.getItem(KEY);
+  if(!raw){ // try migrating from v1
+    const old=localStorage.getItem(OLDKEY);
+    if(old){try{const r=JSON.parse(old);if(r&&r.words){r.words.forEach(migrateWord);localStorage.setItem(KEY,JSON.stringify(r));return {...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};}}catch(e){}}
+    return structuredClone(DEFAULTS);
+  }
+  try{
+    const r=JSON.parse(raw);
+    if(r&&r.words){r.words.forEach(migrateWord);return {...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};}
+  }catch(e){}
+  return structuredClone(DEFAULTS);
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
+const S=()=>DB.settings;
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+function isDue(w){return w.nextDue<=Date.now();}
+function dueCount(){return DB.words.filter(isDue).length;}
+function fmtDate(ts){
+  const d=new Date(ts),now=new Date();
+  const sameDay=d.toDateString()===now.toDateString();
+  if(ts<=Date.now())return '今日';
+  if(sameDay)return '今日';
+  const diffDays=Math.round((ts-Date.now())/DAY);
+  if(diffDays===1)return '明日';
+  return (d.getMonth()+1)+'/'+d.getDate();
+}
+async function fetchWithTimeout(url,ms,opts){
+  const ctrl=new AbortController();
+  const t=setTimeout(()=>ctrl.abort(),ms);
+  try{
+    const r=await fetch(url,{...opts,signal:ctrl.signal});
+    clearTimeout(t);
+    return r;
+  }catch(e){clearTimeout(t);throw e;}
+}
+
+/* ---------- tabs ---------- */
+$$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function go(id){
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
+  $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
+  if(id==='v-list')renderList();
+  if(id==='v-study')renderStudy();
+  if(id==='v-quiz')startQuiz();
+  if(id==='v-set')renderSettings();
+  window.scrollTo(0,0);
+}
+
+/* ---------- ADD: dictionary + translation lookup ---------- */
+let pending=null;
+const inWord=$('#inWord');
+$('#btnLookup').onclick=lookup;
+inWord.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookup();}});
+inWord.addEventListener('input',()=>{
+  const v=inWord.value.trim();
+  $('#btnSave').disabled=!v;
+  if(v)$('#saveHint').textContent='「調べる」でAIが単語を推測・自動取得します（任意）。';
+});
+
+async function fetchDictionary(w){
+  const r=await fetchWithTimeout('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w),7000);
+  if(!r.ok)throw new Error('not_found');
+  const data=await r.json();
+  const entry=Array.isArray(data)?data[0]:null;
+  if(!entry)throw new Error('not_found');
+  const phon=(entry.phonetics||[]).map(p=>p.text).find(Boolean)||'';
+  const meanings=(entry.meanings||[]).slice(0,3).map(m=>({
+    pos:m.partOfSpeech||'',
+    def:(m.definitions&&m.definitions[0]&&m.definitions[0].definition)||'',
+    ex:(m.definitions&&m.definitions[0]&&m.definitions[0].example)||''
+  })).filter(m=>m.def);
+  return {word:entry.word||w,phon,meanings};
+}
+async function fetchTranslationJa(w){
+  const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|ja',7000);
+  if(!r.ok)throw new Error('translate_fail');
+  const data=await r.json();
+  if(data.responseStatus!==200||!data.responseData||!data.responseData.translatedText)throw new Error('translate_fail');
+  return data.responseData.translatedText;
+}
+
+/*
+ * puter.ai.chat() responses can come back with message.content as either a
+ * plain string OR an array of Anthropic-style content blocks ([{type,text}]),
+ * depending on model/vendor. Handle both explicitly -- indexing a string with
+ * [0] silently returns a single character (not a block), which used to make
+ * this always fall through to the useless toString() branch and break JSON.parse.
+ */
+function extractPuterText(r){
+  if(typeof r==='string')return r;
+  const content=r&&r.message&&r.message.content;
+  if(typeof content==='string')return content;
+  if(Array.isArray(content)){
+    const block=content.find(b=>b&&typeof b.text==='string');
+    if(block)return block.text;
+  }
+  if(r&&typeof r.text==='string')return r.text;
+  if(r&&typeof r.toString==='function'){
+    const s=r.toString();
+    if(s&&s!=='[object Object]')return s;
+  }
+  return '';
+}
+function withTimeout(promise,ms){
+  return Promise.race([promise,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);
+}
+
+const PUTER_SYS=`You help a Japanese English-learner living in the Philippines who often hears English words and writes them down as katakana approximations (e.g. "プレファー" for "prefer"), or types a rough/misspelled guess at the English spelling.
+Given the user's raw input, identify the single most likely intended English word.
+Respond with ONLY raw JSON, no markdown fences, no preamble, in exactly this shape:
+{"word":"the correctly spelled English word","confidence":"high|medium|low","pos":"part of speech, short","phonetic":"IPA or simple phonetic if known, else empty string","ja":"a natural, concise Japanese translation/definition of the word as used in everyday English (1 short line)","def_en":"a short English definition","examples":[{"en":"a natural example sentence using the word","ja":"its Japanese translation"},{"en":"a second, different natural example sentence using the word","ja":"its Japanese translation"}],"alternates":[{"word":"...","ja":"..."}]}
+Provide exactly 2 items in "examples", each a different natural sentence a language-school student might actually hear or use. "alternates" should contain 0-2 other plausible words ONLY if the input is genuinely ambiguous, otherwise an empty array. Never wrap the JSON in backticks. Never add commentary outside the JSON.`;
+
+async function callPuterLookup(raw){
+  if(typeof puter==='undefined')throw new Error('puter_unavailable');
+  const resp=await withTimeout(puter.ai.chat(PUTER_SYS+'\n\n入力: "'+raw+'"',{model:'claude-sonnet-4-6'}),20000);
+  const text=extractPuterText(resp);
+  const clean=text.replace(/```json|```/g,'').trim();
+  const parsed=JSON.parse(clean);
+  if(!parsed||!parsed.word)throw new Error('bad_shape');
+  if(!Array.isArray(parsed.alternates))parsed.alternates=[];
+  if(!Array.isArray(parsed.examples))parsed.examples=[];
+  return parsed;
+}
+
+async function callPuterExamples(word,ja){
+  if(typeof puter==='undefined')throw new Error('puter_unavailable');
+  const p=`英単語 "${word}"（意味: ${ja||'不明'}）について、日本人の英語学習者向けに自然な例文を2つ作って。それぞれ日本語訳も付ける。ONLY raw JSON、コードフェンス無し、以下の形そのまま: {"examples":[{"en":"...","ja":"..."},{"en":"...","ja":"..."}]}`;
+  const resp=await withTimeout(puter.ai.chat(p,{model:'claude-sonnet-4-6'}),20000);
+  const text=extractPuterText(resp);
+  const clean=text.replace(/```json|```/g,'').trim();
+  const parsed=JSON.parse(clean);
+  if(!parsed||!Array.isArray(parsed.examples))throw new Error('bad_shape');
+  return parsed.examples;
+}
+
+async function lookup(){
+  const raw=inWord.value.trim();
+  if(!raw)return;
+  const box=$('#lookupBox');
+  box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">AIが単語を推測中…（初回は確認ダイアログが出ることがあります）</span></div>';
+  const jaFieldWasEmpty=!$('#inJa').value.trim();
+
+  try{
+    const ai=await callPuterLookup(raw);
+    pending={
+      word:ai.word,
+      phon:ai.phonetic||'',
+      meanings:ai.def_en?[{pos:ai.pos||'',def:ai.def_en,ex:''}]:[],
+      ja:ai.ja||'',
+      examples:ai.examples||[]
+    };
+    if(ai.word.toLowerCase()!==raw.toLowerCase()){
+      if(!$('#inKata').value.trim())$('#inKata').value=raw;
+      inWord.value=ai.word;
+    }
+    if(ai.ja&&jaFieldWasEmpty)$('#inJa').value=ai.ja;
+    $('#btnSave').disabled=false;
+
+    const lowConf=ai.confidence&&ai.confidence!=='high';
+    let html='<div class="preview">';
+    html+='<div class="ja-big">'+esc(ai.ja||'')+'</div><div class="ja-src">AI推測（Puter.js）'+(lowConf?'・確信度: '+esc(ai.confidence):'')+'</div>';
+    html+='<div style="margin-top:8px"><span class="pw">'+esc(ai.word)+'</span>'+(ai.phonetic?'<span class="phon">'+esc(ai.phonetic)+'</span>':'')+'</div>';
+    if(ai.def_en)html+='<div class="pos">'+esc(ai.pos||'')+'</div><div class="def">'+esc(ai.def_en)+'</div>';
+    (ai.examples||[]).forEach(ex=>{
+      html+='<div class="ex" style="margin-top:6px">"'+esc(ex.en)+'"'+(ex.ja?'<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja)+'</span>':'')+'</div>';
+    });
+    if(ai.alternates.length){
+      html+='<div style="margin-top:12px;font-size:12px;color:var(--muted)">もしかして:</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">'+
+        ai.alternates.map((a,i)=>'<button type="button" class="btn-ghost alt-chip" data-i="'+i+'" style="border:none;border-radius:99px;padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer">'+esc(a.word)+(a.ja?'（'+esc(a.ja)+'）':'')+'</button>').join('')+
+        '</div>';
+    }
+    html+='</div>';
+    box.innerHTML=html;
+    window._aiAlts=ai.alternates;
+    $$('.alt-chip').forEach(chip=>chip.onclick=()=>{
+      const a=window._aiAlts[parseInt(chip.dataset.i)];
+      if(!a)return;
+      inWord.value=a.word;
+      pending={word:a.word,phon:'',meanings:[],ja:a.ja||'',examples:[]};
+      $('#inJa').value=a.ja||'';
+      box.querySelector('.ja-big').textContent=a.ja||'';
+      box.querySelector('.pw').textContent=a.word;
+    });
+    $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
+  }catch(aiErr){
+    // fallback: free dictionary + MyMemory translation (no katakana guessing)
+    const w=raw.toLowerCase();
+    box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">AIが使えなかったので辞書+翻訳で検索中…</span></div>';
+    const [dictRes,jaRes]=await Promise.allSettled([fetchDictionary(w),fetchTranslationJa(w)]);
+    const dictOk=dictRes.status==='fulfilled';
+    const jaOk=jaRes.status==='fulfilled';
+    pending={
+      word: dictOk?dictRes.value.word:w,
+      phon: dictOk?dictRes.value.phon:'',
+      meanings: dictOk?dictRes.value.meanings:[],
+      ja: jaOk?jaRes.value:'',
+      examples:[]
+    };
+    if(jaOk&&jaFieldWasEmpty)$('#inJa').value=jaRes.value;
+    $('#btnSave').disabled=false;
+    let html='<div class="preview">';
+    html+='<div class="warn" style="margin-bottom:8px">AI検索が使えなかったため、辞書＋翻訳での結果です（カタカナからの推測はできません）。</div>';
+    if(jaOk)html+='<div class="ja-big">'+esc(jaRes.value)+'</div><div class="ja-src">MyMemory 翻訳（自動・編集可）</div>';
+    if(dictOk){
+      html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
+        pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.def)+'</div>'+(m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
+    }else if(!jaOk){
+      html+='<div class="warn" style="margin-top:8px">辞書にも翻訳にも見つかりませんでした。日本語メモを手入力してね。</div>';
+    }
+    html+='</div>';
+    box.innerHTML=html;
+    $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
+  }
+}
+
+$('#btnSave').onclick=()=>{
+  const w=(pending&&pending.word)?pending.word:inWord.value.trim();
+  if(!w)return;
+  const now=Date.now();
+  const item={
+    id:now+''+Math.random().toString(36).slice(2,6),
+    word:w,
+    kata:$('#inKata').value.trim(),
+    ja:$('#inJa').value.trim(),
+    phon:pending?pending.phon:'',
+    meanings:pending?pending.meanings:[],
+    examples:pending?(pending.examples||[]):[],
+    seen:0,correct:0,wrong:0,added:now,
+    box:-1,nextDue:now,hist:[]
+  };
+  DB.words.unshift(item);save();
+  inWord.value='';$('#inKata').value='';$('#inJa').value='';
+  $('#lookupBox').innerHTML='';pending=null;$('#btnSave').disabled=true;
+  $('#saveHint').textContent='まず英単語を入力してね。';
+  toast('「'+w+'」を追加しました・今日から復習スタート');
+};
+
+/* ---------- LIST ---------- */
+$('#search').addEventListener('input',renderList);
+function primaryMeaning(w){
+  if(w.ja)return w.ja;
+  if(w.meanings&&w.meanings[0])return w.meanings[0].def;
+  return '';
+}
+function renderList(){
+  const q=$('#search').value.trim().toLowerCase();
+  let arr=DB.words;
+  if(q)arr=arr.filter(w=>(w.word+w.kata+w.ja+primaryMeaning(w)).toLowerCase().includes(q));
+  $('#listCount').textContent=arr.length+'語';
+  const p=$('#listPanel');
+  if(!arr.length){
+    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(DB.words.length?'一致する単語がありません':'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。')+'</div>';
+    return;
+  }
+  p.innerHTML=arr.map(w=>{
+    let dueTag;
+    if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">未学習</span>';
+    else if(isDue(w))dueTag='<span class="tag-sm tag-due">復習: 今日</span>';
+    else dueTag='<span class="tag-sm tag-next">次回 '+fmtDate(w.nextDue)+'</span>';
+    const hasEx=(w.examples||[]).length>0;
+    return '<div class="card"><div style="flex:1">'+
+      '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
+      (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
+      '<div class="meta">'+dueTag+
+      '<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+(hasEx?'例文を見る':'例文を生成 ✨')+'</span>'+
+      '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
+      '<button class="del" data-id="'+w.id+'">×</button></div>';
+  }).join('');
+  $$('#listPanel .del').forEach(b=>b.onclick=()=>{
+    if(confirm('この単語を削除しますか？')){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();}
+  });
+  $$('#listPanel .ex-toggle').forEach(t=>t.onclick=async()=>{
+    const w=DB.words.find(x=>x.id===t.dataset.id);
+    const body=$('#ex-'+w.id);
+    if(body.style.display==='block'){body.style.display='none';return;}
+    if((w.examples||[]).length){
+      body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
+      body.style.display='block';return;
+    }
+    t.textContent='生成中…';
+    try{
+      const examples=await callPuterExamples(w.word,w.ja);
+      w.examples=examples;save();
+      body.innerHTML=examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
+      body.style.display='block';
+      t.textContent='例文を見る';
+    }catch(e){
+      t.textContent='例文を生成 ✨';
+      toast('例文の生成に失敗しました（通信状況を確認してね）');
+    }
+  });
+}
+
+/* ---------- STUDY (flashcards, no SRS effect) ---------- */
+let deck=[],di=0;
+function renderStudy(){
+  const body=$('#studyBody');
+  if(!DB.words.length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>単語を追加すると<br>ここで暗記カードになります。</div>';return;}
+  deck=shuffle(DB.words);di=0;
+  body.innerHTML=
+    '<div class="deck"><div class="flip" id="flip">'+
+      '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div><div class="flip-hint">タップで意味を見る</div></div>'+
+      '<div class="face back" id="fBack"></div>'+
+    '</div></div>'+
+    '<div class="deck-nav">'+
+      '<button class="btn btn-ghost" id="dPrev">← 前</button>'+
+      '<span class="pos-ind" id="dPos"></span>'+
+      '<button class="btn btn-ghost" id="dNext">次 →</button>'+
+    '</div>'+
+    '<button class="btn btn-primary" id="dShuffle" style="margin-top:14px">シャッフルし直す</button>';
+  $('#flip').onclick=()=>$('#flip').classList.toggle('flipped');
+  $('#dPrev').onclick=()=>{di=(di-1+deck.length)%deck.length;showCard();};
+  $('#dNext').onclick=()=>{di=(di+1)%deck.length;showCard();};
+  $('#dShuffle').onclick=renderStudy;
+  showCard();
+}
+function showCard(){
+  const w=deck[di];
+  $('#flip').classList.remove('flipped');
+  $('#fFront').textContent=w.word;
+  $('#fKata').textContent=w.kata||'';
+  renderBack(w);
+  $('#dPos').textContent=(di+1)+' / '+deck.length;
+}
+function renderBack(w){
+  let back='';
+  if(w.phon)back+='<div style="color:var(--muted);font-size:14px;margin-bottom:10px">'+esc(w.phon)+'</div>';
+  if(w.ja)back+='<div class="bja">'+esc(w.ja)+'</div>';
+  (w.meanings||[]).forEach(m=>{
+    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div><div class="bdef">'+esc(m.def)+'</div>';
+  });
+  if((w.examples||[]).length){
+    back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
+  }else{
+    back+='<button class="btn btn-ghost" id="genEx" style="margin-top:14px;font-size:13px;padding:9px 14px">例文を生成 ✨</button>';
+  }
+  if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">意味メモがありません</div>'+back;
+  $('#fBack').innerHTML=back;
+  const genBtn=$('#genEx');
+  if(genBtn)genBtn.onclick=async(e)=>{
+    e.stopPropagation();
+    genBtn.textContent='生成中…';
+    try{
+      const examples=await callPuterExamples(w.word,w.ja);
+      w.examples=examples;save();
+      renderBack(w);
+    }catch(err){
+      genBtn.textContent='例文を生成 ✨';
+      toast('例文の生成に失敗しました');
+    }
+  };
+}
+
+/* ---------- QUIZ / REVIEW (SRS) ---------- */
+let quiz={items:[],i:0,score:0,mode:'due'};
+function pickWords(mode){
+  let pool = mode==='due' ? DB.words.filter(w=>isDue(w)&&primaryMeaning(w)) : DB.words.filter(w=>primaryMeaning(w));
+  if(S().weak){
+    pool=[...pool].sort((a,b)=>{
+      const overdueA=(Date.now()-a.nextDue), overdueB=(Date.now()-b.nextDue);
+      const wa=(a.wrong+1)/(a.correct+1), wb=(b.wrong+1)/(b.correct+1);
+      return (overdueB-overdueA)*0.00001+(wb-wa)+(Math.random()-.5)*.3;
+    });
+  }else{
+    pool=[...pool].sort((a,b)=>a.nextDue-b.nextDue);
+  }
+  const n=S().len===0?pool.length:Math.min(S().len,pool.length);
+  return pool.slice(0,n);
+}
+function startQuiz(mode){
+  mode = mode || quiz.mode || 'due';
+  quiz.mode=mode;
+  const due=dueCount();
+  const items=pickWords(mode);
+  const body=$('#quizBody');
+
+  let modeTabs='<div class="q-mode-tabs">'+
+    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">今日の復習（'+due+'）</button>'+
+    '<button data-m="all" class="'+(mode==='all'?'on':'')+'">自由学習（全部）</button>'+
+    '</div>';
+
+  const eligibleTotal=DB.words.filter(w=>primaryMeaning(w)).length;
+  if(mode==='due'&&due===0){
+    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>今日復習する単語はありません。<br>お疲れさま！<br><span style="font-size:12.5px">「自由学習」で先取り練習もできます。</span></div>';
+    bindModeTabs();return;
+  }
+  const need=S().quizType==='choice'?4:1;
+  if(items.length<need||eligibleTotal<need){
+    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+
+      (eligibleTotal?'4択には日本語の意味が入った単語が最低4語必要です。':'単語を追加すると復習が始まります。')+'</div>';
+    bindModeTabs();return;
+  }
+  quiz={items,i:0,score:0,mode};
+  body.innerHTML=modeTabs;
+  bindModeTabs();
+  renderQ();
+}
+function bindModeTabs(){
+  $$('.q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
+}
+function renderQ(){
+  const body=$('#quizBody');
+  const w=quiz.items[quiz.i];
+  const dir=S().dir;
+  const prog=Math.round(quiz.i/quiz.items.length*100);
+  const showEng=dir==='e2j';
+  const promptTxt=showEng?'この単語の意味は？':'この意味の英単語は？';
+  const face=showEng?w.word:primaryMeaning(w);
+  const kata=showEng?(w.kata||''):'';
+
+  let modeTabs='<div class="q-mode-tabs">'+
+    '<button data-m="due" class="'+(quiz.mode==='due'?'on':'')+'">今日の復習（'+dueCount()+'）</button>'+
+    '<button data-m="all" class="'+(quiz.mode==='all'?'on':'')+'">自由学習（全部）</button>'+
+    '</div>';
+
+  let inner=modeTabs+'<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+    '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
+    '<div class="qw">'+esc(face)+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
+
+  if(S().quizType==='choice'){
+    const correct=showEng?primaryMeaning(w):w.word;
+    const others=shuffle(DB.words.filter(x=>x.id!==w.id&&primaryMeaning(x)))
+      .map(x=>showEng?primaryMeaning(x):x.word)
+      .filter(t=>t&&t!==correct);
+    const opts=shuffle([correct,...others.slice(0,3)]);
+    inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
+    body.innerHTML=inner;
+    bindModeTabs();
+    $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
+      const ok=btn.textContent===correct;
+      $$('#opts .opt').forEach(b=>{b.disabled=true;
+        if(b.textContent===correct)b.classList.add('correct');
+        else if(b===btn)b.classList.add('wrong');
+      });
+      grade(w,ok,correct);
+    });
+  }else{
+    inner+='<input id="qIn" class="field" placeholder="意味を入力…" autocomplete="off">'+
+      '<button class="btn btn-primary" id="qCheck" style="margin-top:12px">答え合わせ</button>'+
+      '<div id="qfb"></div>';
+    body.innerHTML=inner;
+    bindModeTabs();
+    const input=$('#qIn');input.focus();
+    const target=showEng?primaryMeaning(w):w.word;
+    const check=()=>{
+      const ans=input.value.trim();
+      if(!ans)return;
+      const ok=closeEnough(ans,target,w,showEng);
+      input.disabled=true;$('#qCheck').style.display='none';
+      grade(w,ok,target,true);
+    };
+    $('#qCheck').onclick=check;
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
+  }
+}
+function norm(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー\s]/g,' ').replace(/\s+/g,' ').trim();}
+function closeEnough(ans,target,w,showEng){
+  const a=norm(ans), t=norm(target);
+  if(!a)return false;
+  if(a===t)return true;
+  if(t.includes(a)||a.includes(t))return true;
+  if(!showEng){
+    if(norm(w.word)===a)return true;
+    return false;
+  }
+  const bag=new Set();
+  norm((w.ja||'')+' '+(w.meanings||[]).map(m=>m.def).join(' ')).split(' ').forEach(x=>{if(x.length>1)bag.add(x);});
+  const aw=a.split(' ').filter(x=>x.length>1);
+  if(!aw.length)return false;
+  const hit=aw.filter(x=>bag.has(x)||[...bag].some(b=>b.includes(x)||x.includes(b))).length;
+  return hit/aw.length>=0.5;
+}
+function grade(w,ok,correctText,isInput){
+  const rec=DB.words.find(x=>x.id===w.id);
+  let nextInText='';
+  if(rec){
+    rec.seen++;
+    if(ok){
+      rec.correct++;
+      rec.box=Math.min(rec.box+1,INTERVALS.length-1);
+      const days=INTERVALS[rec.box];
+      rec.nextDue=Date.now()+days*DAY;
+      nextInText='次の復習: '+days+'日後（'+fmtDate(rec.nextDue)+'）';
+    }else{
+      rec.wrong++;
+      rec.box=-1;
+      rec.nextDue=Date.now(); // due again soon
+      nextInText='また明日から復習に出てきます';
+    }
+    rec.hist.push({t:Date.now(),ok});
+    if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
+  }
+  if(ok)quiz.score++;
+  save();
+  const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
+    (ok?'✓ 正解':'✗ おしい')+
+    '<div style="margin-top:8px">正しい答え：<span class="ans">'+esc(correctText)+'</span></div>'+
+    '<div class="nextin">'+nextInText+'</div>'+
+    '</div>'+
+    '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?'次の問題 →':'結果を見る')+'</button>';
+  if(isInput){$('#qfb').innerHTML=fbHtml;}
+  else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
+  $('#qNext').onclick=()=>{
+    quiz.i++;
+    if(quiz.i<quiz.items.length)renderQ();
+    else showScore();
+  };
+}
+function showScore(){
+  const pct=Math.round(quiz.score/quiz.items.length*100);
+  $('#quizBody').innerHTML='<div class="q-score">'+
+    '<div class="big">'+quiz.score+'/'+quiz.items.length+'</div>'+
+    '<div class="lbl">正答率 '+pct+'%</div>'+
+    '<button class="btn btn-primary" id="qAgain">続けて復習</button>'+
+    '<button class="btn btn-ghost" id="qToList" style="margin-top:10px;width:100%">リストに戻る</button>'+
+    '</div>';
+  $('#qAgain').onclick=()=>startQuiz(quiz.mode);
+  $('#qToList').onclick=()=>go('v-list');
+}
+
+/* ---------- SETTINGS ---------- */
+function renderSettings(){
+  seg('#segQuizType','quizType');
+  seg('#segDir','dir');
+  seg('#segLen','len',true);
+  $('#swWeak').classList.toggle('on',S().weak);
+  $('#quizTypeDesc').textContent=S().quizType==='choice'?'4つの選択肢から選ぶ':'自分で入力。意味が近ければ正解＋正答を表示';
+}
+function seg(sel,keyName,num){
+  const cur=S()[keyName];
+  $$(sel+' button').forEach(b=>{
+    const v=num?parseInt(b.dataset.v):b.dataset.v;
+    b.classList.toggle('on',v===cur);
+    b.onclick=()=>{S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;save();renderSettings();};
+  });
+}
+$('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
+
+$('#btnExport').onclick=()=>{
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='wordkeep-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();toast('バックアップを書き出しました');
+};
+$('#btnImport').onclick=()=>$('#fileImport').click();
+$('#fileImport').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);
+      if(!d.words)throw 0;
+      d.words.forEach(migrateWord);
+      const ids=new Set(DB.words.map(w=>w.id));
+      const add=d.words.filter(w=>!ids.has(w.id));
+      DB.words=[...add,...DB.words];
+      if(d.settings)DB.settings={...DB.settings,...d.settings};
+      save();toast(add.length+'語を読み込みました');go('v-list');
+    }catch(err){toast('読み込みに失敗しました');}
+  };
+  r.readAsText(f);e.target.value='';
+};
+
+/* ---------- header / badge ---------- */
+function renderCount(){
+  const n=DB.words.length;
+  const due=dueCount();
+  $('#hdrCount').innerHTML='<span><b>'+n+'</b> words</span>'+(due?'<span class="due-chip">今日の復習 '+due+'</span>':'');
+  const badge=$('#dueBadge');
+  if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
+  else badge.style.display='none';
+}
+
+/* ---------- boot ---------- */
+renderCount();go('v-list');
+
+if('serviceWorker'in navigator){
+  const sw=`self.addEventListener('install',e=>self.skipWaiting());
+self.addEventListener('activate',e=>self.clients.claim());
+self.addEventListener('fetch',e=>{
+  if(e.request.mode==='navigate'){
+    e.respondWith(fetch(e.request).catch(()=>caches.match('./')));
+  }
+});`;
+  const url=URL.createObjectURL(new Blob([sw],{type:'text/javascript'}));
+  navigator.serviceWorker.register(url).catch(()=>{});
+}
+</script>
+</body>
+</html>
