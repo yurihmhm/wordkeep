@@ -394,17 +394,25 @@ async function fetchDictionary(w){
   })).filter(m=>m.def);
   return {word:entry.word||w,phon,meanings};
 }
-async function fetchTranslationJa(w){
-  const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|ja',7000);
+function normForCompare(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー]/g,'');}
+async function fetchTranslationJa(text){
+  const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|ja',7000);
   if(!r.ok)throw new Error('translate_fail');
   const data=await r.json();
   if(data.responseStatus!==200)throw new Error('translate_fail');
-  // MyMemory's top-level responseData.translatedText is sometimes empty even
-  // though a good translation exists in matches[] -- fall back to the
-  // highest-quality non-empty match in that case.
+  // MyMemory sometimes "translates" a word into itself (e.g. upon -> upon)
+  // when it has no real Japanese equivalent on hand -- treat that as no
+  // translation rather than showing the English word back to the user.
+  const src=normForCompare(text);
+  const useless=t=>!t||normForCompare(t)===src;
+  // The top-level responseData.translatedText can also be empty even though
+  // a good translation exists in matches[] -- fall back to the best match.
   let t=data.responseData&&data.responseData.translatedText;
+  if(useless(t))t=null;
   if(!t&&Array.isArray(data.matches)){
-    const best=data.matches.filter(m=>m.translation).sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
+    const best=data.matches
+      .filter(m=>!useless(m.translation))
+      .sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
     if(best)t=best.translation;
   }
   if(!t)throw new Error('translate_fail');
@@ -417,25 +425,36 @@ async function lookup(){
   const w=raw.toLowerCase();
   const box=$('#lookupBox');
   box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">辞書・翻訳で検索中…</span></div>';
-  const jaFieldWasEmpty=!$('#inJa').value.trim();
+  $('#inJa').value=''; // always clear so a previous search's result can't linger unnoticed
 
   const [dictRes,jaRes]=await Promise.allSettled([fetchDictionary(w),fetchTranslationJa(w)]);
   const dictOk=dictRes.status==='fulfilled';
   const jaOk=jaRes.status==='fulfilled';
+
+  // Translate each English definition to Japanese too, instead of showing
+  // raw English-English dictionary text.
+  let meanings=dictOk?dictRes.value.meanings:[];
+  if(meanings.length){
+    const defTranslations=await Promise.allSettled(meanings.map(m=>fetchTranslationJa(m.def)));
+    meanings=meanings.map((m,i)=>({...m,defJa:defTranslations[i].status==='fulfilled'?defTranslations[i].value:''}));
+  }
+
   pending={
     word: dictOk?dictRes.value.word:w,
     phon: dictOk?dictRes.value.phon:'',
-    meanings: dictOk?dictRes.value.meanings:[],
+    meanings,
     ja: jaOk?jaRes.value:'',
     examples:[]
   };
-  if(jaOk&&jaFieldWasEmpty)$('#inJa').value=jaRes.value;
+  if(jaOk)$('#inJa').value=jaRes.value;
   $('#btnSave').disabled=false;
   let html='<div class="preview">';
   if(jaOk)html+='<div class="ja-big">'+esc(jaRes.value)+'</div><div class="ja-src">MyMemory 翻訳（自動・編集可）</div>';
   if(dictOk){
     html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
-      pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.def)+'</div>'+(m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
+      pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
+        (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
+        (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
   }else if(!jaOk){
     html+='<div class="warn" style="margin-top:8px">辞書にも翻訳にも見つかりませんでした。日本語メモを手入力してね。</div>';
   }
@@ -470,9 +489,10 @@ $('#btnSave').onclick=()=>{
 $('#search').addEventListener('input',renderList);
 function primaryMeaning(w){
   if(w.ja)return w.ja;
-  if(w.meanings&&w.meanings[0])return w.meanings[0].def;
+  if(w.meanings&&w.meanings[0])return w.meanings[0].defJa||w.meanings[0].def;
   return '';
 }
+let editingId=null;
 function renderList(){
   const q=$('#search').value.trim().toLowerCase();
   let arr=DB.words;
@@ -484,6 +504,16 @@ function renderList(){
     return;
   }
   p.innerHTML=arr.map(w=>{
+    if(w.id===editingId){
+      return '<div class="card" style="flex-direction:column;align-items:stretch">'+
+        '<label class="lab" style="margin-top:0">英単語</label><input class="field edit-word" value="'+esc(w.word)+'">'+
+        '<label class="lab" style="margin-top:10px">カタカナ</label><input class="field edit-kata" value="'+esc(w.kata||'')+'">'+
+        '<label class="lab" style="margin-top:10px">日本語の意味</label><input class="field edit-ja" value="'+esc(w.ja||'')+'">'+
+        '<div class="row" style="margin-top:12px">'+
+        '<button class="btn btn-primary edit-save" data-id="'+w.id+'" style="flex:1">保存</button>'+
+        '<button class="btn btn-ghost edit-cancel" style="flex:1">キャンセル</button>'+
+        '</div></div>';
+    }
     let dueTag;
     if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">未学習</span>';
     else if(isDue(w))dueTag='<span class="tag-sm tag-due">復習: 今日</span>';
@@ -493,6 +523,7 @@ function renderList(){
       '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
+      '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">編集</span>'+
       (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">例文を見る</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
       '<button class="del" data-id="'+w.id+'">×</button></div>';
@@ -506,6 +537,22 @@ function renderList(){
     if(body.style.display==='block'){body.style.display='none';return;}
     body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
     body.style.display='block';
+  });
+  $$('#listPanel .edit-btn').forEach(b=>b.onclick=()=>{editingId=b.dataset.id;renderList();});
+  $$('#listPanel .edit-cancel').forEach(b=>b.onclick=()=>{editingId=null;renderList();});
+  $$('#listPanel .edit-save').forEach(b=>b.onclick=()=>{
+    const card=b.closest('.card');
+    const w=DB.words.find(x=>x.id===b.dataset.id);
+    if(!w)return;
+    const newWord=card.querySelector('.edit-word').value.trim();
+    if(!newWord){toast('英単語は空にできません');return;}
+    w.word=newWord;
+    w.kata=card.querySelector('.edit-kata').value.trim();
+    w.ja=card.querySelector('.edit-ja').value.trim();
+    save();
+    editingId=null;
+    renderList();
+    toast('更新しました');
   });
 }
 
@@ -545,7 +592,8 @@ function renderBack(w){
   if(w.phon)back+='<div style="color:var(--muted);font-size:14px;margin-bottom:10px">'+esc(w.phon)+'</div>';
   if(w.ja)back+='<div class="bja">'+esc(w.ja)+'</div>';
   (w.meanings||[]).forEach(m=>{
-    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div><div class="bdef">'+esc(m.def)+'</div>';
+    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div><div class="bdef">'+esc(m.defJa||m.def)+'</div>'+
+      (m.defJa&&m.defJa!==m.def?'<div style="font-size:12.5px;color:var(--muted);margin-top:2px">'+esc(m.def)+'</div>':'');
   });
   if((w.examples||[]).length){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
