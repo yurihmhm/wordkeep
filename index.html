@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230f1e3d'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EW%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script src="https://js.puter.com/v2/"></script>
 
 <style>
 :root{
@@ -21,7 +20,7 @@
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%}
+html,body{margin:0;min-height:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
   background:var(--paper); color:var(--ink);
@@ -191,12 +190,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <section id="v-add" class="view active">
     <div style="margin:6px 2px 14px">
       <h2 style="font-size:20px">単語を追加</h2>
-      <p class="hint">聞き取ったカタカナのままでOK。AIが本来の英単語を推測して、日本語訳・定義・例文まで自動取得する。</p>
+      <p class="hint">英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から日本語訳・定義を自動取得する。</p>
     </div>
     <div class="panel" style="padding:18px">
-      <label class="lab">英単語 or カタカナ（AIが推測）</label>
+      <label class="lab">英単語（スペルで入力）</label>
       <div class="row">
-        <input id="inWord" class="field" placeholder="ホリファイド / prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <input id="inWord" class="field" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
         <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px">調べる</button>
       </div>
       <div id="lookupBox"></div>
@@ -378,7 +377,7 @@ inWord.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();loo
 inWord.addEventListener('input',()=>{
   const v=inWord.value.trim();
   $('#btnSave').disabled=!v;
-  if(v)$('#saveHint').textContent='「調べる」でAIが単語を推測・自動取得します（任意）。';
+  if(v)$('#saveHint').textContent='「調べる」で辞書・翻訳から自動取得します（任意）。';
 });
 
 async function fetchDictionary(w){
@@ -399,143 +398,50 @@ async function fetchTranslationJa(w){
   const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|ja',7000);
   if(!r.ok)throw new Error('translate_fail');
   const data=await r.json();
-  if(data.responseStatus!==200||!data.responseData||!data.responseData.translatedText)throw new Error('translate_fail');
-  return data.responseData.translatedText;
-}
-
-/*
- * puter.ai.chat() responses can come back with message.content as either a
- * plain string OR an array of Anthropic-style content blocks ([{type,text}]),
- * depending on model/vendor. Handle both explicitly -- indexing a string with
- * [0] silently returns a single character (not a block), which used to make
- * this always fall through to the useless toString() branch and break JSON.parse.
- */
-function extractPuterText(r){
-  if(typeof r==='string')return r;
-  const content=r&&r.message&&r.message.content;
-  if(typeof content==='string')return content;
-  if(Array.isArray(content)){
-    const block=content.find(b=>b&&typeof b.text==='string');
-    if(block)return block.text;
+  if(data.responseStatus!==200)throw new Error('translate_fail');
+  // MyMemory's top-level responseData.translatedText is sometimes empty even
+  // though a good translation exists in matches[] -- fall back to the
+  // highest-quality non-empty match in that case.
+  let t=data.responseData&&data.responseData.translatedText;
+  if(!t&&Array.isArray(data.matches)){
+    const best=data.matches.filter(m=>m.translation).sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
+    if(best)t=best.translation;
   }
-  if(r&&typeof r.text==='string')return r.text;
-  if(r&&typeof r.toString==='function'){
-    const s=r.toString();
-    if(s&&s!=='[object Object]')return s;
-  }
-  return '';
-}
-function withTimeout(promise,ms){
-  return Promise.race([promise,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);
-}
-
-const PUTER_SYS=`You help a Japanese English-learner living in the Philippines who often hears English words and writes them down as katakana approximations (e.g. "プレファー" for "prefer"), or types a rough/misspelled guess at the English spelling.
-Given the user's raw input, identify the single most likely intended English word.
-Respond with ONLY raw JSON, no markdown fences, no preamble, in exactly this shape:
-{"word":"the correctly spelled English word","confidence":"high|medium|low","pos":"part of speech, short","phonetic":"IPA or simple phonetic if known, else empty string","ja":"a natural, concise Japanese translation/definition of the word as used in everyday English (1 short line)","def_en":"a short English definition","examples":[{"en":"a natural example sentence using the word","ja":"its Japanese translation"},{"en":"a second, different natural example sentence using the word","ja":"its Japanese translation"}],"alternates":[{"word":"...","ja":"..."}]}
-Provide exactly 2 items in "examples", each a different natural sentence a language-school student might actually hear or use. "alternates" should contain 0-2 other plausible words ONLY if the input is genuinely ambiguous, otherwise an empty array. Never wrap the JSON in backticks. Never add commentary outside the JSON.`;
-
-async function callPuterLookup(raw){
-  if(typeof puter==='undefined')throw new Error('puter_unavailable');
-  const resp=await withTimeout(puter.ai.chat(PUTER_SYS+'\n\n入力: "'+raw+'"',{model:'claude-sonnet-4-6'}),20000);
-  const text=extractPuterText(resp);
-  const clean=text.replace(/```json|```/g,'').trim();
-  const parsed=JSON.parse(clean);
-  if(!parsed||!parsed.word)throw new Error('bad_shape');
-  if(!Array.isArray(parsed.alternates))parsed.alternates=[];
-  if(!Array.isArray(parsed.examples))parsed.examples=[];
-  return parsed;
-}
-
-async function callPuterExamples(word,ja){
-  if(typeof puter==='undefined')throw new Error('puter_unavailable');
-  const p=`英単語 "${word}"（意味: ${ja||'不明'}）について、日本人の英語学習者向けに自然な例文を2つ作って。それぞれ日本語訳も付ける。ONLY raw JSON、コードフェンス無し、以下の形そのまま: {"examples":[{"en":"...","ja":"..."},{"en":"...","ja":"..."}]}`;
-  const resp=await withTimeout(puter.ai.chat(p,{model:'claude-sonnet-4-6'}),20000);
-  const text=extractPuterText(resp);
-  const clean=text.replace(/```json|```/g,'').trim();
-  const parsed=JSON.parse(clean);
-  if(!parsed||!Array.isArray(parsed.examples))throw new Error('bad_shape');
-  return parsed.examples;
+  if(!t)throw new Error('translate_fail');
+  return t;
 }
 
 async function lookup(){
   const raw=inWord.value.trim();
   if(!raw)return;
+  const w=raw.toLowerCase();
   const box=$('#lookupBox');
-  box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">AIが単語を推測中…（初回は確認ダイアログが出ることがあります）</span></div>';
+  box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">辞書・翻訳で検索中…</span></div>';
   const jaFieldWasEmpty=!$('#inJa').value.trim();
 
-  try{
-    const ai=await callPuterLookup(raw);
-    pending={
-      word:ai.word,
-      phon:ai.phonetic||'',
-      meanings:ai.def_en?[{pos:ai.pos||'',def:ai.def_en,ex:''}]:[],
-      ja:ai.ja||'',
-      examples:ai.examples||[]
-    };
-    if(ai.word.toLowerCase()!==raw.toLowerCase()){
-      if(!$('#inKata').value.trim())$('#inKata').value=raw;
-      inWord.value=ai.word;
-    }
-    if(ai.ja&&jaFieldWasEmpty)$('#inJa').value=ai.ja;
-    $('#btnSave').disabled=false;
-
-    const lowConf=ai.confidence&&ai.confidence!=='high';
-    let html='<div class="preview">';
-    html+='<div class="ja-big">'+esc(ai.ja||'')+'</div><div class="ja-src">AI推測（Puter.js）'+(lowConf?'・確信度: '+esc(ai.confidence):'')+'</div>';
-    html+='<div style="margin-top:8px"><span class="pw">'+esc(ai.word)+'</span>'+(ai.phonetic?'<span class="phon">'+esc(ai.phonetic)+'</span>':'')+'</div>';
-    if(ai.def_en)html+='<div class="pos">'+esc(ai.pos||'')+'</div><div class="def">'+esc(ai.def_en)+'</div>';
-    (ai.examples||[]).forEach(ex=>{
-      html+='<div class="ex" style="margin-top:6px">"'+esc(ex.en)+'"'+(ex.ja?'<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja)+'</span>':'')+'</div>';
-    });
-    if(ai.alternates.length){
-      html+='<div style="margin-top:12px;font-size:12px;color:var(--muted)">もしかして:</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">'+
-        ai.alternates.map((a,i)=>'<button type="button" class="btn-ghost alt-chip" data-i="'+i+'" style="border:none;border-radius:99px;padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer">'+esc(a.word)+(a.ja?'（'+esc(a.ja)+'）':'')+'</button>').join('')+
-        '</div>';
-    }
-    html+='</div>';
-    box.innerHTML=html;
-    window._aiAlts=ai.alternates;
-    $$('.alt-chip').forEach(chip=>chip.onclick=()=>{
-      const a=window._aiAlts[parseInt(chip.dataset.i)];
-      if(!a)return;
-      inWord.value=a.word;
-      pending={word:a.word,phon:'',meanings:[],ja:a.ja||'',examples:[]};
-      $('#inJa').value=a.ja||'';
-      box.querySelector('.ja-big').textContent=a.ja||'';
-      box.querySelector('.pw').textContent=a.word;
-    });
-    $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
-  }catch(aiErr){
-    // fallback: free dictionary + MyMemory translation (no katakana guessing)
-    const w=raw.toLowerCase();
-    box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">AIが使えなかったので辞書+翻訳で検索中…</span></div>';
-    const [dictRes,jaRes]=await Promise.allSettled([fetchDictionary(w),fetchTranslationJa(w)]);
-    const dictOk=dictRes.status==='fulfilled';
-    const jaOk=jaRes.status==='fulfilled';
-    pending={
-      word: dictOk?dictRes.value.word:w,
-      phon: dictOk?dictRes.value.phon:'',
-      meanings: dictOk?dictRes.value.meanings:[],
-      ja: jaOk?jaRes.value:'',
-      examples:[]
-    };
-    if(jaOk&&jaFieldWasEmpty)$('#inJa').value=jaRes.value;
-    $('#btnSave').disabled=false;
-    let html='<div class="preview">';
-    html+='<div class="warn" style="margin-bottom:8px">AI検索が使えなかったため、辞書＋翻訳での結果です（カタカナからの推測はできません）。</div>';
-    if(jaOk)html+='<div class="ja-big">'+esc(jaRes.value)+'</div><div class="ja-src">MyMemory 翻訳（自動・編集可）</div>';
-    if(dictOk){
-      html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
-        pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.def)+'</div>'+(m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
-    }else if(!jaOk){
-      html+='<div class="warn" style="margin-top:8px">辞書にも翻訳にも見つかりませんでした。日本語メモを手入力してね。</div>';
-    }
-    html+='</div>';
-    box.innerHTML=html;
-    $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
+  const [dictRes,jaRes]=await Promise.allSettled([fetchDictionary(w),fetchTranslationJa(w)]);
+  const dictOk=dictRes.status==='fulfilled';
+  const jaOk=jaRes.status==='fulfilled';
+  pending={
+    word: dictOk?dictRes.value.word:w,
+    phon: dictOk?dictRes.value.phon:'',
+    meanings: dictOk?dictRes.value.meanings:[],
+    ja: jaOk?jaRes.value:'',
+    examples:[]
+  };
+  if(jaOk&&jaFieldWasEmpty)$('#inJa').value=jaRes.value;
+  $('#btnSave').disabled=false;
+  let html='<div class="preview">';
+  if(jaOk)html+='<div class="ja-big">'+esc(jaRes.value)+'</div><div class="ja-src">MyMemory 翻訳（自動・編集可）</div>';
+  if(dictOk){
+    html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
+      pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.def)+'</div>'+(m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
+  }else if(!jaOk){
+    html+='<div class="warn" style="margin-top:8px">辞書にも翻訳にも見つかりませんでした。日本語メモを手入力してね。</div>';
   }
+  html+='</div>';
+  box.innerHTML=html;
+  $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
 }
 
 $('#btnSave').onclick=()=>{
@@ -587,32 +493,19 @@ function renderList(){
       '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
-      '<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+(hasEx?'例文を見る':'例文を生成 ✨')+'</span>'+
+      (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">例文を見る</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
       '<button class="del" data-id="'+w.id+'">×</button></div>';
   }).join('');
   $$('#listPanel .del').forEach(b=>b.onclick=()=>{
     if(confirm('この単語を削除しますか？')){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();}
   });
-  $$('#listPanel .ex-toggle').forEach(t=>t.onclick=async()=>{
+  $$('#listPanel .ex-toggle').forEach(t=>t.onclick=()=>{
     const w=DB.words.find(x=>x.id===t.dataset.id);
     const body=$('#ex-'+w.id);
     if(body.style.display==='block'){body.style.display='none';return;}
-    if((w.examples||[]).length){
-      body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
-      body.style.display='block';return;
-    }
-    t.textContent='生成中…';
-    try{
-      const examples=await callPuterExamples(w.word,w.ja);
-      w.examples=examples;save();
-      body.innerHTML=examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
-      body.style.display='block';
-      t.textContent='例文を見る';
-    }catch(e){
-      t.textContent='例文を生成 ✨';
-      toast('例文の生成に失敗しました（通信状況を確認してね）');
-    }
+    body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
+    body.style.display='block';
   });
 }
 
@@ -656,24 +549,9 @@ function renderBack(w){
   });
   if((w.examples||[]).length){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
-  }else{
-    back+='<button class="btn btn-ghost" id="genEx" style="margin-top:14px;font-size:13px;padding:9px 14px">例文を生成 ✨</button>';
   }
   if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">意味メモがありません</div>'+back;
   $('#fBack').innerHTML=back;
-  const genBtn=$('#genEx');
-  if(genBtn)genBtn.onclick=async(e)=>{
-    e.stopPropagation();
-    genBtn.textContent='生成中…';
-    try{
-      const examples=await callPuterExamples(w.word,w.ja);
-      w.examples=examples;save();
-      renderBack(w);
-    }catch(err){
-      genBtn.textContent='例文を生成 ✨';
-      toast('例文の生成に失敗しました');
-    }
-  };
 }
 
 /* ---------- QUIZ / REVIEW (SRS) ---------- */
@@ -899,6 +777,14 @@ function renderCount(){
 
 /* ---------- boot ---------- */
 renderCount();go('v-list');
+
+/* iOS Safari sometimes leaves the page unable to scroll to its true bottom
+   after the on-screen keyboard closes (viewport height gets stuck). Nudging
+   the scroll position forces it to recompute. */
+document.addEventListener('focusout',e=>{
+  if(!e.target||!e.target.matches||!e.target.matches('input,textarea'))return;
+  setTimeout(()=>{window.scrollBy(0,1);window.scrollBy(0,-1);},60);
+},true);
 
 if('serviceWorker'in navigator){
   const sw=`self.addEventListener('install',e=>self.skipWaiting());
