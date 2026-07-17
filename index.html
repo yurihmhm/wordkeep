@@ -30,6 +30,8 @@ body{
 h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;margin:0}
 .wrap{max-width:560px;margin:0 auto;padding:0 18px}
 @media(min-width:700px){.wrap{max-width:640px}}
+/* keep always-English tokens left-to-right even under RTL (Arabic) UI */
+.card .w,.pw,.fw{unicode-bidi:isolate;direction:ltr}
 
 header{
   background:var(--navy); color:#fff;
@@ -151,6 +153,8 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .seg button{border:none;background:none;padding:8px 14px;border-radius:8px;font-size:13px;
   font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap}
 .seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+select.sel{width:auto;min-width:130px;flex-shrink:0;padding:11px 12px;font-size:14px;font-weight:600;
+  border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--navy);font-family:inherit}
 .switch{width:50px;height:30px;border-radius:99px;background:#cdd6e6;position:relative;cursor:pointer;transition:.2s;border:none;flex-shrink:0}
 .switch.on{background:var(--good)}
 .switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
@@ -219,7 +223,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="panel" style="padding:18px">
       <label class="lab" data-i18n="label_word">英単語（スペルで入力）</label>
       <div class="row">
-        <input id="inWord" class="field" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <input id="inWord" class="field" dir="ltr" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
         <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px" data-i18n="btn_lookup">調べる</button>
       </div>
       <div id="lookupBox"></div>
@@ -260,11 +264,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="panel">
       <div class="set-row">
         <div><div class="st" data-i18n="st_lang">表示・訳の言語</div><div class="sd" data-i18n="desc_lang">アプリ表示と、意味の自動取得に使う言語</div></div>
-        <div class="seg" id="segLang">
-          <button data-v="ja">日本語</button>
-          <button data-v="en">English</button>
-          <button data-v="zh">中文</button>
-        </div>
+        <select id="selLang" class="sel">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+          <option value="fr">Français</option>
+          <option value="ar">العربية</option>
+          <option value="ko">한국어</option>
+        </select>
       </div>
     </div>
 
@@ -351,155 +358,161 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.2.0';
+const APP_VERSION='1.3.0';
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
+const LANGS=['ja','en','zh','fr','ar','ko'];
 
 function navigatorLang(){
   const nl=(navigator.language||'ja').toLowerCase();
-  return nl.startsWith('zh')?'zh':nl.startsWith('en')?'en':'ja';
+  if(nl.startsWith('zh'))return 'zh';
+  if(nl.startsWith('en'))return 'en';
+  if(nl.startsWith('fr'))return 'fr';
+  if(nl.startsWith('ar'))return 'ar';
+  if(nl.startsWith('ko'))return 'ko';
+  return 'ja';
 }
 
 /* ---------- i18n ---------- */
 const T={
-  nav_list:{ja:'リスト',en:'List',zh:'列表'},
-  nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡'},
-  nav_review:{ja:'復習',en:'Review',zh:'复习'},
-  nav_settings:{ja:'設定',en:'Settings',zh:'设置'},
-  unit_words:{ja:'語',en:'words',zh:'词'},
-  due_chip:{ja:'今日の復習 {0}',en:'Due today {0}',zh:'今日复习 {0}'},
+  nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록'},
+  nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드'},
+  nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습'},
+  nav_settings:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정'},
+  unit_words:{ja:'語',en:'words',zh:'词',fr:'mots',ar:'كلمة',ko:'단어'},
+  due_chip:{ja:'今日の復習 {0}',en:'Due today {0}',zh:'今日复习 {0}',fr:'À réviser {0}',ar:'المراجعة اليوم {0}',ko:'오늘 복습 {0}'},
 
-  add_title:{ja:'単語を追加',en:'Add a word',zh:'添加单词'},
-  add_hint:{ja:'英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得します。',en:'Type an English word and tap Look up to auto-fetch its meaning and definitions.',zh:'输入英文单词并点「查询」，自动获取意思和释义。'},
-  label_word:{ja:'英単語（スペルで入力）',en:'English word (spelling)',zh:'英文单词（拼写）'},
-  btn_lookup:{ja:'調べる',en:'Look up',zh:'查询'},
-  label_kata:{ja:'読み方メモ（任意）',en:'Reading / note (optional)',zh:'读音/备注（可选）'},
-  ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音'},
-  label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思'},
-  ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）'},
-  btn_add:{ja:'リストに追加',en:'Add to list',zh:'添加到列表'},
-  hint_type_first:{ja:'まず英単語を入力してね。',en:'Type an English word first.',zh:'请先输入英文单词。'},
-  hint_after_type:{ja:'「調べる」で辞書・翻訳から自動取得します（任意）。',en:'Tap Look up to auto-fetch (optional).',zh:'点「查询」自动获取（可选）。'},
-  hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。'},
-  looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…'},
-  dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。'},
-  meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）'},
-  not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。'},
+  add_title:{ja:'単語を追加',en:'Add a word',zh:'添加单词',fr:'Ajouter un mot',ar:'إضافة كلمة',ko:'단어 추가'},
+  add_hint:{ja:'英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得します。',en:'Type an English word and tap Look up to auto-fetch its meaning and definitions.',zh:'输入英文单词并点「查询」，自动获取意思和释义。',fr:'Saisissez un mot anglais et appuyez sur Rechercher pour récupérer automatiquement son sens et ses définitions.',ar:'اكتب كلمة إنجليزية واضغط على بحث لجلب معناها وتعريفاتها تلقائيًا.',ko:'영어 단어를 입력하고 검색을 누르면 뜻과 정의를 자동으로 가져옵니다.'},
+  label_word:{ja:'英単語（スペルで入力）',en:'English word (spelling)',zh:'英文单词（拼写）',fr:'Mot anglais (orthographe)',ar:'كلمة إنجليزية (الإملاء)',ko:'영어 단어 (철자)'},
+  btn_lookup:{ja:'調べる',en:'Look up',zh:'查询',fr:'Rechercher',ar:'بحث',ko:'검색'},
+  label_kata:{ja:'読み方メモ（任意）',en:'Reading / note (optional)',zh:'读音/备注（可选）',fr:'Prononciation / note (facultatif)',ar:'النطق / ملاحظة (اختياري)',ko:'발음/메모 (선택)'},
+  ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音',fr:'pré-fé-rer',ar:'النطق',ko:'발음'},
+  label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思',fr:'Sens (français)',ar:'المعنى (بالعربية)',ko:'뜻 (한국어)'},
+  ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）',fr:'Rempli après la recherche (modifiable)',ar:'يُملأ تلقائيًا بعد البحث (قابل للتعديل)',ko:'검색 후 자동 입력 (수정 가능)'},
+  btn_add:{ja:'リストに追加',en:'Add to list',zh:'添加到列表',fr:'Ajouter à la liste',ar:'أضف إلى القائمة',ko:'목록에 추가'},
+  hint_type_first:{ja:'まず英単語を入力してね。',en:'Type an English word first.',zh:'请先输入英文单词。',fr:'Saisissez d’abord un mot anglais.',ar:'اكتب كلمة إنجليزية أولاً.',ko:'먼저 영어 단어를 입력하세요.'},
+  hint_after_type:{ja:'「調べる」で辞書・翻訳から自動取得します（任意）。',en:'Tap Look up to auto-fetch (optional).',zh:'点「查询」自动获取（可选）。',fr:'Appuyez sur Rechercher pour un remplissage auto (facultatif).',ar:'اضغط بحث للجلب التلقائي (اختياري).',ko:'검색을 누르면 자동으로 채워집니다 (선택).'},
+  hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.'},
+  looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…'},
+  dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。',fr:'Ce mot est déjà dans votre liste.',ar:'هذه الكلمة موجودة بالفعل في قائمتك.',ko:'이 단어는 이미 목록에 있습니다.'},
+  meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)'},
+  not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。',fr:'Introuvable dans le dictionnaire ou la traduction. Saisissez le sens manuellement.',ar:'غير موجود في القاموس أو الترجمة. أدخل المعنى يدويًا.',ko:'사전·번역에서 찾지 못했습니다. 뜻을 직접 입력하세요.'},
 
-  ph_search:{ja:'検索…',en:'Search…',zh:'搜索…'},
-  n_words:{ja:'{0}語',en:'{0} words',zh:'{0} 词'},
-  empty_list:{ja:'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。',en:'No words yet.<br>Add your first word from ＋.',zh:'还没有单词。<br>从 ＋ 添加第一个单词吧。'},
-  no_match:{ja:'一致する単語がありません',en:'No matching words',zh:'没有匹配的单词'},
-  tag_new:{ja:'未学習',en:'New',zh:'未学'},
-  tag_due_today:{ja:'復習: 今日',en:'Review: today',zh:'复习：今天'},
-  tag_next:{ja:'次回 {0}',en:'Next {0}',zh:'下次 {0}'},
-  btn_edit:{ja:'編集',en:'Edit',zh:'编辑'},
-  btn_show_ex:{ja:'例文を見る',en:'Examples',zh:'例句'},
-  ed_word:{ja:'英単語',en:'English word',zh:'英文单词'},
-  ed_kata:{ja:'読み方メモ',en:'Reading / note',zh:'读音/备注'},
-  ed_meaning:{ja:'意味',en:'Meaning',zh:'意思'},
-  btn_save:{ja:'保存',en:'Save',zh:'保存'},
-  btn_cancel:{ja:'キャンセル',en:'Cancel',zh:'取消'},
-  confirm_del:{ja:'この単語を削除しますか？',en:'Delete this word?',zh:'删除这个单词？'},
-  toast_updated:{ja:'更新しました',en:'Updated',zh:'已更新'},
-  toast_word_empty:{ja:'単語は空にできません',en:"Word can't be empty",zh:'单词不能为空'},
-  toast_added:{ja:'「{0}」を追加しました',en:'Added "{0}"',zh:'已添加“{0}”'},
-  toast_dup:{ja:'「{0}」は既にリストにあります',en:'"{0}" is already in your list',zh:'“{0}”已在列表中'},
-  toast_export:{ja:'バックアップを書き出しました',en:'Backup exported',zh:'已导出备份'},
-  toast_import_fail:{ja:'読み込みに失敗しました',en:'Import failed',zh:'导入失败'},
-  toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词'},
+  ph_search:{ja:'検索…',en:'Search…',zh:'搜索…',fr:'Rechercher…',ar:'بحث…',ko:'검색…'},
+  n_words:{ja:'{0}語',en:'{0} words',zh:'{0} 词',fr:'{0} mots',ar:'{0} كلمة',ko:'{0} 단어'},
+  empty_list:{ja:'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。',en:'No words yet.<br>Add your first word from ＋.',zh:'还没有单词。<br>从 ＋ 添加第一个单词吧。',fr:'Aucun mot pour l’instant.<br>Ajoutez votre premier mot avec ＋.',ar:'لا توجد كلمات بعد.<br>أضف أول كلمة عبر ＋.',ko:'아직 단어가 없습니다.<br>＋에서 첫 단어를 추가하세요.'},
+  no_match:{ja:'一致する単語がありません',en:'No matching words',zh:'没有匹配的单词',fr:'Aucun mot correspondant',ar:'لا توجد كلمات مطابقة',ko:'일치하는 단어 없음'},
+  tag_new:{ja:'未学習',en:'New',zh:'未学',fr:'Nouveau',ar:'جديد',ko:'미학습'},
+  tag_due_today:{ja:'復習: 今日',en:'Review: today',zh:'复习：今天',fr:'Révision : aujourd’hui',ar:'مراجعة: اليوم',ko:'복습: 오늘'},
+  tag_next:{ja:'次回 {0}',en:'Next {0}',zh:'下次 {0}',fr:'Suivant {0}',ar:'التالي {0}',ko:'다음 {0}'},
+  btn_edit:{ja:'編集',en:'Edit',zh:'编辑',fr:'Modifier',ar:'تعديل',ko:'편집'},
+  btn_show_ex:{ja:'例文を見る',en:'Examples',zh:'例句',fr:'Exemples',ar:'أمثلة',ko:'예문'},
+  ed_word:{ja:'英単語',en:'English word',zh:'英文单词',fr:'Mot anglais',ar:'كلمة إنجليزية',ko:'영어 단어'},
+  ed_kata:{ja:'読み方メモ',en:'Reading / note',zh:'读音/备注',fr:'Prononciation / note',ar:'النطق / ملاحظة',ko:'발음/메모'},
+  ed_meaning:{ja:'意味',en:'Meaning',zh:'意思',fr:'Sens',ar:'المعنى',ko:'뜻'},
+  btn_save:{ja:'保存',en:'Save',zh:'保存',fr:'Enregistrer',ar:'حفظ',ko:'저장'},
+  btn_cancel:{ja:'キャンセル',en:'Cancel',zh:'取消',fr:'Annuler',ar:'إلغاء',ko:'취소'},
+  confirm_del:{ja:'この単語を削除しますか？',en:'Delete this word?',zh:'删除这个单词？',fr:'Supprimer ce mot ?',ar:'حذف هذه الكلمة؟',ko:'이 단어를 삭제할까요?'},
+  toast_updated:{ja:'更新しました',en:'Updated',zh:'已更新',fr:'Mis à jour',ar:'تم التحديث',ko:'수정되었습니다'},
+  toast_word_empty:{ja:'単語は空にできません',en:"Word can't be empty",zh:'单词不能为空',fr:'Le mot ne peut pas être vide',ar:'لا يمكن ترك الكلمة فارغة',ko:'단어는 비울 수 없습니다'},
+  toast_added:{ja:'「{0}」を追加しました',en:'Added "{0}"',zh:'已添加“{0}”',fr:'« {0} » ajouté',ar:'تمت إضافة «{0}»',ko:'"{0}" 추가됨'},
+  toast_dup:{ja:'「{0}」は既にリストにあります',en:'"{0}" is already in your list',zh:'“{0}”已在列表中',fr:'« {0} » est déjà dans votre liste',ar:'«{0}» موجودة بالفعل في قائمتك',ko:'"{0}" 은(는) 이미 목록에 있습니다'},
+  toast_export:{ja:'バックアップを書き出しました',en:'Backup exported',zh:'已导出备份',fr:'Sauvegarde exportée',ar:'تم تصدير النسخة الاحتياطية',ko:'백업을 내보냈습니다'},
+  toast_import_fail:{ja:'読み込みに失敗しました',en:'Import failed',zh:'导入失败',fr:'Échec de l’import',ar:'فشل الاستيراد',ko:'가져오기 실패'},
+  toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词',fr:'{0} mots importés',ar:'تم استيراد {0} كلمة',ko:'{0} 단어를 가져왔습니다'},
 
-  study_title:{ja:'単語帳',en:'Flashcards',zh:'单词卡'},
-  study_hint:{ja:'タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）',en:'Tap to flip. Great for quick memorizing. (Does not affect the review schedule.)',zh:'点一下翻面，随时背诵。（不影响复习计划）'},
-  study_empty:{ja:'単語を追加すると<br>ここで暗記カードになります。',en:'Add words to turn them<br>into flashcards here.',zh:'添加单词后<br>会在这里变成单词卡。'},
-  flip_hint:{ja:'タップで意味を見る',en:'Tap to see the meaning',zh:'点一下看意思'},
-  btn_prev:{ja:'← 前',en:'← Prev',zh:'← 上一个'},
-  btn_next:{ja:'次 →',en:'Next →',zh:'下一个 →'},
-  btn_reshuffle:{ja:'シャッフルし直す',en:'Reshuffle',zh:'重新洗牌'},
-  no_meaning:{ja:'意味メモがありません',en:'No meaning saved',zh:'没有意思备注'},
+  study_title:{ja:'単語帳',en:'Flashcards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'단어 카드'},
+  study_hint:{ja:'タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）',en:'Tap to flip. Great for quick memorizing. (Does not affect the review schedule.)',zh:'点一下翻面，随时背诵。（不影响复习计划）',fr:'Touchez pour retourner. Idéal pour mémoriser vite. (N’affecte pas le planning de révision.)',ar:'انقر للقلب. مثالي للحفظ السريع. (لا يؤثر على جدول المراجعة.)',ko:'탭하면 뒤집힙니다. 빠른 암기에 좋아요. (복습 일정에는 영향 없음)'},
+  study_empty:{ja:'単語を追加すると<br>ここで暗記カードになります。',en:'Add words to turn them<br>into flashcards here.',zh:'添加单词后<br>会在这里变成单词卡。',fr:'Ajoutez des mots pour les<br>transformer en cartes ici.',ar:'أضف كلمات لتتحول<br>إلى بطاقات هنا.',ko:'단어를 추가하면<br>여기서 카드가 됩니다.'},
+  flip_hint:{ja:'タップで意味を見る',en:'Tap to see the meaning',zh:'点一下看意思',fr:'Touchez pour voir le sens',ar:'انقر لرؤية المعنى',ko:'탭하면 뜻이 보여요'},
+  btn_prev:{ja:'← 前',en:'← Prev',zh:'← 上一个',fr:'← Préc.',ar:'السابق',ko:'← 이전'},
+  btn_next:{ja:'次 →',en:'Next →',zh:'下一个 →',fr:'Suiv. →',ar:'التالي',ko:'다음 →'},
+  btn_reshuffle:{ja:'シャッフルし直す',en:'Reshuffle',zh:'重新洗牌',fr:'Remélanger',ar:'إعادة الخلط',ko:'다시 섞기'},
+  no_meaning:{ja:'意味メモがありません',en:'No meaning saved',zh:'没有意思备注',fr:'Aucun sens enregistré',ar:'لا يوجد معنى محفوظ',ko:'저장된 뜻이 없습니다'},
 
-  quiz_due:{ja:'今日の復習（{0}）',en:'Due today ({0})',zh:'今日复习（{0}）'},
-  quiz_free:{ja:'自由学習（全部）',en:'Free study (all)',zh:'自由学习（全部）'},
-  quiz_done:{ja:'今日復習する単語はありません。<br>お疲れさま！',en:'No words to review today.<br>Nice work!',zh:'今天没有需要复习的单词。<br>辛苦了！'},
-  quiz_done_sub:{ja:'「自由学習」で先取り練習もできます。',en:'You can practice ahead with Free study.',zh:'可以用「自由学习」提前练习。'},
-  quiz_need4:{ja:'4択には意味が入った単語が最低4語必要です。',en:'Multiple choice needs at least 4 words with a meaning.',zh:'选择题至少需要 4 个有意思的单词。'},
-  quiz_need_add:{ja:'単語を追加すると復習が始まります。',en:'Add words to start reviewing.',zh:'添加单词后即可开始复习。'},
-  prompt_e2j:{ja:'この単語の意味は？',en:'What does this word mean?',zh:'这个单词的意思是？'},
-  prompt_j2e:{ja:'この意味の英単語は？',en:'Which English word?',zh:'对应的英文单词是？'},
-  ph_answer:{ja:'意味を入力…',en:'Type the meaning…',zh:'输入意思…'},
-  btn_check:{ja:'答え合わせ',en:'Check',zh:'核对'},
-  fb_ok:{ja:'✓ 正解',en:'✓ Correct',zh:'✓ 正确'},
-  fb_ng:{ja:'✗ おしい',en:'✗ Close',zh:'✗ 差一点'},
-  correct_label:{ja:'正しい答え：',en:'Answer: ',zh:'正确答案：'},
-  next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）'},
-  again_tomorrow:{ja:'また明日から復習に出てきます',en:"It'll come back for review from tomorrow",zh:'明天起会再次出现复习'},
-  btn_next_q:{ja:'次の問題 →',en:'Next →',zh:'下一题 →'},
-  btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果'},
-  accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%'},
-  btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习'},
-  btn_back_list:{ja:'リストに戻る',en:'Back to list',zh:'返回列表'},
+  quiz_due:{ja:'今日の復習（{0}）',en:'Due today ({0})',zh:'今日复习（{0}）',fr:'À réviser ({0})',ar:'مراجعة اليوم ({0})',ko:'오늘 복습 ({0})'},
+  quiz_free:{ja:'自由学習（全部）',en:'Free study (all)',zh:'自由学习（全部）',fr:'Étude libre (tout)',ar:'دراسة حرة (الكل)',ko:'자유 학습 (전체)'},
+  quiz_done:{ja:'今日復習する単語はありません。<br>お疲れさま！',en:'No words to review today.<br>Nice work!',zh:'今天没有需要复习的单词。<br>辛苦了！',fr:'Aucun mot à réviser aujourd’hui.<br>Bravo !',ar:'لا توجد كلمات للمراجعة اليوم.<br>أحسنت!',ko:'오늘 복습할 단어가 없습니다.<br>수고했어요!'},
+  quiz_done_sub:{ja:'「自由学習」で先取り練習もできます。',en:'You can practice ahead with Free study.',zh:'可以用「自由学习」提前练习。',fr:'Vous pouvez prendre de l’avance avec l’Étude libre.',ar:'يمكنك التدرّب مسبقًا عبر الدراسة الحرة.',ko:'자유 학습으로 미리 연습할 수 있어요.'},
+  quiz_need4:{ja:'4択には意味が入った単語が最低4語必要です。',en:'Multiple choice needs at least 4 words with a meaning.',zh:'选择题至少需要 4 个有意思的单词。',fr:'Le QCM nécessite au moins 4 mots avec un sens.',ar:'يتطلب الاختيار من متعدد 4 كلمات على الأقل لها معنى.',ko:'객관식에는 뜻이 있는 단어가 최소 4개 필요합니다.'},
+  quiz_need_add:{ja:'単語を追加すると復習が始まります。',en:'Add words to start reviewing.',zh:'添加单词后即可开始复习。',fr:'Ajoutez des mots pour commencer à réviser.',ar:'أضف كلمات لبدء المراجعة.',ko:'단어를 추가하면 복습이 시작됩니다.'},
+  prompt_e2j:{ja:'この単語の意味は？',en:'What does this word mean?',zh:'这个单词的意思是？',fr:'Que signifie ce mot ?',ar:'ما معنى هذه الكلمة؟',ko:'이 단어의 뜻은?'},
+  prompt_j2e:{ja:'この意味の英単語は？',en:'Which English word?',zh:'对应的英文单词是？',fr:'Quel mot anglais ?',ar:'ما الكلمة الإنجليزية؟',ko:'해당하는 영어 단어는?'},
+  ph_answer:{ja:'意味を入力…',en:'Type the meaning…',zh:'输入意思…',fr:'Saisissez le sens…',ar:'اكتب المعنى…',ko:'뜻을 입력하세요…'},
+  btn_check:{ja:'答え合わせ',en:'Check',zh:'核对',fr:'Vérifier',ar:'تحقق',ko:'정답 확인'},
+  fb_ok:{ja:'✓ 正解',en:'✓ Correct',zh:'✓ 正确',fr:'✓ Correct',ar:'✓ صحيح',ko:'✓ 정답'},
+  fb_ng:{ja:'✗ おしい',en:'✗ Close',zh:'✗ 差一点',fr:'✗ Presque',ar:'✗ قريب',ko:'✗ 아쉬워요'},
+  correct_label:{ja:'正しい答え：',en:'Answer: ',zh:'正确答案：',fr:'Réponse : ',ar:'الإجابة: ',ko:'정답: '},
+  next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）',fr:'Prochaine révision : dans {0} jours ({1})',ar:'المراجعة القادمة: بعد {0} أيام ({1})',ko:'다음 복습: {0}일 후 ({1})'},
+  again_tomorrow:{ja:'また明日から復習に出てきます',en:"It'll come back for review from tomorrow",zh:'明天起会再次出现复习',fr:'Il reviendra en révision dès demain',ar:'ستظهر للمراجعة اعتبارًا من الغد',ko:'내일부터 다시 복습에 나옵니다'},
+  btn_next_q:{ja:'次の問題 →',en:'Next →',zh:'下一题 →',fr:'Suivant →',ar:'التالي →',ko:'다음 문제 →'},
+  btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기'},
+  accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%',fr:'Précision {0}%',ar:'الدقة {0}%',ko:'정답률 {0}%'},
+  btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习',fr:'Continuer la révision',ar:'متابعة المراجعة',ko:'계속 복습'},
+  btn_back_list:{ja:'リストに戻る',en:'Back to list',zh:'返回列表',fr:'Retour à la liste',ar:'العودة إلى القائمة',ko:'목록으로'},
 
-  set_title:{ja:'設定',en:'Settings',zh:'设置'},
-  sec_lang:{ja:'言語',en:'Language',zh:'语言'},
-  st_lang:{ja:'表示・訳の言語',en:'App & translation language',zh:'界面与翻译语言'},
-  desc_lang:{ja:'アプリ表示と、意味の自動取得に使う言語',en:'Language for the UI and auto-fetched meanings',zh:'界面与自动获取意思所用的语言'},
-  sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式'},
-  st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型'},
-  desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择'},
-  desc_quiztype_input:{ja:'自分で入力。意味が近ければ正解＋正答を表示',en:'Type it in. Close answers count, with the correct one shown',zh:'自己输入，意思接近即算对并显示答案'},
-  opt_choice:{ja:'4択',en:'Choice',zh:'选择'},
-  opt_input:{ja:'意味入力',en:'Type',zh:'输入'},
-  st_dir:{ja:'出題の向き',en:'Direction',zh:'出题方向'},
-  desc_dir:{ja:'単語→意味 か、意味→単語 か',en:'Word→meaning or meaning→word',zh:'单词→意思 或 意思→单词'},
-  dir_e2j:{ja:'単語→意',en:'W→M',zh:'词→义'},
-  dir_j2e:{ja:'意→単語',en:'M→W',zh:'义→词'},
-  st_len:{ja:'1回の問題数',en:'Questions per round',zh:'每轮题数'},
-  desc_len:{ja:'まとめて何問出すか',en:'How many at a time',zh:'一次出多少题'},
-  len_all:{ja:'全部',en:'All',zh:'全部'},
-  sec_review:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）'},
-  st_schedule:{ja:'復習スケジュール',en:'Review schedule',zh:'复习计划'},
-  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss restarts from tomorrow.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错则从明天重新开始。'},
-  st_weak:{ja:'苦手を優先',en:'Prioritize weak words',zh:'优先薄弱词'},
-  desc_weak:{ja:'復習対象の中でも間違えた単語を出やすくする',en:'Show words you miss more often within the due set',zh:'在到期词中更常出现答错过的词'},
-  sec_data:{ja:'データ',en:'Data',zh:'数据'},
-  st_export:{ja:'バックアップ書き出し',en:'Export backup',zh:'导出备份'},
-  desc_export:{ja:'JSONファイルとして保存（端末内保存なので時々推奨）',en:'Save as a JSON file (recommended now and then)',zh:'保存为 JSON 文件（建议偶尔备份）'},
-  btn_export:{ja:'書き出す',en:'Export',zh:'导出'},
-  st_import:{ja:'読み込み',en:'Import',zh:'导入'},
-  desc_import:{ja:'バックアップから復元・統合',en:'Restore or merge from a backup',zh:'从备份恢复或合并'},
-  btn_import:{ja:'読み込む',en:'Import',zh:'导入'},
-  data_note:{ja:'単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。',en:'Your words are stored only in this browser on this device. Back up now and then so you don’t lose them.',zh:'单词数据只保存在本设备的浏览器中。请偶尔备份，以免丢失。'},
-  sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助'},
-  st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程'},
-  desc_tutorial:{ja:'はじめての人向けのチュートリアル',en:'The tutorial for first-time users',zh:'面向新手的使用教程'},
-  btn_tutorial:{ja:'見る',en:'View',zh:'查看'},
-  version_note:{ja:'バージョン {0}',en:'Version {0}',zh:'版本 {0}'},
+  set_title:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정'},
+  sec_lang:{ja:'言語',en:'Language',zh:'语言',fr:'Langue',ar:'اللغة',ko:'언어'},
+  st_lang:{ja:'表示・訳の言語',en:'App & translation language',zh:'界面与翻译语言',fr:'Langue de l’app et des traductions',ar:'لغة التطبيق والترجمة',ko:'앱·번역 언어'},
+  desc_lang:{ja:'アプリ表示と、意味の自動取得に使う言語',en:'Language for the UI and auto-fetched meanings',zh:'界面与自动获取意思所用的语言',fr:'Langue de l’interface et des sens récupérés',ar:'لغة الواجهة والمعاني المجلوبة',ko:'화면과 자동 번역에 사용하는 언어'},
+  sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式',fr:'Format du quiz',ar:'صيغة الاختبار',ko:'출제 형식'},
+  st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형'},
+  desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택'},
+  desc_quiztype_input:{ja:'自分で入力。意味が近ければ正解＋正答を表示',en:'Type it in. Close answers count, with the correct one shown',zh:'自己输入，意思接近即算对并显示答案',fr:'Saisie libre. Les réponses proches comptent, avec la bonne affichée',ar:'الكتابة يدويًا. الإجابات القريبة تُحتسب مع عرض الصحيحة',ko:'직접 입력. 뜻이 비슷하면 정답 처리하고 정답을 표시'},
+  opt_choice:{ja:'4択',en:'Choice',zh:'选择',fr:'Choix',ar:'اختيار',ko:'선택'},
+  opt_input:{ja:'意味入力',en:'Type',zh:'输入',fr:'Saisie',ar:'كتابة',ko:'입력'},
+  st_dir:{ja:'出題の向き',en:'Direction',zh:'出题方向',fr:'Sens de la question',ar:'اتجاه السؤال',ko:'출제 방향'},
+  desc_dir:{ja:'単語→意味 か、意味→単語 か',en:'Word→meaning or meaning→word',zh:'单词→意思 或 意思→单词',fr:'Mot→sens ou sens→mot',ar:'كلمة→معنى أو معنى→كلمة',ko:'단어→뜻 또는 뜻→단어'},
+  dir_e2j:{ja:'単語→意',en:'W→M',zh:'词→义',fr:'M→S',ar:'ك→م',ko:'단→뜻'},
+  dir_j2e:{ja:'意→単語',en:'M→W',zh:'义→词',fr:'S→M',ar:'م→ك',ko:'뜻→단'},
+  st_len:{ja:'1回の問題数',en:'Questions per round',zh:'每轮题数',fr:'Questions par tour',ar:'أسئلة لكل جولة',ko:'한 번에 문제 수'},
+  desc_len:{ja:'まとめて何問出すか',en:'How many at a time',zh:'一次出多少题',fr:'Combien à la fois',ar:'كم سؤالًا في المرة',ko:'한 번에 몇 문제'},
+  len_all:{ja:'全部',en:'All',zh:'全部',fr:'Tout',ar:'الكل',ko:'전체'},
+  sec_review:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (التكرار المتباعد)',ko:'복습 (간격 반복)'},
+  st_schedule:{ja:'復習スケジュール',en:'Review schedule',zh:'复习计划',fr:'Planning de révision',ar:'جدول المراجعة',ko:'복습 일정'},
+  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss restarts from tomorrow.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错则从明天重新开始。',fr:'Une bonne réponse repousse la révision à 1→3→5→7→14→20→30→60→90 jours. Une erreur repart de demain.',ar:'الإجابة الصحيحة تؤجل المراجعة إلى 1→3→5→7→14→20→30→60→90 يومًا. الخطأ يعيدها من الغد.',ko:'정답이면 다음 복습이 1→3→5→7→14→20→30→60→90일 후로. 틀리면 내일부터 다시.'},
+  st_weak:{ja:'苦手を優先',en:'Prioritize weak words',zh:'优先薄弱词',fr:'Prioriser les mots faibles',ar:'إعطاء الأولوية للكلمات الصعبة',ko:'약점 우선'},
+  desc_weak:{ja:'復習対象の中でも間違えた単語を出やすくする',en:'Show words you miss more often within the due set',zh:'在到期词中更常出现答错过的词',fr:'Afficher plus souvent les mots ratés parmi ceux à réviser',ar:'إظهار الكلمات التي تخطئ فيها أكثر ضمن المستحقة',ko:'복습 대상 중 자주 틀린 단어를 더 자주 출제'},
+  sec_data:{ja:'データ',en:'Data',zh:'数据',fr:'Données',ar:'البيانات',ko:'데이터'},
+  st_export:{ja:'バックアップ書き出し',en:'Export backup',zh:'导出备份',fr:'Exporter une sauvegarde',ar:'تصدير نسخة احتياطية',ko:'백업 내보내기'},
+  desc_export:{ja:'JSONファイルとして保存（端末内保存なので時々推奨）',en:'Save as a JSON file (recommended now and then)',zh:'保存为 JSON 文件（建议偶尔备份）',fr:'Enregistrer en JSON (recommandé de temps en temps)',ar:'الحفظ كملف JSON (يُنصح به من حين لآخر)',ko:'JSON 파일로 저장 (가끔 권장)'},
+  btn_export:{ja:'書き出す',en:'Export',zh:'导出',fr:'Exporter',ar:'تصدير',ko:'내보내기'},
+  st_import:{ja:'読み込み',en:'Import',zh:'导入',fr:'Importer',ar:'استيراد',ko:'가져오기'},
+  desc_import:{ja:'バックアップから復元・統合',en:'Restore or merge from a backup',zh:'从备份恢复或合并',fr:'Restaurer ou fusionner depuis une sauvegarde',ar:'الاستعادة أو الدمج من نسخة احتياطية',ko:'백업에서 복원·병합'},
+  btn_import:{ja:'読み込む',en:'Import',zh:'导入',fr:'Importer',ar:'استيراد',ko:'가져오기'},
+  data_note:{ja:'単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。',en:'Your words are stored only in this browser on this device. Back up now and then so you don’t lose them.',zh:'单词数据只保存在本设备的浏览器中。请偶尔备份，以免丢失。',fr:'Vos mots sont stockés uniquement dans ce navigateur, sur cet appareil. Sauvegardez de temps en temps pour ne rien perdre.',ar:'تُحفظ كلماتك في هذا المتصفح على هذا الجهاز فقط. خذ نسخة احتياطية من حين لآخر حتى لا تفقدها.',ko:'단어 데이터는 이 기기의 브라우저에만 저장됩니다. 잃지 않도록 가끔 백업하세요.'},
+  sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助',fr:'Aide',ar:'مساعدة',ko:'도움말'},
+  st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程',fr:'Revoir le tutoriel',ar:'مشاهدة الشرح مجددًا',ko:'사용법 다시 보기'},
+  desc_tutorial:{ja:'はじめての人向けのチュートリアル',en:'The tutorial for first-time users',zh:'面向新手的使用教程',fr:'Le tutoriel pour les nouveaux',ar:'شرح للمستخدمين الجدد',ko:'처음 사용자를 위한 튜토리얼'},
+  btn_tutorial:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기'},
+  version_note:{ja:'バージョン {0}',en:'Version {0}',zh:'版本 {0}',fr:'Version {0}',ar:'الإصدار {0}',ko:'버전 {0}'},
 
-  today:{ja:'今日',en:'Today',zh:'今天'},
-  tomorrow:{ja:'明日',en:'Tomorrow',zh:'明天'},
+  today:{ja:'今日',en:'Today',zh:'今天',fr:'Auj.',ar:'اليوم',ko:'오늘'},
+  tomorrow:{ja:'明日',en:'Tomorrow',zh:'明天',fr:'Demain',ar:'غدًا',ko:'내일'},
 
-  continue:{ja:'続ける',en:'Continue',zh:'继续'},
-  skip:{ja:'スキップ',en:'Skip',zh:'跳过'},
-  start:{ja:'はじめる',en:'Get started',zh:'开始'},
-  back:{ja:'戻る',en:'Back',zh:'返回'},
-  ok:{ja:'OK',en:'OK',zh:'知道了'},
+  continue:{ja:'続ける',en:'Continue',zh:'继续',fr:'Continuer',ar:'متابعة',ko:'계속'},
+  skip:{ja:'スキップ',en:'Skip',zh:'跳过',fr:'Passer',ar:'تخطّي',ko:'건너뛰기'},
+  start:{ja:'はじめる',en:'Get started',zh:'开始',fr:'Commencer',ar:'ابدأ',ko:'시작하기'},
+  back:{ja:'戻る',en:'Back',zh:'返回',fr:'Retour',ar:'رجوع',ko:'뒤로'},
+  ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인'},
 
-  tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言'},
-  tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。'},
-  tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词'},
-  tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。'},
-  tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表'},
-  tut2_b:{ja:'追加した単語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your words under List.',zh:'在『列表』中查看、编辑、删除单词。'},
-  tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）'},
-  tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。'},
-  tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡'},
-  tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。'},
+  tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택'},
+  tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.'},
+  tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词',fr:'Ajouter des mots',ar:'إضافة كلمات',ko:'단어 추가'},
+  tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。',fr:'Appuyez sur ＋, saisissez un mot anglais, touchez Rechercher pour récupérer le sens, puis Ajouter à la liste.',ar:'اضغط ＋، اكتب كلمة إنجليزية، اضغط بحث لجلب المعنى، ثم أضف إلى القائمة.',ko:'＋를 누르고 영어 단어를 입력, 검색으로 뜻을 자동 가져온 뒤 목록에 추가하세요.'},
+  tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表',fr:'Gérer votre liste',ar:'إدارة قائمتك',ko:'목록 관리'},
+  tut2_b:{ja:'追加した単語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your words under List.',zh:'在『列表』中查看、编辑、删除单词。',fr:'Consultez, modifiez et supprimez vos mots dans Liste.',ar:'اعرض كلماتك وعدّلها واحذفها من القائمة.',ko:'목록에서 단어를 확인·편집·삭제할 수 있어요.'},
+  tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (تكرار متباعد)',ko:'복습 (간격 반복)'},
+  tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。',fr:'Testez-vous dans Révision. Plus vous réussissez, plus la prochaine révision s’éloigne — pour ancrer la mémoire.',ar:'اختبر نفسك في المراجعة. كلما أجبت صحيحًا تباعدت المراجعة التالية لترسيخ الحفظ.',ko:'복습에서 문제를 풀어요. 맞힐수록 다음 복습이 뒤로 미뤄져 기억에 남습니다.'},
+  tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡',fr:'Cartes mémo',ar:'البطاقات',ko:'단어 카드'},
+  tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.'},
 
-  whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨'},
-  wn1:{ja:'言語切り替え（日本語・English・中文）に対応',en:'Language switching (JA / EN / ZH)',zh:'支持切换语言（日 / 英 / 中）'},
-  wn2:{ja:'リストから単語を直接編集できるように',en:'Edit words directly from the list',zh:'可在列表中直接编辑单词'},
-  wn3:{ja:'同じ単語の重複追加を防止',en:'Prevents adding duplicate words',zh:'防止重复添加相同单词'},
-  wn4:{ja:'はじめての人向けチュートリアルを追加',en:'Added a tutorial for new users',zh:'新增新手教程'}
+  whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨'},
+  wn1:{ja:'言語を追加：Français・العربية・한국어',en:'New languages: Français, العربية, 한국어',zh:'新增语言：Français、العربية、한국어',fr:'Nouvelles langues : Français, العربية, 한국어',ar:'لغات جديدة: Français، العربية، 한국어',ko:'새 언어: Français, العربية, 한국어'},
+  wn2:{ja:'対応言語が全6言語になりました',en:'Now 6 languages in total',zh:'现共支持 6 种语言',fr:'6 langues au total désormais',ar:'أصبح المجموع 6 لغات',ko:'이제 총 6개 언어 지원'},
+  wn3:{ja:'アラビア語は右→左レイアウトに対応',en:'Right-to-left layout for Arabic',zh:'阿拉伯语支持从右到左布局',fr:'Mise en page de droite à gauche pour l’arabe',ar:'تخطيط من اليمين إلى اليسار للعربية',ko:'아랍어 오른쪽→왼쪽 레이아웃 지원'},
+  wn4:{ja:'設定 > 言語 からいつでも切り替え可能',en:'Switch anytime in Settings > Language',zh:'可在 设置 > 语言 中随时切换',fr:'Changez à tout moment dans Réglages > Langue',ar:'يمكنك التبديل في أي وقت من الإعدادات > اللغة',ko:'설정 > 언어 에서 언제든 변경 가능'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -509,6 +522,7 @@ function t(key,...a){
 }
 function applyStaticI18n(){
   document.documentElement.lang=S().lang;
+  document.documentElement.dir=S().lang==='ar'?'rtl':'ltr';
   $$('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n);});
   $$('[data-i18n-ph]').forEach(el=>{el.placeholder=t(el.dataset.i18nPh);});
   $('#labMeaning').textContent=t('label_meaning');
@@ -618,7 +632,10 @@ async function fetchDictionary(w){
 }
 // MyMemory language pair for the current UI language. English needs no
 // translation (we show the English dictionary definitions directly).
-function mmPair(){return S().lang==='zh'?'en|zh-CN':S().lang==='ja'?'en|ja':null;}
+function mmPair(){
+  const m={ja:'en|ja',zh:'en|zh-CN',fr:'en|fr',ar:'en|ar',ko:'en|ko'};
+  return m[S().lang]||null;
+}
 function normForCompare(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー]/g,'');}
 async function fetchTranslation(text){
   const pair=mmPair();
@@ -735,7 +752,7 @@ function renderList(){
   p.innerHTML=arr.map(w=>{
     if(w.id===editingId){
       return '<div class="card" style="flex-direction:column;align-items:stretch">'+
-        '<label class="lab" style="margin-top:0">'+t('ed_word')+'</label><input class="field edit-word" value="'+esc(w.word)+'">'+
+        '<label class="lab" style="margin-top:0">'+t('ed_word')+'</label><input class="field edit-word" dir="ltr" value="'+esc(w.word)+'">'+
         '<label class="lab" style="margin-top:10px">'+t('ed_kata')+'</label><input class="field edit-kata" value="'+esc(w.kata||'')+'">'+
         '<label class="lab" style="margin-top:10px">'+t('ed_meaning')+'</label><input class="field edit-ja" value="'+esc(w.ja||'')+'">'+
         '<div class="row" style="margin-top:12px">'+
@@ -897,7 +914,7 @@ function renderQ(){
     const correct=showEng?primaryMeaning(w):w.word;
     const others=shuffle(DB.words.filter(x=>x.id!==w.id&&primaryMeaning(x)))
       .map(x=>showEng?primaryMeaning(x):x.word)
-      .filter(t=>t&&t!==correct);
+      .filter(tx=>tx&&tx!==correct);
     const opts=shuffle([correct,...others.slice(0,3)]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
@@ -931,10 +948,10 @@ function renderQ(){
 }
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー\s]/g,' ').replace(/\s+/g,' ').trim();}
 function closeEnough(ans,target,w,showEng){
-  const a=norm(ans), t=norm(target);
+  const a=norm(ans), tg=norm(target);
   if(!a)return false;
-  if(a===t)return true;
-  if(t.includes(a)||a.includes(t))return true;
+  if(a===tg)return true;
+  if(tg.includes(a)||a.includes(tg))return true;
   if(!showEng){
     if(norm(w.word)===a)return true;
     return false;
@@ -1001,13 +1018,9 @@ function renderSettings(){
   seg('#segLen','len',true);
   $('#swWeak').classList.toggle('on',S().weak);
   $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
-  $$('#segLang button').forEach(b=>{
-    b.classList.toggle('on',b.dataset.v===S().lang);
-    b.onclick=()=>{
-      S().lang=b.dataset.v;save();
-      applyStaticI18n();renderCount();renderSettings();
-    };
-  });
+  const sel=$('#selLang');
+  sel.value=S().lang;
+  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();renderSettings();};
 }
 function seg(sel,keyName,num){
   const cur=S()[keyName];
@@ -1084,6 +1097,9 @@ function renderTutorial(){
         '<button data-v="ja">日本語</button>'+
         '<button data-v="en">English</button>'+
         '<button data-v="zh">中文</button>'+
+        '<button data-v="fr">Français</button>'+
+        '<button data-v="ar">العربية</button>'+
+        '<button data-v="ko">한국어</button>'+
       '</div>'+
       '<button class="btn btn-primary" id="tutStart" style="margin-top:18px">'+t('continue')+'</button>';
     const paint=()=>{$$('#tutLangPick button').forEach(b=>b.classList.toggle('on',b.dataset.v===S().lang));};
