@@ -75,6 +75,8 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .preview .def{font-size:14px;line-height:1.55;margin:2px 0;color:#3a4560}
 .preview .ex{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
 .preview .warn{font-size:13px;color:#a8352e}
+.preview .dup{font-size:13px;color:#8a5a00;background:#fff5da;border:1px solid #f0d98a;
+  border-radius:10px;padding:8px 12px;margin-bottom:10px;font-weight:600}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid #c3cee6;
   border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -147,7 +149,7 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .set-row .sd{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:230px;line-height:1.45}
 .seg{display:inline-flex;background:#eef2f9;border-radius:10px;padding:3px;flex-shrink:0}
 .seg button{border:none;background:none;padding:8px 14px;border-radius:8px;font-size:13px;
-  font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit}
+  font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap}
 .seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .switch{width:50px;height:30px;border-radius:99px;background:#cdd6e6;position:relative;cursor:pointer;transition:.2s;border:none;flex-shrink:0}
 .switch.on{background:var(--good)}
@@ -174,6 +176,28 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   background:var(--navy);color:#fff;padding:11px 20px;border-radius:99px;font-size:14px;
   box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:99;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
+
+/* overlay: tutorial + what's-new */
+.overlay{position:fixed;inset:0;background:rgba(15,30,61,.55);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;padding:24px;z-index:100;
+  opacity:0;pointer-events:none;transition:.25s}
+.overlay.show{opacity:1;pointer-events:auto}
+.sheet{background:#fff;border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
+  box-shadow:var(--shadow);max-height:86vh;overflow:auto}
+.sheet h3{font-size:22px;margin-bottom:8px}
+.sheet .step-emoji{font-size:44px;text-align:center;margin-bottom:10px}
+.sheet p{font-size:14.5px;line-height:1.65;color:#3a4560;margin:0}
+.sheet .dots{display:flex;gap:6px;justify-content:center;margin:18px 0 14px}
+.sheet .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.sheet .dots i.on{background:var(--accent)}
+.sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
+.sheet .tut-actions .btn{flex:1}
+.lang-pick{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.lang-pick button{padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
+  font-family:inherit;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left}
+.lang-pick button.on{border-color:var(--navy);background:#f5f8fd}
+.whatsnew-list{margin:12px 0 20px;padding-left:20px}
+.whatsnew-list li{font-size:14.5px;line-height:1.75;color:#3a4560;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -189,39 +213,39 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
   <section id="v-add" class="view active">
     <div style="margin:6px 2px 14px">
-      <h2 style="font-size:20px">単語を追加</h2>
-      <p class="hint">英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から日本語訳・定義を自動取得する。</p>
+      <h2 style="font-size:20px" data-i18n="add_title">単語を追加</h2>
+      <p class="hint" data-i18n="add_hint">英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得する。</p>
     </div>
     <div class="panel" style="padding:18px">
-      <label class="lab">英単語（スペルで入力）</label>
+      <label class="lab" data-i18n="label_word">英単語（スペルで入力）</label>
       <div class="row">
         <input id="inWord" class="field" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
-        <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px">調べる</button>
+        <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px" data-i18n="btn_lookup">調べる</button>
       </div>
       <div id="lookupBox"></div>
 
-      <label class="lab" style="margin-top:16px">カタカナ（任意）</label>
-      <input id="inKata" class="field" placeholder="プレファー">
+      <label class="lab" style="margin-top:16px" data-i18n="label_kata">読み方メモ（任意）</label>
+      <input id="inKata" class="field" data-i18n-ph="ph_kata" placeholder="プレファー">
 
-      <label class="lab" style="margin-top:16px">日本語の意味</label>
-      <input id="inJa" class="field" placeholder="調べると自動で入ります（編集可）">
+      <label class="lab" style="margin-top:16px" id="labMeaning" data-i18n="label_meaning">意味</label>
+      <input id="inJa" class="field" data-i18n-ph="ph_meaning" placeholder="調べると自動で入ります（編集可）">
 
-      <button class="btn btn-primary" id="btnSave" style="margin-top:18px" disabled>リストに追加</button>
-      <p class="hint" id="saveHint">まず英単語を入力してね。</p>
+      <button class="btn btn-primary" id="btnSave" style="margin-top:18px" disabled data-i18n="btn_add">リストに追加</button>
+      <p class="hint" id="saveHint" data-i18n="hint_type_first">まず英単語を入力してね。</p>
     </div>
   </section>
 
   <section id="v-list" class="view">
     <div class="list-head">
-      <input id="search" class="field search" placeholder="検索…">
+      <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
     </div>
     <div class="panel" id="listPanel"></div>
   </section>
 
   <section id="v-study" class="view">
-    <h2 style="font-size:20px;margin:6px 2px 4px">単語帳</h2>
-    <p class="hint" id="studyHint" style="margin-bottom:12px">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
+    <h2 style="font-size:20px;margin:6px 2px 4px" data-i18n="study_title">単語帳</h2>
+    <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
     <div id="studyBody"></div>
   </section>
 
@@ -230,82 +254,271 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   </section>
 
   <section id="v-set" class="view">
-    <h2 style="font-size:20px;margin:6px 2px 14px">設定</h2>
+    <h2 style="font-size:20px;margin:6px 2px 14px" data-i18n="set_title">設定</h2>
 
-    <div class="set-section-t">出題形式</div>
+    <div class="set-section-t" data-i18n="sec_lang">言語</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st">クイズのタイプ</div><div class="sd" id="quizTypeDesc"></div></div>
-        <div class="seg" id="segQuizType">
-          <button data-v="choice">4択</button>
-          <button data-v="input">意味入力</button>
-        </div>
-      </div>
-      <div class="set-row">
-        <div><div class="st">出題の向き</div><div class="sd">英→意味 か、意味→英 か</div></div>
-        <div class="seg" id="segDir">
-          <button data-v="e2j">英→意</button>
-          <button data-v="j2e">意→英</button>
-        </div>
-      </div>
-      <div class="set-row">
-        <div><div class="st">1回の問題数</div><div class="sd">まとめて何問出すか</div></div>
-        <div class="seg" id="segLen">
-          <button data-v="5">5</button>
-          <button data-v="10">10</button>
-          <button data-v="0">全部</button>
+        <div><div class="st" data-i18n="st_lang">表示・訳の言語</div><div class="sd" data-i18n="desc_lang">アプリ表示と、意味の自動取得に使う言語</div></div>
+        <div class="seg" id="segLang">
+          <button data-v="ja">日本語</button>
+          <button data-v="en">English</button>
+          <button data-v="zh">中文</button>
         </div>
       </div>
     </div>
 
-    <div class="set-section-t">復習（間隔反復）</div>
+    <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st">復習スケジュール</div><div class="sd">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。</div></div>
+        <div><div class="st" data-i18n="st_quiztype">クイズのタイプ</div><div class="sd" id="quizTypeDesc"></div></div>
+        <div class="seg" id="segQuizType">
+          <button data-v="choice" data-i18n="opt_choice">4択</button>
+          <button data-v="input" data-i18n="opt_input">意味入力</button>
+        </div>
       </div>
       <div class="set-row">
-        <div><div class="st">苦手を優先</div><div class="sd">復習対象の中でも間違えた単語を出やすくする</div></div>
+        <div><div class="st" data-i18n="st_dir">出題の向き</div><div class="sd" data-i18n="desc_dir">単語→意味 か、意味→単語 か</div></div>
+        <div class="seg" id="segDir">
+          <button data-v="e2j" data-i18n="dir_e2j">単語→意</button>
+          <button data-v="j2e" data-i18n="dir_j2e">意→単語</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_len">1回の問題数</div><div class="sd" data-i18n="desc_len">まとめて何問出すか</div></div>
+        <div class="seg" id="segLen">
+          <button data-v="5">5</button>
+          <button data-v="10">10</button>
+          <button data-v="0" data-i18n="len_all">全部</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-section-t" data-i18n="sec_review">復習（間隔反復）</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_schedule">復習スケジュール</div><div class="sd" data-i18n="desc_schedule">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。</div></div>
+      </div>
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_weak">苦手を優先</div><div class="sd" data-i18n="desc_weak">復習対象の中でも間違えた単語を出やすくする</div></div>
         <button class="switch" id="swWeak"><i></i></button>
       </div>
     </div>
 
-    <div class="set-section-t">データ</div>
+    <div class="set-section-t" data-i18n="sec_data">データ</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st">バックアップ書き出し</div><div class="sd">JSONファイルとして保存（端末内保存なので時々推奨）</div></div>
-        <button class="btn btn-ghost" id="btnExport">書き出す</button>
+        <div><div class="st" data-i18n="st_export">バックアップ書き出し</div><div class="sd" data-i18n="desc_export">JSONファイルとして保存（端末内保存なので時々推奨）</div></div>
+        <button class="btn btn-ghost" id="btnExport" data-i18n="btn_export">書き出す</button>
       </div>
       <div class="set-row">
-        <div><div class="st">読み込み</div><div class="sd">バックアップから復元・統合</div></div>
-        <button class="btn btn-ghost" id="btnImport">読み込む</button>
+        <div><div class="st" data-i18n="st_import">読み込み</div><div class="sd" data-i18n="desc_import">バックアップから復元・統合</div></div>
+        <button class="btn btn-ghost" id="btnImport" data-i18n="btn_import">読み込む</button>
       </div>
     </div>
     <input type="file" id="fileImport" accept="application/json" style="display:none">
-    <p class="hint" style="margin:14px 2px 30px">単語データはこの端末のブラウザ内だけに保存されます（あなたの分だけ）。消えると困るので、たまにバックアップを。</p>
+    <p class="hint" style="margin:14px 2px 22px" data-i18n="data_note">単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。</p>
+
+    <div class="set-section-t" data-i18n="sec_help">ヘルプ</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_tutorial">使い方をもう一度見る</div><div class="sd" data-i18n="desc_tutorial">はじめての人向けのチュートリアル</div></div>
+        <button class="btn btn-ghost" id="btnTutorial" data-i18n="btn_tutorial">見る</button>
+      </div>
+    </div>
+    <p class="hint" style="margin:14px 2px 30px" id="verNote"></p>
   </section>
 
 </main>
 
 <nav class="tabbar">
-  <button data-tab="v-list" class="on"><span class="ic">📚</span>リスト</button>
-  <button data-tab="v-study"><span class="ic">🗂️</span>単語帳</button>
+  <button data-tab="v-list" class="on"><span class="ic">📚</span><span data-i18n="nav_list">リスト</span></button>
+  <button data-tab="v-study"><span class="ic">🗂️</span><span data-i18n="nav_study">単語帳</span></button>
   <button data-tab="v-add"><span class="add-dot" style="font-size:24px;font-weight:400">＋</span></button>
-  <button data-tab="v-quiz"><span class="ic">🔁</span>復習<span class="badge" id="dueBadge" style="display:none"></span></button>
-  <button data-tab="v-set"><span class="ic">⚙️</span>設定</button>
+  <button data-tab="v-quiz"><span class="ic">🔁</span><span data-i18n="nav_review">復習</span><span class="badge" id="dueBadge" style="display:none"></span></button>
+  <button data-tab="v-set"><span class="ic">⚙️</span><span data-i18n="nav_settings">設定</span></button>
 </nav>
 
 <div class="toast" id="toast"></div>
 
+<div class="overlay" id="overlayTut"><div class="sheet"><div id="tutBody"></div></div></div>
+<div class="overlay" id="overlayWn"><div class="sheet">
+  <div class="step-emoji">✨</div>
+  <h3 id="wnTitle" style="text-align:center"></h3>
+  <ul class="whatsnew-list" id="wnList"></ul>
+  <button class="btn btn-primary" id="wnOk"></button>
+</div></div>
+
 <script>
 /* ---------- config ---------- */
+const APP_VERSION='1.2.0';
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
+
+function navigatorLang(){
+  const nl=(navigator.language||'ja').toLowerCase();
+  return nl.startsWith('zh')?'zh':nl.startsWith('en')?'en':'ja';
+}
+
+/* ---------- i18n ---------- */
+const T={
+  nav_list:{ja:'リスト',en:'List',zh:'列表'},
+  nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡'},
+  nav_review:{ja:'復習',en:'Review',zh:'复习'},
+  nav_settings:{ja:'設定',en:'Settings',zh:'设置'},
+  unit_words:{ja:'語',en:'words',zh:'词'},
+  due_chip:{ja:'今日の復習 {0}',en:'Due today {0}',zh:'今日复习 {0}'},
+
+  add_title:{ja:'単語を追加',en:'Add a word',zh:'添加单词'},
+  add_hint:{ja:'英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得します。',en:'Type an English word and tap Look up to auto-fetch its meaning and definitions.',zh:'输入英文单词并点「查询」，自动获取意思和释义。'},
+  label_word:{ja:'英単語（スペルで入力）',en:'English word (spelling)',zh:'英文单词（拼写）'},
+  btn_lookup:{ja:'調べる',en:'Look up',zh:'查询'},
+  label_kata:{ja:'読み方メモ（任意）',en:'Reading / note (optional)',zh:'读音/备注（可选）'},
+  ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音'},
+  label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思'},
+  ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）'},
+  btn_add:{ja:'リストに追加',en:'Add to list',zh:'添加到列表'},
+  hint_type_first:{ja:'まず英単語を入力してね。',en:'Type an English word first.',zh:'请先输入英文单词。'},
+  hint_after_type:{ja:'「調べる」で辞書・翻訳から自動取得します（任意）。',en:'Tap Look up to auto-fetch (optional).',zh:'点「查询」自动获取（可选）。'},
+  hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。'},
+  looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…'},
+  dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。'},
+  meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）'},
+  not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。'},
+
+  ph_search:{ja:'検索…',en:'Search…',zh:'搜索…'},
+  n_words:{ja:'{0}語',en:'{0} words',zh:'{0} 词'},
+  empty_list:{ja:'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。',en:'No words yet.<br>Add your first word from ＋.',zh:'还没有单词。<br>从 ＋ 添加第一个单词吧。'},
+  no_match:{ja:'一致する単語がありません',en:'No matching words',zh:'没有匹配的单词'},
+  tag_new:{ja:'未学習',en:'New',zh:'未学'},
+  tag_due_today:{ja:'復習: 今日',en:'Review: today',zh:'复习：今天'},
+  tag_next:{ja:'次回 {0}',en:'Next {0}',zh:'下次 {0}'},
+  btn_edit:{ja:'編集',en:'Edit',zh:'编辑'},
+  btn_show_ex:{ja:'例文を見る',en:'Examples',zh:'例句'},
+  ed_word:{ja:'英単語',en:'English word',zh:'英文单词'},
+  ed_kata:{ja:'読み方メモ',en:'Reading / note',zh:'读音/备注'},
+  ed_meaning:{ja:'意味',en:'Meaning',zh:'意思'},
+  btn_save:{ja:'保存',en:'Save',zh:'保存'},
+  btn_cancel:{ja:'キャンセル',en:'Cancel',zh:'取消'},
+  confirm_del:{ja:'この単語を削除しますか？',en:'Delete this word?',zh:'删除这个单词？'},
+  toast_updated:{ja:'更新しました',en:'Updated',zh:'已更新'},
+  toast_word_empty:{ja:'単語は空にできません',en:"Word can't be empty",zh:'单词不能为空'},
+  toast_added:{ja:'「{0}」を追加しました',en:'Added "{0}"',zh:'已添加“{0}”'},
+  toast_dup:{ja:'「{0}」は既にリストにあります',en:'"{0}" is already in your list',zh:'“{0}”已在列表中'},
+  toast_export:{ja:'バックアップを書き出しました',en:'Backup exported',zh:'已导出备份'},
+  toast_import_fail:{ja:'読み込みに失敗しました',en:'Import failed',zh:'导入失败'},
+  toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词'},
+
+  study_title:{ja:'単語帳',en:'Flashcards',zh:'单词卡'},
+  study_hint:{ja:'タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）',en:'Tap to flip. Great for quick memorizing. (Does not affect the review schedule.)',zh:'点一下翻面，随时背诵。（不影响复习计划）'},
+  study_empty:{ja:'単語を追加すると<br>ここで暗記カードになります。',en:'Add words to turn them<br>into flashcards here.',zh:'添加单词后<br>会在这里变成单词卡。'},
+  flip_hint:{ja:'タップで意味を見る',en:'Tap to see the meaning',zh:'点一下看意思'},
+  btn_prev:{ja:'← 前',en:'← Prev',zh:'← 上一个'},
+  btn_next:{ja:'次 →',en:'Next →',zh:'下一个 →'},
+  btn_reshuffle:{ja:'シャッフルし直す',en:'Reshuffle',zh:'重新洗牌'},
+  no_meaning:{ja:'意味メモがありません',en:'No meaning saved',zh:'没有意思备注'},
+
+  quiz_due:{ja:'今日の復習（{0}）',en:'Due today ({0})',zh:'今日复习（{0}）'},
+  quiz_free:{ja:'自由学習（全部）',en:'Free study (all)',zh:'自由学习（全部）'},
+  quiz_done:{ja:'今日復習する単語はありません。<br>お疲れさま！',en:'No words to review today.<br>Nice work!',zh:'今天没有需要复习的单词。<br>辛苦了！'},
+  quiz_done_sub:{ja:'「自由学習」で先取り練習もできます。',en:'You can practice ahead with Free study.',zh:'可以用「自由学习」提前练习。'},
+  quiz_need4:{ja:'4択には意味が入った単語が最低4語必要です。',en:'Multiple choice needs at least 4 words with a meaning.',zh:'选择题至少需要 4 个有意思的单词。'},
+  quiz_need_add:{ja:'単語を追加すると復習が始まります。',en:'Add words to start reviewing.',zh:'添加单词后即可开始复习。'},
+  prompt_e2j:{ja:'この単語の意味は？',en:'What does this word mean?',zh:'这个单词的意思是？'},
+  prompt_j2e:{ja:'この意味の英単語は？',en:'Which English word?',zh:'对应的英文单词是？'},
+  ph_answer:{ja:'意味を入力…',en:'Type the meaning…',zh:'输入意思…'},
+  btn_check:{ja:'答え合わせ',en:'Check',zh:'核对'},
+  fb_ok:{ja:'✓ 正解',en:'✓ Correct',zh:'✓ 正确'},
+  fb_ng:{ja:'✗ おしい',en:'✗ Close',zh:'✗ 差一点'},
+  correct_label:{ja:'正しい答え：',en:'Answer: ',zh:'正确答案：'},
+  next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）'},
+  again_tomorrow:{ja:'また明日から復習に出てきます',en:"It'll come back for review from tomorrow",zh:'明天起会再次出现复习'},
+  btn_next_q:{ja:'次の問題 →',en:'Next →',zh:'下一题 →'},
+  btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果'},
+  accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%'},
+  btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习'},
+  btn_back_list:{ja:'リストに戻る',en:'Back to list',zh:'返回列表'},
+
+  set_title:{ja:'設定',en:'Settings',zh:'设置'},
+  sec_lang:{ja:'言語',en:'Language',zh:'语言'},
+  st_lang:{ja:'表示・訳の言語',en:'App & translation language',zh:'界面与翻译语言'},
+  desc_lang:{ja:'アプリ表示と、意味の自動取得に使う言語',en:'Language for the UI and auto-fetched meanings',zh:'界面与自动获取意思所用的语言'},
+  sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式'},
+  st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型'},
+  desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择'},
+  desc_quiztype_input:{ja:'自分で入力。意味が近ければ正解＋正答を表示',en:'Type it in. Close answers count, with the correct one shown',zh:'自己输入，意思接近即算对并显示答案'},
+  opt_choice:{ja:'4択',en:'Choice',zh:'选择'},
+  opt_input:{ja:'意味入力',en:'Type',zh:'输入'},
+  st_dir:{ja:'出題の向き',en:'Direction',zh:'出题方向'},
+  desc_dir:{ja:'単語→意味 か、意味→単語 か',en:'Word→meaning or meaning→word',zh:'单词→意思 或 意思→单词'},
+  dir_e2j:{ja:'単語→意',en:'W→M',zh:'词→义'},
+  dir_j2e:{ja:'意→単語',en:'M→W',zh:'义→词'},
+  st_len:{ja:'1回の問題数',en:'Questions per round',zh:'每轮题数'},
+  desc_len:{ja:'まとめて何問出すか',en:'How many at a time',zh:'一次出多少题'},
+  len_all:{ja:'全部',en:'All',zh:'全部'},
+  sec_review:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）'},
+  st_schedule:{ja:'復習スケジュール',en:'Review schedule',zh:'复习计划'},
+  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss restarts from tomorrow.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错则从明天重新开始。'},
+  st_weak:{ja:'苦手を優先',en:'Prioritize weak words',zh:'优先薄弱词'},
+  desc_weak:{ja:'復習対象の中でも間違えた単語を出やすくする',en:'Show words you miss more often within the due set',zh:'在到期词中更常出现答错过的词'},
+  sec_data:{ja:'データ',en:'Data',zh:'数据'},
+  st_export:{ja:'バックアップ書き出し',en:'Export backup',zh:'导出备份'},
+  desc_export:{ja:'JSONファイルとして保存（端末内保存なので時々推奨）',en:'Save as a JSON file (recommended now and then)',zh:'保存为 JSON 文件（建议偶尔备份）'},
+  btn_export:{ja:'書き出す',en:'Export',zh:'导出'},
+  st_import:{ja:'読み込み',en:'Import',zh:'导入'},
+  desc_import:{ja:'バックアップから復元・統合',en:'Restore or merge from a backup',zh:'从备份恢复或合并'},
+  btn_import:{ja:'読み込む',en:'Import',zh:'导入'},
+  data_note:{ja:'単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。',en:'Your words are stored only in this browser on this device. Back up now and then so you don’t lose them.',zh:'单词数据只保存在本设备的浏览器中。请偶尔备份，以免丢失。'},
+  sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助'},
+  st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程'},
+  desc_tutorial:{ja:'はじめての人向けのチュートリアル',en:'The tutorial for first-time users',zh:'面向新手的使用教程'},
+  btn_tutorial:{ja:'見る',en:'View',zh:'查看'},
+  version_note:{ja:'バージョン {0}',en:'Version {0}',zh:'版本 {0}'},
+
+  today:{ja:'今日',en:'Today',zh:'今天'},
+  tomorrow:{ja:'明日',en:'Tomorrow',zh:'明天'},
+
+  continue:{ja:'続ける',en:'Continue',zh:'继续'},
+  skip:{ja:'スキップ',en:'Skip',zh:'跳过'},
+  start:{ja:'はじめる',en:'Get started',zh:'开始'},
+  back:{ja:'戻る',en:'Back',zh:'返回'},
+  ok:{ja:'OK',en:'OK',zh:'知道了'},
+
+  tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言'},
+  tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。'},
+  tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词'},
+  tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。'},
+  tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表'},
+  tut2_b:{ja:'追加した単語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your words under List.',zh:'在『列表』中查看、编辑、删除单词。'},
+  tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）'},
+  tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。'},
+  tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡'},
+  tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。'},
+
+  whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨'},
+  wn1:{ja:'言語切り替え（日本語・English・中文）に対応',en:'Language switching (JA / EN / ZH)',zh:'支持切换语言（日 / 英 / 中）'},
+  wn2:{ja:'リストから単語を直接編集できるように',en:'Edit words directly from the list',zh:'可在列表中直接编辑单词'},
+  wn3:{ja:'同じ単語の重複追加を防止',en:'Prevents adding duplicate words',zh:'防止重复添加相同单词'},
+  wn4:{ja:'はじめての人向けチュートリアルを追加',en:'Added a tutorial for new users',zh:'新增新手教程'}
+};
+function t(key,...a){
+  const entry=T[key];
+  let s=entry?(entry[S().lang]||entry.ja):key;
+  a.forEach((v,i)=>{s=s.replace('{'+i+'}',v);});
+  return s;
+}
+function applyStaticI18n(){
+  document.documentElement.lang=S().lang;
+  $$('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n);});
+  $$('[data-i18n-ph]').forEach(el=>{el.placeholder=t(el.dataset.i18nPh);});
+  $('#labMeaning').textContent=t('label_meaning');
+  $('#verNote').textContent=t('version_note',APP_VERSION);
+}
 
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true}};
-let DB=load();
+const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),onboarded:false,seenVersion:''}};
 
 function migrateWord(w){
   if(typeof w.box!=='number')w.box=-1;
@@ -314,19 +527,27 @@ function migrateWord(w){
   if(!Array.isArray(w.examples))w.examples=[];
   return w;
 }
+function buildDB(r){
+  const merged={...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};
+  // Existing users (already have words) shouldn't get the first-run tutorial;
+  // mark them onboarded so they get the "what's new" notice instead.
+  if(merged.words.length>0 && (!r.settings || r.settings.onboarded===undefined))merged.settings.onboarded=true;
+  return merged;
+}
 function load(){
   let raw=localStorage.getItem(KEY);
   if(!raw){ // try migrating from v1
     const old=localStorage.getItem(OLDKEY);
-    if(old){try{const r=JSON.parse(old);if(r&&r.words){r.words.forEach(migrateWord);localStorage.setItem(KEY,JSON.stringify(r));return {...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};}}catch(e){}}
+    if(old){try{const r=JSON.parse(old);if(r&&r.words){r.words.forEach(migrateWord);localStorage.setItem(KEY,JSON.stringify(r));return buildDB(r);}}catch(e){}}
     return structuredClone(DEFAULTS);
   }
   try{
     const r=JSON.parse(raw);
-    if(r&&r.words){r.words.forEach(migrateWord);return {...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};}
+    if(r&&r.words){r.words.forEach(migrateWord);return buildDB(r);}
   }catch(e){}
   return structuredClone(DEFAULTS);
 }
+let DB=load();
 function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
 const S=()=>DB.settings;
 
@@ -341,12 +562,13 @@ function dueCount(){return DB.words.filter(isDue).length;}
 function fmtDate(ts){
   const d=new Date(ts),now=new Date();
   const sameDay=d.toDateString()===now.toDateString();
-  if(ts<=Date.now())return '今日';
-  if(sameDay)return '今日';
+  if(ts<=Date.now())return t('today');
+  if(sameDay)return t('today');
   const diffDays=Math.round((ts-Date.now())/DAY);
-  if(diffDays===1)return '明日';
+  if(diffDays===1)return t('tomorrow');
   return (d.getMonth()+1)+'/'+d.getDate();
 }
+function wordExists(w){const l=w.toLowerCase();return DB.words.some(x=>(x.word||'').toLowerCase()===l);}
 async function fetchWithTimeout(url,ms,opts){
   const ctrl=new AbortController();
   const t=setTimeout(()=>ctrl.abort(),ms);
@@ -377,7 +599,7 @@ inWord.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();loo
 inWord.addEventListener('input',()=>{
   const v=inWord.value.trim();
   $('#btnSave').disabled=!v;
-  if(v)$('#saveHint').textContent='「調べる」で辞書・翻訳から自動取得します（任意）。';
+  if(v)$('#saveHint').textContent=t('hint_after_type');
 });
 
 async function fetchDictionary(w){
@@ -394,78 +616,85 @@ async function fetchDictionary(w){
   })).filter(m=>m.def);
   return {word:entry.word||w,phon,meanings};
 }
+// MyMemory language pair for the current UI language. English needs no
+// translation (we show the English dictionary definitions directly).
+function mmPair(){return S().lang==='zh'?'en|zh-CN':S().lang==='ja'?'en|ja':null;}
 function normForCompare(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー]/g,'');}
-async function fetchTranslationJa(text){
-  const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|ja',7000);
+async function fetchTranslation(text){
+  const pair=mmPair();
+  if(!pair)throw new Error('no_translate');
+  const r=await fetchWithTimeout('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+pair,7000);
   if(!r.ok)throw new Error('translate_fail');
   const data=await r.json();
   if(data.responseStatus!==200)throw new Error('translate_fail');
   // MyMemory sometimes "translates" a word into itself (e.g. upon -> upon)
-  // when it has no real Japanese equivalent on hand -- treat that as no
-  // translation rather than showing the English word back to the user.
+  // when it has no real equivalent -- treat that as no translation rather
+  // than echoing the English word back. The top-level translatedText can also
+  // be empty while a good match sits in matches[] -- fall back to the best one.
   const src=normForCompare(text);
-  const useless=t=>!t||normForCompare(t)===src;
-  // The top-level responseData.translatedText can also be empty even though
-  // a good translation exists in matches[] -- fall back to the best match.
-  let t=data.responseData&&data.responseData.translatedText;
-  if(useless(t))t=null;
-  if(!t&&Array.isArray(data.matches)){
-    const best=data.matches
-      .filter(m=>!useless(m.translation))
-      .sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
-    if(best)t=best.translation;
+  const useless=x=>!x||normForCompare(x)===src;
+  let out=data.responseData&&data.responseData.translatedText;
+  if(useless(out))out=null;
+  if(!out&&Array.isArray(data.matches)){
+    const best=data.matches.filter(m=>!useless(m.translation)).sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
+    if(best)out=best.translation;
   }
-  if(!t)throw new Error('translate_fail');
-  return t;
+  if(!out)throw new Error('translate_fail');
+  return out;
 }
 
 async function lookup(){
   const raw=inWord.value.trim();
   if(!raw)return;
   const w=raw.toLowerCase();
+  const dup=wordExists(w);
   const box=$('#lookupBox');
-  box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">辞書・翻訳で検索中…</span></div>';
+  box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">'+t('looking_up')+'</span></div>';
   $('#inJa').value=''; // always clear so a previous search's result can't linger unnoticed
 
-  const [dictRes,jaRes]=await Promise.allSettled([fetchDictionary(w),fetchTranslationJa(w)]);
+  const needTr=mmPair()!==null;
+  const [dictRes,trRes]=await Promise.allSettled([
+    fetchDictionary(w),
+    needTr?fetchTranslation(w):Promise.reject('skip')
+  ]);
   const dictOk=dictRes.status==='fulfilled';
-  const jaOk=jaRes.status==='fulfilled';
+  const trOk=trRes.status==='fulfilled';
 
-  // Translate each English definition to Japanese too, instead of showing
-  // raw English-English dictionary text.
+  // Translate each English definition into the target language too, instead
+  // of showing raw English-English dictionary text (skipped in English mode).
   let meanings=dictOk?dictRes.value.meanings:[];
-  if(meanings.length){
-    const defTranslations=await Promise.allSettled(meanings.map(m=>fetchTranslationJa(m.def)));
-    meanings=meanings.map((m,i)=>({...m,defJa:defTranslations[i].status==='fulfilled'?defTranslations[i].value:''}));
+  if(meanings.length&&needTr){
+    const defTr=await Promise.allSettled(meanings.map(m=>fetchTranslation(m.def)));
+    meanings=meanings.map((m,i)=>({...m,defJa:defTr[i].status==='fulfilled'?defTr[i].value:''}));
   }
 
-  pending={
-    word: dictOk?dictRes.value.word:w,
-    phon: dictOk?dictRes.value.phon:'',
-    meanings,
-    ja: jaOk?jaRes.value:'',
-    examples:[]
-  };
-  if(jaOk)$('#inJa').value=jaRes.value;
+  // The stored "meaning": translation if we have one; in English mode use the
+  // first dictionary definition.
+  const meaningVal=trOk?trRes.value:(!needTr&&meanings[0]?meanings[0].def:'');
+  pending={word:dictOk?dictRes.value.word:w,phon:dictOk?dictRes.value.phon:'',meanings,ja:meaningVal,examples:[]};
+  if(meaningVal)$('#inJa').value=meaningVal;
   $('#btnSave').disabled=false;
+
   let html='<div class="preview">';
-  if(jaOk)html+='<div class="ja-big">'+esc(jaRes.value)+'</div><div class="ja-src">MyMemory 翻訳（自動・編集可）</div>';
+  if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
+  if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
   if(dictOk){
     html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
       pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
         (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
         (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
-  }else if(!jaOk){
-    html+='<div class="warn" style="margin-top:8px">辞書にも翻訳にも見つかりませんでした。日本語メモを手入力してね。</div>';
+  }else if(!meaningVal){
+    html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
   }
   html+='</div>';
   box.innerHTML=html;
-  $('#saveHint').textContent='内容を確認して「リストに追加」へ。';
+  $('#saveHint').textContent=t('hint_confirm');
 }
 
 $('#btnSave').onclick=()=>{
   const w=(pending&&pending.word)?pending.word:inWord.value.trim();
   if(!w)return;
+  if(wordExists(w)){toast(t('toast_dup',w));go('v-list');return;}
   const now=Date.now();
   const item={
     id:now+''+Math.random().toString(36).slice(2,6),
@@ -481,8 +710,8 @@ $('#btnSave').onclick=()=>{
   DB.words.unshift(item);save();
   inWord.value='';$('#inKata').value='';$('#inJa').value='';
   $('#lookupBox').innerHTML='';pending=null;$('#btnSave').disabled=true;
-  $('#saveHint').textContent='まず英単語を入力してね。';
-  toast('「'+w+'」を追加しました・今日から復習スタート');
+  $('#saveHint').textContent=t('hint_type_first');
+  toast(t('toast_added',w));
 };
 
 /* ---------- LIST ---------- */
@@ -497,42 +726,42 @@ function renderList(){
   const q=$('#search').value.trim().toLowerCase();
   let arr=DB.words;
   if(q)arr=arr.filter(w=>(w.word+w.kata+w.ja+primaryMeaning(w)).toLowerCase().includes(q));
-  $('#listCount').textContent=arr.length+'語';
+  $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   if(!arr.length){
-    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(DB.words.length?'一致する単語がありません':'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。')+'</div>';
+    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(DB.words.length?t('no_match'):t('empty_list'))+'</div>';
     return;
   }
   p.innerHTML=arr.map(w=>{
     if(w.id===editingId){
       return '<div class="card" style="flex-direction:column;align-items:stretch">'+
-        '<label class="lab" style="margin-top:0">英単語</label><input class="field edit-word" value="'+esc(w.word)+'">'+
-        '<label class="lab" style="margin-top:10px">カタカナ</label><input class="field edit-kata" value="'+esc(w.kata||'')+'">'+
-        '<label class="lab" style="margin-top:10px">日本語の意味</label><input class="field edit-ja" value="'+esc(w.ja||'')+'">'+
+        '<label class="lab" style="margin-top:0">'+t('ed_word')+'</label><input class="field edit-word" value="'+esc(w.word)+'">'+
+        '<label class="lab" style="margin-top:10px">'+t('ed_kata')+'</label><input class="field edit-kata" value="'+esc(w.kata||'')+'">'+
+        '<label class="lab" style="margin-top:10px">'+t('ed_meaning')+'</label><input class="field edit-ja" value="'+esc(w.ja||'')+'">'+
         '<div class="row" style="margin-top:12px">'+
-        '<button class="btn btn-primary edit-save" data-id="'+w.id+'" style="flex:1">保存</button>'+
-        '<button class="btn btn-ghost edit-cancel" style="flex:1">キャンセル</button>'+
+        '<button class="btn btn-primary edit-save" data-id="'+w.id+'" style="flex:1">'+t('btn_save')+'</button>'+
+        '<button class="btn btn-ghost edit-cancel" style="flex:1">'+t('btn_cancel')+'</button>'+
         '</div></div>';
     }
     let dueTag;
-    if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">未学習</span>';
-    else if(isDue(w))dueTag='<span class="tag-sm tag-due">復習: 今日</span>';
-    else dueTag='<span class="tag-sm tag-next">次回 '+fmtDate(w.nextDue)+'</span>';
+    if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">'+t('tag_new')+'</span>';
+    else if(isDue(w))dueTag='<span class="tag-sm tag-due">'+t('tag_due_today')+'</span>';
+    else dueTag='<span class="tag-sm tag-next">'+t('tag_next',fmtDate(w.nextDue))+'</span>';
     const hasEx=(w.examples||[]).length>0;
     return '<div class="card"><div style="flex:1">'+
       '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
-      '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">編集</span>'+
-      (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">例文を見る</span>':'')+
+      '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+t('btn_edit')+'</span>'+
+      (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
       '<button class="del" data-id="'+w.id+'">×</button></div>';
   }).join('');
   $$('#listPanel .del').forEach(b=>b.onclick=()=>{
-    if(confirm('この単語を削除しますか？')){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();}
+    if(confirm(t('confirm_del'))){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();}
   });
-  $$('#listPanel .ex-toggle').forEach(t=>t.onclick=()=>{
-    const w=DB.words.find(x=>x.id===t.dataset.id);
+  $$('#listPanel .ex-toggle').forEach(tg=>tg.onclick=()=>{
+    const w=DB.words.find(x=>x.id===tg.dataset.id);
     const body=$('#ex-'+w.id);
     if(body.style.display==='block'){body.style.display='none';return;}
     body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
@@ -545,14 +774,14 @@ function renderList(){
     const w=DB.words.find(x=>x.id===b.dataset.id);
     if(!w)return;
     const newWord=card.querySelector('.edit-word').value.trim();
-    if(!newWord){toast('英単語は空にできません');return;}
+    if(!newWord){toast(t('toast_word_empty'));return;}
     w.word=newWord;
     w.kata=card.querySelector('.edit-kata').value.trim();
     w.ja=card.querySelector('.edit-ja').value.trim();
     save();
     editingId=null;
     renderList();
-    toast('更新しました');
+    toast(t('toast_updated'));
   });
 }
 
@@ -560,19 +789,19 @@ function renderList(){
 let deck=[],di=0;
 function renderStudy(){
   const body=$('#studyBody');
-  if(!DB.words.length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>単語を追加すると<br>ここで暗記カードになります。</div>';return;}
+  if(!DB.words.length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>'+t('study_empty')+'</div>';return;}
   deck=shuffle(DB.words);di=0;
   body.innerHTML=
     '<div class="deck"><div class="flip" id="flip">'+
-      '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div><div class="flip-hint">タップで意味を見る</div></div>'+
+      '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
       '<div class="face back" id="fBack"></div>'+
     '</div></div>'+
     '<div class="deck-nav">'+
-      '<button class="btn btn-ghost" id="dPrev">← 前</button>'+
+      '<button class="btn btn-ghost" id="dPrev">'+t('btn_prev')+'</button>'+
       '<span class="pos-ind" id="dPos"></span>'+
-      '<button class="btn btn-ghost" id="dNext">次 →</button>'+
+      '<button class="btn btn-ghost" id="dNext">'+t('btn_next')+'</button>'+
     '</div>'+
-    '<button class="btn btn-primary" id="dShuffle" style="margin-top:14px">シャッフルし直す</button>';
+    '<button class="btn btn-primary" id="dShuffle" style="margin-top:14px">'+t('btn_reshuffle')+'</button>';
   $('#flip').onclick=()=>$('#flip').classList.toggle('flipped');
   $('#dPrev').onclick=()=>{di=(di-1+deck.length)%deck.length;showCard();};
   $('#dNext').onclick=()=>{di=(di+1)%deck.length;showCard();};
@@ -598,7 +827,7 @@ function renderBack(w){
   if((w.examples||[]).length){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
   }
-  if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">意味メモがありません</div>'+back;
+  if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">'+t('no_meaning')+'</div>'+back;
   $('#fBack').innerHTML=back;
 }
 
@@ -618,27 +847,28 @@ function pickWords(mode){
   const n=S().len===0?pool.length:Math.min(S().len,pool.length);
   return pool.slice(0,n);
 }
+function modeTabsHTML(mode){
+  return '<div class="q-mode-tabs">'+
+    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">'+t('quiz_due',dueCount())+'</button>'+
+    '<button data-m="all" class="'+(mode==='all'?'on':'')+'">'+t('quiz_free')+'</button>'+
+    '</div>';
+}
 function startQuiz(mode){
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
   const due=dueCount();
   const items=pickWords(mode);
   const body=$('#quizBody');
-
-  let modeTabs='<div class="q-mode-tabs">'+
-    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">今日の復習（'+due+'）</button>'+
-    '<button data-m="all" class="'+(mode==='all'?'on':'')+'">自由学習（全部）</button>'+
-    '</div>';
+  const modeTabs=modeTabsHTML(mode);
 
   const eligibleTotal=DB.words.filter(w=>primaryMeaning(w)).length;
   if(mode==='due'&&due===0){
-    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>今日復習する単語はありません。<br>お疲れさま！<br><span style="font-size:12.5px">「自由学習」で先取り練習もできます。</span></div>';
+    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>'+t('quiz_done')+'<br><span style="font-size:12.5px">'+t('quiz_done_sub')+'</span></div>';
     bindModeTabs();return;
   }
   const need=S().quizType==='choice'?4:1;
   if(items.length<need||eligibleTotal<need){
-    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+
-      (eligibleTotal?'4択には日本語の意味が入った単語が最低4語必要です。':'単語を追加すると復習が始まります。')+'</div>';
+    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+(eligibleTotal?t('quiz_need4'):t('quiz_need_add'))+'</div>';
     bindModeTabs();return;
   }
   quiz={items,i:0,score:0,mode};
@@ -655,16 +885,11 @@ function renderQ(){
   const dir=S().dir;
   const prog=Math.round(quiz.i/quiz.items.length*100);
   const showEng=dir==='e2j';
-  const promptTxt=showEng?'この単語の意味は？':'この意味の英単語は？';
+  const promptTxt=showEng?t('prompt_e2j'):t('prompt_j2e');
   const face=showEng?w.word:primaryMeaning(w);
   const kata=showEng?(w.kata||''):'';
 
-  let modeTabs='<div class="q-mode-tabs">'+
-    '<button data-m="due" class="'+(quiz.mode==='due'?'on':'')+'">今日の復習（'+dueCount()+'）</button>'+
-    '<button data-m="all" class="'+(quiz.mode==='all'?'on':'')+'">自由学習（全部）</button>'+
-    '</div>';
-
-  let inner=modeTabs+'<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+  let inner=modeTabsHTML(quiz.mode)+'<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
     '<div class="qw">'+esc(face)+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
 
@@ -686,8 +911,8 @@ function renderQ(){
       grade(w,ok,correct);
     });
   }else{
-    inner+='<input id="qIn" class="field" placeholder="意味を入力…" autocomplete="off">'+
-      '<button class="btn btn-primary" id="qCheck" style="margin-top:12px">答え合わせ</button>'+
+    inner+='<input id="qIn" class="field" placeholder="'+t('ph_answer')+'" autocomplete="off">'+
+      '<button class="btn btn-primary" id="qCheck" style="margin-top:12px">'+t('btn_check')+'</button>'+
       '<div id="qfb"></div>';
     body.innerHTML=inner;
     bindModeTabs();
@@ -715,7 +940,7 @@ function closeEnough(ans,target,w,showEng){
     return false;
   }
   const bag=new Set();
-  norm((w.ja||'')+' '+(w.meanings||[]).map(m=>m.def).join(' ')).split(' ').forEach(x=>{if(x.length>1)bag.add(x);});
+  norm((w.ja||'')+' '+(w.meanings||[]).map(m=>m.defJa||m.def).join(' ')).split(' ').forEach(x=>{if(x.length>1)bag.add(x);});
   const aw=a.split(' ').filter(x=>x.length>1);
   if(!aw.length)return false;
   const hit=aw.filter(x=>bag.has(x)||[...bag].some(b=>b.includes(x)||x.includes(b))).length;
@@ -731,12 +956,12 @@ function grade(w,ok,correctText,isInput){
       rec.box=Math.min(rec.box+1,INTERVALS.length-1);
       const days=INTERVALS[rec.box];
       rec.nextDue=Date.now()+days*DAY;
-      nextInText='次の復習: '+days+'日後（'+fmtDate(rec.nextDue)+'）';
+      nextInText=t('next_review',days,fmtDate(rec.nextDue));
     }else{
       rec.wrong++;
       rec.box=-1;
       rec.nextDue=Date.now(); // due again soon
-      nextInText='また明日から復習に出てきます';
+      nextInText=t('again_tomorrow');
     }
     rec.hist.push({t:Date.now(),ok});
     if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
@@ -744,11 +969,11 @@ function grade(w,ok,correctText,isInput){
   if(ok)quiz.score++;
   save();
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
-    (ok?'✓ 正解':'✗ おしい')+
-    '<div style="margin-top:8px">正しい答え：<span class="ans">'+esc(correctText)+'</span></div>'+
+    (ok?t('fb_ok'):t('fb_ng'))+
+    '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
     '<div class="nextin">'+nextInText+'</div>'+
     '</div>'+
-    '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?'次の問題 →':'結果を見る')+'</button>';
+    '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?t('btn_next_q'):t('btn_see_result'))+'</button>';
   if(isInput){$('#qfb').innerHTML=fbHtml;}
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
   $('#qNext').onclick=()=>{
@@ -761,9 +986,9 @@ function showScore(){
   const pct=Math.round(quiz.score/quiz.items.length*100);
   $('#quizBody').innerHTML='<div class="q-score">'+
     '<div class="big">'+quiz.score+'/'+quiz.items.length+'</div>'+
-    '<div class="lbl">正答率 '+pct+'%</div>'+
-    '<button class="btn btn-primary" id="qAgain">続けて復習</button>'+
-    '<button class="btn btn-ghost" id="qToList" style="margin-top:10px;width:100%">リストに戻る</button>'+
+    '<div class="lbl">'+t('accuracy',pct)+'</div>'+
+    '<button class="btn btn-primary" id="qAgain">'+t('btn_continue_review')+'</button>'+
+    '<button class="btn btn-ghost" id="qToList" style="margin-top:10px;width:100%">'+t('btn_back_list')+'</button>'+
     '</div>';
   $('#qAgain').onclick=()=>startQuiz(quiz.mode);
   $('#qToList').onclick=()=>go('v-list');
@@ -775,7 +1000,14 @@ function renderSettings(){
   seg('#segDir','dir');
   seg('#segLen','len',true);
   $('#swWeak').classList.toggle('on',S().weak);
-  $('#quizTypeDesc').textContent=S().quizType==='choice'?'4つの選択肢から選ぶ':'自分で入力。意味が近ければ正解＋正答を表示';
+  $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
+  $$('#segLang button').forEach(b=>{
+    b.classList.toggle('on',b.dataset.v===S().lang);
+    b.onclick=()=>{
+      S().lang=b.dataset.v;save();
+      applyStaticI18n();renderCount();renderSettings();
+    };
+  });
 }
 function seg(sel,keyName,num){
   const cur=S()[keyName];
@@ -786,13 +1018,14 @@ function seg(sel,keyName,num){
   });
 }
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
+$('#btnTutorial').onclick=()=>openTutorial();
 
 $('#btnExport').onclick=()=>{
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download='wordkeep-backup-'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();toast('バックアップを書き出しました');
+  a.click();toast(t('toast_export'));
 };
 $('#btnImport').onclick=()=>$('#fileImport').click();
 $('#fileImport').onchange=e=>{
@@ -807,8 +1040,8 @@ $('#fileImport').onchange=e=>{
       const add=d.words.filter(w=>!ids.has(w.id));
       DB.words=[...add,...DB.words];
       if(d.settings)DB.settings={...DB.settings,...d.settings};
-      save();toast(add.length+'語を読み込みました');go('v-list');
-    }catch(err){toast('読み込みに失敗しました');}
+      save();toast(t('toast_loaded',add.length));go('v-list');
+    }catch(err){toast(t('toast_import_fail'));}
   };
   r.readAsText(f);e.target.value='';
 };
@@ -817,14 +1050,88 @@ $('#fileImport').onchange=e=>{
 function renderCount(){
   const n=DB.words.length;
   const due=dueCount();
-  $('#hdrCount').innerHTML='<span><b>'+n+'</b> words</span>'+(due?'<span class="due-chip">今日の復習 '+due+'</span>':'');
+  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'');
   const badge=$('#dueBadge');
   if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
   else badge.style.display='none';
 }
 
+/* ---------- tutorial (first run) ---------- */
+let tutStep=0; // 0 = language pick, 1..N = content steps
+function tutSteps(){return [
+  {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
+  {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
+  {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
+  {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
+];}
+function openTutorial(){tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
+function closeTutorial(){$('#overlayTut').classList.remove('show');}
+function finishTutorial(){
+  S().onboarded=true;S().seenVersion=APP_VERSION;save();
+  closeTutorial();applyStaticI18n();renderCount();
+  go($$('.view.active')[0]?$$('.view.active')[0].id:'v-add');
+}
+function renderTutorial(){
+  const box=$('#tutBody');
+  const steps=tutSteps();
+  const total=steps.length;
+  if(tutStep===0){
+    box.innerHTML=
+      '<div class="step-emoji">🌐</div>'+
+      '<h3 style="text-align:center">'+t('tut_pick_title')+'</h3>'+
+      '<p style="text-align:center;margin-top:6px">'+t('tut_pick_body')+'</p>'+
+      '<div class="lang-pick" id="tutLangPick">'+
+        '<button data-v="ja">日本語</button>'+
+        '<button data-v="en">English</button>'+
+        '<button data-v="zh">中文</button>'+
+      '</div>'+
+      '<button class="btn btn-primary" id="tutStart" style="margin-top:18px">'+t('continue')+'</button>';
+    const paint=()=>{$$('#tutLangPick button').forEach(b=>b.classList.toggle('on',b.dataset.v===S().lang));};
+    paint();
+    $$('#tutLangPick button').forEach(b=>b.onclick=()=>{
+      S().lang=b.dataset.v;save();
+      applyStaticI18n();renderCount();
+      renderTutorial(); // re-render this step in the newly chosen language
+    });
+    $('#tutStart').onclick=()=>{tutStep=1;renderTutorial();};
+    return;
+  }
+  const s=steps[tutStep-1];
+  const dots=steps.map((_,i)=>'<i class="'+(i===tutStep-1?'on':'')+'"></i>').join('');
+  const last=tutStep===total;
+  box.innerHTML=
+    '<div class="step-emoji">'+s.emoji+'</div>'+
+    '<h3 style="text-align:center">'+esc(s.title)+'</h3>'+
+    '<p style="text-align:center;margin-top:8px">'+esc(s.body)+'</p>'+
+    '<div class="dots">'+dots+'</div>'+
+    '<div class="tut-actions">'+
+      '<button class="btn btn-ghost" id="tutBack">'+t('back')+'</button>'+
+      '<button class="btn btn-primary" id="tutNext">'+(last?t('start'):t('continue'))+'</button>'+
+    '</div>'+
+    '<button class="btn btn-ghost" id="tutSkip" style="width:100%;margin-top:10px;background:none;color:var(--muted)">'+t('skip')+'</button>';
+  $('#tutBack').onclick=()=>{tutStep--;renderTutorial();};
+  $('#tutNext').onclick=()=>{if(last)finishTutorial();else{tutStep++;renderTutorial();}};
+  $('#tutSkip').onclick=finishTutorial;
+}
+
+/* ---------- what's new (after an update) ---------- */
+function openWhatsNew(){
+  $('#wnTitle').textContent=t('whatsnew_title');
+  $('#wnList').innerHTML=['wn1','wn2','wn3','wn4'].map(k=>'<li>'+esc(t(k))+'</li>').join('');
+  $('#wnOk').textContent=t('ok');
+  $('#overlayWn').classList.add('show');
+}
+$('#wnOk').onclick=()=>{
+  S().seenVersion=APP_VERSION;save();
+  $('#overlayWn').classList.remove('show');
+};
+
 /* ---------- boot ---------- */
-renderCount();go('v-list');
+applyStaticI18n();
+renderCount();
+go('v-list');
+if(!S().onboarded){openTutorial();}
+else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
 
 /* iOS Safari sometimes leaves the page unable to scroll to its true bottom
    after the on-screen keyboard closes (viewport height gets stuck). Nudging
