@@ -19,8 +19,8 @@
   --good:#1f9d6b; --bad:#d8524a;
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{margin:0;min-height:100vh;min-height:100dvh}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
   background:var(--paper); color:var(--ink);
@@ -46,7 +46,7 @@ header .count b{color:var(--accent);font-size:15px}
 header .due-chip{background:rgba(240,180,41,.16);border:1px solid rgba(240,180,41,.4);
   border-radius:99px;padding:3px 12px;font-size:12.5px;color:var(--accent);font-weight:600}
 
-main{padding-top:20px}
+main.wrap{padding-top:26px}
 .view{display:none;animation:fade .25s ease}
 .view.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -358,10 +358,36 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.3.0';
+const APP_VERSION='1.4.0';
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko'];
+
+// A handful of familiar words shown on first run so a brand-new user sees
+// what a filled-in list/flashcard/quiz looks like instead of a blank slate.
+const STARTER_WORDS=[
+  {word:'friend',pos:'noun',def:'a person you know well and regard with affection',
+    ja:{ja:'友達',en:'a person you know well and like',zh:'朋友',fr:'ami(e)',ar:'صديق',ko:'친구'}},
+  {word:'travel',pos:'verb',def:'to go from one place to another',
+    ja:{ja:'旅行する',en:'to go from one place to another',zh:'旅行',fr:'voyager',ar:'يسافر',ko:'여행하다'}},
+  {word:'delicious',pos:'adjective',def:'very pleasant to taste',
+    ja:{ja:'おいしい',en:'very pleasant to taste',zh:'美味的',fr:'délicieux',ar:'لذيذ',ko:'맛있는'}},
+  {word:'weather',pos:'noun',def:'the state of the atmosphere at a place and time',
+    ja:{ja:'天気',en:'the state of the atmosphere at a place and time',zh:'天气',fr:'météo',ar:'الطقس',ko:'날씨'}},
+  {word:'important',pos:'adjective',def:'of great significance or value',
+    ja:{ja:'重要な',en:'of great significance or value',zh:'重要的',fr:'important',ar:'مهم',ko:'중요한'}}
+];
+function seedStarterWords(){
+  const now=Date.now();
+  const lang=S().lang;
+  const items=STARTER_WORDS.map((s,i)=>({
+    id:(now+i)+''+Math.random().toString(36).slice(2,6),
+    word:s.word,kata:'',ja:s.ja[lang]||s.ja.en,phon:'',
+    meanings:[{pos:s.pos,def:s.def,ex:''}],examples:[],
+    seen:0,correct:0,wrong:0,added:now+i,box:-1,nextDue:now,hist:[]
+  }));
+  DB.words=[...items,...DB.words];
+}
 
 function navigatorLang(){
   const nl=(navigator.language||'ja').toLowerCase();
@@ -509,10 +535,10 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨'},
-  wn1:{ja:'言語を追加：Français・العربية・한국어',en:'New languages: Français, العربية, 한국어',zh:'新增语言：Français、العربية、한국어',fr:'Nouvelles langues : Français, العربية, 한국어',ar:'لغات جديدة: Français، العربية، 한국어',ko:'새 언어: Français, العربية, 한국어'},
-  wn2:{ja:'対応言語が全6言語になりました',en:'Now 6 languages in total',zh:'现共支持 6 种语言',fr:'6 langues au total désormais',ar:'أصبح المجموع 6 لغات',ko:'이제 총 6개 언어 지원'},
-  wn3:{ja:'アラビア語は右→左レイアウトに対応',en:'Right-to-left layout for Arabic',zh:'阿拉伯语支持从右到左布局',fr:'Mise en page de droite à gauche pour l’arabe',ar:'تخطيط من اليمين إلى اليسار للعربية',ko:'아랍어 오른쪽→왼쪽 레이아웃 지원'},
-  wn4:{ja:'設定 > 言語 からいつでも切り替え可能',en:'Switch anytime in Settings > Language',zh:'可在 设置 > 语言 中随时切换',fr:'Changez à tout moment dans Réglages > Langue',ar:'يمكنك التبديل في أي وقت من الإعدادات > اللغة',ko:'설정 > 언어 에서 언제든 변경 가능'}
+  wn1:{ja:'ダブルタップでの画面ズームを無効化',en:'Disabled double-tap-to-zoom',zh:'已禁用双击缩放',fr:'Zoom par double-tap désactivé',ar:'تم تعطيل التكبير بالنقر المزدوج',ko:'더블 탭 확대 비활성화'},
+  wn2:{ja:'単語追加・復習画面での下部バーの表示崩れを修正',en:'Fixed the bottom bar layout on the add/review screens',zh:'修复了添加/复习页面底部栏的布局问题',fr:'Correction de la barre inférieure sur les écrans d’ajout/révision',ar:'إصلاح تخطيط الشريط السفلي في شاشتي الإضافة والمراجعة',ko:'추가/복습 화면 하단 바 레이아웃 수정'},
+  wn3:{ja:'初回起動時にお試し単語を5つ追加',en:'Seeded 5 sample words for new installs',zh:'首次安装自动添加 5 个示例单词',fr:'5 mots d’exemple ajoutés au premier lancement',ar:'تمت إضافة 5 كلمات نموذجية عند أول تشغيل',ko:'첫 실행 시 예시 단어 5개 추가'},
+  wn4:{ja:'4択クイズの誤答が似た単語から選ばれるように（より歯応えあり）',en:'Multiple-choice quiz now favors similar-looking distractors (harder!)',zh:'选择题的干扰项现在更倾向于选相似的单词（更有挑战性）',fr:'Le QCM privilégie désormais des leurres qui se ressemblent (plus difficile !)',ar:'يفضّل اختبار الاختيار من متعدد الآن خيارات مشابهة (أصعب!)',ko:'객관식 퀴즈가 비슷한 오답을 우선 출제 (더 어려워짐!)'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -870,6 +896,33 @@ function modeTabsHTML(mode){
     '<button data-m="all" class="'+(mode==='all'?'on':'')+'">'+t('quiz_free')+'</button>'+
     '</div>';
 }
+function levenshtein(a,b){
+  a=a||'';b=b||'';
+  const m=a.length,n=b.length;
+  if(!m)return n;
+  if(!n)return m;
+  let prev=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      cur[j]=a[i-1]===b[j-1]?prev[j-1]:1+Math.min(prev[j-1],prev[j],cur[j-1]);
+    }
+    prev=cur;
+  }
+  return prev[n];
+}
+// Pick wrong-answer choices biased toward words that look/read similar to the
+// correct answer (by edit distance) instead of picking purely at random --
+// confusable options make the quiz meaningfully harder.
+function pickDistractors(w,correct,showEng){
+  const candidates=DB.words.filter(x=>x.id!==w.id&&primaryMeaning(x))
+    .map(x=>showEng?primaryMeaning(x):x.word)
+    .filter(tx=>tx&&tx!==correct);
+  const cn=norm(correct);
+  const scored=candidates.map(tx=>({tx,d:levenshtein(norm(tx),cn)})).sort((a,b)=>a.d-b.d);
+  const pool=shuffle(scored.slice(0,Math.min(8,scored.length)));
+  return pool.map(c=>c.tx);
+}
 function startQuiz(mode){
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
@@ -912,9 +965,7 @@ function renderQ(){
 
   if(S().quizType==='choice'){
     const correct=showEng?primaryMeaning(w):w.word;
-    const others=shuffle(DB.words.filter(x=>x.id!==w.id&&primaryMeaning(x)))
-      .map(x=>showEng?primaryMeaning(x):x.word)
-      .filter(tx=>tx&&tx!==correct);
+    const others=pickDistractors(w,correct,showEng);
     const opts=shuffle([correct,...others.slice(0,3)]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
@@ -1031,7 +1082,7 @@ function seg(sel,keyName,num){
   });
 }
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
-$('#btnTutorial').onclick=()=>openTutorial();
+$('#btnTutorial').onclick=()=>openTutorial(false);
 
 $('#btnExport').onclick=()=>{
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
@@ -1071,15 +1122,19 @@ function renderCount(){
 
 /* ---------- tutorial (first run) ---------- */
 let tutStep=0; // 0 = language pick, 1..N = content steps
+let tutIsFirstRun=false;
 function tutSteps(){return [
   {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
   {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
   {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
   {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
 ];}
-function openTutorial(){tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
+function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
 function closeTutorial(){$('#overlayTut').classList.remove('show');}
 function finishTutorial(){
+  // Only ever seed once, on a genuinely fresh install -- not when a user
+  // revisits the tutorial later from Settings.
+  if(tutIsFirstRun&&DB.words.length===0)seedStarterWords();
   S().onboarded=true;S().seenVersion=APP_VERSION;save();
   closeTutorial();applyStaticI18n();renderCount();
   go($$('.view.active')[0]?$$('.view.active')[0].id:'v-add');
@@ -1146,7 +1201,7 @@ $('#wnOk').onclick=()=>{
 applyStaticI18n();
 renderCount();
 go('v-list');
-if(!S().onboarded){openTutorial();}
+if(!S().onboarded){openTutorial(true);}
 else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
 
 /* iOS Safari sometimes leaves the page unable to scroll to its true bottom
