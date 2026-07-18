@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f1e3d">
+<meta name="theme-color" content="#123c2b">
 <title>Idiomkeep</title>
 
-<link rel="manifest" href='data:application/manifest+json,{"name":"Idiomkeep","short_name":"Idiomkeep","start_url":".","display":"standalone","background_color":"%230f1e3d","theme_color":"%230f1e3d","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2242%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%2296%22 y=%22130%22 font-size=%22110%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%22256%22 y=%22350%22 font-size=%22300%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230f1e3d'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EI%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Idiomkeep","short_name":"Idiomkeep","start_url":".","display":"standalone","background_color":"%23123c2b","theme_color":"%23123c2b","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2242%22 fill=%22%23123c2b%22/%3E%3Ctext x=%2296%22 y=%22130%22 font-size=%22110%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22%23123c2b%22/%3E%3Ctext x=%22256%22 y=%22350%22 font-size=%22300%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23123c2b'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EI%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
 :root{
-  --navy:#0f1e3d; --navy-2:#1a2f57; --ink:#0f1e3d;
+  --navy:#123c2b; --navy-2:#1c5238; --ink:#123c2b;
   --paper:#fbfcfe; --line:#e2e8f2; --muted:#6b7791;
   --accent:#f0b429;
   --good:#1f9d6b; --bad:#d8524a;
@@ -213,6 +213,13 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .lang-pick button.on{border-color:var(--navy);background:#f5f8fd}
 .whatsnew-list{margin:12px 0 20px;padding-left:20px}
 .whatsnew-list li{font-size:14.5px;line-height:1.75;color:#3a4560;margin-bottom:4px}
+.cl-entry{padding:16px;border-bottom:1px solid var(--line)}
+.cl-entry:last-child{border-bottom:none}
+.cl-version{font-weight:700;font-size:14px;color:var(--navy)}
+.cl-current{display:inline-block;font-size:10.5px;font-weight:700;color:var(--good);background:#eafaf3;
+  border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.cl-entry ul{margin:8px 0 0;padding-left:18px}
+.cl-entry li{font-size:13.5px;line-height:1.6;color:#3a4560;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -348,6 +355,9 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         <button class="btn btn-ghost" id="btnTutorial" data-i18n="btn_tutorial">見る</button>
       </div>
     </div>
+
+    <div class="set-section-t" data-i18n="sec_changelog">更新履歴</div>
+    <div class="panel" id="changelogPanel"></div>
     <p class="hint" style="margin:14px 2px 30px" id="verNote"></p>
   </section>
 
@@ -373,7 +383,13 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.0.0';
+const APP_VERSION='1.1.0';
+// Full release history shown in Settings > Update history. The current
+// version's notes reuse the wn1-4 keys (also used by the "what's new" modal).
+const CHANGELOG=[
+  {version:'1.1.0',keys:['wn1','wn2','wn3','wn4']},
+  {version:'1.0.0',keys:['v100_1','v100_2','v100_3','v100_4']}
+];
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
@@ -468,7 +484,138 @@ const IDIOM_DB=[
   {idiom:'throw in the towel',def:'to give up'},
   {idiom:'to each their own',def:'used to say people are free to have different preferences'},
   {idiom:'under one’s belt',def:'already achieved or experienced'},
-  {idiom:'up in the air',def:'undecided or uncertain'}
+  {idiom:'up in the air',def:'undecided or uncertain'},
+  {idiom:"actions speak louder than words",def:"what someone does is more meaningful than what they say"},
+  {idiom:"against the clock",def:"hurrying to meet a deadline"},
+  {idiom:"all ears",def:"listening intently"},
+  {idiom:"all in the same boat",def:"everyone facing the same difficult situation"},
+  {idiom:"back to the drawing board",def:"to start a task over from the beginning"},
+  {idiom:"barking up the wrong tree",def:"pursuing a mistaken course of action"},
+  {idiom:"beat a dead horse",def:"to keep talking about something that is already settled"},
+  {idiom:"behind the eight ball",def:"in a difficult position"},
+  {idiom:"bend over backwards",def:"to make a great effort to help someone"},
+  {idiom:"best thing since sliced bread",def:"an excellent invention or innovation"},
+  {idiom:"bite your tongue",def:"to stop yourself from saying something"},
+  {idiom:"blow off steam",def:"to release strong emotion or energy"},
+  {idiom:"blue in the face",def:"exhausted from trying, without success"},
+  {idiom:"boil down to",def:"to be summarized as"},
+  {idiom:"break the bank",def:"to cost too much money"},
+  {idiom:"bring home the bacon",def:"to earn money for the family"},
+  {idiom:"brownie points",def:"credit for doing something good"},
+  {idiom:"bull in a china shop",def:"a clumsy person"},
+  {idiom:"burn bridges",def:"to destroy relationships beyond repair"},
+  {idiom:"by a hair's breadth",def:"by a very narrow margin"},
+  {idiom:"call a spade a spade",def:"to speak frankly and directly"},
+  {idiom:"can't judge a book by its cover",def:"you shouldn't judge something based on appearance alone"},
+  {idiom:"cat got your tongue",def:"said to someone who is unusually silent"},
+  {idiom:"chip on your shoulder",def:"a grudge or feeling of resentment"},
+  {idiom:"clean slate",def:"a fresh start with no past mistakes counted"},
+  {idiom:"come rain or shine",def:"regardless of the circumstances"},
+  {idiom:"cross that bridge when you come to it",def:"deal with a problem when it happens, not before"},
+  {idiom:"cry over spilled milk",def:"to be upset about something that cannot be changed"},
+  {idiom:"curiosity killed the cat",def:"being too curious can get you into trouble"},
+  {idiom:"cut someone some slack",def:"to be less critical of someone"},
+  {idiom:"dime a dozen",def:"very common and of little value"},
+  {idiom:"don't count your chickens before they hatch",def:"don't plan on something good happening before it actually does"},
+  {idiom:"drive someone up the wall",def:"to annoy someone greatly"},
+  {idiom:"easier said than done",def:"something that sounds simple but is actually difficult"},
+  {idiom:"eat your words",def:"to admit that something you said was wrong"},
+  {idiom:"elephant in the room",def:"an obvious problem that no one wants to discuss"},
+  {idiom:"face the music",def:"to accept the consequences of your actions"},
+  {idiom:"fit as a fiddle",def:"in very good health"},
+  {idiom:"food for thought",def:"something worth thinking about seriously"},
+  {idiom:"get a taste of your own medicine",def:"to be treated the way you have treated others"},
+  {idiom:"get the ball rolling",def:"to start something"},
+  {idiom:"get your act together",def:"to organize yourself and behave more effectively"},
+  {idiom:"give someone the benefit of the doubt",def:"to trust what someone says even without proof"},
+  {idiom:"go back to square one",def:"to start over from the beginning"},
+  {idiom:"go cold turkey",def:"to quit something abruptly and completely"},
+  {idiom:"good things come to those who wait",def:"patience is rewarded"},
+  {idiom:"graveyard shift",def:"a work shift covering the late-night hours"},
+  {idiom:"hang by a thread",def:"to be in a very risky or uncertain situation"},
+  {idiom:"have a change of heart",def:"to change one's opinion or feeling"},
+  {idiom:"haste makes waste",def:"hurrying causes mistakes"},
+  {idiom:"head over heels",def:"completely and helplessly in love"},
+  {idiom:"hit the ground running",def:"to start something with great energy from the very beginning"},
+  {idiom:"hit the jackpot",def:"to have great and sudden success"},
+  {idiom:"hold your horses",def:"wait, be more patient"},
+  {idiom:"ignorance is bliss",def:"not knowing about a problem allows you to be happier"},
+  {idiom:"in a nutshell",def:"in summary; briefly"},
+  {idiom:"in the dark",def:"not informed about something"},
+  {idiom:"in the loop",def:"kept informed about something"},
+  {idiom:"it takes two to tango",def:"both people involved in a situation share responsibility"},
+  {idiom:"jump the gun",def:"to act before the appropriate time"},
+  {idiom:"keep your chin up",def:"to remain cheerful in a difficult situation"},
+  {idiom:"kick the bucket",def:"to die"},
+  {idiom:"kill the mood",def:"to spoil a pleasant atmosphere"},
+  {idiom:"know the ropes",def:"to understand how to do a task"},
+  {idiom:"lend a hand",def:"to help"},
+  {idiom:"let bygones be bygones",def:"to forget past disagreements"},
+  {idiom:"let sleeping dogs lie",def:"to avoid restarting an old argument"},
+  {idiom:"look before you leap",def:"consider the consequences before acting"},
+  {idiom:"lose your touch",def:"to lose an ability you once had"},
+  {idiom:"make ends meet",def:"to have just enough money to live on"},
+  {idiom:"make hay while the sun shines",def:"to take advantage of a good opportunity while it lasts"},
+  {idiom:"method to the madness",def:"there's a reasonable purpose behind seemingly strange behavior"},
+  {idiom:"mum's the word",def:"keep the secret"},
+  {idiom:"needle in a haystack",def:"something extremely hard to find"},
+  {idiom:"never say never",def:"don't assume something will never happen"},
+  {idiom:"nip it in the bud",def:"to stop a problem before it grows"},
+  {idiom:"no pain no gain",def:"improvement requires effort or sacrifice"},
+  {idiom:"off the hook",def:"no longer in trouble or obligated"},
+  {idiom:"on the same page",def:"in agreement with someone"},
+  {idiom:"once bitten twice shy",def:"being cautious after a bad experience"},
+  {idiom:"one man's trash is another man's treasure",def:"something worthless to one person may be valuable to another"},
+  {idiom:"out of the woods",def:"past the most difficult or dangerous part of a situation"},
+  {idiom:"par for the course",def:"typical; what would be expected"},
+  {idiom:"play devil's advocate",def:"argue the opposite side just to spark debate"},
+  {idiom:"play it by ear",def:"to decide how to proceed as a situation develops"},
+  {idiom:"pot calling the kettle black",def:"criticizing someone for a fault you also have"},
+  {idiom:"practice makes perfect",def:"repetition improves ability"},
+  {idiom:"pull the plug",def:"to stop or cancel something"},
+  {idiom:"pull the wool over someone's eyes",def:"to deceive someone"},
+  {idiom:"put all your eggs in one basket",def:"to risk everything on a single plan"},
+  {idiom:"put your best foot forward",def:"to try to make the best impression possible"},
+  {idiom:"raining cats and dogs",def:"raining very heavily"},
+  {idiom:"read between the lines",def:"to understand a meaning that is not directly stated"},
+  {idiom:"rest on your laurels",def:"to be satisfied with past achievements and stop trying"},
+  {idiom:"ring a bell",def:"to sound familiar"},
+  {idiom:"rock the boat",def:"to disturb a stable situation"},
+  {idiom:"rule of thumb",def:"a general, practical guideline"},
+  {idiom:"run in the family",def:"a trait shared by family members across generations"},
+  {idiom:"save face",def:"to avoid embarrassment or loss of respect"},
+  {idiom:"shot in the dark",def:"a guess with little chance of being correct"},
+  {idiom:"sit tight",def:"to wait patiently without doing anything"},
+  {idiom:"skeleton in the closet",def:"a hidden and potentially embarrassing secret"},
+  {idiom:"slow and steady wins the race",def:"consistent, careful effort succeeds over time"},
+  {idiom:"sour grapes",def:"pretending not to want something you cannot have"},
+  {idiom:"spice things up",def:"to make something more interesting or exciting"},
+  {idiom:"spill the tea",def:"to share interesting or juicy gossip"},
+  {idiom:"steal someone's thunder",def:"to take credit for someone else's achievement"},
+  {idiom:"step up to the plate",def:"to take responsibility and act"},
+  {idiom:"straight from the horse's mouth",def:"information from the original, most reliable source"},
+  {idiom:"take a rain check",def:"to postpone an invitation or offer to a later time"},
+  {idiom:"take the bull by the horns",def:"to confront a difficult situation directly"},
+  {idiom:"talk is cheap",def:"it's easy to say things but harder to act"},
+  {idiom:"the early bird catches the worm",def:"those who act first have an advantage"},
+  {idiom:"the more the merrier",def:"a larger group makes things more enjoyable"},
+  {idiom:"the whole shebang",def:"everything; the entire thing"},
+  {idiom:"think outside the box",def:"to think creatively, beyond usual limits"},
+  {idiom:"tighten your belt",def:"to spend less money"},
+  {idiom:"tip of the iceberg",def:"a small, visible part of a much larger problem"},
+  {idiom:"tongue in cheek",def:"said in a joking or ironic way, not seriously"},
+  {idiom:"too many cooks spoil the broth",def:"too many people trying to help can ruin something"},
+  {idiom:"turn a blind eye",def:"to deliberately ignore something"},
+  {idiom:"turn over a new leaf",def:"to start behaving in a better way"},
+  {idiom:"two peas in a pod",def:"two people who are very similar or always together"},
+  {idiom:"up to speed",def:"having the most current information"},
+  {idiom:"water under the bridge",def:"past problems that are no longer important"},
+  {idiom:"wear your heart on your sleeve",def:"to openly show your emotions"},
+  {idiom:"when it rains it pours",def:"problems tend to happen all at once"},
+  {idiom:"wolf in sheep's clothing",def:"someone who appears friendly but is actually dangerous"},
+  {idiom:"wrap your head around",def:"to understand a difficult concept"},
+  {idiom:"you can't have your cake and eat it too",def:"you can't have two incompatible things at once"},
+  {idiom:"zip your lip",def:"to stop talking; be quiet"},
 ];
 
 function navigatorLang(){
@@ -618,10 +765,16 @@ const T={
   tut4_b:{ja:'『熟語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『习语卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'ダブルタップでの画面ズームを無効化',en:'Disabled double-tap-to-zoom',zh:'已禁用双击缩放',fr:'Zoom par double-tap désactivé',ar:'تم تعطيل التكبير بالنقر المزدوج',ko:'더블 탭 확대 비활성화',ru:'Двойное нажатие для масштабирования отключено'},
-  wn2:{ja:'単語追加・復習画面での下部バーの表示崩れを修正',en:'Fixed the bottom bar layout on the add/review screens',zh:'修复了添加/复习页面底部栏的布局问题',fr:'Correction de la barre inférieure sur les écrans d’ajout/révision',ar:'إصلاح تخطيط الشريط السفلي في شاشتي الإضافة والمراجعة',ko:'추가/복습 화면 하단 바 레이아웃 수정',ru:'Исправлено отображение нижней панели на экранах добавления/повторения'},
-  wn3:{ja:'初回起動時にお試し単語を5つ追加',en:'Seeded 5 sample words for new installs',zh:'首次安装自动添加 5 个示例单词',fr:'5 mots d’exemple ajoutés au premier lancement',ar:'تمت إضافة 5 كلمات نموذجية عند أول تشغيل',ko:'첫 실행 시 예시 단어 5개 추가',ru:'При первом запуске добавляются 5 примеров слов'},
-  wn4:{ja:'4択クイズの誤答が似た単語から選ばれるように（より歯応えあり）',en:'Multiple-choice quiz now favors similar-looking distractors (harder!)',zh:'选择题的干扰项现在更倾向于选相似的单词（更有挑战性）',fr:'Le QCM privilégie désormais des leurres qui se ressemblent (plus difficile !)',ar:'يفضّل اختبار الاختيار من متعدد الآن خيارات مشابهة (أصعب!)',ko:'객관식 퀴즈가 비슷한 오답을 우선 출제 (더 어려워짐!)',ru:'Тест с вариантами теперь чаще предлагает похожие неверные ответы (сложнее!)'}
+  wn1:{ja:'熟語データベースを192個に拡充',en:'Expanded the idiom database to 192 entries',zh:'习语数据库扩充至 192 个',fr:'Base de données d’idiomes étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات إلى 192 مدخلًا',ko:'관용구 데이터베이스를 192개로 확장',ru:'База идиом расширена до 192 записей'},
+  wn2:{ja:'カラーテーマを辞書の表紙のような濃緑に変更',en:'New deep-green, dictionary-cover color theme',zh:'改用如词典封面般的深绿色主题',fr:'Nouveau thème vert foncé façon couverture de dictionnaire',ar:'سمة لونية جديدة خضراء داكنة أشبه بغلاف قاموس',ko:'사전 표지 느낌의 짙은 녹색 테마로 변경',ru:'Новая тёмно-зелёная тема в стиле обложки словаря'},
+  wn3:{ja:'熟語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'카드에서 다음으로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
+  wn4:{ja:'設定 > ヘルプの下に、更新履歴を追加',en:'Added an update history under Settings > Help',zh:'在 设置 > 帮助 下方新增更新记录',fr:'Ajout d’un historique des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 업데이트 기록 추가',ru:'Добавлена история обновлений в Настройки > Помощь'},
+  sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
+  cl_current:{ja:'現在',en:'Current',zh:'当前',fr:'Actuelle',ar:'الحالي',ko:'현재',ru:'Текущая'},
+  v100_1:{ja:'熟語専用の単語帳アプリとして登場',en:'Launched as a dedicated app for idioms',zh:'作为专注习语的单词卡应用发布',fr:'Lancée comme application dédiée aux idiomes',ar:'إطلاق كتطبيق مخصص للتعبيرات الاصطلاحية',ko:'관용구 전용 앱으로 출시',ru:'Запущено как отдельное приложение для идиом'},
+  v100_2:{ja:'入力中に候補が出て、選ぶと意味が自動翻訳される',en:'Suggestions appear as you type — pick one to auto-translate the meaning',zh:'输入时会出现建议，选择后自动翻译意思',fr:'Des suggestions apparaissent pendant la saisie — choisissez-en une pour traduire automatiquement le sens',ar:'تظهر اقتراحات أثناء الكتابة — اخترها لترجمة المعنى تلقائيًا',ko:'입력 중 추천이 나타나고, 선택하면 뜻이 자동 번역됨',ru:'При вводе появляются варианты — выберите один для автоперевода значения'},
+  v100_3:{ja:'Wordkeepと同じ復習・フラッシュカード・クイズ機能を搭載',en:'Includes the same review, flashcards, and quiz features as Wordkeep',zh:'配备与 Wordkeep 相同的复习、单词卡和测验功能',fr:'Inclut les mêmes fonctions de révision, cartes et quiz que Wordkeep',ar:'يتضمن نفس ميزات المراجعة والبطاقات والاختبارات الموجودة في Wordkeep',ko:'Wordkeep과 동일한 복습·카드·퀴즈 기능 탑재',ru:'Включает те же функции повторения, карточек и тестов, что и Wordkeep'},
+  v100_4:{ja:'ヘッダーのボタンでWordkeepといつでも切り替え可能',en:'Switch to Wordkeep anytime via the button in the header',zh:'可通过页眉按钮随时切换到 Wordkeep',fr:'Basculez vers Wordkeep à tout moment via le bouton dans l’en-tête',ar:'يمكنك التبديل إلى Wordkeep في أي وقت من الزر في الرأس',ko:'헤더의 버튼으로 언제든 Wordkeep으로 전환 가능',ru:'Переключайтесь на Wordkeep в любое время кнопкой в шапке'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -923,10 +1076,21 @@ function renderStudy(){
 }
 function showCard(){
   const w=deck[di];
-  $('#flip').classList.remove('flipped');
-  $('#fFront').textContent=w.word;
-  $('#fKata').textContent=w.kata||'';
-  renderBack(w);
+  const flipEl=$('#flip');
+  const wasFlipped=flipEl.classList.contains('flipped');
+  flipEl.classList.remove('flipped');
+  const applyContent=()=>{
+    $('#fFront').textContent=w.word;
+    $('#fKata').textContent=w.kata||'';
+    renderBack(w);
+  };
+  // If the card was showing its answer, swapping the content immediately
+  // flashes the NEXT card's answer for a frame while the flip-back rotation
+  // is still passing through the face-up angle. Wait until the back face has
+  // rotated past visible (~halfway through the .5s transition) before
+  // swapping in the new word/meaning.
+  if(wasFlipped)setTimeout(applyContent,260);
+  else applyContent();
   $('#dPos').textContent=(di+1)+' / '+deck.length;
 }
 function renderBack(w){
@@ -1160,6 +1324,14 @@ function renderSettings(){
   const sel=$('#selLang');
   sel.value=S().lang;
   sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();renderSettings();};
+  renderChangelog();
+}
+function renderChangelog(){
+  $('#changelogPanel').innerHTML=CHANGELOG.map(entry=>{
+    const current=entry.version===APP_VERSION?' <span class="cl-current">'+t('cl_current')+'</span>':'';
+    const notes=entry.keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
+    return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+'</div><ul>'+notes+'</ul></div>';
+  }).join('');
 }
 function seg(sel,keyName,num){
   const cur=S()[keyName];

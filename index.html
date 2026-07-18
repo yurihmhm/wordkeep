@@ -206,6 +206,13 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .lang-pick button.on{border-color:var(--navy);background:#f5f8fd}
 .whatsnew-list{margin:12px 0 20px;padding-left:20px}
 .whatsnew-list li{font-size:14.5px;line-height:1.75;color:#3a4560;margin-bottom:4px}
+.cl-entry{padding:16px;border-bottom:1px solid var(--line)}
+.cl-entry:last-child{border-bottom:none}
+.cl-version{font-weight:700;font-size:14px;color:var(--navy)}
+.cl-current{display:inline-block;font-size:10.5px;font-weight:700;color:var(--good);background:#eafaf3;
+  border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.cl-entry ul{margin:8px 0 0;padding-left:18px}
+.cl-entry li{font-size:13.5px;line-height:1.6;color:#3a4560;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -341,6 +348,9 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         <button class="btn btn-ghost" id="btnTutorial" data-i18n="btn_tutorial">見る</button>
       </div>
     </div>
+
+    <div class="set-section-t" data-i18n="sec_changelog">更新履歴</div>
+    <div class="panel" id="changelogPanel"></div>
     <p class="hint" style="margin:14px 2px 30px" id="verNote"></p>
   </section>
 
@@ -366,7 +376,19 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.5.0';
+const APP_VERSION='1.6.0';
+// Full release history shown in Settings > Update history. The current
+// version's notes reuse the wn1-4 keys (also used by the "what's new" modal);
+// older versions get their own dedicated keys so their text survives being
+// overwritten each release.
+const CHANGELOG=[
+  {version:'1.6.0',keys:['wn1','wn2','wn3','wn4']},
+  {version:'1.5.0',keys:['v150_1','v150_2','v150_3','v150_4']},
+  {version:'1.4.0',keys:['v140_1','v140_2','v140_3','v140_4']},
+  {version:'1.3.0',keys:['v130_1','v130_2','v130_3','v130_4']},
+  {version:'1.2.0',keys:['v120_1','v120_2','v120_3','v120_4']},
+  {version:'1.0.0',keys:['v100_1','v100_2','v100_3','v100_4']}
+];
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
@@ -544,10 +566,32 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'ロシア語（Русский）に対応。全7言語になりました',en:'Added Russian — now 7 languages in total',zh:'新增俄语支持，现共 7 种语言',fr:'Ajout du russe — 7 langues au total désormais',ar:'تمت إضافة اللغة الروسية — أصبح المجموع 7 لغات',ko:'러시아어 추가 — 이제 총 7개 언어',ru:'Добавлен русский язык — теперь всего 7 языков'},
-  wn2:{ja:'4択クイズの誤答選択を強化。似た単語があれば必ず紛れ込むように',en:'Strengthened quiz distractors — a genuinely similar word is now reliably included when one exists',zh:'加强了选择题干扰项：如果存在相似单词，现在一定会混入其中',fr:'Leurres du QCM renforcés : un mot vraiment similaire est désormais inclus de façon fiable s’il en existe un',ar:'تحسين خيارات الاختبار: يتم تضمين كلمة مشابهة فعليًا بشكل موثوق عند وجودها',ko:'퀴즈 오답 로직 강화 — 비슷한 단어가 있으면 확실히 섞이도록 개선',ru:'Улучшены неверные варианты в тесте — по-настоящему похожее слово теперь надёжно включается, если оно есть'},
-  wn3:{ja:'姉妹アプリ「Idiomkeep」が登場！熟語専用の単語帳です。ヘッダーのボタンから切り替えられます',en:'Meet Idiomkeep, a sister app for idioms! Switch to it anytime from the button in the header',zh:'姊妹应用「Idiomkeep」上线！专注于习语学习，可通过页眉按钮切换',fr:'Découvrez Idiomkeep, une application sœur pour les idiomes ! Basculez à tout moment via le bouton dans l’en-tête',ar:'تعرّف على Idiomkeep، تطبيق شقيق للتعبيرات الاصطلاحية! يمكنك التبديل إليه في أي وقت من الزر في الرأس',ko:'관용구 전용 자매 앱 “Idiomkeep” 출시! 헤더의 버튼으로 언제든 전환할 수 있어요',ru:'Знакомьтесь с Idiomkeep — приложением-компаньоном для идиом! Переключайтесь в любое время кнопкой в шапке'},
-  wn4:{ja:'Idiomkeepでは熟語を入力すると候補が出て、選ぶと意味が自動で入ります',en:'In Idiomkeep, suggestions appear as you type an idiom — pick one to auto-fill its meaning',zh:'在 Idiomkeep 中输入习语时会出现建议，选择后自动填入意思',fr:'Dans Idiomkeep, des suggestions apparaissent pendant que vous tapez un idiome — choisissez-en une pour remplir le sens automatiquement',ar:'في Idiomkeep، تظهر اقتراحات أثناء كتابة تعبير اصطلاحي — اخترها لملء المعنى تلقائيًا',ko:'Idiomkeep에서는 관용구를 입력하면 추천이 나타나고, 선택하면 뜻이 자동 입력됩니다',ru:'В Idiomkeep при вводе идиомы появляются варианты — выберите один, и значение заполнится автоматически'}
+  wn1:{ja:'単語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'플래시카드에서 다음 카드로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
+  wn2:{ja:'設定 > ヘルプの下に、全リリースの更新履歴を追加',en:'Added a full update history under Settings > Help',zh:'在 设置 > 帮助 下方新增完整更新记录',fr:'Ajout d’un historique complet des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات كامل أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 전체 업데이트 기록 추가',ru:'Добавлена полная история обновлений в Настройки > Помощь'},
+  wn3:{ja:'Idiomkeepの熟語データベースを192個に拡充',en:"Expanded Idiomkeep's idiom database to 192 entries",zh:'Idiomkeep 的习语数据库扩充至 192 个',fr:'Base de données d’idiomes d’Idiomkeep étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات في Idiomkeep إلى 192 مدخلًا',ko:'Idiomkeep 관용구 데이터베이스를 192개로 확장',ru:'База идиом Idiomkeep расширена до 192 записей'},
+  wn4:{ja:'Idiomkeepのカラーテーマを辞書の表紙のような濃緑に変更',en:'Gave Idiomkeep a deep-green, dictionary-cover color theme',zh:'Idiomkeep 改用如词典封面般的深绿色主题',fr:'Idiomkeep adopte un thème vert foncé façon couverture de dictionnaire',ar:'منح Idiomkeep سمة لونية خضراء داكنة أشبه بغلاف قاموس',ko:'Idiomkeep에 사전 표지 느낌의 짙은 녹색 테마 적용',ru:'Idiomkeep получил тёмно-зелёную тему в стиле обложки словаря'},
+  sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
+  cl_current:{ja:'現在',en:'Current',zh:'当前',fr:'Actuelle',ar:'الحالي',ko:'현재',ru:'Текущая'},
+  v140_1:{ja:'ダブルタップでの画面ズームを無効化',en:'Disabled double-tap-to-zoom',zh:'已禁用双击缩放',fr:'Zoom par double-tap désactivé',ar:'تم تعطيل التكبير بالنقر المزدوج',ko:'더블 탭 확대 비활성화',ru:'Двойное нажатие для масштабирования отключено'},
+  v140_2:{ja:'単語追加・復習画面での下部バーの表示崩れを修正',en:'Fixed the bottom bar layout on the add/review screens',zh:'修复了添加/复习页面底部栏的布局问题',fr:'Correction de la barre inférieure sur les écrans d’ajout/révision',ar:'إصلاح تخطيط الشريط السفلي في شاشتي الإضافة والمراجعة',ko:'추가/복습 화면 하단 바 레이아웃 수정',ru:'Исправлено отображение нижней панели на экранах добавления/повторения'},
+  v140_3:{ja:'初回起動時にお試し単語を5つ追加',en:'Seeded 5 sample words for new installs',zh:'首次安装自动添加 5 个示例单词',fr:'5 mots d’exemple ajoutés au premier lancement',ar:'تمت إضافة 5 كلمات نموذجية عند أول تشغيل',ko:'첫 실행 시 예시 단어 5개 추가',ru:'При первом запуске добавляются 5 примеров слов'},
+  v140_4:{ja:'4択クイズの誤答が似た単語から選ばれるように',en:'Multiple-choice quiz distractors now favor similar-looking words',zh:'选择题的干扰项现在更倾向于选相似的单词',fr:'Les leurres du QCM privilégient désormais des mots qui se ressemblent',ar:'تفضّل خيارات الاختبار الآن كلمات متشابهة',ko:'객관식 퀴즈 오답이 비슷한 단어 위주로 출제되도록 개선',ru:'Неверные варианты в тесте теперь чаще похожи на правильный ответ'},
+  v130_1:{ja:'言語を追加：Français・العربية・한국어',en:'New languages: Français, العربية, 한국어',zh:'新增语言：Français、العربية、한국어',fr:'Nouvelles langues : Français, العربية, 한국어',ar:'لغات جديدة: Français، العربية، 한국어',ko:'새 언어: Français, العربية, 한국어',ru:'Новые языки: Français, العربية, 한국어'},
+  v130_2:{ja:'対応言語が全6言語になりました',en:'Now 6 languages in total',zh:'现共支持 6 种语言',fr:'6 langues au total désormais',ar:'أصبح المجموع 6 لغات',ko:'이제 총 6개 언어 지원',ru:'Теперь всего 6 языков'},
+  v130_3:{ja:'アラビア語は右→左レイアウトに対応',en:'Right-to-left layout for Arabic',zh:'阿拉伯语支持从右到左布局',fr:'Mise en page de droite à gauche pour l’arabe',ar:'تخطيط من اليمين إلى اليسار للعربية',ko:'아랍어 오른쪽→왼쪽 레이아웃 지원',ru:'Раскладка справа налево для арабского'},
+  v130_4:{ja:'設定 > 言語 からいつでも切り替え可能',en:'Switch anytime in Settings > Language',zh:'可在 设置 > 语言 中随时切换',fr:'Changez à tout moment dans Réglages > Langue',ar:'يمكنك التبديل في أي وقت من الإعدادات > اللغة',ko:'설정 > 언어 에서 언제든 변경 가능',ru:'Переключайте в любое время в Настройки > Язык'},
+  v120_1:{ja:'言語切り替え（日本語・English・中文）に対応',en:'Language switching (JA / EN / ZH)',zh:'支持切换语言（日 / 英 / 中）',fr:'Changement de langue (JA / EN / ZH)',ar:'تبديل اللغة (يابانية / إنجليزية / صينية)',ko:'언어 전환 (일본어/영어/중국어)',ru:'Переключение языка (яп./англ./кит.)'},
+  v120_2:{ja:'リストから単語を直接編集できるように',en:'Edit words directly from the list',zh:'可在列表中直接编辑单词',fr:'Modifier les mots directement depuis la liste',ar:'تعديل الكلمات مباشرة من القائمة',ko:'목록에서 단어를 직접 편집 가능',ru:'Редактирование слов прямо из списка'},
+  v120_3:{ja:'同じ単語の重複追加を防止',en:'Prevents adding duplicate words',zh:'防止重复添加相同单词',fr:'Empêche l’ajout de mots en double',ar:'يمنع إضافة كلمات مكررة',ko:'중복 단어 추가 방지',ru:'Предотвращает добавление повторяющихся слов'},
+  v120_4:{ja:'はじめての人向けチュートリアルを追加',en:'Added a tutorial for new users',zh:'新增新手教程',fr:'Ajout d’un tutoriel pour les nouveaux utilisateurs',ar:'إضافة شرح للمستخدمين الجدد',ko:'신규 사용자를 위한 튜토리얼 추가',ru:'Добавлен обучающий раздел для новых пользователей'},
+  v100_1:{ja:'単語帳PWAを公開',en:'Launched the vocabulary PWA',zh:'单词卡PWA正式发布',fr:'Lancement de la PWA de vocabulaire',ar:'إطلاق تطبيق تعلم المفردات',ko:'단어장 PWA 출시',ru:'Запущено PWA-приложение для изучения слов'},
+  v100_2:{ja:'間隔反復（SRS）で復習スケジュールを自動管理',en:'Automatic review scheduling with spaced repetition (SRS)',zh:'间隔重复（SRS）自动管理复习计划',fr:'Planification automatique des révisions par répétition espacée (SRS)',ar:'جدولة تلقائية للمراجعة بالتكرار المتباعد (SRS)',ko:'간격 반복(SRS)으로 복습 일정 자동 관리',ru:'Автоматическое планирование повторения по системе SRS'},
+  v100_3:{ja:'フラッシュカード・4択/入力式クイズに対応',en:'Flashcards and multiple-choice/typed quizzes',zh:'支持单词卡和选择/输入式测验',fr:'Cartes mémo et quiz à choix multiples/saisie',ar:'بطاقات تعليمية واختبارات اختيار من متعدد/كتابة',ko:'플래시카드 및 객관식/주관식 퀴즈 지원',ru:'Карточки и тесты с выбором/вводом ответа'},
+  v100_4:{ja:'データは端末内保存でどこでも使える',en:'Data stored on-device, usable anywhere',zh:'数据保存在本地设备，随处可用',fr:'Données stockées sur l’appareil, utilisables partout',ar:'تُحفظ البيانات على الجهاز وتُستخدم في أي مكان',ko:'데이터는 기기에 저장되어 어디서나 사용 가능',ru:'Данные хранятся на устройстве и доступны везде'},
+  v150_1:{ja:'ロシア語（Русский）に対応。全7言語になりました',en:'Added Russian — now 7 languages in total',zh:'新增俄语支持，现共 7 种语言',fr:'Ajout du russe — 7 langues au total désormais',ar:'تمت إضافة اللغة الروسية — أصبح المجموع 7 لغات',ko:'러시아어 추가 — 이제 총 7개 언어',ru:'Добавлен русский язык — теперь всего 7 языков'},
+  v150_2:{ja:'4択クイズの誤答選択を強化。似た単語があれば必ず紛れ込むように',en:'Strengthened quiz distractors — a genuinely similar word is now reliably included when one exists',zh:'加强了选择题干扰项：如果存在相似单词，现在一定会混入其中',fr:'Leurres du QCM renforcés : un mot vraiment similaire est désormais inclus de façon fiable s’il en existe un',ar:'تحسين خيارات الاختبار: يتم تضمين كلمة مشابهة فعليًا بشكل موثوق عند وجودها',ko:'퀴즈 오답 로직 강화 — 비슷한 단어가 있으면 확실히 섞이도록 개선',ru:'Улучшены неверные варианты в тесте — по-настоящему похожее слово теперь надёжно включается, если оно есть'},
+  v150_3:{ja:'姉妹アプリ「Idiomkeep」が登場！熟語専用の単語帳です。ヘッダーのボタンから切り替えられます',en:'Meet Idiomkeep, a sister app for idioms! Switch to it anytime from the button in the header',zh:'姊妹应用「Idiomkeep」上线！专注于习语学习，可通过页眉按钮切换',fr:'Découvrez Idiomkeep, une application sœur pour les idiomes ! Basculez à tout moment via le bouton dans l’en-tête',ar:'تعرّف على Idiomkeep، تطبيق شقيق للتعبيرات الاصطلاحية! يمكنك التبديل إليه في أي وقت من الزر في الرأس',ko:'관용구 전용 자매 앱 “Idiomkeep” 출시! 헤더의 버튼으로 언제든 전환할 수 있어요',ru:'Знакомьтесь с Idiomkeep — приложением-компаньоном для идиом! Переключайтесь в любое время кнопкой в шапке'},
+  v150_4:{ja:'Idiomkeepでは熟語を入力すると候補が出て、選ぶと意味が自動で入ります',en:'In Idiomkeep, suggestions appear as you type an idiom — pick one to auto-fill its meaning',zh:'在 Idiomkeep 中输入习语时会出现建议，选择后自动填入意思',fr:'Dans Idiomkeep, des suggestions apparaissent pendant que vous tapez un idiome — choisissez-en une pour remplir le sens automatiquement',ar:'في Idiomkeep، تظهر اقتراحات أثناء كتابة تعبير اصطلاحي — اخترها لملء المعنى تلقائيًا',ko:'Idiomkeep에서는 관용구를 입력하면 추천이 나타나고, 선택하면 뜻이 자동 입력됩니다',ru:'В Idiomkeep при вводе идиомы появляются варианты — выберите один, и значение заполнится автоматически'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -862,10 +906,21 @@ function renderStudy(){
 }
 function showCard(){
   const w=deck[di];
-  $('#flip').classList.remove('flipped');
-  $('#fFront').textContent=w.word;
-  $('#fKata').textContent=w.kata||'';
-  renderBack(w);
+  const flipEl=$('#flip');
+  const wasFlipped=flipEl.classList.contains('flipped');
+  flipEl.classList.remove('flipped');
+  const applyContent=()=>{
+    $('#fFront').textContent=w.word;
+    $('#fKata').textContent=w.kata||'';
+    renderBack(w);
+  };
+  // If the card was showing its answer, swapping the content immediately
+  // flashes the NEXT card's answer for a frame while the flip-back rotation
+  // is still passing through the face-up angle. Wait until the back face has
+  // rotated past visible (~halfway through the .5s transition) before
+  // swapping in the new word/meaning.
+  if(wasFlipped)setTimeout(applyContent,260);
+  else applyContent();
   $('#dPos').textContent=(di+1)+' / '+deck.length;
 }
 function renderBack(w){
@@ -1099,6 +1154,14 @@ function renderSettings(){
   const sel=$('#selLang');
   sel.value=S().lang;
   sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();renderSettings();};
+  renderChangelog();
+}
+function renderChangelog(){
+  $('#changelogPanel').innerHTML=CHANGELOG.map(entry=>{
+    const current=entry.version===APP_VERSION?' <span class="cl-current">'+t('cl_current')+'</span>':'';
+    const notes=entry.keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
+    return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+'</div><ul>'+notes+'</ul></div>';
+  }).join('');
 }
 function seg(sel,keyName,num){
   const cur=S()[keyName];
