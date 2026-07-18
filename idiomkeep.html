@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f1e3d">
-<title>Wordkeep</title>
+<title>Idiomkeep</title>
 
-<link rel="manifest" href='data:application/manifest+json,{"name":"Wordkeep","short_name":"Wordkeep","start_url":".","display":"standalone","background_color":"%230f1e3d","theme_color":"%230f1e3d","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2242%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%2296%22 y=%22130%22 font-size=%22110%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EW%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%22256%22 y=%22350%22 font-size=%22300%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EW%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230f1e3d'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Idiomkeep","short_name":"Idiomkeep","start_url":".","display":"standalone","background_color":"%230f1e3d","theme_color":"%230f1e3d","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Crect width=%22192%22 height=%22192%22 rx=%2242%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%2296%22 y=%22130%22 font-size=%22110%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22%230f1e3d%22/%3E%3Ctext x=%22256%22 y=%22350%22 font-size=%22300%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia,serif%22%3EI%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230f1e3d'/%3E%3Ctext x='90' y='122' font-size='104' text-anchor='middle' fill='white' font-family='Georgia,serif'%3EI%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -86,6 +86,13 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .spin{display:inline-block;width:16px;height:16px;border:2px solid #c3cee6;
   border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
 @keyframes sp{to{transform:rotate(360deg)}}
+.suggest-box{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+  max-height:240px;overflow:auto;z-index:20}
+.suggest-item{padding:12px 14px;font-size:14.5px;cursor:pointer;border-bottom:1px solid var(--line);
+  font-family:Georgia,serif;direction:ltr;text-align:left}
+.suggest-item:last-child{border-bottom:none}
+.suggest-item:active{background:#f5f8fd}
 
 .list-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px;gap:10px}
 .search{flex:1}
@@ -213,8 +220,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <header>
   <div class="wrap">
     <div class="hdr-top">
-      <div class="brand"><h1>Wordkeep</h1><span class="tag">Cebu</span></div>
-      <a class="app-switch" href="idiomkeep.html">📖 Idiomkeep</a>
+      <div class="brand"><h1>Idiomkeep</h1><span class="tag">Cebu</span></div>
+      <a class="app-switch" href="index.html">📚 Wordkeep</a>
     </div>
     <div class="count" id="hdrCount"></div>
   </div>
@@ -228,10 +235,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <p class="hint" data-i18n="add_hint">英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得する。</p>
     </div>
     <div class="panel" style="padding:18px">
-      <label class="lab" data-i18n="label_word">英単語（スペルで入力）</label>
-      <div class="row">
-        <input id="inWord" class="field" dir="ltr" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
-        <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px" data-i18n="btn_lookup">調べる</button>
+      <label class="lab" data-i18n="label_word">熟語（フレーズ）</label>
+      <div style="position:relative">
+        <input id="inWord" class="field" dir="ltr" placeholder="break the ice" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" autocomplete="off">
+        <div id="suggestBox" class="suggest-box" style="display:none"></div>
       </div>
       <div id="lookupBox"></div>
 
@@ -366,24 +373,24 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.5.0';
+const APP_VERSION='1.0.0';
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
-// A handful of familiar words shown on first run so a brand-new user sees
+// A handful of familiar idioms shown on first run so a brand-new user sees
 // what a filled-in list/flashcard/quiz looks like instead of a blank slate.
 const STARTER_WORDS=[
-  {word:'friend',pos:'noun',def:'a person you know well and regard with affection',
-    ja:{ja:'友達',en:'a person you know well and like',zh:'朋友',fr:'ami(e)',ar:'صديق',ko:'친구',ru:'друг'}},
-  {word:'travel',pos:'verb',def:'to go from one place to another',
-    ja:{ja:'旅行する',en:'to go from one place to another',zh:'旅行',fr:'voyager',ar:'يسافر',ko:'여행하다',ru:'путешествовать'}},
-  {word:'delicious',pos:'adjective',def:'very pleasant to taste',
-    ja:{ja:'おいしい',en:'very pleasant to taste',zh:'美味的',fr:'délicieux',ar:'لذيذ',ko:'맛있는',ru:'вкусный'}},
-  {word:'weather',pos:'noun',def:'the state of the atmosphere at a place and time',
-    ja:{ja:'天気',en:'the state of the atmosphere at a place and time',zh:'天气',fr:'météo',ar:'الطقس',ko:'날씨',ru:'погода'}},
-  {word:'important',pos:'adjective',def:'of great significance or value',
-    ja:{ja:'重要な',en:'of great significance or value',zh:'重要的',fr:'important',ar:'مهم',ko:'중요한',ru:'важный'}}
+  {word:'break the ice',pos:'idiom',def:'to make people feel more comfortable in a social situation',
+    ja:{ja:'場を和ませる',en:'to make people feel more comfortable in a social situation',zh:'打破僵局',fr:'briser la glace',ar:'يكسر الجمود',ko:'어색한 분위기를 풀다',ru:'растопить лёд'}},
+  {word:'piece of cake',pos:'idiom',def:'something very easy to do',
+    ja:{ja:'朝飯前',en:'something very easy to do',zh:'小菜一碟',fr:"un jeu d'enfant",ar:'أمر سهل جدًا',ko:'식은 죽 먹기',ru:'проще простого'}},
+  {word:'under the weather',pos:'idiom',def:'feeling slightly ill',
+    ja:{ja:'体調が悪い',en:'feeling slightly ill',zh:'身体不适',fr:'patraque',ar:'يشعر بتوعك',ko:'몸이 안 좋은',ru:'неважно себя чувствовать'}},
+  {word:'hit the books',pos:'idiom',def:'to study hard',
+    ja:{ja:'猛勉強する',en:'to study hard',zh:'用功学习',fr:'bûcher',ar:'يدرس بجد',ko:'열심히 공부하다',ru:'усердно учиться'}},
+  {word:'once in a blue moon',pos:'idiom',def:'very rarely',
+    ja:{ja:'めったにない',en:'very rarely',zh:'千载难逢',fr:'tous les trente-six du mois',ar:'نادرًا جدًا',ko:'아주 드물게',ru:'очень редко'}}
 ];
 function seedStarterWords(){
   const now=Date.now();
@@ -396,6 +403,73 @@ function seedStarterWords(){
   }));
   DB.words=[...items,...DB.words];
 }
+
+// A modest built-in idiom dictionary used to power the add-screen's
+// type-ahead suggestions (idioms aren't covered by free word-dictionary
+// APIs, so this list has to live in the app itself).
+const IDIOM_DB=[
+  {idiom:'break the ice',def:'to make people feel more comfortable in a social situation'},
+  {idiom:'piece of cake',def:'something very easy to do'},
+  {idiom:'under the weather',def:'feeling slightly ill'},
+  {idiom:'hit the books',def:'to study hard'},
+  {idiom:'once in a blue moon',def:'very rarely'},
+  {idiom:'let the cat out of the bag',def:'to reveal a secret, often by accident'},
+  {idiom:'a blessing in disguise',def:'something that seems bad at first but turns out to be good'},
+  {idiom:'bite the bullet',def:'to accept and endure something difficult or unpleasant'},
+  {idiom:'burn the midnight oil',def:'to work or study late into the night'},
+  {idiom:'call it a day',def:'to stop working on something for the rest of the day'},
+  {idiom:'costs an arm and a leg',def:'to be very expensive'},
+  {idiom:'cut corners',def:'to do something in the easiest or cheapest way, often sacrificing quality'},
+  {idiom:'get out of hand',def:'to become difficult to control'},
+  {idiom:'hit the sack',def:'to go to bed'},
+  {idiom:'in hot water',def:'in trouble'},
+  {idiom:'kill two birds with one stone',def:'to achieve two things with a single action'},
+  {idiom:'miss the boat',def:'to miss an opportunity because you were too slow to act'},
+  {idiom:'on the ball',def:'alert, competent, and quick to understand'},
+  {idiom:'pull yourself together',def:'to calm down and behave normally after being upset'},
+  {idiom:'see eye to eye',def:'to fully agree with someone'},
+  {idiom:'speak of the devil',def:'said when a person who was just mentioned shows up'},
+  {idiom:'the ball is in your court',def:'it is now your turn to take action or make a decision'},
+  {idiom:'through thick and thin',def:'under any circumstances, even when it is difficult'},
+  {idiom:'time flies',def:'time passes very quickly'},
+  {idiom:'under the radar',def:'without attracting attention'},
+  {idiom:'when pigs fly',def:'used to say that something will never happen'},
+  {idiom:'a piece of your mind',def:'to tell someone frankly that you are angry with them'},
+  {idiom:'add insult to injury',def:'to make a bad situation even worse'},
+  {idiom:'at the drop of a hat',def:'immediately, without hesitation'},
+  {idiom:'beat around the bush',def:'to avoid talking about what is important'},
+  {idiom:'best of both worlds',def:'a situation where you enjoy the advantages of two different things'},
+  {idiom:'better late than never',def:"it's better for something to happen late than not at all"},
+  {idiom:'bite off more than you can chew',def:'to try to do something that is too difficult for you'},
+  {idiom:'break a leg',def:'said to wish someone good luck, especially before a performance'},
+  {idiom:'by the skin of your teeth',def:'only just; barely succeeding'},
+  {idiom:'caught red-handed',def:'caught in the act of doing something wrong'},
+  {idiom:'cut to the chase',def:'to get to the point without wasting time'},
+  {idiom:'down to earth',def:'practical and realistic; not pretentious'},
+  {idiom:'every cloud has a silver lining',def:'there is something good in every bad situation'},
+  {idiom:'get cold feet',def:'to become too nervous to do something you had planned'},
+  {idiom:'go the extra mile',def:'to make more effort than is expected'},
+  {idiom:'hang in there',def:'to stay determined despite difficulty; keep trying'},
+  {idiom:'hit the nail on the head',def:'to describe exactly what is causing a situation or problem'},
+  {idiom:'in the heat of the moment',def:'while very angry or excited, without thinking clearly'},
+  {idiom:'jump on the bandwagon',def:'to join others in doing something that has become popular'},
+  {idiom:'keep an eye on',def:'to watch or monitor someone or something carefully'},
+  {idiom:'last straw',def:'the final problem in a series that makes you lose patience'},
+  {idiom:'make a long story short',def:'to tell something briefly, skipping unnecessary detail'},
+  {idiom:'on cloud nine',def:'extremely happy'},
+  {idiom:'out of the blue',def:'unexpectedly, without warning'},
+  {idiom:'piece by piece',def:'a little at a time; gradually'},
+  {idiom:'pull someone’s leg',def:'to joke with someone by telling them something untrue'},
+  {idiom:'sit on the fence',def:'to avoid choosing a side in a disagreement'},
+  {idiom:'spill the beans',def:'to reveal secret information'},
+  {idiom:'take it with a grain of salt',def:'to not take something too seriously or literally'},
+  {idiom:'the last straw',def:'the final small problem that makes a situation unbearable'},
+  {idiom:'the whole nine yards',def:'everything; all of it'},
+  {idiom:'throw in the towel',def:'to give up'},
+  {idiom:'to each their own',def:'used to say people are free to have different preferences'},
+  {idiom:'under one’s belt',def:'already achieved or experienced'},
+  {idiom:'up in the air',def:'undecided or uncertain'}
+];
 
 function navigatorLang(){
   const nl=(navigator.language||'ja').toLowerCase();
@@ -411,55 +485,55 @@ function navigatorLang(){
 /* ---------- i18n ---------- */
 const T={
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
-  nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
+  nav_study:{ja:'熟語帳',en:'Cards',zh:'习语卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
   nav_settings:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정',ru:'Настройки'},
-  unit_words:{ja:'語',en:'words',zh:'词',fr:'mots',ar:'كلمة',ko:'단어',ru:'слов'},
+  unit_words:{ja:'個',en:'idioms',zh:'个',fr:'idiomes',ar:'تعبيرًا',ko:'개',ru:'идиом'},
   due_chip:{ja:'今日の復習 {0}',en:'Due today {0}',zh:'今日复习 {0}',fr:'À réviser {0}',ar:'المراجعة اليوم {0}',ko:'오늘 복습 {0}',ru:'Повтор сегодня {0}'},
 
-  add_title:{ja:'単語を追加',en:'Add a word',zh:'添加单词',fr:'Ajouter un mot',ar:'إضافة كلمة',ko:'단어 추가',ru:'Добавить слово'},
-  add_hint:{ja:'英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得します。',en:'Type an English word and tap Look up to auto-fetch its meaning and definitions.',zh:'输入英文单词并点「查询」，自动获取意思和释义。',fr:'Saisissez un mot anglais et appuyez sur Rechercher pour récupérer automatiquement son sens et ses définitions.',ar:'اكتب كلمة إنجليزية واضغط على بحث لجلب معناها وتعريفاتها تلقائيًا.',ko:'영어 단어를 입력하고 검색을 누르면 뜻과 정의를 자동으로 가져옵니다.',ru:'Введите английское слово и нажмите «Найти», чтобы автоматически получить значение и определения.'},
-  label_word:{ja:'英単語（スペルで入力）',en:'English word (spelling)',zh:'英文单词（拼写）',fr:'Mot anglais (orthographe)',ar:'كلمة إنجليزية (الإملاء)',ko:'영어 단어 (철자)',ru:'Английское слово (по буквам)'},
+  add_title:{ja:'熟語を追加',en:'Add an idiom',zh:'添加习语',fr:'Ajouter un idiome',ar:'إضافة تعبير اصطلاحي',ko:'관용구 추가',ru:'Добавить идиому'},
+  add_hint:{ja:'熟語を入力すると候補が出ます。候補を選ぶと意味が自動で入ります。',en:'Start typing an idiom to see suggestions. Pick one to auto-fill its meaning.',zh:'输入习语时会出现建议，选择建议后会自动填入意思。',fr:'Commencez à taper un idiome pour voir des suggestions. Choisissez-en une pour remplir automatiquement le sens.',ar:'ابدأ بكتابة تعبير اصطلاحي لرؤية اقتراحات. اختر أحدها لملء المعنى تلقائيًا.',ko:'관용구를 입력하면 추천이 표시됩니다. 선택하면 뜻이 자동으로 입력돼요.',ru:'Начните вводить идиому — появятся варианты. Выберите один, чтобы значение заполнилось автоматически.'},
+  label_word:{ja:'熟語（フレーズ）',en:'Idiom (phrase)',zh:'习语（短语）',fr:'Idiome (expression)',ar:'تعبير اصطلاحي (عبارة)',ko:'관용구 (구문)',ru:'Идиома (фраза)'},
   btn_lookup:{ja:'調べる',en:'Look up',zh:'查询',fr:'Rechercher',ar:'بحث',ko:'검색',ru:'Найти'},
-  label_kata:{ja:'読み方メモ（任意）',en:'Reading / note (optional)',zh:'读音/备注（可选）',fr:'Prononciation / note (facultatif)',ar:'النطق / ملاحظة (اختياري)',ko:'발음/메모 (선택)',ru:'Заметка о произношении (необязательно)'},
-  ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音',fr:'pré-fé-rer',ar:'النطق',ko:'발음',ru:'произношение'},
+  label_kata:{ja:'メモ（任意）',en:'Note (optional)',zh:'备注（可选）',fr:'Note (facultatif)',ar:'ملاحظة (اختياري)',ko:'메모 (선택)',ru:'Заметка (необязательно)'},
+  ph_kata:{ja:'覚え方など',en:'e.g. a mnemonic',zh:'例如助记',fr:'ex. un moyen mnémotechnique',ar:'مثال: طريقة للتذكر',ko:'예: 암기 방법',ru:'например, мнемоника'},
   label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思',fr:'Sens (français)',ar:'المعنى (بالعربية)',ko:'뜻 (한국어)',ru:'Значение (по-русски)'},
   ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）',fr:'Rempli après la recherche (modifiable)',ar:'يُملأ تلقائيًا بعد البحث (قابل للتعديل)',ko:'검색 후 자동 입력 (수정 가능)',ru:'Заполняется автоматически после поиска (можно редактировать)'},
   btn_add:{ja:'リストに追加',en:'Add to list',zh:'添加到列表',fr:'Ajouter à la liste',ar:'أضف إلى القائمة',ko:'목록에 추가',ru:'Добавить в список'},
-  hint_type_first:{ja:'まず英単語を入力してね。',en:'Type an English word first.',zh:'请先输入英文单词。',fr:'Saisissez d’abord un mot anglais.',ar:'اكتب كلمة إنجليزية أولاً.',ko:'먼저 영어 단어를 입력하세요.',ru:'Сначала введите английское слово.'},
-  hint_after_type:{ja:'「調べる」で辞書・翻訳から自動取得します（任意）。',en:'Tap Look up to auto-fetch (optional).',zh:'点「查询」自动获取（可选）。',fr:'Appuyez sur Rechercher pour un remplissage auto (facultatif).',ar:'اضغط بحث للجلب التلقائي (اختياري).',ko:'검색을 누르면 자동으로 채워집니다 (선택).',ru:'Нажмите «Найти» для автозаполнения (необязательно).'},
+  hint_type_first:{ja:'まず熟語を入力してね。',en:'Type an idiom first.',zh:'请先输入习语。',fr:'Saisissez d’abord un idiome.',ar:'اكتب تعبيرًا اصطلاحيًا أولاً.',ko:'먼저 관용구를 입력하세요.',ru:'Сначала введите идиому.'},
+  hint_after_type:{ja:'候補から選ぶか、そのまま意味を入力してね。',en:'Pick a suggestion, or just type the meaning yourself.',zh:'可选择建议，或直接输入意思。',fr:'Choisissez une suggestion ou saisissez le sens vous-même.',ar:'اختر اقتراحًا أو أدخل المعنى بنفسك.',ko:'추천을 선택하거나 직접 뜻을 입력하세요.',ru:'Выберите вариант или введите значение сами.'},
   hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.',ru:'Проверьте и нажмите «Добавить в список».'},
   looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…',ru:'Ищем в словаре и переводе…'},
-  dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。',fr:'Ce mot est déjà dans votre liste.',ar:'هذه الكلمة موجودة بالفعل في قائمتك.',ko:'이 단어는 이미 목록에 있습니다.',ru:'Это слово уже есть в вашем списке.'},
+  dup_here:{ja:'この熟語はすでにリストにあります。',en:'This idiom is already in your list.',zh:'这个习语已在列表中。',fr:'Cet idiome est déjà dans votre liste.',ar:'هذا التعبير موجود بالفعل في قائمتك.',ko:'이 관용구는 이미 목록에 있습니다.',ru:'Эта идиома уже есть в вашем списке.'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
-  not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。',fr:'Introuvable dans le dictionnaire ou la traduction. Saisissez le sens manuellement.',ar:'غير موجود في القاموس أو الترجمة. أدخل المعنى يدويًا.',ko:'사전·번역에서 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Не найдено ни в словаре, ни в переводе. Введите значение вручную.'},
+  not_found_meaning:{ja:'候補が見つかりませんでした。意味を手入力してね。',en:'No suggestion found. Enter the meaning manually.',zh:'未找到建议，请手动输入意思。',fr:'Aucune suggestion trouvée. Saisissez le sens manuellement.',ar:'لم يتم العثور على اقتراح. أدخل المعنى يدويًا.',ko:'추천을 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Совпадений не найдено. Введите значение вручную.'},
 
   ph_search:{ja:'検索…',en:'Search…',zh:'搜索…',fr:'Rechercher…',ar:'بحث…',ko:'검색…',ru:'Поиск…'},
-  n_words:{ja:'{0}語',en:'{0} words',zh:'{0} 词',fr:'{0} mots',ar:'{0} كلمة',ko:'{0} 단어',ru:'{0} слов'},
-  empty_list:{ja:'まだ単語がありません。<br>「＋」から最初の単語を追加しよう。',en:'No words yet.<br>Add your first word from ＋.',zh:'还没有单词。<br>从 ＋ 添加第一个单词吧。',fr:'Aucun mot pour l’instant.<br>Ajoutez votre premier mot avec ＋.',ar:'لا توجد كلمات بعد.<br>أضف أول كلمة عبر ＋.',ko:'아직 단어가 없습니다.<br>＋에서 첫 단어를 추가하세요.',ru:'Пока нет слов.<br>Добавьте первое слово через ＋.'},
+  n_words:{ja:'{0}個',en:'{0} idioms',zh:'{0} 个',fr:'{0} idiomes',ar:'{0} تعبيرًا',ko:'{0}개',ru:'{0} идиом'},
+  empty_list:{ja:'まだ熟語がありません。<br>「＋」から最初の熟語を追加しよう。',en:'No idioms yet.<br>Add your first one from ＋.',zh:'还没有习语。<br>从 ＋ 添加第一个吧。',fr:'Aucun idiome pour l’instant.<br>Ajoutez le premier avec ＋.',ar:'لا توجد تعبيرات بعد.<br>أضف أول تعبير عبر ＋.',ko:'아직 관용구가 없습니다.<br>＋에서 첫 관용구를 추가하세요.',ru:'Пока нет идиом.<br>Добавьте первую через ＋.'},
   no_match:{ja:'一致する単語がありません',en:'No matching words',zh:'没有匹配的单词',fr:'Aucun mot correspondant',ar:'لا توجد كلمات مطابقة',ko:'일치하는 단어 없음',ru:'Нет совпадений'},
   tag_new:{ja:'未学習',en:'New',zh:'未学',fr:'Nouveau',ar:'جديد',ko:'미학습',ru:'Новое'},
   tag_due_today:{ja:'復習: 今日',en:'Review: today',zh:'复习：今天',fr:'Révision : aujourd’hui',ar:'مراجعة: اليوم',ko:'복습: 오늘',ru:'Повтор: сегодня'},
   tag_next:{ja:'次回 {0}',en:'Next {0}',zh:'下次 {0}',fr:'Suivant {0}',ar:'التالي {0}',ko:'다음 {0}',ru:'Далее {0}'},
   btn_edit:{ja:'編集',en:'Edit',zh:'编辑',fr:'Modifier',ar:'تعديل',ko:'편집',ru:'Изменить'},
   btn_show_ex:{ja:'例文を見る',en:'Examples',zh:'例句',fr:'Exemples',ar:'أمثلة',ko:'예문',ru:'Примеры'},
-  ed_word:{ja:'英単語',en:'English word',zh:'英文单词',fr:'Mot anglais',ar:'كلمة إنجليزية',ko:'영어 단어',ru:'Английское слово'},
-  ed_kata:{ja:'読み方メモ',en:'Reading / note',zh:'读音/备注',fr:'Prononciation / note',ar:'النطق / ملاحظة',ko:'발음/메모',ru:'Заметка о произношении'},
+  ed_word:{ja:'熟語',en:'Idiom',zh:'习语',fr:'Idiome',ar:'تعبير اصطلاحي',ko:'관용구',ru:'Идиома'},
+  ed_kata:{ja:'メモ',en:'Note',zh:'备注',fr:'Note',ar:'ملاحظة',ko:'메모',ru:'Заметка'},
   ed_meaning:{ja:'意味',en:'Meaning',zh:'意思',fr:'Sens',ar:'المعنى',ko:'뜻',ru:'Значение'},
   btn_save:{ja:'保存',en:'Save',zh:'保存',fr:'Enregistrer',ar:'حفظ',ko:'저장',ru:'Сохранить'},
   btn_cancel:{ja:'キャンセル',en:'Cancel',zh:'取消',fr:'Annuler',ar:'إلغاء',ko:'취소',ru:'Отмена'},
   confirm_del:{ja:'この単語を削除しますか？',en:'Delete this word?',zh:'删除这个单词？',fr:'Supprimer ce mot ?',ar:'حذف هذه الكلمة؟',ko:'이 단어를 삭제할까요?',ru:'Удалить это слово?'},
   toast_updated:{ja:'更新しました',en:'Updated',zh:'已更新',fr:'Mis à jour',ar:'تم التحديث',ko:'수정되었습니다',ru:'Обновлено'},
-  toast_word_empty:{ja:'単語は空にできません',en:"Word can't be empty",zh:'单词不能为空',fr:'Le mot ne peut pas être vide',ar:'لا يمكن ترك الكلمة فارغة',ko:'단어는 비울 수 없습니다',ru:'Слово не может быть пустым'},
+  toast_word_empty:{ja:'熟語は空にできません',en:"Idiom can't be empty",zh:'习语不能为空',fr:'L’idiome ne peut pas être vide',ar:'لا يمكن ترك التعبير فارغًا',ko:'관용구는 비울 수 없습니다',ru:'Идиома не может быть пустой'},
   toast_added:{ja:'「{0}」を追加しました',en:'Added "{0}"',zh:'已添加“{0}”',fr:'« {0} » ajouté',ar:'تمت إضافة «{0}»',ko:'"{0}" 추가됨',ru:'Добавлено «{0}»'},
   toast_dup:{ja:'「{0}」は既にリストにあります',en:'"{0}" is already in your list',zh:'“{0}”已在列表中',fr:'« {0} » est déjà dans votre liste',ar:'«{0}» موجودة بالفعل في قائمتك',ko:'"{0}" 은(는) 이미 목록에 있습니다',ru:'«{0}» уже есть в вашем списке'},
   toast_export:{ja:'バックアップを書き出しました',en:'Backup exported',zh:'已导出备份',fr:'Sauvegarde exportée',ar:'تم تصدير النسخة الاحتياطية',ko:'백업을 내보냈습니다',ru:'Резервная копия сохранена'},
   toast_import_fail:{ja:'読み込みに失敗しました',en:'Import failed',zh:'导入失败',fr:'Échec de l’import',ar:'فشل الاستيراد',ko:'가져오기 실패',ru:'Не удалось загрузить'},
   toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词',fr:'{0} mots importés',ar:'تم استيراد {0} كلمة',ko:'{0} 단어를 가져왔습니다',ru:'Загружено слов: {0}'},
 
-  study_title:{ja:'単語帳',en:'Flashcards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
+  study_title:{ja:'熟語帳',en:'Flashcards',zh:'习语卡',fr:'Cartes',ar:'البطاقات',ko:'관용구 카드',ru:'Карточки'},
   study_hint:{ja:'タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）',en:'Tap to flip. Great for quick memorizing. (Does not affect the review schedule.)',zh:'点一下翻面，随时背诵。（不影响复习计划）',fr:'Touchez pour retourner. Idéal pour mémoriser vite. (N’affecte pas le planning de révision.)',ar:'انقر للقلب. مثالي للحفظ السريع. (لا يؤثر على جدول المراجعة.)',ko:'탭하면 뒤집힙니다. 빠른 암기에 좋아요. (복습 일정에는 영향 없음)',ru:'Нажмите, чтобы перевернуть. Отлично для быстрого запоминания. (Не влияет на график повторения.)'},
-  study_empty:{ja:'単語を追加すると<br>ここで暗記カードになります。',en:'Add words to turn them<br>into flashcards here.',zh:'添加单词后<br>会在这里变成单词卡。',fr:'Ajoutez des mots pour les<br>transformer en cartes ici.',ar:'أضف كلمات لتتحول<br>إلى بطاقات هنا.',ko:'단어를 추가하면<br>여기서 카드가 됩니다.',ru:'Добавьте слова, чтобы<br>они появились здесь как карточки.'},
+  study_empty:{ja:'熟語を追加すると<br>ここで暗記カードになります。',en:'Add idioms to turn them<br>into flashcards here.',zh:'添加习语后<br>会在这里变成单词卡。',fr:'Ajoutez des idiomes pour les<br>transformer en cartes ici.',ar:'أضف تعبيرات لتتحول<br>إلى بطاقات هنا.',ko:'관용구를 추가하면<br>여기서 카드가 됩니다.',ru:'Добавьте идиомы, чтобы<br>они появились здесь как карточки.'},
   flip_hint:{ja:'タップで意味を見る',en:'Tap to see the meaning',zh:'点一下看意思',fr:'Touchez pour voir le sens',ar:'انقر لرؤية المعنى',ko:'탭하면 뜻이 보여요',ru:'Нажмите, чтобы увидеть значение'},
   btn_prev:{ja:'← 前',en:'← Prev',zh:'← 上一个',fr:'← Préc.',ar:'السابق',ko:'← 이전',ru:'← Назад'},
   btn_next:{ja:'次 →',en:'Next →',zh:'下一个 →',fr:'Suiv. →',ar:'التالي',ko:'다음 →',ru:'Далее →'},
@@ -470,10 +544,10 @@ const T={
   quiz_free:{ja:'自由学習（全部）',en:'Free study (all)',zh:'自由学习（全部）',fr:'Étude libre (tout)',ar:'دراسة حرة (الكل)',ko:'자유 학습 (전체)',ru:'Свободное изучение (все)'},
   quiz_done:{ja:'今日復習する単語はありません。<br>お疲れさま！',en:'No words to review today.<br>Nice work!',zh:'今天没有需要复习的单词。<br>辛苦了！',fr:'Aucun mot à réviser aujourd’hui.<br>Bravo !',ar:'لا توجد كلمات للمراجعة اليوم.<br>أحسنت!',ko:'오늘 복습할 단어가 없습니다.<br>수고했어요!',ru:'Сегодня нет слов для повторения.<br>Отличная работа!'},
   quiz_done_sub:{ja:'「自由学習」で先取り練習もできます。',en:'You can practice ahead with Free study.',zh:'可以用「自由学习」提前练习。',fr:'Vous pouvez prendre de l’avance avec l’Étude libre.',ar:'يمكنك التدرّب مسبقًا عبر الدراسة الحرة.',ko:'자유 학습으로 미리 연습할 수 있어요.',ru:'Можно потренироваться заранее в «Свободном изучении».'},
-  quiz_need4:{ja:'4択には意味が入った単語が最低4語必要です。',en:'Multiple choice needs at least 4 words with a meaning.',zh:'选择题至少需要 4 个有意思的单词。',fr:'Le QCM nécessite au moins 4 mots avec un sens.',ar:'يتطلب الاختيار من متعدد 4 كلمات على الأقل لها معنى.',ko:'객관식에는 뜻이 있는 단어가 최소 4개 필요합니다.',ru:'Для теста с вариантами нужно минимум 4 слова со значением.'},
-  quiz_need_add:{ja:'単語を追加すると復習が始まります。',en:'Add words to start reviewing.',zh:'添加单词后即可开始复习。',fr:'Ajoutez des mots pour commencer à réviser.',ar:'أضف كلمات لبدء المراجعة.',ko:'단어를 추가하면 복습이 시작됩니다.',ru:'Добавьте слова, чтобы начать повторение.'},
-  prompt_e2j:{ja:'この単語の意味は？',en:'What does this word mean?',zh:'这个单词的意思是？',fr:'Que signifie ce mot ?',ar:'ما معنى هذه الكلمة؟',ko:'이 단어의 뜻은?',ru:'Что означает это слово?'},
-  prompt_j2e:{ja:'この意味の英単語は？',en:'Which English word?',zh:'对应的英文单词是？',fr:'Quel mot anglais ?',ar:'ما الكلمة الإنجليزية؟',ko:'해당하는 영어 단어는?',ru:'Какое это английское слово?'},
+  quiz_need4:{ja:'4択には意味が入った熟語が最低4つ必要です。',en:'Multiple choice needs at least 4 idioms with a meaning.',zh:'选择题至少需要 4 个有意思的习语。',fr:'Le QCM nécessite au moins 4 idiomes avec un sens.',ar:'يتطلب الاختيار من متعدد 4 تعبيرات على الأقل لها معنى.',ko:'객관식에는 뜻이 있는 관용구가 최소 4개 필요합니다.',ru:'Для теста с вариантами нужно минимум 4 идиомы со значением.'},
+  quiz_need_add:{ja:'熟語を追加すると復習が始まります。',en:'Add idioms to start reviewing.',zh:'添加习语后即可开始复习。',fr:'Ajoutez des idiomes pour commencer à réviser.',ar:'أضف تعبيرات لبدء المراجعة.',ko:'관용구를 추가하면 복습이 시작됩니다.',ru:'Добавьте идиомы, чтобы начать повторение.'},
+  prompt_e2j:{ja:'この熟語の意味は？',en:'What does this idiom mean?',zh:'这个习语的意思是？',fr:'Que signifie cet idiome ?',ar:'ما معنى هذا التعبير؟',ko:'이 관용구의 뜻은?',ru:'Что означает эта идиома?'},
+  prompt_j2e:{ja:'この意味の熟語は？',en:'Which idiom matches this meaning?',zh:'对应的习语是？',fr:'Quel idiome correspond ?',ar:'ما التعبير المطابق؟',ko:'해당하는 관용구는?',ru:'Какая идиома подходит?'},
   ph_answer:{ja:'意味を入力…',en:'Type the meaning…',zh:'输入意思…',fr:'Saisissez le sens…',ar:'اكتب المعنى…',ko:'뜻을 입력하세요…',ru:'Введите значение…'},
   btn_check:{ja:'答え合わせ',en:'Check',zh:'核对',fr:'Vérifier',ar:'تحقق',ko:'정답 확인',ru:'Проверить'},
   fb_ok:{ja:'✓ 正解',en:'✓ Correct',zh:'✓ 正确',fr:'✓ Correct',ar:'✓ صحيح',ko:'✓ 정답',ru:'✓ Верно'},
@@ -534,20 +608,20 @@ const T={
 
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
   tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.',ru:'Это язык приложения и перевода значений. Вы можете изменить его в любое время в настройках.'},
-  tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词',fr:'Ajouter des mots',ar:'إضافة كلمات',ko:'단어 추가',ru:'Добавляйте слова'},
-  tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。',fr:'Appuyez sur ＋, saisissez un mot anglais, touchez Rechercher pour récupérer le sens, puis Ajouter à la liste.',ar:'اضغط ＋، اكتب كلمة إنجليزية، اضغط بحث لجلب المعنى، ثم أضف إلى القائمة.',ko:'＋를 누르고 영어 단어를 입력, 검색으로 뜻을 자동 가져온 뒤 목록에 추가하세요.',ru:'Нажмите ＋, введите английское слово, нажмите «Найти» для автозаполнения значения, затем «Добавить в список».'},
+  tut1_t:{ja:'熟語を追加',en:'Add idioms',zh:'添加习语',fr:'Ajouter des idiomes',ar:'إضافة تعبيرات',ko:'관용구 추가',ru:'Добавляйте идиомы'},
+  tut1_b:{ja:'「＋」で熟語を入力すると候補が出ます。候補を選ぶと意味が自動で入り、『リストに追加』で保存します。',en:'Tap ＋ and start typing an idiom — suggestions appear as you type. Pick one to auto-fill the meaning, then Add to list.',zh:'点 ＋ 输入习语时会出现建议，选择后自动填入意思，再『添加到列表』。',fr:'Appuyez sur ＋ et commencez à taper un idiome — des suggestions apparaissent. Choisissez-en une, puis Ajouter à la liste.',ar:'اضغط ＋ وابدأ بكتابة تعبير اصطلاحي — تظهر اقتراحات أثناء الكتابة. اخترها ثم أضف إلى القائمة.',ko:'＋를 누르고 관용구를 입력하면 추천이 나타나요. 선택하면 뜻이 자동 입력되고, 목록에 추가하세요.',ru:'Нажмите ＋ и начните вводить идиому — появятся варианты. Выберите один, значение заполнится, затем «Добавить в список».'},
   tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表',fr:'Gérer votre liste',ar:'إدارة قائمتك',ko:'목록 관리',ru:'Управляйте списком'},
-  tut2_b:{ja:'追加した単語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your words under List.',zh:'在『列表』中查看、编辑、删除单词。',fr:'Consultez, modifiez et supprimez vos mots dans Liste.',ar:'اعرض كلماتك وعدّلها واحذفها من القائمة.',ko:'목록에서 단어를 확인·편집·삭제할 수 있어요.',ru:'Просматривайте, редактируйте и удаляйте слова в разделе «Список».'},
+  tut2_b:{ja:'追加した熟語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your idioms under List.',zh:'在『列表』中查看、编辑、删除习语。',fr:'Consultez, modifiez et supprimez vos idiomes dans Liste.',ar:'اعرض تعبيراتك وعدّلها واحذفها من القائمة.',ko:'목록에서 관용구를 확인·편집·삭제할 수 있어요.',ru:'Просматривайте, редактируйте и удаляйте идиомы в разделе «Список».'},
   tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (تكرار متباعد)',ko:'복습 (간격 반복)',ru:'Повторение (интервальное)'},
   tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。',fr:'Testez-vous dans Révision. Plus vous réussissez, plus la prochaine révision s’éloigne — pour ancrer la mémoire.',ar:'اختبر نفسك في المراجعة. كلما أجبت صحيحًا تباعدت المراجعة التالية لترسيخ الحفظ.',ko:'복습에서 문제를 풀어요. 맞힐수록 다음 복습이 뒤로 미뤄져 기억에 남습니다.',ru:'Проверяйте себя в разделе «Повтор». Чем больше верных ответов, тем дальше следующий повтор — так знания закрепляются.'},
-  tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡',fr:'Cartes mémo',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
-  tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
+  tut4_t:{ja:'熟語帳で暗記',en:'Flashcards',zh:'习语卡',fr:'Cartes mémo',ar:'البطاقات',ko:'관용구 카드',ru:'Карточки'},
+  tut4_b:{ja:'『熟語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『习语卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'ロシア語（Русский）に対応。全7言語になりました',en:'Added Russian — now 7 languages in total',zh:'新增俄语支持，现共 7 种语言',fr:'Ajout du russe — 7 langues au total désormais',ar:'تمت إضافة اللغة الروسية — أصبح المجموع 7 لغات',ko:'러시아어 추가 — 이제 총 7개 언어',ru:'Добавлен русский язык — теперь всего 7 языков'},
-  wn2:{ja:'4択クイズの誤答選択を強化。似た単語があれば必ず紛れ込むように',en:'Strengthened quiz distractors — a genuinely similar word is now reliably included when one exists',zh:'加强了选择题干扰项：如果存在相似单词，现在一定会混入其中',fr:'Leurres du QCM renforcés : un mot vraiment similaire est désormais inclus de façon fiable s’il en existe un',ar:'تحسين خيارات الاختبار: يتم تضمين كلمة مشابهة فعليًا بشكل موثوق عند وجودها',ko:'퀴즈 오답 로직 강화 — 비슷한 단어가 있으면 확실히 섞이도록 개선',ru:'Улучшены неверные варианты в тесте — по-настоящему похожее слово теперь надёжно включается, если оно есть'},
-  wn3:{ja:'姉妹アプリ「Idiomkeep」が登場！熟語専用の単語帳です。ヘッダーのボタンから切り替えられます',en:'Meet Idiomkeep, a sister app for idioms! Switch to it anytime from the button in the header',zh:'姊妹应用「Idiomkeep」上线！专注于习语学习，可通过页眉按钮切换',fr:'Découvrez Idiomkeep, une application sœur pour les idiomes ! Basculez à tout moment via le bouton dans l’en-tête',ar:'تعرّف على Idiomkeep، تطبيق شقيق للتعبيرات الاصطلاحية! يمكنك التبديل إليه في أي وقت من الزر في الرأس',ko:'관용구 전용 자매 앱 “Idiomkeep” 출시! 헤더의 버튼으로 언제든 전환할 수 있어요',ru:'Знакомьтесь с Idiomkeep — приложением-компаньоном для идиом! Переключайтесь в любое время кнопкой в шапке'},
-  wn4:{ja:'Idiomkeepでは熟語を入力すると候補が出て、選ぶと意味が自動で入ります',en:'In Idiomkeep, suggestions appear as you type an idiom — pick one to auto-fill its meaning',zh:'在 Idiomkeep 中输入习语时会出现建议，选择后自动填入意思',fr:'Dans Idiomkeep, des suggestions apparaissent pendant que vous tapez un idiome — choisissez-en une pour remplir le sens automatiquement',ar:'في Idiomkeep، تظهر اقتراحات أثناء كتابة تعبير اصطلاحي — اخترها لملء المعنى تلقائيًا',ko:'Idiomkeep에서는 관용구를 입력하면 추천이 나타나고, 선택하면 뜻이 자동 입력됩니다',ru:'В Idiomkeep при вводе идиомы появляются варианты — выберите один, и значение заполнится автоматически'}
+  wn1:{ja:'ダブルタップでの画面ズームを無効化',en:'Disabled double-tap-to-zoom',zh:'已禁用双击缩放',fr:'Zoom par double-tap désactivé',ar:'تم تعطيل التكبير بالنقر المزدوج',ko:'더블 탭 확대 비활성화',ru:'Двойное нажатие для масштабирования отключено'},
+  wn2:{ja:'単語追加・復習画面での下部バーの表示崩れを修正',en:'Fixed the bottom bar layout on the add/review screens',zh:'修复了添加/复习页面底部栏的布局问题',fr:'Correction de la barre inférieure sur les écrans d’ajout/révision',ar:'إصلاح تخطيط الشريط السفلي في شاشتي الإضافة والمراجعة',ko:'추가/복습 화면 하단 바 레이아웃 수정',ru:'Исправлено отображение нижней панели на экранах добавления/повторения'},
+  wn3:{ja:'初回起動時にお試し単語を5つ追加',en:'Seeded 5 sample words for new installs',zh:'首次安装自动添加 5 个示例单词',fr:'5 mots d’exemple ajoutés au premier lancement',ar:'تمت إضافة 5 كلمات نموذجية عند أول تشغيل',ko:'첫 실행 시 예시 단어 5개 추가',ru:'При первом запуске добавляются 5 примеров слов'},
+  wn4:{ja:'4択クイズの誤答が似た単語から選ばれるように（より歯応えあり）',en:'Multiple-choice quiz now favors similar-looking distractors (harder!)',zh:'选择题的干扰项现在更倾向于选相似的单词（更有挑战性）',fr:'Le QCM privilégie désormais des leurres qui se ressemblent (plus difficile !)',ar:'يفضّل اختبار الاختيار من متعدد الآن خيارات مشابهة (أصعب!)',ko:'객관식 퀴즈가 비슷한 오답을 우선 출제 (더 어려워짐!)',ru:'Тест с вариантами теперь чаще предлагает похожие неверные ответы (сложнее!)'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -565,8 +639,8 @@ function applyStaticI18n(){
 }
 
 /* ---------- storage ---------- */
-const KEY='wordkeep.v2';
-const OLDKEY='wordkeep.v1';
+const KEY='idiomkeep.v1';
+const OLDKEY='idiomkeep.v0';
 const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),onboarded:false,seenVersion:''}};
 
 function migrateWord(w){
@@ -640,33 +714,13 @@ function go(id){
   window.scrollTo(0,0);
 }
 
-/* ---------- ADD: dictionary + translation lookup ---------- */
+/* ---------- ADD: idiom autocomplete + translation ---------- */
 let pending=null;
 const inWord=$('#inWord');
-$('#btnLookup').onclick=lookup;
-inWord.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookup();}});
-inWord.addEventListener('input',()=>{
-  const v=inWord.value.trim();
-  $('#btnSave').disabled=!v;
-  if(v)$('#saveHint').textContent=t('hint_after_type');
-});
+const suggestBox=$('#suggestBox');
 
-async function fetchDictionary(w){
-  const r=await fetchWithTimeout('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w),7000);
-  if(!r.ok)throw new Error('not_found');
-  const data=await r.json();
-  const entry=Array.isArray(data)?data[0]:null;
-  if(!entry)throw new Error('not_found');
-  const phon=(entry.phonetics||[]).map(p=>p.text).find(Boolean)||'';
-  const meanings=(entry.meanings||[]).slice(0,3).map(m=>({
-    pos:m.partOfSpeech||'',
-    def:(m.definitions&&m.definitions[0]&&m.definitions[0].definition)||'',
-    ex:(m.definitions&&m.definitions[0]&&m.definitions[0].example)||''
-  })).filter(m=>m.def);
-  return {word:entry.word||w,phon,meanings};
-}
 // MyMemory language pair for the current UI language. English needs no
-// translation (we show the English dictionary definitions directly).
+// translation (we show the English idiom definition directly).
 function mmPair(){
   const m={ja:'en|ja',zh:'en|zh-CN',fr:'en|fr',ar:'en|ar',ko:'en|ko',ru:'en|ru'};
   return m[S().lang]||null;
@@ -679,10 +733,10 @@ async function fetchTranslation(text){
   if(!r.ok)throw new Error('translate_fail');
   const data=await r.json();
   if(data.responseStatus!==200)throw new Error('translate_fail');
-  // MyMemory sometimes "translates" a word into itself (e.g. upon -> upon)
-  // when it has no real equivalent -- treat that as no translation rather
-  // than echoing the English word back. The top-level translatedText can also
-  // be empty while a good match sits in matches[] -- fall back to the best one.
+  // MyMemory sometimes "translates" text into itself when it has no real
+  // equivalent -- treat that as no translation rather than echoing it back.
+  // The top-level translatedText can also be empty while a good match sits
+  // in matches[] -- fall back to the best one.
   const src=normForCompare(text);
   const useless=x=>!x||normForCompare(x)===src;
   let out=data.responseData&&data.responseData.translatedText;
@@ -695,67 +749,74 @@ async function fetchTranslation(text){
   return out;
 }
 
-async function lookup(){
-  const raw=inWord.value.trim();
-  if(!raw)return;
-  const w=raw.toLowerCase();
-  const dup=wordExists(w);
+inWord.addEventListener('input',()=>{
+  const v=inWord.value.trim();
+  $('#btnSave').disabled=!v;
+  if(pending&&pending.word.toLowerCase()!==v.toLowerCase())pending=null;
+  if(v)$('#saveHint').textContent=t('hint_after_type');
+  renderSuggestions(v);
+});
+inWord.addEventListener('keydown',e=>{if(e.key==='Escape')hideSuggestions();});
+document.addEventListener('click',e=>{
+  if(e.target!==inWord&&!suggestBox.contains(e.target))hideSuggestions();
+});
+function hideSuggestions(){suggestBox.style.display='none';}
+function renderSuggestions(v){
+  if(!v){hideSuggestions();return;}
+  const q=v.toLowerCase();
+  const matches=IDIOM_DB.filter(i=>i.idiom.toLowerCase().includes(q)).slice(0,6);
+  if(!matches.length){hideSuggestions();return;}
+  suggestBox.innerHTML=matches.map(m=>'<div class="suggest-item" data-idiom="'+esc(m.idiom)+'">'+esc(m.idiom)+'</div>').join('');
+  suggestBox.style.display='block';
+  $$('.suggest-item').forEach(el=>el.onclick=()=>selectSuggestion(el.dataset.idiom));
+}
+
+async function selectSuggestion(idiomText){
+  inWord.value=idiomText;
+  hideSuggestions();
+  $('#btnSave').disabled=false;
+  const entry=IDIOM_DB.find(i=>i.idiom===idiomText);
+  const dup=wordExists(idiomText);
   const box=$('#lookupBox');
   box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">'+t('looking_up')+'</span></div>';
-  $('#inJa').value=''; // always clear so a previous search's result can't linger unnoticed
+  $('#inJa').value='';
 
   const needTr=mmPair()!==null;
-  const [dictRes,trRes]=await Promise.allSettled([
-    fetchDictionary(w),
-    needTr?fetchTranslation(w):Promise.reject('skip')
-  ]);
-  const dictOk=dictRes.status==='fulfilled';
-  const trOk=trRes.status==='fulfilled';
-
-  // Translate each English definition into the target language too, instead
-  // of showing raw English-English dictionary text (skipped in English mode).
-  let meanings=dictOk?dictRes.value.meanings:[];
-  if(meanings.length&&needTr){
-    const defTr=await Promise.allSettled(meanings.map(m=>fetchTranslation(m.def)));
-    meanings=meanings.map((m,i)=>({...m,defJa:defTr[i].status==='fulfilled'?defTr[i].value:''}));
+  let meaningVal=entry.def;
+  let trOk=false;
+  if(needTr){
+    try{meaningVal=await fetchTranslation(entry.def);trOk=true;}catch(e){meaningVal='';}
   }
-
-  // The stored "meaning": translation if we have one; in English mode use the
-  // first dictionary definition.
-  const meaningVal=trOk?trRes.value:(!needTr&&meanings[0]?meanings[0].def:'');
-  pending={word:dictOk?dictRes.value.word:w,phon:dictOk?dictRes.value.phon:'',meanings,ja:meaningVal,examples:[]};
+  pending={word:idiomText,phon:'',meanings:[{pos:'idiom',def:entry.def,ex:''}],ja:meaningVal,examples:[]};
   if(meaningVal)$('#inJa').value=meaningVal;
-  $('#btnSave').disabled=false;
 
   let html='<div class="preview">';
   if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
-  if(dictOk){
-    html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
-      pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
-        (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
-        (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
-  }else if(!meaningVal){
-    html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
-  }
+  html+='<div class="def" style="margin-top:8px">'+esc(entry.def)+'</div>';
+  if(!meaningVal)html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
   html+='</div>';
   box.innerHTML=html;
   $('#saveHint').textContent=t('hint_confirm');
 }
 
 $('#btnSave').onclick=()=>{
-  const w=(pending&&pending.word)?pending.word:inWord.value.trim();
+  const w=inWord.value.trim();
   if(!w)return;
   if(wordExists(w)){toast(t('toast_dup',w));go('v-list');return;}
+  // Only trust `pending`'s meanings/examples if it still matches the current
+  // text -- if the user tweaked the idiom after picking a suggestion, fall
+  // back to whatever they typed manually.
+  const useP=pending&&pending.word.toLowerCase()===w.toLowerCase()?pending:null;
   const now=Date.now();
   const item={
     id:now+''+Math.random().toString(36).slice(2,6),
     word:w,
     kata:$('#inKata').value.trim(),
     ja:$('#inJa').value.trim(),
-    phon:pending?pending.phon:'',
-    meanings:pending?pending.meanings:[],
-    examples:pending?(pending.examples||[]):[],
+    phon:'',
+    meanings:useP?useP.meanings:[],
+    examples:useP?(useP.examples||[]):[],
     seen:0,correct:0,wrong:0,added:now,
     box:-1,nextDue:now,hist:[]
   };
@@ -1115,7 +1176,7 @@ $('#btnExport').onclick=()=>{
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='wordkeep-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.download='idiomkeep-backup-'+new Date().toISOString().slice(0,10)+'.json';
   a.click();toast(t('toast_export'));
 };
 $('#btnImport').onclick=()=>$('#fileImport').click();
