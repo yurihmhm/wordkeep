@@ -93,6 +93,11 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   font-family:Georgia,serif;direction:ltr;text-align:left}
 .suggest-item:last-child{border-bottom:none}
 .suggest-item:active{background:#f5f8fd}
+.suggest-item .src-tag{font-size:10px;color:var(--muted);margin-left:4px;font-family:inherit;font-style:normal}
+.dm-chip{border:1px solid var(--line);border-radius:14px;padding:8px 12px;font-size:13px;
+  font-family:inherit;cursor:pointer;background:#fff;text-align:left;color:var(--ink)}
+.dm-chip b{font-family:Georgia,serif;color:var(--navy);display:block;direction:ltr}
+.dm-chip .def{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;font-style:italic}
 
 .list-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px;gap:10px}
 .search{flex:1}
@@ -383,11 +388,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.1.0';
+const APP_VERSION='1.2.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn1-4 keys (also used by the "what's new" modal).
 const CHANGELOG=[
-  {version:'1.1.0',keys:['wn1','wn2','wn3','wn4']},
+  {version:'1.2.0',keys:['wn1','wn2']},
+  {version:'1.1.0',keys:['v110_1','v110_2','v110_3','v110_4']},
   {version:'1.0.0',keys:['v100_1','v100_2','v100_3','v100_4']}
 ];
 const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
@@ -652,6 +658,7 @@ const T={
   hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.',ru:'Проверьте и нажмите «Добавить в список».'},
   looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…',ru:'Ищем в словаре и переводе…'},
   dup_here:{ja:'この熟語はすでにリストにあります。',en:'This idiom is already in your list.',zh:'这个习语已在列表中。',fr:'Cet idiome est déjà dans votre liste.',ar:'هذا التعبير موجود بالفعل في قائمتك.',ko:'이 관용구는 이미 목록에 있습니다.',ru:'Эта идиома уже есть в вашем списке.'},
+  maybe_mean:{ja:'もしかして：',en:'Did you mean:',zh:'你是不是想输入：',fr:'Vouliez-vous dire :',ar:'هل تقصد:',ko:'혹시 이거였나요:',ru:'Возможно, вы имели в виду:'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
   not_found_meaning:{ja:'候補が見つかりませんでした。意味を手入力してね。',en:'No suggestion found. Enter the meaning manually.',zh:'未找到建议，请手动输入意思。',fr:'Aucune suggestion trouvée. Saisissez le sens manuellement.',ar:'لم يتم العثور على اقتراح. أدخل المعنى يدويًا.',ko:'추천을 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Совпадений не найдено. Введите значение вручную.'},
 
@@ -765,8 +772,8 @@ const T={
   tut4_b:{ja:'『熟語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『习语卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'熟語データベースを192個に拡充',en:'Expanded the idiom database to 192 entries',zh:'习语数据库扩充至 192 个',fr:'Base de données d’idiomes étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات إلى 192 مدخلًا',ko:'관용구 데이터베이스를 192개로 확장',ru:'База идиом расширена до 192 записей'},
-  wn2:{ja:'カラーテーマを辞書の表紙のような濃緑に変更',en:'New deep-green, dictionary-cover color theme',zh:'改用如词典封面般的深绿色主题',fr:'Nouveau thème vert foncé façon couverture de dictionnaire',ar:'سمة لونية جديدة خضراء داكنة أشبه بغلاف قاموس',ko:'사전 표지 느낌의 짙은 녹색 테마로 변경',ru:'Новая тёмно-зелёная тема в стиле обложки словаря'},
+  wn1:{ja:'熟語入力中にDatamuse APIの候補も表示（内蔵データベースと統合）',en:'Datamuse-powered suggestions now supplement the built-in idiom database while typing',zh:'输入时会显示 Datamuse API 提供的建议（与内置数据库整合）',fr:'Des suggestions Datamuse complètent désormais la base d’idiomes intégrée pendant la frappe',ar:'اقتراحات مدعومة بـ Datamuse تكمّل الآن قاعدة البيانات المدمجة أثناء الكتابة',ko:'입력 중 Datamuse API 후보가 내장 데이터베이스와 통합되어 표시됨',ru:'Подсказки Datamuse теперь дополняют встроенную базу идиом при вводе'},
+  wn2:{ja:'未登録の熟語や誤字にも「もしかして」でスペル修正候補を提案',en:'"Did you mean" now suggests spelling fixes for unrecognized or mistyped idioms',zh:'未收录或拼写错误的习语也会通过“你是不是想输入”提供拼写修正建议',fr:'« Vouliez-vous dire » propose désormais des corrections pour les idiomes inconnus ou mal orthographiés',ar:'يقترح "هل تقصد" الآن تصحيحات إملائية للتعبيرات غير المعروفة أو المكتوبة خطأً',ko:'등록되지 않았거나 오타가 있는 관용구도 ‘혹시 이거였나요’로 철자 수정 제안',ru:'«Возможно, вы имели в виду» теперь предлагает исправления для незнакомых или ошибочно введённых идиом'},
   wn3:{ja:'熟語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'카드에서 다음으로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
   wn4:{ja:'設定 > ヘルプの下に、更新履歴を追加',en:'Added an update history under Settings > Help',zh:'在 设置 > 帮助 下方新增更新记录',fr:'Ajout d’un historique des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 업데이트 기록 추가',ru:'Добавлена история обновлений в Настройки > Помощь'},
   sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
@@ -774,7 +781,11 @@ const T={
   v100_1:{ja:'熟語専用の単語帳アプリとして登場',en:'Launched as a dedicated app for idioms',zh:'作为专注习语的单词卡应用发布',fr:'Lancée comme application dédiée aux idiomes',ar:'إطلاق كتطبيق مخصص للتعبيرات الاصطلاحية',ko:'관용구 전용 앱으로 출시',ru:'Запущено как отдельное приложение для идиом'},
   v100_2:{ja:'入力中に候補が出て、選ぶと意味が自動翻訳される',en:'Suggestions appear as you type — pick one to auto-translate the meaning',zh:'输入时会出现建议，选择后自动翻译意思',fr:'Des suggestions apparaissent pendant la saisie — choisissez-en une pour traduire automatiquement le sens',ar:'تظهر اقتراحات أثناء الكتابة — اخترها لترجمة المعنى تلقائيًا',ko:'입력 중 추천이 나타나고, 선택하면 뜻이 자동 번역됨',ru:'При вводе появляются варианты — выберите один для автоперевода значения'},
   v100_3:{ja:'Wordkeepと同じ復習・フラッシュカード・クイズ機能を搭載',en:'Includes the same review, flashcards, and quiz features as Wordkeep',zh:'配备与 Wordkeep 相同的复习、单词卡和测验功能',fr:'Inclut les mêmes fonctions de révision, cartes et quiz que Wordkeep',ar:'يتضمن نفس ميزات المراجعة والبطاقات والاختبارات الموجودة في Wordkeep',ko:'Wordkeep과 동일한 복습·카드·퀴즈 기능 탑재',ru:'Включает те же функции повторения, карточек и тестов, что и Wordkeep'},
-  v100_4:{ja:'ヘッダーのボタンでWordkeepといつでも切り替え可能',en:'Switch to Wordkeep anytime via the button in the header',zh:'可通过页眉按钮随时切换到 Wordkeep',fr:'Basculez vers Wordkeep à tout moment via le bouton dans l’en-tête',ar:'يمكنك التبديل إلى Wordkeep في أي وقت من الزر في الرأس',ko:'헤더의 버튼으로 언제든 Wordkeep으로 전환 가능',ru:'Переключайтесь на Wordkeep в любое время кнопкой в шапке'}
+  v100_4:{ja:'ヘッダーのボタンでWordkeepといつでも切り替え可能',en:'Switch to Wordkeep anytime via the button in the header',zh:'可通过页眉按钮随时切换到 Wordkeep',fr:'Basculez vers Wordkeep à tout moment via le bouton dans l’en-tête',ar:'يمكنك التبديل إلى Wordkeep في أي وقت من الزر في الرأس',ko:'헤더의 버튼으로 언제든 Wordkeep으로 전환 가능',ru:'Переключайтесь на Wordkeep в любое время кнопкой в шапке'},
+  v110_1:{ja:'熟語データベースを192個に拡充',en:'Expanded the idiom database to 192 entries',zh:'习语数据库扩充至 192 个',fr:'Base de données d’idiomes étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات إلى 192 مدخلًا',ko:'관용구 데이터베이스를 192개로 확장',ru:'База идиом расширена до 192 записей'},
+  v110_2:{ja:'カラーテーマを辞書の表紙のような濃緑に変更',en:'New deep-green, dictionary-cover color theme',zh:'改用如词典封面般的深绿色主题',fr:'Nouveau thème vert foncé façon couverture de dictionnaire',ar:'سمة لونية جديدة خضراء داكنة أشبه بغلاف قاموس',ko:'사전 표지 느낌의 짙은 녹색 테마로 변경',ru:'Новая тёмно-зелёная тема в стиле обложки словаря'},
+  v110_3:{ja:'熟語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'카드에서 다음으로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
+  v110_4:{ja:'設定 > ヘルプの下に、更新履歴を追加',en:'Added an update history under Settings > Help',zh:'在 设置 > 帮助 下方新增更新记录',fr:'Ajout d’un historique des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 업데이트 기록 추가',ru:'Добавлена история обновлений в Настройки > Помощь'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -902,14 +913,21 @@ async function fetchTranslation(text){
   return out;
 }
 
+let suggestTimer=null;
 inWord.addEventListener('input',()=>{
   const v=inWord.value.trim();
   $('#btnSave').disabled=!v;
   if(pending&&pending.word.toLowerCase()!==v.toLowerCase())pending=null;
   if(v)$('#saveHint').textContent=t('hint_after_type');
-  renderSuggestions(v);
+  renderSuggestions(v); // instant local IDIOM_DB matches
+  clearTimeout(suggestTimer);
+  if(v.length<2)return;
+  suggestTimer=setTimeout(()=>augmentWithDatamuse(v),250);
 });
-inWord.addEventListener('keydown',e=>{if(e.key==='Escape')hideSuggestions();});
+inWord.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();hideSuggestions();lookupIdiom();}
+  else if(e.key==='Escape')hideSuggestions();
+});
 document.addEventListener('click',e=>{
   if(e.target!==inWord&&!suggestBox.contains(e.target))hideSuggestions();
 });
@@ -919,37 +937,100 @@ function renderSuggestions(v){
   const q=v.toLowerCase();
   const matches=IDIOM_DB.filter(i=>i.idiom.toLowerCase().includes(q)).slice(0,6);
   if(!matches.length){hideSuggestions();return;}
-  suggestBox.innerHTML=matches.map(m=>'<div class="suggest-item" data-idiom="'+esc(m.idiom)+'">'+esc(m.idiom)+'</div>').join('');
+  paintSuggestions(matches.map(m=>m.idiom),[]);
+}
+function paintSuggestions(local,extra){
+  if(!local.length&&!extra.length){hideSuggestions();return;}
+  let html=local.map(idiom=>'<div class="suggest-item" data-word="'+esc(idiom)+'">'+esc(idiom)+'</div>').join('');
+  html+=extra.map(w=>'<div class="suggest-item" data-word="'+esc(w)+'">'+esc(w)+' <span class="src-tag">Datamuse</span></div>').join('');
+  suggestBox.innerHTML=html;
   suggestBox.style.display='block';
-  $$('.suggest-item').forEach(el=>el.onclick=()=>selectSuggestion(el.dataset.idiom));
+  $$('#suggestBox .suggest-item').forEach(el=>el.onclick=()=>{
+    inWord.value=el.dataset.word;
+    hideSuggestions();
+    lookupIdiom();
+  });
+}
+// Datamuse (https://api.datamuse.com, free, no key, CORS-enabled) supplements
+// the curated IDIOM_DB with broader type-ahead coverage, and separately
+// offers typo-tolerant "did you mean" suggestions when nothing local matches.
+async function fetchDatamuseSuggest(q){
+  const r=await fetchWithTimeout('https://api.datamuse.com/sug?s='+encodeURIComponent(q)+'&max=8',5000);
+  if(!r.ok)throw new Error('datamuse_fail');
+  return await r.json();
+}
+async function fetchDatamuseSpellFallback(q){
+  const r=await fetchWithTimeout('https://api.datamuse.com/words?sp='+encodeURIComponent(q)+'&max=5&md=d',5000);
+  if(!r.ok)throw new Error('datamuse_fail');
+  return await r.json();
+}
+async function augmentWithDatamuse(v){
+  try{
+    const results=await fetchDatamuseSuggest(v);
+    if(inWord.value.trim().toLowerCase()!==v.toLowerCase())return; // stale, input changed since
+    const q=v.toLowerCase();
+    const local=IDIOM_DB.filter(i=>i.idiom.toLowerCase().includes(q)).map(i=>i.idiom).slice(0,6);
+    const localLower=local.map(i=>i.toLowerCase());
+    const extra=results.map(r=>r.word).filter(w=>!localLower.includes(w.toLowerCase())).slice(0,8-local.length);
+    paintSuggestions(local,extra);
+  }catch(e){ /* Datamuse unreachable -- keep whatever local matches are already shown */ }
 }
 
-async function selectSuggestion(idiomText){
-  inWord.value=idiomText;
-  hideSuggestions();
-  $('#btnSave').disabled=false;
-  const entry=IDIOM_DB.find(i=>i.idiom===idiomText);
-  const dup=wordExists(idiomText);
+// Single entry point for "commit to this idiom": checks the curated
+// IDIOM_DB for an exact match first (rich definition + translation), and
+// falls back to translating the raw text plus Datamuse spelling suggestions
+// when it's not a recognized idiom. Used by Enter, every suggestion tap, and
+// every "did you mean" chip -- one pipeline, several ways to reach it.
+async function lookupIdiom(){
+  const raw=inWord.value.trim();
+  if(!raw)return;
+  const dup=wordExists(raw);
   const box=$('#lookupBox');
   box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">'+t('looking_up')+'</span></div>';
   $('#inJa').value='';
+  $('#btnSave').disabled=false;
 
+  const entry=IDIOM_DB.find(i=>i.idiom.toLowerCase()===raw.toLowerCase());
   const needTr=mmPair()!==null;
-  let meaningVal=entry.def;
-  let trOk=false;
-  if(needTr){
-    try{meaningVal=await fetchTranslation(entry.def);trOk=true;}catch(e){meaningVal='';}
+  let meaningVal='',trOk=false;
+  if(entry){
+    if(needTr){try{meaningVal=await fetchTranslation(entry.def);trOk=true;}catch(e){meaningVal='';}}
+    else meaningVal=entry.def;
+  }else if(needTr){
+    try{meaningVal=await fetchTranslation(raw);trOk=true;}catch(e){}
   }
-  pending={word:idiomText,phon:'',meanings:[{pos:'idiom',def:entry.def,ex:''}],ja:meaningVal,examples:[]};
+  pending={word:raw,phon:'',meanings:entry?[{pos:'idiom',def:entry.def,ex:''}]:[],ja:meaningVal,examples:[]};
   if(meaningVal)$('#inJa').value=meaningVal;
+
+  let spellSuggestions=[];
+  if(!entry){
+    try{spellSuggestions=(await fetchDatamuseSpellFallback(raw)).filter(s=>s.word.toLowerCase()!==raw.toLowerCase());}catch(e){}
+  }
 
   let html='<div class="preview">';
   if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
-  html+='<div class="def" style="margin-top:8px">'+esc(entry.def)+'</div>';
+  if(entry)html+='<div class="def" style="margin-top:8px">'+esc(entry.def)+'</div>';
   if(!meaningVal)html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
+  if(!entry&&spellSuggestions.length){
+    html+='<div class="hint" style="margin-top:10px">'+t('maybe_mean')+'</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">'+
+      spellSuggestions.map((s,i)=>{
+        const d=(s.defs&&s.defs[0])?s.defs[0].split('\t').slice(1).join(': '):'';
+        return '<button type="button" class="dm-chip" data-i="'+i+'"><b>'+esc(s.word)+'</b>'+(d?'<span class="def">'+esc(d)+'</span>':'')+'</button>';
+      }).join('')+'</div>';
+  }
   html+='</div>';
   box.innerHTML=html;
+  if(!entry&&spellSuggestions.length){
+    window._spellSuggestions=spellSuggestions;
+    $$('#lookupBox .dm-chip').forEach(chip=>chip.onclick=()=>{
+      const s=window._spellSuggestions[parseInt(chip.dataset.i)];
+      if(!s)return;
+      inWord.value=s.word;
+      lookupIdiom();
+    });
+  }
   $('#saveHint').textContent=t('hint_confirm');
 }
 
@@ -1449,7 +1530,8 @@ function renderTutorial(){
 /* ---------- what's new (after an update) ---------- */
 function openWhatsNew(){
   $('#wnTitle').textContent=t('whatsnew_title');
-  $('#wnList').innerHTML=['wn1','wn2','wn3','wn4'].map(k=>'<li>'+esc(t(k))+'</li>').join('');
+  const keys=(CHANGELOG[0]&&CHANGELOG[0].version===APP_VERSION)?CHANGELOG[0].keys:['wn1','wn2','wn3','wn4'];
+  $('#wnList').innerHTML=keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
   $('#wnOk').textContent=t('ok');
   $('#overlayWn').classList.add('show');
 }

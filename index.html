@@ -86,6 +86,17 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .spin{display:inline-block;width:16px;height:16px;border:2px solid #c3cee6;
   border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
 @keyframes sp{to{transform:rotate(360deg)}}
+.suggest-box{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+  max-height:240px;overflow:auto;z-index:20}
+.suggest-item{padding:12px 14px;font-size:14.5px;cursor:pointer;border-bottom:1px solid var(--line);
+  font-family:Georgia,serif;direction:ltr;text-align:left}
+.suggest-item:last-child{border-bottom:none}
+.suggest-item:active{background:#f5f8fd}
+.dm-chip{border:1px solid var(--line);border-radius:14px;padding:8px 12px;font-size:13px;
+  font-family:inherit;cursor:pointer;background:#fff;text-align:left;color:var(--ink)}
+.dm-chip b{font-family:Georgia,serif;color:var(--navy);display:block;direction:ltr}
+.dm-chip .def{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;font-style:italic}
 
 .list-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px;gap:10px}
 .search{flex:1}
@@ -237,7 +248,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="panel" style="padding:18px">
       <label class="lab" data-i18n="label_word">英単語（スペルで入力）</label>
       <div class="row">
-        <input id="inWord" class="field" dir="ltr" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <div style="position:relative;flex:1">
+          <input id="inWord" class="field" dir="ltr" placeholder="prefer" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" autocomplete="off">
+          <div id="suggestBox" class="suggest-box" style="display:none"></div>
+        </div>
         <button class="btn btn-ghost" id="btnLookup" style="white-space:nowrap;min-width:84px" data-i18n="btn_lookup">調べる</button>
       </div>
       <div id="lookupBox"></div>
@@ -376,13 +390,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.6.0';
+const APP_VERSION='1.7.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn1-4 keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release.
 const CHANGELOG=[
-  {version:'1.6.0',keys:['wn1','wn2','wn3','wn4']},
+  {version:'1.7.0',keys:['wn1','wn2']},
+  {version:'1.6.0',keys:['v160_1','v160_2','v160_3','v160_4']},
   {version:'1.5.0',keys:['v150_1','v150_2','v150_3','v150_4']},
   {version:'1.4.0',keys:['v140_1','v140_2','v140_3','v140_4']},
   {version:'1.3.0',keys:['v130_1','v130_2','v130_3','v130_4']},
@@ -453,6 +468,7 @@ const T={
   hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.',ru:'Проверьте и нажмите «Добавить в список».'},
   looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…',ru:'Ищем в словаре и переводе…'},
   dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。',fr:'Ce mot est déjà dans votre liste.',ar:'هذه الكلمة موجودة بالفعل في قائمتك.',ko:'이 단어는 이미 목록에 있습니다.',ru:'Это слово уже есть в вашем списке.'},
+  maybe_mean:{ja:'もしかして：',en:'Did you mean:',zh:'你是不是想输入：',fr:'Vouliez-vous dire :',ar:'هل تقصد:',ko:'혹시 이거였나요:',ru:'Возможно, вы имели в виду:'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
   not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。',fr:'Introuvable dans le dictionnaire ou la traduction. Saisissez le sens manuellement.',ar:'غير موجود في القاموس أو الترجمة. أدخل المعنى يدويًا.',ko:'사전·번역에서 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Не найдено ни в словаре, ни в переводе. Введите значение вручную.'},
 
@@ -566,8 +582,8 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'単語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'플래시카드에서 다음 카드로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
-  wn2:{ja:'設定 > ヘルプの下に、全リリースの更新履歴を追加',en:'Added a full update history under Settings > Help',zh:'在 设置 > 帮助 下方新增完整更新记录',fr:'Ajout d’un historique complet des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات كامل أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 전체 업데이트 기록 추가',ru:'Добавлена полная история обновлений в Настройки > Помощь'},
+  wn1:{ja:'単語入力中にDatamuse APIでオートコンプリート候補を表示',en:'Live autocomplete suggestions while typing, powered by the Datamuse API',zh:'输入单词时通过 Datamuse API 显示自动补全建议',fr:'Suggestions de saisie automatique en direct pendant la frappe, via l’API Datamuse',ar:'اقتراحات إكمال تلقائي فورية أثناء الكتابة، مدعومة بواجهة Datamuse',ko:'입력 중 Datamuse API 기반 자동완성 후보 표시',ru:'Живые подсказки автодополнения при вводе на основе Datamuse API'},
+  wn2:{ja:'辞書に見つからない単語には「もしかして」でスペル修正候補を提案',en:'When the dictionary can\'t find a word, "Did you mean" now suggests spelling fixes',zh:'词典找不到单词时，会通过“你是不是想输入”提供拼写修正建议',fr:'Quand le dictionnaire ne trouve pas un mot, « Vouliez-vous dire » propose désormais des corrections orthographiques',ar:'عندما لا يجد القاموس كلمة، يقترح "هل تقصد" الآن تصحيحات إملائية',ko:'사전에서 단어를 찾지 못하면 \'혹시 이거였나요\'로 철자 수정 후보 제안',ru:'Если словарь не находит слово, теперь предлагаются варианты исправления через «Возможно, вы имели в виду»'},
   wn3:{ja:'Idiomkeepの熟語データベースを192個に拡充',en:"Expanded Idiomkeep's idiom database to 192 entries",zh:'Idiomkeep 的习语数据库扩充至 192 个',fr:'Base de données d’idiomes d’Idiomkeep étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات في Idiomkeep إلى 192 مدخلًا',ko:'Idiomkeep 관용구 데이터베이스를 192개로 확장',ru:'База идиом Idiomkeep расширена до 192 записей'},
   wn4:{ja:'Idiomkeepのカラーテーマを辞書の表紙のような濃緑に変更',en:'Gave Idiomkeep a deep-green, dictionary-cover color theme',zh:'Idiomkeep 改用如词典封面般的深绿色主题',fr:'Idiomkeep adopte un thème vert foncé façon couverture de dictionnaire',ar:'منح Idiomkeep سمة لونية خضراء داكنة أشبه بغلاف قاموس',ko:'Idiomkeep에 사전 표지 느낌의 짙은 녹색 테마 적용',ru:'Idiomkeep получил тёмно-зелёную тему в стиле обложки словаря'},
   sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
@@ -591,7 +607,11 @@ const T={
   v150_1:{ja:'ロシア語（Русский）に対応。全7言語になりました',en:'Added Russian — now 7 languages in total',zh:'新增俄语支持，现共 7 种语言',fr:'Ajout du russe — 7 langues au total désormais',ar:'تمت إضافة اللغة الروسية — أصبح المجموع 7 لغات',ko:'러시아어 추가 — 이제 총 7개 언어',ru:'Добавлен русский язык — теперь всего 7 языков'},
   v150_2:{ja:'4択クイズの誤答選択を強化。似た単語があれば必ず紛れ込むように',en:'Strengthened quiz distractors — a genuinely similar word is now reliably included when one exists',zh:'加强了选择题干扰项：如果存在相似单词，现在一定会混入其中',fr:'Leurres du QCM renforcés : un mot vraiment similaire est désormais inclus de façon fiable s’il en existe un',ar:'تحسين خيارات الاختبار: يتم تضمين كلمة مشابهة فعليًا بشكل موثوق عند وجودها',ko:'퀴즈 오답 로직 강화 — 비슷한 단어가 있으면 확실히 섞이도록 개선',ru:'Улучшены неверные варианты в тесте — по-настоящему похожее слово теперь надёжно включается, если оно есть'},
   v150_3:{ja:'姉妹アプリ「Idiomkeep」が登場！熟語専用の単語帳です。ヘッダーのボタンから切り替えられます',en:'Meet Idiomkeep, a sister app for idioms! Switch to it anytime from the button in the header',zh:'姊妹应用「Idiomkeep」上线！专注于习语学习，可通过页眉按钮切换',fr:'Découvrez Idiomkeep, une application sœur pour les idiomes ! Basculez à tout moment via le bouton dans l’en-tête',ar:'تعرّف على Idiomkeep، تطبيق شقيق للتعبيرات الاصطلاحية! يمكنك التبديل إليه في أي وقت من الزر في الرأس',ko:'관용구 전용 자매 앱 “Idiomkeep” 출시! 헤더의 버튼으로 언제든 전환할 수 있어요',ru:'Знакомьтесь с Idiomkeep — приложением-компаньоном для идиом! Переключайтесь в любое время кнопкой в шапке'},
-  v150_4:{ja:'Idiomkeepでは熟語を入力すると候補が出て、選ぶと意味が自動で入ります',en:'In Idiomkeep, suggestions appear as you type an idiom — pick one to auto-fill its meaning',zh:'在 Idiomkeep 中输入习语时会出现建议，选择后自动填入意思',fr:'Dans Idiomkeep, des suggestions apparaissent pendant que vous tapez un idiome — choisissez-en une pour remplir le sens automatiquement',ar:'في Idiomkeep، تظهر اقتراحات أثناء كتابة تعبير اصطلاحي — اخترها لملء المعنى تلقائيًا',ko:'Idiomkeep에서는 관용구를 입력하면 추천이 나타나고, 선택하면 뜻이 자동 입력됩니다',ru:'В Idiomkeep при вводе идиомы появляются варианты — выберите один, и значение заполнится автоматически'}
+  v150_4:{ja:'Idiomkeepでは熟語を入力すると候補が出て、選ぶと意味が自動で入ります',en:'In Idiomkeep, suggestions appear as you type an idiom — pick one to auto-fill its meaning',zh:'在 Idiomkeep 中输入习语时会出现建议，选择后自动填入意思',fr:'Dans Idiomkeep, des suggestions apparaissent pendant que vous tapez un idiome — choisissez-en une pour remplir le sens automatiquement',ar:'في Idiomkeep، تظهر اقتراحات أثناء كتابة تعبير اصطلاحي — اخترها لملء المعنى تلقائيًا',ko:'Idiomkeep에서는 관용구를 입력하면 추천이 나타나고, 선택하면 뜻이 자동 입력됩니다',ru:'В Idiomkeep при вводе идиомы появляются варианты — выберите один, и значение заполнится автоматически'},
+  v160_1:{ja:'単語帳（フラッシュカード）で次のカードに進む時に答えが一瞬見えてしまう不具合を修正',en:"Fixed flashcards briefly flashing the next card's answer when advancing",zh:'修复了单词卡切换到下一张时短暂闪现答案的问题',fr:'Correction d’un bref affichage de la réponse de la carte suivante lors du passage à la carte suivante',ar:'إصلاح ظهور إجابة البطاقة التالية للحظة عند الانتقال إليها',ko:'플래시카드에서 다음 카드로 넘어갈 때 답이 잠깐 보이던 문제 수정',ru:'Исправлена кратковременная вспышка ответа следующей карточки при переходе'},
+  v160_2:{ja:'設定 > ヘルプの下に、全リリースの更新履歴を追加',en:'Added a full update history under Settings > Help',zh:'在 设置 > 帮助 下方新增完整更新记录',fr:'Ajout d’un historique complet des mises à jour sous Réglages > Aide',ar:'تمت إضافة سجل تحديثات كامل أسفل الإعدادات > المساعدة',ko:'설정 > 도움말 아래에 전체 업데이트 기록 추가',ru:'Добавлена полная история обновлений в Настройки > Помощь'},
+  v160_3:{ja:'Idiomkeepの熟語データベースを192個に拡充',en:"Expanded Idiomkeep's idiom database to 192 entries",zh:'Idiomkeep 的习语数据库扩充至 192 个',fr:'Base de données d’idiomes d’Idiomkeep étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات في Idiomkeep إلى 192 مدخلًا',ko:'Idiomkeep 관용구 데이터베이스를 192개로 확장',ru:'База идиом Idiomkeep расширена до 192 записей'},
+  v160_4:{ja:'Idiomkeepのカラーテーマを辞書の表紙のような濃緑に変更',en:'Gave Idiomkeep a deep-green, dictionary-cover color theme',zh:'Idiomkeep 改用如词典封面般的深绿色主题',fr:'Idiomkeep adopte un thème vert foncé façon couverture de dictionnaire',ar:'منح Idiomkeep سمة لونية خضراء داكنة أشبه بغلاف قاموس',ko:'Idiomkeep에 사전 표지 느낌의 짙은 녹색 테마 적용',ru:'Idiomkeep получил тёмно-зелёную тему в стиле обложки словаря'}
 };
 function t(key,...a){
   const entry=T[key];
@@ -687,13 +707,53 @@ function go(id){
 /* ---------- ADD: dictionary + translation lookup ---------- */
 let pending=null;
 const inWord=$('#inWord');
-$('#btnLookup').onclick=lookup;
-inWord.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookup();}});
+const suggestBox=$('#suggestBox');
+let suggestTimer=null;
+$('#btnLookup').onclick=()=>{hideSuggestions();lookup();};
+inWord.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();hideSuggestions();lookup();}
+  else if(e.key==='Escape')hideSuggestions();
+});
 inWord.addEventListener('input',()=>{
   const v=inWord.value.trim();
   $('#btnSave').disabled=!v;
   if(v)$('#saveHint').textContent=t('hint_after_type');
+  clearTimeout(suggestTimer);
+  if(v.length<2){hideSuggestions();return;}
+  suggestTimer=setTimeout(()=>fetchAndRenderSuggestions(v),250);
 });
+document.addEventListener('click',e=>{
+  if(e.target!==inWord&&!suggestBox.contains(e.target))hideSuggestions();
+});
+function hideSuggestions(){suggestBox.style.display='none';}
+// Datamuse (https://api.datamuse.com, free, no key, CORS-enabled) powers the
+// type-ahead dropdown while typing and a typo-tolerant "did you mean" list
+// when the dictionary genuinely has no entry for the input.
+async function fetchDatamuseSuggest(q){
+  const r=await fetchWithTimeout('https://api.datamuse.com/sug?s='+encodeURIComponent(q)+'&max=8',5000);
+  if(!r.ok)throw new Error('datamuse_fail');
+  return await r.json();
+}
+async function fetchDatamuseSpellFallback(q){
+  const r=await fetchWithTimeout('https://api.datamuse.com/words?sp='+encodeURIComponent(q)+'&max=5&md=d',5000);
+  if(!r.ok)throw new Error('datamuse_fail');
+  return await r.json();
+}
+async function fetchAndRenderSuggestions(v){
+  try{
+    const results=await fetchDatamuseSuggest(v);
+    if(inWord.value.trim().toLowerCase()!==v.toLowerCase())return; // input changed while we were waiting
+    const words=results.map(r=>r.word);
+    if(!words.length){hideSuggestions();return;}
+    suggestBox.innerHTML=words.map(w=>'<div class="suggest-item" data-word="'+esc(w)+'">'+esc(w)+'</div>').join('');
+    suggestBox.style.display='block';
+    $$('#suggestBox .suggest-item').forEach(el=>el.onclick=()=>{
+      inWord.value=el.dataset.word;
+      hideSuggestions();
+      lookup();
+    });
+  }catch(e){ /* Datamuse unreachable -- fail silently, dictionary lookup still works via Enter/button */ }
+}
 
 async function fetchDictionary(w){
   const r=await fetchWithTimeout('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w),7000);
@@ -771,6 +831,14 @@ async function lookup(){
   if(meaningVal)$('#inJa').value=meaningVal;
   $('#btnSave').disabled=false;
 
+  // Typo-tolerant fallback: if the dictionary genuinely has no entry, ask
+  // Datamuse for spelling-close alternatives (with definitions via md=d)
+  // instead of just giving up.
+  let spellSuggestions=[];
+  if(!dictOk){
+    try{spellSuggestions=(await fetchDatamuseSpellFallback(w)).filter(s=>s.word.toLowerCase()!==w);}catch(e){}
+  }
+
   let html='<div class="preview">';
   if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
@@ -782,8 +850,25 @@ async function lookup(){
   }else if(!meaningVal){
     html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
   }
+  if(!dictOk&&spellSuggestions.length){
+    html+='<div class="hint" style="margin-top:10px">'+t('maybe_mean')+'</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">'+
+      spellSuggestions.map((s,i)=>{
+        const d=(s.defs&&s.defs[0])?s.defs[0].split('\t').slice(1).join(': '):'';
+        return '<button type="button" class="dm-chip" data-i="'+i+'"><b>'+esc(s.word)+'</b>'+(d?'<span class="def">'+esc(d)+'</span>':'')+'</button>';
+      }).join('')+'</div>';
+  }
   html+='</div>';
   box.innerHTML=html;
+  if(!dictOk&&spellSuggestions.length){
+    window._spellSuggestions=spellSuggestions;
+    $$('#lookupBox .dm-chip').forEach(chip=>chip.onclick=()=>{
+      const s=window._spellSuggestions[parseInt(chip.dataset.i)];
+      if(!s)return;
+      inWord.value=s.word;
+      lookup();
+    });
+  }
   $('#saveHint').textContent=t('hint_confirm');
 }
 
@@ -1279,7 +1364,8 @@ function renderTutorial(){
 /* ---------- what's new (after an update) ---------- */
 function openWhatsNew(){
   $('#wnTitle').textContent=t('whatsnew_title');
-  $('#wnList').innerHTML=['wn1','wn2','wn3','wn4'].map(k=>'<li>'+esc(t(k))+'</li>').join('');
+  const keys=(CHANGELOG[0]&&CHANGELOG[0].version===APP_VERSION)?CHANGELOG[0].keys:['wn1','wn2','wn3','wn4'];
+  $('#wnList').innerHTML=keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
   $('#wnOk').textContent=t('ok');
   $('#overlayWn').classList.add('show');
 }
