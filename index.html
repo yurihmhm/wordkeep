@@ -224,6 +224,23 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .cl-entry ul{margin:8px 0 0;padding-left:18px}
 .cl-entry li{font-size:13.5px;line-height:1.6;color:#3a4560;margin-bottom:2px}
+
+/* deck source bar + picker (word packages) */
+.source-bar{width:100%;display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line);
+  border-radius:12px;padding:11px 14px;margin:2px 2px 12px;font-family:inherit;font-size:14.5px;
+  font-weight:600;color:var(--navy);cursor:pointer;box-shadow:var(--shadow)}
+.source-bar .src-ic{font-size:17px}
+.source-bar .src-name{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.source-bar .src-caret{color:var(--muted);font-size:12px}
+.deck-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.deck-sec{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:10px 2px 2px}
+.deck-item{width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;
+  padding:13px 15px;font-family:inherit;cursor:pointer}
+.deck-item.on{border-color:var(--navy);background:#f5f8fd}
+.deck-item .dp-title{font-size:15px;font-weight:600;color:var(--navy)}
+.deck-item .dp-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.deck-item .dp-bar{height:6px;background:#e8eef7;border-radius:99px;overflow:hidden;margin-top:8px}
+.deck-item .dp-bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
 </style>
 </head>
 <body>
@@ -268,6 +285,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   </section>
 
   <section id="v-list" class="view">
+    <div id="src-list"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
@@ -276,12 +294,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   </section>
 
   <section id="v-study" class="view">
+    <div id="src-study"></div>
     <h2 style="font-size:20px;margin:6px 2px 4px" data-i18n="study_title">単語帳</h2>
     <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
     <div id="studyBody"></div>
   </section>
 
   <section id="v-quiz" class="view">
+    <div id="src-quiz"></div>
     <div id="quizBody"></div>
   </section>
 
@@ -381,6 +401,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <div class="toast" id="toast"></div>
 
+<div class="overlay" id="overlayDeck"><div class="sheet"><div id="deckBody"></div></div></div>
 <div class="overlay" id="overlayTut"><div class="sheet"><div id="tutBody"></div></div></div>
 <div class="overlay" id="overlayWn"><div class="sheet">
   <div class="step-emoji">✨</div>
@@ -391,13 +412,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.8.0';
+const APP_VERSION='1.9.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn1-4 keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release.
 const CHANGELOG=[
-  {version:'1.8.0',keys:['wn1']},
+  {version:'1.9.0',keys:['wn1']},
+  {version:'1.8.0',keys:['v180_1']},
   {version:'1.7.0',keys:['v170_1','v170_2']},
   {version:'1.6.0',keys:['v160_1','v160_2','v160_3','v160_4']},
   {version:'1.5.0',keys:['v150_1','v150_2','v150_3','v150_4']},
@@ -609,6 +631,10 @@ const T={
   skip:{ja:'スキップ',en:'Skip',zh:'跳过',fr:'Passer',ar:'تخطّي',ko:'건너뛰기',ru:'Пропустить'},
   start:{ja:'はじめる',en:'Get started',zh:'开始',fr:'Commencer',ar:'ابدأ',ko:'시작하기',ru:'Начать'},
   back:{ja:'戻る',en:'Back',zh:'返回',fr:'Retour',ar:'رجوع',ko:'뒤로',ru:'Назад'},
+  close:{ja:'閉じる',en:'Close',zh:'关闭',fr:'Fermer',ar:'إغلاق',ko:'닫기',ru:'Закрыть'},
+  deck_own:{ja:'自分の単語帳',en:'My words',zh:'我的单词本',fr:'Mes mots',ar:'كلماتي',ko:'내 단어장',ru:'Мои слова'},
+  deck_pick_title:{ja:'単語帳を選ぶ',en:'Choose a deck',zh:'选择单词本',fr:'Choisir un jeu',ar:'اختر مجموعة',ko:'단어장 선택',ru:'Выбор набора'},
+  deck_packages:{ja:'単語パッケージ',en:'Word packages',zh:'单词包',fr:'Packs de mots',ar:'حزم الكلمات',ko:'단어 패키지',ru:'Наборы слов'},
   ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인',ru:'ОК'},
 
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
@@ -623,7 +649,8 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'利用状況を把握するための匿名アクセス解析を追加（設定画面に案内表示）',en:'Added anonymous analytics to understand usage (noted in Settings)',zh:'新增匿名使用情况统计以了解使用状况（设置中已注明）',fr:'Ajout d’une analyse anonyme pour comprendre l’utilisation (mentionné dans les Réglages)',ar:'تمت إضافة تحليلات مجهولة الهوية لفهم الاستخدام (موضحة في الإعدادات)',ko:'이용 현황 파악을 위한 익명 분석 추가 (설정에 안내 표시)',ru:'Добавлена анонимная аналитика для понимания использования (указано в Настройках)'},
+  wn1:{ja:'テーマ別の単語パッケージを追加（第1弾「語学留学の英単語 Part1」・50語）。上部の単語帳セレクターから切り替えでき、コンプリート率も表示。自分の単語帳とは別に進捗を管理します',en:'Added themed word packages (first up: "Study Abroad English Part 1", 50 words). Switch decks from the selector at the top; each package shows its completion %, tracked separately from your own words',zh:'新增主题单词包（首个：「留学英语单词 Part1」，50 词）。可从顶部单词本选择器切换，并显示完成度，与你自己的单词本分开记录进度',fr:'Ajout de packs de mots thématiques (le premier : « Anglais pour séjour linguistique Part 1 », 50 mots). Changez de jeu via le sélecteur en haut ; chaque pack affiche son taux de complétion, suivi séparément de vos propres mots',ar:'تمت إضافة حزم كلمات موضوعية (الأولى: «إنجليزية الدراسة بالخارج Part 1»، 50 كلمة). بدّل المجموعات من المحدد بالأعلى؛ تعرض كل حزمة نسبة إكمالها، وتُتابَع بمعزل عن كلماتك',ko:'테마별 단어 패키지 추가 (첫 번째: 「어학연수 영단어 Part1」, 50단어). 상단 단어장 선택기에서 전환할 수 있고 완료율도 표시되며, 내 단어장과 별도로 진행도를 관리합니다',ru:'Добавлены тематические наборы слов (первый — «Английский для языковой стажировки, часть 1», 50 слов). Переключайте наборы через селектор вверху; у каждого показан процент завершения, отслеживаемый отдельно от ваших слов'},
+  v180_1:{ja:'利用状況を把握するための匿名アクセス解析を追加（設定画面に案内表示）',en:'Added anonymous analytics to understand usage (noted in Settings)',zh:'新增匿名使用情况统计以了解使用状况（设置中已注明）',fr:'Ajout d’une analyse anonyme pour comprendre l’utilisation (mentionné dans les Réglages)',ar:'تمت إضافة تحليلات مجهولة الهوية لفهم الاستخدام (موضحة في الإعدادات)',ko:'이용 현황 파악을 위한 익명 분석 추가 (설정에 안내 표시)',ru:'Добавлена анонимная аналитика для понимания использования (указано в Настройках)'},
   wn3:{ja:'Idiomkeepの熟語データベースを192個に拡充',en:"Expanded Idiomkeep's idiom database to 192 entries",zh:'Idiomkeep 的习语数据库扩充至 192 个',fr:'Base de données d’idiomes d’Idiomkeep étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات في Idiomkeep إلى 192 مدخلًا',ko:'Idiomkeep 관용구 데이터베이스를 192개로 확장',ru:'База идиом Idiomkeep расширена до 192 записей'},
   wn4:{ja:'Idiomkeepのカラーテーマを辞書の表紙のような濃緑に変更',en:'Gave Idiomkeep a deep-green, dictionary-cover color theme',zh:'Idiomkeep 改用如词典封面般的深绿色主题',fr:'Idiomkeep adopte un thème vert foncé façon couverture de dictionnaire',ar:'منح Idiomkeep سمة لونية خضراء داكنة أشبه بغلاف قاموس',ko:'Idiomkeep에 사전 표지 느낌의 짙은 녹색 테마 적용',ru:'Idiomkeep получил тёмно-зелёную тему в стиле обложки словаря'},
   sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
@@ -705,6 +732,155 @@ function load(){
 let DB=load();
 function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
 const S=()=>DB.settings;
+
+/* ---------- word packages (distributable decks) ---------- */
+// Curated, static content. Meanings are a language map; only ja/zh are filled
+// for now and everything else falls back to ja (see buildPkgLive), so adding
+// more languages later never breaks existing packages.
+const PKG_STUDYABROAD_PART1={
+  id:'studyabroad_part1',
+  title:{ja:'語学留学の英単語 Part1',zh:'留学英语单词 Part1'},
+  words:[
+    {word:'noun',pos:'noun',meaning:{ja:'名詞',zh:'名词'}},
+    {word:'verb',pos:'noun',meaning:{ja:'動詞',zh:'动词'}},
+    {word:'adjective',pos:'noun',meaning:{ja:'形容詞',zh:'形容词'}},
+    {word:'adverb',pos:'noun',meaning:{ja:'副詞',zh:'副词'}},
+    {word:'preposition',pos:'noun',meaning:{ja:'前置詞',zh:'介词'}},
+    {word:'pronoun',pos:'noun',meaning:{ja:'代名詞',zh:'代词'}},
+    {word:'conjunction',pos:'noun',meaning:{ja:'接続詞',zh:'连词'}},
+    {word:'subject',pos:'noun',meaning:{ja:'主語／科目／話題',zh:'主语／科目／话题'}},
+    {word:'object',pos:'noun',meaning:{ja:'目的語／物',zh:'宾语／物体'}},
+    {word:'sentence',pos:'noun',meaning:{ja:'文',zh:'句子'}},
+    {word:'phrase',pos:'noun',meaning:{ja:'句／フレーズ',zh:'短语'}},
+    {word:'expression',pos:'noun',meaning:{ja:'表現',zh:'表达'}},
+    {word:'meaning',pos:'noun',meaning:{ja:'意味',zh:'意思'}},
+    {word:'pronunciation',pos:'noun',meaning:{ja:'発音',zh:'发音'}},
+    {word:'grammar',pos:'noun',meaning:{ja:'文法',zh:'语法'}},
+    {word:'vocabulary',pos:'noun',meaning:{ja:'語彙、単語力',zh:'词汇量'}},
+    {word:'accent',pos:'noun',meaning:{ja:'アクセント／なまり',zh:'口音'}},
+    {word:'syllable',pos:'noun',meaning:{ja:'音節',zh:'音节'}},
+    {word:'example',pos:'noun',meaning:{ja:'例',zh:'例子'}},
+    {word:'mistake',pos:'noun',meaning:{ja:'間違い',zh:'错误'}},
+    {word:'understand',pos:'verb',meaning:{ja:'理解する',zh:'理解'}},
+    {word:'explain',pos:'verb',meaning:{ja:'説明する',zh:'解释'}},
+    {word:'pronounce',pos:'verb',meaning:{ja:'発音する',zh:'读出/发音'}},
+    {word:'repeat',pos:'verb',meaning:{ja:'繰り返す',zh:'重复'}},
+    {word:'translate',pos:'verb',meaning:{ja:'翻訳する',zh:'翻译'}},
+    {word:'describe',pos:'verb',meaning:{ja:'説明する、描写する',zh:'描述'}},
+    {word:'compare',pos:'verb',meaning:{ja:'比較する',zh:'比较'}},
+    {word:'discuss',pos:'verb',meaning:{ja:'話し合う',zh:'讨论'}},
+    {word:'mention',pos:'verb',meaning:{ja:'言及する',zh:'提到'}},
+    {word:'answer',pos:'verb',meaning:{ja:'答える',zh:'回答'}},
+    {word:'guess',pos:'verb',meaning:{ja:'推測する',zh:'猜测'}},
+    {word:'memorize',pos:'verb',meaning:{ja:'暗記する',zh:'记住'}},
+    {word:'review',pos:'verb',meaning:{ja:'復習する',zh:'复习'}},
+    {word:'improve',pos:'verb',meaning:{ja:'改善する、上達させる',zh:'提高'}},
+    {word:'submit',pos:'verb',meaning:{ja:'提出する',zh:'提交'}},
+    {word:'correct',pos:'adjective',meaning:{ja:'正しい',zh:'正确的'}},
+    {word:'incorrect',pos:'adjective',meaning:{ja:'間違っている',zh:'不正确的'}},
+    {word:'similar',pos:'adjective',meaning:{ja:'似ている',zh:'相似的'}},
+    {word:'different',pos:'adjective',meaning:{ja:'異なる',zh:'不同的'}},
+    {word:'formal',pos:'adjective',meaning:{ja:'フォーマルな、改まった',zh:'正式的'}},
+    {word:'casual',pos:'adjective',meaning:{ja:'カジュアルな、日常的な',zh:'随意的'}},
+    {word:'natural',pos:'adjective',meaning:{ja:'自然な',zh:'自然的'}},
+    {word:'specific',pos:'adjective',meaning:{ja:'具体的な、特定の',zh:'具体的'}},
+    {word:'confusing',pos:'adjective',meaning:{ja:'分かりにくい、混乱させる',zh:'令人困惑的'}},
+    {word:'fluent',pos:'adjective',meaning:{ja:'流暢な',zh:'流利的'}},
+    {word:'actually',pos:'adverb',meaning:{ja:'実は／実際には',zh:'实际上'}},
+    {word:'probably',pos:'adverb',meaning:{ja:'おそらく',zh:'可能'}},
+    {word:'instead',pos:'adverb',meaning:{ja:'代わりに',zh:'而是'}},
+    {word:'although',pos:'conjunction',meaning:{ja:'〜だけれども',zh:'虽然'}},
+    {word:'during',pos:'preposition',meaning:{ja:'〜の間に',zh:'在…期间'}}
+  ]
+};
+const PACKAGES=[PKG_STUDYABROAD_PART1];
+
+// Package learning progress lives in its own key, fully separate from the
+// user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
+const PKGKEY='wordkeep.packages.v1';
+function loadPkg(){try{return JSON.parse(localStorage.getItem(PKGKEY))||{};}catch(e){return {};}}
+function savePkg(){localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}
+let PKGDB=loadPkg();
+
+// Current data source for the shared list/study/quiz views.
+let CTX={type:'own'};              // {type:'own'} or {type:'pkg',id}
+let pkgLive=null;                  // live word objects for the active package
+function pkgById(id){return PACKAGES.find(p=>p.id===id);}
+function pkgTitle(pkg){return (pkg.title[S().lang])||pkg.title.ja;}
+// Build DB.words-shaped objects so every existing render/quiz function works
+// unchanged. Meaning goes into meanings[] (not ja) so the flashcard back shows
+// "[pos] meaning" once, without duplication.
+function buildPkgLive(id){
+  const pkg=pkgById(id);
+  if(!pkg){pkgLive=[];return;}
+  const prog=PKGDB[id]||{};
+  const lang=S().lang;
+  pkgLive=pkg.words.map((pw,i)=>{
+    const p=prog[pw.word]||{};
+    const meaning=pw.meaning[lang]||pw.meaning.ja;
+    return {id:'pkg:'+id+':'+pw.word,word:pw.word,kata:'',ja:'',phon:'',
+      meanings:[{pos:pw.pos,def:meaning,defJa:meaning}],examples:[],
+      seen:p.seen||0,correct:p.correct||0,wrong:p.wrong||0,added:i,
+      box:(typeof p.box==='number'?p.box:-1),
+      nextDue:(typeof p.nextDue==='number'?p.nextDue:Date.now()),
+      hist:Array.isArray(p.hist)?p.hist:[],
+      _pkg:id,_pkgKey:pw.word};
+  });
+}
+function savePkgProgress(){
+  if(CTX.type!=='pkg'||!pkgLive)return;
+  const store={};
+  pkgLive.forEach(w=>{store[w._pkgKey]={box:w.box,nextDue:w.nextDue,hist:w.hist,seen:w.seen,correct:w.correct,wrong:w.wrong};});
+  PKGDB[CTX.id]=store;savePkg();
+}
+// % complete: average per-word achievement, box normalized over INTERVALS
+// (unlearned = 0). Reads from storage so it's accurate for any package.
+function pkgProgressPct(id){
+  const pkg=pkgById(id);
+  if(!pkg||!pkg.words.length)return 0;
+  const prog=PKGDB[id]||{};
+  let sum=0;
+  pkg.words.forEach(pw=>{
+    const box=(prog[pw.word]&&typeof prog[pw.word].box==='number')?prog[pw.word].box:-1;
+    sum+=box<0?0:(box+1)/INTERVALS.length;
+  });
+  return Math.round(sum/pkg.words.length*100);
+}
+// Active-source helpers used by the shared views instead of touching DB.words directly.
+function curWords(){return CTX.type==='pkg'?(pkgLive||[]):DB.words;}
+function curDueCount(){return curWords().filter(isDue).length;}
+function persistProgress(){CTX.type==='pkg'?savePkgProgress():save();}
+function setSource(src){
+  if(src==='own'){CTX={type:'own'};pkgLive=null;}
+  else{CTX={type:'pkg',id:src};buildPkgLive(src);gaEvent('package_opened',{package_id:src});}
+}
+
+/* deck source bar + picker sheet */
+function sourceBarHTML(){
+  const name=CTX.type==='pkg'?esc(pkgTitle(pkgById(CTX.id))):t('deck_own');
+  const icon=CTX.type==='pkg'?'📦':'📗';
+  return '<button class="source-bar" id="srcBtn"><span class="src-ic">'+icon+'</span>'+
+    '<span class="src-name">'+name+'</span><span class="src-caret">▾</span></button>';
+}
+function renderSourceBar(sel){const el=$(sel);if(!el)return;el.innerHTML=sourceBarHTML();$('#srcBtn').onclick=openDeckPicker;}
+function openDeckPicker(){
+  const own='<button class="deck-item'+(CTX.type==='own'?' on':'')+'" data-src="own">'+
+    '<div class="dp-title">'+t('deck_own')+'</div><div class="dp-sub">'+t('n_words',DB.words.length)+'</div></button>';
+  const pkgs=PACKAGES.map(p=>{
+    const pct=pkgProgressPct(p.id);
+    return '<button class="deck-item'+(CTX.type==='pkg'&&CTX.id===p.id?' on':'')+'" data-src="'+p.id+'">'+
+      '<div class="dp-title">'+esc(pkgTitle(p))+'</div>'+
+      '<div class="dp-sub">'+t('n_words',p.words.length)+' · '+pct+'%</div>'+
+      '<div class="dp-bar"><i style="width:'+pct+'%"></i></div></button>';
+  }).join('');
+  $('#deckBody').innerHTML='<h3 style="text-align:center">'+t('deck_pick_title')+'</h3>'+
+    '<div class="deck-list">'+own+'<div class="deck-sec">'+t('deck_packages')+'</div>'+pkgs+'</div>'+
+    '<button class="btn btn-ghost" id="deckClose" style="width:100%;margin-top:14px">'+t('close')+'</button>';
+  $$('#deckBody .deck-item').forEach(b=>b.onclick=()=>{setSource(b.dataset.src);closeDeckPicker();go('v-list');});
+  $('#deckClose').onclick=closeDeckPicker;
+  $('#overlayDeck').classList.add('show');
+}
+function closeDeckPicker(){$('#overlayDeck').classList.remove('show');}
 
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -919,7 +1095,9 @@ async function lookup(){
 $('#btnSave').onclick=()=>{
   const w=(pending&&pending.word)?pending.word:inWord.value.trim();
   if(!w)return;
-  if(wordExists(w)){toast(t('toast_dup',w));go('v-list');return;}
+  // Adding always targets the user's own deck -- switch context back to it so
+  // the list they land on shows the word they just added/found.
+  if(wordExists(w)){setSource('own');toast(t('toast_dup',w));go('v-list');return;}
   const now=Date.now();
   const item={
     id:now+''+Math.random().toString(36).slice(2,6),
@@ -933,7 +1111,8 @@ $('#btnSave').onclick=()=>{
     box:-1,nextDue:now,hist:[]
   };
   DB.words.unshift(item);save();
-  gaEvent('word_added',{lookup_source:pending?pending.source:'lookup_failed_manual_entry'});
+  setSource('own'); // ensure the newly added word is what the list shows next
+  gaEvent('word_added',{lookup_source:pending?pending.source:'lookup_failed_manual_entry',package_id:null});
   inWord.value='';$('#inKata').value='';$('#inJa').value='';
   $('#lookupBox').innerHTML='';pending=null;$('#btnSave').disabled=true;
   $('#saveHint').textContent=t('hint_type_first');
@@ -949,16 +1128,30 @@ function primaryMeaning(w){
 }
 let editingId=null;
 function renderList(){
+  renderSourceBar('#src-list');
+  const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
-  let arr=DB.words;
+  let arr=curWords();
   if(q)arr=arr.filter(w=>(w.word+w.kata+w.ja+primaryMeaning(w)).toLowerCase().includes(q));
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   if(!arr.length){
-    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(DB.words.length?t('no_match'):t('empty_list'))+'</div>';
+    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(curWords().length?t('no_match'):t('empty_list'))+'</div>';
     return;
   }
   p.innerHTML=arr.map(w=>{
+    let dueTag;
+    if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">'+t('tag_new')+'</span>';
+    else if(isDue(w))dueTag='<span class="tag-sm tag-due">'+t('tag_due_today')+'</span>';
+    else dueTag='<span class="tag-sm tag-next">'+t('tag_next',fmtDate(w.nextDue))+'</span>';
+    // Packages are read-only distributable content: word + meaning + progress
+    // tag only (no add/edit/delete).
+    if(isPkg){
+      return '<div class="card"><div style="flex:1">'+
+        '<div><span class="w">'+esc(w.word)+'</span></div>'+
+        (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
+        '<div class="meta">'+dueTag+'</div></div></div>';
+    }
     if(w.id===editingId){
       return '<div class="card" style="flex-direction:column;align-items:stretch">'+
         '<label class="lab" style="margin-top:0">'+t('ed_word')+'</label><input class="field edit-word" dir="ltr" value="'+esc(w.word)+'">'+
@@ -969,10 +1162,6 @@ function renderList(){
         '<button class="btn btn-ghost edit-cancel" style="flex:1">'+t('btn_cancel')+'</button>'+
         '</div></div>';
     }
-    let dueTag;
-    if(w.box===-1&&w.seen===0)dueTag='<span class="tag-sm tag-new">'+t('tag_new')+'</span>';
-    else if(isDue(w))dueTag='<span class="tag-sm tag-due">'+t('tag_due_today')+'</span>';
-    else dueTag='<span class="tag-sm tag-next">'+t('tag_next',fmtDate(w.nextDue))+'</span>';
     const hasEx=(w.examples||[]).length>0;
     return '<div class="card"><div style="flex:1">'+
       '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
@@ -984,7 +1173,7 @@ function renderList(){
       '<button class="del" data-id="'+w.id+'">×</button></div>';
   }).join('');
   $$('#listPanel .del').forEach(b=>b.onclick=()=>{
-    if(confirm(t('confirm_del'))){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();gaEvent('word_deleted',{});}
+    if(confirm(t('confirm_del'))){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();gaEvent('word_deleted',{package_id:null});}
   });
   $$('#listPanel .ex-toggle').forEach(tg=>tg.onclick=()=>{
     const w=DB.words.find(x=>x.id===tg.dataset.id);
@@ -1014,9 +1203,10 @@ function renderList(){
 /* ---------- STUDY (flashcards, no SRS effect) ---------- */
 let deck=[],di=0;
 function renderStudy(){
+  renderSourceBar('#src-study');
   const body=$('#studyBody');
-  if(!DB.words.length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>'+t('study_empty')+'</div>';return;}
-  deck=shuffle(DB.words);di=0;
+  if(!curWords().length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>'+t('study_empty')+'</div>';return;}
+  deck=shuffle(curWords());di=0;
   body.innerHTML=
     '<div class="deck"><div class="flip" id="flip">'+
       '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
@@ -1071,7 +1261,7 @@ function renderBack(w){
 /* ---------- QUIZ / REVIEW (SRS) ---------- */
 let quiz={items:[],i:0,score:0,mode:'due'};
 function pickWords(mode){
-  let pool = mode==='due' ? DB.words.filter(w=>isDue(w)&&primaryMeaning(w)) : DB.words.filter(w=>primaryMeaning(w));
+  let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w)) : curWords().filter(w=>primaryMeaning(w));
   if(S().weak){
     pool=[...pool].sort((a,b)=>{
       const overdueA=(Date.now()-a.nextDue), overdueB=(Date.now()-b.nextDue);
@@ -1086,7 +1276,7 @@ function pickWords(mode){
 }
 function modeTabsHTML(mode){
   return '<div class="q-mode-tabs">'+
-    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">'+t('quiz_due',dueCount())+'</button>'+
+    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">'+t('quiz_due',curDueCount())+'</button>'+
     '<button data-m="all" class="'+(mode==='all'?'on':'')+'">'+t('quiz_free')+'</button>'+
     '</div>';
 }
@@ -1126,7 +1316,7 @@ function weightedSample(items,weights,n){
 // getting diluted when the vocabulary is small or has no real look-alikes.
 function pickDistractors(w,correct,showEng){
   const candidates=[...new Set(
-    DB.words.filter(x=>x.id!==w.id&&primaryMeaning(x))
+    curWords().filter(x=>x.id!==w.id&&primaryMeaning(x))
       .map(x=>showEng?primaryMeaning(x):x.word)
       .filter(tx=>tx&&tx!==correct)
   )];
@@ -1136,14 +1326,16 @@ function pickDistractors(w,correct,showEng){
   return weightedSample(candidates,weights,candidates.length);
 }
 function startQuiz(mode){
+  renderSourceBar('#src-quiz');
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
-  const due=dueCount();
+  const pkgId=CTX.type==='pkg'?CTX.id:null;
+  const due=curDueCount();
   const items=pickWords(mode);
   const body=$('#quizBody');
   const modeTabs=modeTabsHTML(mode);
 
-  const eligibleTotal=DB.words.filter(w=>primaryMeaning(w)).length;
+  const eligibleTotal=curWords().filter(w=>primaryMeaning(w)).length;
   if(mode==='due'&&due===0){
     body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>'+t('quiz_done')+'<br><span style="font-size:12.5px">'+t('quiz_done_sub')+'</span></div>';
     bindModeTabs();return;
@@ -1154,8 +1346,8 @@ function startQuiz(mode){
     bindModeTabs();return;
   }
   quiz={items,i:0,score:0,mode};
-  gaEvent('quiz_started',{quiz_type:S().quizType,item_count:items.length});
-  if(mode==='due')gaEvent('review_started',{item_count:items.length});
+  gaEvent('quiz_started',{quiz_type:S().quizType,item_count:items.length,package_id:pkgId});
+  if(mode==='due')gaEvent('review_started',{item_count:items.length,package_id:pkgId});
   body.innerHTML=modeTabs;
   bindModeTabs();
   renderQ();
@@ -1229,7 +1421,7 @@ function closeEnough(ans,target,w,showEng){
   return hit/aw.length>=0.5;
 }
 function grade(w,ok,correctText,isInput){
-  const rec=DB.words.find(x=>x.id===w.id);
+  const rec=curWords().find(x=>x.id===w.id);
   let nextInText='';
   if(rec){
     rec.seen++;
@@ -1249,7 +1441,7 @@ function grade(w,ok,correctText,isInput){
     if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
   }
   if(ok)quiz.score++;
-  save();
+  persistProgress();
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
@@ -1266,8 +1458,9 @@ function grade(w,ok,correctText,isInput){
 }
 function showScore(){
   const pct=Math.round(quiz.score/quiz.items.length*100);
-  gaEvent('quiz_completed',{quiz_type:S().quizType,accuracy:pct,item_count:quiz.items.length});
-  if(quiz.mode==='due')gaEvent('review_completed',{accuracy:pct,item_count:quiz.items.length});
+  const pkgId=CTX.type==='pkg'?CTX.id:null;
+  gaEvent('quiz_completed',{quiz_type:S().quizType,accuracy:pct,item_count:quiz.items.length,package_id:pkgId});
+  if(quiz.mode==='due')gaEvent('review_completed',{accuracy:pct,item_count:quiz.items.length,package_id:pkgId});
   $('#quizBody').innerHTML='<div class="q-score">'+
     '<div class="big">'+quiz.score+'/'+quiz.items.length+'</div>'+
     '<div class="lbl">'+t('accuracy',pct)+'</div>'+
@@ -1287,7 +1480,7 @@ function renderSettings(){
   $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
   const sel=$('#selLang');
   sel.value=S().lang;
-  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();renderSettings();};
+  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderSettings();};
   renderChangelog();
 }
 function renderChangelog(){
