@@ -49,6 +49,8 @@ header .count{margin-top:12px;font-size:13px;color:#c3cee6;display:flex;gap:14px
 header .count b{color:var(--accent);font-size:15px}
 header .due-chip{background:rgba(240,180,41,.16);border:1px solid rgba(240,180,41,.4);
   border-radius:99px;padding:3px 12px;font-size:12.5px;color:var(--accent);font-weight:600}
+header .streak-chip{background:rgba(216,82,74,.16);border:1px solid rgba(216,82,74,.4);
+  border-radius:99px;padding:3px 12px;font-size:12.5px;color:#e2665c;font-weight:600}
 
 main.wrap{padding-top:26px}
 .view{display:none;animation:fade .25s ease}
@@ -211,6 +213,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .sheet .dots i.on{background:var(--accent)}
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
+.storage-tip-icon{display:flex;justify-content:center;margin:14px 0 8px;color:var(--navy)}
+.storage-tip-steps{text-align:left;max-width:280px;margin:0 auto;padding-left:22px;font-size:14px;line-height:1.7;color:var(--muted)}
 .lang-pick{display:flex;flex-direction:column;gap:10px;margin-top:12px}
 .lang-pick button{padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
   font-family:inherit;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left}
@@ -372,6 +376,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         <div><div class="st" data-i18n="st_import">読み込み</div><div class="sd" data-i18n="desc_import">バックアップから復元・統合</div></div>
         <button class="btn btn-ghost" id="btnImport" data-i18n="btn_import">読み込む</button>
       </div>
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_storage_tip">保存に関する注意</div><div class="sd" data-i18n="desc_storage_tip">ブラウザによってデータが共有されない件について</div></div>
+        <button class="btn btn-ghost" id="btnStorageTip" data-i18n="btn_storage_tip">見る</button>
+      </div>
     </div>
     <input type="file" id="fileImport" accept="application/json" style="display:none">
     <p class="hint" style="margin:14px 2px 22px" data-i18n="data_note">単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。</p>
@@ -410,16 +418,23 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <ul class="whatsnew-list" id="wnList"></ul>
   <button class="btn btn-primary" id="wnOk"></button>
 </div></div>
+<div class="overlay" id="overlayStorageTip"><div class="sheet">
+  <div class="step-emoji">💾</div>
+  <h3 id="stTitle" style="text-align:center"></h3>
+  <div id="stBody" style="text-align:center;margin-top:8px"></div>
+  <button class="btn btn-primary" id="stOk" style="margin-top:18px"></button>
+</div></div>
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.3.0';
+const APP_VERSION='2.4.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.3.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.4.0',date:'2026-07-23',keys:['wn1','wn2']},
+  {version:'2.3.0',date:'2026-07-23',keys:['v230_1']},
   {version:'2.2.0',date:'2026-07-23',keys:['v220_1']},
   {version:'2.1.0',date:'2026-07-23',keys:['v210_1']},
   {version:'2.0.0',date:'2026-07-23',keys:['v200_1','v200_2','v200_3']},
@@ -622,6 +637,9 @@ const T={
   desc_import:{ja:'バックアップから復元・統合',en:'Restore or merge from a backup',zh:'从备份恢复或合并',fr:'Restaurer ou fusionner depuis une sauvegarde',ar:'الاستعادة أو الدمج من نسخة احتياطية',ko:'백업에서 복원·병합',ru:'Восстановить или объединить из резервной копии'},
   btn_import:{ja:'読み込む',en:'Import',zh:'导入',fr:'Importer',ar:'استيراد',ko:'가져오기',ru:'Импорт'},
   data_note:{ja:'単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。',en:'Your words are stored only in this browser on this device. Back up now and then so you don’t lose them.',zh:'单词数据只保存在本设备的浏览器中。请偶尔备份，以免丢失。',fr:'Vos mots sont stockés uniquement dans ce navigateur, sur cet appareil. Sauvegardez de temps en temps pour ne rien perdre.',ar:'تُحفظ كلماتك في هذا المتصفح على هذا الجهاز فقط. خذ نسخة احتياطية من حين لآخر حتى لا تفقدها.',ko:'단어 데이터는 이 기기의 브라우저에만 저장됩니다. 잃지 않도록 가끔 백업하세요.',ru:'Ваши слова хранятся только в этом браузере на этом устройстве. Делайте резервные копии, чтобы не потерять их.'},
+  st_storage_tip:{ja:'保存に関する注意',en:'About your saved data',zh:'关于数据保存的说明',fr:'À propos de vos données enregistrées',ar:'حول بياناتك المحفوظة',ko:'저장 데이터 안내',ru:'О сохранённых данных'},
+  desc_storage_tip:{ja:'ブラウザによってデータが共有されない件について',en:'Why words can look missing in a different browser',zh:'为什么换个浏览器打开会看不到单词',fr:'Pourquoi les mots peuvent sembler manquants dans un autre navigateur',ar:'لماذا قد تبدو الكلمات مفقودة في متصفح آخر',ko:'다른 브라우저에서 단어가 사라진 것처럼 보이는 이유',ru:'Почему слова могут выглядеть пропавшими в другом браузере'},
+  btn_storage_tip:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기',ru:'Посмотреть'},
   sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助',fr:'Aide',ar:'مساعدة',ko:'도움말',ru:'Помощь'},
   st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程',fr:'Revoir le tutoriel',ar:'مشاهدة الشرح مجددًا',ko:'사용법 다시 보기',ru:'Посмотреть обучение снова'},
   desc_tutorial:{ja:'はじめての人向けのチュートリアル',en:'The tutorial for first-time users',zh:'面向新手的使用教程',fr:'Le tutoriel pour les nouveaux',ar:'شرح للمستخدمين الجدد',ko:'처음 사용자를 위한 튜토리얼',ru:'Обучение для новых пользователей'},
@@ -641,6 +659,7 @@ const T={
   deck_pick_title:{ja:'単語帳を選ぶ',en:'Choose a deck',zh:'选择单词本',fr:'Choisir un jeu',ar:'اختر مجموعة',ko:'단어장 선택',ru:'Выбор набора'},
   deck_packages:{ja:'単語パッケージ',en:'Word packages',zh:'单词包',fr:'Packs de mots',ar:'حزم الكلمات',ko:'단어 패키지',ru:'Наборы слов'},
   ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인',ru:'ОК'},
+  streak_chip:{ja:'{0}日連続',en:'{0}-day streak',zh:'连续{0}天',fr:'{0} jours d’affilée',ar:'{0} يوم متتالٍ',ko:'{0}일 연속',ru:'{0} дн. подряд'},
 
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
   tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.',ru:'Это язык приложения и перевода значений. Вы можете изменить его в любое время в настройках.'},
@@ -653,10 +672,24 @@ const T={
   tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡',fr:'Cartes mémo',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
+  // Translated fully into ja/en only for now; other languages fall back to
+  // the en copy (not a real translation) to keep this addition lightweight.
+  // Fine to fill in properly later the same way the packages were.
+  storage_tip_title:{ja:'保存に関する重要なお知らせ',en:'Important: about your saved data',zh:'Important: about your saved data',fr:'Important: about your saved data',ar:'Important: about your saved data',ko:'Important: about your saved data',ru:'Important: about your saved data'},
+  storage_tip_body:{ja:'単語データはこのブラウザだけに保存されており、サーバーには保存されません。LINEなどのアプリ内ブラウザとSafari/Chromeは別のデータとして扱われるため、開くアプリによっては追加した単語が消えたように見えることがあります。ホーム画面に追加して、そこから開くことをおすすめします。',en:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.',zh:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.',fr:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.',ar:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.',ko:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.',ru:'Your word data is stored only in this browser, not on a server. If you open the app from an in-app browser (like LINE) and later from Safari or Chrome, they’re treated as separate storage, so your words may appear to be missing. We recommend adding this app to your home screen and always opening it from there.'},
+  storage_tip_ios_1:{ja:'共有ボタンをタップ',en:'Tap the Share button.',zh:'Tap the Share button.',fr:'Tap the Share button.',ar:'Tap the Share button.',ko:'Tap the Share button.',ru:'Tap the Share button.'},
+  storage_tip_ios_2:{ja:'「ホーム画面に追加」を選ぶ',en:'Tap "Add to Home Screen".',zh:'Tap "Add to Home Screen".',fr:'Tap "Add to Home Screen".',ar:'Tap "Add to Home Screen".',ko:'Tap "Add to Home Screen".',ru:'Tap "Add to Home Screen".'},
+  storage_tip_ios_3:{ja:'「追加」をタップ',en:'Tap "Add".',zh:'Tap "Add".',fr:'Tap "Add".',ar:'Tap "Add".',ko:'Tap "Add".',ru:'Tap "Add".'},
+  storage_tip_android_1:{ja:'右上のメニュー(⋮)をタップ',en:'Tap the ⋮ menu (top right).',zh:'Tap the ⋮ menu (top right).',fr:'Tap the ⋮ menu (top right).',ar:'Tap the ⋮ menu (top right).',ko:'Tap the ⋮ menu (top right).',ru:'Tap the ⋮ menu (top right).'},
+  storage_tip_android_2:{ja:'「アプリをインストール」または「ホーム画面に追加」をタップ',en:'Tap "Install app" or "Add to Home screen".',zh:'Tap "Install app" or "Add to Home screen".',fr:'Tap "Install app" or "Add to Home screen".',ar:'Tap "Install app" or "Add to Home screen".',ko:'Tap "Install app" or "Add to Home screen".',ru:'Tap "Install app" or "Add to Home screen".'},
+  storage_tip_android_3:{ja:'確認画面で「インストール」をタップ',en:'Tap "Install" to confirm.',zh:'Tap "Install" to confirm.',fr:'Tap "Install" to confirm.',ar:'Tap "Install" to confirm.',ko:'Tap "Install" to confirm.',ru:'Tap "Install" to confirm.'},
+
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
   v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
   v220_1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
-  wn1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
+  v230_1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
+  wn1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
+  wn2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
   v200_2:{ja:"単語帳（フラッシュカード）タブでも単語帳を切り替えられない不具合を修正。3画面すべて選択中の単語帳に追従します",en:"Fixed the deck switcher not working on the Flashcards tab — all three views now follow the selected deck",zh:"修复了在单词卡标签页无法切换单词本的问题，三个页面现在都会跟随所选单词本",fr:"Correction du sélecteur de jeu qui ne fonctionnait pas dans l’onglet Cartes — les trois vues suivent désormais le jeu sélectionné",ar:"إصلاح عدم عمل مبدّل المجموعات في تبويب البطاقات — تتبع الشاشات الثلاث الآن المجموعة المختارة",ko:"단어 카드 탭에서 단어장 전환이 안 되던 문제 수정. 세 화면 모두 선택한 단어장을 따릅니다",ru:"Исправлено переключение наборов на вкладке «Карточки» — все три экрана теперь следуют выбранному набору"},
   v200_3:{ja:"リストの検索が意味（日本語・中国語）にも部分一致するように。パッケージの文字表示も見やすく調整",en:"List search now also matches meanings (Japanese & Chinese); package text made easier to read",zh:"列表搜索现在也能匹配意思（日文和中文）；单词包文字显示更清晰",fr:"La recherche de la liste correspond aussi aux sens (japonais et chinois) ; texte des packs rendu plus lisible",ar:"أصبح بحث القائمة يطابق المعاني (اليابانية والصينية) أيضًا؛ وتحسين وضوح نص الحزم",ko:"목록 검색이 뜻(일본어·중국어)에도 부분 일치하도록 개선. 패키지 글자 표시도 보기 쉽게 조정",ru:"Поиск по списку теперь также ищет по значениям (яп. и кит.); текст наборов сделан читабельнее"},
@@ -709,7 +742,8 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),onboarded:false,seenVersion:''}};
+const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),onboarded:false,seenVersion:'',seenStorageTip:false,
+  streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
 function migrateWord(w){
   if(typeof w.box!=='number')w.box=-1;
@@ -723,6 +757,9 @@ function buildDB(r){
   // Existing users (already have words) shouldn't get the first-run tutorial;
   // mark them onboarded so they get the "what's new" notice instead.
   if(merged.words.length>0 && (!r.settings || r.settings.onboarded===undefined))merged.settings.onboarded=true;
+  // Nested defaults survive a shallow settings merge only by reference; give
+  // upgrading users (and fresh ones) their own independent streak object.
+  if(!merged.settings.streak)merged.settings.streak={current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null};
   return merged;
 }
 function load(){
@@ -1029,6 +1066,51 @@ function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>'
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
 function isDue(w){return w.nextDue<=Date.now();}
 function dueCount(){return DB.words.filter(isDue).length;}
+// Local-calendar-day index (not raw ms/DAY math) so a streak day boundary
+// lands on local midnight rather than drifting with DST, matching how
+// fmtDate() already treats "today" via toDateString().
+function localDayIndex(ts){
+  const d=new Date(ts);
+  return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/DAY);
+}
+function monthKey(ts){const d=new Date(ts);return d.getFullYear()+'-'+d.getMonth();}
+function grantMonthlyFreeze(st){
+  const mk=monthKey(Date.now());
+  if(st.freezeMonthGranted==null){st.freezeMonthGranted=mk;return;} // first run: don't double-grant on top of the starting stock
+  if(st.freezeMonthGranted!==mk){
+    st.freezesAvailable=Math.min(2,(st.freezesAvailable||0)+1);
+    st.freezeMonthGranted=mk;
+  }
+}
+// Counts today as active for the streak. Called from both flashcards and
+// quiz, regardless of data source (own words or a package) -- streaks track
+// the habit of opening the app to study, not any one deck's progress.
+function updateStreak(){
+  const st=S().streak;
+  grantMonthlyFreeze(st);
+  const todayIdx=localDayIndex(Date.now());
+  const already=st.lastActiveDate!=null&&localDayIndex(st.lastActiveDate)===todayIdx;
+  if(!already){
+    if(st.lastActiveDate==null){
+      st.current=1;
+    }else{
+      const gap=todayIdx-localDayIndex(st.lastActiveDate);
+      if(gap===1){
+        st.current+=1;
+      }else if(gap===2&&st.freezesAvailable>0){
+        st.freezesAvailable-=1;
+        st.current+=1;
+        gaEvent('streak_freeze_used',{});
+      }else{
+        st.current=1;
+      }
+    }
+    st.lastActiveDate=Date.now();
+    if(st.current>st.longest)st.longest=st.current;
+    if([7,30,100,365].includes(st.current))gaEvent('streak_milestone',{days:st.current});
+  }
+  save();
+}
 function fmtDate(ts){
   const d=new Date(ts),now=new Date();
   const sameDay=d.toDateString()===now.toDateString();
@@ -1367,7 +1449,11 @@ function renderStudy(){
       '<button class="btn btn-ghost" id="dNext">'+t('btn_next')+'</button>'+
     '</div>'+
     '<button class="btn btn-primary" id="dShuffle" style="margin-top:14px">'+t('btn_reshuffle')+'</button>';
-  $('#flip').onclick=()=>$('#flip').classList.toggle('flipped');
+  $('#flip').onclick=()=>{
+    const el=$('#flip');
+    el.classList.toggle('flipped');
+    if(el.classList.contains('flipped'))updateStreak(); // revealing the back is the flashcard's "answer" moment
+  };
   $('#dPrev').onclick=()=>{di=(di-1+deck.length)%deck.length;showCard();};
   $('#dNext').onclick=()=>{di=(di+1)%deck.length;showCard();};
   $('#dShuffle').onclick=renderStudy;
@@ -1593,6 +1679,7 @@ function grade(w,ok,correctText,isInput){
   }
   if(ok)quiz.score++;
   persistProgress();
+  updateStreak();
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
@@ -1684,11 +1771,49 @@ $('#fileImport').onchange=e=>{
 function renderCount(){
   const n=DB.words.length;
   const due=dueCount();
-  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'');
+  const streakN=(S().streak||{}).current||0;
+  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<span class="streak-chip">🔥 '+t('streak_chip',streakN)+'</span>':'');
   const badge=$('#dueBadge');
   if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
   else badge.style.display='none';
 }
+
+/* ---------- storage tip (browser-scoped data warning) ---------- */
+// Simple inline SVGs (not real screenshots) so this survives OS UI redesigns
+// and needs no external image asset.
+const ICON_SHARE='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg>';
+const ICON_MENU='<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+function storageTipHTML(){
+  const ua=navigator.userAgent||'';
+  const isIOS=/iPad|iPhone|iPod/.test(ua);
+  const isAndroid=/Android/.test(ua);
+  let stepsHtml='';
+  if(isIOS){
+    stepsHtml='<div class="storage-tip-icon">'+ICON_SHARE+'</div><ol class="storage-tip-steps">'+
+      '<li>'+esc(t('storage_tip_ios_1'))+'</li>'+
+      '<li>'+esc(t('storage_tip_ios_2'))+'</li>'+
+      '<li>'+esc(t('storage_tip_ios_3'))+'</li>'+
+    '</ol>';
+  }else if(isAndroid){
+    stepsHtml='<div class="storage-tip-icon">'+ICON_MENU+'</div><ol class="storage-tip-steps">'+
+      '<li>'+esc(t('storage_tip_android_1'))+'</li>'+
+      '<li>'+esc(t('storage_tip_android_2'))+'</li>'+
+      '<li>'+esc(t('storage_tip_android_3'))+'</li>'+
+    '</ol>';
+  }
+  return '<span style="display:block">'+esc(t('storage_tip_body'))+'</span>'+stepsHtml;
+}
+function openStorageTip(){
+  $('#stTitle').textContent=t('storage_tip_title');
+  $('#stBody').innerHTML=storageTipHTML();
+  $('#stOk').textContent=t('ok');
+  $('#overlayStorageTip').classList.add('show');
+}
+$('#stOk').onclick=()=>{
+  S().seenStorageTip=true;save();
+  $('#overlayStorageTip').classList.remove('show');
+};
+$('#btnStorageTip').onclick=()=>openStorageTip();
 
 /* ---------- tutorial (first run) ---------- */
 let tutStep=0; // 0 = language pick, 1..N = content steps
@@ -1697,7 +1822,8 @@ function tutSteps(){return [
   {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
   {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
   {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
-  {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
+  {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')},
+  {emoji:'💾',title:t('storage_tip_title'),html:storageTipHTML()}
 ];}
 function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
 function closeTutorial(){$('#overlayTut').classList.remove('show');}
@@ -1705,7 +1831,7 @@ function finishTutorial(){
   // Only ever seed once, on a genuinely fresh install -- not when a user
   // revisits the tutorial later from Settings.
   if(tutIsFirstRun&&DB.words.length===0)seedStarterWords();
-  S().onboarded=true;S().seenVersion=APP_VERSION;save();
+  S().onboarded=true;S().seenVersion=APP_VERSION;S().seenStorageTip=true;save();
   closeTutorial();applyStaticI18n();renderCount();
   go($$('.view.active')[0]?$$('.view.active')[0].id:'v-add');
 }
@@ -1744,7 +1870,7 @@ function renderTutorial(){
   box.innerHTML=
     '<div class="step-emoji">'+s.emoji+'</div>'+
     '<h3 style="text-align:center">'+esc(s.title)+'</h3>'+
-    '<p style="text-align:center;margin-top:8px">'+esc(s.body)+'</p>'+
+    '<div style="text-align:center;margin-top:8px">'+(s.html!=null?s.html:esc(s.body))+'</div>'+
     '<div class="dots">'+dots+'</div>'+
     '<div class="tut-actions">'+
       '<button class="btn btn-ghost" id="tutBack">'+t('back')+'</button>'+
@@ -1767,6 +1893,7 @@ function openWhatsNew(){
 $('#wnOk').onclick=()=>{
   S().seenVersion=APP_VERSION;save();
   $('#overlayWn').classList.remove('show');
+  if(!S().seenStorageTip)openStorageTip();
 };
 
 /* ---------- boot ---------- */
@@ -1775,6 +1902,7 @@ renderCount();
 go('v-list');
 if(!S().onboarded){openTutorial(true);}
 else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
+else if(!S().seenStorageTip){openStorageTip();}
 
 /* iOS Safari sometimes leaves the page unable to scroll to its true bottom
    after the on-screen keyboard closes (viewport height gets stuck). Nudging
