@@ -413,13 +413,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.1.0';
+const APP_VERSION='2.2.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.1.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.2.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.1.0',date:'2026-07-23',keys:['v210_1']},
   {version:'2.0.0',date:'2026-07-23',keys:['v200_1','v200_2','v200_3']},
   {version:'1.9.0',date:'2026-07-22',keys:['v190_1']},
   {version:'1.8.0',date:'2026-07-20',keys:['v180_1']},
@@ -652,7 +653,8 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
+  v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
+  wn1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
   v200_2:{ja:"単語帳（フラッシュカード）タブでも単語帳を切り替えられない不具合を修正。3画面すべて選択中の単語帳に追従します",en:"Fixed the deck switcher not working on the Flashcards tab — all three views now follow the selected deck",zh:"修复了在单词卡标签页无法切换单词本的问题，三个页面现在都会跟随所选单词本",fr:"Correction du sélecteur de jeu qui ne fonctionnait pas dans l’onglet Cartes — les trois vues suivent désormais le jeu sélectionné",ar:"إصلاح عدم عمل مبدّل المجموعات في تبويب البطاقات — تتبع الشاشات الثلاث الآن المجموعة المختارة",ko:"단어 카드 탭에서 단어장 전환이 안 되던 문제 수정. 세 화면 모두 선택한 단어장을 따릅니다",ru:"Исправлено переключение наборов на вкладке «Карточки» — все три экрана теперь следуют выбранному набору"},
   v200_3:{ja:"リストの検索が意味（日本語・中国語）にも部分一致するように。パッケージの文字表示も見やすく調整",en:"List search now also matches meanings (Japanese & Chinese); package text made easier to read",zh:"列表搜索现在也能匹配意思（日文和中文）；单词包文字显示更清晰",fr:"La recherche de la liste correspond aussi aux sens (japonais et chinois) ; texte des packs rendu plus lisible",ar:"أصبح بحث القائمة يطابق المعاني (اليابانية والصينية) أيضًا؛ وتحسين وضوح نص الحزم",ko:"목록 검색이 뜻(일본어·중국어)에도 부분 일치하도록 개선. 패키지 글자 표시도 보기 쉽게 조정",ru:"Поиск по списку теперь также ищет по значениям (яп. и кит.); текст наборов сделан читабельнее"},
@@ -739,12 +741,13 @@ function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
 const S=()=>DB.settings;
 
 /* ---------- word packages (distributable decks) ---------- */
-// Curated, static content. Meanings are a language map; only ja/zh are filled
-// for now and everything else falls back to ja (see buildPkgLive), so adding
-// more languages later never breaks existing packages.
+// Curated, static content. title/meaning are language maps covering all 7
+// UI languages; any language missing on a future package still falls back
+// to ja (see pkgTitle/buildPkgLive), so adding more languages later or
+// shipping a new package with partial translation never breaks anything.
 const PKG_STUDYABROAD_PART1={
   id:'studyabroad_part1',
-  title:{ja:'語学留学の英単語 Part1',zh:'留学英语单词 Part1'},
+  title:{ja:'語学留学の英単語 Part1',en:'Study Abroad English Words Part 1',zh:'留学英语单词 Part1',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 1',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 1',ko:'유학 영단어 Part1',ru:'Английские слова для учёбы за рубежом Часть 1'},
   words:[
     {word:'noun', pos:'noun', meaning:{ja:'名詞', en:'a word that names a person, place, or thing', zh:'名词', fr:'nom', ar:'اسم', ko:'명사', ru:'существительное'}},
     {word:'verb', pos:'noun', meaning:{ja:'動詞', en:'a word that describes an action or state', zh:'动词', fr:'verbe', ar:'فعل', ko:'동사', ru:'глагол'}},
@@ -800,7 +803,7 @@ const PKG_STUDYABROAD_PART1={
 };
 const PKG_STUDYABROAD_PART2={
   id:'studyabroad_part2',
-  title:{ja:'語学留学の英単語 Part2',zh:'留学英语单词 Part2'},
+  title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'},
   words:[
     {word:'assignment', pos:'noun', meaning:{ja:'課題', en:'a task given as schoolwork', zh:'作业', fr:'devoir / travail à rendre', ar:'واجب/مهمة', ko:'과제', ru:'задание'}},
     {word:'homework', pos:'noun', meaning:{ja:'宿題', en:'schoolwork done at home', zh:'家庭作业', fr:'devoirs (à la maison)', ar:'واجب منزلي', ko:'숙제', ru:'домашнее задание'}},
