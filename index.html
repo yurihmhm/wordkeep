@@ -220,6 +220,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .cl-entry{padding:16px;border-bottom:1px solid var(--line)}
 .cl-entry:last-child{border-bottom:none}
 .cl-version{font-weight:700;font-size:14px;color:var(--navy)}
+.cl-date{font-weight:600;font-size:11.5px;color:var(--muted);margin-left:8px}
 .cl-current{display:inline-block;font-size:10.5px;font-weight:700;color:var(--good);background:#eafaf3;
   border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .cl-entry ul{margin:8px 0 0;padding-left:18px}
@@ -412,13 +413,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='1.9.0';
+const APP_VERSION='2.0.0';
 // Full release history shown in Settings > Update history. The current
-// version's notes reuse the wn1-4 keys (also used by the "what's new" modal);
+// version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
-// overwritten each release.
+// overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'1.9.0',keys:['wn1']},
+  {version:'2.0.0',date:'2026-07-23',keys:['wn1','wn2','wn3']},
+  {version:'1.9.0',keys:['v190_1']},
   {version:'1.8.0',keys:['v180_1']},
   {version:'1.7.0',keys:['v170_1','v170_2']},
   {version:'1.6.0',keys:['v160_1','v160_2','v160_3','v160_4']},
@@ -649,10 +651,11 @@ const T={
   tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  wn1:{ja:'テーマ別の単語パッケージを追加（第1弾「語学留学の英単語 Part1」・50語）。上部の単語帳セレクターから切り替えでき、コンプリート率も表示。自分の単語帳とは別に進捗を管理します',en:'Added themed word packages (first up: "Study Abroad English Part 1", 50 words). Switch decks from the selector at the top; each package shows its completion %, tracked separately from your own words',zh:'新增主题单词包（首个：「留学英语单词 Part1」，50 词）。可从顶部单词本选择器切换，并显示完成度，与你自己的单词本分开记录进度',fr:'Ajout de packs de mots thématiques (le premier : « Anglais pour séjour linguistique Part 1 », 50 mots). Changez de jeu via le sélecteur en haut ; chaque pack affiche son taux de complétion, suivi séparément de vos propres mots',ar:'تمت إضافة حزم كلمات موضوعية (الأولى: «إنجليزية الدراسة بالخارج Part 1»، 50 كلمة). بدّل المجموعات من المحدد بالأعلى؛ تعرض كل حزمة نسبة إكمالها، وتُتابَع بمعزل عن كلماتك',ko:'테마별 단어 패키지 추가 (첫 번째: 「어학연수 영단어 Part1」, 50단어). 상단 단어장 선택기에서 전환할 수 있고 완료율도 표시되며, 내 단어장과 별도로 진행도를 관리합니다',ru:'Добавлены тематические наборы слов (первый — «Английский для языковой стажировки, часть 1», 50 слов). Переключайте наборы через селектор вверху; у каждого показан процент завершения, отслеживаемый отдельно от ваших слов'},
+  wn1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
+  wn2:{ja:"単語帳（フラッシュカード）タブでも単語帳を切り替えられない不具合を修正。3画面すべて選択中の単語帳に追従します",en:"Fixed the deck switcher not working on the Flashcards tab — all three views now follow the selected deck",zh:"修复了在单词卡标签页无法切换单词本的问题，三个页面现在都会跟随所选单词本",fr:"Correction du sélecteur de jeu qui ne fonctionnait pas dans l’onglet Cartes — les trois vues suivent désormais le jeu sélectionné",ar:"إصلاح عدم عمل مبدّل المجموعات في تبويب البطاقات — تتبع الشاشات الثلاث الآن المجموعة المختارة",ko:"단어 카드 탭에서 단어장 전환이 안 되던 문제 수정. 세 화면 모두 선택한 단어장을 따릅니다",ru:"Исправлено переключение наборов на вкладке «Карточки» — все три экрана теперь следуют выбранному набору"},
+  wn3:{ja:"リストの検索が意味（日本語・中国語）にも部分一致するように。パッケージの文字表示も見やすく調整",en:"List search now also matches meanings (Japanese & Chinese); package text made easier to read",zh:"列表搜索现在也能匹配意思（日文和中文）；单词包文字显示更清晰",fr:"La recherche de la liste correspond aussi aux sens (japonais et chinois) ; texte des packs rendu plus lisible",ar:"أصبح بحث القائمة يطابق المعاني (اليابانية والصينية) أيضًا؛ وتحسين وضوح نص الحزم",ko:"목록 검색이 뜻(일본어·중국어)에도 부분 일치하도록 개선. 패키지 글자 표시도 보기 쉽게 조정",ru:"Поиск по списку теперь также ищет по значениям (яп. и кит.); текст наборов сделан читабельнее"},
+  v190_1:{ja:'テーマ別の単語パッケージを追加（第1弾「語学留学の英単語 Part1」・50語）。上部の単語帳セレクターから切り替えでき、コンプリート率も表示。自分の単語帳とは別に進捗を管理します',en:'Added themed word packages (first up: "Study Abroad English Part 1", 50 words). Switch decks from the selector at the top; each package shows its completion %, tracked separately from your own words',zh:'新增主题单词包（首个：「留学英语单词 Part1」，50 词）。可从顶部单词本选择器切换，并显示完成度，与你自己的单词本分开记录进度',fr:'Ajout de packs de mots thématiques (le premier : « Anglais pour séjour linguistique Part 1 », 50 mots). Changez de jeu via le sélecteur en haut ; chaque pack affiche son taux de complétion, suivi séparément de vos propres mots',ar:'تمت إضافة حزم كلمات موضوعية (الأولى: «إنجليزية الدراسة بالخارج Part 1»، 50 كلمة). بدّل المجموعات من المحدد بالأعلى؛ تعرض كل حزمة نسبة إكمالها، وتُتابَع بمعزل عن كلماتك',ko:'테마별 단어 패키지 추가 (첫 번째: 「어학연수 영단어 Part1」, 50단어). 상단 단어장 선택기에서 전환할 수 있고 완료율도 표시되며, 내 단어장과 별도로 진행도를 관리합니다',ru:'Добавлены тематические наборы слов (первый — «Английский для языковой стажировки, часть 1», 50 слов). Переключайте наборы через селектор вверху; у каждого показан процент завершения, отслеживаемый отдельно от ваших слов'},
   v180_1:{ja:'利用状況を把握するための匿名アクセス解析を追加（設定画面に案内表示）',en:'Added anonymous analytics to understand usage (noted in Settings)',zh:'新增匿名使用情况统计以了解使用状况（设置中已注明）',fr:'Ajout d’une analyse anonyme pour comprendre l’utilisation (mentionné dans les Réglages)',ar:'تمت إضافة تحليلات مجهولة الهوية لفهم الاستخدام (موضحة في الإعدادات)',ko:'이용 현황 파악을 위한 익명 분석 추가 (설정에 안내 표시)',ru:'Добавлена анонимная аналитика для понимания использования (указано в Настройках)'},
-  wn3:{ja:'Idiomkeepの熟語データベースを192個に拡充',en:"Expanded Idiomkeep's idiom database to 192 entries",zh:'Idiomkeep 的习语数据库扩充至 192 个',fr:'Base de données d’idiomes d’Idiomkeep étendue à 192 entrées',ar:'توسيع قاعدة بيانات التعبيرات في Idiomkeep إلى 192 مدخلًا',ko:'Idiomkeep 관용구 데이터베이스를 192개로 확장',ru:'База идиом Idiomkeep расширена до 192 записей'},
-  wn4:{ja:'Idiomkeepのカラーテーマを辞書の表紙のような濃緑に変更',en:'Gave Idiomkeep a deep-green, dictionary-cover color theme',zh:'Idiomkeep 改用如词典封面般的深绿色主题',fr:'Idiomkeep adopte un thème vert foncé façon couverture de dictionnaire',ar:'منح Idiomkeep سمة لونية خضراء داكنة أشبه بغلاف قاموس',ko:'Idiomkeep에 사전 표지 느낌의 짙은 녹색 테마 적용',ru:'Idiomkeep получил тёмно-зелёную тему в стиле обложки словаря'},
   sec_changelog:{ja:'更新履歴',en:'Update history',zh:'更新记录',fr:'Historique des mises à jour',ar:'سجل التحديثات',ko:'업데이트 기록',ru:'История обновлений'},
   cl_current:{ja:'現在',en:'Current',zh:'当前',fr:'Actuelle',ar:'الحالي',ko:'현재',ru:'Текущая'},
   v140_1:{ja:'ダブルタップでの画面ズームを無効化',en:'Disabled double-tap-to-zoom',zh:'已禁用双击缩放',fr:'Zoom par double-tap désactivé',ar:'تم تعطيل التكبير بالنقر المزدوج',ko:'더블 탭 확대 비활성화',ru:'Двойное нажатие для масштабирования отключено'},
@@ -793,7 +796,63 @@ const PKG_STUDYABROAD_PART1={
     {word:'during',pos:'preposition',meaning:{ja:'〜の間に',zh:'在…期间'}}
   ]
 };
-const PACKAGES=[PKG_STUDYABROAD_PART1];
+const PKG_STUDYABROAD_PART2={
+  id:'studyabroad_part2',
+  title:{ja:'語学留学の英単語 Part2',zh:'留学英语单词 Part2'},
+  words:[
+    {word:'assignment',pos:'noun',meaning:{ja:'課題',zh:'作业'}},
+    {word:'homework',pos:'noun',meaning:{ja:'宿題',zh:'家庭作业'}},
+    {word:'worksheet',pos:'noun',meaning:{ja:'ワークシート、練習用紙',zh:'练习卷'}},
+    {word:'textbook',pos:'noun',meaning:{ja:'教科書',zh:'教科书'}},
+    {word:'dictionary',pos:'noun',meaning:{ja:'辞書',zh:'词典'}},
+    {word:'definition',pos:'noun',meaning:{ja:'定義、意味の説明',zh:'定义'}},
+    {word:'context',pos:'noun',meaning:{ja:'文脈',zh:'上下文'}},
+    {word:'topic',pos:'noun',meaning:{ja:'話題、テーマ',zh:'话题'}},
+    {word:'question',pos:'noun',meaning:{ja:'質問、問題',zh:'问题'}},
+    {word:'feedback',pos:'noun',meaning:{ja:'添削、意見、評価',zh:'反馈'}},
+    {word:'presentation',pos:'noun',meaning:{ja:'発表、プレゼン',zh:'报告'}},
+    {word:'discussion',pos:'noun',meaning:{ja:'話し合い',zh:'讨论'}},
+    {word:'partner',pos:'noun',meaning:{ja:'ペアの相手',zh:'搭档'}},
+    {word:'group',pos:'noun',meaning:{ja:'グループ',zh:'小组'}},
+    {word:'deadline',pos:'noun',meaning:{ja:'締め切り',zh:'截止日期'}},
+    {word:'ask',pos:'verb',meaning:{ja:'質問する、尋ねる',zh:'问'}},
+    {word:'clarify',pos:'verb',meaning:{ja:'明確にする、分かりやすく説明する',zh:'澄清'}},
+    {word:'summarize',pos:'verb',meaning:{ja:'要約する',zh:'总结'}},
+    {word:'define',pos:'verb',meaning:{ja:'定義する',zh:'定义'}},
+    {word:'correct',pos:'verb',meaning:{ja:'訂正する',zh:'纠正'}},
+    {word:'practice',pos:'verb',meaning:{ja:'練習する',zh:'练习'}},
+    {word:'participate',pos:'verb',meaning:{ja:'参加する',zh:'参与'}},
+    {word:'prepare',pos:'verb',meaning:{ja:'準備する',zh:'准备'}},
+    {word:'complete',pos:'verb',meaning:{ja:'完成させる、終える',zh:'完成'}},
+    {word:'choose',pos:'verb',meaning:{ja:'選ぶ',zh:'选择'}},
+    {word:'include',pos:'verb',meaning:{ja:'含む',zh:'包括'}},
+    {word:'underline',pos:'verb',meaning:{ja:'下線を引く',zh:'划下划线'}},
+    {word:'highlight',pos:'verb',meaning:{ja:'強調する、マーカーを引く',zh:'标出重点'}},
+    {word:'focus',pos:'verb',meaning:{ja:'集中する',zh:'专注'}},
+    {word:'notice',pos:'verb',meaning:{ja:'気づく',zh:'注意到'}},
+    {word:'clear',pos:'adjective',meaning:{ja:'明確な、分かりやすい',zh:'清楚的'}},
+    {word:'unclear',pos:'adjective',meaning:{ja:'不明確な、分かりにくい',zh:'不清楚的'}},
+    {word:'difficult',pos:'adjective',meaning:{ja:'難しい',zh:'难的'}},
+    {word:'easy',pos:'adjective',meaning:{ja:'簡単な',zh:'容易的'}},
+    {word:'important',pos:'adjective',meaning:{ja:'重要な',zh:'重要的'}},
+    {word:'common',pos:'adjective',meaning:{ja:'一般的な、よく使われる',zh:'常见的'}},
+    {word:'unfamiliar',pos:'adjective',meaning:{ja:'なじみのない、知らない',zh:'不熟悉的'}},
+    {word:'appropriate',pos:'adjective',meaning:{ja:'適切な',zh:'合适的'}},
+    {word:'available',pos:'adjective',meaning:{ja:'利用できる、空いている',zh:'可用的'}},
+    {word:'necessary',pos:'adjective',meaning:{ja:'必要な',zh:'必要的'}},
+    {word:'especially',pos:'adverb',meaning:{ja:'特に',zh:'尤其是'}},
+    {word:'exactly',pos:'adverb',meaning:{ja:'正確に、まさに',zh:'确切地'}},
+    {word:'basically',pos:'adverb',meaning:{ja:'基本的には、簡単に言うと',zh:'基本上'}},
+    {word:'generally',pos:'adverb',meaning:{ja:'一般的に',zh:'一般来说'}},
+    {word:'however',pos:'adverb',meaning:{ja:'しかしながら',zh:'然而'}},
+    {word:'therefore',pos:'adverb',meaning:{ja:'したがって',zh:'因此'}},
+    {word:'for example',pos:'phrase',meaning:{ja:'例えば',zh:'例如'}},
+    {word:'in addition',pos:'phrase',meaning:{ja:'さらに、加えて',zh:'此外'}},
+    {word:'firstly',pos:'adverb',meaning:{ja:'第一に、まず',zh:'首先'}},
+    {word:'finally',pos:'adverb',meaning:{ja:'最後に',zh:'最后'}}
+  ]
+};
+const PACKAGES=[PKG_STUDYABROAD_PART1,PKG_STUDYABROAD_PART2];
 
 // Package learning progress lives in its own key, fully separate from the
 // user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
@@ -818,12 +877,18 @@ function buildPkgLive(id){
   pkgLive=pkg.words.map((pw,i)=>{
     const p=prog[pw.word]||{};
     const meaning=pw.meaning[lang]||pw.meaning.ja;
-    return {id:'pkg:'+id+':'+pw.word,word:pw.word,kata:'',ja:'',phon:'',
-      meanings:[{pos:pw.pos,def:meaning,defJa:meaning}],examples:[],
+    // Put the meaning in `ja` so the flashcard back renders it big/bold (.bja),
+    // matching own words. The meanings[] entry carries only the part of speech
+    // (empty def) so the pos badge still shows without duplicating the meaning.
+    return {id:'pkg:'+id+':'+pw.word,word:pw.word,kata:'',ja:meaning,phon:'',
+      meanings:[{pos:pw.pos,def:'',defJa:''}],examples:[],
       seen:p.seen||0,correct:p.correct||0,wrong:p.wrong||0,added:i,
       box:(typeof p.box==='number'?p.box:-1),
       nextDue:(typeof p.nextDue==='number'?p.nextDue:Date.now()),
       hist:Array.isArray(p.hist)?p.hist:[],
+      // Keep every language's meaning so search matches regardless of the
+      // currently displayed language (the visible one is in meanings[]).
+      _allMeanings:Object.values(pw.meaning).join(' '),
       _pkg:id,_pkgKey:pw.word};
   });
 }
@@ -859,10 +924,13 @@ function setSource(src){
 function sourceBarHTML(){
   const name=CTX.type==='pkg'?esc(pkgTitle(pkgById(CTX.id))):t('deck_own');
   const icon=CTX.type==='pkg'?'📦':'📗';
-  return '<button class="source-bar" id="srcBtn"><span class="src-ic">'+icon+'</span>'+
+  // No id here: this bar is rendered into three containers (list/study/quiz),
+  // so a shared id would make only the first one clickable. Bind on the
+  // element inside its own container instead.
+  return '<button class="source-bar"><span class="src-ic">'+icon+'</span>'+
     '<span class="src-name">'+name+'</span><span class="src-caret">▾</span></button>';
 }
-function renderSourceBar(sel){const el=$(sel);if(!el)return;el.innerHTML=sourceBarHTML();$('#srcBtn').onclick=openDeckPicker;}
+function renderSourceBar(sel){const el=$(sel);if(!el)return;el.innerHTML=sourceBarHTML();el.querySelector('.source-bar').onclick=openDeckPicker;}
 function openDeckPicker(){
   const own='<button class="deck-item'+(CTX.type==='own'?' on':'')+'" data-src="own">'+
     '<div class="dp-title">'+t('deck_own')+'</div><div class="dp-sub">'+t('n_words',DB.words.length)+'</div></button>';
@@ -876,7 +944,15 @@ function openDeckPicker(){
   $('#deckBody').innerHTML='<h3 style="text-align:center">'+t('deck_pick_title')+'</h3>'+
     '<div class="deck-list">'+own+'<div class="deck-sec">'+t('deck_packages')+'</div>'+pkgs+'</div>'+
     '<button class="btn btn-ghost" id="deckClose" style="width:100%;margin-top:14px">'+t('close')+'</button>';
-  $$('#deckBody .deck-item').forEach(b=>b.onclick=()=>{setSource(b.dataset.src);closeDeckPicker();go('v-list');});
+  $$('#deckBody .deck-item').forEach(b=>b.onclick=()=>{
+    setSource(b.dataset.src);
+    closeDeckPicker();
+    // Re-render the view the user is already on (list/study/quiz) so switching
+    // decks from any of the three tabs reflects immediately, instead of always
+    // bouncing back to the list.
+    const active=$$('.view').find(v=>v.classList.contains('active'));
+    go(active&&/^v-(list|study|quiz)$/.test(active.id)?active.id:'v-list');
+  });
   $('#deckClose').onclick=closeDeckPicker;
   $('#overlayDeck').classList.add('show');
 }
@@ -1126,13 +1202,23 @@ function primaryMeaning(w){
   if(w.meanings&&w.meanings[0])return w.meanings[0].defJa||w.meanings[0].def;
   return '';
 }
+// Lowercased haystack for list search -- covers the word, reading note, and
+// meaning for both own words (ja + meanings) and package words (all languages
+// via _allMeanings), so the same search box matches spelling and meaning in
+// either data source.
+function searchText(w){
+  let s=(w.word||'')+' '+(w.kata||'')+' '+(w.ja||'')+' '+primaryMeaning(w);
+  (w.meanings||[]).forEach(m=>{s+=' '+(m.def||'')+' '+(m.defJa||'');});
+  if(w._allMeanings)s+=' '+w._allMeanings;
+  return s.toLowerCase();
+}
 let editingId=null;
 function renderList(){
   renderSourceBar('#src-list');
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
-  if(q)arr=arr.filter(w=>(w.word+w.kata+w.ja+primaryMeaning(w)).toLowerCase().includes(q));
+  if(q)arr=arr.filter(w=>searchText(w).includes(q));
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   if(!arr.length){
@@ -1248,7 +1334,9 @@ function renderBack(w){
   if(w.phon)back+='<div style="color:var(--muted);font-size:14px;margin-bottom:10px">'+esc(w.phon)+'</div>';
   if(w.ja)back+='<div class="bja">'+esc(w.ja)+'</div>';
   (w.meanings||[]).forEach(m=>{
-    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div><div class="bdef">'+esc(m.defJa||m.def)+'</div>'+
+    const dj=m.defJa||m.def;
+    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div>'+
+      (dj?'<div class="bdef">'+esc(dj)+'</div>':'')+
       (m.defJa&&m.defJa!==m.def?'<div style="font-size:12.5px;color:var(--muted);margin-top:2px">'+esc(m.def)+'</div>':'');
   });
   if((w.examples||[]).length){
@@ -1486,8 +1574,10 @@ function renderSettings(){
 function renderChangelog(){
   $('#changelogPanel').innerHTML=CHANGELOG.map(entry=>{
     const current=entry.version===APP_VERSION?' <span class="cl-current">'+t('cl_current')+'</span>':'';
+    // Show the date only when known; older entries without one show no date.
+    const date=entry.date?'<span class="cl-date">'+esc(entry.date)+'</span>':'';
     const notes=entry.keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
-    return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+'</div><ul>'+notes+'</ul></div>';
+    return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+date+'</div><ul>'+notes+'</ul></div>';
   }).join('');
 }
 function seg(sel,keyName,num){
@@ -1606,7 +1696,7 @@ function renderTutorial(){
 /* ---------- what's new (after an update) ---------- */
 function openWhatsNew(){
   $('#wnTitle').textContent=t('whatsnew_title');
-  const keys=(CHANGELOG[0]&&CHANGELOG[0].version===APP_VERSION)?CHANGELOG[0].keys:['wn1','wn2','wn3','wn4'];
+  const keys=(CHANGELOG[0]&&CHANGELOG[0].version===APP_VERSION)?CHANGELOG[0].keys:['wn1','wn2','wn3'];
   $('#wnList').innerHTML=keys.map(k=>'<li>'+esc(t(k))+'</li>').join('');
   $('#wnOk').textContent=t('ok');
   $('#overlayWn').classList.add('show');
