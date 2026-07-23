@@ -413,13 +413,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.2.0';
+const APP_VERSION='2.3.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.2.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.3.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.2.0',date:'2026-07-23',keys:['v220_1']},
   {version:'2.1.0',date:'2026-07-23',keys:['v210_1']},
   {version:'2.0.0',date:'2026-07-23',keys:['v200_1','v200_2','v200_3']},
   {version:'1.9.0',date:'2026-07-22',keys:['v190_1']},
@@ -654,7 +655,8 @@ const T={
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
   v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
-  wn1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
+  v220_1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
+  wn1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
   v200_2:{ja:"単語帳（フラッシュカード）タブでも単語帳を切り替えられない不具合を修正。3画面すべて選択中の単語帳に追従します",en:"Fixed the deck switcher not working on the Flashcards tab — all three views now follow the selected deck",zh:"修复了在单词卡标签页无法切换单词本的问题，三个页面现在都会跟随所选单词本",fr:"Correction du sélecteur de jeu qui ne fonctionnait pas dans l’onglet Cartes — les trois vues suivent désormais le jeu sélectionné",ar:"إصلاح عدم عمل مبدّل المجموعات في تبويب البطاقات — تتبع الشاشات الثلاث الآن المجموعة المختارة",ko:"단어 카드 탭에서 단어장 전환이 안 되던 문제 수정. 세 화면 모두 선택한 단어장을 따릅니다",ru:"Исправлено переключение наборов на вкладке «Карточки» — все три экрана теперь следуют выбранному набору"},
   v200_3:{ja:"リストの検索が意味（日本語・中国語）にも部分一致するように。パッケージの文字表示も見やすく調整",en:"List search now also matches meanings (Japanese & Chinese); package text made easier to read",zh:"列表搜索现在也能匹配意思（日文和中文）；单词包文字显示更清晰",fr:"La recherche de la liste correspond aussi aux sens (japonais et chinois) ; texte des packs rendu plus lisible",ar:"أصبح بحث القائمة يطابق المعاني (اليابانية والصينية) أيضًا؛ وتحسين وضوح نص الحزم",ko:"목록 검색이 뜻(일본어·중국어)에도 부분 일치하도록 개선. 패키지 글자 표시도 보기 쉽게 조정",ru:"Поиск по списку теперь также ищет по значениям (яп. и кит.); текст наборов сделан читабельнее"},
@@ -857,7 +859,63 @@ const PKG_STUDYABROAD_PART2={
     {word:'finally', pos:'adverb', meaning:{ja:'最後に', en:'used to introduce the last point', zh:'最后', fr:'finalement / enfin', ar:'أخيرًا', ko:'마지막으로', ru:'наконец'}}
   ]
 };
-const PACKAGES=[PKG_STUDYABROAD_PART1,PKG_STUDYABROAD_PART2];
+const PKG_STUDYABROAD_PART3 = {
+  id: 'studyabroad_part3',
+  title: { ja: '語学留学の英単語 Part3', en: 'Study Abroad English Vocabulary — Part 3', zh: '留学英语单词 Part3', fr: 'Vocabulaire anglais pour séjour linguistique — Part3', ar: 'مفردات إنجليزية للدراسة في الخارج — الجزء 3', ko: '어학연수 영단어 Part3', ru: 'Английская лексика для учёбы за границей — Part3' },
+  words: [
+    {word:'attendance', pos:'noun', meaning:{ja:'出席', en:'being present at a class or event', zh:'出席', fr:'présence / assiduité', ar:'حضور', ko:'출석', ru:'посещаемость'}},
+    {word:'absence', pos:'noun', meaning:{ja:'欠席', en:'not being present', zh:'缺席', fr:'absence', ar:'غياب', ko:'결석', ru:'отсутствие'}},
+    {word:'schedule', pos:'noun', meaning:{ja:'予定、時間割', en:'a plan of times for things to happen', zh:'时间表/日程', fr:'emploi du temps / horaire', ar:'جدول زمني', ko:'일정/시간표', ru:'расписание'}},
+    {word:'classmate', pos:'noun', meaning:{ja:'クラスメート', en:'a person in the same class as you', zh:'同学', fr:'camarade de classe', ar:'زميل الصف', ko:'반 친구', ru:'одноклассник'}},
+    {word:'instructor', pos:'noun', meaning:{ja:'講師、先生', en:'a person who teaches a class', zh:'讲师/老师', fr:'instructeur / formateur', ar:'مدرّب/معلم', ko:'강사', ru:'преподаватель'}},
+    {word:'course', pos:'noun', meaning:{ja:'授業、コース', en:'a series of classes on a subject', zh:'课程', fr:'cours', ar:'دورة/مقرر', ko:'강좌/코스', ru:'курс'}},
+    {word:'level', pos:'noun', meaning:{ja:'レベル', en:'a stage of ability or difficulty', zh:'水平/级别', fr:'niveau', ar:'مستوى', ko:'수준/레벨', ru:'уровень'}},
+    {word:'skill', pos:'noun', meaning:{ja:'技能、能力', en:'the ability to do something well', zh:'技能', fr:'compétence', ar:'مهارة', ko:'기술/능력', ru:'навык'}},
+    {word:'note', pos:'noun', meaning:{ja:'メモ、ノート', en:'a short piece of writing to remember something', zh:'笔记', fr:'note', ar:'ملاحظة', ko:'메모/노트', ru:'заметка'}},
+    {word:'quiz', pos:'noun', meaning:{ja:'小テスト', en:'a short test', zh:'小测验', fr:'quiz / interrogation', ar:'اختبار قصير', ko:'쪽지시험/퀴즈', ru:'небольшой тест'}},
+    {word:'exam', pos:'noun', meaning:{ja:'試験', en:'a formal test of knowledge', zh:'考试', fr:'examen', ar:'امتحان', ko:'시험', ru:'экзамен'}},
+    {word:'result', pos:'noun', meaning:{ja:'結果', en:'what happens because of something', zh:'结果', fr:'résultat', ar:'نتيجة', ko:'결과', ru:'результат'}},
+    {word:'score', pos:'noun', meaning:{ja:'点数', en:'the number of points earned', zh:'分数', fr:'score / note', ar:'درجة/نتيجة', ko:'점수', ru:'оценка (в баллах)'}},
+    {word:'rule', pos:'noun', meaning:{ja:'ルール', en:'an official instruction on what to do', zh:'规则', fr:'règle', ar:'قاعدة', ko:'규칙', ru:'правило'}},
+    {word:'instruction', pos:'noun', meaning:{ja:'指示、説明', en:'a direction telling you what to do', zh:'指示/说明', fr:'instruction / consigne', ar:'تعليمات', ko:'지시/설명', ru:'инструкция'}},
+    {word:'attend', pos:'verb', meaning:{ja:'出席する', en:'to go to and be present at', zh:'出席', fr:'assister à', ar:'يحضر', ko:'출석하다', ru:'посещать'}},
+    {word:'miss', pos:'verb', meaning:{ja:'欠席する、逃す', en:'to fail to attend or catch something', zh:'错过/缺席', fr:'manquer / rater', ar:'يفوّت/يغيب عن', ko:'놓치다/결석하다', ru:'пропускать'}},
+    {word:'check', pos:'verb', meaning:{ja:'確認する', en:"to look at something to make sure it's right", zh:'检查', fr:'vérifier', ar:'يتحقق من', ko:'확인하다', ru:'проверять'}},
+    {word:'organize', pos:'verb', meaning:{ja:'整理する', en:'to arrange things in order', zh:'整理/组织', fr:'organiser', ar:'ينظّم', ko:'정리하다', ru:'организовывать'}},
+    {word:'share', pos:'verb', meaning:{ja:'共有する', en:'to give part of something, or tell others', zh:'分享', fr:'partager', ar:'يشارك', ko:'공유하다', ru:'делиться'}},
+    {word:'respond', pos:'verb', meaning:{ja:'返答する', en:'to reply or react to something', zh:'回应', fr:'répondre', ar:'يستجيب/يرد', ko:'응답하다', ru:'отвечать/реагировать'}},
+    {word:'agree', pos:'verb', meaning:{ja:'賛成する', en:'to have the same opinion', zh:'同意', fr:"être d'accord", ar:'يوافق', ko:'동의하다', ru:'соглашаться'}},
+    {word:'disagree', pos:'verb', meaning:{ja:'反対する', en:'to have a different opinion', zh:'不同意', fr:"ne pas être d'accord", ar:'يعارض/لا يوافق', ko:'반대하다', ru:'не соглашаться'}},
+    {word:'support', pos:'verb', meaning:{ja:'支える、根拠を示す', en:'to back up an idea, or hold something up', zh:'支持/支撑', fr:'soutenir', ar:'يدعم', ko:'지지하다/뒷받침하다', ru:'поддерживать'}},
+    {word:'express', pos:'verb', meaning:{ja:'表現する', en:'to show a feeling or idea in words', zh:'表达', fr:'exprimer', ar:'يعبّر عن', ko:'표현하다', ru:'выражать'}},
+    {word:'communicate', pos:'verb', meaning:{ja:'意思疎通する', en:'to share information or feelings with others', zh:'交流/沟通', fr:'communiquer', ar:'يتواصل', ko:'의사소통하다', ru:'общаться'}},
+    {word:'concentrate', pos:'verb', meaning:{ja:'集中する', en:'to focus your attention on something', zh:'集中注意力', fr:'se concentrer', ar:'يركّز', ko:'집중하다', ru:'концентрироваться'}},
+    {word:'recognize', pos:'verb', meaning:{ja:'見分ける、認識する', en:"to identify someone or something you've seen before", zh:'认出/识别', fr:'reconnaître', ar:'يتعرّف على', ko:'알아보다/인식하다', ru:'узнавать/распознавать'}},
+    {word:'remember', pos:'verb', meaning:{ja:'覚えている', en:'to keep something in your memory', zh:'记得', fr:'se souvenir', ar:'يتذكر', ko:'기억하다', ru:'помнить'}},
+    {word:'forget', pos:'verb', meaning:{ja:'忘れる', en:'to fail to remember', zh:'忘记', fr:'oublier', ar:'ينسى', ko:'잊다', ru:'забывать'}},
+    {word:'absent', pos:'adjective', meaning:{ja:'欠席している', en:'not present', zh:'缺席的', fr:'absent(e)', ar:'غائب', ko:'결석한', ru:'отсутствующий'}},
+    {word:'present', pos:'adjective', meaning:{ja:'出席している', en:'being there, attending', zh:'出席的', fr:'présent(e)', ar:'حاضر', ko:'출석한', ru:'присутствующий'}},
+    {word:'ready', pos:'adjective', meaning:{ja:'準備ができている', en:'prepared for something', zh:'准备好的', fr:'prêt(e)', ar:'جاهز', ko:'준비된', ru:'готовый'}},
+    {word:'confident', pos:'adjective', meaning:{ja:'自信がある', en:'feeling sure of yourself', zh:'自信的', fr:'confiant(e)', ar:'واثق', ko:'자신감 있는', ru:'уверенный (в себе)'}},
+    {word:'nervous', pos:'adjective', meaning:{ja:'緊張している', en:'feeling worried or anxious', zh:'紧张的', fr:'nerveux/nerveuse', ar:'متوتر', ko:'긴장한', ru:'нервный/взволнованный'}},
+    {word:'comfortable', pos:'adjective', meaning:{ja:'気楽な、快適な', en:'feeling relaxed and at ease', zh:'舒适的/自在的', fr:"à l'aise / confortable", ar:'مرتاح', ko:'편안한', ru:'комфортный/удобный'}},
+    {word:'helpful', pos:'adjective', meaning:{ja:'役に立つ', en:'giving useful help', zh:'有帮助的', fr:'utile / serviable', ar:'مفيد', ko:'도움이 되는', ru:'полезный (о помощи)'}},
+    {word:'useful', pos:'adjective', meaning:{ja:'有用な', en:'able to be used for a practical purpose', zh:'有用的', fr:'utile', ar:'مفيد', ko:'유용한', ru:'полезный'}},
+    {word:'accurate', pos:'adjective', meaning:{ja:'正確な', en:'correct and exact', zh:'准确的', fr:'précis(e) / exact(e)', ar:'دقيق', ko:'정확한', ru:'точный'}},
+    {word:'complete', pos:'adjective', meaning:{ja:'完全な、完成した', en:'having all parts, finished', zh:'完整的', fr:'complet/complète', ar:'مكتمل/كامل', ko:'완전한/완성된', ru:'полный/завершённый'}},
+    {word:'usually', pos:'adverb', meaning:{ja:'普段は', en:'most of the time, normally', zh:'通常', fr:'habituellement', ar:'عادةً', ko:'보통/대개', ru:'обычно'}},
+    {word:'sometimes', pos:'adverb', meaning:{ja:'ときどき', en:'on some occasions, not always', zh:'有时', fr:'parfois', ar:'أحيانًا', ko:'가끔', ru:'иногда'}},
+    {word:'rarely', pos:'adverb', meaning:{ja:'めったに〜ない', en:'not often', zh:'很少', fr:'rarement', ar:'نادرًا', ko:'좀처럼 ~않다', ru:'редко'}},
+    {word:'recently', pos:'adverb', meaning:{ja:'最近', en:'not long ago', zh:'最近', fr:'récemment', ar:'مؤخرًا', ko:'최근에', ru:'недавно'}},
+    {word:'currently', pos:'adverb', meaning:{ja:'現在', en:'at this time, now', zh:'目前', fr:'actuellement', ar:'حاليًا', ko:'현재', ru:'в настоящее время'}},
+    {word:'maybe', pos:'adverb', meaning:{ja:'たぶん、もしかすると', en:'possibly', zh:'也许', fr:'peut-être', ar:'ربما', ko:'아마', ru:'может быть'}},
+    {word:'perhaps', pos:'adverb', meaning:{ja:'おそらく', en:'possibly, maybe', zh:'或许', fr:'peut-être', ar:'ربما', ko:'아마도', ru:'возможно'}},
+    {word:'otherwise', pos:'adverb', meaning:{ja:'そうでなければ', en:'if not, under other circumstances', zh:'否则', fr:'sinon / autrement', ar:'وإلا', ko:'그렇지 않으면', ru:'иначе'}},
+    {word:'at least', pos:'phrase', meaning:{ja:'少なくとも', en:'not less than', zh:'至少', fr:'au moins', ar:'على الأقل', ko:'적어도', ru:'по крайней мере'}},
+    {word:'by the way', pos:'phrase', meaning:{ja:'ところで', en:'used to introduce something not related to the main topic', zh:'顺便说一下', fr:'au fait / à propos', ar:'بالمناسبة', ko:'그런데', ru:'кстати'}}
+  ]
+};
+const PACKAGES=[PKG_STUDYABROAD_PART1,PKG_STUDYABROAD_PART2,PKG_STUDYABROAD_PART3];
 
 // Package learning progress lives in its own key, fully separate from the
 // user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
