@@ -13,11 +13,31 @@
 
 <style>
 :root{
-  --navy:#0f1e3d; --navy-2:#1a2f57; --ink:#0f1e3d;
-  --paper:#fbfcfe; --line:#e2e8f2; --muted:#6b7791;
+  --navy:#0f1e3d; --navy-2:#1a2f57; --fill:#0f1e3d;
+  --ink:#0f1e3d; --ink-strong:#0f1e3d; --ink-2:#3a4560;
+  --paper:#fbfcfe; --surface:#fff; --surface-2:#f5f8fd;
+  --line:#e2e8f2; --muted:#6b7791;
   --accent:#f0b429;
   --good:#1f9d6b; --bad:#d8524a;
+  --good-bg:#eafaf3; --good-ink:#0d6b47; --good-line:#bfe8d5;
+  --bad-bg:#fdeeed; --bad-ink:#a8352e; --bad-line:#f3cfcc;
+  --chip-bg:#e5edf8; --ghost-bg:#eef2f9; --track:#e8eef7;
+  --dup-bg:#fff5da; --dup-ink:#8a5a00; --dup-line:#f0d98a;
+  --switch-off:#cdd6e6; --knob:#fff; --tabbar-bg:rgba(255,255,255,.94);
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
+}
+:root[data-theme="dark"]{
+  --fill:#22375d;
+  --ink:#e6ebf5; --ink-strong:#dce4f5; --ink-2:#b7c2d8;
+  --paper:#0d121c; --surface:#171e2b; --surface-2:#212a3a;
+  --line:#2b3446; --muted:#93a0b8;
+  --good:#2fae7a; --bad:#e0665c;
+  --good-bg:#122b24; --good-ink:#5fd6a6; --good-line:#1f4a3c;
+  --bad-bg:#341d1c; --bad-ink:#f09188; --bad-line:#5a2e2b;
+  --chip-bg:#233247; --ghost-bg:#222b3c; --track:#2b3446;
+  --dup-bg:#33290e; --dup-ink:#e6b657; --dup-line:#5c4a1f;
+  --switch-off:#3a4658; --knob:#e9edf5; --tabbar-bg:rgba(15,20,30,.92);
+  --shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{margin:0;min-height:100vh;min-height:100dvh}
@@ -34,7 +54,7 @@ h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;margin:0}
 .card .w,.pw,.fw{unicode-bidi:isolate;direction:ltr}
 
 header{
-  background:var(--navy); color:#fff;
+  background:var(--fill); color:#fff;
   padding:calc(env(safe-area-inset-top) + 20px) 18px 20px;
   border-radius:0 0 22px 22px;
 }
@@ -57,47 +77,47 @@ main.wrap{padding-top:26px}
 .view.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
 .field{width:100%;padding:14px 16px;font-size:16px;border:1.5px solid var(--line);
-  border-radius:12px;background:#fff;color:var(--ink);font-family:inherit}
-.field:focus{outline:none;border-color:var(--navy)}
+  border-radius:12px;background:var(--surface);color:var(--ink);font-family:inherit}
+.field:focus{outline:none;border-color:var(--ink-strong)}
 label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   letter-spacing:.5px;margin:0 0 6px 2px;text-transform:uppercase}
 .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:600;
   font-family:inherit;cursor:pointer;transition:transform .06s,filter .15s}
 .btn:active{transform:scale(.98)}
-.btn-primary{background:var(--navy);color:#fff;width:100%}
+.btn-primary{background:var(--fill);color:#fff;width:100%}
 .btn-primary:disabled{opacity:.5}
-.btn-ghost{background:#eef2f9;color:var(--navy)}
+.btn-ghost{background:var(--ghost-bg);color:var(--ink-strong)}
 .btn-gold{background:var(--accent);color:var(--navy)}
 .row{display:flex;gap:10px}
 
 .hint{font-size:12.5px;color:var(--muted);margin:6px 2px 0;line-height:1.5}
-.preview{margin-top:14px;padding:16px;border-radius:14px;background:#f5f8fd;border:1px solid var(--line)}
-.preview .ja-big{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.preview{margin-top:14px;padding:16px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.preview .ja-big{font-size:22px;font-weight:700;color:var(--ink-strong);margin-bottom:4px}
 .preview .ja-src{font-size:11px;color:var(--muted);margin-bottom:10px}
 .preview .pw{font-family:Georgia,serif;font-size:18px;font-weight:600;color:var(--muted)}
 .preview .phon{color:var(--muted);font-size:13px;margin-left:8px}
-.preview .pos{display:inline-block;font-size:11px;color:var(--navy);background:#e5edf8;
+.preview .pos{display:inline-block;font-size:11px;color:var(--ink-strong);background:var(--chip-bg);
   border-radius:6px;padding:2px 8px;margin:8px 0 4px;font-weight:600}
-.preview .def{font-size:14px;line-height:1.55;margin:2px 0;color:#3a4560}
+.preview .def{font-size:14px;line-height:1.55;margin:2px 0;color:var(--ink-2)}
 .preview .ex{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
-.preview .warn{font-size:13px;color:#a8352e}
-.preview .dup{font-size:13px;color:#8a5a00;background:#fff5da;border:1px solid #f0d98a;
+.preview .warn{font-size:13px;color:var(--bad-ink)}
+.preview .dup{font-size:13px;color:var(--dup-ink);background:var(--dup-bg);border:1px solid var(--dup-line);
   border-radius:10px;padding:8px 12px;margin-bottom:10px;font-weight:600}
-.spin{display:inline-block;width:16px;height:16px;border:2px solid #c3cee6;
-  border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);
+  border-top-color:var(--ink-strong);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px}
 @keyframes sp{to{transform:rotate(360deg)}}
-.suggest-box{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;
+.suggest-box{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface);
   border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
   max-height:240px;overflow:auto;z-index:20}
 .suggest-item{padding:12px 14px;font-size:14.5px;cursor:pointer;border-bottom:1px solid var(--line);
   font-family:Georgia,serif;direction:ltr;text-align:left}
 .suggest-item:last-child{border-bottom:none}
-.suggest-item:active{background:#f5f8fd}
+.suggest-item:active{background:var(--surface-2)}
 .dm-chip{border:1px solid var(--line);border-radius:14px;padding:8px 12px;font-size:13px;
-  font-family:inherit;cursor:pointer;background:#fff;text-align:left;color:var(--ink)}
-.dm-chip b{font-family:Georgia,serif;color:var(--navy);display:block;direction:ltr}
+  font-family:inherit;cursor:pointer;background:var(--surface);text-align:left;color:var(--ink)}
+.dm-chip b{font-family:Georgia,serif;color:var(--ink-strong);display:block;direction:ltr}
 .dm-chip .def{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;font-style:italic}
 
 .list-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px;gap:10px}
@@ -110,10 +130,10 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .card .m{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.45}
 .card .meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 .tag-sm{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600}
-.tag-due{background:#fdeeed;color:#a8352e}
-.tag-next{background:#eef2f9;color:var(--muted)}
-.tag-new{background:#eafaf3;color:#0d6b47}
-.del{background:none;border:none;color:#c0c9db;font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.tag-due{background:var(--bad-bg);color:var(--bad-ink)}
+.tag-next{background:var(--ghost-bg);color:var(--muted)}
+.tag-new{background:var(--good-bg);color:var(--good-ink)}
+.del{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
 .empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14.5px;line-height:1.7}
 .empty .big{font-size:34px;margin-bottom:10px}
 
@@ -124,15 +144,15 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:30px;text-align:center;box-shadow:var(--shadow)}
-.face.front{background:var(--navy);color:#fff}
-.face.back{background:#fff;border:1px solid var(--line);transform:rotateY(180deg);overflow:auto}
+.face.front{background:var(--fill);color:#fff}
+.face.back{background:var(--surface);border:1px solid var(--line);transform:rotateY(180deg);overflow:auto}
 .face .fw{font-family:Georgia,serif;font-size:34px;font-weight:600}
 .face .fk{color:var(--accent);font-size:16px;margin-top:8px}
 .face .flip-hint{position:absolute;bottom:16px;font-size:12px;opacity:.6}
-.face.back .bpos{font-size:12px;color:var(--navy);background:#e5edf8;border-radius:6px;padding:3px 10px;margin-bottom:8px}
-.face.back .bdef{font-size:16px;line-height:1.5;color:#3a4560}
+.face.back .bpos{font-size:12px;color:var(--ink-strong);background:var(--chip-bg);border-radius:6px;padding:3px 10px;margin-bottom:8px}
+.face.back .bdef{font-size:16px;line-height:1.5;color:var(--ink-2)}
 .face.back .bex{font-size:13.5px;color:var(--muted);font-style:italic;margin-top:12px;line-height:1.5}
-.face.back .bja{font-size:22px;color:var(--navy);font-weight:700;margin-top:2px}
+.face.back .bja{font-size:22px;color:var(--ink-strong);font-weight:700;margin-top:2px}
 .deck-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .deck-nav .pos-ind{font-size:13px;color:var(--muted)}
 
@@ -141,51 +161,51 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-word .qk{color:var(--accent);font-size:16px;margin-top:6px}
 .q-word .qprompt{font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
 .opt{width:100%;text-align:left;padding:15px 18px;margin-bottom:10px;border:1.5px solid var(--line);
-  border-radius:13px;background:#fff;font-size:15.5px;font-family:inherit;cursor:pointer;transition:.15s;line-height:1.4}
+  border-radius:13px;background:var(--surface);font-size:15.5px;font-family:inherit;cursor:pointer;transition:.15s;line-height:1.4}
 .opt:active{transform:scale(.99)}
-.opt.correct{border-color:var(--good);background:#eafaf3;color:#0d6b47}
-.opt.wrong{border-color:var(--bad);background:#fdeeed;color:#a8352e}
+.opt.correct{border-color:var(--good);background:var(--good-bg);color:var(--good-ink)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad-ink)}
 .opt:disabled{cursor:default}
 .q-feedback{margin-top:16px;padding:16px;border-radius:14px;font-size:15px;line-height:1.55}
-.q-feedback.ok{background:#eafaf3;border:1px solid #bfe8d5}
-.q-feedback.ng{background:#fdeeed;border:1px solid #f3cfcc}
-.q-feedback .ans{font-family:Georgia,serif;font-size:19px;font-weight:600;color:var(--navy)}
+.q-feedback.ok{background:var(--good-bg);border:1px solid var(--good-line)}
+.q-feedback.ng{background:var(--bad-bg);border:1px solid var(--bad-line)}
+.q-feedback .ans{font-family:Georgia,serif;font-size:19px;font-weight:600;color:var(--ink-strong)}
 .q-feedback .nextin{font-size:12.5px;color:var(--muted);margin-top:8px}
-.q-progress{height:6px;background:#e8eef7;border-radius:99px;overflow:hidden;margin-bottom:20px}
+.q-progress{height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-bottom:20px}
 .q-progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
 .q-score{text-align:center;padding:40px 20px}
-.q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--navy)}
+.q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--ink-strong)}
 .q-score .lbl{color:var(--muted);margin:6px 0 26px}
 .q-mode-tabs{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
-  background:#fff;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
-.q-mode-tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.q-mode-tabs button.on{background:var(--fill);border-color:var(--fill);color:#fff}
 
 .set-row{display:flex;justify-content:space-between;align-items:center;padding:16px;
   border-bottom:1px solid var(--line);gap:12px}
 .set-row:last-child{border-bottom:none}
 .set-row .st{font-weight:600;font-size:15px}
 .set-row .sd{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:230px;line-height:1.45}
-.seg{display:inline-flex;background:#eef2f9;border-radius:10px;padding:3px;flex-shrink:0}
+.seg{display:inline-flex;background:var(--ghost-bg);border-radius:10px;padding:3px;flex-shrink:0}
 .seg button{border:none;background:none;padding:8px 14px;border-radius:8px;font-size:13px;
   font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap}
-.seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button.on{background:var(--surface);color:var(--ink-strong);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 select.sel{width:auto;min-width:130px;flex-shrink:0;padding:11px 12px;font-size:14px;font-weight:600;
-  border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--navy);font-family:inherit}
-.switch{width:50px;height:30px;border-radius:99px;background:#cdd6e6;position:relative;cursor:pointer;transition:.2s;border:none;flex-shrink:0}
+  border:1.5px solid var(--line);border-radius:11px;background:var(--surface);color:var(--ink-strong);font-family:inherit}
+.switch{width:50px;height:30px;border-radius:99px;background:var(--switch-off);position:relative;cursor:pointer;transition:.2s;border:none;flex-shrink:0}
 .switch.on{background:var(--good)}
-.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--knob);transition:.2s}
 .switch.on i{left:23px}
 .set-section-t{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;
   text-transform:uppercase;margin:22px 2px 8px}
 
-nav.tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);
+nav.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--tabbar-bg);
   backdrop-filter:blur(12px);border-top:1px solid var(--line);
   display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:50}
 nav.tabbar button{flex:1;background:none;border:none;display:flex;flex-direction:column;
   align-items:center;gap:3px;color:var(--muted);font-size:11px;cursor:pointer;
   font-family:inherit;padding:4px 0;position:relative}
-nav.tabbar button.on{color:var(--navy)}
+nav.tabbar button.on{color:var(--ink-strong)}
 nav.tabbar .ic{width:24px;height:24px;font-size:19px}
 nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%;width:44px;height:44px;
   display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:var(--shadow)}
@@ -194,7 +214,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   display:flex;align-items:center;justify-content:center}
 
 .toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
-  background:var(--navy);color:#fff;padding:11px 20px;border-radius:99px;font-size:14px;
+  background:var(--fill);color:#fff;padding:11px 20px;border-radius:99px;font-size:14px;
   box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:99;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1}
 
@@ -203,48 +223,48 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   display:flex;align-items:center;justify-content:center;padding:24px;z-index:100;
   opacity:0;pointer-events:none;transition:.25s}
 .overlay.show{opacity:1;pointer-events:auto}
-.sheet{background:#fff;border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
+.sheet{background:var(--surface);border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
   box-shadow:var(--shadow);max-height:86vh;overflow:auto}
 .sheet h3{font-size:22px;margin-bottom:8px}
 .sheet .step-emoji{font-size:44px;text-align:center;margin-bottom:10px}
-.sheet p{font-size:14.5px;line-height:1.65;color:#3a4560;margin:0}
+.sheet p{font-size:14.5px;line-height:1.65;color:var(--ink-2);margin:0}
 .sheet .dots{display:flex;gap:6px;justify-content:center;margin:18px 0 14px}
 .sheet .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
 .sheet .dots i.on{background:var(--accent)}
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
-.storage-tip-icon{display:flex;justify-content:center;margin:14px 0 8px;color:var(--navy)}
+.storage-tip-icon{display:flex;justify-content:center;margin:14px 0 8px;color:var(--ink-strong)}
 .storage-tip-steps{text-align:left;max-width:280px;margin:0 auto;padding-left:22px;font-size:14px;line-height:1.7;color:var(--muted)}
 .lang-pick{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-.lang-pick button{padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
-  font-family:inherit;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left}
-.lang-pick button.on{border-color:var(--navy);background:#f5f8fd}
+.lang-pick button{padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);
+  font-family:inherit;font-size:15px;font-weight:600;color:var(--ink-strong);cursor:pointer;text-align:left}
+.lang-pick button.on{border-color:var(--ink-strong);background:var(--surface-2)}
 .whatsnew-list{margin:12px 0 20px;padding-left:20px}
-.whatsnew-list li{font-size:14.5px;line-height:1.75;color:#3a4560;margin-bottom:4px}
+.whatsnew-list li{font-size:14.5px;line-height:1.75;color:var(--ink-2);margin-bottom:4px}
 .cl-entry{padding:16px;border-bottom:1px solid var(--line)}
 .cl-entry:last-child{border-bottom:none}
-.cl-version{font-weight:700;font-size:14px;color:var(--navy)}
+.cl-version{font-weight:700;font-size:14px;color:var(--ink-strong)}
 .cl-date{font-weight:600;font-size:11.5px;color:var(--muted);margin-left:8px}
-.cl-current{display:inline-block;font-size:10.5px;font-weight:700;color:var(--good);background:#eafaf3;
+.cl-current{display:inline-block;font-size:10.5px;font-weight:700;color:var(--good);background:var(--good-bg);
   border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .cl-entry ul{margin:8px 0 0;padding-left:18px}
-.cl-entry li{font-size:13.5px;line-height:1.6;color:#3a4560;margin-bottom:2px}
+.cl-entry li{font-size:13.5px;line-height:1.6;color:var(--ink-2);margin-bottom:2px}
 
 /* deck source bar + picker (word packages) */
-.source-bar{width:100%;display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--line);
+.source-bar{width:100%;display:flex;align-items:center;gap:9px;background:var(--surface);border:1.5px solid var(--line);
   border-radius:12px;padding:11px 14px;margin:2px 2px 12px;font-family:inherit;font-size:14.5px;
-  font-weight:600;color:var(--navy);cursor:pointer;box-shadow:var(--shadow)}
+  font-weight:600;color:var(--ink-strong);cursor:pointer;box-shadow:var(--shadow)}
 .source-bar .src-ic{font-size:17px}
 .source-bar .src-name{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .source-bar .src-caret{color:var(--muted);font-size:12px}
 .deck-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .deck-sec{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:10px 2px 2px}
-.deck-item{width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;
+.deck-item{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;
   padding:13px 15px;font-family:inherit;cursor:pointer}
-.deck-item.on{border-color:var(--navy);background:#f5f8fd}
-.deck-item .dp-title{font-size:15px;font-weight:600;color:var(--navy)}
+.deck-item.on{border-color:var(--ink-strong);background:var(--surface-2)}
+.deck-item .dp-title{font-size:15px;font-weight:600;color:var(--ink-strong)}
 .deck-item .dp-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.deck-item .dp-bar{height:6px;background:#e8eef7;border-radius:99px;overflow:hidden;margin-top:8px}
+.deck-item .dp-bar{height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:8px}
 .deck-item .dp-bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
 </style>
 </head>
@@ -326,6 +346,18 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
           <option value="ko">한국어</option>
           <option value="ru">Русский</option>
         </select>
+      </div>
+    </div>
+
+    <div class="set-section-t" data-i18n="sec_appearance">表示</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_theme">テーマ</div><div class="sd" data-i18n="desc_theme">ライト／ダーク／端末の設定に合わせる</div></div>
+        <div class="seg" id="segTheme">
+          <button data-v="system" data-i18n="theme_system">自動</button>
+          <button data-v="light" data-i18n="theme_light">ライト</button>
+          <button data-v="dark" data-i18n="theme_dark">ダーク</button>
+        </div>
       </div>
     </div>
 
@@ -427,13 +459,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.5.0';
+const APP_VERSION='2.6.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.5.0',date:'2026-07-23',keys:['wn1']},
+  {version:'2.6.0',date:'2026-07-24',keys:['wn1']},
+  {version:'2.5.0',date:'2026-07-23',keys:['v250_1']},
   {version:'2.4.0',date:'2026-07-23',keys:['v240_1','v240_2']},
   {version:'2.3.0',date:'2026-07-23',keys:['v230_1']},
   {version:'2.2.0',date:'2026-07-23',keys:['v220_1']},
@@ -612,6 +645,12 @@ const T={
   sec_lang:{ja:'言語',en:'Language',zh:'语言',fr:'Langue',ar:'اللغة',ko:'언어',ru:'Язык'},
   st_lang:{ja:'表示・訳の言語',en:'App & translation language',zh:'界面与翻译语言',fr:'Langue de l’app et des traductions',ar:'لغة التطبيق والترجمة',ko:'앱·번역 언어',ru:'Язык приложения и перевода'},
   desc_lang:{ja:'アプリ表示と、意味の自動取得に使う言語',en:'Language for the UI and auto-fetched meanings',zh:'界面与自动获取意思所用的语言',fr:'Langue de l’interface et des sens récupérés',ar:'لغة الواجهة والمعاني المجلوبة',ko:'화면과 자동 번역에 사용하는 언어',ru:'Язык интерфейса и автоматически получаемых значений'},
+  sec_appearance:{ja:'表示',en:'Appearance',zh:'外观',fr:'Apparence',ar:'المظهر',ko:'화면',ru:'Оформление'},
+  st_theme:{ja:'テーマ',en:'Theme',zh:'主题',fr:'Thème',ar:'السمة',ko:'테마',ru:'Тема'},
+  desc_theme:{ja:'ライト／ダーク／端末の設定に合わせる',en:'Light, dark, or follow your device',zh:'浅色／深色／跟随系统',fr:'Clair, sombre, ou selon l’appareil',ar:'فاتح أو داكن أو حسب الجهاز',ko:'라이트／다크／기기 설정 따르기',ru:'Светлая, тёмная или как на устройстве'},
+  theme_system:{ja:'自動',en:'Auto',zh:'自动',fr:'Auto',ar:'تلقائي',ko:'자동',ru:'Авто'},
+  theme_light:{ja:'ライト',en:'Light',zh:'浅色',fr:'Clair',ar:'فاتح',ko:'라이트',ru:'Светлая'},
+  theme_dark:{ja:'ダーク',en:'Dark',zh:'深色',fr:'Sombre',ar:'داكن',ko:'다크',ru:'Тёмная'},
   sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式',fr:'Format du quiz',ar:'صيغة الاختبار',ko:'출제 형식',ru:'Формат теста'},
   st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형',ru:'Тип теста'},
   desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택',ru:'Выбор из 4 вариантов'},
@@ -689,7 +728,8 @@ const T={
   v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
   v220_1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
   v230_1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
-  wn1:{ja:'Android/Chromeでもホーム画面に追加しやすくなりました(PWA対応)。ブラウザからインストールを促す案内が出るようになり、追加したアプリはオフラインでも開けます',en:'Easier to add to your home screen on Android/Chrome too (PWA support). The browser can now prompt you to install, and the installed app opens even offline',zh:'在 Android/Chrome 上也更容易添加到主屏幕了(支持 PWA)。浏览器现在会提示安装,安装后的应用即使离线也能打开',fr:"Plus facile à ajouter à l'écran d'accueil sur Android/Chrome aussi (prise en charge PWA). Le navigateur peut désormais proposer l'installation, et l'app installée s'ouvre même hors ligne",ar:'أصبحت الإضافة إلى الشاشة الرئيسية أسهل على Android/Chrome أيضًا (دعم PWA). يمكن للمتصفح الآن اقتراح التثبيت، ويعمل التطبيق المثبّت حتى دون اتصال',ko:'Android/Chrome에서도 홈 화면에 추가하기 쉬워졌습니다(PWA 지원). 이제 브라우저가 설치를 안내하며, 설치한 앱은 오프라인에서도 열립니다',ru:'Теперь приложение проще добавить на главный экран и в Android/Chrome (поддержка PWA). Браузер может предложить установку, а установленное приложение открывается даже офлайн'},
+  v250_1:{ja:'Android/Chromeでもホーム画面に追加しやすくなりました(PWA対応)。ブラウザからインストールを促す案内が出るようになり、追加したアプリはオフラインでも開けます',en:'Easier to add to your home screen on Android/Chrome too (PWA support). The browser can now prompt you to install, and the installed app opens even offline',zh:'在 Android/Chrome 上也更容易添加到主屏幕了(支持 PWA)。浏览器现在会提示安装,安装后的应用即使离线也能打开',fr:"Plus facile à ajouter à l'écran d'accueil sur Android/Chrome aussi (prise en charge PWA). Le navigateur peut désormais proposer l'installation, et l'app installée s'ouvre même hors ligne",ar:'أصبحت الإضافة إلى الشاشة الرئيسية أسهل على Android/Chrome أيضًا (دعم PWA). يمكن للمتصفح الآن اقتراح التثبيت، ويعمل التطبيق المثبّت حتى دون اتصال',ko:'Android/Chrome에서도 홈 화면에 추가하기 쉬워졌습니다(PWA 지원). 이제 브라우저가 설치를 안내하며, 설치한 앱은 오프라인에서도 열립니다',ru:'Теперь приложение проще добавить на главный экран и в Android/Chrome (поддержка PWA). Браузер может предложить установку, а установленное приложение открывается даже офлайн'},
+  wn1:{ja:'ダークモードに対応しました。設定 > 表示 から「自動（端末の設定に合わせる）／ライト／ダーク」を選べます',en:'Added dark mode. Choose Auto (follow your device), Light, or Dark under Settings > Appearance',zh:'新增深色模式。可在 设置 > 外观 中选择「自动（跟随系统）／浅色／深色」',fr:"Ajout du mode sombre. Choisissez Auto (selon l'appareil), Clair ou Sombre dans Réglages > Apparence",ar:'تمت إضافة الوضع الداكن. اختر تلقائي (حسب الجهاز) أو فاتح أو داكن من الإعدادات > المظهر',ko:'다크 모드를 추가했습니다. 설정 > 화면 에서 자동(기기 설정 따르기)／라이트／다크 를 선택할 수 있습니다',ru:'Добавлена тёмная тема. Выберите «Авто» (как на устройстве), «Светлая» или «Тёмная» в Настройки > Оформление'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -744,7 +784,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),onboarded:false,seenVersion:'',seenStorageTip:false,
+const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
 function migrateWord(w){
@@ -780,6 +820,32 @@ function load(){
 let DB=load();
 function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
 const S=()=>DB.settings;
+
+/* ---------- theme (light / dark / system) ---------- */
+const darkMQ=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+function effectiveDark(){
+  const th=S().theme||'system';
+  if(th==='dark')return true;
+  if(th==='light')return false;
+  return !!(darkMQ&&darkMQ.matches); // system
+}
+function applyTheme(){
+  const dark=effectiveDark();
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  // keep the mobile status-bar/theme-color in sync with the header fill
+  const mc=document.querySelector('meta[name="theme-color"]');
+  if(mc)mc.setAttribute('content',dark?'#22375d':'#0f1e3d');
+}
+// react to OS theme changes only while following the system
+function syncSystemTheme(){if((S().theme||'system')==='system')applyTheme();}
+if(darkMQ){
+  darkMQ.addEventListener?darkMQ.addEventListener('change',syncSystemTheme):darkMQ.addListener(syncSystemTheme);
+}
+// safety net: some mobile browsers don't fire the media-query change event for
+// a backgrounded tab, so re-check when the app regains focus/visibility.
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncSystemTheme();});
+window.addEventListener('focus',syncSystemTheme);
+applyTheme();
 
 /* ---------- word packages (distributable decks) ---------- */
 // Curated, static content. title/meaning are language maps covering all 7
@@ -1400,8 +1466,8 @@ function renderList(){
       '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
-      '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+t('btn_edit')+'</span>'+
-      (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:#f5f8fd;color:var(--navy)">'+t('btn_show_ex')+'</span>':'')+
+      '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
+      (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
       '<button class="del" data-id="'+w.id+'">×</button></div>';
   }).join('');
@@ -1713,6 +1779,7 @@ function showScore(){
 
 /* ---------- SETTINGS ---------- */
 function renderSettings(){
+  segTheme();
   seg('#segQuizType','quizType');
   seg('#segDir','dir');
   seg('#segLen','len',true);
@@ -1738,6 +1805,13 @@ function seg(sel,keyName,num){
     const v=num?parseInt(b.dataset.v):b.dataset.v;
     b.classList.toggle('on',v===cur);
     b.onclick=()=>{S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;save();renderSettings();};
+  });
+}
+function segTheme(){
+  const cur=S().theme||'system';
+  $$('#segTheme button').forEach(b=>{
+    b.classList.toggle('on',b.dataset.v===cur);
+    b.onclick=()=>{S().theme=b.dataset.v;save();applyTheme();renderSettings();};
   });
 }
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
