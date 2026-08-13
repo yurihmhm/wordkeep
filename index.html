@@ -237,6 +237,16 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .sheet .dots i.on{background:var(--accent)}
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
+/* "today" call-to-action on the list screen */
+.today-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px;margin:0 2px 12px;box-shadow:var(--shadow)}
+.today-card.urgent{border:1.5px solid rgba(240,180,41,.6)}
+.today-card .tc-top{display:flex;align-items:center;gap:8px}
+.today-card .tc-title{font-size:15.5px;font-weight:700;color:var(--ink-strong)}
+.today-card .tc-sub{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:5px}
+.today-card .btn{margin-top:13px;width:100%}
+.today-card.done{text-align:center}
+.today-card.done .tc-top{justify-content:center}
 /* stats: streak tiles, daily bar chart, contribution heatmap */
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 2px 18px}
 .stat-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
@@ -358,6 +368,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
   <section id="v-list" class="view">
     <div id="src-list"></div>
+    <div id="todayCard"></div>
     <div id="backupBanner"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
@@ -549,13 +560,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.0.0';
+const APP_VERSION='3.1.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.0.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'3.1.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'3.0.0',date:'2026-08-13',keys:['v300_1','v300_2']},
   {version:'2.9.0',date:'2026-08-13',keys:['v290_1','v290_2']},
   {version:'2.8.0',date:'2026-08-13',keys:['v280_1','v280_2']},
   {version:'2.7.0',date:'2026-08-13',keys:['v270_1','v270_2']},
@@ -745,6 +757,18 @@ const T={
   theme_system:{ja:'自動',en:'Auto',zh:'自动',fr:'Auto',ar:'تلقائي',ko:'자동',ru:'Авто'},
   theme_light:{ja:'ライト',en:'Light',zh:'浅色',fr:'Clair',ar:'فاتح',ko:'라이트',ru:'Светлая'},
   theme_dark:{ja:'ダーク',en:'Dark',zh:'深色',fr:'Sombre',ar:'داكن',ko:'다크',ru:'Тёмная'},
+  today_streak_live:{ja:'{0}日連続中',en:'{0}-day streak going',zh:'已连续 {0} 天',fr:'Série de {0} jours en cours',ar:'سلسلة مستمرة منذ {0} يوم',ko:'{0}일 연속 중',ru:'Серия {0} дн. продолжается'},
+  today_streak_risk:{ja:'今日はまだ復習していません。{0}語やれば記録が続きます。',en:'You haven’t reviewed today yet. {0} words will keep it alive.',zh:'今天还没有复习。完成 {0} 个单词即可延续记录。',fr:'Vous n’avez pas encore révisé aujourd’hui. {0} mots suffisent à la prolonger.',ar:'لم تراجع اليوم بعد. {0} كلمة تكفي للحفاظ على السلسلة.',ko:'오늘 아직 복습하지 않았습니다. {0}개만 하면 기록이 이어집니다.',ru:'Сегодня вы ещё не повторяли. {0} слов — и серия продолжится.'},
+  today_due_title:{ja:'今日の復習が{0}語',en:'{0} words due today',zh:'今天有 {0} 个单词待复习',fr:'{0} mots à réviser aujourd’hui',ar:'{0} كلمة مستحقة اليوم',ko:'오늘 복습할 단어 {0}개',ru:'Сегодня к повторению: {0}'},
+  today_due_sub:{ja:'今日の分を終わらせましょう。',en:'Clear today’s batch while it’s small.',zh:'趁数量还少，先完成今天的部分吧。',fr:'Terminez le lot du jour tant qu’il est petit.',ar:'أنهِ دفعة اليوم ما دامت صغيرة.',ko:'오늘 분량을 끝내 볼까요.',ru:'Разберите сегодняшнюю порцию, пока она небольшая.'},
+  today_start:{ja:'{0}語の復習をはじめる',en:'Review {0} words',zh:'开始复习 {0} 个单词',fr:'Réviser {0} mots',ar:'ابدأ مراجعة {0} كلمة',ko:'{0}개 복습 시작',ru:'Повторить {0} слов'},
+  today_done_more:{ja:'あと{0}語のこっています',en:'{0} words still waiting',zh:'还剩 {0} 个单词',fr:'Encore {0} mots en attente',ar:'ما زالت {0} كلمة بانتظارك',ko:'{0}개가 더 남아 있습니다',ru:'Осталось ещё {0} слов'},
+  today_done_more_sub:{ja:'今日はもう学習しました。続けるとさらに定着します。',en:'You’ve already studied today. Keep going to lock more in.',zh:'今天已经学习过了。继续复习能记得更牢。',fr:'Vous avez déjà étudié aujourd’hui. Continuez pour mieux ancrer.',ar:'لقد درست اليوم بالفعل. تابع لترسيخ المزيد.',ko:'오늘 이미 학습했습니다. 계속하면 더 오래 기억에 남아요.',ru:'Вы уже занимались сегодня. Продолжите — запомнится лучше.'},
+  today_continue:{ja:'復習を続ける',en:'Keep reviewing',zh:'继续复习',fr:'Continuer',ar:'تابع المراجعة',ko:'복습 계속하기',ru:'Продолжить'},
+  today_nodue_risk:{ja:'今日の復習はありません。自由学習でも連続記録は続きます。',en:'Nothing is due today. Free study still keeps your streak alive.',zh:'今天没有到期的复习。自由学习同样可以延续连续记录。',fr:'Rien à réviser aujourd’hui. L’étude libre prolonge aussi votre série.',ar:'لا شيء مستحق اليوم. الدراسة الحرة تحافظ على سلسلتك أيضًا.',ko:'오늘 복습할 항목은 없습니다. 자유 학습으로도 연속 기록이 이어집니다.',ru:'На сегодня ничего не запланировано. Свободные занятия тоже продлят серию.'},
+  today_free:{ja:'自由学習をする',en:'Free study',zh:'进行自由学习',fr:'Étude libre',ar:'دراسة حرة',ko:'자유 학습 하기',ru:'Свободные занятия'},
+  today_complete:{ja:'今日の復習は完了！',en:'Today’s reviews are done!',zh:'今天的复习完成了！',fr:'Révisions du jour terminées !',ar:'انتهت مراجعات اليوم!',ko:'오늘의 복습 완료!',ru:'Повторения на сегодня завершены!'},
+  today_complete_sub:{ja:'また明日つづけましょう。',en:'Come back tomorrow to keep it going.',zh:'明天再来继续吧。',fr:'Revenez demain pour continuer.',ar:'عد غدًا لمواصلة السلسلة.',ko:'내일 또 이어가 볼까요.',ru:'Возвращайтесь завтра, чтобы продолжить.'},
   sec_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Статистика'},
   st_stats:{ja:'学習の記録',en:'Your learning record',zh:'学习记录',fr:'Votre suivi d’apprentissage',ar:'سجل تعلّمك',ko:'학습 기록',ru:'Ваш прогресс'},
   desc_stats:{ja:'連続日数・復習の推移・学習カレンダー',en:'Streaks, review trend, and a study calendar',zh:'连续天数、复习趋势与学习日历',fr:'Séries, évolution des révisions et calendrier d’étude',ar:'السلاسل واتجاه المراجعة وتقويم الدراسة',ko:'연속 일수·복습 추이·학습 캘린더',ru:'Серии, динамика повторений и календарь занятий'},
@@ -871,8 +895,10 @@ const T={
   v280_2:{ja:'設定 > 発音 で、自動再生のオン／オフ、アクセント(米・英)、速さ(ふつう・ゆっくり)を選べます',en:'Under Settings > Pronunciation you can turn on auto-play and choose the accent (US/UK) and speed (normal/slow)',zh:'在 设置 > 发音 中可开启自动播放，并选择口音（美/英）与语速（正常/慢速）',fr:'Dans Réglages > Prononciation, activez la lecture automatique et choisissez l’accent (US/UK) et la vitesse (normal/lent)',ar:'من الإعدادات > النطق يمكنك تفعيل التشغيل التلقائي واختيار اللكنة (أمريكية/بريطانية) والسرعة (عادية/بطيئة)',ko:'설정 > 발음 에서 자동 재생을 켜고 악센트(미국·영국)와 속도(보통·느리게)를 고를 수 있습니다',ru:'В Настройки > Произношение можно включить автовоспроизведение и выбрать акцент (США/Британия) и скорость (обычно/медленно)'},
   v290_1:{ja:'学習の記録を追加しました。ヘッダーの🔥バッジか 設定 > 記録 から開けます。最長の連続日数・学習した日数・通算の正答率が一目で分かります',en:'Added a learning record — open it from the 🔥 badge in the header or Settings > Record. It shows your longest streak, days studied, and overall accuracy at a glance',zh:'新增学习记录。可从顶部的 🔥 徽章或 设置 > 记录 打开，一眼查看最长连续天数、学习天数与总正确率',fr:'Ajout d’un suivi d’apprentissage — ouvrez-le via le badge 🔥 en haut ou Réglages > Suivi. Il affiche votre plus longue série, vos jours étudiés et votre précision globale',ar:'تمت إضافة سجل التعلّم — افتحه من شارة 🔥 في الأعلى أو من الإعدادات > السجل. يعرض أطول سلسلة وأيام الدراسة والدقة الإجمالية',ko:'학습 기록을 추가했습니다. 상단의 🔥 배지나 설정 > 기록 에서 열 수 있으며, 최장 연속 일수·학습한 일수·전체 정답률을 한눈에 볼 수 있습니다',ru:'Добавлен раздел прогресса — откройте его по значку 🔥 вверху или через Настройки > Статистика. Показывает лучшую серию, дни занятий и общую точность'},
   v290_2:{ja:'毎日の復習数を棒グラフで、半年分の学習状況をカレンダー（GitHubの草のような表）で表示します。自分の単語帳とパッケージの両方をまとめて集計します',en:'Daily reviews now appear as a bar chart, plus a six-month contribution-style calendar. Both your own words and packages are counted together',zh:'每日复习数以柱状图显示，并新增半年份的学习日历（类似 GitHub 贡献图）。自己的单词本与单词包会合并统计',fr:'Les révisions quotidiennes s’affichent en histogramme, avec un calendrier de six mois façon graphique de contributions. Vos mots et les packs sont comptés ensemble',ar:'تظهر المراجعات اليومية الآن كرسم بياني شريطي، مع تقويم لستة أشهر بنمط رسم المساهمات. تُحتسب كلماتك والحزم معًا',ko:'매일의 복습 수를 막대그래프로, 반년치 학습 상황을 캘린더(GitHub 잔디 같은 표)로 표시합니다. 내 단어장과 패키지를 함께 집계합니다',ru:'Ежедневные повторения теперь показаны столбчатой диаграммой, а также календарём за полгода в стиле графика активности. Свои слова и наборы учитываются вместе'},
-  wn1:{ja:'間違えたときのペナルティを緩くしました。これまでは1回間違えるだけで復習間隔が最初(1日後)に戻っていましたが、これからは1段階戻るだけです(例: 90日→60日)。積み上げた進捗が一度のミスで消えなくなります',en:'Missing a word is no longer so punishing. A single wrong answer used to reset the interval all the way back to one day; now it only steps back once (e.g. 90 days to 60), so months of progress no longer vanish in one slip',zh:'答错的惩罚已放宽。以往答错一次就会把复习间隔重置回最初(1天后)，现在只后退一级(例如 90 天→60 天)，积累的进度不会因一次失误而清零',fr:'Se tromper est moins punitif. Une seule erreur remettait l’intervalle à un jour ; désormais il ne recule que d’un cran (par ex. 90 jours → 60), sans effacer des mois de progression',ar:'أصبح الخطأ أقل قسوة. كانت إجابة خاطئة واحدة تعيد الفاصل إلى يوم واحد، أما الآن فيتراجع خطوة واحدة فقط (مثلاً من 90 يومًا إلى 60)، فلا يضيع تقدّم شهور بزلة واحدة',ko:'틀렸을 때의 페널티를 완화했습니다. 지금까지는 한 번만 틀려도 복습 간격이 처음(1일 후)으로 되돌아갔지만, 앞으로는 한 단계만 뒤로 갑니다(예: 90일→60일). 쌓아온 진도가 한 번의 실수로 사라지지 않습니다',ru:'Ошибка больше не так наказывает. Раньше один неверный ответ сбрасывал интервал к одному дню; теперь он откатывается лишь на шаг (например, с 90 дней до 60), и месяцы прогресса не пропадают из-за одной осечки'},
-  wn2:{ja:'間違えた単語は、これまでどおりその場でもう一度出題されます。そこで正解しても、いきなり元の間隔には戻さず、1段階戻した間隔から再開します',en:'A missed word still comes back in the same session. Getting it right then restores the stepped-back interval rather than jumping straight to the old one',zh:'答错的单词仍会在本次练习中再次出现。此时答对不会立刻恢复原间隔，而是从后退一级的间隔重新开始',fr:'Un mot raté revient toujours dans la même session. Une bonne réponse rétablit alors l’intervalle réduit au lieu de revenir d’un coup au précédent',ar:'الكلمة التي أخطأت فيها تعود في الجلسة نفسها كما كان. والإجابة الصحيحة عندها تستعيد الفاصل المخفَّض بدل العودة فورًا إلى الفاصل السابق',ko:'틀린 단어는 지금까지처럼 그 자리에서 다시 출제됩니다. 이때 맞히더라도 원래 간격으로 바로 돌아가지 않고, 한 단계 줄어든 간격부터 다시 시작합니다',ru:'Слово с ошибкой по-прежнему возвращается в том же сеансе. Верный ответ восстанавливает уменьшенный интервал, а не возвращает прежний сразу'},
+  v300_1:{ja:'間違えたときのペナルティを緩くしました。これまでは1回間違えるだけで復習間隔が最初(1日後)に戻っていましたが、これからは1段階戻るだけです(例: 90日→60日)。積み上げた進捗が一度のミスで消えなくなります',en:'Missing a word is no longer so punishing. A single wrong answer used to reset the interval all the way back to one day; now it only steps back once (e.g. 90 days to 60), so months of progress no longer vanish in one slip',zh:'答错的惩罚已放宽。以往答错一次就会把复习间隔重置回最初(1天后)，现在只后退一级(例如 90 天→60 天)，积累的进度不会因一次失误而清零',fr:'Se tromper est moins punitif. Une seule erreur remettait l’intervalle à un jour ; désormais il ne recule que d’un cran (par ex. 90 jours → 60), sans effacer des mois de progression',ar:'أصبح الخطأ أقل قسوة. كانت إجابة خاطئة واحدة تعيد الفاصل إلى يوم واحد، أما الآن فيتراجع خطوة واحدة فقط (مثلاً من 90 يومًا إلى 60)، فلا يضيع تقدّم شهور بزلة واحدة',ko:'틀렸을 때의 페널티를 완화했습니다. 지금까지는 한 번만 틀려도 복습 간격이 처음(1일 후)으로 되돌아갔지만, 앞으로는 한 단계만 뒤로 갑니다(예: 90일→60일). 쌓아온 진도가 한 번의 실수로 사라지지 않습니다',ru:'Ошибка больше не так наказывает. Раньше один неверный ответ сбрасывал интервал к одному дню; теперь он откатывается лишь на шаг (например, с 90 дней до 60), и месяцы прогресса не пропадают из-за одной осечки'},
+  v300_2:{ja:'間違えた単語は、これまでどおりその場でもう一度出題されます。そこで正解しても、いきなり元の間隔には戻さず、1段階戻した間隔から再開します',en:'A missed word still comes back in the same session. Getting it right then restores the stepped-back interval rather than jumping straight to the old one',zh:'答错的单词仍会在本次练习中再次出现。此时答对不会立刻恢复原间隔，而是从后退一级的间隔重新开始',fr:'Un mot raté revient toujours dans la même session. Une bonne réponse rétablit alors l’intervalle réduit au lieu de revenir d’un coup au précédent',ar:'الكلمة التي أخطأت فيها تعود في الجلسة نفسها كما كان. والإجابة الصحيحة عندها تستعيد الفاصل المخفَّض بدل العودة فورًا إلى الفاصل السابق',ko:'틀린 단어는 지금까지처럼 그 자리에서 다시 출제됩니다. 이때 맞히더라도 원래 간격으로 바로 돌아가지 않고, 한 단계 줄어든 간격부터 다시 시작합니다',ru:'Слово с ошибкой по-прежнему возвращается в том же сеансе. Верный ответ восстанавливает уменьшенный интервал, а не возвращает прежний сразу'},
+  wn1:{ja:'リスト画面の一番上に「今日」のカードを追加しました。今日の復習が何語あるか、連続記録が途切れそうかが開いてすぐ分かり、そのまま復習を始められます',en:'Added a “today” card at the top of the list. It shows how many words are due and whether your streak still needs today’s session, and starts the review right there',zh:'在列表页顶部新增“今天”卡片。打开即可看到今天有多少待复习的单词、连续记录是否面临中断，并可直接开始复习',fr:'Ajout d’une carte « aujourd’hui » en haut de la liste. Elle indique le nombre de mots à réviser et si votre série attend encore la session du jour, et lance la révision directement',ar:'تمت إضافة بطاقة «اليوم» أعلى القائمة. تعرض عدد الكلمات المستحقة وما إذا كانت سلسلتك تنتظر جلسة اليوم، ويمكن بدء المراجعة منها مباشرة',ko:'목록 화면 상단에 「오늘」 카드를 추가했습니다. 오늘 복습할 단어 수와 연속 기록이 끊길 위기인지 바로 확인하고, 그 자리에서 복습을 시작할 수 있습니다',ru:'В начале списка появилась карточка «сегодня». Она показывает, сколько слов к повторению и ждёт ли серия сегодняшних занятий, и сразу запускает повторение'},
+  wn2:{ja:'復習がない日でも、連続記録が続いていれば自由学習への導線を出します。ブラウザのタブのタイトルにも復習の残り語数を表示します',en:'On days with nothing due, a live streak now points you to free study instead. The browser tab title also shows how many reviews are waiting',zh:'在没有到期复习的日子，若连续记录仍在进行，会引导你进行自由学习。浏览器标签标题也会显示待复习的数量',fr:'Les jours sans révision due, une série en cours vous oriente vers l’étude libre. Le titre de l’onglet affiche aussi le nombre de révisions en attente',ar:'في الأيام التي لا توجد فيها مراجعات مستحقة، توجّهك السلسلة النشطة إلى الدراسة الحرة. كما يعرض عنوان تبويب المتصفح عدد المراجعات المنتظرة',ko:'복습할 항목이 없는 날에도 연속 기록이 진행 중이면 자유 학습으로 안내합니다. 브라우저 탭 제목에도 남은 복습 수가 표시됩니다',ru:'В дни без запланированных повторений активная серия направит вас к свободным занятиям. В заголовке вкладки браузера также видно число ожидающих повторений'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1699,8 +1725,51 @@ function searchText(w){
   return s.toLowerCase();
 }
 let editingId=null;
+// Without push notifications there's nothing to pull people back in, so the
+// least we can do is make the moment they DO open the app count: lead with
+// what's due, and say plainly when a live streak hasn't been kept up today.
+function studiedToday(){
+  const la=(S().streak||{}).lastActiveDate;
+  return la!=null&&localDayIndex(la)===localDayIndex(Date.now());
+}
+function renderTodayCard(){
+  const el=$('#todayCard');
+  if(!el)return;
+  if(!curWords().length){el.innerHTML='';return;}
+  const due=curDueCount();
+  const streak=(S().streak||{}).current||0;
+  const done=studiedToday();
+  let cls='today-card',icon,title,sub,btn=null,mode='due';
+
+  if(due>0&&!done){
+    cls+=' urgent';
+    icon=streak>0?'🔥':'📌';
+    title=streak>0?t('today_streak_live',streak):t('today_due_title',due);
+    sub=streak>0?t('today_streak_risk',due):t('today_due_sub');
+    btn=t('today_start',due);
+  }else if(due>0&&done){
+    icon='👍';title=t('today_done_more',due);sub=t('today_done_more_sub');
+    btn=t('today_continue');
+  }else if(streak>0&&!done){
+    // nothing scheduled, but a live streak still needs today's activity
+    cls+=' urgent';icon='🔥';title=t('today_streak_live',streak);
+    sub=t('today_nodue_risk');btn=t('today_free');mode='all';
+  }else if(done){
+    cls+=' done';icon='🎉';title=t('today_complete');sub=t('today_complete_sub');
+  }else{el.innerHTML='';return;}
+
+  el.innerHTML='<div class="'+cls+'">'+
+    '<div class="tc-top"><span style="font-size:19px">'+icon+'</span>'+
+      '<span class="tc-title">'+esc(title)+'</span></div>'+
+    '<div class="tc-sub">'+esc(sub)+'</div>'+
+    (btn?'<button class="btn btn-gold" id="tcGo">'+esc(btn)+'</button>':'')+
+  '</div>';
+  const b=$('#tcGo');
+  if(b)b.onclick=()=>{go('v-quiz');startQuiz(mode);};
+}
 function renderList(){
   renderSourceBar('#src-list');
+  renderTodayCard();
   renderBackupBanner();
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
@@ -2325,6 +2394,8 @@ function renderCount(){
   $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<button class="streak-chip" id="streakChip" type="button">🔥 '+esc(t('streak_chip',streakN))+'</button>':'');
   const chip=$('#streakChip');
   if(chip)chip.onclick=()=>go('v-stats'); // the streak is the natural door into the record
+  // a left-open tab still shows what's waiting
+  document.title=due>0?'('+due+') Wordkeep':'Wordkeep';
   const badge=$('#dueBadge');
   if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
   else badge.style.display='none';
