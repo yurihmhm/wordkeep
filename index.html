@@ -23,6 +23,7 @@
   --bad-bg:#fdeeed; --bad-ink:#a8352e; --bad-line:#f3cfcc;
   --chip-bg:#e5edf8; --ghost-bg:#eef2f9; --track:#e8eef7;
   --dup-bg:#fff5da; --dup-ink:#8a5a00; --dup-line:#f0d98a;
+  --hm0:#e8eef7; --hm1:#cfe0f7; --hm2:#8fb6e8; --hm3:#4f82c9; --hm4:#1e4d8f;
   --switch-off:#cdd6e6; --knob:#fff; --tabbar-bg:rgba(255,255,255,.94);
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
 }
@@ -36,6 +37,7 @@
   --bad-bg:#341d1c; --bad-ink:#f09188; --bad-line:#5a2e2b;
   --chip-bg:#233247; --ghost-bg:#222b3c; --track:#2b3446;
   --dup-bg:#33290e; --dup-ink:#e6b657; --dup-line:#5c4a1f;
+  --hm0:#232c3c; --hm1:#22375d; --hm2:#3a5f9e; --hm3:#5b8ad4; --hm4:#8fb6f0;
   --switch-off:#3a4658; --knob:#e9edf5; --tabbar-bg:rgba(15,20,30,.92);
   --shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);
 }
@@ -70,7 +72,9 @@ header .count b{color:var(--accent);font-size:15px}
 header .due-chip{background:rgba(240,180,41,.16);border:1px solid rgba(240,180,41,.4);
   border-radius:99px;padding:3px 12px;font-size:12.5px;color:var(--accent);font-weight:600}
 header .streak-chip{background:rgba(216,82,74,.16);border:1px solid rgba(216,82,74,.4);
-  border-radius:99px;padding:3px 12px;font-size:12.5px;color:#e2665c;font-weight:600}
+  border-radius:99px;padding:3px 12px;font-size:12.5px;color:#e2665c;font-weight:600;
+  font-family:inherit;cursor:pointer;line-height:1.5}
+header .streak-chip:active{transform:scale(.96)}
 
 main.wrap{padding-top:26px}
 .view{display:none;animation:fade .25s ease}
@@ -233,6 +237,35 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .sheet .dots i.on{background:var(--accent)}
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
+/* stats: streak tiles, daily bar chart, contribution heatmap */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 2px 18px}
+.stat-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.stat-tile .sv{font-family:Georgia,serif;font-size:27px;font-weight:600;color:var(--ink-strong);line-height:1.15}
+.stat-tile .sl{font-size:12px;color:var(--muted);margin-top:4px}
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px 14px;box-shadow:var(--shadow);margin:0 2px 18px}
+.chart-t{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.6px;
+  text-transform:uppercase;margin:0 0 14px 2px}
+.bars{display:flex;align-items:flex-end;gap:4px;height:120px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar-n{font-size:10px;color:var(--muted);margin-bottom:3px;line-height:1}
+.bar{width:100%;max-width:26px;background:var(--accent);border-radius:4px 4px 2px 2px;min-height:3px}
+.bar.zero{background:var(--track)}
+.bar-lbl{font-size:9.5px;color:var(--muted);margin-top:6px;line-height:1}
+.heat-wrap{overflow-x:auto;padding-bottom:2px}
+.heat-inner{display:inline-block;min-width:100%}
+.heat-months{display:flex;gap:3px;margin-bottom:5px;height:12px}
+.heat-months span{flex:0 0 11px;font-size:9.5px;color:var(--muted);white-space:nowrap;overflow:visible}
+.heat{display:flex;gap:3px}
+.heat-col{display:flex;flex-direction:column;gap:3px}
+.heat-c{width:11px;height:11px;border-radius:3px;background:var(--hm0)}
+.heat-c.l1{background:var(--hm1)}.heat-c.l2{background:var(--hm2)}
+.heat-c.l3{background:var(--hm3)}.heat-c.l4{background:var(--hm4)}
+.heat-c.future{background:none}
+.heat-legend{display:flex;align-items:center;gap:4px;justify-content:flex-end;
+  margin-top:10px;font-size:10.5px;color:var(--muted)}
+.heat-legend .heat-c{width:10px;height:10px}
+.stats-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0 2px 18px}
 .spk{background:none;border:none;padding:2px 7px;font-size:15px;line-height:1;cursor:pointer;
   border-radius:8px;opacity:.7;font-family:inherit;vertical-align:middle}
 .spk:hover{opacity:1;background:var(--ghost-bg)}
@@ -345,6 +378,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div id="quizBody"></div>
   </section>
 
+  <section id="v-stats" class="view">
+    <button class="btn btn-ghost" id="statsBack" style="margin:2px 2px 14px" data-i18n="back">戻る</button>
+    <h2 style="font-size:20px;margin:0 2px 16px" data-i18n="stats_title">学習の記録</h2>
+    <div id="statsBody"></div>
+  </section>
+
   <section id="v-set" class="view">
     <h2 style="font-size:20px;margin:6px 2px 14px" data-i18n="set_title">設定</h2>
 
@@ -361,6 +400,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
           <option value="ko">한국어</option>
           <option value="ru">Русский</option>
         </select>
+      </div>
+    </div>
+
+    <div class="set-section-t" data-i18n="sec_record">記録</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_stats">学習の記録</div><div class="sd" data-i18n="desc_stats">連続日数・復習の推移・学習カレンダー</div></div>
+        <button class="btn btn-ghost" id="btnStats" data-i18n="btn_stats">見る</button>
       </div>
     </div>
 
@@ -502,13 +549,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.8.0';
+const APP_VERSION='2.9.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.8.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'2.9.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'2.8.0',date:'2026-08-13',keys:['v280_1','v280_2']},
   {version:'2.7.0',date:'2026-08-13',keys:['v270_1','v270_2']},
   {version:'2.6.0',date:'2026-07-24',keys:['v260_1']},
   {version:'2.5.0',date:'2026-07-23',keys:['v250_1']},
@@ -696,6 +744,23 @@ const T={
   theme_system:{ja:'自動',en:'Auto',zh:'自动',fr:'Auto',ar:'تلقائي',ko:'자동',ru:'Авто'},
   theme_light:{ja:'ライト',en:'Light',zh:'浅色',fr:'Clair',ar:'فاتح',ko:'라이트',ru:'Светлая'},
   theme_dark:{ja:'ダーク',en:'Dark',zh:'深色',fr:'Sombre',ar:'داكن',ko:'다크',ru:'Тёмная'},
+  sec_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Статистика'},
+  st_stats:{ja:'学習の記録',en:'Your learning record',zh:'学习记录',fr:'Votre suivi d’apprentissage',ar:'سجل تعلّمك',ko:'학습 기록',ru:'Ваш прогресс'},
+  desc_stats:{ja:'連続日数・復習の推移・学習カレンダー',en:'Streaks, review trend, and a study calendar',zh:'连续天数、复习趋势与学习日历',fr:'Séries, évolution des révisions et calendrier d’étude',ar:'السلاسل واتجاه المراجعة وتقويم الدراسة',ko:'연속 일수·복습 추이·학습 캘린더',ru:'Серии, динамика повторений и календарь занятий'},
+  btn_stats:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기',ru:'Открыть'},
+  stats_title:{ja:'学習の記録',en:'Your learning record',zh:'学习记录',fr:'Votre suivi d’apprentissage',ar:'سجل تعلّمك',ko:'학습 기록',ru:'Ваш прогресс'},
+  stat_current:{ja:'現在の連続',en:'Current streak',zh:'当前连续',fr:'Série actuelle',ar:'السلسلة الحالية',ko:'현재 연속',ru:'Текущая серия'},
+  stat_longest:{ja:'最長の連続',en:'Longest streak',zh:'最长连续',fr:'Plus longue série',ar:'أطول سلسلة',ko:'최장 연속',ru:'Лучшая серия'},
+  stat_days:{ja:'学習した日数',en:'Days studied',zh:'学习天数',fr:'Jours étudiés',ar:'أيام الدراسة',ko:'학습한 일수',ru:'Дней занятий'},
+  stat_accuracy:{ja:'通算の正答率',en:'Overall accuracy',zh:'总正确率',fr:'Précision globale',ar:'الدقة الإجمالية',ko:'전체 정답률',ru:'Общая точность'},
+  n_days:{ja:'{0}日',en:'{0} days',zh:'{0}天',fr:'{0} j',ar:'{0} يوم',ko:'{0}일',ru:'{0} дн.'},
+  n_reviews:{ja:'復習 {0}回',en:'{0} reviews',zh:'复习 {0} 次',fr:'{0} révisions',ar:'{0} مراجعة',ko:'복습 {0}회',ru:'{0} повт.'},
+  chart_recent:{ja:'直近{0}日の復習',en:'Reviews, last {0} days',zh:'最近 {0} 天的复习',fr:'Révisions, {0} derniers jours',ar:'المراجعات في آخر {0} يوم',ko:'최근 {0}일의 복습',ru:'Повторения за {0} дн.'},
+  heat_title:{ja:'学習カレンダー',en:'Study calendar',zh:'学习日历',fr:'Calendrier d’étude',ar:'تقويم الدراسة',ko:'학습 캘린더',ru:'Календарь занятий'},
+  heat_less:{ja:'少',en:'Less',zh:'少',fr:'Moins',ar:'أقل',ko:'적음',ru:'Меньше'},
+  heat_more:{ja:'多',en:'More',zh:'多',fr:'Plus',ar:'أكثر',ko:'많음',ru:'Больше'},
+  stats_none:{ja:'まだ復習の記録がありません。復習を1回でもすると、ここに記録が残っていきます。',en:'No reviews recorded yet. Do a single review and it starts filling in here.',zh:'还没有复习记录。只要完成一次复习，这里就会开始记录。',fr:'Aucune révision enregistrée. Faites-en une seule et le suivi commence ici.',ar:'لا توجد مراجعات مسجّلة بعد. أكمل مراجعة واحدة ليبدأ السجل هنا.',ko:'아직 복습 기록이 없습니다. 한 번만 복습해도 여기에 기록이 쌓이기 시작합니다.',ru:'Повторений пока нет. Сделайте хотя бы одно — и здесь начнёт заполняться история.'},
+  freeze_left:{ja:'ストリークのフリーズ（1日休んでも記録が途切れない救済）: 残り{0}回',en:'Streak freezes left (each one covers a single missed day): {0}',zh:'剩余连续冻结次数（每次可抵消一天未学习）：{0}',fr:'Gels de série restants (chacun couvre un jour manqué) : {0}',ar:'تجميدات السلسلة المتبقية (كل واحدة تغطي يومًا فائتًا): {0}',ko:'남은 스트릭 프리즈(하루 빠져도 기록이 유지됨): {0}회',ru:'Осталось заморозок серии (каждая покрывает один пропущенный день): {0}'},
   sec_speech:{ja:'発音',en:'Pronunciation',zh:'发音',fr:'Prononciation',ar:'النطق',ko:'발음',ru:'Произношение'},
   st_autospeak:{ja:'自動で再生',en:'Play automatically',zh:'自动播放',fr:'Lecture automatique',ar:'تشغيل تلقائي',ko:'자동 재생',ru:'Автовоспроизведение'},
   desc_autospeak:{ja:'単語帳やクイズで単語が出たとき、自動で発音する',en:'Speak the word automatically when it appears in flashcards or a quiz',zh:'在单词卡或测验中出现单词时自动朗读',fr:'Prononcer le mot automatiquement quand il apparaît dans les cartes ou le quiz',ar:'نطق الكلمة تلقائيًا عند ظهورها في البطاقات أو الاختبار',ko:'단어 카드나 퀴즈에 단어가 나올 때 자동으로 발음',ru:'Произносить слово автоматически при показе в карточках или тесте'},
@@ -801,8 +866,10 @@ const T={
   v260_1:{ja:'ダークモードに対応しました。設定 > 表示 から「自動（端末の設定に合わせる）／ライト／ダーク」を選べます',en:'Added dark mode. Choose Auto (follow your device), Light, or Dark under Settings > Appearance',zh:'新增深色模式。可在 设置 > 外观 中选择「自动（跟随系统）／浅色／深色」',fr:"Ajout du mode sombre. Choisissez Auto (selon l'appareil), Clair ou Sombre dans Réglages > Apparence",ar:'تمت إضافة الوضع الداكن. اختر تلقائي (حسب الجهاز) أو فاتح أو داكن من الإعدادات > المظهر',ko:'다크 모드를 추가했습니다. 설정 > 화면 에서 자동(기기 설정 따르기)／라이트／다크 를 선택할 수 있습니다',ru:'Добавлена тёмная тема. Выберите «Авто» (как на устройстве), «Светлая» или «Тёмная» в Настройки > Оформление'},
   v270_1:{ja:'データが消えにくくなりました。ブラウザの自動削除からデータを保護するよう要求し、状態は設定 > データ で確認できます',en:'Your data is now harder to lose — the app asks the browser to exempt it from automatic cleanup, and you can check the status under Settings > Data',zh:'数据更不容易丢失了。应用会请求浏览器不要自动清理数据，状态可在 设置 > 数据 中查看',fr:'Vos données sont mieux protégées — l’app demande au navigateur de les exempter du nettoyage automatique, et l’état est visible dans Réglages > Données',ar:'أصبحت بياناتك أقل عرضة للفقدان — يطلب التطبيق من المتصفح استثناءها من الحذف التلقائي، ويمكنك رؤية الحالة في الإعدادات > البيانات',ko:'데이터가 더 안전해졌습니다. 브라우저의 자동 삭제에서 데이터를 제외하도록 요청하며, 상태는 설정 > 데이터 에서 확인할 수 있습니다',ru:'Данные стало труднее потерять — приложение просит браузер исключить их из автоочистки, а статус виден в Настройки > Данные'},
   v270_2:{ja:'バックアップのお知らせを追加しました。前回のバックアップ以降に単語がたまると、リスト画面でお知らせします',en:'Added backup reminders — once words pile up since your last backup, the list screen will let you know',zh:'新增备份提醒。当上次备份后新增的单词累积到一定数量时，列表页面会提示你',fr:'Ajout de rappels de sauvegarde — dès que des mots s’accumulent depuis la dernière sauvegarde, l’écran Liste vous prévient',ar:'تمت إضافة تذكيرات النسخ الاحتياطي — عند تراكم كلمات جديدة منذ آخر نسخة، ستنبّهك شاشة القائمة',ko:'백업 알림을 추가했습니다. 마지막 백업 이후 단어가 쌓이면 목록 화면에서 알려줍니다',ru:'Добавлены напоминания о резервных копиях — когда со времени последней копии накопятся слова, экран списка предупредит'},
-  wn1:{ja:'単語の発音を聞けるようになりました。リスト・単語帳・クイズ・検索結果の🔊ボタンをタップすると再生します',en:'You can now hear how a word is pronounced — tap the 🔊 button in the list, flashcards, quiz, or lookup results',zh:'现在可以听单词发音了。点击列表、单词卡、测验或查询结果中的 🔊 按钮即可播放',fr:'Vous pouvez désormais entendre la prononciation d’un mot — touchez le bouton 🔊 dans la liste, les cartes, le quiz ou les résultats de recherche',ar:'يمكنك الآن سماع نطق الكلمة — اضغط زر 🔊 في القائمة أو البطاقات أو الاختبار أو نتائج البحث',ko:'단어 발음을 들을 수 있게 되었습니다. 목록·단어 카드·퀴즈·검색 결과의 🔊 버튼을 누르면 재생됩니다',ru:'Теперь можно услышать произношение слова — нажмите кнопку 🔊 в списке, карточках, тесте или результатах поиска'},
-  wn2:{ja:'設定 > 発音 で、自動再生のオン／オフ、アクセント(米・英)、速さ(ふつう・ゆっくり)を選べます',en:'Under Settings > Pronunciation you can turn on auto-play and choose the accent (US/UK) and speed (normal/slow)',zh:'在 设置 > 发音 中可开启自动播放，并选择口音（美/英）与语速（正常/慢速）',fr:'Dans Réglages > Prononciation, activez la lecture automatique et choisissez l’accent (US/UK) et la vitesse (normal/lent)',ar:'من الإعدادات > النطق يمكنك تفعيل التشغيل التلقائي واختيار اللكنة (أمريكية/بريطانية) والسرعة (عادية/بطيئة)',ko:'설정 > 발음 에서 자동 재생을 켜고 악센트(미국·영국)와 속도(보통·느리게)를 고를 수 있습니다',ru:'В Настройки > Произношение можно включить автовоспроизведение и выбрать акцент (США/Британия) и скорость (обычно/медленно)'},
+  v280_1:{ja:'単語の発音を聞けるようになりました。リスト・単語帳・クイズ・検索結果の🔊ボタンをタップすると再生します',en:'You can now hear how a word is pronounced — tap the 🔊 button in the list, flashcards, quiz, or lookup results',zh:'现在可以听单词发音了。点击列表、单词卡、测验或查询结果中的 🔊 按钮即可播放',fr:'Vous pouvez désormais entendre la prononciation d’un mot — touchez le bouton 🔊 dans la liste, les cartes, le quiz ou les résultats de recherche',ar:'يمكنك الآن سماع نطق الكلمة — اضغط زر 🔊 في القائمة أو البطاقات أو الاختبار أو نتائج البحث',ko:'단어 발음을 들을 수 있게 되었습니다. 목록·단어 카드·퀴즈·검색 결과의 🔊 버튼을 누르면 재생됩니다',ru:'Теперь можно услышать произношение слова — нажмите кнопку 🔊 в списке, карточках, тесте или результатах поиска'},
+  v280_2:{ja:'設定 > 発音 で、自動再生のオン／オフ、アクセント(米・英)、速さ(ふつう・ゆっくり)を選べます',en:'Under Settings > Pronunciation you can turn on auto-play and choose the accent (US/UK) and speed (normal/slow)',zh:'在 设置 > 发音 中可开启自动播放，并选择口音（美/英）与语速（正常/慢速）',fr:'Dans Réglages > Prononciation, activez la lecture automatique et choisissez l’accent (US/UK) et la vitesse (normal/lent)',ar:'من الإعدادات > النطق يمكنك تفعيل التشغيل التلقائي واختيار اللكنة (أمريكية/بريطانية) والسرعة (عادية/بطيئة)',ko:'설정 > 발음 에서 자동 재생을 켜고 악센트(미국·영국)와 속도(보통·느리게)를 고를 수 있습니다',ru:'В Настройки > Произношение можно включить автовоспроизведение и выбрать акцент (США/Британия) и скорость (обычно/медленно)'},
+  wn1:{ja:'学習の記録を追加しました。ヘッダーの🔥バッジか 設定 > 記録 から開けます。最長の連続日数・学習した日数・通算の正答率が一目で分かります',en:'Added a learning record — open it from the 🔥 badge in the header or Settings > Record. It shows your longest streak, days studied, and overall accuracy at a glance',zh:'新增学习记录。可从顶部的 🔥 徽章或 设置 > 记录 打开，一眼查看最长连续天数、学习天数与总正确率',fr:'Ajout d’un suivi d’apprentissage — ouvrez-le via le badge 🔥 en haut ou Réglages > Suivi. Il affiche votre plus longue série, vos jours étudiés et votre précision globale',ar:'تمت إضافة سجل التعلّم — افتحه من شارة 🔥 في الأعلى أو من الإعدادات > السجل. يعرض أطول سلسلة وأيام الدراسة والدقة الإجمالية',ko:'학습 기록을 추가했습니다. 상단의 🔥 배지나 설정 > 기록 에서 열 수 있으며, 최장 연속 일수·학습한 일수·전체 정답률을 한눈에 볼 수 있습니다',ru:'Добавлен раздел прогресса — откройте его по значку 🔥 вверху или через Настройки > Статистика. Показывает лучшую серию, дни занятий и общую точность'},
+  wn2:{ja:'毎日の復習数を棒グラフで、半年分の学習状況をカレンダー（GitHubの草のような表）で表示します。自分の単語帳とパッケージの両方をまとめて集計します',en:'Daily reviews now appear as a bar chart, plus a six-month contribution-style calendar. Both your own words and packages are counted together',zh:'每日复习数以柱状图显示，并新增半年份的学习日历（类似 GitHub 贡献图）。自己的单词本与单词包会合并统计',fr:'Les révisions quotidiennes s’affichent en histogramme, avec un calendrier de six mois façon graphique de contributions. Vos mots et les packs sont comptés ensemble',ar:'تظهر المراجعات اليومية الآن كرسم بياني شريطي، مع تقويم لستة أشهر بنمط رسم المساهمات. تُحتسب كلماتك والحزم معًا',ko:'매일의 복습 수를 막대그래프로, 반년치 학습 상황을 캘린더(GitHub 잔디 같은 표)로 표시합니다. 내 단어장과 패키지를 함께 집계합니다',ru:'Ежедневные повторения теперь показаны столбчатой диаграммой, а также календарём за полгода в стиле графика активности. Свои слова и наборы учитываются вместе'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1396,13 +1463,19 @@ async function fetchWithTimeout(url,ms,opts){
 
 /* ---------- tabs ---------- */
 $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+let prevView='v-list';
 function go(id){
+  // Stats is reached from the header chip or Settings rather than the tab bar,
+  // so remember where we came from to make its Back button meaningful.
+  const cur=document.querySelector('.view.active');
+  if(cur&&cur.id!=='v-stats'&&id==='v-stats')prevView=cur.id;
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
   if(id==='v-list')renderList();
   if(id==='v-study')renderStudy();
   if(id==='v-quiz')startQuiz();
   if(id==='v-set')renderSettings();
+  if(id==='v-stats')renderStats();
   window.scrollTo(0,0);
   gaScreen(id);
 }
@@ -2087,6 +2160,130 @@ $('#btnPersist').onclick=async()=>{
   toast(ok?t('persist_toast_ok'):t('persist_toast_ng'));
   renderPersistRow();
 };
+
+/* ---------- stats (streak, daily bars, contribution heatmap) ---------- */
+const HEAT_WEEKS=26, BAR_DAYS=14;
+function localeTag(){
+  return {ja:'ja-JP',en:'en-US',zh:'zh-CN',fr:'fr-FR',ar:'ar',ko:'ko-KR',ru:'ru-RU'}[S().lang]||'en-US';
+}
+// localDayIndex() builds its index from the LOCAL calendar date via Date.UTC,
+// so the inverse reads the parts back off the UTC side of the same instant.
+function dayIdxParts(idx){
+  const d=new Date(idx*DAY);
+  return {y:d.getUTCFullYear(),m:d.getUTCMonth(),d:d.getUTCDate(),dow:d.getUTCDay(),date:d};
+}
+// Review history lives on each word (quiz answers only -- flashcard flips
+// deliberately don't affect the SRS). Pull from the user's own deck AND every
+// package so the charts match the streak, which counts any source.
+// Note: hist is capped at 50 entries per word, so very heavy history on a
+// single word can be trimmed at the far end.
+function allHistEntries(){
+  const out=[];
+  (DB.words||[]).forEach(w=>(w.hist||[]).forEach(h=>{if(h&&typeof h.t==='number')out.push(h);}));
+  Object.keys(PKGDB||{}).forEach(pid=>{
+    const prog=PKGDB[pid]||{};
+    Object.keys(prog).forEach(k=>{
+      const h=prog[k]&&prog[k].hist;
+      if(Array.isArray(h))h.forEach(e=>{if(e&&typeof e.t==='number')out.push(e);});
+    });
+  });
+  return out;
+}
+function dailyCounts(){
+  const map=new Map();
+  allHistEntries().forEach(h=>{
+    const d=localDayIndex(h.t);
+    const cur=map.get(d)||{n:0,ok:0};
+    cur.n++; if(h.ok)cur.ok++;
+    map.set(d,cur);
+  });
+  return map;
+}
+function heatLevel(n){
+  if(!n)return 0;
+  if(n<=2)return 1;
+  if(n<=5)return 2;
+  if(n<=10)return 3;
+  return 4;
+}
+function renderStats(){
+  const counts=dailyCounts();
+  const today=localDayIndex(Date.now());
+  const st=S().streak||{};
+  let totalN=0,totalOk=0,activeDays=0;
+  counts.forEach(v=>{totalN+=v.n;totalOk+=v.ok;if(v.n>0)activeDays++;});
+  const acc=totalN?Math.round(totalOk/totalN*100):0;
+
+  const tile=(v,label)=>'<div class="stat-tile"><div class="sv">'+v+'</div><div class="sl">'+esc(label)+'</div></div>';
+  let html='<div class="stat-grid">'+
+    tile('🔥 '+esc(t('n_days',st.current||0)),t('stat_current'))+
+    tile('🏆 '+esc(t('n_days',st.longest||0)),t('stat_longest'))+
+    tile(esc(t('n_days',activeDays)),t('stat_days'))+
+    tile(totalN?acc+'%':'—',t('stat_accuracy'))+
+    '</div>';
+
+  if(!totalN)html+='<p class="stats-note">'+esc(t('stats_none'))+'</p>';
+
+  // --- daily bars ---
+  let max=1;
+  for(let i=0;i<BAR_DAYS;i++){const c=counts.get(today-BAR_DAYS+1+i);if(c&&c.n>max)max=c.n;}
+  let bars='';
+  for(let i=0;i<BAR_DAYS;i++){
+    const idx=today-BAR_DAYS+1+i;
+    const n=(counts.get(idx)||{}).n||0;
+    const p=dayIdxParts(idx);
+    bars+='<div class="bar-col">'+
+      '<div class="bar-n">'+(n||'')+'</div>'+
+      '<div class="bar'+(n?'':' zero')+'" style="height:'+(n?Math.max(4,Math.round(n/max*100)):0)+'%"></div>'+
+      '<div class="bar-lbl">'+p.d+'</div>'+
+    '</div>';
+  }
+  html+='<div class="chart-card"><div class="chart-t">'+esc(t('chart_recent',BAR_DAYS))+'</div>'+
+    '<div class="bars">'+bars+'</div></div>';
+
+  // --- contribution heatmap: columns are weeks (Sun-Sat), last column is this week ---
+  const lastColStart=today-dayIdxParts(today).dow;
+  const firstColStart=lastColStart-(HEAT_WEEKS-1)*7;
+  let months='',grid='',lastLabeledM=-1,sinceLabel=99;
+  for(let w=0;w<HEAT_WEEKS;w++){
+    const colStart=firstColStart+w*7;
+    const p=dayIdxParts(colStart);
+    let label='';
+    // Label the first column of each month, but keep labels from crowding.
+    // Track the last month actually LABELLED (not merely seen): otherwise a
+    // month whose first column got skipped for spacing would never be labelled.
+    if(p.m!==lastLabeledM&&sinceLabel>=2){
+      label=p.date.toLocaleDateString(localeTag(),{month:'short'});
+      lastLabeledM=p.m;
+      sinceLabel=0;
+    }else sinceLabel++;
+    months+='<span>'+esc(label)+'</span>';
+    let col='';
+    for(let d=0;d<7;d++){
+      const idx=colStart+d;
+      if(idx>today){col+='<div class="heat-c future"></div>';continue;}
+      const n=(counts.get(idx)||{}).n||0;
+      const pd=dayIdxParts(idx);
+      const title=pd.date.toLocaleDateString(localeTag(),{year:'numeric',month:'short',day:'numeric'})+' · '+t('n_reviews',n);
+      col+='<div class="heat-c l'+heatLevel(n)+'" title="'+esc(title)+'"></div>';
+    }
+    grid+='<div class="heat-col">'+col+'</div>';
+  }
+  html+='<div class="chart-card"><div class="chart-t">'+esc(t('heat_title'))+'</div>'+
+    '<div class="heat-wrap"><div class="heat-inner">'+
+      '<div class="heat-months">'+months+'</div>'+
+      '<div class="heat">'+grid+'</div>'+
+    '</div></div>'+
+    '<div class="heat-legend"><span>'+esc(t('heat_less'))+'</span>'+
+      '<div class="heat-c l0"></div><div class="heat-c l1"></div><div class="heat-c l2"></div>'+
+      '<div class="heat-c l3"></div><div class="heat-c l4"></div>'+
+      '<span>'+esc(t('heat_more'))+'</span></div></div>';
+
+  html+='<p class="stats-note">'+esc(t('freeze_left',st.freezesAvailable||0))+'</p>';
+  $('#statsBody').innerHTML=html;
+}
+$('#btnStats').onclick=()=>go('v-stats');
+$('#statsBack').onclick=()=>go(prevView);
 $('#btnImport').onclick=()=>$('#fileImport').click();
 $('#fileImport').onchange=e=>{
   const f=e.target.files[0];if(!f)return;
@@ -2111,7 +2308,9 @@ function renderCount(){
   const n=DB.words.length;
   const due=dueCount();
   const streakN=(S().streak||{}).current||0;
-  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<span class="streak-chip">🔥 '+t('streak_chip',streakN)+'</span>':'');
+  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<button class="streak-chip" id="streakChip" type="button">🔥 '+esc(t('streak_chip',streakN))+'</button>':'');
+  const chip=$('#streakChip');
+  if(chip)chip.onclick=()=>go('v-stats'); // the streak is the natural door into the record
   const badge=$('#dueBadge');
   if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
   else badge.style.display='none';
