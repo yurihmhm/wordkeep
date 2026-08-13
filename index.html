@@ -233,6 +233,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .sheet .dots i.on{background:var(--accent)}
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
+.spk{background:none;border:none;padding:2px 7px;font-size:15px;line-height:1;cursor:pointer;
+  border-radius:8px;opacity:.7;font-family:inherit;vertical-align:middle}
+.spk:hover{opacity:1;background:var(--ghost-bg)}
+.spk:active{transform:scale(.9)}
+.face .spk,.q-word .spk{font-size:20px;opacity:.85}
+.face .spk:hover{background:rgba(255,255,255,.14)}
 .warn-banner{display:flex;align-items:flex-start;gap:10px;background:var(--dup-bg);
   border:1px solid var(--dup-line);border-radius:12px;padding:12px 14px;margin:0 2px 12px}
 .warn-banner .wb-body{flex:1;font-size:13px;line-height:1.55;color:var(--dup-ink)}
@@ -370,6 +376,29 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    <div class="set-section-t" data-i18n="sec_speech">発音</div>
+    <div class="panel" id="speechPanel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_autospeak">自動で再生</div><div class="sd" data-i18n="desc_autospeak">単語帳やクイズで単語が出たとき、自動で発音する</div></div>
+        <button class="switch" id="swAutoSpeak"><i></i></button>
+      </div>
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_accent">アクセント</div><div class="sd" data-i18n="desc_accent">アメリカ英語かイギリス英語か</div></div>
+        <div class="seg" id="segAccent">
+          <button data-v="us" data-i18n="accent_us">米</button>
+          <button data-v="gb" data-i18n="accent_gb">英</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_rate">速さ</div><div class="sd" data-i18n="desc_rate">聞き取りにくいときはゆっくりに</div></div>
+        <div class="seg" id="segRate">
+          <button data-v="normal" data-i18n="rate_normal">ふつう</button>
+          <button data-v="slow" data-i18n="rate_slow">ゆっくり</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint" id="speechNote" style="margin:14px 2px 22px;display:none" data-i18n="speech_unsupported">このブラウザは音声読み上げに対応していません。</p>
+
     <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
@@ -473,13 +502,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.7.0';
+const APP_VERSION='2.8.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.7.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'2.8.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'2.7.0',date:'2026-08-13',keys:['v270_1','v270_2']},
   {version:'2.6.0',date:'2026-07-24',keys:['v260_1']},
   {version:'2.5.0',date:'2026-07-23',keys:['v250_1']},
   {version:'2.4.0',date:'2026-07-23',keys:['v240_1','v240_2']},
@@ -666,6 +696,18 @@ const T={
   theme_system:{ja:'自動',en:'Auto',zh:'自动',fr:'Auto',ar:'تلقائي',ko:'자동',ru:'Авто'},
   theme_light:{ja:'ライト',en:'Light',zh:'浅色',fr:'Clair',ar:'فاتح',ko:'라이트',ru:'Светлая'},
   theme_dark:{ja:'ダーク',en:'Dark',zh:'深色',fr:'Sombre',ar:'داكن',ko:'다크',ru:'Тёмная'},
+  sec_speech:{ja:'発音',en:'Pronunciation',zh:'发音',fr:'Prononciation',ar:'النطق',ko:'발음',ru:'Произношение'},
+  st_autospeak:{ja:'自動で再生',en:'Play automatically',zh:'自动播放',fr:'Lecture automatique',ar:'تشغيل تلقائي',ko:'자동 재생',ru:'Автовоспроизведение'},
+  desc_autospeak:{ja:'単語帳やクイズで単語が出たとき、自動で発音する',en:'Speak the word automatically when it appears in flashcards or a quiz',zh:'在单词卡或测验中出现单词时自动朗读',fr:'Prononcer le mot automatiquement quand il apparaît dans les cartes ou le quiz',ar:'نطق الكلمة تلقائيًا عند ظهورها في البطاقات أو الاختبار',ko:'단어 카드나 퀴즈에 단어가 나올 때 자동으로 발음',ru:'Произносить слово автоматически при показе в карточках или тесте'},
+  st_accent:{ja:'アクセント',en:'Accent',zh:'口音',fr:'Accent',ar:'اللكنة',ko:'악센트',ru:'Акцент'},
+  desc_accent:{ja:'アメリカ英語かイギリス英語か',en:'American or British English',zh:'美式英语或英式英语',fr:'Anglais américain ou britannique',ar:'إنجليزية أمريكية أم بريطانية',ko:'미국식 영어 또는 영국식 영어',ru:'Американский или британский английский'},
+  accent_us:{ja:'米',en:'US',zh:'美',fr:'US',ar:'أمريكية',ko:'미국',ru:'США'},
+  accent_gb:{ja:'英',en:'UK',zh:'英',fr:'UK',ar:'بريطانية',ko:'영국',ru:'Британский'},
+  st_rate:{ja:'速さ',en:'Speed',zh:'语速',fr:'Vitesse',ar:'السرعة',ko:'속도',ru:'Скорость'},
+  desc_rate:{ja:'聞き取りにくいときはゆっくりに',en:'Slow it down when it’s hard to catch',zh:'听不清时可放慢',fr:'Ralentissez si c’est difficile à saisir',ar:'أبطئها إذا كان من الصعب تمييزها',ko:'알아듣기 어려우면 느리게',ru:'Замедлите, если трудно расслышать'},
+  rate_normal:{ja:'ふつう',en:'Normal',zh:'正常',fr:'Normal',ar:'عادية',ko:'보통',ru:'Обычно'},
+  rate_slow:{ja:'ゆっくり',en:'Slow',zh:'慢速',fr:'Lent',ar:'بطيئة',ko:'느리게',ru:'Медленно'},
+  speech_unsupported:{ja:'このブラウザは音声読み上げに対応していません。',en:'This browser doesn’t support speech playback.',zh:'此浏览器不支持语音朗读。',fr:'Ce navigateur ne prend pas en charge la synthèse vocale.',ar:'هذا المتصفح لا يدعم النطق الصوتي.',ko:'이 브라우저는 음성 재생을 지원하지 않습니다.',ru:'Этот браузер не поддерживает озвучивание.'},
   sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式',fr:'Format du quiz',ar:'صيغة الاختبار',ko:'출제 형식',ru:'Формат теста'},
   st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형',ru:'Тип теста'},
   desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택',ru:'Выбор из 4 вариантов'},
@@ -757,8 +799,10 @@ const T={
   v230_1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
   v250_1:{ja:'Android/Chromeでもホーム画面に追加しやすくなりました(PWA対応)。ブラウザからインストールを促す案内が出るようになり、追加したアプリはオフラインでも開けます',en:'Easier to add to your home screen on Android/Chrome too (PWA support). The browser can now prompt you to install, and the installed app opens even offline',zh:'在 Android/Chrome 上也更容易添加到主屏幕了(支持 PWA)。浏览器现在会提示安装,安装后的应用即使离线也能打开',fr:"Plus facile à ajouter à l'écran d'accueil sur Android/Chrome aussi (prise en charge PWA). Le navigateur peut désormais proposer l'installation, et l'app installée s'ouvre même hors ligne",ar:'أصبحت الإضافة إلى الشاشة الرئيسية أسهل على Android/Chrome أيضًا (دعم PWA). يمكن للمتصفح الآن اقتراح التثبيت، ويعمل التطبيق المثبّت حتى دون اتصال',ko:'Android/Chrome에서도 홈 화면에 추가하기 쉬워졌습니다(PWA 지원). 이제 브라우저가 설치를 안내하며, 설치한 앱은 오프라인에서도 열립니다',ru:'Теперь приложение проще добавить на главный экран и в Android/Chrome (поддержка PWA). Браузер может предложить установку, а установленное приложение открывается даже офлайн'},
   v260_1:{ja:'ダークモードに対応しました。設定 > 表示 から「自動（端末の設定に合わせる）／ライト／ダーク」を選べます',en:'Added dark mode. Choose Auto (follow your device), Light, or Dark under Settings > Appearance',zh:'新增深色模式。可在 设置 > 外观 中选择「自动（跟随系统）／浅色／深色」',fr:"Ajout du mode sombre. Choisissez Auto (selon l'appareil), Clair ou Sombre dans Réglages > Apparence",ar:'تمت إضافة الوضع الداكن. اختر تلقائي (حسب الجهاز) أو فاتح أو داكن من الإعدادات > المظهر',ko:'다크 모드를 추가했습니다. 설정 > 화면 에서 자동(기기 설정 따르기)／라이트／다크 를 선택할 수 있습니다',ru:'Добавлена тёмная тема. Выберите «Авто» (как на устройстве), «Светлая» или «Тёмная» в Настройки > Оформление'},
-  wn1:{ja:'データが消えにくくなりました。ブラウザの自動削除からデータを保護するよう要求し、状態は設定 > データ で確認できます',en:'Your data is now harder to lose — the app asks the browser to exempt it from automatic cleanup, and you can check the status under Settings > Data',zh:'数据更不容易丢失了。应用会请求浏览器不要自动清理数据，状态可在 设置 > 数据 中查看',fr:'Vos données sont mieux protégées — l’app demande au navigateur de les exempter du nettoyage automatique, et l’état est visible dans Réglages > Données',ar:'أصبحت بياناتك أقل عرضة للفقدان — يطلب التطبيق من المتصفح استثناءها من الحذف التلقائي، ويمكنك رؤية الحالة في الإعدادات > البيانات',ko:'데이터가 더 안전해졌습니다. 브라우저의 자동 삭제에서 데이터를 제외하도록 요청하며, 상태는 설정 > 데이터 에서 확인할 수 있습니다',ru:'Данные стало труднее потерять — приложение просит браузер исключить их из автоочистки, а статус виден в Настройки > Данные'},
-  wn2:{ja:'バックアップのお知らせを追加しました。前回のバックアップ以降に単語がたまると、リスト画面でお知らせします',en:'Added backup reminders — once words pile up since your last backup, the list screen will let you know',zh:'新增备份提醒。当上次备份后新增的单词累积到一定数量时，列表页面会提示你',fr:'Ajout de rappels de sauvegarde — dès que des mots s’accumulent depuis la dernière sauvegarde, l’écran Liste vous prévient',ar:'تمت إضافة تذكيرات النسخ الاحتياطي — عند تراكم كلمات جديدة منذ آخر نسخة، ستنبّهك شاشة القائمة',ko:'백업 알림을 추가했습니다. 마지막 백업 이후 단어가 쌓이면 목록 화면에서 알려줍니다',ru:'Добавлены напоминания о резервных копиях — когда со времени последней копии накопятся слова, экран списка предупредит'},
+  v270_1:{ja:'データが消えにくくなりました。ブラウザの自動削除からデータを保護するよう要求し、状態は設定 > データ で確認できます',en:'Your data is now harder to lose — the app asks the browser to exempt it from automatic cleanup, and you can check the status under Settings > Data',zh:'数据更不容易丢失了。应用会请求浏览器不要自动清理数据，状态可在 设置 > 数据 中查看',fr:'Vos données sont mieux protégées — l’app demande au navigateur de les exempter du nettoyage automatique, et l’état est visible dans Réglages > Données',ar:'أصبحت بياناتك أقل عرضة للفقدان — يطلب التطبيق من المتصفح استثناءها من الحذف التلقائي، ويمكنك رؤية الحالة في الإعدادات > البيانات',ko:'데이터가 더 안전해졌습니다. 브라우저의 자동 삭제에서 데이터를 제외하도록 요청하며, 상태는 설정 > 데이터 에서 확인할 수 있습니다',ru:'Данные стало труднее потерять — приложение просит браузер исключить их из автоочистки, а статус виден в Настройки > Данные'},
+  v270_2:{ja:'バックアップのお知らせを追加しました。前回のバックアップ以降に単語がたまると、リスト画面でお知らせします',en:'Added backup reminders — once words pile up since your last backup, the list screen will let you know',zh:'新增备份提醒。当上次备份后新增的单词累积到一定数量时，列表页面会提示你',fr:'Ajout de rappels de sauvegarde — dès que des mots s’accumulent depuis la dernière sauvegarde, l’écran Liste vous prévient',ar:'تمت إضافة تذكيرات النسخ الاحتياطي — عند تراكم كلمات جديدة منذ آخر نسخة، ستنبّهك شاشة القائمة',ko:'백업 알림을 추가했습니다. 마지막 백업 이후 단어가 쌓이면 목록 화면에서 알려줍니다',ru:'Добавлены напоминания о резервных копиях — когда со времени последней копии накопятся слова, экран списка предупредит'},
+  wn1:{ja:'単語の発音を聞けるようになりました。リスト・単語帳・クイズ・検索結果の🔊ボタンをタップすると再生します',en:'You can now hear how a word is pronounced — tap the 🔊 button in the list, flashcards, quiz, or lookup results',zh:'现在可以听单词发音了。点击列表、单词卡、测验或查询结果中的 🔊 按钮即可播放',fr:'Vous pouvez désormais entendre la prononciation d’un mot — touchez le bouton 🔊 dans la liste, les cartes, le quiz ou les résultats de recherche',ar:'يمكنك الآن سماع نطق الكلمة — اضغط زر 🔊 في القائمة أو البطاقات أو الاختبار أو نتائج البحث',ko:'단어 발음을 들을 수 있게 되었습니다. 목록·단어 카드·퀴즈·검색 결과의 🔊 버튼을 누르면 재생됩니다',ru:'Теперь можно услышать произношение слова — нажмите кнопку 🔊 в списке, карточках, тесте или результатах поиска'},
+  wn2:{ja:'設定 > 発音 で、自動再生のオン／オフ、アクセント(米・英)、速さ(ふつう・ゆっくり)を選べます',en:'Under Settings > Pronunciation you can turn on auto-play and choose the accent (US/UK) and speed (normal/slow)',zh:'在 设置 > 发音 中可开启自动播放，并选择口音（美/英）与语速（正常/慢速）',fr:'Dans Réglages > Prononciation, activez la lecture automatique et choisissez l’accent (US/UK) et la vitesse (normal/lent)',ar:'من الإعدادات > النطق يمكنك تفعيل التشغيل التلقائي واختيار اللكنة (أمريكية/بريطانية) والسرعة (عادية/بطيئة)',ko:'설정 > 발음 에서 자동 재생을 켜고 악센트(미국·영국)와 속도(보통·느리게)를 고를 수 있습니다',ru:'В Настройки > Произношение можно включить автовоспроизведение и выбрать акцент (США/Британия) и скорость (обычно/медленно)'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -814,6 +858,7 @@ function applyStaticI18n(){
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
 const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
+  autoSpeak:false,accent:'us',speechRate:'normal',
   lastBackupAt:null,lastBackupWords:0,backupSnoozeUntil:null,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
@@ -930,6 +975,72 @@ function snoozeBackup(){
   S().backupSnoozeUntil=Date.now()+BACKUP_SNOOZE_DAYS*DAY;
   save();renderBackupBanner();
 }
+
+/* ---------- pronunciation (Web Speech API, offline + no key) ---------- */
+const TTS_OK='speechSynthesis'in window&&typeof SpeechSynthesisUtterance!=='undefined';
+let voicesCache=[];
+function loadVoices(){if(TTS_OK)voicesCache=speechSynthesis.getVoices()||[];}
+if(TTS_OK){
+  loadVoices();
+  // getVoices() is empty until the engine finishes loading them
+  if(speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',loadVoices);
+  else speechSynthesis.onvoiceschanged=loadVoices;
+}
+function ttsLang(){return S().accent==='gb'?'en-GB':'en-US';}
+// Picking the first matching voice is not good enough: macOS lists novelty
+// voices ("Albert", "Bad News", "Boing") before the real ones, and the
+// `default` voice follows the OS UI language (Japanese here), so neither
+// signal is safe. Prefer the standard voice of each platform by name.
+const PREFERRED_VOICES=[
+  'Google US English','Google UK English Female','Google UK English Male',
+  'Samantha','Daniel','Alex','Ava','Allison','Kate','Serena','Arthur','Martha',
+  'Microsoft Zira','Microsoft David','Microsoft Aria','Microsoft Mark',
+  'Microsoft Hazel','Microsoft Sonia','Microsoft George','Microsoft Ryan'
+];
+function bestOf(list){
+  for(const name of PREFERRED_VOICES){
+    const hit=list.find(v=>(v.name||'').includes(name));
+    if(hit)return hit;
+  }
+  return list[0]||null;
+}
+function pickVoice(lang){
+  if(!voicesCache.length)loadVoices();
+  const want=lang.toLowerCase();
+  const norm=v=>(v.lang||'').replace('_','-').toLowerCase();
+  const exact=voicesCache.filter(v=>norm(v)===want);
+  if(exact.length)return bestOf(exact);
+  // Any English voice still beats the UI-language default, which would read
+  // English words with e.g. Japanese phonemes.
+  const anyEn=voicesCache.filter(v=>norm(v).startsWith('en'));
+  return anyEn.length?bestOf(anyEn):null;
+}
+function speak(text){
+  if(!TTS_OK||!text)return;
+  try{
+    speechSynthesis.cancel(); // desktop Chrome wedges if utterances stack up
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=ttsLang();
+    const v=pickVoice(u.lang);
+    if(v)u.voice=v;
+    u.rate=S().speechRate==='slow'?0.65:1;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speakAuto(text){if(S().autoSpeak)speak(text);}
+function spkBtn(text){
+  if(!TTS_OK||!text)return '';
+  return '<button class="spk" type="button" aria-label="pronounce" data-spk="'+esc(text)+'">🔊</button>';
+}
+// Capture phase so a speaker inside a clickable parent (the flashcard, which
+// flips on tap) doesn't also trigger that parent's handler.
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('.spk');
+  if(!b)return;
+  e.stopPropagation();
+  e.preventDefault();
+  speak(b.dataset.spk);
+},true);
 
 /* ---------- word packages (distributable decks) ---------- */
 // Curated, static content. title/meaning are language maps covering all 7
@@ -1436,7 +1547,7 @@ async function lookup(){
   if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
   if(dictOk){
-    html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+'</div>'+
+    html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+spkBtn(pending.word)+'</div>'+
       pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
         (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
         (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
@@ -1533,7 +1644,7 @@ function renderList(){
     // tag only (no add/edit/delete).
     if(isPkg){
       return '<div class="card"><div style="flex:1">'+
-        '<div><span class="w">'+esc(w.word)+'</span></div>'+
+        '<div><span class="w">'+esc(w.word)+'</span>'+spkBtn(w.word)+'</div>'+
         (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
         '<div class="meta">'+dueTag+'</div></div></div>';
     }
@@ -1549,7 +1660,7 @@ function renderList(){
     }
     const hasEx=(w.examples||[]).length>0;
     return '<div class="card"><div style="flex:1">'+
-      '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+'</div>'+
+      '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
@@ -1594,7 +1705,8 @@ function renderStudy(){
   deck=shuffle(curWords());di=0;
   body.innerHTML=
     '<div class="deck"><div class="flip" id="flip">'+
-      '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
+      '<div class="face front"><div class="fw" id="fFront"></div><div class="fk" id="fKata"></div>'+
+        '<div id="fSpkWrap" style="margin-top:10px"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
       '<div class="face back" id="fBack"></div>'+
     '</div></div>'+
     '<div class="deck-nav">'+
@@ -1621,7 +1733,9 @@ function showCard(){
   const applyContent=()=>{
     $('#fFront').textContent=w.word;
     $('#fKata').textContent=w.kata||'';
+    $('#fSpkWrap').innerHTML=spkBtn(w.word);
     renderBack(w);
+    speakAuto(w.word);
   };
   // If the card was showing its answer, swapping the content immediately
   // flashes the NEXT card's answer for a frame while the flip-back rotation
@@ -1646,6 +1760,7 @@ function renderBack(w){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
   }
   if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">'+t('no_meaning')+'</div>'+back;
+  if(TTS_OK)back+='<div style="margin-top:14px">'+spkBtn(w.word)+'</div>';
   $('#fBack').innerHTML=back;
 }
 
@@ -1758,7 +1873,9 @@ function renderQ(){
 
   let inner=modeTabsHTML(quiz.mode)+'<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
-    '<div class="qw">'+esc(face)+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
+    // Only offer audio when the prompt IS the English word -- otherwise it
+    // would read out the answer the user is being asked to produce.
+    '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
 
   if(S().quizType==='choice'){
     const correct=showEng?primaryMeaning(w):w.word;
@@ -1793,6 +1910,7 @@ function renderQ(){
     $('#qCheck').onclick=check;
     input.addEventListener('keydown',e=>{if(e.key==='Enter')check();});
   }
+  if(showEng)speakAuto(w.word);
 }
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー\s]/g,' ').replace(/\s+/g,' ').trim();}
 function closeEnough(ans,target,w,showEng){
@@ -1837,11 +1955,15 @@ function grade(w,ok,correctText,isInput){
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
+    // The answer is revealed by now, so hearing the word is always safe here
+    // -- and it's the moment it sticks best.
+    (TTS_OK?'<div style="margin-top:6px">'+spkBtn(w.word)+'</div>':'')+
     '<div class="nextin">'+nextInText+'</div>'+
     '</div>'+
     '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?t('btn_next_q'):t('btn_see_result'))+'</button>';
   if(isInput){$('#qfb').innerHTML=fbHtml;}
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
+  speakAuto(w.word);
   $('#qNext').onclick=()=>{
     quiz.i++;
     if(quiz.i<quiz.items.length)renderQ();
@@ -1874,6 +1996,7 @@ function renderSettings(){
   const sel=$('#selLang');
   sel.value=S().lang;
   sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderSettings();};
+  renderSpeechRows();
   renderBackupStatus();
   renderPersistRow();
   renderChangelog();
@@ -1887,14 +2010,29 @@ function renderChangelog(){
     return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+date+'</div><ul>'+notes+'</ul></div>';
   }).join('');
 }
-function seg(sel,keyName,num){
+function seg(sel,keyName,num,after){
   const cur=S()[keyName];
   $$(sel+' button').forEach(b=>{
     const v=num?parseInt(b.dataset.v):b.dataset.v;
     b.classList.toggle('on',v===cur);
-    b.onclick=()=>{S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;save();renderSettings();};
+    b.onclick=()=>{S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;save();renderSettings();if(after)after();};
   });
 }
+function renderSpeechRows(){
+  const panel=$('#speechPanel'),note=$('#speechNote');
+  if(!panel)return;
+  panel.style.display=TTS_OK?'':'none';
+  if(note)note.style.display=TTS_OK?'none':'';
+  if(!TTS_OK)return;
+  $('#swAutoSpeak').classList.toggle('on',!!S().autoSpeak);
+  // sample the change so the difference is audible right away
+  seg('#segAccent','accent',false,()=>speak('Wordkeep'));
+  seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
+}
+$('#swAutoSpeak').onclick=()=>{
+  S().autoSpeak=!S().autoSpeak;save();renderSettings();
+  if(S().autoSpeak)speak('Wordkeep'); // confirm out loud that it works
+};
 function segTheme(){
   const cur=S().theme||'system';
   $$('#segTheme button').forEach(b=>{
