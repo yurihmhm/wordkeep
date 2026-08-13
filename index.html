@@ -475,7 +475,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="set-section-t" data-i18n="sec_review">復習（間隔反復）</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st" data-i18n="st_schedule">復習スケジュール</div><div class="sd" data-i18n="desc_schedule">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。</div></div>
+        <div><div class="st" data-i18n="st_schedule">復習スケジュール</div><div class="sd" data-i18n="desc_schedule">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えても1段階戻るだけで、最初からにはなりません。</div></div>
       </div>
       <div class="set-row">
         <div><div class="st" data-i18n="st_weak">苦手を優先</div><div class="sd" data-i18n="desc_weak">復習対象の中でも間違えた単語を出やすくする</div></div>
@@ -549,13 +549,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='2.9.0';
+const APP_VERSION='3.0.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'2.9.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'3.0.0',date:'2026-08-13',keys:['wn1','wn2']},
+  {version:'2.9.0',date:'2026-08-13',keys:['v290_1','v290_2']},
   {version:'2.8.0',date:'2026-08-13',keys:['v280_1','v280_2']},
   {version:'2.7.0',date:'2026-08-13',keys:['v270_1','v270_2']},
   {version:'2.6.0',date:'2026-07-24',keys:['v260_1']},
@@ -727,7 +728,7 @@ const T={
   fb_ng:{ja:'✗ おしい',en:'✗ Close',zh:'✗ 差一点',fr:'✗ Presque',ar:'✗ قريب',ko:'✗ 아쉬워요',ru:'✗ Почти'},
   correct_label:{ja:'正しい答え：',en:'Answer: ',zh:'正确答案：',fr:'Réponse : ',ar:'الإجابة: ',ko:'정답: ',ru:'Правильный ответ: '},
   next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）',fr:'Prochaine révision : dans {0} jours ({1})',ar:'المراجعة القادمة: بعد {0} أيام ({1})',ko:'다음 복습: {0}일 후 ({1})',ru:'Следующий повтор: через {0} дн. ({1})'},
-  again_tomorrow:{ja:'また明日から復習に出てきます',en:"It'll come back for review from tomorrow",zh:'明天起会再次出现复习',fr:'Il reviendra en révision dès demain',ar:'ستظهر للمراجعة اعتبارًا من الغد',ko:'내일부터 다시 복습에 나옵니다',ru:'Снова появится для повторения с завтрашнего дня'},
+  again_soon:{ja:'このあともう一度出題します。復習の間隔は1段階戻るだけです',en:'We’ll ask again shortly — the interval only steps back once',zh:'稍后会再次出题。复习间隔只后退一级',fr:'Nous le redemanderons bientôt — l’intervalle ne recule que d’un cran',ar:'سنسألك عنها مجددًا بعد قليل — يتراجع الفاصل خطوة واحدة فقط',ko:'잠시 후 다시 출제됩니다. 복습 간격은 한 단계만 뒤로 갑니다',ru:'Спросим ещё раз чуть позже — интервал откатится лишь на один шаг'},
   btn_next_q:{ja:'次の問題 →',en:'Next →',zh:'下一题 →',fr:'Suivant →',ar:'التالي →',ko:'다음 문제 →',ru:'Далее →'},
   btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기',ru:'Показать результат'},
   accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%',fr:'Précision {0}%',ar:'الدقة {0}%',ko:'정답률 {0}%',ru:'Точность {0}%'},
@@ -788,7 +789,7 @@ const T={
   len_all:{ja:'全部',en:'All',zh:'全部',fr:'Tout',ar:'الكل',ko:'전체',ru:'Все'},
   sec_review:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (التكرار المتباعد)',ko:'복습 (간격 반복)',ru:'Повторение (интервальное)'},
   st_schedule:{ja:'復習スケジュール',en:'Review schedule',zh:'复习计划',fr:'Planning de révision',ar:'جدول المراجعة',ko:'복습 일정',ru:'График повторения'},
-  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えるとまた明日から。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss restarts from tomorrow.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错则从明天重新开始。',fr:'Une bonne réponse repousse la révision à 1→3→5→7→14→20→30→60→90 jours. Une erreur repart de demain.',ar:'الإجابة الصحيحة تؤجل المراجعة إلى 1→3→5→7→14→20→30→60→90 يومًا. الخطأ يعيدها من الغد.',ko:'정답이면 다음 복습이 1→3→5→7→14→20→30→60→90일 후로. 틀리면 내일부터 다시.',ru:'При верном ответе следующий повтор через 1→3→5→7→14→20→30→60→90 дней. При ошибке — снова с завтрашнего дня.'},
+  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えても1段階戻るだけで、最初からにはなりません。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss only steps the interval back once — it never restarts from scratch.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错只后退一级，不会从头开始。',fr:'Une bonne réponse repousse la révision à 1→3→5→7→14→20→30→60→90 jours. Une erreur ne recule que d’un cran, sans repartir de zéro.',ar:'الإجابة الصحيحة تؤجل المراجعة إلى 1→3→5→7→14→20→30→60→90 يومًا. الخطأ يُرجع الفاصل خطوة واحدة فقط ولا يعيدها إلى الصفر.',ko:'정답이면 다음 복습이 1→3→5→7→14→20→30→60→90일 후로. 틀려도 한 단계만 뒤로 갈 뿐, 처음부터 다시 시작하지는 않습니다.',ru:'При верном ответе следующий повтор через 1→3→5→7→14→20→30→60→90 дней. Ошибка отбрасывает интервал лишь на один шаг, а не в самое начало.'},
   st_weak:{ja:'苦手を優先',en:'Prioritize weak words',zh:'优先薄弱词',fr:'Prioriser les mots faibles',ar:'إعطاء الأولوية للكلمات الصعبة',ko:'약점 우선',ru:'Приоритет слабых слов'},
   desc_weak:{ja:'復習対象の中でも間違えた単語を出やすくする',en:'Show words you miss more often within the due set',zh:'在到期词中更常出现答错过的词',fr:'Afficher plus souvent les mots ratés parmi ceux à réviser',ar:'إظهار الكلمات التي تخطئ فيها أكثر ضمن المستحقة',ko:'복습 대상 중 자주 틀린 단어를 더 자주 출제',ru:'Чаще показывать слова, в которых вы чаще ошибаетесь'},
   sec_data:{ja:'データ',en:'Data',zh:'数据',fr:'Données',ar:'البيانات',ko:'데이터',ru:'Данные'},
@@ -868,8 +869,10 @@ const T={
   v270_2:{ja:'バックアップのお知らせを追加しました。前回のバックアップ以降に単語がたまると、リスト画面でお知らせします',en:'Added backup reminders — once words pile up since your last backup, the list screen will let you know',zh:'新增备份提醒。当上次备份后新增的单词累积到一定数量时，列表页面会提示你',fr:'Ajout de rappels de sauvegarde — dès que des mots s’accumulent depuis la dernière sauvegarde, l’écran Liste vous prévient',ar:'تمت إضافة تذكيرات النسخ الاحتياطي — عند تراكم كلمات جديدة منذ آخر نسخة، ستنبّهك شاشة القائمة',ko:'백업 알림을 추가했습니다. 마지막 백업 이후 단어가 쌓이면 목록 화면에서 알려줍니다',ru:'Добавлены напоминания о резервных копиях — когда со времени последней копии накопятся слова, экран списка предупредит'},
   v280_1:{ja:'単語の発音を聞けるようになりました。リスト・単語帳・クイズ・検索結果の🔊ボタンをタップすると再生します',en:'You can now hear how a word is pronounced — tap the 🔊 button in the list, flashcards, quiz, or lookup results',zh:'现在可以听单词发音了。点击列表、单词卡、测验或查询结果中的 🔊 按钮即可播放',fr:'Vous pouvez désormais entendre la prononciation d’un mot — touchez le bouton 🔊 dans la liste, les cartes, le quiz ou les résultats de recherche',ar:'يمكنك الآن سماع نطق الكلمة — اضغط زر 🔊 في القائمة أو البطاقات أو الاختبار أو نتائج البحث',ko:'단어 발음을 들을 수 있게 되었습니다. 목록·단어 카드·퀴즈·검색 결과의 🔊 버튼을 누르면 재생됩니다',ru:'Теперь можно услышать произношение слова — нажмите кнопку 🔊 в списке, карточках, тесте или результатах поиска'},
   v280_2:{ja:'設定 > 発音 で、自動再生のオン／オフ、アクセント(米・英)、速さ(ふつう・ゆっくり)を選べます',en:'Under Settings > Pronunciation you can turn on auto-play and choose the accent (US/UK) and speed (normal/slow)',zh:'在 设置 > 发音 中可开启自动播放，并选择口音（美/英）与语速（正常/慢速）',fr:'Dans Réglages > Prononciation, activez la lecture automatique et choisissez l’accent (US/UK) et la vitesse (normal/lent)',ar:'من الإعدادات > النطق يمكنك تفعيل التشغيل التلقائي واختيار اللكنة (أمريكية/بريطانية) والسرعة (عادية/بطيئة)',ko:'설정 > 발음 에서 자동 재생을 켜고 악센트(미국·영국)와 속도(보통·느리게)를 고를 수 있습니다',ru:'В Настройки > Произношение можно включить автовоспроизведение и выбрать акцент (США/Британия) и скорость (обычно/медленно)'},
-  wn1:{ja:'学習の記録を追加しました。ヘッダーの🔥バッジか 設定 > 記録 から開けます。最長の連続日数・学習した日数・通算の正答率が一目で分かります',en:'Added a learning record — open it from the 🔥 badge in the header or Settings > Record. It shows your longest streak, days studied, and overall accuracy at a glance',zh:'新增学习记录。可从顶部的 🔥 徽章或 设置 > 记录 打开，一眼查看最长连续天数、学习天数与总正确率',fr:'Ajout d’un suivi d’apprentissage — ouvrez-le via le badge 🔥 en haut ou Réglages > Suivi. Il affiche votre plus longue série, vos jours étudiés et votre précision globale',ar:'تمت إضافة سجل التعلّم — افتحه من شارة 🔥 في الأعلى أو من الإعدادات > السجل. يعرض أطول سلسلة وأيام الدراسة والدقة الإجمالية',ko:'학습 기록을 추가했습니다. 상단의 🔥 배지나 설정 > 기록 에서 열 수 있으며, 최장 연속 일수·학습한 일수·전체 정답률을 한눈에 볼 수 있습니다',ru:'Добавлен раздел прогресса — откройте его по значку 🔥 вверху или через Настройки > Статистика. Показывает лучшую серию, дни занятий и общую точность'},
-  wn2:{ja:'毎日の復習数を棒グラフで、半年分の学習状況をカレンダー（GitHubの草のような表）で表示します。自分の単語帳とパッケージの両方をまとめて集計します',en:'Daily reviews now appear as a bar chart, plus a six-month contribution-style calendar. Both your own words and packages are counted together',zh:'每日复习数以柱状图显示，并新增半年份的学习日历（类似 GitHub 贡献图）。自己的单词本与单词包会合并统计',fr:'Les révisions quotidiennes s’affichent en histogramme, avec un calendrier de six mois façon graphique de contributions. Vos mots et les packs sont comptés ensemble',ar:'تظهر المراجعات اليومية الآن كرسم بياني شريطي، مع تقويم لستة أشهر بنمط رسم المساهمات. تُحتسب كلماتك والحزم معًا',ko:'매일의 복습 수를 막대그래프로, 반년치 학습 상황을 캘린더(GitHub 잔디 같은 표)로 표시합니다. 내 단어장과 패키지를 함께 집계합니다',ru:'Ежедневные повторения теперь показаны столбчатой диаграммой, а также календарём за полгода в стиле графика активности. Свои слова и наборы учитываются вместе'},
+  v290_1:{ja:'学習の記録を追加しました。ヘッダーの🔥バッジか 設定 > 記録 から開けます。最長の連続日数・学習した日数・通算の正答率が一目で分かります',en:'Added a learning record — open it from the 🔥 badge in the header or Settings > Record. It shows your longest streak, days studied, and overall accuracy at a glance',zh:'新增学习记录。可从顶部的 🔥 徽章或 设置 > 记录 打开，一眼查看最长连续天数、学习天数与总正确率',fr:'Ajout d’un suivi d’apprentissage — ouvrez-le via le badge 🔥 en haut ou Réglages > Suivi. Il affiche votre plus longue série, vos jours étudiés et votre précision globale',ar:'تمت إضافة سجل التعلّم — افتحه من شارة 🔥 في الأعلى أو من الإعدادات > السجل. يعرض أطول سلسلة وأيام الدراسة والدقة الإجمالية',ko:'학습 기록을 추가했습니다. 상단의 🔥 배지나 설정 > 기록 에서 열 수 있으며, 최장 연속 일수·학습한 일수·전체 정답률을 한눈에 볼 수 있습니다',ru:'Добавлен раздел прогресса — откройте его по значку 🔥 вверху или через Настройки > Статистика. Показывает лучшую серию, дни занятий и общую точность'},
+  v290_2:{ja:'毎日の復習数を棒グラフで、半年分の学習状況をカレンダー（GitHubの草のような表）で表示します。自分の単語帳とパッケージの両方をまとめて集計します',en:'Daily reviews now appear as a bar chart, plus a six-month contribution-style calendar. Both your own words and packages are counted together',zh:'每日复习数以柱状图显示，并新增半年份的学习日历（类似 GitHub 贡献图）。自己的单词本与单词包会合并统计',fr:'Les révisions quotidiennes s’affichent en histogramme, avec un calendrier de six mois façon graphique de contributions. Vos mots et les packs sont comptés ensemble',ar:'تظهر المراجعات اليومية الآن كرسم بياني شريطي، مع تقويم لستة أشهر بنمط رسم المساهمات. تُحتسب كلماتك والحزم معًا',ko:'매일의 복습 수를 막대그래프로, 반년치 학습 상황을 캘린더(GitHub 잔디 같은 표)로 표시합니다. 내 단어장과 패키지를 함께 집계합니다',ru:'Ежедневные повторения теперь показаны столбчатой диаграммой, а также календарём за полгода в стиле графика активности. Свои слова и наборы учитываются вместе'},
+  wn1:{ja:'間違えたときのペナルティを緩くしました。これまでは1回間違えるだけで復習間隔が最初(1日後)に戻っていましたが、これからは1段階戻るだけです(例: 90日→60日)。積み上げた進捗が一度のミスで消えなくなります',en:'Missing a word is no longer so punishing. A single wrong answer used to reset the interval all the way back to one day; now it only steps back once (e.g. 90 days to 60), so months of progress no longer vanish in one slip',zh:'答错的惩罚已放宽。以往答错一次就会把复习间隔重置回最初(1天后)，现在只后退一级(例如 90 天→60 天)，积累的进度不会因一次失误而清零',fr:'Se tromper est moins punitif. Une seule erreur remettait l’intervalle à un jour ; désormais il ne recule que d’un cran (par ex. 90 jours → 60), sans effacer des mois de progression',ar:'أصبح الخطأ أقل قسوة. كانت إجابة خاطئة واحدة تعيد الفاصل إلى يوم واحد، أما الآن فيتراجع خطوة واحدة فقط (مثلاً من 90 يومًا إلى 60)، فلا يضيع تقدّم شهور بزلة واحدة',ko:'틀렸을 때의 페널티를 완화했습니다. 지금까지는 한 번만 틀려도 복습 간격이 처음(1일 후)으로 되돌아갔지만, 앞으로는 한 단계만 뒤로 갑니다(예: 90일→60일). 쌓아온 진도가 한 번의 실수로 사라지지 않습니다',ru:'Ошибка больше не так наказывает. Раньше один неверный ответ сбрасывал интервал к одному дню; теперь он откатывается лишь на шаг (например, с 90 дней до 60), и месяцы прогресса не пропадают из-за одной осечки'},
+  wn2:{ja:'間違えた単語は、これまでどおりその場でもう一度出題されます。そこで正解しても、いきなり元の間隔には戻さず、1段階戻した間隔から再開します',en:'A missed word still comes back in the same session. Getting it right then restores the stepped-back interval rather than jumping straight to the old one',zh:'答错的单词仍会在本次练习中再次出现。此时答对不会立刻恢复原间隔，而是从后退一级的间隔重新开始',fr:'Un mot raté revient toujours dans la même session. Une bonne réponse rétablit alors l’intervalle réduit au lieu de revenir d’un coup au précédent',ar:'الكلمة التي أخطأت فيها تعود في الجلسة نفسها كما كان. والإجابة الصحيحة عندها تستعيد الفاصل المخفَّض بدل العودة فورًا إلى الفاصل السابق',ko:'틀린 단어는 지금까지처럼 그 자리에서 다시 출제됩니다. 이때 맞히더라도 원래 간격으로 바로 돌아가지 않고, 한 단계 줄어든 간격부터 다시 시작합니다',ru:'Слово с ошибкой по-прежнему возвращается в том же сеансе. Верный ответ восстанавливает уменьшенный интервал, а не возвращает прежний сразу'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1316,6 +1319,7 @@ function buildPkgLive(id){
       box:(typeof p.box==='number'?p.box:-1),
       nextDue:(typeof p.nextDue==='number'?p.nextDue:Date.now()),
       hist:Array.isArray(p.hist)?p.hist:[],
+      lapsed:!!p.lapsed,
       // Keep every language's meaning so search matches regardless of the
       // currently displayed language (the visible one is in meanings[]).
       _allMeanings:Object.values(pw.meaning).join(' '),
@@ -1325,7 +1329,7 @@ function buildPkgLive(id){
 function savePkgProgress(){
   if(CTX.type!=='pkg'||!pkgLive)return;
   const store={};
-  pkgLive.forEach(w=>{store[w._pkgKey]={box:w.box,nextDue:w.nextDue,hist:w.hist,seen:w.seen,correct:w.correct,wrong:w.wrong};});
+  pkgLive.forEach(w=>{store[w._pkgKey]={box:w.box,nextDue:w.nextDue,hist:w.hist,seen:w.seen,correct:w.correct,wrong:w.wrong,lapsed:!!w.lapsed};});
   PKGDB[CTX.id]=store;savePkg();
 }
 // % complete: average per-word achievement, box normalized over INTERVALS
@@ -2009,15 +2013,25 @@ function grade(w,ok,correctText,isInput){
     rec.seen++;
     if(ok){
       rec.correct++;
-      rec.box=Math.min(rec.box+1,INTERVALS.length-1);
+      // Recovering from a lapse restores the demoted level rather than climbing
+      // past it. Without this the demotion below would be free: a forgotten
+      // 90-day word would drop to 60, get re-drilled seconds later, and jump
+      // straight back to 90 -- so a word you demonstrably forgot would not come
+      // back any sooner.
+      if(rec.lapsed){rec.lapsed=false;if(rec.box<0)rec.box=0;}
+      else rec.box=Math.min(rec.box+1,INTERVALS.length-1);
       const days=INTERVALS[rec.box];
       rec.nextDue=Date.now()+days*DAY;
       nextInText=t('next_review',days,fmtDate(rec.nextDue));
     }else{
       rec.wrong++;
-      rec.box=-1;
-      rec.nextDue=Date.now(); // due again soon
-      nextInText=t('again_tomorrow');
+      // Step the interval back once instead of wiping every repetition: a
+      // 90-day word falls to 60 days, not to day one. Losing months of
+      // progress to a single slip is what makes people give up.
+      rec.box=Math.max(-1,rec.box-1);
+      rec.lapsed=true;
+      rec.nextDue=Date.now(); // re-drill in this session
+      nextInText=t('again_soon');
     }
     rec.hist.push({t:Date.now(),ok});
     if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
