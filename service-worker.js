@@ -1,11 +1,11 @@
 // Minimal service worker for Wordkeep.
 // Exists mainly so Chrome/Android treats the app as installable (the install
 // banner needs a registered SW with a fetch handler), and as a bonus caches
-// the two app pages so they open offline. Cache strategy is deliberately
+// the app shell so it opens offline. Cache strategy is deliberately
 // simple: cache the shell on install, serve navigations from cache when the
 // network is unavailable.
-const CACHE = 'wordkeep-v1';
-const ASSETS = ['./index.html', './idiomkeep.html', './manifest.json'];
+const CACHE = 'wordkeep-v2';
+const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();
