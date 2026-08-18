@@ -433,10 +433,18 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 </div></div>
 <div class="overlay" id="overlayMenu"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="menu_title">メニュー</h3><button class="sheet-x" id="menuClose" type="button" aria-label="close">×</button></div>
+  <button class="menu-item" id="miAccount" type="button">
+    <span class="mi-ic">☁️</span>
+    <span class="mi-txt"><span class="mi-t" id="miAcctT">ログイン</span><span class="mi-s" id="miAcctS">単語を保存して他の端末でも使う</span></span>
+  </button>
   <button class="menu-item" id="miSettings" type="button">
     <span class="mi-ic">⚙️</span>
     <span class="mi-txt"><span class="mi-t" data-i18n="set_title">設定</span><span class="mi-s" data-i18n="menu_set_sub">言語・テーマ・発音・データ</span></span>
   </button>
+</div></div>
+<div class="overlay" id="overlayAcct"><div class="sheet">
+  <div class="sheet-head"><h3 data-i18n="acct_title">アカウント</h3><button class="sheet-x" id="acctClose" type="button" aria-label="close">×</button></div>
+  <div id="acctBody"></div>
 </div></div>
 <div class="overlay" id="overlaySet"><div class="sheet sheet-wide">
   <div class="sheet-head"><h3 data-i18n="set_title">設定</h3><button class="sheet-x" id="setClose" type="button" aria-label="close">×</button></div>
@@ -574,13 +582,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.2.0';
+const APP_VERSION='3.3.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.2.0',date:'2026-08-13',keys:['wn1','wn2','wn3']},
+  {version:'3.3.0',date:'2026-08-13',keys:['wn1','wn2','wn3']},
+  {version:'3.2.0',date:'2026-08-13',keys:['v320_1','v320_2','v320_3']},
   {version:'3.1.0',date:'2026-08-13',keys:['v310_1','v310_2']},
   {version:'3.0.0',date:'2026-08-13',keys:['v300_1','v300_2']},
   {version:'2.9.0',date:'2026-08-13',keys:['v290_1','v290_2']},
@@ -689,6 +698,31 @@ const T={
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
   nav_settings:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정',ru:'Настройки'},
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
+  acct_title:{ja:'アカウント',en:'Account',zh:'账号',fr:'Compte',ar:'الحساب',ko:'계정',ru:'Аккаунт'},
+  menu_acct_sub:{ja:'単語を保存して他の端末でも使う',en:'Save your words and use them on any device',zh:'保存单词，在任何设备上使用',fr:'Sauvegardez vos mots et utilisez-les sur tout appareil',ar:'احفظ كلماتك واستخدمها على أي جهاز',ko:'단어를 저장하고 다른 기기에서도 사용',ru:'Сохраняйте слова и открывайте их на любом устройстве'},
+  acct_desc:{ja:'ユーザー名と6桁の数字でログインすると、単語が自動で保存され、他の端末でも同じ単語帳が使えます。',en:'Sign in with a username and a 6-digit code to save your words automatically and open the same list on any device.',zh:'使用用户名和 6 位数字登录后，单词会自动保存，并可在其他设备上使用同一单词本。',fr:'Connectez-vous avec un nom d’utilisateur et un code à 6 chiffres : vos mots sont sauvegardés et disponibles sur tous vos appareils.',ar:'سجّل الدخول باسم مستخدم ورمز من 6 أرقام ليتم حفظ كلماتك تلقائيًا واستخدام القائمة نفسها على أي جهاز.',ko:'사용자 이름과 6자리 숫자로 로그인하면 단어가 자동 저장되고 다른 기기에서도 같은 단어장을 쓸 수 있습니다.',ru:'Войдите с именем пользователя и 6-значным кодом — слова сохранятся автоматически и откроются на любом устройстве.'},
+  acct_username:{ja:'ユーザー名（半角英数字）',en:'Username (letters and numbers)',zh:'用户名（字母和数字）',fr:'Nom d’utilisateur (lettres et chiffres)',ar:'اسم المستخدم (أحرف وأرقام)',ko:'사용자 이름 (영문·숫자)',ru:'Имя пользователя (латиница и цифры)'},
+  acct_pin:{ja:'PIN（6桁の数字）',en:'PIN (6 digits)',zh:'PIN（6 位数字）',fr:'PIN (6 chiffres)',ar:'رمز PIN (6 أرقام)',ko:'PIN (6자리 숫자)',ru:'PIN (6 цифр)'},
+  acct_pin_note:{ja:'PINを忘れると復元できません。ユーザー名とPINは必ず控えておいてください。',en:'There is no way to recover a forgotten PIN. Write your username and PIN down somewhere safe.',zh:'忘记 PIN 将无法找回，请务必记下用户名和 PIN。',fr:'Un PIN oublié ne peut pas être récupéré. Notez votre nom d’utilisateur et votre PIN en lieu sûr.',ar:'لا يمكن استعادة رمز PIN المنسي. دوّن اسم المستخدم والرمز في مكان آمن.',ko:'PIN을 잊으면 복구할 수 없습니다. 사용자 이름과 PIN을 꼭 적어 두세요.',ru:'Забытый PIN восстановить нельзя. Запишите имя пользователя и PIN в надёжном месте.'},
+  acct_login:{ja:'ログイン',en:'Log in',zh:'登录',fr:'Se connecter',ar:'تسجيل الدخول',ko:'로그인',ru:'Войти'},
+  acct_signup:{ja:'新規登録',en:'Create an account',zh:'注册新账号',fr:'Créer un compte',ar:'إنشاء حساب',ko:'새로 가입',ru:'Создать аккаунт'},
+  acct_logout:{ja:'ログアウト',en:'Log out',zh:'退出登录',fr:'Se déconnecter',ar:'تسجيل الخروج',ko:'로그아웃',ru:'Выйти'},
+  acct_working:{ja:'処理中…',en:'Working…',zh:'处理中…',fr:'En cours…',ar:'جارٍ…',ko:'처리 중…',ru:'Выполняется…'},
+  acct_done:{ja:'ログインしました',en:'Signed in',zh:'已登录',fr:'Connecté',ar:'تم تسجيل الدخول',ko:'로그인했습니다',ru:'Вы вошли'},
+  acct_signed_in:{ja:'{0} としてログイン中です。単語は自動で保存されます。',en:'Signed in as {0}. Your words are saved automatically.',zh:'已以 {0} 登录，单词会自动保存。',fr:'Connecté en tant que {0}. Vos mots sont sauvegardés automatiquement.',ar:'تم تسجيل الدخول باسم {0}. تُحفظ كلماتك تلقائيًا.',ko:'{0} 으로 로그인 중입니다. 단어는 자동으로 저장됩니다.',ru:'Вы вошли как {0}. Слова сохраняются автоматически.'},
+  acct_last_sync:{ja:'最終同期: {0}',en:'Last synced: {0}',zh:'上次同步：{0}',fr:'Dernière synchro : {0}',ar:'آخر مزامنة: {0}',ko:'마지막 동기화: {0}',ru:'Последняя синхронизация: {0}'},
+  acct_never:{ja:'まだ',en:'not yet',zh:'尚未',fr:'jamais',ar:'لم تتم بعد',ko:'아직 없음',ru:'ещё не было'},
+  acct_syncing:{ja:'同期中…',en:'Syncing…',zh:'同步中…',fr:'Synchronisation…',ar:'جارٍ المزامنة…',ko:'동기화 중…',ru:'Синхронизация…'},
+  acct_sync_now:{ja:'今すぐ同期',en:'Sync now',zh:'立即同步',fr:'Synchroniser maintenant',ar:'زامن الآن',ko:'지금 동기화',ru:'Синхронизировать'},
+  acct_e_short:{ja:'同期できませんでした',en:'Sync failed',zh:'同步失败',fr:'Échec de la synchro',ar:'فشلت المزامنة',ko:'동기화 실패',ru:'Ошибка синхронизации'},
+  acct_e_user:{ja:'ユーザー名は半角英数字と_で3〜20文字にしてください',en:'Username must be 3-20 characters: letters, numbers, or _',zh:'用户名需为 3〜20 位字母、数字或下划线',fr:'Le nom d’utilisateur doit faire 3 à 20 caractères (lettres, chiffres, _)',ar:'يجب أن يكون اسم المستخدم من 3 إلى 20 حرفًا: أحرف أو أرقام أو _',ko:'사용자 이름은 영문·숫자·_ 로 3~20자여야 합니다',ru:'Имя пользователя: 3–20 символов (латиница, цифры, _)'},
+  acct_e_pin:{ja:'PINは6桁の数字で入力してください',en:'The PIN must be exactly 6 digits',zh:'PIN 必须为 6 位数字',fr:'Le PIN doit comporter exactement 6 chiffres',ar:'يجب أن يتكوّن الرمز من 6 أرقام بالضبط',ko:'PIN은 숫자 6자리여야 합니다',ru:'PIN должен состоять ровно из 6 цифр'},
+  acct_e_taken:{ja:'そのユーザー名はすでに使われています',en:'That username is already taken',zh:'该用户名已被使用',fr:'Ce nom d’utilisateur est déjà pris',ar:'اسم المستخدم هذا مُستخدم بالفعل',ko:'이미 사용 중인 사용자 이름입니다',ru:'Это имя пользователя уже занято'},
+  acct_e_wrong:{ja:'ユーザー名かPINが違います（未登録の場合は「新規登録」から）',en:'Wrong username or PIN (use Create an account if you are new)',zh:'用户名或 PIN 有误（新用户请点「注册新账号」）',fr:'Nom d’utilisateur ou PIN incorrect (utilisez Créer un compte si vous êtes nouveau)',ar:'اسم المستخدم أو الرمز غير صحيح (استخدم إنشاء حساب إن كنت جديدًا)',ko:'사용자 이름 또는 PIN이 올바르지 않습니다 (처음이면 «새로 가입»)',ru:'Неверное имя пользователя или PIN (если вы впервые — «Создать аккаунт»)'},
+  acct_e_net:{ja:'ネットにつながらないため、ログインできません',en:'Can’t reach the network, so signing in isn’t possible right now',zh:'无法连接网络，暂时无法登录',fr:'Réseau inaccessible : connexion impossible pour le moment',ar:'تعذّر الوصول إلى الشبكة، لا يمكن تسجيل الدخول الآن',ko:'네트워크에 연결할 수 없어 로그인할 수 없습니다',ru:'Нет соединения — войти сейчас не получится'},
+  acct_e_many:{ja:'試行回数が多すぎます。しばらく待ってからお試しください',en:'Too many attempts. Please wait a little and try again',zh:'尝试次数过多，请稍后再试',fr:'Trop de tentatives. Réessayez dans un moment',ar:'محاولات كثيرة جدًا. انتظر قليلاً ثم أعد المحاولة',ko:'시도 횟수가 너무 많습니다. 잠시 후 다시 시도해 주세요',ru:'Слишком много попыток. Подождите немного и повторите'},
+  acct_e_disabled:{ja:'ログイン機能が有効になっていません（Firebaseでメール/パスワードを有効にしてください）',en:'Sign-in is not enabled yet (enable Email/Password in Firebase)',zh:'登录功能尚未启用（请在 Firebase 中启用邮箱/密码）',fr:'La connexion n’est pas activée (activez E-mail/Mot de passe dans Firebase)',ar:'لم يتم تفعيل تسجيل الدخول (فعّل البريد/كلمة المرور في Firebase)',ko:'로그인 기능이 아직 활성화되지 않았습니다 (Firebase에서 이메일/비밀번호를 활성화하세요)',ru:'Вход ещё не включён (включите Email/Password в Firebase)'},
+  acct_e_rules:{ja:'保存できませんでした（Firestoreのルールを確認してください）',en:'Couldn’t save (check the Firestore security rules)',zh:'保存失败（请检查 Firestore 安全规则）',fr:'Enregistrement impossible (vérifiez les règles Firestore)',ar:'تعذّر الحفظ (تحقّق من قواعد Firestore)',ko:'저장하지 못했습니다 (Firestore 규칙을 확인하세요)',ru:'Не удалось сохранить (проверьте правила Firestore)'},
   menu_title:{ja:'メニュー',en:'Menu',zh:'菜单',fr:'Menu',ar:'القائمة',ko:'메뉴',ru:'Меню'},
   menu_set_sub:{ja:'言語・テーマ・発音・データ',en:'Language, theme, pronunciation, data',zh:'语言・主题・发音・数据',fr:'Langue, thème, prononciation, données',ar:'اللغة والسمة والنطق والبيانات',ko:'언어·테마·발음·데이터',ru:'Язык, тема, произношение, данные'},
   unit_words:{ja:'語',en:'words',zh:'词',fr:'mots',ar:'كلمة',ko:'단어',ru:'слов'},
@@ -917,9 +951,12 @@ const T={
   v300_2:{ja:'間違えた単語は、これまでどおりその場でもう一度出題されます。そこで正解しても、いきなり元の間隔には戻さず、1段階戻した間隔から再開します',en:'A missed word still comes back in the same session. Getting it right then restores the stepped-back interval rather than jumping straight to the old one',zh:'答错的单词仍会在本次练习中再次出现。此时答对不会立刻恢复原间隔，而是从后退一级的间隔重新开始',fr:'Un mot raté revient toujours dans la même session. Une bonne réponse rétablit alors l’intervalle réduit au lieu de revenir d’un coup au précédent',ar:'الكلمة التي أخطأت فيها تعود في الجلسة نفسها كما كان. والإجابة الصحيحة عندها تستعيد الفاصل المخفَّض بدل العودة فورًا إلى الفاصل السابق',ko:'틀린 단어는 지금까지처럼 그 자리에서 다시 출제됩니다. 이때 맞히더라도 원래 간격으로 바로 돌아가지 않고, 한 단계 줄어든 간격부터 다시 시작합니다',ru:'Слово с ошибкой по-прежнему возвращается в том же сеансе. Верный ответ восстанавливает уменьшенный интервал, а не возвращает прежний сразу'},
   v310_1:{ja:'リスト画面の一番上に「今日」のカードを追加しました。今日の復習が何語あるか、連続記録が途切れそうかが開いてすぐ分かり、そのまま復習を始められます',en:'Added a “today” card at the top of the list. It shows how many words are due and whether your streak still needs today’s session, and starts the review right there',zh:'在列表页顶部新增“今天”卡片。打开即可看到今天有多少待复习的单词、连续记录是否面临中断，并可直接开始复习',fr:'Ajout d’une carte « aujourd’hui » en haut de la liste. Elle indique le nombre de mots à réviser et si votre série attend encore la session du jour, et lance la révision directement',ar:'تمت إضافة بطاقة «اليوم» أعلى القائمة. تعرض عدد الكلمات المستحقة وما إذا كانت سلسلتك تنتظر جلسة اليوم، ويمكن بدء المراجعة منها مباشرة',ko:'목록 화면 상단에 「오늘」 카드를 추가했습니다. 오늘 복습할 단어 수와 연속 기록이 끊길 위기인지 바로 확인하고, 그 자리에서 복습을 시작할 수 있습니다',ru:'В начале списка появилась карточка «сегодня». Она показывает, сколько слов к повторению и ждёт ли серия сегодняшних занятий, и сразу запускает повторение'},
   v310_2:{ja:'復習がない日でも、連続記録が続いていれば自由学習への導線を出します。ブラウザのタブのタイトルにも復習の残り語数を表示します',en:'On days with nothing due, a live streak now points you to free study instead. The browser tab title also shows how many reviews are waiting',zh:'在没有到期复习的日子，若连续记录仍在进行，会引导你进行自由学习。浏览器标签标题也会显示待复习的数量',fr:'Les jours sans révision due, une série en cours vous oriente vers l’étude libre. Le titre de l’onglet affiche aussi le nombre de révisions en attente',ar:'في الأيام التي لا توجد فيها مراجعات مستحقة، توجّهك السلسلة النشطة إلى الدراسة الحرة. كما يعرض عنوان تبويب المتصفح عدد المراجعات المنتظرة',ko:'복습할 항목이 없는 날에도 연속 기록이 진행 중이면 자유 학습으로 안내합니다. 브라우저 탭 제목에도 남은 복습 수가 표시됩니다',ru:'В дни без запланированных повторений активная серия направит вас к свободным занятиям. В заголовке вкладки браузера также видно число ожидающих повторений'},
-  wn1:{ja:'画面の構成を変えました。下のタブの一番右が「記録」になり、学習の記録にすぐ入れます。設定は右上のメニュー(三本線)からひらきます',en:'Reorganized the layout. The last tab is now Record, so your learning history is one tap away, and Settings moved into the menu button at the top right',zh:'调整了界面结构。底部最后一个标签改为「记录」，可直接查看学习记录；设置移到右上角的菜单按钮中',fr:'Réorganisation de l’interface. Le dernier onglet est désormais Suivi, votre historique est à portée de main, et les Réglages passent dans le menu en haut à droite',ar:'أعيد تنظيم الواجهة. صار آخر تبويب هو السجل للوصول السريع إلى سجل تعلّمك، وانتقلت الإعدادات إلى زر القائمة أعلى اليمين',ko:'화면 구성을 바꿨습니다. 하단 마지막 탭이 「기록」이 되어 학습 기록에 바로 들어갈 수 있고, 설정은 오른쪽 위 메뉴(삼선) 버튼에서 엽니다',ru:'Интерфейс перестроен. Последняя вкладка теперь «Прогресс» — история занятий в один тап, а настройки переехали в меню в правом верхнем углу'},
-  wn2:{ja:'姉妹アプリ Idiomkeep の提供を終了しました。Wordkeep に集中して改善していきます',en:'The sister app Idiomkeep has been retired so we can focus on improving Wordkeep',zh:'姊妹应用 Idiomkeep 已停止提供，我们将专注于改进 Wordkeep',fr:'L’application sœur Idiomkeep est retirée afin de concentrer les efforts sur Wordkeep',ar:'تم إيقاف التطبيق الشقيق Idiomkeep للتركيز على تحسين Wordkeep',ko:'자매 앱 Idiomkeep 제공을 종료했습니다. Wordkeep 개선에 집중하겠습니다',ru:'Приложение-компаньон Idiomkeep закрыто, чтобы сосредоточиться на развитии Wordkeep'},
-  wn3:{ja:'間違えたときの扱いを元の厳しさに戻しました。1段階だけ戻す方式では間隔が長すぎて学習にならないため、最初からやり直しになります',en:'Missing a word is strict again. Stepping the interval back just once left it far too long to count as studying, so a miss restarts the schedule',zh:'答错的处理恢复为原来的严格方式。只后退一级会让间隔过长、失去复习意义，因此答错将从头开始',fr:'Les erreurs redeviennent strictes. Ne reculer que d’un cran laissait un intervalle bien trop long pour apprendre : une erreur repart de zéro',ar:'عاد التعامل مع الخطأ صارمًا. التراجع خطوة واحدة كان يترك الفاصل طويلًا جدًا بلا فائدة تعليمية، لذا يعيد الخطأ الجدول من البداية',ko:'틀렸을 때의 처리를 원래의 엄격한 방식으로 되돌렸습니다. 한 단계만 되돌리면 간격이 너무 길어 학습이 되지 않기 때문에, 처음부터 다시 시작합니다',ru:'Ошибки снова строгие. Откат интервала лишь на шаг оставлял его слишком долгим, чтобы это считалось учёбой — теперь ошибка возвращает график к началу'},
+  v320_1:{ja:'画面の構成を変えました。下のタブの一番右が「記録」になり、学習の記録にすぐ入れます。設定は右上のメニュー(三本線)からひらきます',en:'Reorganized the layout. The last tab is now Record, so your learning history is one tap away, and Settings moved into the menu button at the top right',zh:'调整了界面结构。底部最后一个标签改为「记录」，可直接查看学习记录；设置移到右上角的菜单按钮中',fr:'Réorganisation de l’interface. Le dernier onglet est désormais Suivi, votre historique est à portée de main, et les Réglages passent dans le menu en haut à droite',ar:'أعيد تنظيم الواجهة. صار آخر تبويب هو السجل للوصول السريع إلى سجل تعلّمك، وانتقلت الإعدادات إلى زر القائمة أعلى اليمين',ko:'화면 구성을 바꿨습니다. 하단 마지막 탭이 「기록」이 되어 학습 기록에 바로 들어갈 수 있고, 설정은 오른쪽 위 메뉴(삼선) 버튼에서 엽니다',ru:'Интерфейс перестроен. Последняя вкладка теперь «Прогресс» — история занятий в один тап, а настройки переехали в меню в правом верхнем углу'},
+  v320_2:{ja:'姉妹アプリ Idiomkeep の提供を終了しました。Wordkeep に集中して改善していきます',en:'The sister app Idiomkeep has been retired so we can focus on improving Wordkeep',zh:'姊妹应用 Idiomkeep 已停止提供，我们将专注于改进 Wordkeep',fr:'L’application sœur Idiomkeep est retirée afin de concentrer les efforts sur Wordkeep',ar:'تم إيقاف التطبيق الشقيق Idiomkeep للتركيز على تحسين Wordkeep',ko:'자매 앱 Idiomkeep 제공을 종료했습니다. Wordkeep 개선에 집중하겠습니다',ru:'Приложение-компаньон Idiomkeep закрыто, чтобы сосредоточиться на развитии Wordkeep'},
+  v320_3:{ja:'間違えたときの扱いを元の厳しさに戻しました。1段階だけ戻す方式では間隔が長すぎて学習にならないため、最初からやり直しになります',en:'Missing a word is strict again. Stepping the interval back just once left it far too long to count as studying, so a miss restarts the schedule',zh:'答错的处理恢复为原来的严格方式。只后退一级会让间隔过长、失去复习意义，因此答错将从头开始',fr:'Les erreurs redeviennent strictes. Ne reculer que d’un cran laissait un intervalle bien trop long pour apprendre : une erreur repart de zéro',ar:'عاد التعامل مع الخطأ صارمًا. التراجع خطوة واحدة كان يترك الفاصل طويلًا جدًا بلا فائدة تعليمية، لذا يعيد الخطأ الجدول من البداية',ko:'틀렸을 때의 처리를 원래의 엄격한 방식으로 되돌렸습니다. 한 단계만 되돌리면 간격이 너무 길어 학습이 되지 않기 때문에, 처음부터 다시 시작합니다',ru:'Ошибки снова строгие. Откат интервала лишь на шаг оставлял его слишком долгим, чтобы это считалось учёбой — теперь ошибка возвращает график к началу'},
+  wn1:{ja:'アカウント機能を追加しました。右上のメニューからユーザー名と6桁のPINで登録すると、単語がサーバーに自動保存され、別の端末でも同じ単語帳を開けます',en:'Accounts are here. Sign up from the top-right menu with a username and a 6-digit PIN, and your words save to the server automatically and open on any other device',zh:'新增账号功能。在右上角菜单用用户名和 6 位 PIN 注册后，单词会自动保存到服务器，并可在其他设备上打开同一单词本',fr:'Les comptes arrivent. Inscrivez-vous depuis le menu en haut à droite avec un nom d’utilisateur et un PIN à 6 chiffres : vos mots sont sauvegardés automatiquement et accessibles sur tout autre appareil',ar:'أصبحت الحسابات متاحة. سجّل من القائمة أعلى اليمين باسم مستخدم ورمز من 6 أرقام، فتُحفظ كلماتك تلقائيًا على الخادم وتفتحها من أي جهاز آخر',ko:'계정 기능을 추가했습니다. 오른쪽 위 메뉴에서 사용자 이름과 6자리 PIN으로 가입하면 단어가 서버에 자동 저장되고 다른 기기에서도 같은 단어장을 열 수 있습니다',ru:'Появились аккаунты. Зарегистрируйтесь через меню в правом верхнем углу, указав имя пользователя и 6-значный PIN — слова сохранятся на сервере и откроются на любом другом устройстве'},
+  wn2:{ja:'ログイン時、端末に入っている単語は消えません。サーバー側のデータと単語ごとに突き合わせて統合し、新しいほうを残します。削除も端末をまたいで反映されます',en:'Signing in never wipes what is already on your device. Local and server words are merged one by one, keeping whichever is newer, and deletions carry across devices too',zh:'登录不会清除设备上已有的单词。本地与服务器的单词会逐条比对合并，保留较新的一方，删除也会在设备间同步',fr:'Se connecter n’efface jamais ce qui est déjà sur votre appareil : les mots locaux et distants sont fusionnés un à un en gardant le plus récent, et les suppressions se propagent aussi',ar:'تسجيل الدخول لا يمسح ما هو موجود على جهازك. تُدمج الكلمات المحلية مع كلمات الخادم واحدة واحدة مع الإبقاء على الأحدث، وتنتقل عمليات الحذف بين الأجهزة أيضًا',ko:'로그인해도 기기에 있는 단어는 지워지지 않습니다. 로컬과 서버의 단어를 하나씩 비교해 더 새로운 쪽을 남기며 병합하고, 삭제도 기기 간에 반영됩니다',ru:'Вход никогда не стирает то, что уже есть на устройстве: локальные и серверные слова объединяются по одному, остаётся более новое, а удаления передаются между устройствами'},
+  wn3:{ja:'PINを忘れると復元できないため、ユーザー名とPINは控えておいてください。ログインしなくても、これまでどおり端末内だけで使えます',en:'A forgotten PIN cannot be recovered, so keep your username and PIN written down. You can also keep using the app entirely offline without an account, exactly as before',zh:'忘记 PIN 无法找回，请记下用户名和 PIN。不登录也可以像以前一样仅在本机使用',fr:'Un PIN oublié est irrécupérable : notez votre nom d’utilisateur et votre PIN. Vous pouvez aussi continuer à utiliser l’app sans compte, comme avant',ar:'لا يمكن استعادة رمز PIN المنسي، لذا دوّن اسم المستخدم والرمز. ويمكنك أيضًا متابعة استخدام التطبيق دون حساب كما كان تمامًا',ko:'PIN을 잊으면 복구할 수 없으니 사용자 이름과 PIN을 적어 두세요. 로그인하지 않고 지금까지처럼 기기 안에서만 사용할 수도 있습니다',ru:'Забытый PIN восстановить невозможно — запишите имя пользователя и PIN. Пользоваться приложением без аккаунта, как раньше, тоже можно'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -974,13 +1011,17 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
+const DEFAULTS={words:[],tombs:{},settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
   autoSpeak:false,accent:'us',speechRate:'normal',
   lastBackupAt:null,lastBackupWords:0,backupSnoozeUntil:null,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
+// Cloud merge resolves per word by last write, so every change gets stamped.
+function touchWord(w){if(w)w.updatedAt=Date.now();return w;}
+function tombstone(id){DB.tombs[id]=Date.now();}
 function migrateWord(w){
   if(typeof w.box!=='number')w.box=-1;
+  if(typeof w.updatedAt!=='number')w.updatedAt=w.added||Date.now();
   if(typeof w.nextDue!=='number')w.nextDue=w.added||Date.now();
   if(!w.hist)w.hist=[];
   if(!Array.isArray(w.examples))w.examples=[];
@@ -988,6 +1029,7 @@ function migrateWord(w){
 }
 function buildDB(r){
   const merged={...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};
+  if(!merged.tombs||typeof merged.tombs!=='object')merged.tombs={};
   // Existing users (already have words) shouldn't get the first-run tutorial;
   // mark them onboarded so they get the "what's new" notice instead.
   if(merged.words.length>0 && (!r.settings || r.settings.onboarded===undefined))merged.settings.onboarded=true;
@@ -1711,7 +1753,7 @@ $('#btnSave').onclick=()=>{
     seen:0,correct:0,wrong:0,added:now,
     box:-1,nextDue:now,hist:[]
   };
-  DB.words.unshift(item);save();
+  touchWord(item);DB.words.unshift(item);save();cloudTouched();
   setSource('own'); // ensure the newly added word is what the list shows next
   gaEvent('word_added',{lookup_source:pending?pending.source:'lookup_failed_manual_entry',package_id:null});
   maybeRequestPersistence(); // now that there's real data, the ask is likely to be granted
@@ -1829,7 +1871,7 @@ function renderList(){
       '<button class="del" data-id="'+w.id+'">×</button></div>';
   }).join('');
   $$('#listPanel .del').forEach(b=>b.onclick=()=>{
-    if(confirm(t('confirm_del'))){DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();renderList();gaEvent('word_deleted',{package_id:null});}
+    if(confirm(t('confirm_del'))){tombstone(b.dataset.id);DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();cloudTouched();renderList();gaEvent('word_deleted',{package_id:null});}
   });
   $$('#listPanel .ex-toggle').forEach(tg=>tg.onclick=()=>{
     const w=DB.words.find(x=>x.id===tg.dataset.id);
@@ -1849,7 +1891,7 @@ function renderList(){
     w.word=newWord;
     w.kata=card.querySelector('.edit-kata').value.trim();
     w.ja=card.querySelector('.edit-ja').value.trim();
-    save();
+    touchWord(w);save();cloudTouched();
     editingId=null;
     renderList();
     toast(t('toast_updated'));
@@ -2112,10 +2154,12 @@ function grade(w,ok,correctText,isInput){
     }
     rec.hist.push({t:Date.now(),ok});
     if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
+    touchWord(rec);
   }
   if(ok)quiz.score++;
   persistProgress();
   updateStreak();
+  cloudTouched();
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
@@ -2398,6 +2442,7 @@ $('#fileImport').onchange=e=>{
       d.words.forEach(migrateWord);
       const ids=new Set(DB.words.map(w=>w.id));
       const add=d.words.filter(w=>!ids.has(w.id));
+      add.forEach(touchWord);
       DB.words=[...add,...DB.words];
       if(d.settings)DB.settings={...DB.settings,...d.settings};
       save();toast(t('toast_loaded',add.length));go('v-list');
@@ -2538,6 +2583,290 @@ $('#wnOk').onclick=()=>{
   $('#overlayWn').classList.remove('show');
   if(!S().seenStorageTip)openStorageTip();
 };
+
+
+/* ---------- cloud sync (Firebase Auth + Firestore) ---------- */
+// These values are safe to ship in a public file -- they identify the project,
+// they are not secrets. Access is enforced by Firestore rules, which only let a
+// signed-in user touch users/{their own uid}.
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyBmJdEdHm_zrgh7AJqAAhAPQU-Adlg4tcU",
+  authDomain:"wordkeep-bb145.firebaseapp.com",
+  projectId:"wordkeep-bb145",
+  storageBucket:"wordkeep-bb145.firebasestorage.app",
+  messagingSenderId:"774875311699",
+  appId:"1:774875311699:web:4ece828160f39b3676a0a6"
+};
+const FB_BASE='https://www.gstatic.com/firebasejs/10.12.5/';
+const CLOUDKEY='wordkeep.cloud.v1';
+// Firebase Auth has no username concept, so a username maps onto a synthetic
+// address. .invalid is reserved by RFC 2606 and can never be a real mailbox,
+// which keeps these from colliding with anyone's actual email.
+const ACCT_DOMAIN='@wordkeep.invalid';
+
+let fbReady=false,fbLoadingP=null,fbAuth=null,fbDb=null;
+let cloudUser=null;              // {uid,username}
+let cloudState='out';            // out | in | syncing | error
+let cloudMsg='';
+let syncTimer=null,syncing=false;
+
+function cloudSaved(){try{return JSON.parse(localStorage.getItem(CLOUDKEY))||null;}catch(e){return null;}}
+function setCloudSaved(v){if(v)localStorage.setItem(CLOUDKEY,JSON.stringify(v));else localStorage.removeItem(CLOUDKEY);}
+function validUsername(u){return /^[a-z0-9_]{3,20}$/.test(u);}
+function validPin(p){return /^[0-9]{6}$/.test(p);}
+function loadScript(src){
+  return new Promise((res,rej)=>{
+    const el=document.createElement('script');
+    el.src=src;el.async=true;
+    el.onload=()=>res();el.onerror=()=>rej(new Error('sdk_load_failed'));
+    document.head.appendChild(el);
+  });
+}
+// The SDK is a few hundred KB and most sessions never sign in, so it is fetched
+// only when the account screen opens or a saved session needs restoring.
+function loadFirebase(){
+  if(fbReady)return Promise.resolve(true);
+  if(fbLoadingP)return fbLoadingP;
+  fbLoadingP=(async()=>{
+    await loadScript(FB_BASE+'firebase-app-compat.js');
+    await loadScript(FB_BASE+'firebase-auth-compat.js');
+    await loadScript(FB_BASE+'firebase-firestore-compat.js');
+    firebase.initializeApp(FIREBASE_CONFIG);
+    fbAuth=firebase.auth();
+    fbDb=firebase.firestore();
+    fbAuth.onAuthStateChanged(u=>{
+      if(u){
+        const saved=cloudSaved();
+        cloudUser={uid:u.uid,username:(saved&&saved.username)||(u.email||'').split('@')[0]};
+        setCloudSaved({username:cloudUser.username,uid:u.uid,lastSyncAt:(saved&&saved.lastSyncAt)||null});
+        if(cloudState!=='syncing')cloudState='in';
+      }else{cloudUser=null;cloudState='out';}
+      renderAccountUI();
+    });
+    fbReady=true;
+    return true;
+  })();
+  fbLoadingP.catch(()=>{fbLoadingP=null;});
+  return fbLoadingP;
+}
+function authErrMsg(e){
+  const c=(e&&e.code)||'';
+  if(c==='auth/email-already-in-use')return t('acct_e_taken');
+  if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return t('acct_e_wrong');
+  if(c==='auth/network-request-failed'||(e&&e.message==='sdk_load_failed'))return t('acct_e_net');
+  // both mean the console side isn't set up: the provider is off, or
+  // Authentication was never initialised for the project at all
+  if(c==='auth/operation-not-allowed'||c==='auth/configuration-not-found')return t('acct_e_disabled');
+  if(c==='auth/too-many-requests')return t('acct_e_many');
+  return (e&&(e.message||e.code))||'error';
+}
+async function cloudAuth(mode,username,pin){
+  username=(username||'').trim().toLowerCase();
+  if(!validUsername(username))return {ok:false,msg:t('acct_e_user')};
+  if(!validPin(pin))return {ok:false,msg:t('acct_e_pin')};
+  try{
+    await loadFirebase();
+    const email=username+ACCT_DOMAIN;
+    if(mode==='signup')await fbAuth.createUserWithEmailAndPassword(email,pin);
+    else await fbAuth.signInWithEmailAndPassword(email,pin);
+    setCloudSaved({username,uid:fbAuth.currentUser.uid,lastSyncAt:null});
+    cloudUser={uid:fbAuth.currentUser.uid,username};
+    gaEvent(mode==='signup'?'cloud_signup':'cloud_login',{});
+    await cloudSync('auth');
+    return {ok:true};
+  }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+async function cloudLogout(){
+  try{await cloudSync('logout');}catch(e){}
+  try{if(fbAuth)await fbAuth.signOut();}catch(e){}
+  setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';
+  renderAccountUI();
+}
+
+/* --- merge -------------------------------------------------------------- */
+// Pure so it can be reasoned about (and tested) without touching the network.
+// Per word, the newer updatedAt wins; a tombstone only removes a word when the
+// deletion is at least as new as the surviving copy, so an edit made after a
+// delete on another device is not silently thrown away.
+function wordStamp(w){return (w&&(w.updatedAt||w.added))||0;}
+function mergeCloud(localWords,localTombs,remoteWords,remoteTombs){
+  const byId=new Map();
+  (localWords||[]).forEach(w=>byId.set(w.id,w));
+  (remoteWords||[]).forEach(w=>{
+    const cur=byId.get(w.id);
+    if(!cur||wordStamp(w)>wordStamp(cur))byId.set(w.id,w);
+  });
+  const tombs={...(localTombs||{})};
+  Object.keys(remoteTombs||{}).forEach(id=>{
+    const ts=remoteTombs[id];
+    if(!tombs[id]||ts>tombs[id])tombs[id]=ts;
+  });
+  const words=[];
+  byId.forEach((w,id)=>{
+    const t=tombs[id];
+    if(t&&t>=wordStamp(w))return;
+    words.push(w);
+  });
+  words.sort((a,b)=>(b.added||0)-(a.added||0));
+  return {words,tombs};
+}
+// A streak is easy to lose to a naive last-write-wins, so merge it field-wise.
+function mergeStreak(a,b){
+  a=a||{};b=b||{};
+  const newer=(b.lastActiveDate||0)>(a.lastActiveDate||0)?b:a;
+  return {...newer,
+    longest:Math.max(a.longest||0,b.longest||0),
+    freezesAvailable:Math.min(a.freezesAvailable||0,b.freezesAvailable||0)};
+}
+function clean(o){return JSON.parse(JSON.stringify(o===undefined?null:o));}
+
+async function commitBatched(ops){
+  for(let i=0;i<ops.length;i+=400){ // Firestore caps a batch at 500 writes
+    const b=fbDb.batch();
+    ops.slice(i,i+400).forEach(o=>o.del?b.delete(o.ref):b.set(o.ref,o.data));
+    await b.commit();
+  }
+}
+async function cloudSync(reason){
+  if(!cloudUser||!fbDb||syncing)return;
+  syncing=true;cloudState='syncing';cloudMsg='';renderAccountUI();
+  try{
+    const uref=fbDb.collection('users').doc(cloudUser.uid);
+    const wcol=uref.collection('words');
+    const [udoc,wsnap]=await Promise.all([uref.get(),wcol.get()]);
+    const meta=udoc.exists?(udoc.data()||{}):{};
+    const remoteWords=[];wsnap.forEach(d=>remoteWords.push(d.data()));
+    const remoteById=new Map(remoteWords.map(w=>[w.id,w]));
+
+    const {words,tombs}=mergeCloud(DB.words,DB.tombs,remoteWords,meta.tombs);
+    DB.words=words.map(migrateWord);
+    DB.tombs=tombs;
+    S().streak=mergeStreak(S().streak,meta.streak);
+    // Package progress is a small blob and rarely edited on two devices at
+    // once, so it takes the newer side wholesale rather than merging per word.
+    if((meta.pkgUpdatedAt||0)>(DB.settings.pkgUpdatedAt||0)&&meta.packages){
+      PKGDB=meta.packages;savePkg();
+      DB.settings.pkgUpdatedAt=meta.pkgUpdatedAt;
+      if(CTX.type==='pkg')buildPkgLive(CTX.id);
+    }
+    save();
+
+    const ops=[];
+    DB.words.forEach(w=>{
+      const r=remoteById.get(w.id);
+      if(!r||wordStamp(w)>wordStamp(r))ops.push({ref:wcol.doc(w.id),data:clean(w)});
+    });
+    Object.keys(DB.tombs).forEach(id=>{
+      if(remoteById.has(id))ops.push({ref:wcol.doc(id),del:true});
+    });
+    await commitBatched(ops);
+    await uref.set(clean({
+      username:cloudUser.username,
+      streak:S().streak,
+      tombs:DB.tombs,
+      packages:PKGDB,
+      pkgUpdatedAt:DB.settings.pkgUpdatedAt||Date.now(),
+      wordCount:DB.words.length,
+      updatedAt:Date.now()
+    }),{merge:true});
+
+    const saved=cloudSaved()||{};
+    saved.lastSyncAt=Date.now();saved.username=cloudUser.username;saved.uid=cloudUser.uid;
+    setCloudSaved(saved);
+    cloudState='in';cloudMsg='';
+    gaEvent('cloud_sync',{reason:reason||'manual',word_count:DB.words.length});
+    renderCount();renderList();
+  }catch(e){
+    cloudState='error';
+    cloudMsg=(e&&e.code==='permission-denied')?t('acct_e_rules'):((e&&(e.message||e.code))||'error');
+  }finally{
+    syncing=false;renderAccountUI();
+  }
+}
+// Local edits are the source of truth until they settle; push a few seconds
+// after the last change rather than on every keystroke or answer.
+function cloudTouched(){
+  if(!cloudUser)return;
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(()=>cloudSync('auto'),4000);
+}
+function flushCloud(){
+  if(!cloudUser||syncing)return;
+  clearTimeout(syncTimer);
+  cloudSync('flush');
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)flushCloud();});
+
+/* --- account UI --------------------------------------------------------- */
+function fmtSync(ts){
+  if(!ts)return t('acct_never');
+  const d=new Date(ts);
+  return fmtDay(ts)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function renderAccountUI(){
+  const mt=$('#miAcctT'),ms=$('#miAcctS');
+  if(mt&&ms){
+    mt.textContent=cloudUser?cloudUser.username:t('acct_login');
+    ms.textContent=cloudUser
+      ?(cloudState==='syncing'?t('acct_syncing'):cloudState==='error'?t('acct_e_short'):t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))
+      :t('menu_acct_sub');
+  }
+  const body=$('#acctBody');
+  if(!body||!$('#overlayAcct').classList.contains('show'))return;
+  if(cloudUser){
+    body.innerHTML=
+      '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_signed_in',cloudUser.username))+'</p>'+
+      '<div class="panel" style="padding:14px;margin-bottom:14px">'+
+        '<div class="sd">'+esc(t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))+'</div>'+
+        (cloudState==='error'?'<div class="sd" style="color:var(--bad);margin-top:6px">'+esc(cloudMsg)+'</div>':'')+
+      '</div>'+
+      '<button class="btn btn-primary" id="acctSync"'+(cloudState==='syncing'?' disabled':'')+'>'+
+        esc(cloudState==='syncing'?t('acct_syncing'):t('acct_sync_now'))+'</button>'+
+      '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>';
+    $('#acctSync').onclick=()=>cloudSync('manual');
+    $('#acctOut').onclick=cloudLogout;
+    return;
+  }
+  body.innerHTML=
+    '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_desc'))+'</p>'+
+    '<label class="lab">'+esc(t('acct_username'))+'</label>'+
+    '<input id="acctUser" class="field" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="yuri">'+
+    '<label class="lab" style="margin-top:14px">'+esc(t('acct_pin'))+'</label>'+
+    '<input id="acctPin" class="field" dir="ltr" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="123456">'+
+    '<p class="hint" style="margin:8px 2px 0">'+esc(t('acct_pin_note'))+'</p>'+
+    '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+    '<button class="btn btn-primary" id="acctIn" style="margin-top:16px">'+esc(t('acct_login'))+'</button>'+
+    '<button class="btn btn-ghost" id="acctNew" style="width:100%;margin-top:10px">'+esc(t('acct_signup'))+'</button>';
+  const run=async mode=>{
+    const btnIn=$('#acctIn'),btnNew=$('#acctNew');
+    btnIn.disabled=btnNew.disabled=true;
+    $('#acctErr').textContent='';
+    $('#acctIn').textContent=t('acct_working');
+    const r=await cloudAuth(mode,$('#acctUser').value,$('#acctPin').value);
+    if(r.ok){closeAcct();toast(t('acct_done'));}
+    else{
+      const el=$('#acctErr');if(el)el.textContent=r.msg;
+      if($('#acctIn')){$('#acctIn').disabled=$('#acctNew').disabled=false;$('#acctIn').textContent=t('acct_login');}
+    }
+  };
+  $('#acctIn').onclick=()=>run('login');
+  $('#acctNew').onclick=()=>run('signup');
+}
+function openAcct(){
+  $('#overlayAcct').classList.add('show');
+  renderAccountUI();
+  loadFirebase().then(renderAccountUI).catch(()=>{
+    const el=$('#acctErr');if(el)el.textContent=t('acct_e_net');
+  });
+  gaScreen('account');
+}
+function closeAcct(){$('#overlayAcct').classList.remove('show');}
+$('#miAccount').onclick=()=>{closeMenu();openAcct();};
+$('#acctClose').onclick=closeAcct;
+$('#overlayAcct').addEventListener('click',e=>{if(e.target===$('#overlayAcct'))closeAcct();});
+// restore a previous session (and pull anything added on another device)
+if(cloudSaved())loadFirebase().then(()=>cloudSync('startup')).catch(()=>{});
+
 
 /* ---------- boot ---------- */
 applyStaticI18n();
