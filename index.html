@@ -2711,7 +2711,13 @@ function mergeCloud(localWords,localTombs,remoteWords,remoteTombs){
   return {words,tombs};
 }
 // A streak is easy to lose to a naive last-write-wins, so merge it field-wise.
+function hasStreak(s){return !!(s&&(s.lastActiveDate||s.current||s.longest));}
 function mergeStreak(a,b){
+  // One side having no streak record at all is not the same as it reporting
+  // zero: merging field-wise against an empty object would hand back min()
+  // of a real value and 0, silently spending the user's freezes.
+  if(!hasStreak(a))return b&&hasStreak(b)?b:(a||b||{});
+  if(!hasStreak(b))return a;
   a=a||{};b=b||{};
   const newer=(b.lastActiveDate||0)>(a.lastActiveDate||0)?b:a;
   return {...newer,
