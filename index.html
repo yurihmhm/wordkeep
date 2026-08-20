@@ -582,13 +582,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.4.0';
+const APP_VERSION='3.5.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.4.0',date:'2026-08-19',keys:['wn1','wn2']},
+  {version:'3.5.0',date:'2026-08-19',keys:['wn1','wn2']},
+  {version:'3.4.0',date:'2026-08-19',keys:['v340_1','v340_2']},
   {version:'3.3.0',date:'2026-08-13',keys:['v330_1','v330_2','v330_3']},
   {version:'3.2.0',date:'2026-08-13',keys:['v320_1','v320_2','v320_3']},
   {version:'3.1.0',date:'2026-08-13',keys:['v310_1','v310_2']},
@@ -889,6 +890,9 @@ const T={
   backup_none:{ja:'まだ一度もバックアップしていません',en:'No backup yet',zh:'尚未备份',fr:'Aucune sauvegarde pour l’instant',ar:'لا توجد نسخة احتياطية بعد',ko:'아직 백업하지 않았습니다',ru:'Резервных копий пока нет'},
   backup_never:{ja:'{0}語たまっていますが、まだ一度もバックアップしていません。消えると元に戻せません。',en:'You have {0} words and no backup yet — if they’re lost, they can’t be brought back.',zh:'已积累 {0} 个单词，但尚未备份。一旦丢失将无法恢复。',fr:'Vous avez {0} mots et aucune sauvegarde — en cas de perte, rien ne pourra être récupéré.',ar:'لديك {0} كلمة ولا توجد نسخة احتياطية بعد — إذا فُقدت فلن يمكن استعادتها.',ko:'{0}개의 단어가 쌓였지만 아직 백업하지 않았습니다. 사라지면 되돌릴 수 없습니다.',ru:'У вас {0} слов и ещё нет резервной копии — восстановить их будет невозможно.'},
   backup_stale:{ja:'前回のバックアップは {0}。それ以降に追加した分は、消えると元に戻せません。',en:'Last backed up on {0} — anything added since then can’t be brought back if it’s lost.',zh:'上次备份于 {0}。此后新增的内容一旦丢失将无法恢复。',fr:'Dernière sauvegarde le {0} — ce qui a été ajouté depuis serait définitivement perdu.',ar:'آخر نسخة احتياطية في {0} — ما أُضيف بعدها لا يمكن استعادته إذا فُقد.',ko:'마지막 백업은 {0}. 이후 추가한 내용은 사라지면 되돌릴 수 없습니다.',ru:'Последняя копия — {0}. Всё добавленное позже восстановить не получится.'},
+  acct_pending:{ja:'未保存の変更があります（まもなく同期します）',en:'Unsaved changes — syncing shortly',zh:'有尚未保存的更改（即将同步）',fr:'Modifications non enregistrées — synchronisation imminente',ar:'توجد تغييرات غير محفوظة — ستتم المزامنة قريبًا',ko:'저장되지 않은 변경이 있습니다 (곧 동기화됩니다)',ru:'Есть несохранённые изменения — скоро синхронизируются'},
+  backup_auto_hint:{ja:'アカウントを作れば、追加や復習のたびに自動で保存されます。',en:'With an account this saves itself every time you add or review a word.',zh:'创建账号后，每次添加或复习都会自动保存。',fr:'Avec un compte, tout est enregistré automatiquement à chaque ajout ou révision.',ar:'مع حساب، يتم الحفظ تلقائيًا مع كل إضافة أو مراجعة.',ko:'계정을 만들면 추가하거나 복습할 때마다 자동으로 저장됩니다.',ru:'С аккаунтом всё сохраняется само при каждом добавлении и повторении.'},
+  backup_auto_btn:{ja:'自動保存にする',en:'Turn on auto-save',zh:'开启自动保存',fr:'Activer la sauvegarde auto',ar:'تفعيل الحفظ التلقائي',ko:'자동 저장 켜기',ru:'Включить автосохранение'},
   backup_later:{ja:'あとで',en:'Later',zh:'稍后',fr:'Plus tard',ar:'لاحقًا',ko:'나중에',ru:'Позже'},
   sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助',fr:'Aide',ar:'مساعدة',ko:'도움말',ru:'Помощь'},
   st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程',fr:'Revoir le tutoriel',ar:'مشاهدة الشرح مجددًا',ko:'사용법 다시 보기',ru:'Посмотреть обучение снова'},
@@ -956,8 +960,10 @@ const T={
   v330_1:{ja:'アカウント機能を追加しました。右上のメニューからユーザー名と6桁のPINで登録すると、単語がサーバーに自動保存され、別の端末でも同じ単語帳を開けます',en:'Accounts are here. Sign up from the top-right menu with a username and a 6-digit PIN, and your words save to the server automatically and open on any other device',zh:'新增账号功能。在右上角菜单用用户名和 6 位 PIN 注册后，单词会自动保存到服务器，并可在其他设备上打开同一单词本',fr:'Les comptes arrivent. Inscrivez-vous depuis le menu en haut à droite avec un nom d’utilisateur et un PIN à 6 chiffres : vos mots sont sauvegardés automatiquement et accessibles sur tout autre appareil',ar:'أصبحت الحسابات متاحة. سجّل من القائمة أعلى اليمين باسم مستخدم ورمز من 6 أرقام، فتُحفظ كلماتك تلقائيًا على الخادم وتفتحها من أي جهاز آخر',ko:'계정 기능을 추가했습니다. 오른쪽 위 메뉴에서 사용자 이름과 6자리 PIN으로 가입하면 단어가 서버에 자동 저장되고 다른 기기에서도 같은 단어장을 열 수 있습니다',ru:'Появились аккаунты. Зарегистрируйтесь через меню в правом верхнем углу, указав имя пользователя и 6-значный PIN — слова сохранятся на сервере и откроются на любом другом устройстве'},
   v330_2:{ja:'ログイン時、端末に入っている単語は消えません。サーバー側のデータと単語ごとに突き合わせて統合し、新しいほうを残します。削除も端末をまたいで反映されます',en:'Signing in never wipes what is already on your device. Local and server words are merged one by one, keeping whichever is newer, and deletions carry across devices too',zh:'登录不会清除设备上已有的单词。本地与服务器的单词会逐条比对合并，保留较新的一方，删除也会在设备间同步',fr:'Se connecter n’efface jamais ce qui est déjà sur votre appareil : les mots locaux et distants sont fusionnés un à un en gardant le plus récent, et les suppressions se propagent aussi',ar:'تسجيل الدخول لا يمسح ما هو موجود على جهازك. تُدمج الكلمات المحلية مع كلمات الخادم واحدة واحدة مع الإبقاء على الأحدث، وتنتقل عمليات الحذف بين الأجهزة أيضًا',ko:'로그인해도 기기에 있는 단어는 지워지지 않습니다. 로컬과 서버의 단어를 하나씩 비교해 더 새로운 쪽을 남기며 병합하고, 삭제도 기기 간에 반영됩니다',ru:'Вход никогда не стирает то, что уже есть на устройстве: локальные и серверные слова объединяются по одному, остаётся более новое, а удаления передаются между устройствами'},
   v330_3:{ja:'PINを忘れると復元できないため、ユーザー名とPINは控えておいてください。ログインしなくても、これまでどおり端末内だけで使えます',en:'A forgotten PIN cannot be recovered, so keep your username and PIN written down. You can also keep using the app entirely offline without an account, exactly as before',zh:'忘记 PIN 无法找回，请记下用户名和 PIN。不登录也可以像以前一样仅在本机使用',fr:'Un PIN oublié est irrécupérable : notez votre nom d’utilisateur et votre PIN. Vous pouvez aussi continuer à utiliser l’app sans compte, comme avant',ar:'لا يمكن استعادة رمز PIN المنسي، لذا دوّن اسم المستخدم والرمز. ويمكنك أيضًا متابعة استخدام التطبيق دون حساب كما كان تمامًا',ko:'PIN을 잊으면 복구할 수 없으니 사용자 이름과 PIN을 적어 두세요. 로그인하지 않고 지금까지처럼 기기 안에서만 사용할 수도 있습니다',ru:'Забытый PIN восстановить невозможно — запишите имя пользователя и PIN. Пользоваться приложением без аккаунта, как раньше, тоже можно'},
-  wn1:{ja:'ログイン中はバックアップの催促を出さないようにしました。自動で保存されているのに手動バックアップを促すのは矛盾していたためです。設定では「クラウドに自動保存中」と表示されます',en:'The backup reminder no longer appears while signed in — nagging for a manual export when everything is already saved to the server made no sense. Settings now shows that the cloud is handling it',zh:'登录状态下不再显示备份提醒。数据已自动保存到服务器，却仍催促手动备份并不合理。设置中会显示「正在自动保存到云端」',fr:'Le rappel de sauvegarde n’apparaît plus lorsque vous êtes connecté : réclamer un export manuel alors que tout est déjà sur le serveur n’avait aucun sens. Les Réglages indiquent désormais que le cloud s’en charge',ar:'لم يعد تذكير النسخ الاحتياطي يظهر أثناء تسجيل الدخول — فالمطالبة بنسخة يدوية بينما كل شيء محفوظ على الخادم أمر متناقض. تعرض الإعدادات الآن أن الحفظ السحابي يتكفّل بذلك',ko:'로그인 중에는 백업 알림을 표시하지 않도록 했습니다. 자동으로 저장되는데 수동 백업을 재촉하는 것은 모순이기 때문입니다. 설정에는 «클라우드에 자동 저장 중»으로 표시됩니다',ru:'Напоминание о резервной копии больше не появляется, когда вы вошли в аккаунт: просить ручной экспорт, когда всё уже на сервере, бессмысленно. В настройках теперь видно, что этим занимается облако'},
-  wn2:{ja:'「保存に関する注意」を状況に合わせて出し分けるようにしました。未ログインなら「アカウントを作る」ボタンから解決でき、ログイン中は別のブラウザからでも同じ単語帳が使える旨に変わります',en:'The storage notice now matches your situation: signed out it offers a Create an account button that fixes the problem outright, and signed in it explains that the same list opens from any browser',zh:'「关于数据保存的说明」现在会因情况而异：未登录时提供「创建账号」按钮直接解决问题，已登录时则说明在其他浏览器也能打开同一单词本',fr:'L’avertissement sur le stockage s’adapte : déconnecté, il propose un bouton Créer un compte qui règle le problème ; connecté, il explique que la même liste s’ouvre depuis n’importe quel navigateur',ar:'أصبح تنبيه التخزين يتغيّر حسب حالتك: عند تسجيل الخروج يعرض زر إنشاء حساب يحل المشكلة جذريًا، وعند تسجيل الدخول يوضح أن القائمة نفسها تُفتح من أي متصفح',ko:'«저장에 관한 안내»를 상황에 맞게 다르게 표시합니다. 비로그인 시에는 «계정 만들기» 버튼으로 바로 해결할 수 있고, 로그인 중에는 다른 브라우저에서도 같은 단어장을 쓸 수 있다는 내용으로 바뀝니다',ru:'Уведомление о хранении теперь зависит от ситуации: без входа оно предлагает кнопку «Создать аккаунт», которая решает проблему, а после входа объясняет, что тот же список открывается в любом браузере'},
+  v340_1:{ja:'ログイン中はバックアップの催促を出さないようにしました。自動で保存されているのに手動バックアップを促すのは矛盾していたためです。設定では「クラウドに自動保存中」と表示されます',en:'The backup reminder no longer appears while signed in — nagging for a manual export when everything is already saved to the server made no sense. Settings now shows that the cloud is handling it',zh:'登录状态下不再显示备份提醒。数据已自动保存到服务器，却仍催促手动备份并不合理。设置中会显示「正在自动保存到云端」',fr:'Le rappel de sauvegarde n’apparaît plus lorsque vous êtes connecté : réclamer un export manuel alors que tout est déjà sur le serveur n’avait aucun sens. Les Réglages indiquent désormais que le cloud s’en charge',ar:'لم يعد تذكير النسخ الاحتياطي يظهر أثناء تسجيل الدخول — فالمطالبة بنسخة يدوية بينما كل شيء محفوظ على الخادم أمر متناقض. تعرض الإعدادات الآن أن الحفظ السحابي يتكفّل بذلك',ko:'로그인 중에는 백업 알림을 표시하지 않도록 했습니다. 자동으로 저장되는데 수동 백업을 재촉하는 것은 모순이기 때문입니다. 설정에는 «클라우드에 자동 저장 중»으로 표시됩니다',ru:'Напоминание о резервной копии больше не появляется, когда вы вошли в аккаунт: просить ручной экспорт, когда всё уже на сервере, бессмысленно. В настройках теперь видно, что этим занимается облако'},
+  v340_2:{ja:'「保存に関する注意」を状況に合わせて出し分けるようにしました。未ログインなら「アカウントを作る」ボタンから解決でき、ログイン中は別のブラウザからでも同じ単語帳が使える旨に変わります',en:'The storage notice now matches your situation: signed out it offers a Create an account button that fixes the problem outright, and signed in it explains that the same list opens from any browser',zh:'「关于数据保存的说明」现在会因情况而异：未登录时提供「创建账号」按钮直接解决问题，已登录时则说明在其他浏览器也能打开同一单词本',fr:'L’avertissement sur le stockage s’adapte : déconnecté, il propose un bouton Créer un compte qui règle le problème ; connecté, il explique que la même liste s’ouvre depuis n’importe quel navigateur',ar:'أصبح تنبيه التخزين يتغيّر حسب حالتك: عند تسجيل الخروج يعرض زر إنشاء حساب يحل المشكلة جذريًا، وعند تسجيل الدخول يوضح أن القائمة نفسها تُفتح من أي متصفح',ko:'«저장에 관한 안내»를 상황에 맞게 다르게 표시합니다. 비로그인 시에는 «계정 만들기» 버튼으로 바로 해결할 수 있고, 로그인 중에는 다른 브라우저에서도 같은 단어장을 쓸 수 있다는 내용으로 바뀝니다',ru:'Уведомление о хранении теперь зависит от ситуации: без входа оно предлагает кнопку «Создать аккаунт», которая решает проблему, а после входа объясняет, что тот же список открывается в любом браузере'},
+  wn1:{ja:'自動保存を強化しました。同期に失敗しても諦めず、時間を空けて自動で再試行します。オフライン中の変更は、通信が戻った瞬間に保存されます',en:'Auto-save is more reliable now. A failed sync retries on its own with a growing delay instead of giving up, and anything changed while offline is pushed the moment the network returns',zh:'增强了自动保存。同步失败不会就此放弃，会间隔一段时间自动重试；离线期间的更改会在恢复网络的瞬间保存',fr:'La sauvegarde automatique est plus fiable : une synchro échouée réessaie seule avec un délai croissant au lieu d’abandonner, et tout ce qui change hors ligne part dès le retour du réseau',ar:'أصبح الحفظ التلقائي أكثر موثوقية: المزامنة الفاشلة تُعيد المحاولة تلقائيًا بفواصل متزايدة بدل الاستسلام، وما يتغيّر دون اتصال يُرفع فور عودة الشبكة',ko:'자동 저장을 강화했습니다. 동기화에 실패해도 포기하지 않고 간격을 두며 자동으로 다시 시도하며, 오프라인 중의 변경은 통신이 돌아오는 즉시 저장됩니다',ru:'Автосохранение стало надёжнее: неудачная синхронизация повторяется сама с растущей задержкой, а изменения, сделанные офлайн, уходят сразу при появлении сети'},
+  wn2:{ja:'未保存の変更が残っているときは、メニューとアカウント画面にその旨を表示します。バックアップのお知らせからも、ワンタップで自動保存に切り替えられるようにしました',en:'When changes are still waiting to be saved, the menu and account screen say so. The backup notice now also offers switching to auto-save in one tap',zh:'当仍有未保存的更改时，菜单和账号页面会明确提示。备份提醒中也可一键切换为自动保存',fr:'Quand des modifications attendent encore d’être enregistrées, le menu et l’écran du compte l’indiquent. L’avertissement de sauvegarde propose aussi de passer à l’auto-sauvegarde en un geste',ar:'عند وجود تغييرات لم تُحفظ بعد، تُظهر القائمة وشاشة الحساب ذلك بوضوح. كما يتيح تنبيه النسخ الاحتياطي التحوّل إلى الحفظ التلقائي بضغطة واحدة',ko:'저장되지 않은 변경이 남아 있으면 메뉴와 계정 화면에 표시합니다. 백업 알림에서도 한 번의 탭으로 자동 저장으로 전환할 수 있습니다',ru:'Если изменения ещё не сохранены, меню и экран аккаунта об этом сообщают. А из уведомления о резервной копии можно одним касанием перейти на автосохранение'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -2275,8 +2281,11 @@ function renderBackupBanner(){
   const s=S();
   const msg=s.lastBackupAt?t('backup_stale',fmtDay(s.lastBackupAt)):t('backup_never',DB.words.length);
   el.innerHTML='<div class="warn-banner"><span style="font-size:17px">⚠️</span><div class="wb-body">'+esc(msg)+
-    '<div class="wb-acts"><button class="wb-go" id="wbGo">'+esc(t('btn_export'))+'</button>'+
+    '<span style="display:block;margin-top:6px">'+esc(t('backup_auto_hint'))+'</span>'+
+    '<div class="wb-acts"><button class="wb-go" id="wbAcct">'+esc(t('backup_auto_btn'))+'</button>'+
+    '<button class="wb-later" id="wbGo">'+esc(t('btn_export'))+'</button>'+
     '<button class="wb-later" id="wbLater">'+esc(t('backup_later'))+'</button></div></div></div>';
+  $('#wbAcct').onclick=openAcct;
   $('#wbGo').onclick=doExport;
   $('#wbLater').onclick=snoozeBackup;
 }
@@ -2625,12 +2634,17 @@ const CLOUDKEY='wordkeep.cloud.v1';
 // address. .invalid is reserved by RFC 2606 and can never be a real mailbox,
 // which keeps these from colliding with anyone's actual email.
 const ACCT_DOMAIN='@wordkeep.invalid';
+const SYNC_DEBOUNCE=4000;        // settle after the last change before pushing
+const SYNC_RETRY_MIN=15000;      // first retry after a failure
+const SYNC_RETRY_MAX=300000;     // and no less often than every 5 min
+const SYNC_PERIODIC=180000;      // sweep for anything still unsynced
 
 let fbReady=false,fbLoadingP=null,fbAuth=null,fbDb=null;
 let cloudUser=null;              // {uid,username}
 let cloudState='out';            // out | in | syncing | error
 let cloudMsg='';
 let syncTimer=null,syncing=false;
+let cloudDirty=false,retryDelay=0;
 
 function cloudSaved(){try{return JSON.parse(localStorage.getItem(CLOUDKEY))||null;}catch(e){return null;}}
 function setCloudSaved(v){if(v)localStorage.setItem(CLOUDKEY,JSON.stringify(v));else localStorage.removeItem(CLOUDKEY);}
@@ -2693,6 +2707,7 @@ async function cloudAuth(mode,username,pin){
     else await fbAuth.signInWithEmailAndPassword(email,pin);
     setCloudSaved({username,uid:fbAuth.currentUser.uid,lastSyncAt:null});
     cloudUser={uid:fbAuth.currentUser.uid,username};
+    cloudDirty=true; // merge the words already on this device
     gaEvent(mode==='signup'?'cloud_signup':'cloud_login',{});
     await cloudSync('auth');
     return {ok:true};
@@ -2701,7 +2716,7 @@ async function cloudAuth(mode,username,pin){
 async function cloudLogout(){
   try{await cloudSync('logout');}catch(e){}
   try{if(fbAuth)await fbAuth.signOut();}catch(e){}
-  setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';
+  setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';cloudDirty=false;retryDelay=0;
   renderAccountUI();renderCount();renderList();
 }
 
@@ -2756,8 +2771,14 @@ async function commitBatched(ops){
   }
 }
 async function cloudSync(reason){
-  if(!cloudUser||!fbDb||syncing)return;
-  syncing=true;cloudState='syncing';cloudMsg='';renderAccountUI();
+  if(!cloudUser||!fbDb)return;
+  // A push already in flight: come back shortly rather than dropping this one.
+  if(syncing){clearTimeout(syncTimer);syncTimer=setTimeout(()=>cloudSync(reason),2000);return;}
+  syncing=true;cloudState='syncing';cloudMsg='';
+  // Claim the pending work up front. A change made *during* this push sets the
+  // flag again, so finishing successfully can't mark that newer edit as saved.
+  cloudDirty=false;
+  renderAccountUI();
   try{
     const uref=fbDb.collection('users').doc(cloudUser.uid);
     const wcol=uref.collection('words');
@@ -2802,11 +2823,14 @@ async function cloudSync(reason){
     saved.lastSyncAt=Date.now();saved.username=cloudUser.username;saved.uid=cloudUser.uid;
     setCloudSaved(saved);
     cloudState='in';cloudMsg='';
+    retryDelay=0;
     gaEvent('cloud_sync',{reason:reason||'manual',word_count:DB.words.length});
     renderCount();renderList();
   }catch(e){
     cloudState='error';
     cloudMsg=(e&&e.code==='permission-denied')?t('acct_e_rules'):((e&&(e.message||e.code))||'error');
+    cloudDirty=true; // the claim above didn't stick, so keep it queued
+    scheduleRetry();
   }finally{
     syncing=false;renderAccountUI();
   }
@@ -2815,15 +2839,31 @@ async function cloudSync(reason){
 // after the last change rather than on every keystroke or answer.
 function cloudTouched(){
   if(!cloudUser)return;
+  cloudDirty=true;
   clearTimeout(syncTimer);
-  syncTimer=setTimeout(()=>cloudSync('auto'),4000);
+  syncTimer=setTimeout(()=>cloudSync('auto'),SYNC_DEBOUNCE);
+  renderAccountUI();
+}
+// A failed push used to sit there until the user happened to change something
+// else, which could be never. Back off and keep trying instead.
+function scheduleRetry(){
+  retryDelay=Math.min(retryDelay?retryDelay*2:SYNC_RETRY_MIN,SYNC_RETRY_MAX);
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(()=>cloudSync('retry'),retryDelay);
 }
 function flushCloud(){
-  if(!cloudUser||syncing)return;
+  if(!cloudUser||syncing||!cloudDirty)return;
   clearTimeout(syncTimer);
   cloudSync('flush');
 }
+// Leaving the page: visibilitychange covers tab switches and app backgrounding,
+// pagehide covers navigating away and iOS discarding the page.
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushCloud();});
+window.addEventListener('pagehide',flushCloud);
+// Anything written while offline should go up as soon as there is a network.
+window.addEventListener('online',()=>{if(cloudUser&&cloudDirty){retryDelay=0;cloudSync('online');}});
+// Safety net for a device that stayed awake with a failed or missed push.
+setInterval(()=>{if(cloudUser&&cloudDirty&&!syncing&&navigator.onLine)cloudSync('periodic');},SYNC_PERIODIC);
 
 /* --- account UI --------------------------------------------------------- */
 function fmtSync(ts){
@@ -2836,7 +2876,10 @@ function renderAccountUI(){
   if(mt&&ms){
     mt.textContent=cloudUser?cloudUser.username:t('acct_login');
     ms.textContent=cloudUser
-      ?(cloudState==='syncing'?t('acct_syncing'):cloudState==='error'?t('acct_e_short'):t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))
+      ?(cloudState==='syncing'?t('acct_syncing')
+        :cloudState==='error'?t('acct_e_short')
+        :cloudDirty?t('acct_pending')
+        :t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))
       :t('menu_acct_sub');
   }
   const body=$('#acctBody');
@@ -2846,6 +2889,7 @@ function renderAccountUI(){
       '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_signed_in',cloudUser.username))+'</p>'+
       '<div class="panel" style="padding:14px;margin-bottom:14px">'+
         '<div class="sd">'+esc(t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))+'</div>'+
+        (cloudDirty&&cloudState!=='error'?'<div class="sd" style="margin-top:6px">'+esc(t('acct_pending'))+'</div>':'')+
         (cloudState==='error'?'<div class="sd" style="color:var(--bad);margin-top:6px">'+esc(cloudMsg)+'</div>':'')+
       '</div>'+
       '<button class="btn btn-primary" id="acctSync"'+(cloudState==='syncing'?' disabled':'')+'>'+
