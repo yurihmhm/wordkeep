@@ -98,7 +98,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v3.8.0 時点 &middot; 最終更新 2026-08-20</div>
+    <div class="sub">v3.9.0 時点 &middot; 最終更新 2026-08-20</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -138,13 +138,6 @@ footer a{color:var(--ink-2)}
         <div>
           <div class="t">単語パッケージの中身を増やす</div>
           <div class="d">切替UI・進捗率・7言語対応まで作り込んだのに、中身が「語学留学」3本×50語だけ。刺さる相手を増やすなら中身がいちばん効く。単語リストがあれば同じ形式で組み込める。</div>
-        </div>
-      </li>
-      <li class="next" data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">フィードバックに国名の入力欄</div>
-          <div class="d">メモにあった「国名と要望を入力できる場所」のうち、国名欄が未実装。いまは本文・バージョン・言語・端末情報のみ送信している。</div>
         </div>
       </li>
     </ul>
@@ -273,6 +266,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">フィードバックの国・地域欄</div><div class="d">任意入力。空欄でもタイムゾーン（例 <code>Asia/Manila</code>）は自動で付くので、おおよその場所は分かる。管理ページにも表示される。</div><div class="ver">v3.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">言語切替が即座に反映されない</div><div class="d">画面の大半は描画関数が組み立てているため、タブを移動するまで古い言語のままだった。</div><div class="ver">v3.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">学習カレンダーに曜日ラベル</div><div class="d">左端に月〜日を表示。週の始まりを月曜に変更し、曜日名は表示言語に追従。</div><div class="ver">v3.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ダークモードでクイズの選択肢が読めない</div><div class="d">文字色が未指定でブラウザ既定の黒が乗っていた。コントラスト比 1.26 → 13.97。</div><div class="ver">v3.7.0</div></div></li>

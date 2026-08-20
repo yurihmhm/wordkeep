@@ -186,6 +186,8 @@ function renderFeedback(){
     '<div class="meta">'+
       '<span>'+fmt(f.createdAt)+'</span>'+
       '<span class="tag">'+esc(f.username||'未ログイン')+'</span>'+
+      (f.country?'<span class="tag">'+esc(f.country)+'</span>':'')+
+      (f.tz?'<span class="tag">'+esc(f.tz)+'</span>':'')+
       '<span class="tag">v'+esc(f.version||'?')+'</span>'+
       '<span class="tag">'+esc(f.lang||'?')+'</span>'+
       '<span class="tag">'+(f.words!=null?f.words+'語':'—')+'</span>'+
