@@ -64,7 +64,6 @@ header{
 header .hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 header .brand{display:flex;align-items:baseline;gap:10px}
 header h1{font-size:26px;letter-spacing:.5px}
-header .tag{font-size:12px;color:#aab8d8;letter-spacing:2px;text-transform:uppercase}
 header .hamburger{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
   border-radius:11px;width:40px;height:40px;flex-shrink:0;margin-top:2px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
@@ -349,7 +348,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <header>
   <div class="wrap">
     <div class="hdr-top">
-      <div class="brand"><h1>Wordkeep</h1><span class="tag">Cebu</span></div>
+      <div class="brand"><h1>Wordkeep</h1></div>
       <button class="hamburger" id="btnMenu" type="button" aria-label="menu"><span></span><span></span><span></span></button>
     </div>
     <div class="count" id="hdrCount"></div>
@@ -593,13 +592,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.9.0';
+const APP_VERSION='3.9.1';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.9.0',date:'2026-08-20',keys:['wn1']},
+  {version:'3.9.1',date:'2026-08-21',keys:['wn1']},
+  {version:'3.9.0',date:'2026-08-20',keys:['v390_1']},
   {version:'3.8.0',date:'2026-08-20',keys:['v380_1','v380_2']},
   {version:'3.7.0',date:'2026-08-19',keys:['v370_1','v370_2','v370_3']},
   {version:'3.6.0',date:'2026-08-19',keys:['v360_1','v360_2','v360_3']},
@@ -709,6 +709,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
+  wn1:{ja:'ヘッダーの「CEBU」の表記を削除しました',en:'Removed the “CEBU” label from the header',zh:'已移除页眉中的「CEBU」标签',fr:'Suppression du libellé « CEBU » de l’en-tête',ar:'تمت إزالة عبارة «CEBU» من الرأس',ko:'헤더의 「CEBU」 표기를 삭제했습니다',ru:'Удалена надпись «CEBU» из шапки'},
+
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
   nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
@@ -1022,7 +1024,7 @@ const T={
   v370_3:{ja:'フィードバックを送れるようにしました。右上のメニューから、要望・不具合・単語の意味の間違いなどを開発者に直接送れます。ログインしていなくても送れます',en:'You can now send feedback. From the top-right menu, report a request, a bug, or a wrong meaning directly to the developer — no account needed',zh:'新增了反馈功能。可从右上角菜单直接向开发者发送需求、问题或释义错误，无需登录',fr:'Vous pouvez désormais envoyer un retour. Depuis le menu en haut à droite, signalez une demande, un bug ou un sens erroné directement au développeur — sans compte',ar:'أصبح بإمكانك إرسال ملاحظات. من القائمة أعلى اليمين، أبلغ عن اقتراح أو مشكلة أو معنى خاطئ مباشرةً إلى المطوّر — دون الحاجة لحساب',ko:'피드백을 보낼 수 있게 되었습니다. 오른쪽 위 메뉴에서 요청·버그·잘못된 뜻 등을 개발자에게 직접 보낼 수 있으며, 로그인하지 않아도 됩니다',ru:'Теперь можно отправить отзыв. Через меню в правом верхнем углу сообщите о пожелании, баге или неверном значении напрямую разработчику — без аккаунта'},
   v380_1:{ja:'言語を切り替えたとき、その場ですぐ画面に反映されるようにしました。これまでは他のタブに移動するまで古い言語のままでした',en:'Switching language now updates the screen straight away. Until now the old language stayed until you navigated to another tab',zh:'切换语言后会立即反映到当前画面。此前需要切换到其他标签页才会更新',fr:'Changer de langue met désormais l’écran à jour immédiatement. Auparavant, l’ancienne langue restait jusqu’à ce que vous changiez d’onglet',ar:'تغيير اللغة يحدّث الشاشة فورًا الآن. سابقًا كانت اللغة القديمة تبقى حتى تنتقل إلى تبويب آخر',ko:'언어를 변경하면 그 자리에서 바로 화면에 반영됩니다. 지금까지는 다른 탭으로 이동해야 바뀌었습니다',ru:'Смена языка теперь применяется сразу. Раньше старый язык оставался, пока вы не перейдёте на другую вкладку'},
   v380_2:{ja:'学習カレンダーの左端に曜日（月〜日）を表示しました。週の始まりは月曜で、曜日名は表示中の言語に合わせて切り替わります',en:'The study calendar now labels the weekdays down its left edge, starting the week on Monday, in whichever language you are using',zh:'学习日历左侧新增了星期标签，一周从星期一开始，并随所选语言显示',fr:'Le calendrier d’étude affiche désormais les jours de la semaine sur son bord gauche, en commençant le lundi et dans votre langue',ar:'يعرض تقويم الدراسة الآن أيام الأسبوع على حافته اليسرى، بدءًا من الاثنين وبلغتك الحالية',ko:'학습 캘린더 왼쪽에 요일(월~일)을 표시했습니다. 주의 시작은 월요일이며, 요일명은 사용 중인 언어로 표시됩니다',ru:'В календаре занятий слева появились дни недели: неделя начинается с понедельника, названия — на вашем языке'},
-  wn1:{ja:'フィードバックに国・地域の入力欄を追加しました（任意）。どの国から使っているかが分かると、通信環境や辞書の使い勝手など状況を踏まえて対応できます',en:'Feedback now has an optional country or region field. Knowing where you are using the app from helps put things like connection quality and dictionary results in context',zh:'反馈新增了国家/地区输入栏（选填）。了解你在哪里使用，有助于结合网络环境和词典效果来判断问题',fr:'Le formulaire de retour comporte désormais un champ pays ou région (facultatif). Savoir d’où vous utilisez l’app aide à replacer la qualité de connexion ou les résultats du dictionnaire dans leur contexte',ar:'أصبح نموذج الملاحظات يتضمّن حقلاً اختياريًا للدولة أو المنطقة. معرفة مكان استخدامك للتطبيق تساعد على فهم أمور مثل جودة الاتصال ونتائج القاموس',ko:'피드백에 국가·지역 입력란을 추가했습니다(선택). 어느 나라에서 사용 중인지 알면 통신 환경이나 사전 결과 등을 감안해 대응할 수 있습니다',ru:'В форме отзыва появилось необязательное поле страны или региона. Зная, откуда вы пользуетесь приложением, проще учесть качество связи и результаты словаря'},
+  v390_1:{ja:'フィードバックに国・地域の入力欄を追加しました（任意）。どの国から使っているかが分かると、通信環境や辞書の使い勝手など状況を踏まえて対応できます',en:'Feedback now has an optional country or region field. Knowing where you are using the app from helps put things like connection quality and dictionary results in context',zh:'反馈新增了国家/地区输入栏（选填）。了解你在哪里使用，有助于结合网络环境和词典效果来判断问题',fr:'Le formulaire de retour comporte désormais un champ pays ou région (facultatif). Savoir d’où vous utilisez l’app aide à replacer la qualité de connexion ou les résultats du dictionnaire dans leur contexte',ar:'أصبح نموذج الملاحظات يتضمّن حقلاً اختياريًا للدولة أو المنطقة. معرفة مكان استخدامك للتطبيق تساعد على فهم أمور مثل جودة الاتصال ونتائج القاموس',ko:'피드백에 국가·지역 입력란을 추가했습니다(선택). 어느 나라에서 사용 중인지 알면 통신 환경이나 사전 결과 등을 감안해 대응할 수 있습니다',ru:'В форме отзыва появилось необязательное поле страны или региона. Зная, откуда вы пользуетесь приложением, проще учесть качество связи и результаты словаря'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
