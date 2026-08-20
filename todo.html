@@ -1,5 +1,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Wordkeep 開発ボード</title>
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <style>
 :root{
   --paper:#f7f9fc; --surface:#ffffff; --line:#e2e8f2;
@@ -98,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.0.0 時点 &middot; 最終更新 2026-08-21</div>
+    <div class="sub">v4.1.0 時点 &middot; 最終更新 2026-08-21</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -119,27 +121,6 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>単語詳細の拡充</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">実際のAPIレスポンスを調べたうえでの技術メモ付き。難易度に差があるので、まとめてではなく個別に判断したい。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">類義語（シノニム）の表示</div>
-          <div class="d"><b>いちばん安く効く。</b>辞書API（dictionaryapi.dev）のレスポンスに品詞ごとの <code>synonyms</code> がすでに含まれているのに、現状は破棄している。追加の通信なしで実装できる（例: happy の形容詞は13件の類義語が返る）。</div>
-        </div>
-      </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">リストの品詞ラベルを目立たせる</div>
-          <div class="d">品詞データ自体はすでに保存されている（<code>meanings[].pos</code>）。表示を強調するだけ。</div>
-        </div>
-      </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">単語をタップで詳細ポップアップ</div>
-          <div class="d">リストの行をタップすると拡大表示。新規データは不要、既存の <code>meanings[]</code> を大きく見せるだけ。</div>
-        </div>
-      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -336,6 +317,10 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">類義語（シノニム）の表示</div><div class="d">辞書APIが返す品詞ごとの synonyms を保存・表示。単語帳の裏面とタップ詳細の両方に出る。</div><div class="ver">v4.1.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">リストの品詞ラベル</div><div class="d">名・動・形などの短いラベルをリストに常時表示。7言語対応。</div><div class="ver">v4.1.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語タップで詳細ポップアップ</div><div class="d">フラッシュカード裏面と同じ描画関数を共有し、表示内容が食い違わないようにした。</div><div class="ver">v4.1.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">管理ページ・開発ボードにファビコン設定</div><div class="d"><code>icon-192.png</code> / <code>icon-512.png</code> をタブアイコンとして使用。</div><div class="ver">v4.1.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">別アカウントへの単語の混入を修正</div><div class="d">端末に残った前の人の単語が、次にログインしたアカウントのサーバーに保存されてしまう不具合。ログイン時に持ち主を照合し、別人のデータは取り込まない。</div><div class="ver">v4.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ログアウトで端末を初期化</div><div class="d">単語・進捗・ストリークを消し、お試し5単語の状態に戻す。未同期の変更がある場合は警告してから。</div><div class="ver">v4.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">起動時の読み込み画面</div><div class="d">ログイン状態が確定するまで表示。固定秒数ではなく確認完了まで（最大6秒）。</div><div class="ver">v4.0.0</div></div></li>

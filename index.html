@@ -173,6 +173,9 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .face.back .bpos{font-size:12px;color:var(--ink-strong);background:var(--chip-bg);border-radius:6px;padding:3px 10px;margin-bottom:8px}
 .face.back .bdef{font-size:16px;line-height:1.5;color:var(--ink-2)}
 .face.back .bex{font-size:13.5px;color:var(--muted);font-style:italic;margin-top:12px;line-height:1.5}
+.bsyn,.syn-line{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5}
+.pos-badge{display:inline-block;font-size:10.5px;font-weight:700;color:var(--ink-strong);
+  background:var(--chip-bg);border-radius:6px;padding:2px 7px;margin-right:7px;vertical-align:1px}
 .face.back .bja{font-size:22px;color:var(--ink-strong);font-weight:700;margin-top:2px}
 .deck-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .deck-nav .pos-ind{font-size:13px;color:var(--muted)}
@@ -473,6 +476,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <div class="sheet-head"><h3 data-i18n="acct_title">アカウント</h3><button class="sheet-x" id="acctClose" type="button" aria-label="close">×</button></div>
   <div id="acctBody"></div>
 </div></div>
+<div class="overlay" id="overlayWordDetail"><div class="sheet">
+  <div class="sheet-head"><h3 id="wdWord" style="font-family:Georgia,'Times New Roman',serif"></h3><button class="sheet-x" id="wdClose" type="button" aria-label="close">×</button></div>
+  <div id="wdBody"></div>
+</div></div>
 <div class="overlay" id="overlayFb"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="fb_title">フィードバック</h3><button class="sheet-x" id="fbClose" type="button" aria-label="close">×</button></div>
   <div id="fbBody"></div>
@@ -613,13 +620,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.0.0';
+const APP_VERSION='4.1.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.0.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.1.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.0.0',date:'2026-08-21',keys:['v400_1']},
   {version:'3.9.1',date:'2026-08-21',keys:['v391_1']},
   {version:'3.9.0',date:'2026-08-20',keys:['v390_1']},
   {version:'3.8.0',date:'2026-08-20',keys:['v380_1','v380_2']},
@@ -733,7 +741,10 @@ function navigatorLang(){
 /* ---------- i18n ---------- */
 const T={
   v391_1:{ja:'ヘッダーの「CEBU」の表記を削除しました',en:'Removed the “CEBU” label from the header',zh:'已移除页眉中的「CEBU」标签',fr:'Suppression du libellé « CEBU » de l’en-tête',ar:'تمت إزالة عبارة «CEBU» من الرأس',ko:'헤더의 「CEBU」 표기를 삭제했습니다',ru:'Удалена надпись «CEBU» из шапки'},
-  wn1:{ja:'重要な修正: 別のアカウントでログインしたとき、前の人の単語が引き継がれてしまう不具合を直しました。端末に残っていた単語が、新しくログインしたアカウントに保存されてしまう状態でした',en:'Important fix: signing in as a different account could carry over the previous person’s words. Words left on the device were being saved into the newly signed-in account',zh:'重要修复：以其他账号登录时，可能会带入上一位使用者的单词。残留在设备上的单词会被保存到新登录的账号中',fr:'Correctif important : se connecter avec un autre compte pouvait reprendre les mots de la personne précédente. Les mots restés sur l’appareil étaient enregistrés dans le compte nouvellement connecté',ar:'إصلاح مهم: كان تسجيل الدخول بحساب آخر قد ينقل كلمات الشخص السابق. الكلمات المتبقية على الجهاز كانت تُحفظ في الحساب الجديد',ko:'중요한 수정: 다른 계정으로 로그인할 때 이전 사용자의 단어가 넘어가던 문제를 고쳤습니다. 기기에 남아 있던 단어가 새로 로그인한 계정에 저장되던 상태였습니다',ru:'Важное исправление: вход под другим аккаунтом мог перенести слова предыдущего пользователя. Слова, оставшиеся на устройстве, сохранялись в только что вошедший аккаунт'},
+  v400_1:{ja:'重要な修正: 別のアカウントでログインしたとき、前の人の単語が引き継がれてしまう不具合を直しました。端末に残っていた単語が、新しくログインしたアカウントに保存されてしまう状態でした',en:'Important fix: signing in as a different account could carry over the previous person’s words. Words left on the device were being saved into the newly signed-in account',zh:'重要修复：以其他账号登录时，可能会带入上一位使用者的单词。残留在设备上的单词会被保存到新登录的账号中',fr:'Correctif important : se connecter avec un autre compte pouvait reprendre les mots de la personne précédente. Les mots restés sur l’appareil étaient enregistrés dans le compte nouvellement connecté',ar:'إصلاح مهم: كان تسجيل الدخول بحساب آخر قد ينقل كلمات الشخص السابق. الكلمات المتبقية على الجهاز كانت تُحفظ في الحساب الجديد',ko:'중요한 수정: 다른 계정으로 로그인할 때 이전 사용자의 단어가 넘어가던 문제를 고쳤습니다. 기기에 남아 있던 단어가 새로 로그인한 계정에 저장되던 상태였습니다',ru:'Важное исправление: вход под другим аккаунтом мог перенести слова предыдущего пользователя. Слова, оставшиеся на устройстве, сохранялись в только что вошедший аккаунт'},
+  wn1:{ja:'単語の意味に類義語（シノニム）を表示するようにしました。単語帳の裏面や、単語をタップしたときの詳細画面に、関連する言葉が一緒に出てきます',en:'Word meanings now show synonyms where available, on the flashcard back and the new tap-to-view detail popup',zh:'单词释义现在会显示近义词。可在单词卡背面或点击单词后的详情弹窗中查看',fr:'Les définitions affichent désormais les synonymes disponibles, au dos des cartes et dans la nouvelle fenêtre de détail',ar:'أصبحت معاني الكلمات تعرض المرادفات عند توفرها، في ظهر البطاقة وفي نافذة التفاصيل الجديدة',ko:'단어 뜻에 유의어를 표시합니다. 단어 카드 뒷면과 새로 생긴 탭 상세 팝업에서 함께 보입니다',ru:'В значениях слов теперь показываются синонимы — на обороте карточки и в новом всплывающем окне деталей'},
+  wn2:{ja:'リストの単語に品詞ラベル（名・動・形など）を付けました。名詞と動詞が同じ形の単語も見分けやすくなります',en:'Words in the list now carry a short part-of-speech label (N, V, Adj…), making it easier to tell apart words that look the same as different parts of speech',zh:'列表中的单词新增了词性标签（名/动/形等），更容易区分形态相同但词性不同的单词',fr:'Les mots de la liste affichent désormais une étiquette de nature grammaticale (N, V, Adj…)',ar:'أصبحت الكلمات في القائمة تحمل تصنيفًا نحويًا قصيرًا (اسم، فعل، صفة...)',ko:'목록의 단어에 품사 라벨(명/동/형 등)을 붙였습니다. 형태가 같은 단어도 품사로 구분하기 쉬워집니다',ru:'У слов в списке появилась короткая пометка части речи (сущ., гл., прил. и т.д.)'},
+  wn3:{ja:'単語をタップすると、意味・発音・例文などをまとめて大きく見られる詳細画面が開くようになりました',en:'Tapping a word now opens a detail view with its meanings, pronunciation and examples shown larger and all in one place',zh:'点击单词即可打开详情视图，集中显示释义、发音与例句',fr:'Toucher un mot ouvre désormais une vue détaillée regroupant sens, prononciation et exemples',ar:'يفتح النقر على الكلمة الآن عرضًا تفصيليًا يجمع المعاني والنطق والأمثلة',ko:'단어를 탭하면 뜻·발음·예문을 한곳에 크게 모아 보여주는 상세 화면이 열립니다',ru:'При нажатии на слово теперь открывается подробный экран со значениями, произношением и примерами'},
   wn2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
   wn3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
@@ -742,6 +753,7 @@ const T={
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
   splash_restoring:{ja:'アカウントを確認しています…',en:'Checking your account…',zh:'正在确认账号…',fr:'Vérification de votre compte…',ar:'جارٍ التحقق من حسابك…',ko:'계정을 확인하는 중…',ru:'Проверяем аккаунт…'},
+  syn_label:{ja:'類義語: ',en:'Synonyms: ',zh:'近义词：',fr:'Synonymes : ',ar:'مرادفات: ',ko:'유의어: ',ru:'Синонимы: '},
   acct_title:{ja:'アカウント',en:'Account',zh:'账号',fr:'Compte',ar:'الحساب',ko:'계정',ru:'Аккаунт'},
   menu_acct_sub:{ja:'単語を保存して他の端末でも使う',en:'Save your words and use them on any device',zh:'保存单词，在任何设备上使用',fr:'Sauvegardez vos mots et utilisez-les sur tout appareil',ar:'احفظ كلماتك واستخدمها على أي جهاز',ko:'단어를 저장하고 다른 기기에서도 사용',ru:'Сохраняйте слова и открывайте их на любом устройстве'},
   acct_desc:{ja:'ユーザー名と6桁の数字でログインすると、単語が自動で保存され、他の端末でも同じ単語帳が使えます。',en:'Sign in with a username and a 6-digit code to save your words automatically and open the same list on any device.',zh:'使用用户名和 6 位数字登录后，单词会自动保存，并可在其他设备上使用同一单词本。',fr:'Connectez-vous avec un nom d’utilisateur et un code à 6 chiffres : vos mots sont sauvegardés et disponibles sur tous vos appareils.',ar:'سجّل الدخول باسم مستخدم ورمز من 6 أرقام ليتم حفظ كلماتك تلقائيًا واستخدام القائمة نفسها على أي جهاز.',ko:'사용자 이름과 6자리 숫자로 로그인하면 단어가 자동 저장되고 다른 기기에서도 같은 단어장을 쓸 수 있습니다.',ru:'Войдите с именем пользователя и 6-значным кодом — слова сохранятся автоматически и откроются на любом устройстве.'},
@@ -1742,11 +1754,18 @@ async function fetchDictionary(w){
   const entry=Array.isArray(data)?data[0]:null;
   if(!entry)throw new Error('not_found');
   const phon=(entry.phonetics||[]).map(p=>p.text).find(Boolean)||'';
-  const meanings=(entry.meanings||[]).slice(0,3).map(m=>({
-    pos:m.partOfSpeech||'',
-    def:(m.definitions&&m.definitions[0]&&m.definitions[0].definition)||'',
-    ex:(m.definitions&&m.definitions[0]&&m.definitions[0].example)||''
-  })).filter(m=>m.def);
+  const meanings=(entry.meanings||[]).slice(0,3).map(m=>{
+    const d0=m.definitions&&m.definitions[0];
+    // Meaning-level synonyms cover the whole part of speech; fall back to the
+    // first definition's own synonyms when the meaning itself has none.
+    const syn=((m.synonyms&&m.synonyms.length)?m.synonyms:(d0&&d0.synonyms)||[]).slice(0,6);
+    return {
+      pos:m.partOfSpeech||'',
+      def:(d0&&d0.definition)||'',
+      ex:(d0&&d0.example)||'',
+      syn
+    };
+  }).filter(m=>m.def);
   return {word:entry.word||w,phon,meanings};
 }
 // MyMemory language pair for the current UI language. English needs no
@@ -1825,9 +1844,10 @@ async function lookup(){
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
   if(dictOk){
     html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+spkBtn(pending.word)+'</div>'+
-      pending.meanings.map(m=>'<div class="pos">'+esc(m.pos)+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
+      pending.meanings.map(m=>'<div class="pos">'+esc(posLabel(m.pos))+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
         (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
-        (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')).join('');
+        (m.ex?'<div class="ex">"'+esc(m.ex)+'"</div>':'')+
+        (m.syn&&m.syn.length?'<div class="syn-line">'+esc(t('syn_label'))+esc(m.syn.join(', '))+'</div>':'')).join('');
   }else if(!meaningVal){
     html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
   }
@@ -1883,6 +1903,29 @@ $('#btnSave').onclick=()=>{
 
 /* ---------- LIST ---------- */
 $('#search').addEventListener('input',renderList);
+// Dictionary parts of speech come back as raw English tags (dictionaryapi.dev
+// doesn't localize them). Short, translated labels make them scannable in the
+// list without forcing English into every language's UI.
+const POS_LABEL={
+  noun:{ja:'名',en:'N',zh:'名',fr:'N',ar:'اسم',ko:'명',ru:'сущ'},
+  verb:{ja:'動',en:'V',zh:'动',fr:'V',ar:'فعل',ko:'동',ru:'гл'},
+  adjective:{ja:'形',en:'Adj',zh:'形',fr:'Adj',ar:'صفة',ko:'형',ru:'прил'},
+  adverb:{ja:'副',en:'Adv',zh:'副',fr:'Adv',ar:'ظرف',ko:'부',ru:'нар'},
+  pronoun:{ja:'代',en:'Pron',zh:'代',fr:'Pron',ar:'ضمير',ko:'대',ru:'мест'},
+  preposition:{ja:'前置',en:'Prep',zh:'介',fr:'Prép',ar:'حرف جر',ko:'전치',ru:'предл'},
+  conjunction:{ja:'接',en:'Conj',zh:'连',fr:'Conj',ar:'حرف عطف',ko:'접',ru:'союз'},
+  interjection:{ja:'感',en:'Interj',zh:'感',fr:'Interj',ar:'تعجب',ko:'감',ru:'межд'},
+  phrase:{ja:'句',en:'Phr',zh:'短语',fr:'Loc',ar:'عبارة',ko:'구',ru:'фраза'},
+  numeral:{ja:'数',en:'Num',zh:'数',fr:'Num',ar:'عدد',ko:'수',ru:'числ'},
+  determiner:{ja:'限定',en:'Det',zh:'限定',fr:'Dét',ar:'أداة تحديد',ko:'한정',ru:'опред'},
+  article:{ja:'冠',en:'Art',zh:'冠',fr:'Art',ar:'أداة تعريف',ko:'관',ru:'артикль'}
+};
+function posLabel(pos){
+  const key=(pos||'').toLowerCase().trim();
+  const m=POS_LABEL[key];
+  if(m)return m[S().lang]||m.en;
+  return pos?pos.charAt(0).toUpperCase()+pos.slice(1,4):'';
+}
 function primaryMeaning(w){
   if(w.ja)return w.ja;
   if(w.meanings&&w.meanings[0])return w.meanings[0].defJa||w.meanings[0].def;
@@ -1963,8 +2006,9 @@ function renderList(){
     // Packages are read-only distributable content: word + meaning + progress
     // tag only (no add/edit/delete).
     if(isPkg){
-      return '<div class="card"><div style="flex:1">'+
-        '<div><span class="w">'+esc(w.word)+'</span>'+spkBtn(w.word)+'</div>'+
+      const posTxt=posLabel(w.meanings&&w.meanings[0]&&w.meanings[0].pos);
+      return '<div class="card" data-word-id="'+w.id+'"><div style="flex:1">'+
+        '<div>'+(posTxt?'<span class="pos-badge">'+esc(posTxt)+'</span>':'')+'<span class="w">'+esc(w.word)+'</span>'+spkBtn(w.word)+'</div>'+
         (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
         '<div class="meta">'+dueTag+'</div></div></div>';
     }
@@ -1979,8 +2023,9 @@ function renderList(){
         '</div></div>';
     }
     const hasEx=(w.examples||[]).length>0;
-    return '<div class="card"><div style="flex:1">'+
-      '<div><span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+spkBtn(w.word)+'</div>'+
+    const posTxt=posLabel(w.meanings&&w.meanings[0]&&w.meanings[0].pos);
+    return '<div class="card" data-word-id="'+w.id+'"><div style="flex:1">'+
+      '<div>'+(posTxt?'<span class="pos-badge">'+esc(posTxt)+'</span>':'')+'<span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
@@ -1997,6 +2042,18 @@ function renderList(){
     if(body.style.display==='block'){body.style.display='none';return;}
     body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
     body.style.display='block';
+  });
+  // Tapping the card (but not one of its interactive children) opens the full
+  // detail popup. Delegated per-render rather than a single static listener
+  // because the card's own click target check is simplest this way, and this
+  // block already re-binds several other per-render handlers the same way.
+  $$('#listPanel .card[data-word-id]').forEach(card=>{
+    card.style.cursor='pointer';
+    card.onclick=e=>{
+      if(e.target.closest('.edit-btn,.ex-toggle,.del,.spk'))return;
+      const w=curWords().find(x=>x.id===card.dataset.wordId);
+      if(w)openWordDetail(w);
+    };
   });
   $$('#listPanel .edit-btn').forEach(b=>b.onclick=()=>{editingId=b.dataset.id;renderList();});
   $$('#listPanel .edit-cancel').forEach(b=>b.onclick=()=>{editingId=null;renderList();});
@@ -2066,23 +2123,36 @@ function showCard(){
   else applyContent();
   $('#dPos').textContent=(di+1)+' / '+deck.length;
 }
-function renderBack(w){
+// Shared by the flashcard back and the list's tap-to-expand detail popup, so
+// the two never drift into showing different information for the same word.
+function wordDetailHTML(w){
   let back='';
   if(w.phon)back+='<div style="color:var(--muted);font-size:14px;margin-bottom:10px">'+esc(w.phon)+'</div>';
   if(w.ja)back+='<div class="bja">'+esc(w.ja)+'</div>';
   (w.meanings||[]).forEach(m=>{
     const dj=m.defJa||m.def;
-    back+='<div style="margin-top:12px"><span class="bpos">'+esc(m.pos)+'</span></div>'+
+    back+='<div style="margin-top:12px"><span class="bpos">'+esc(posLabel(m.pos))+'</span></div>'+
       (dj?'<div class="bdef">'+esc(dj)+'</div>':'')+
-      (m.defJa&&m.defJa!==m.def?'<div style="font-size:12.5px;color:var(--muted);margin-top:2px">'+esc(m.def)+'</div>':'');
+      (m.defJa&&m.defJa!==m.def?'<div style="font-size:12.5px;color:var(--muted);margin-top:2px">'+esc(m.def)+'</div>':'')+
+      (m.syn&&m.syn.length?'<div class="bsyn">'+esc(t('syn_label'))+esc(m.syn.join(', '))+'</div>':'');
   });
   if((w.examples||[]).length){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
   }
   if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">'+t('no_meaning')+'</div>'+back;
   if(TTS_OK)back+='<div style="margin-top:14px">'+spkBtn(w.word)+'</div>';
-  $('#fBack').innerHTML=back;
+  return back;
 }
+function renderBack(w){$('#fBack').innerHTML=wordDetailHTML(w);}
+function openWordDetail(w){
+  $('#wdWord').textContent=w.word;
+  $('#wdBody').innerHTML=wordDetailHTML(w);
+  $('#overlayWordDetail').classList.add('show');
+  gaScreen('word_detail');
+}
+function closeWordDetail(){$('#overlayWordDetail').classList.remove('show');}
+$('#wdClose').onclick=closeWordDetail;
+$('#overlayWordDetail').addEventListener('click',e=>{if(e.target===$('#overlayWordDetail'))closeWordDetail();});
 
 /* ---------- QUIZ / REVIEW (SRS) ---------- */
 let quiz={items:[],i:0,score:0,mode:'due'};
