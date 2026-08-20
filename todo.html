@@ -1,0 +1,339 @@
+<meta name="robots" content="noindex, nofollow">
+<title>Wordkeep 開発ボード</title>
+<style>
+:root{
+  --paper:#f7f9fc; --surface:#ffffff; --line:#e2e8f2;
+  --ink:#0f1e3d; --ink-2:#3a4560; --muted:#6b7791;
+  --gold:#f0b429; --gold-ink:#8a5a00; --gold-bg:#fff5da;
+  --done:#1f9d6b; --done-bg:#eafaf3;
+  --block:#d8524a; --block-bg:#fdeeed;
+  --shadow:0 1px 2px rgba(15,30,61,.05),0 6px 18px rgba(15,30,61,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0d121c; --surface:#171e2b; --line:#2b3446;
+    --ink:#e6ebf5; --ink-2:#b7c2d8; --muted:#93a0b8;
+    --gold:#f0b429; --gold-ink:#e6b657; --gold-bg:#33290e;
+    --done:#5fd6a6; --done-bg:#122b24;
+    --block:#f09188; --block-bg:#341d1c;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0d121c; --surface:#171e2b; --line:#2b3446;
+  --ink:#e6ebf5; --ink-2:#b7c2d8; --muted:#93a0b8;
+  --gold:#f0b429; --gold-ink:#e6b657; --gold-bg:#33290e;
+  --done:#5fd6a6; --done-bg:#122b24;
+  --block:#f09188; --block-bg:#341d1c;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  line-height:1.6;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px 80px}
+
+header{border-bottom:1px solid var(--line);background:var(--surface);margin-bottom:28px}
+.head-in{max-width:820px;margin:0 auto;padding:26px 20px 20px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:27px;margin:0;letter-spacing:.2px}
+.sub{color:var(--muted);font-size:13.5px;margin-top:6px}
+.counts{display:flex;gap:22px;margin-top:18px;flex-wrap:wrap}
+.counts div{display:flex;flex-direction:column}
+.counts b{font-family:Georgia,serif;font-size:25px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.counts span{font-size:11px;color:var(--muted);letter-spacing:.6px;margin-top:3px}
+.counts .c-done b{color:var(--done)}
+.counts .c-open b{color:var(--gold-ink)}
+
+.filters{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+.filters button{
+  font:inherit;font-size:13px;font-weight:600;padding:8px 15px;border-radius:99px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+}
+.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.filters button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+section{margin-bottom:34px}
+.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+h2{font-family:Georgia,serif;font-weight:600;font-size:18px;margin:0}
+.sec-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sec-note{font-size:13px;color:var(--muted);margin:0 0 14px}
+
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+li{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;
+}
+li.next{border-left:3px solid var(--gold)}
+.chip{
+  font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:3px 9px;border-radius:99px;
+  white-space:nowrap;margin-top:2px;
+}
+.chip.open{background:var(--gold-bg);color:var(--gold-ink)}
+.chip.done{background:var(--done-bg);color:var(--done)}
+.chip.block{background:var(--block-bg);color:var(--block)}
+.t{font-weight:700;font-size:15px}
+.d{font-size:13px;color:var(--ink-2);margin-top:4px}
+.d code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:1px 5px;
+}
+.ver{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:6px}
+
+.ideas{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.ideas span{
+  font-size:12.5px;padding:6px 12px;border-radius:99px;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink-2);
+}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:18px;font-size:12.5px;color:var(--muted)}
+footer a{color:var(--ink-2)}
+[hidden]{display:none !important}
+@media (prefers-reduced-motion:no-preference){
+  li{transition:border-color .15s}
+}
+</style>
+
+<header>
+  <div class="head-in">
+    <h1>Wordkeep 開発ボード</h1>
+    <div class="sub">v3.8.0 時点 &middot; 最終更新 2026-08-20</div>
+    <div class="counts">
+      <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
+      <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
+      <div><b id="nNext">0</b><span>次にやる</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="filters">
+    <button data-f="all" aria-pressed="true">すべて</button>
+    <button data-f="open" aria-pressed="false">未完了だけ</button>
+    <button data-f="done" aria-pressed="false">完了だけ</button>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
+    <ul>
+      <li class="next" data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">ログアウト時の挙動を決める</div>
+          <div class="d">いまはログアウトしても端末内の単語を残している。共用端末で困る可能性があるので「この端末からも消す」を選べるようにするか要判断。</div>
+        </div>
+      </li>
+      <li class="next" data-s="block">
+        <span class="chip block">ロゴ待ち</span>
+        <div>
+          <div class="t">アプリアイコンの差し替え</div>
+          <div class="d"><code>icon-192.png</code> / <code>icon-512.png</code> は暫定（紺の角丸に「W」）。正方形のロゴができたら同名で置くだけで反映される。作業自体は数分。</div>
+        </div>
+      </li>
+      <li class="next" data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">単語パッケージの中身を増やす</div>
+          <div class="d">切替UI・進捗率・7言語対応まで作り込んだのに、中身が「語学留学」3本×50語だけ。刺さる相手を増やすなら中身がいちばん効く。単語リストがあれば同じ形式で組み込める。</div>
+        </div>
+      </li>
+      <li class="next" data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">フィードバックに国名の入力欄</div>
+          <div class="d">メモにあった「国名と要望を入力できる場所」のうち、国名欄が未実装。いまは本文・バージョン・言語・端末情報のみ送信している。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>アクセス解析（GA4）</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">送信はできているが、分析に使える状態にはなっていない。</p>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">計測できていない行動がある</div>
+          <div class="d">単語検索の成功／失敗率、「今日」カードのボタンが押された率、発音の利用率、チュートリアルの離脱段階、記録画面を見た人の継続率。とくに2つ目は継続施策の効果測定に直結する。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">カスタムディメンションが未登録</div>
+          <div class="d"><code>app_name</code> を送ってはいるが、GA4管理画面で登録しないとレポートで使えない。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">キーイベントの指定</div>
+          <div class="d"><code>cloud_signup</code> / <code>cloud_login</code> / <code>feedback_sent</code> などをキーイベント（旧コンバージョン）に指定すると、ログイン有無で継続率を比較しやすくなる。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>機能</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">効果は大きいが、どれも一日仕事ではない。</p>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">オフラインで単語を追加できない</div>
+          <div class="d">辞書・翻訳APIに依存しているため、電波の弱い場所では追加できない。留学先という利用状況を考えると痛い。意味を手入力する経路は用意されているので、その導線を明確にするだけでも改善する。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">プッシュ通知</div>
+          <div class="d">Firebaseを入れたのでFCMは使いやすくなった。ただしiOSはホーム画面追加が前提。現状は「今日」カードで代替している。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">例文がほぼ無い</div>
+          <div class="d">AI生成を撤去したまま。文脈なしの暗記は定着が弱いので、定型例文でも入れる価値がある。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">パッケージの単語を自分の単語帳へコピー</div>
+          <div class="d">いまパッケージは読み取り専用。気に入った単語を手元に取り込む導線がない。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>コードと配信</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">転送量は実測済み。分割は当面やらないと判断した。</p>
+    <ul>
+      <li data-s="done">
+        <span class="chip done">判断済み</span>
+        <div>
+          <div class="t">ファイル分割は当面しない</div>
+          <div class="d">非圧縮279KBだが、GitHub Pagesはgzip配信のため<b>実転送量は97KB</b>。単一ファイルの手軽さを失う価値はない。<b>目安：圧縮後200KBを超えたら再検討</b>（パッケージ10本前後）。</div>
+          <div class="ver">実測 2026-08-19</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">Service Worker のキャッシュ戦略</div>
+          <div class="d">開発中に古いHTMLが配信されて混乱した。更新時に確実に新しくなる仕組みを詰めたい。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">長い関数と <code>innerHTML</code> 組み立て</div>
+          <div class="d"><code>renderList</code> / <code>renderStats</code> が各77行。文字列でHTMLを組む箇所が多く、増えるほど壊れやすい。動いてはいるので優先度は低い。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>保留・要判断</h2><span class="sec-n" data-count></span></div>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">単一HTMLファイルを維持するか</div>
+          <div class="d">機能を足すたびに肥大化する。いまは維持で問題ないが、いずれ判断が必要。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">ソーシャル要素</div>
+          <div class="d">友達と競う、デッキを共有するなど。継続率には効くが規模が大きい。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">学習履歴は1単語50件まで</div>
+          <div class="d">よく復習する単語ほど古い履歴が切り捨てられる。学習カレンダーの集計に影響しうる。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">このセッションで対応したもの。</p>
+    <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">言語切替が即座に反映されない</div><div class="d">画面の大半は描画関数が組み立てているため、タブを移動するまで古い言語のままだった。</div><div class="ver">v3.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">学習カレンダーに曜日ラベル</div><div class="d">左端に月〜日を表示。週の始まりを月曜に変更し、曜日名は表示言語に追従。</div><div class="ver">v3.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ダークモードでクイズの選択肢が読めない</div><div class="d">文字色が未指定でブラウザ既定の黒が乗っていた。コントラスト比 1.26 → 13.97。</div><div class="ver">v3.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">英語表示でも「ログイン」が日本語のまま</div><div class="d">メニューの文字に翻訳属性が無く、HTMLの日本語が直接出ていた。</div><div class="ver">v3.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">フィードバック送信</div><div class="d">右上メニューから。未ログインでも送れる。</div><div class="ver">v3.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">管理ページ</div><div class="d"><code>admin.html</code>。フィードバックと登録ユーザーの一覧。管理者以外はサーバー側で拒否される。</div><div class="ver">v3.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">復旧用メールの任意登録・PIN変更・PIN再設定</div><div class="d">登録するとメールがログインIDになる（Firebaseは1アカウント1メールのため）。</div><div class="ver">v3.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">未ログイン向けの警告バナー</div><div class="d">8語以上または3日以上の連続で表示。主導線は「自動保存にする」。</div><div class="ver">v3.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">自動保存の信頼性</div><div class="d">失敗時のリトライ、オンライン復帰時の再送、3分ごとの未同期スイープ。同期中の編集が失われる競合も修正。</div><div class="ver">v3.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">クラウド同期とアカウント</div><div class="d">ユーザー名＋6桁PIN。ログインしても端末内の単語は消えず、単語ごとに新しいほうを残して統合する。</div><div class="ver">v3.3.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">Idiomkeep の提供終了と画面構成の整理</div><div class="d">下部タブの右端を「記録」に、設定は右上メニューからモーダルで開く形に。</div><div class="ver">v3.2.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">不正解ペナルティを元の厳しさへ戻す</div><div class="d">1段階だけ戻す方式では間隔が長すぎて学習にならなかった。</div><div class="ver">v3.2.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">学習の記録（統計画面）</div><div class="d">最長連続・学習日数・正答率、直近14日の棒グラフ、半年分のカレンダー。すでに保存されていて未表示だったデータを可視化した。</div><div class="ver">v2.9.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">発音再生</div><div class="d">リスト・単語帳・クイズ・検索結果から。米/英、速度切替あり。</div><div class="ver">v2.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">データ保護とバックアップ催促</div><div class="d">ブラウザの自動削除からの除外を要求。クラウド同期の導入後は催促を出さないよう整理済み。</div><div class="ver">v2.7.0 / v3.4.0</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>単語パッケージのテーマ案</h2></div>
+    <p class="sec-note">未着手。単語リストがあれば7言語対応の形式で組み込める。</p>
+    <div class="ideas">
+      <span>語学留学の授業用</span><span>移民問題</span><span>ワーキングホリデー</span>
+      <span>環境問題</span><span>AI</span><span>飲食店</span><span>旅行</span>
+      <span>副詞集</span><span>スラング集</span><span>IELTS</span><span>TOEIC</span>
+    </div>
+  </section>
+
+  <footer>
+    公開URL <a href="https://yurihmhm.github.io/wordkeep/">yurihmhm.github.io/wordkeep</a> ／
+    管理ページ <a href="https://yurihmhm.github.io/wordkeep/admin.html">admin.html</a><br>
+    このページはリポジトリの <code>todo.html</code> が元になっている。作業のたびに更新され、URLは変わらない。
+  </footer>
+</div>
+
+<script>
+const items=[...document.querySelectorAll('li[data-s]')];
+const n=s=>items.filter(x=>x.dataset.s===s).length;
+document.getElementById('nDone').textContent=n('done');
+document.getElementById('nOpen').textContent=items.length-n('done');
+document.getElementById('nNext').textContent=document.querySelectorAll('li.next').length;
+
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const list=el.closest('section').querySelectorAll('li[data-s]');
+  const done=[...list].filter(x=>x.dataset.s==='done').length;
+  el.textContent=done===list.length?list.length+' 件すべて完了':(list.length-done)+' / '+list.length+' 件';
+});
+
+document.querySelectorAll('.filters button').forEach(btn=>{
+  btn.onclick=()=>{
+    const f=btn.dataset.f;
+    document.querySelectorAll('.filters button').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+    items.forEach(li=>{
+      const isDone=li.dataset.s==='done';
+      li.hidden = f==='open' ? isDone : f==='done' ? !isDone : false;
+    });
+    // hide a section whose items are all filtered out
+    document.querySelectorAll('section').forEach(sec=>{
+      const list=sec.querySelectorAll('li[data-s]');
+      sec.hidden = list.length>0 && [...list].every(li=>li.hidden);
+    });
+  };
+});
+</script>
