@@ -620,13 +620,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.1.0';
+const APP_VERSION='4.1.1';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.1.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.1.1',date:'2026-08-21',keys:['wn1']},
+  {version:'4.1.0',date:'2026-08-21',keys:['v410_1','wn2','wn3']},
   {version:'4.0.0',date:'2026-08-21',keys:['v400_1']},
   {version:'3.9.1',date:'2026-08-21',keys:['v391_1']},
   {version:'3.9.0',date:'2026-08-20',keys:['v390_1']},
@@ -742,7 +743,8 @@ function navigatorLang(){
 const T={
   v391_1:{ja:'ヘッダーの「CEBU」の表記を削除しました',en:'Removed the “CEBU” label from the header',zh:'已移除页眉中的「CEBU」标签',fr:'Suppression du libellé « CEBU » de l’en-tête',ar:'تمت إزالة عبارة «CEBU» من الرأس',ko:'헤더의 「CEBU」 표기를 삭제했습니다',ru:'Удалена надпись «CEBU» из шапки'},
   v400_1:{ja:'重要な修正: 別のアカウントでログインしたとき、前の人の単語が引き継がれてしまう不具合を直しました。端末に残っていた単語が、新しくログインしたアカウントに保存されてしまう状態でした',en:'Important fix: signing in as a different account could carry over the previous person’s words. Words left on the device were being saved into the newly signed-in account',zh:'重要修复：以其他账号登录时，可能会带入上一位使用者的单词。残留在设备上的单词会被保存到新登录的账号中',fr:'Correctif important : se connecter avec un autre compte pouvait reprendre les mots de la personne précédente. Les mots restés sur l’appareil étaient enregistrés dans le compte nouvellement connecté',ar:'إصلاح مهم: كان تسجيل الدخول بحساب آخر قد ينقل كلمات الشخص السابق. الكلمات المتبقية على الجهاز كانت تُحفظ في الحساب الجديد',ko:'중요한 수정: 다른 계정으로 로그인할 때 이전 사용자의 단어가 넘어가던 문제를 고쳤습니다. 기기에 남아 있던 단어가 새로 로그인한 계정에 저장되던 상태였습니다',ru:'Важное исправление: вход под другим аккаунтом мог перенести слова предыдущего пользователя. Слова, оставшиеся на устройстве, сохранялись в только что вошедший аккаунт'},
-  wn1:{ja:'単語の意味に類義語（シノニム）を表示するようにしました。単語帳の裏面や、単語をタップしたときの詳細画面に、関連する言葉が一緒に出てきます',en:'Word meanings now show synonyms where available, on the flashcard back and the new tap-to-view detail popup',zh:'单词释义现在会显示近义词。可在单词卡背面或点击单词后的详情弹窗中查看',fr:'Les définitions affichent désormais les synonymes disponibles, au dos des cartes et dans la nouvelle fenêtre de détail',ar:'أصبحت معاني الكلمات تعرض المرادفات عند توفرها، في ظهر البطاقة وفي نافذة التفاصيل الجديدة',ko:'단어 뜻에 유의어를 표시합니다. 단어 카드 뒷면과 새로 생긴 탭 상세 팝업에서 함께 보입니다',ru:'В значениях слов теперь показываются синонимы — на обороте карточки и в новом всплывающем окне деталей'},
+  v410_1:{ja:'単語の意味に類義語（シノニム）を表示するようにしました。単語帳の裏面や、単語をタップしたときの詳細画面に、関連する言葉が一緒に出てきます',en:'Word meanings now show synonyms where available, on the flashcard back and the new tap-to-view detail popup',zh:'单词释义现在会显示近义词。可在单词卡背面或点击单词后的详情弹窗中查看',fr:'Les définitions affichent désormais les synonymes disponibles, au dos des cartes et dans la nouvelle fenêtre de détail',ar:'أصبحت معاني الكلمات تعرض المرادفات عند توفرها، في ظهر البطاقة وفي نافذة التفاصيل الجديدة',ko:'단어 뜻에 유의어를 표시합니다. 단어 카드 뒷면과 새로 생긴 탭 상세 팝업에서 함께 보입니다',ru:'В значениях слов теперь показываются синонимы — на обороте карточки и в новом всплывающем окне деталей'},
+  wn1:{ja:'重大な不具合を修正しました。ログインしていない状態でアプリを開くと、読み込み画面のまま止まって進まなくなっていました。ご迷惑をおかけしました',en:'Fixed a critical bug where opening the app while signed out could get stuck on the loading screen and never proceed. Sorry for the trouble this caused',zh:'修复了一个严重问题：未登录状态下打开应用可能会卡在加载画面无法继续。给您带来不便，深表歉意',fr:'Correction d’un bug critique : ouvrir l’app sans être connecté pouvait rester bloqué sur l’écran de chargement. Désolé pour la gêne occasionnée',ar:'تم إصلاح خلل خطير: فتح التطبيق دون تسجيل الدخول كان قد يتوقف عند شاشة التحميل ولا يتقدم. نعتذر عن الإزعاج',ko:'심각한 오류를 수정했습니다. 로그인하지 않은 상태로 앱을 열면 로딩 화면에서 멈춰 진행되지 않는 문제가 있었습니다. 불편을 드려 죄송합니다',ru:'Исправлена критическая ошибка: при открытии приложения без входа экран загрузки мог зависать навсегда. Приносим извинения за неудобства'},
   wn2:{ja:'リストの単語に品詞ラベル（名・動・形など）を付けました。名詞と動詞が同じ形の単語も見分けやすくなります',en:'Words in the list now carry a short part-of-speech label (N, V, Adj…), making it easier to tell apart words that look the same as different parts of speech',zh:'列表中的单词新增了词性标签（名/动/形等），更容易区分形态相同但词性不同的单词',fr:'Les mots de la liste affichent désormais une étiquette de nature grammaticale (N, V, Adj…)',ar:'أصبحت الكلمات في القائمة تحمل تصنيفًا نحويًا قصيرًا (اسم، فعل، صفة...)',ko:'목록의 단어에 품사 라벨(명/동/형 등)을 붙였습니다. 형태가 같은 단어도 품사로 구분하기 쉬워집니다',ru:'У слов в списке появилась короткая пометка части речи (сущ., гл., прил. и т.д.)'},
   wn3:{ja:'単語をタップすると、意味・発音・例文などをまとめて大きく見られる詳細画面が開くようになりました',en:'Tapping a word now opens a detail view with its meanings, pronunciation and examples shown larger and all in one place',zh:'点击单词即可打开详情视图，集中显示释义、发音与例句',fr:'Toucher un mot ouvre désormais une vue détaillée regroupant sens, prononciation et exemples',ar:'يفتح النقر على الكلمة الآن عرضًا تفصيليًا يجمع المعاني والنطق والأمثلة',ko:'단어를 탭하면 뜻·발음·예문을 한곳에 크게 모아 보여주는 상세 화면이 열립니다',ru:'При нажатии на слово теперь открывается подробный экран со значениями, произношением и примерами'},
   wn2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
@@ -3351,17 +3353,15 @@ function closeAcct(){$('#overlayAcct').classList.remove('show');}
 $('#miAccount').onclick=()=>{closeMenu();openAcct();};
 $('#acctClose').onclick=closeAcct;
 $('#overlayAcct').addEventListener('click',e=>{if(e.target===$('#overlayAcct'))closeAcct();});
-// restore a previous session (and pull anything added on another device)
-if(cloudSaved()){
-  splashNote(t('splash_restoring'));
-  loadFirebase().then(()=>cloudSync('startup')).catch(()=>{}).then(hideSplash);
-}else hideSplash();
-
-
 
 /* ---------- startup splash ---------- */
 // Restoring a signed-in session needs a network round trip, and without this
 // the app painted as logged-out first, which reads as "my account is gone".
+// Declared ABOVE the code that calls hideSplash() -- that call can run
+// synchronously (a signed-out visitor hits the `else` branch immediately),
+// so this block must already exist by then or it's a TDZ ReferenceError that
+// halts the whole script before boot ever runs, leaving the splash stuck
+// forever. (Exactly what happened: verified live, reproduced, fixed.)
 const splashAt=Date.now();
 let splashHidden=false;
 function splashNote(msg){const el=$('#spNote');if(el)el.textContent=msg||'';}
@@ -3379,6 +3379,12 @@ function hideSplash(){
 }
 // Never let a stalled network hold the app hostage.
 setTimeout(hideSplash,6000);
+
+// restore a previous session (and pull anything added on another device)
+if(cloudSaved()){
+  splashNote(t('splash_restoring'));
+  loadFirebase().then(()=>cloudSync('startup')).catch(()=>{}).then(hideSplash);
+}else hideSplash();
 
 /* ---------- boot ---------- */
 applyStaticI18n();
