@@ -582,13 +582,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.3.0';
+const APP_VERSION='3.4.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.3.0',date:'2026-08-13',keys:['wn1','wn2','wn3']},
+  {version:'3.4.0',date:'2026-08-19',keys:['wn1','wn2']},
+  {version:'3.3.0',date:'2026-08-13',keys:['v330_1','v330_2','v330_3']},
   {version:'3.2.0',date:'2026-08-13',keys:['v320_1','v320_2','v320_3']},
   {version:'3.1.0',date:'2026-08-13',keys:['v310_1','v310_2']},
   {version:'3.0.0',date:'2026-08-13',keys:['v300_1','v300_2']},
@@ -618,7 +619,7 @@ const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
 /* ---------- analytics (Google Analytics 4) ---------- */
 // TODO: replace with the real GA4 Measurement ID (shared across Wordkeep /
-// Idiomkeep / Slangkeep -- app_name below is what tells them apart in reports).
+// a future sibling app -- app_name below is what would tell them apart).
 const GA_MEASUREMENT_ID='G-1S4CEY17ZD';
 const GA_APP_NAME='wordkeep';
 const GA_DEV=location.protocol==='file:'||/^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname);
@@ -641,14 +642,13 @@ function gaEvent(name,params){
   gtag('event',name,params||{});
 }
 function gaScreen(id){
-  const names={'v-add':'add','v-list':'list','v-study':'flashcards','v-quiz':'review','v-set':'settings'};
+  const names={'v-add':'add','v-list':'list','v-study':'flashcards','v-quiz':'review','v-stats':'record','v-set':'settings'};
   const name=names[id]||id;
   gaEvent('page_view',{page_title:'Wordkeep - '+name,page_path:'/'+name});
 }
 gaLoad();
-// Keyed by app name (not just "sent"/"not sent") because sessionStorage is
-// shared across the Wordkeep/Idiomkeep origin -- switching between the two
-// sister apps in the same tab should still log an app_open for each one.
+// Keyed by app name rather than a bare "sent" flag so that a second app ever
+// served from this origin would still log its own app_open in the same tab.
 if(!GA_DEV&&!sessionStorage.getItem('ga_app_open_sent_'+GA_APP_NAME)){
   sessionStorage.setItem('ga_app_open_sent_'+GA_APP_NAME,'1');
   gaEvent('app_open',{});
@@ -696,7 +696,6 @@ const T={
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
   nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
-  nav_settings:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정',ru:'Настройки'},
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
   acct_title:{ja:'アカウント',en:'Account',zh:'账号',fr:'Compte',ar:'الحساب',ko:'계정',ru:'Аккаунт'},
   menu_acct_sub:{ja:'単語を保存して他の端末でも使う',en:'Save your words and use them on any device',zh:'保存单词，在任何设备上使用',fr:'Sauvegardez vos mots et utilisez-les sur tout appareil',ar:'احفظ كلماتك واستخدمها على أي جهاز',ko:'단어를 저장하고 다른 기기에서도 사용',ru:'Сохраняйте слова и открывайте их на любом устройстве'},
@@ -821,10 +820,6 @@ const T={
   today_free:{ja:'自由学習をする',en:'Free study',zh:'进行自由学习',fr:'Étude libre',ar:'دراسة حرة',ko:'자유 학습 하기',ru:'Свободные занятия'},
   today_complete:{ja:'今日の復習は完了！',en:'Today’s reviews are done!',zh:'今天的复习完成了！',fr:'Révisions du jour terminées !',ar:'انتهت مراجعات اليوم!',ko:'오늘의 복습 완료!',ru:'Повторения на сегодня завершены!'},
   today_complete_sub:{ja:'また明日つづけましょう。',en:'Come back tomorrow to keep it going.',zh:'明天再来继续吧。',fr:'Revenez demain pour continuer.',ar:'عد غدًا لمواصلة السلسلة.',ko:'내일 또 이어가 볼까요.',ru:'Возвращайтесь завтра, чтобы продолжить.'},
-  sec_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Статистика'},
-  st_stats:{ja:'学習の記録',en:'Your learning record',zh:'学习记录',fr:'Votre suivi d’apprentissage',ar:'سجل تعلّمك',ko:'학습 기록',ru:'Ваш прогресс'},
-  desc_stats:{ja:'連続日数・復習の推移・学習カレンダー',en:'Streaks, review trend, and a study calendar',zh:'连续天数、复习趋势与学习日历',fr:'Séries, évolution des révisions et calendrier d’étude',ar:'السلاسل واتجاه المراجعة وتقويم الدراسة',ko:'연속 일수·복습 추이·학습 캘린더',ru:'Серии, динамика повторений и календарь занятий'},
-  btn_stats:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기',ru:'Открыть'},
   stats_title:{ja:'学習の記録',en:'Your learning record',zh:'学习记录',fr:'Votre suivi d’apprentissage',ar:'سجل تعلّمك',ko:'학습 기록',ru:'Ваш прогресс'},
   stat_current:{ja:'現在の連続',en:'Current streak',zh:'当前连续',fr:'Série actuelle',ar:'السلسلة الحالية',ko:'현재 연속',ru:'Текущая серия'},
   stat_longest:{ja:'最長の連続',en:'Longest streak',zh:'最长连续',fr:'Plus longue série',ar:'أطول سلسلة',ko:'최장 연속',ru:'Лучшая серия'},
@@ -879,6 +874,10 @@ const T={
   st_storage_tip:{ja:'保存に関する注意',en:'About your saved data',zh:'关于数据保存的说明',fr:'À propos de vos données enregistrées',ar:'حول بياناتك المحفوظة',ko:'저장 데이터 안내',ru:'О сохранённых данных'},
   desc_storage_tip:{ja:'ブラウザによってデータが共有されない件について',en:'Why words can look missing in a different browser',zh:'为什么换个浏览器打开会看不到单词',fr:'Pourquoi les mots peuvent sembler manquants dans un autre navigateur',ar:'لماذا قد تبدو الكلمات مفقودة في متصفح آخر',ko:'다른 브라우저에서 단어가 사라진 것처럼 보이는 이유',ru:'Почему слова могут выглядеть пропавшими в другом браузере'},
   btn_storage_tip:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기',ru:'Посмотреть'},
+  storage_tip_synced:{ja:'{0} としてログイン中です。単語はこの端末だけでなくサーバーにも保存されているので、別のブラウザやアプリから開いても、同じユーザー名とPINでログインすれば同じ単語帳が使えます。',en:'Signed in as {0}. Your words live on the server as well as this device, so opening the app in another browser and signing in with the same username and PIN brings the same list.',zh:'已以 {0} 登录。单词不仅保存在本机，也保存在服务器上，因此在其他浏览器或应用中用相同的用户名和 PIN 登录即可看到同一单词本。',fr:'Connecté en tant que {0}. Vos mots sont sur le serveur autant que sur cet appareil : ouvrez l’app dans un autre navigateur et connectez-vous avec les mêmes identifiants pour retrouver la même liste.',ar:'تم تسجيل الدخول باسم {0}. كلماتك محفوظة على الخادم إضافةً إلى هذا الجهاز، لذا يكفي تسجيل الدخول بالاسم والرمز نفسيهما من متصفح آخر لتظهر القائمة نفسها.',ko:'{0} 으로 로그인 중입니다. 단어는 이 기기뿐 아니라 서버에도 저장되므로, 다른 브라우저나 앱에서 같은 사용자 이름과 PIN으로 로그인하면 같은 단어장을 쓸 수 있습니다.',ru:'Вы вошли как {0}. Слова хранятся не только на устройстве, но и на сервере: откройте приложение в другом браузере и войдите с тем же именем и PIN — список будет тот же.'},
+  storage_tip_acct:{ja:'アカウントを作ると、この問題そのものがなくなります。単語がサーバーに保存され、どのブラウザ・どの端末からでも同じ単語帳を開けます。',en:'Creating an account removes this problem entirely: your words are saved on the server and the same list opens from any browser or device.',zh:'创建账号即可彻底解决此问题：单词会保存到服务器，任何浏览器或设备都能打开同一单词本。',fr:'Créer un compte supprime totalement ce problème : vos mots sont enregistrés sur le serveur et la même liste s’ouvre depuis n’importe quel navigateur ou appareil.',ar:'إنشاء حساب يلغي هذه المشكلة تمامًا: تُحفظ كلماتك على الخادم وتفتح القائمة نفسها من أي متصفح أو جهاز.',ko:'계정을 만들면 이 문제 자체가 사라집니다. 단어가 서버에 저장되어 어떤 브라우저·기기에서도 같은 단어장을 열 수 있습니다.',ru:'Аккаунт устраняет саму причину: слова сохраняются на сервере, и тот же список открывается в любом браузере и на любом устройстве.'},
+  storage_tip_acct_btn:{ja:'アカウントを作る',en:'Create an account',zh:'创建账号',fr:'Créer un compte',ar:'إنشاء حساب',ko:'계정 만들기',ru:'Создать аккаунт'},
+  backup_cloud_on:{ja:'クラウドに自動保存中（手動バックアップは不要です）',en:'Saved to the cloud automatically — no manual backup needed',zh:'正在自动保存到云端（无需手动备份）',fr:'Sauvegarde automatique dans le cloud — aucune sauvegarde manuelle nécessaire',ar:'يتم الحفظ تلقائيًا في السحابة — لا حاجة لنسخة احتياطية يدوية',ko:'클라우드에 자동 저장 중 (수동 백업 불필요)',ru:'Автоматически сохраняется в облаке — ручная копия не нужна'},
   st_persist:{ja:'データの保護',en:'Protect stored data',zh:'数据保护',fr:'Protection des données',ar:'حماية البيانات',ko:'데이터 보호',ru:'Защита данных'},
   btn_persist:{ja:'保護する',en:'Protect',zh:'开启保护',fr:'Protéger',ar:'حماية',ko:'보호하기',ru:'Защитить'},
   persist_on:{ja:'保護中。ブラウザの自動削除の対象外になっています',en:'Protected — exempt from this browser’s automatic cleanup',zh:'已保护，不会被浏览器自动清理',fr:'Protégé — exempté du nettoyage automatique du navigateur',ar:'محمية — مستثناة من الحذف التلقائي للمتصفح',ko:'보호 중. 브라우저의 자동 삭제 대상에서 제외되었습니다',ru:'Защищено — исключено из автоочистки браузера'},
@@ -954,9 +953,11 @@ const T={
   v320_1:{ja:'画面の構成を変えました。下のタブの一番右が「記録」になり、学習の記録にすぐ入れます。設定は右上のメニュー(三本線)からひらきます',en:'Reorganized the layout. The last tab is now Record, so your learning history is one tap away, and Settings moved into the menu button at the top right',zh:'调整了界面结构。底部最后一个标签改为「记录」，可直接查看学习记录；设置移到右上角的菜单按钮中',fr:'Réorganisation de l’interface. Le dernier onglet est désormais Suivi, votre historique est à portée de main, et les Réglages passent dans le menu en haut à droite',ar:'أعيد تنظيم الواجهة. صار آخر تبويب هو السجل للوصول السريع إلى سجل تعلّمك، وانتقلت الإعدادات إلى زر القائمة أعلى اليمين',ko:'화면 구성을 바꿨습니다. 하단 마지막 탭이 「기록」이 되어 학습 기록에 바로 들어갈 수 있고, 설정은 오른쪽 위 메뉴(삼선) 버튼에서 엽니다',ru:'Интерфейс перестроен. Последняя вкладка теперь «Прогресс» — история занятий в один тап, а настройки переехали в меню в правом верхнем углу'},
   v320_2:{ja:'姉妹アプリ Idiomkeep の提供を終了しました。Wordkeep に集中して改善していきます',en:'The sister app Idiomkeep has been retired so we can focus on improving Wordkeep',zh:'姊妹应用 Idiomkeep 已停止提供，我们将专注于改进 Wordkeep',fr:'L’application sœur Idiomkeep est retirée afin de concentrer les efforts sur Wordkeep',ar:'تم إيقاف التطبيق الشقيق Idiomkeep للتركيز على تحسين Wordkeep',ko:'자매 앱 Idiomkeep 제공을 종료했습니다. Wordkeep 개선에 집중하겠습니다',ru:'Приложение-компаньон Idiomkeep закрыто, чтобы сосредоточиться на развитии Wordkeep'},
   v320_3:{ja:'間違えたときの扱いを元の厳しさに戻しました。1段階だけ戻す方式では間隔が長すぎて学習にならないため、最初からやり直しになります',en:'Missing a word is strict again. Stepping the interval back just once left it far too long to count as studying, so a miss restarts the schedule',zh:'答错的处理恢复为原来的严格方式。只后退一级会让间隔过长、失去复习意义，因此答错将从头开始',fr:'Les erreurs redeviennent strictes. Ne reculer que d’un cran laissait un intervalle bien trop long pour apprendre : une erreur repart de zéro',ar:'عاد التعامل مع الخطأ صارمًا. التراجع خطوة واحدة كان يترك الفاصل طويلًا جدًا بلا فائدة تعليمية، لذا يعيد الخطأ الجدول من البداية',ko:'틀렸을 때의 처리를 원래의 엄격한 방식으로 되돌렸습니다. 한 단계만 되돌리면 간격이 너무 길어 학습이 되지 않기 때문에, 처음부터 다시 시작합니다',ru:'Ошибки снова строгие. Откат интервала лишь на шаг оставлял его слишком долгим, чтобы это считалось учёбой — теперь ошибка возвращает график к началу'},
-  wn1:{ja:'アカウント機能を追加しました。右上のメニューからユーザー名と6桁のPINで登録すると、単語がサーバーに自動保存され、別の端末でも同じ単語帳を開けます',en:'Accounts are here. Sign up from the top-right menu with a username and a 6-digit PIN, and your words save to the server automatically and open on any other device',zh:'新增账号功能。在右上角菜单用用户名和 6 位 PIN 注册后，单词会自动保存到服务器，并可在其他设备上打开同一单词本',fr:'Les comptes arrivent. Inscrivez-vous depuis le menu en haut à droite avec un nom d’utilisateur et un PIN à 6 chiffres : vos mots sont sauvegardés automatiquement et accessibles sur tout autre appareil',ar:'أصبحت الحسابات متاحة. سجّل من القائمة أعلى اليمين باسم مستخدم ورمز من 6 أرقام، فتُحفظ كلماتك تلقائيًا على الخادم وتفتحها من أي جهاز آخر',ko:'계정 기능을 추가했습니다. 오른쪽 위 메뉴에서 사용자 이름과 6자리 PIN으로 가입하면 단어가 서버에 자동 저장되고 다른 기기에서도 같은 단어장을 열 수 있습니다',ru:'Появились аккаунты. Зарегистрируйтесь через меню в правом верхнем углу, указав имя пользователя и 6-значный PIN — слова сохранятся на сервере и откроются на любом другом устройстве'},
-  wn2:{ja:'ログイン時、端末に入っている単語は消えません。サーバー側のデータと単語ごとに突き合わせて統合し、新しいほうを残します。削除も端末をまたいで反映されます',en:'Signing in never wipes what is already on your device. Local and server words are merged one by one, keeping whichever is newer, and deletions carry across devices too',zh:'登录不会清除设备上已有的单词。本地与服务器的单词会逐条比对合并，保留较新的一方，删除也会在设备间同步',fr:'Se connecter n’efface jamais ce qui est déjà sur votre appareil : les mots locaux et distants sont fusionnés un à un en gardant le plus récent, et les suppressions se propagent aussi',ar:'تسجيل الدخول لا يمسح ما هو موجود على جهازك. تُدمج الكلمات المحلية مع كلمات الخادم واحدة واحدة مع الإبقاء على الأحدث، وتنتقل عمليات الحذف بين الأجهزة أيضًا',ko:'로그인해도 기기에 있는 단어는 지워지지 않습니다. 로컬과 서버의 단어를 하나씩 비교해 더 새로운 쪽을 남기며 병합하고, 삭제도 기기 간에 반영됩니다',ru:'Вход никогда не стирает то, что уже есть на устройстве: локальные и серверные слова объединяются по одному, остаётся более новое, а удаления передаются между устройствами'},
-  wn3:{ja:'PINを忘れると復元できないため、ユーザー名とPINは控えておいてください。ログインしなくても、これまでどおり端末内だけで使えます',en:'A forgotten PIN cannot be recovered, so keep your username and PIN written down. You can also keep using the app entirely offline without an account, exactly as before',zh:'忘记 PIN 无法找回，请记下用户名和 PIN。不登录也可以像以前一样仅在本机使用',fr:'Un PIN oublié est irrécupérable : notez votre nom d’utilisateur et votre PIN. Vous pouvez aussi continuer à utiliser l’app sans compte, comme avant',ar:'لا يمكن استعادة رمز PIN المنسي، لذا دوّن اسم المستخدم والرمز. ويمكنك أيضًا متابعة استخدام التطبيق دون حساب كما كان تمامًا',ko:'PIN을 잊으면 복구할 수 없으니 사용자 이름과 PIN을 적어 두세요. 로그인하지 않고 지금까지처럼 기기 안에서만 사용할 수도 있습니다',ru:'Забытый PIN восстановить невозможно — запишите имя пользователя и PIN. Пользоваться приложением без аккаунта, как раньше, тоже можно'},
+  v330_1:{ja:'アカウント機能を追加しました。右上のメニューからユーザー名と6桁のPINで登録すると、単語がサーバーに自動保存され、別の端末でも同じ単語帳を開けます',en:'Accounts are here. Sign up from the top-right menu with a username and a 6-digit PIN, and your words save to the server automatically and open on any other device',zh:'新增账号功能。在右上角菜单用用户名和 6 位 PIN 注册后，单词会自动保存到服务器，并可在其他设备上打开同一单词本',fr:'Les comptes arrivent. Inscrivez-vous depuis le menu en haut à droite avec un nom d’utilisateur et un PIN à 6 chiffres : vos mots sont sauvegardés automatiquement et accessibles sur tout autre appareil',ar:'أصبحت الحسابات متاحة. سجّل من القائمة أعلى اليمين باسم مستخدم ورمز من 6 أرقام، فتُحفظ كلماتك تلقائيًا على الخادم وتفتحها من أي جهاز آخر',ko:'계정 기능을 추가했습니다. 오른쪽 위 메뉴에서 사용자 이름과 6자리 PIN으로 가입하면 단어가 서버에 자동 저장되고 다른 기기에서도 같은 단어장을 열 수 있습니다',ru:'Появились аккаунты. Зарегистрируйтесь через меню в правом верхнем углу, указав имя пользователя и 6-значный PIN — слова сохранятся на сервере и откроются на любом другом устройстве'},
+  v330_2:{ja:'ログイン時、端末に入っている単語は消えません。サーバー側のデータと単語ごとに突き合わせて統合し、新しいほうを残します。削除も端末をまたいで反映されます',en:'Signing in never wipes what is already on your device. Local and server words are merged one by one, keeping whichever is newer, and deletions carry across devices too',zh:'登录不会清除设备上已有的单词。本地与服务器的单词会逐条比对合并，保留较新的一方，删除也会在设备间同步',fr:'Se connecter n’efface jamais ce qui est déjà sur votre appareil : les mots locaux et distants sont fusionnés un à un en gardant le plus récent, et les suppressions se propagent aussi',ar:'تسجيل الدخول لا يمسح ما هو موجود على جهازك. تُدمج الكلمات المحلية مع كلمات الخادم واحدة واحدة مع الإبقاء على الأحدث، وتنتقل عمليات الحذف بين الأجهزة أيضًا',ko:'로그인해도 기기에 있는 단어는 지워지지 않습니다. 로컬과 서버의 단어를 하나씩 비교해 더 새로운 쪽을 남기며 병합하고, 삭제도 기기 간에 반영됩니다',ru:'Вход никогда не стирает то, что уже есть на устройстве: локальные и серверные слова объединяются по одному, остаётся более новое, а удаления передаются между устройствами'},
+  v330_3:{ja:'PINを忘れると復元できないため、ユーザー名とPINは控えておいてください。ログインしなくても、これまでどおり端末内だけで使えます',en:'A forgotten PIN cannot be recovered, so keep your username and PIN written down. You can also keep using the app entirely offline without an account, exactly as before',zh:'忘记 PIN 无法找回，请记下用户名和 PIN。不登录也可以像以前一样仅在本机使用',fr:'Un PIN oublié est irrécupérable : notez votre nom d’utilisateur et votre PIN. Vous pouvez aussi continuer à utiliser l’app sans compte, comme avant',ar:'لا يمكن استعادة رمز PIN المنسي، لذا دوّن اسم المستخدم والرمز. ويمكنك أيضًا متابعة استخدام التطبيق دون حساب كما كان تمامًا',ko:'PIN을 잊으면 복구할 수 없으니 사용자 이름과 PIN을 적어 두세요. 로그인하지 않고 지금까지처럼 기기 안에서만 사용할 수도 있습니다',ru:'Забытый PIN восстановить невозможно — запишите имя пользователя и PIN. Пользоваться приложением без аккаунта, как раньше, тоже можно'},
+  wn1:{ja:'ログイン中はバックアップの催促を出さないようにしました。自動で保存されているのに手動バックアップを促すのは矛盾していたためです。設定では「クラウドに自動保存中」と表示されます',en:'The backup reminder no longer appears while signed in — nagging for a manual export when everything is already saved to the server made no sense. Settings now shows that the cloud is handling it',zh:'登录状态下不再显示备份提醒。数据已自动保存到服务器，却仍催促手动备份并不合理。设置中会显示「正在自动保存到云端」',fr:'Le rappel de sauvegarde n’apparaît plus lorsque vous êtes connecté : réclamer un export manuel alors que tout est déjà sur le serveur n’avait aucun sens. Les Réglages indiquent désormais que le cloud s’en charge',ar:'لم يعد تذكير النسخ الاحتياطي يظهر أثناء تسجيل الدخول — فالمطالبة بنسخة يدوية بينما كل شيء محفوظ على الخادم أمر متناقض. تعرض الإعدادات الآن أن الحفظ السحابي يتكفّل بذلك',ko:'로그인 중에는 백업 알림을 표시하지 않도록 했습니다. 자동으로 저장되는데 수동 백업을 재촉하는 것은 모순이기 때문입니다. 설정에는 «클라우드에 자동 저장 중»으로 표시됩니다',ru:'Напоминание о резервной копии больше не появляется, когда вы вошли в аккаунт: просить ручной экспорт, когда всё уже на сервере, бессмысленно. В настройках теперь видно, что этим занимается облако'},
+  wn2:{ja:'「保存に関する注意」を状況に合わせて出し分けるようにしました。未ログインなら「アカウントを作る」ボタンから解決でき、ログイン中は別のブラウザからでも同じ単語帳が使える旨に変わります',en:'The storage notice now matches your situation: signed out it offers a Create an account button that fixes the problem outright, and signed in it explains that the same list opens from any browser',zh:'「关于数据保存的说明」现在会因情况而异：未登录时提供「创建账号」按钮直接解决问题，已登录时则说明在其他浏览器也能打开同一单词本',fr:'L’avertissement sur le stockage s’adapte : déconnecté, il propose un bouton Créer un compte qui règle le problème ; connecté, il explique que la même liste s’ouvre depuis n’importe quel navigateur',ar:'أصبح تنبيه التخزين يتغيّر حسب حالتك: عند تسجيل الخروج يعرض زر إنشاء حساب يحل المشكلة جذريًا، وعند تسجيل الدخول يوضح أن القائمة نفسها تُفتح من أي متصفح',ko:'«저장에 관한 안내»를 상황에 맞게 다르게 표시합니다. 비로그인 시에는 «계정 만들기» 버튼으로 바로 해결할 수 있고, 로그인 중에는 다른 브라우저에서도 같은 단어장을 쓸 수 있다는 내용으로 바뀝니다',ru:'Уведомление о хранении теперь зависит от ситуации: без входа оно предлагает кнопку «Создать аккаунт», которая решает проблему, а после входа объясняет, что тот же список открывается в любом браузере'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1119,6 +1120,9 @@ function fmtDay(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth(
 function unbackedUpCount(){return Math.max(0,DB.words.length-(S().lastBackupWords||0));}
 function backupNeeded(){
   const s=S();
+  // Signed in means every change is already pushed to the server, so asking
+  // for a manual JSON export on top of that just contradicts the app.
+  if(typeof cloudUser!=='undefined'&&cloudUser)return false;
   if(DB.words.length<BACKUP_MIN_WORDS)return false;
   if(s.backupSnoozeUntil&&Date.now()<s.backupSnoozeUntil)return false;
   if(!s.lastBackupAt)return true;
@@ -2279,6 +2283,11 @@ function renderBackupBanner(){
 function renderBackupStatus(){
   const el=$('#backupStatus');if(!el)return;
   const s=S();
+  if(typeof cloudUser!=='undefined'&&cloudUser){
+    el.textContent=t('backup_cloud_on');
+    el.style.color='var(--good)';
+    return;
+  }
   el.textContent=s.lastBackupAt?t('backup_last',fmtDay(s.lastBackupAt)):t('backup_none');
   el.style.color=backupNeeded()?'var(--bad)':'var(--muted)';
 }
@@ -2471,7 +2480,11 @@ function renderCount(){
 // and needs no external image asset.
 const ICON_SHARE='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg>';
 const ICON_MENU='<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
-function storageTipHTML(){
+function storageTipHTML(withCta){
+  // Signed in, the whole premise of this notice no longer holds: the words are
+  // on the server, so a different browser just needs a login.
+  if(typeof cloudUser!=='undefined'&&cloudUser)
+    return '<span style="display:block">'+esc(t('storage_tip_synced',cloudUser.username))+'</span>';
   const ua=navigator.userAgent||'';
   const isIOS=/iPad|iPhone|iPod/.test(ua);
   const isAndroid=/Android/.test(ua);
@@ -2489,13 +2502,22 @@ function storageTipHTML(){
       '<li>'+esc(t('storage_tip_android_3'))+'</li>'+
     '</ol>';
   }
-  return '<span style="display:block">'+esc(t('storage_tip_body'))+'</span>'+stepsHtml;
+  // An account fixes this properly, so offer it rather than only warning.
+  const cta=withCta
+    ?'<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">'+
+       '<span style="display:block;font-size:13px;color:var(--muted);line-height:1.6">'+esc(t('storage_tip_acct'))+'</span>'+
+       '<button class="btn btn-gold" id="tipAcct" style="margin-top:10px;width:100%">'+esc(t('storage_tip_acct_btn'))+'</button>'+
+     '</div>'
+    :'';
+  return '<span style="display:block">'+esc(t('storage_tip_body'))+'</span>'+stepsHtml+cta;
 }
 function openStorageTip(){
   $('#stTitle').textContent=t('storage_tip_title');
-  $('#stBody').innerHTML=storageTipHTML();
+  $('#stBody').innerHTML=storageTipHTML(true);
   $('#stOk').textContent=t('ok');
   $('#overlayStorageTip').classList.add('show');
+  const b=$('#tipAcct');
+  if(b)b.onclick=()=>{S().seenStorageTip=true;save();$('#overlayStorageTip').classList.remove('show');openAcct();};
 }
 $('#stOk').onclick=()=>{
   S().seenStorageTip=true;save();
@@ -2680,7 +2702,7 @@ async function cloudLogout(){
   try{await cloudSync('logout');}catch(e){}
   try{if(fbAuth)await fbAuth.signOut();}catch(e){}
   setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';
-  renderAccountUI();
+  renderAccountUI();renderCount();renderList();
 }
 
 /* --- merge -------------------------------------------------------------- */
