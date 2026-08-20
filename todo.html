@@ -116,6 +116,62 @@ footer a{color:var(--ink-2)}
   </div>
 
   <section>
+    <div class="sec-head"><h2>単語詳細の拡充</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">実際のAPIレスポンスを調べたうえでの技術メモ付き。難易度に差があるので、まとめてではなく個別に判断したい。</p>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">類義語（シノニム）の表示</div>
+          <div class="d"><b>いちばん安く効く。</b>辞書API（dictionaryapi.dev）のレスポンスに品詞ごとの <code>synonyms</code> がすでに含まれているのに、現状は破棄している。追加の通信なしで実装できる（例: happy の形容詞は13件の類義語が返る）。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">リストの品詞ラベルを目立たせる</div>
+          <div class="d">品詞データ自体はすでに保存されている（<code>meanings[].pos</code>）。表示を強調するだけ。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">単語をタップで詳細ポップアップ</div>
+          <div class="d">リストの行をタップすると拡大表示。新規データは不要、既存の <code>meanings[]</code> を大きく見せるだけ。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">「もっと知る」ボタンで詳細を遅延読み込み</div>
+          <div class="d">類義語・活用形などは初期表示に含めず、ボタンを押したときだけ取得・描画する。<code>index.html</code>の転送量ではなく「APIを叩く回数」を抑える設計として理にかなっている。単語一覧を眺めるだけの操作では通信が発生しない。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">現在形・過去形・過去分詞の表示</div>
+          <div class="d">辞書APIにはこのデータが無い（<code>go</code> を調べても went/gone は返らない）。不規則動詞（200語程度）の一覧を自前で持ち、規則動詞は語尾ルールで生成する方式が必要。オフラインで完結できるのは利点。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">句動詞・前置詞による意味の変化</div>
+          <div class="d"><b>正直、難易度が高い。</b>無料でまともなデータを返すAPIが見当たらない。人力での作成か、Claudeに単語ごとに生成させて静的データとして持つか、という規模になる。着手前に期待値をすり合わせたい。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">多義語の代表的な意味を品詞ごとに合成</div>
+          <div class="d">例: patient は今「患者」しか出ず「辛抱強い」（形容詞）が埋もれている。単語まるごとの機械翻訳ではなく、<code>meanings[]</code>（品詞ごとに既に訳し分けている）を結合して代表的な意味を作れば、追加の通信なしで解決する。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
