@@ -280,7 +280,9 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .bar.zero{background:var(--track)}
 .bar-lbl{font-size:9.5px;color:var(--muted);margin-top:6px;line-height:1}
 .heat-wrap{overflow-x:auto;padding-bottom:2px}
-.heat-inner{display:inline-block;min-width:100%}
+.heat-inner{display:flex;gap:6px;min-width:min-content}
+.heat-days{display:flex;flex-direction:column;gap:3px;margin-top:17px;flex-shrink:0}
+.heat-days span{height:11px;line-height:11px;font-size:9px;color:var(--muted);text-align:right;min-width:10px}
 .heat-months{display:flex;gap:3px;margin-bottom:5px;height:12px}
 .heat-months span{flex:0 0 11px;font-size:9.5px;color:var(--muted);white-space:nowrap;overflow:visible}
 .heat{display:flex;gap:3px}
@@ -591,13 +593,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.7.0';
+const APP_VERSION='3.8.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.7.0',date:'2026-08-19',keys:['wn1','wn2','wn3']},
+  {version:'3.8.0',date:'2026-08-20',keys:['wn1','wn2']},
+  {version:'3.7.0',date:'2026-08-19',keys:['v370_1','v370_2','v370_3']},
   {version:'3.6.0',date:'2026-08-19',keys:['v360_1','v360_2','v360_3']},
   {version:'3.5.0',date:'2026-08-19',keys:['v350_1','v350_2']},
   {version:'3.4.0',date:'2026-08-19',keys:['v340_1','v340_2']},
@@ -1010,9 +1013,11 @@ const T={
   v360_1:{ja:'復旧用メールを登録できるようにしました（アカウント画面）。登録するとPINを忘れても再設定メールで復旧できます。設定後はログインにそのメールアドレスを使います',en:'You can now attach a recovery email from the account screen. With one set, a forgotten PIN can be reset by email — and you then sign in with that address instead of your username',zh:'现在可在账号页面登记找回邮箱。登记后，忘记 PIN 也能通过邮件重设；设置后将使用该邮箱登录',fr:'Vous pouvez désormais associer un e-mail de récupération depuis l’écran du compte. Avec celui-ci, un PIN oublié se réinitialise par e-mail — et vous vous connectez ensuite avec cette adresse',ar:'يمكنك الآن إضافة بريد للاسترداد من شاشة الحساب. عند ضبطه يمكن إعادة تعيين رمز منسي عبر البريد، وتسجّل الدخول بعدها بذلك العنوان',ko:'계정 화면에서 복구용 이메일을 등록할 수 있게 되었습니다. 등록하면 PIN을 잊어도 메일로 재설정할 수 있으며, 이후에는 그 이메일로 로그인합니다',ru:'Теперь в разделе аккаунта можно привязать почту для восстановления. С ней забытый PIN сбрасывается письмом, а вход выполняется по этому адресу'},
   v360_2:{ja:'PINの変更ができるようになりました。ログイン画面には「PINを忘れた場合」も追加しています',en:'You can change your PIN from the account screen, and the sign-in screen now has a Forgot your PIN link',zh:'新增了更改 PIN 的功能，登录页面也加入了「忘记 PIN」入口',fr:'Vous pouvez changer votre PIN depuis l’écran du compte, et l’écran de connexion propose désormais « PIN oublié ? »',ar:'أصبح بإمكانك تغيير رمزك من شاشة الحساب، وأضفنا رابط «نسيت الرمز؟» إلى شاشة تسجيل الدخول',ko:'PIN을 변경할 수 있게 되었습니다. 로그인 화면에는 «PIN을 잊으셨나요?» 링크도 추가했습니다',ru:'PIN теперь можно изменить в разделе аккаунта, а на экране входа появилась ссылка «Забыли PIN?»'},
   v360_3:{ja:'未ログインで使っている場合、単語がこの端末にしか無いことをリストの上でお知らせします（8語以上、または3日以上続けた方が対象）。「自動保存にする」からそのまま登録できます',en:'If you use the app without an account, the list now warns that your words exist only on this device — shown once you have 8+ words or a 3-day streak — with a one-tap way to turn on auto-save',zh:'未登录使用时，列表页会提醒单词仅存在于本机（累计 8 个单词或连续 3 天以上时显示），并可直接开启自动保存',fr:'Sans compte, la liste avertit désormais que vos mots n’existent que sur cet appareil — à partir de 8 mots ou d’une série de 3 jours — avec un raccourci pour activer la sauvegarde auto',ar:'عند الاستخدام دون حساب، تنبّهك القائمة إلى أن كلماتك موجودة على هذا الجهاز فقط — يظهر ذلك عند 8 كلمات أو سلسلة 3 أيام — مع طريقة سريعة لتفعيل الحفظ التلقائي',ko:'로그인하지 않고 사용하는 경우, 단어가 이 기기에만 있다는 점을 목록 위에서 알립니다(8단어 이상 또는 3일 이상 연속 시). 그 자리에서 자동 저장을 켤 수 있습니다',ru:'Без аккаунта список теперь предупреждает, что слова есть только на этом устройстве — при 8+ словах или серии в 3 дня — и предлагает включить автосохранение одним касанием'},
-  wn1:{ja:'ダークモードでクイズの選択肢が読みにくかった不具合を修正しました。文字色が指定されておらず、ブラウザ標準の黒のまま暗い背景に表示されていました',en:'Fixed quiz options being hard to read in dark mode. They had no text colour set, so the browser’s default near-black was sitting on a dark background',zh:'修复了深色模式下测验选项难以辨认的问题。此前未指定文字颜色，浏览器默认的黑色显示在深色背景上',fr:'Correction des options de quiz illisibles en mode sombre : aucune couleur de texte n’était définie, laissant le noir par défaut du navigateur sur un fond sombre',ar:'تم إصلاح صعوبة قراءة خيارات الاختبار في الوضع الداكن. لم يكن لون النص محددًا، فظل أسود المتصفح الافتراضي فوق خلفية داكنة',ko:'다크 모드에서 퀴즈 선택지가 잘 보이지 않던 문제를 수정했습니다. 글자 색이 지정되어 있지 않아 브라우저 기본 검정이 어두운 배경 위에 표시되고 있었습니다',ru:'Исправлена плохая читаемость вариантов ответа в тёмной теме: цвет текста не был задан, и почти чёрный цвет браузера оказывался на тёмном фоне'},
-  wn2:{ja:'日本語以外で開いたとき、メニューの「ログイン」だけ日本語のまま表示されることがある不具合を修正しました',en:'Fixed the menu’s Log in label sometimes staying in Japanese when the app was opened in another language',zh:'修复了以非日语打开时，菜单中的「登录」有时仍显示为日语的问题',fr:'Correction du libellé « Se connecter » du menu qui restait parfois en japonais à l’ouverture dans une autre langue',ar:'تم إصلاح بقاء عنوان «تسجيل الدخول» في القائمة باليابانية أحيانًا عند فتح التطبيق بلغة أخرى',ko:'일본어 이외의 언어로 열었을 때 메뉴의 «로그인»만 일본어로 표시되던 문제를 수정했습니다',ru:'Исправлено, что пункт меню «Войти» иногда оставался на японском при открытии приложения на другом языке'},
-  wn3:{ja:'フィードバックを送れるようにしました。右上のメニューから、要望・不具合・単語の意味の間違いなどを開発者に直接送れます。ログインしていなくても送れます',en:'You can now send feedback. From the top-right menu, report a request, a bug, or a wrong meaning directly to the developer — no account needed',zh:'新增了反馈功能。可从右上角菜单直接向开发者发送需求、问题或释义错误，无需登录',fr:'Vous pouvez désormais envoyer un retour. Depuis le menu en haut à droite, signalez une demande, un bug ou un sens erroné directement au développeur — sans compte',ar:'أصبح بإمكانك إرسال ملاحظات. من القائمة أعلى اليمين، أبلغ عن اقتراح أو مشكلة أو معنى خاطئ مباشرةً إلى المطوّر — دون الحاجة لحساب',ko:'피드백을 보낼 수 있게 되었습니다. 오른쪽 위 메뉴에서 요청·버그·잘못된 뜻 등을 개발자에게 직접 보낼 수 있으며, 로그인하지 않아도 됩니다',ru:'Теперь можно отправить отзыв. Через меню в правом верхнем углу сообщите о пожелании, баге или неверном значении напрямую разработчику — без аккаунта'},
+  v370_1:{ja:'ダークモードでクイズの選択肢が読みにくかった不具合を修正しました。文字色が指定されておらず、ブラウザ標準の黒のまま暗い背景に表示されていました',en:'Fixed quiz options being hard to read in dark mode. They had no text colour set, so the browser’s default near-black was sitting on a dark background',zh:'修复了深色模式下测验选项难以辨认的问题。此前未指定文字颜色，浏览器默认的黑色显示在深色背景上',fr:'Correction des options de quiz illisibles en mode sombre : aucune couleur de texte n’était définie, laissant le noir par défaut du navigateur sur un fond sombre',ar:'تم إصلاح صعوبة قراءة خيارات الاختبار في الوضع الداكن. لم يكن لون النص محددًا، فظل أسود المتصفح الافتراضي فوق خلفية داكنة',ko:'다크 모드에서 퀴즈 선택지가 잘 보이지 않던 문제를 수정했습니다. 글자 색이 지정되어 있지 않아 브라우저 기본 검정이 어두운 배경 위에 표시되고 있었습니다',ru:'Исправлена плохая читаемость вариантов ответа в тёмной теме: цвет текста не был задан, и почти чёрный цвет браузера оказывался на тёмном фоне'},
+  v370_2:{ja:'日本語以外で開いたとき、メニューの「ログイン」だけ日本語のまま表示されることがある不具合を修正しました',en:'Fixed the menu’s Log in label sometimes staying in Japanese when the app was opened in another language',zh:'修复了以非日语打开时，菜单中的「登录」有时仍显示为日语的问题',fr:'Correction du libellé « Se connecter » du menu qui restait parfois en japonais à l’ouverture dans une autre langue',ar:'تم إصلاح بقاء عنوان «تسجيل الدخول» في القائمة باليابانية أحيانًا عند فتح التطبيق بلغة أخرى',ko:'일본어 이외의 언어로 열었을 때 메뉴의 «로그인»만 일본어로 표시되던 문제를 수정했습니다',ru:'Исправлено, что пункт меню «Войти» иногда оставался на японском при открытии приложения на другом языке'},
+  v370_3:{ja:'フィードバックを送れるようにしました。右上のメニューから、要望・不具合・単語の意味の間違いなどを開発者に直接送れます。ログインしていなくても送れます',en:'You can now send feedback. From the top-right menu, report a request, a bug, or a wrong meaning directly to the developer — no account needed',zh:'新增了反馈功能。可从右上角菜单直接向开发者发送需求、问题或释义错误，无需登录',fr:'Vous pouvez désormais envoyer un retour. Depuis le menu en haut à droite, signalez une demande, un bug ou un sens erroné directement au développeur — sans compte',ar:'أصبح بإمكانك إرسال ملاحظات. من القائمة أعلى اليمين، أبلغ عن اقتراح أو مشكلة أو معنى خاطئ مباشرةً إلى المطوّر — دون الحاجة لحساب',ko:'피드백을 보낼 수 있게 되었습니다. 오른쪽 위 메뉴에서 요청·버그·잘못된 뜻 등을 개발자에게 직접 보낼 수 있으며, 로그인하지 않아도 됩니다',ru:'Теперь можно отправить отзыв. Через меню в правом верхнем углу сообщите о пожелании, баге или неверном значении напрямую разработчику — без аккаунта'},
+  wn1:{ja:'言語を切り替えたとき、その場ですぐ画面に反映されるようにしました。これまでは他のタブに移動するまで古い言語のままでした',en:'Switching language now updates the screen straight away. Until now the old language stayed until you navigated to another tab',zh:'切换语言后会立即反映到当前画面。此前需要切换到其他标签页才会更新',fr:'Changer de langue met désormais l’écran à jour immédiatement. Auparavant, l’ancienne langue restait jusqu’à ce que vous changiez d’onglet',ar:'تغيير اللغة يحدّث الشاشة فورًا الآن. سابقًا كانت اللغة القديمة تبقى حتى تنتقل إلى تبويب آخر',ko:'언어를 변경하면 그 자리에서 바로 화면에 반영됩니다. 지금까지는 다른 탭으로 이동해야 바뀌었습니다',ru:'Смена языка теперь применяется сразу. Раньше старый язык оставался, пока вы не перейдёте на другую вкладку'},
+  wn2:{ja:'学習カレンダーの左端に曜日（月〜日）を表示しました。週の始まりは月曜で、曜日名は表示中の言語に合わせて切り替わります',en:'The study calendar now labels the weekdays down its left edge, starting the week on Monday, in whichever language you are using',zh:'学习日历左侧新增了星期标签，一周从星期一开始，并随所选语言显示',fr:'Le calendrier d’étude affiche désormais les jours de la semaine sur son bord gauche, en commençant le lundi et dans votre langue',ar:'يعرض تقويم الدراسة الآن أيام الأسبوع على حافته اليسرى، بدءًا من الاثنين وبلغتك الحالية',ko:'학습 캘린더 왼쪽에 요일(월~일)을 표시했습니다. 주의 시작은 월요일이며, 요일명은 사용 중인 언어로 표시됩니다',ru:'В календаре занятий слева появились дни недели: неделя начинается с понедельника, названия — на вашем языке'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1618,6 +1623,19 @@ async function fetchWithTimeout(url,ms,opts){
 
 /* ---------- tabs ---------- */
 $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+// Static labels come from data-i18n, but most of the screen is built by
+// render functions -- without this a language change only took effect after
+// navigating somewhere else.
+function renderActiveView(){
+  const v=document.querySelector('.view.active');
+  if(!v)return;
+  if(v.id==='v-list')renderList();
+  else if(v.id==='v-study')renderStudy();
+  else if(v.id==='v-stats')renderStats();
+  // A quiz in progress is left alone: re-running startQuiz would discard the
+  // user's place. The next question is drawn in the new language.
+  else if(v.id==='v-quiz'&&!(quiz&&quiz.items&&quiz.items.length&&quiz.i<quiz.items.length))startQuiz();
+}
 function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
@@ -2266,7 +2284,7 @@ function renderSettings(){
   $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
   const sel=$('#selLang');
   sel.value=S().lang;
-  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderSettings();};
+  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderActiveView();renderSettings();};
   renderSpeechRows();
   renderBackupStatus();
   renderPersistRow();
@@ -2456,7 +2474,9 @@ function renderStats(){
     '<div class="bars">'+bars+'</div></div>';
 
   // --- contribution heatmap: columns are weeks (Sun-Sat), last column is this week ---
-  const lastColStart=today-dayIdxParts(today).dow;
+  // Monday-first: dayIdxParts gives 0=Sunday, so shift it round.
+  const mondayIdx=d=>(d+6)%7;
+  const lastColStart=today-mondayIdx(dayIdxParts(today).dow);
   const firstColStart=lastColStart-(HEAT_WEEKS-1)*7;
   let months='',grid='',lastLabeledM=-1,sinceLabel=99;
   for(let w=0;w<HEAT_WEEKS;w++){
@@ -2483,10 +2503,18 @@ function renderStats(){
     }
     grid+='<div class="heat-col">'+col+'</div>';
   }
+  // Weekday names come from the platform so each language gets its own,
+  // "narrow" because a full name would be wider than an 11px cell.
+  let days='';
+  for(let d=0;d<7;d++){
+    const ref=dayIdxParts(lastColStart+d);
+    days+='<span>'+esc(ref.date.toLocaleDateString(localeTag(),{weekday:'narrow'}))+'</span>';
+  }
   html+='<div class="chart-card"><div class="chart-t">'+esc(t('heat_title'))+'</div>'+
     '<div class="heat-wrap"><div class="heat-inner">'+
-      '<div class="heat-months">'+months+'</div>'+
-      '<div class="heat">'+grid+'</div>'+
+      '<div class="heat-days">'+days+'</div>'+
+      '<div><div class="heat-months">'+months+'</div>'+
+      '<div class="heat">'+grid+'</div></div>'+
     '</div></div>'+
     '<div class="heat-legend"><span>'+esc(t('heat_less'))+'</span>'+
       '<div class="heat-c l0"></div><div class="heat-c l1"></div><div class="heat-c l2"></div>'+
