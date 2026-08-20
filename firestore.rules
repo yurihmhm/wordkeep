@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The admin account (Wordkeep管理ページ用)
+    function isAdmin() {
+      return request.auth != null
+             && request.auth.uid == '5shCkAHirbgDVrkDmcM0KNr0ouq1';
+    }
+
+    match /users/{userId} {
+      // Each user owns their own document and everything under it.
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // The admin can read the summary document (username, word count, streak,
+      // last update) so the admin page can list accounts. Deliberately NOT
+      // extended to the words subcollection below: managing accounts doesn't
+      // require reading what people are studying.
+      allow read: if isAdmin();
+
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    match /feedback/{id} {
+      // Anyone can send feedback, including signed-out users, but the payload
+      // is capped so the collection can't be used as free storage.
+      allow create: if request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() < 2000;
+      // Only the admin can read it back, mark it handled, or delete it.
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

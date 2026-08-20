@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Wordkeep 管理</title>
+<style>
+:root{
+  --bg:#f6f8fb; --surface:#fff; --line:#e2e8f2; --ink:#0f1e3d; --ink-2:#3a4560;
+  --muted:#6b7791; --navy:#0f1e3d; --accent:#f0b429; --good:#1f9d6b; --bad:#d8524a;
+  --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0d121c;--surface:#171e2b;--line:#2b3446;--ink:#e6ebf5;--ink-2:#b7c2d8;
+        --muted:#93a0b8;--navy:#22375d;--shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);}
+}
+*{box-sizing:border-box}
+button,input,select,textarea{color:inherit;font-family:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif}
+header{background:var(--navy);color:#fff;padding:18px 20px;display:flex;
+  align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-size:19px;font-family:Georgia,serif}
+header .who{font-size:13px;color:#c3cee6}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+.btn{border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer}
+.btn-primary{background:var(--navy);color:#fff;width:100%}
+.btn-ghost{background:var(--line);color:var(--ink)}
+.btn-sm{padding:6px 11px;font-size:12.5px;border-radius:8px}
+.field{width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--line);
+  border-radius:10px;background:var(--surface);color:var(--ink)}
+.lab{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 6px;letter-spacing:.4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.login{max-width:360px;margin:60px auto}
+.tabs{display:flex;gap:8px;margin:4px 0 18px}
+.tabs button{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--surface);font-weight:600;font-size:14px;color:var(--muted);cursor:pointer}
+.tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.stat{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.stat div{flex:1;min-width:110px;background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:22px;font-family:Georgia,serif}
+.stat span{font-size:11.5px;color:var(--muted)}
+.fb-txt{font-size:15px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.meta{font-size:11.5px;color:var(--muted);margin-top:10px;display:flex;gap:10px;flex-wrap:wrap}
+.tag{background:var(--line);border-radius:6px;padding:2px 8px;font-size:11px;color:var(--ink-2)}
+.tag.done{background:rgba(31,157,107,.18);color:var(--good)}
+.acts{display:flex;gap:8px;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);padding:50px 20px;line-height:1.7}
+.err{color:var(--bad);font-size:13.5px;margin-top:10px;line-height:1.6}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.row label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Wordkeep 管理</h1>
+  <div style="display:flex;gap:12px;align-items:center">
+    <span class="who" id="who"></span>
+    <button class="btn btn-ghost btn-sm" id="out" style="display:none">ログアウト</button>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyBmJdEdHm_zrgh7AJqAAhAPQU-Adlg4tcU",
+  authDomain:"wordkeep-bb145.firebaseapp.com",
+  projectId:"wordkeep-bb145",
+  storageBucket:"wordkeep-bb145.firebasestorage.app",
+  messagingSenderId:"774875311699",
+  appId:"1:774875311699:web:4ece828160f39b3676a0a6"
+};
+// Not a secret: the same uid is in the Firestore rules, which are what actually
+// enforce access. This constant only decides what the page bothers to render.
+const ADMIN_UID='5shCkAHirbgDVrkDmcM0KNr0ouq1';
+const ACCT_DOMAIN='@wordkeep.invalid';
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth=firebase.auth(), db=firebase.firestore();
+const $=s=>document.querySelector(s);
+const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const app=$('#app');
+let tab='feedback', feedback=[], users=[], onlyOpen=false;
+
+function fmt(ts){
+  if(!ts)return '—';
+  const d=new Date(ts);
+  const p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function ago(ts){
+  if(!ts)return '—';
+  const d=Math.floor((Date.now()-ts)/86400000);
+  return d<=0?'今日':d===1?'昨日':d+'日前';
+}
+
+/* ---------- auth ---------- */
+function renderLogin(msg){
+  app.innerHTML='<div class="login"><div class="card">'+
+    '<div style="font-weight:700;margin-bottom:4px">管理者ログイン</div>'+
+    '<div style="font-size:13px;color:var(--muted);line-height:1.6">Wordkeepの管理者アカウントでログインしてください。</div>'+
+    '<label class="lab">ユーザー名 または メールアドレス</label>'+
+    '<input id="u" class="field" autocapitalize="off" autocorrect="off" spellcheck="false">'+
+    '<label class="lab">PIN（6桁）</label>'+
+    '<input id="p" class="field" type="password" inputmode="numeric" maxlength="6">'+
+    (msg?'<div class="err">'+esc(msg)+'</div>':'')+
+    '<button class="btn btn-primary" id="go" style="margin-top:16px">ログイン</button>'+
+  '</div></div>';
+  const go=async()=>{
+    const b=$('#go'); b.disabled=true; b.textContent='確認中…';
+    const v=$('#u').value.trim().toLowerCase();
+    const email=v.includes('@')?v:v+ACCT_DOMAIN;
+    try{ await auth.signInWithEmailAndPassword(email,$('#p').value); }
+    catch(e){ renderLogin(e.code==='auth/invalid-credential'?'ユーザー名かPINが違います':(e.message||e.code)); }
+  };
+  $('#go').onclick=go;
+  $('#p').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+}
+
+auth.onAuthStateChanged(async u=>{
+  if(!u){ $('#who').textContent=''; $('#out').style.display='none'; renderLogin(); return; }
+  const name=(u.email||'').endsWith(ACCT_DOMAIN)?u.email.slice(0,-ACCT_DOMAIN.length):u.email;
+  $('#who').textContent=name;
+  $('#out').style.display='';
+  if(u.uid!==ADMIN_UID){
+    app.innerHTML='<div class="empty">このアカウントには管理権限がありません。<br>'+
+      '<span style="font-size:12px">uid: '+esc(u.uid)+'</span></div>';
+    return;
+  }
+  app.innerHTML='<div class="empty">読み込み中…</div>';
+  await loadAll();
+  render();
+});
+$('#out').onclick=()=>auth.signOut();
+
+/* ---------- data ---------- */
+async function loadAll(){
+  const [fb,us]=await Promise.all([
+    db.collection('feedback').orderBy('createdAt','desc').limit(300).get().catch(e=>e),
+    db.collection('users').get().catch(e=>e)
+  ]);
+  feedback = fb.forEach ? (()=>{const a=[];fb.forEach(d=>a.push({id:d.id,...d.data()}));return a;})() : [];
+  users    = us.forEach ? (()=>{const a=[];us.forEach(d=>a.push({id:d.id,...d.data()}));return a;})() : [];
+  users.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  window.__loadErr = (fb.forEach?null:fb) || (us.forEach?null:us);
+}
+
+/* ---------- render ---------- */
+function render(){
+  const openCount=feedback.filter(f=>!f.handled).length;
+  let html='<div class="tabs">'+
+    '<button data-t="feedback" class="'+(tab==='feedback'?'on':'')+'">フィードバック'+(openCount?'（'+openCount+'）':'')+'</button>'+
+    '<button data-t="users" class="'+(tab==='users'?'on':'')+'">ユーザー（'+users.length+'）</button>'+
+  '</div>';
+  if(window.__loadErr){
+    html+='<div class="card"><div class="err">読み込みに失敗しました: '+esc(window.__loadErr.code||window.__loadErr.message)+
+      '<br>Firestoreのルールに管理者の読み取り権限が入っているか確認してください。</div></div>';
+  }
+  html+= tab==='feedback' ? renderFeedback() : renderUsers();
+  app.innerHTML=html;
+  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();});
+  const c=$('#onlyOpen'); if(c)c.onchange=()=>{onlyOpen=c.checked;render();};
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markHandled(b.dataset.done,b.dataset.to==='1'));
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>removeFeedback(b.dataset.del));
+}
+
+function renderFeedback(){
+  const list=onlyOpen?feedback.filter(f=>!f.handled):feedback;
+  let h='<div class="row"><label><input type="checkbox" id="onlyOpen"'+(onlyOpen?' checked':'')+'> 未対応のみ</label>'+
+    '<span style="font-size:12.5px;color:var(--muted)">'+list.length+' 件</span></div>';
+  if(!list.length)return h+'<div class="empty">'+(onlyOpen?'未対応のフィードバックはありません。':'まだフィードバックはありません。')+'</div>';
+  h+=list.map(f=>'<div class="card">'+
+    '<div class="fb-txt">'+esc(f.text)+'</div>'+
+    '<div class="meta">'+
+      '<span>'+fmt(f.createdAt)+'</span>'+
+      '<span class="tag">'+esc(f.username||'未ログイン')+'</span>'+
+      '<span class="tag">v'+esc(f.version||'?')+'</span>'+
+      '<span class="tag">'+esc(f.lang||'?')+'</span>'+
+      '<span class="tag">'+(f.words!=null?f.words+'語':'—')+'</span>'+
+      (f.handled?'<span class="tag done">対応済み</span>':'')+
+    '</div>'+
+    (f.ua?'<div class="meta" style="opacity:.75">'+esc(f.ua)+'</div>':'')+
+    '<div class="acts">'+
+      '<button class="btn btn-ghost btn-sm" data-done="'+f.id+'" data-to="'+(f.handled?'0':'1')+'">'+
+        (f.handled?'未対応に戻す':'対応済みにする')+'</button>'+
+      '<button class="btn btn-ghost btn-sm" data-del="'+f.id+'">削除</button>'+
+    '</div>'+
+  '</div>').join('');
+  return h;
+}
+
+function renderUsers(){
+  if(!users.length)return '<div class="empty">まだ登録ユーザーはいません。</div>';
+  const totalWords=users.reduce((n,u)=>n+(u.wordCount||0),0);
+  const active7=users.filter(u=>(Date.now()-(u.updatedAt||0))<7*86400000).length;
+  let h='<div class="stat">'+
+    '<div><b>'+users.length+'</b><span>登録ユーザー</span></div>'+
+    '<div><b>'+active7+'</b><span>7日以内に同期</span></div>'+
+    '<div><b>'+totalWords+'</b><span>単語の合計</span></div>'+
+  '</div><div class="card" style="padding:6px 10px"><table><thead><tr>'+
+    '<th>ユーザー名</th><th class="num">単語</th><th class="num">連続</th><th class="num">最長</th><th>最終同期</th>'+
+  '</tr></thead><tbody>';
+  h+=users.map(u=>{
+    const s=u.streak||{};
+    return '<tr><td>'+esc(u.username||u.id.slice(0,8))+'</td>'+
+      '<td class="num">'+(u.wordCount||0)+'</td>'+
+      '<td class="num">'+(s.current||0)+'</td>'+
+      '<td class="num">'+(s.longest||0)+'</td>'+
+      '<td>'+ago(u.updatedAt)+'</td></tr>';
+  }).join('');
+  return h+'</tbody></table></div>'+
+    '<div style="font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px">'+
+    'PINは暗号化されているため表示できません。PINの再設定やユーザーの削除は Firebase コンソールの Authentication → Users から行えます。</div>';
+}
+
+async function markHandled(id,to){
+  await db.collection('feedback').doc(id).update({handled:to});
+  const f=feedback.find(x=>x.id===id); if(f)f.handled=to;
+  render();
+}
+async function removeFeedback(id){
+  if(!confirm('このフィードバックを削除しますか？'))return;
+  await db.collection('feedback').doc(id).delete();
+  feedback=feedback.filter(x=>x.id!==id);
+  render();
+}
+</script>
+</body>
+</html>
