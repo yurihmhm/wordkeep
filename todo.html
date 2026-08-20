@@ -98,7 +98,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v3.9.1 時点 &middot; 最終更新 2026-08-21</div>
+    <div class="sub">v4.0.0 時点 &middot; 最終更新 2026-08-21</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -119,13 +119,6 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
-      <li class="next" data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">ログアウト時の挙動を決める</div>
-          <div class="d">いまはログアウトしても端末内の単語を残している。共用端末で困る可能性があるので「この端末からも消す」を選べるようにするか要判断。</div>
-        </div>
-      </li>
       <li class="next" data-s="block">
         <span class="chip block">ロゴ待ち</span>
         <div>
@@ -287,6 +280,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">別アカウントへの単語の混入を修正</div><div class="d">端末に残った前の人の単語が、次にログインしたアカウントのサーバーに保存されてしまう不具合。ログイン時に持ち主を照合し、別人のデータは取り込まない。</div><div class="ver">v4.0.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ログアウトで端末を初期化</div><div class="d">単語・進捗・ストリークを消し、お試し5単語の状態に戻す。未同期の変更がある場合は警告してから。</div><div class="ver">v4.0.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">起動時の読み込み画面</div><div class="d">ログイン状態が確定するまで表示。固定秒数ではなく確認完了まで（最大6秒）。</div><div class="ver">v4.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヘッダーの「CEBU」表記を削除</div><div class="d">全世界で使ってもらう想定に合わせて、地域名の表記を外した。</div><div class="ver">v3.9.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">フィードバックの国・地域欄</div><div class="d">任意入力。空欄でもタイムゾーン（例 <code>Asia/Manila</code>）は自動で付くので、おおよその場所は分かる。管理ページにも表示される。</div><div class="ver">v3.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">言語切替が即座に反映されない</div><div class="d">画面の大半は描画関数が組み立てているため、タブを移動するまで古い言語のままだった。</div><div class="ver">v3.8.0</div></div></li>

@@ -61,6 +61,21 @@ header{
   padding:calc(env(safe-area-inset-top) + 20px) 18px 20px;
   border-radius:0 0 22px 22px;
 }
+#splash{position:fixed;inset:0;z-index:200;background:var(--navy);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .35s ease}
+#splash.gone{opacity:0;pointer-events:none}
+#splash .sp-name{font-family:Georgia,"Times New Roman",serif;font-size:34px;font-weight:600;
+  color:#fff;letter-spacing:.5px}
+#splash .sp-bar{width:132px;height:3px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+#splash .sp-bar i{display:block;width:40%;height:100%;border-radius:99px;background:var(--accent);
+  animation:spslide 1.15s ease-in-out infinite}
+@keyframes spslide{0%{transform:translateX(-105%)}100%{transform:translateX(340%)}}
+#splash .sp-note{font-size:12.5px;color:#aab8d8;min-height:1.2em}
+@media (prefers-reduced-motion:reduce){
+  #splash .sp-bar i{animation:none;width:100%}
+  #splash{transition:none}
+}
 header .hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 header .brand{display:flex;align-items:baseline;gap:10px}
 header h1{font-size:26px;letter-spacing:.5px}
@@ -345,6 +360,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 </head>
 <body>
 
+<div id="splash">
+  <div class="sp-name">Wordkeep</div>
+  <div class="sp-bar"><i></i></div>
+  <div class="sp-note" id="spNote"></div>
+</div>
+
 <header>
   <div class="wrap">
     <div class="hdr-top">
@@ -592,13 +613,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.9.1';
+const APP_VERSION='4.0.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.9.1',date:'2026-08-21',keys:['wn1']},
+  {version:'4.0.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'3.9.1',date:'2026-08-21',keys:['v391_1']},
   {version:'3.9.0',date:'2026-08-20',keys:['v390_1']},
   {version:'3.8.0',date:'2026-08-20',keys:['v380_1','v380_2']},
   {version:'3.7.0',date:'2026-08-19',keys:['v370_1','v370_2','v370_3']},
@@ -691,7 +713,8 @@ function seedStarterWords(){
     id:(now+i)+''+Math.random().toString(36).slice(2,6),
     word:s.word,kata:'',ja:s.ja[lang]||s.ja.en,phon:'',
     meanings:[{pos:s.pos,def:s.def,ex:''}],examples:[],
-    seen:0,correct:0,wrong:0,added:now+i,box:-1,nextDue:now,hist:[]
+    seen:0,correct:0,wrong:0,added:now+i,box:-1,nextDue:now,hist:[],
+    seed:true // tutorial filler: never worth uploading into a real account
   }));
   DB.words=[...items,...DB.words];
 }
@@ -709,12 +732,16 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'ヘッダーの「CEBU」の表記を削除しました',en:'Removed the “CEBU” label from the header',zh:'已移除页眉中的「CEBU」标签',fr:'Suppression du libellé « CEBU » de l’en-tête',ar:'تمت إزالة عبارة «CEBU» من الرأس',ko:'헤더의 「CEBU」 표기를 삭제했습니다',ru:'Удалена надпись «CEBU» из шапки'},
+  v391_1:{ja:'ヘッダーの「CEBU」の表記を削除しました',en:'Removed the “CEBU” label from the header',zh:'已移除页眉中的「CEBU」标签',fr:'Suppression du libellé « CEBU » de l’en-tête',ar:'تمت إزالة عبارة «CEBU» من الرأس',ko:'헤더의 「CEBU」 표기를 삭제했습니다',ru:'Удалена надпись «CEBU» из шапки'},
+  wn1:{ja:'重要な修正: 別のアカウントでログインしたとき、前の人の単語が引き継がれてしまう不具合を直しました。端末に残っていた単語が、新しくログインしたアカウントに保存されてしまう状態でした',en:'Important fix: signing in as a different account could carry over the previous person’s words. Words left on the device were being saved into the newly signed-in account',zh:'重要修复：以其他账号登录时，可能会带入上一位使用者的单词。残留在设备上的单词会被保存到新登录的账号中',fr:'Correctif important : se connecter avec un autre compte pouvait reprendre les mots de la personne précédente. Les mots restés sur l’appareil étaient enregistrés dans le compte nouvellement connecté',ar:'إصلاح مهم: كان تسجيل الدخول بحساب آخر قد ينقل كلمات الشخص السابق. الكلمات المتبقية على الجهاز كانت تُحفظ في الحساب الجديد',ko:'중요한 수정: 다른 계정으로 로그인할 때 이전 사용자의 단어가 넘어가던 문제를 고쳤습니다. 기기에 남아 있던 단어가 새로 로그인한 계정에 저장되던 상태였습니다',ru:'Важное исправление: вход под другим аккаунтом мог перенести слова предыдущего пользователя. Слова, оставшиеся на устройстве, сохранялись в только что вошедший аккаунт'},
+  wn2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
+  wn3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
   nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
+  splash_restoring:{ja:'アカウントを確認しています…',en:'Checking your account…',zh:'正在确认账号…',fr:'Vérification de votre compte…',ar:'جارٍ التحقق من حسابك…',ko:'계정을 확인하는 중…',ru:'Проверяем аккаунт…'},
   acct_title:{ja:'アカウント',en:'Account',zh:'账号',fr:'Compte',ar:'الحساب',ko:'계정',ru:'Аккаунт'},
   menu_acct_sub:{ja:'単語を保存して他の端末でも使う',en:'Save your words and use them on any device',zh:'保存单词，在任何设备上使用',fr:'Sauvegardez vos mots et utilisez-les sur tout appareil',ar:'احفظ كلماتك واستخدمها على أي جهاز',ko:'단어를 저장하고 다른 기기에서도 사용',ru:'Сохраняйте слова и открывайте их на любом устройстве'},
   acct_desc:{ja:'ユーザー名と6桁の数字でログインすると、単語が自動で保存され、他の端末でも同じ単語帳が使えます。',en:'Sign in with a username and a 6-digit code to save your words automatically and open the same list on any device.',zh:'使用用户名和 6 位数字登录后，单词会自动保存，并可在其他设备上使用同一单词本。',fr:'Connectez-vous avec un nom d’utilisateur et un code à 6 chiffres : vos mots sont sauvegardés et disponibles sur tous vos appareils.',ar:'سجّل الدخول باسم مستخدم ورمز من 6 أرقام ليتم حفظ كلماتك تلقائيًا واستخدام القائمة نفسها على أي جهاز.',ko:'사용자 이름과 6자리 숫자로 로그인하면 단어가 자동 저장되고 다른 기기에서도 같은 단어장을 쓸 수 있습니다.',ru:'Войдите с именем пользователя и 6-значным кодом — слова сохранятся автоматически и откроются на любом устройстве.'},
@@ -723,6 +750,9 @@ const T={
   acct_pin_note:{ja:'PINを忘れると復元できません。ユーザー名とPINは必ず控えておいてください。',en:'There is no way to recover a forgotten PIN. Write your username and PIN down somewhere safe.',zh:'忘记 PIN 将无法找回，请务必记下用户名和 PIN。',fr:'Un PIN oublié ne peut pas être récupéré. Notez votre nom d’utilisateur et votre PIN en lieu sûr.',ar:'لا يمكن استعادة رمز PIN المنسي. دوّن اسم المستخدم والرمز في مكان آمن.',ko:'PIN을 잊으면 복구할 수 없습니다. 사용자 이름과 PIN을 꼭 적어 두세요.',ru:'Забытый PIN восстановить нельзя. Запишите имя пользователя и PIN в надёжном месте.'},
   acct_login:{ja:'ログイン',en:'Log in',zh:'登录',fr:'Se connecter',ar:'تسجيل الدخول',ko:'로그인',ru:'Войти'},
   acct_signup:{ja:'新規登録',en:'Create an account',zh:'注册新账号',fr:'Créer un compte',ar:'إنشاء حساب',ko:'새로 가입',ru:'Создать аккаунт'},
+  acct_logout_confirm:{ja:'ログアウトすると、この端末に入っている単語はすべて消去されます。単語はアカウントに保存されているので、次にログインすれば元どおりです。よろしいですか？',en:'Logging out removes every word from this device. They stay in your account, so signing back in restores them. Continue?',zh:'退出登录会清除本设备上的所有单词。它们仍保存在你的账号中，重新登录即可恢复。是否继续？',fr:'La déconnexion supprime tous les mots de cet appareil. Ils restent dans votre compte et reviendront à la prochaine connexion. Continuer ?',ar:'تسجيل الخروج يحذف كل الكلمات من هذا الجهاز. تبقى محفوظة في حسابك وتعود عند تسجيل الدخول مجددًا. هل تريد المتابعة؟',ko:'로그아웃하면 이 기기의 단어가 모두 삭제됩니다. 단어는 계정에 저장되어 있으므로 다시 로그인하면 복원됩니다. 계속할까요?',ru:'При выходе все слова удаляются с этого устройства. Они остаются в аккаунте и вернутся при следующем входе. Продолжить?'},
+  acct_logout_unsynced:{ja:'まだサーバーに保存できていない変更があります。いまログアウトすると、その分は失われます。それでもログアウトしますか？',en:'Some changes haven’t reached the server yet. Logging out now loses them. Log out anyway?',zh:'仍有变更尚未保存到服务器。现在退出登录会丢失这些内容。仍要退出吗？',fr:'Certaines modifications ne sont pas encore enregistrées sur le serveur. Se déconnecter maintenant les perdra. Continuer quand même ?',ar:'هناك تغييرات لم تصل إلى الخادم بعد. تسجيل الخروج الآن سيفقدها. هل تريد تسجيل الخروج على أي حال؟',ko:'아직 서버에 저장되지 않은 변경이 있습니다. 지금 로그아웃하면 그 부분은 사라집니다. 그래도 로그아웃할까요?',ru:'Часть изменений ещё не сохранена на сервере. Выход сейчас их потеряет. Всё равно выйти?'},
+  acct_logout_done:{ja:'ログアウトしました。この端末の単語は消去されています',en:'Logged out — this device has been cleared',zh:'已退出登录，本设备已清空',fr:'Déconnecté — cet appareil a été vidé',ar:'تم تسجيل الخروج — تم مسح هذا الجهاز',ko:'로그아웃했습니다. 이 기기의 단어는 삭제되었습니다',ru:'Вы вышли — устройство очищено'},
   acct_logout:{ja:'ログアウト',en:'Log out',zh:'退出登录',fr:'Se déconnecter',ar:'تسجيل الخروج',ko:'로그아웃',ru:'Выйти'},
   acct_working:{ja:'処理中…',en:'Working…',zh:'处理中…',fr:'En cours…',ar:'جارٍ…',ko:'처리 중…',ru:'Выполняется…'},
   acct_done:{ja:'ログインしました',en:'Signed in',zh:'已登录',fr:'Connecté',ar:'تم تسجيل الدخول',ko:'로그인했습니다',ru:'Вы вошли'},
@@ -1082,7 +1112,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],tombs:{},settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
+const DEFAULTS={words:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
   autoSpeak:false,accent:'us',speechRate:'normal',
   lastBackupAt:null,lastBackupWords:0,backupSnoozeUntil:null,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -2839,6 +2869,7 @@ function loadFirebase(){
         if(cloudState!=='syncing')cloudState='in';
       }else{cloudUser=null;cloudState='out';}
       renderAccountUI();
+      hideSplash();
     });
     fbReady=true;
     return true;
@@ -2938,10 +2969,25 @@ async function sendPinReset(email){
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
 }
 async function cloudLogout(){
-  try{await cloudSync('logout');}catch(e){}
+  // Push anything outstanding first: the wipe below is only safe if the
+  // account already has everything this device knows about.
+  let pushed=true;
+  try{await cloudSync('logout');}catch(e){pushed=false;}
+  if(cloudDirty||cloudState==='error')pushed=false;
+  if(!confirm(pushed?t('acct_logout_confirm'):t('acct_logout_unsynced')))return;
   try{if(fbAuth)await fbAuth.signOut();}catch(e){}
   setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';cloudDirty=false;retryDelay=0;
-  renderAccountUI();renderCount();renderList();
+  clearTimeout(syncTimer);
+  // Back to a fresh install: the words live in the account, not here.
+  DB.words=[];DB.tombs={};DB.ownerUid=null;
+  PKGDB={};savePkg();
+  if(CTX.type==='pkg')setSource('own');
+  S().streak={current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null};
+  S().lastBackupAt=null;S().lastBackupWords=0;S().backupSnoozeUntil=null;
+  seedStarterWords();
+  save();
+  renderAccountUI();renderCount();renderActiveView();
+  toast(t('acct_logout_done'));
 }
 
 /* --- merge -------------------------------------------------------------- */
@@ -3011,9 +3057,17 @@ async function cloudSync(reason){
     const remoteWords=[];wsnap.forEach(d=>remoteWords.push(d.data()));
     const remoteById=new Map(remoteWords.map(w=>[w.id,w]));
 
-    const {words,tombs}=mergeCloud(DB.words,DB.tombs,remoteWords,meta.tombs);
+    // Local words belong to whoever was last signed in here. Merging them into
+    // a different account would upload one person's vocabulary into another's,
+    // so only merge when they plausibly belong to this account.
+    let localWords=DB.words,localTombs=DB.tombs;
+    const foreign=DB.ownerUid&&DB.ownerUid!==cloudUser.uid;
+    const onlySeed=DB.words.length>0&&DB.words.every(w=>w.seed);
+    if(foreign||(onlySeed&&remoteWords.length)){localWords=[];localTombs={};}
+    const {words,tombs}=mergeCloud(localWords,localTombs,remoteWords,meta.tombs);
     DB.words=words.map(migrateWord);
     DB.tombs=tombs;
+    DB.ownerUid=cloudUser.uid;
     S().streak=mergeStreak(S().streak,meta.streak);
     // Package progress is a small blob and rarely edited on two devices at
     // once, so it takes the newer side wholesale rather than merging per word.
@@ -3228,8 +3282,33 @@ $('#miAccount').onclick=()=>{closeMenu();openAcct();};
 $('#acctClose').onclick=closeAcct;
 $('#overlayAcct').addEventListener('click',e=>{if(e.target===$('#overlayAcct'))closeAcct();});
 // restore a previous session (and pull anything added on another device)
-if(cloudSaved())loadFirebase().then(()=>cloudSync('startup')).catch(()=>{});
+if(cloudSaved()){
+  splashNote(t('splash_restoring'));
+  loadFirebase().then(()=>cloudSync('startup')).catch(()=>{}).then(hideSplash);
+}else hideSplash();
 
+
+
+/* ---------- startup splash ---------- */
+// Restoring a signed-in session needs a network round trip, and without this
+// the app painted as logged-out first, which reads as "my account is gone".
+const splashAt=Date.now();
+let splashHidden=false;
+function splashNote(msg){const el=$('#spNote');if(el)el.textContent=msg||'';}
+function hideSplash(){
+  if(splashHidden)return;
+  splashHidden=true;
+  // hold briefly so it reads as a load, not a flicker
+  const wait=Math.max(0,650-(Date.now()-splashAt));
+  setTimeout(()=>{
+    const el=$('#splash');
+    if(!el)return;
+    el.classList.add('gone');
+    setTimeout(()=>{if(el.parentNode)el.remove();},400);
+  },wait);
+}
+// Never let a stalled network hold the app hostage.
+setTimeout(hideSplash,6000);
 
 /* ---------- boot ---------- */
 applyStaticI18n();
