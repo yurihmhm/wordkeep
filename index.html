@@ -582,13 +582,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='3.5.0';
+const APP_VERSION='3.6.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'3.5.0',date:'2026-08-19',keys:['wn1','wn2']},
+  {version:'3.6.0',date:'2026-08-19',keys:['wn1','wn2','wn3']},
+  {version:'3.5.0',date:'2026-08-19',keys:['v350_1','v350_2']},
   {version:'3.4.0',date:'2026-08-19',keys:['v340_1','v340_2']},
   {version:'3.3.0',date:'2026-08-13',keys:['v330_1','v330_2','v330_3']},
   {version:'3.2.0',date:'2026-08-13',keys:['v320_1','v320_2','v320_3']},
@@ -888,8 +889,30 @@ const T={
   persist_toast_ng:{ja:'保護できませんでした。ホーム画面に追加すると保護されやすくなります',en:'Couldn’t enable protection. Adding the app to your home screen makes it more likely',zh:'未能开启保护。将应用添加到主屏幕后更容易成功',fr:'Impossible d’activer la protection. Ajouter l’app à l’écran d’accueil augmente les chances',ar:'تعذّر تفعيل الحماية. إضافة التطبيق إلى الشاشة الرئيسية تزيد فرص نجاحها',ko:'보호를 켜지 못했습니다. 홈 화면에 추가하면 적용될 가능성이 높아집니다',ru:'Не удалось включить защиту. Добавьте приложение на главный экран — так вероятнее'},
   backup_last:{ja:'最終バックアップ: {0}',en:'Last backup: {0}',zh:'上次备份：{0}',fr:'Dernière sauvegarde : {0}',ar:'آخر نسخة احتياطية: {0}',ko:'마지막 백업: {0}',ru:'Последняя копия: {0}'},
   backup_none:{ja:'まだ一度もバックアップしていません',en:'No backup yet',zh:'尚未备份',fr:'Aucune sauvegarde pour l’instant',ar:'لا توجد نسخة احتياطية بعد',ko:'아직 백업하지 않았습니다',ru:'Резервных копий пока нет'},
-  backup_never:{ja:'{0}語たまっていますが、まだ一度もバックアップしていません。消えると元に戻せません。',en:'You have {0} words and no backup yet — if they’re lost, they can’t be brought back.',zh:'已积累 {0} 个单词，但尚未备份。一旦丢失将无法恢复。',fr:'Vous avez {0} mots et aucune sauvegarde — en cas de perte, rien ne pourra être récupéré.',ar:'لديك {0} كلمة ولا توجد نسخة احتياطية بعد — إذا فُقدت فلن يمكن استعادتها.',ko:'{0}개의 단어가 쌓였지만 아직 백업하지 않았습니다. 사라지면 되돌릴 수 없습니다.',ru:'У вас {0} слов и ещё нет резервной копии — восстановить их будет невозможно.'},
-  backup_stale:{ja:'前回のバックアップは {0}。それ以降に追加した分は、消えると元に戻せません。',en:'Last backed up on {0} — anything added since then can’t be brought back if it’s lost.',zh:'上次备份于 {0}。此后新增的内容一旦丢失将无法恢复。',fr:'Dernière sauvegarde le {0} — ce qui a été ajouté depuis serait définitivement perdu.',ar:'آخر نسخة احتياطية في {0} — ما أُضيف بعدها لا يمكن استعادته إذا فُقد.',ko:'마지막 백업은 {0}. 이후 추가한 내용은 사라지면 되돌릴 수 없습니다.',ru:'Последняя копия — {0}. Всё добавленное позже восстановить не получится.'},
+  risk_body:{ja:'単語{0}語は、いまこの端末のブラウザにしか保存されていません。ブラウザのデータを消したり、しばらく開かないと消えてしまうことがあります。',en:'Your {0} words exist only in this browser right now. Clearing browser data — or simply not opening the app for a while — can wipe them.',zh:'目前这 {0} 个单词只保存在本浏览器中。清除浏览器数据，或长时间不打开应用，都可能导致丢失。',fr:'Vos {0} mots n’existent que dans ce navigateur pour l’instant. Effacer les données du navigateur — ou simplement ne pas ouvrir l’app pendant un moment — peut les supprimer.',ar:'كلماتك الـ{0} موجودة حاليًا في هذا المتصفح فقط. مسح بيانات المتصفح — أو مجرد عدم فتح التطبيق لفترة — قد يمحوها.',ko:'{0}개의 단어는 지금 이 브라우저에만 저장되어 있습니다. 브라우저 데이터를 지우거나 한동안 열지 않으면 사라질 수 있습니다.',ru:'Ваши {0} слов сейчас существуют только в этом браузере. Очистка данных браузера — или даже просто долгий перерыв — может их стереть.'},
+  acct_email:{ja:'メールアドレス',en:'Email address',zh:'邮箱地址',fr:'Adresse e-mail',ar:'البريد الإلكتروني',ko:'이메일 주소',ru:'Адрес эл. почты'},
+  acct_email_set:{ja:'復旧用メールを設定',en:'Add a recovery email',zh:'设置找回邮箱',fr:'Ajouter un e-mail de récupération',ar:'إضافة بريد للاسترداد',ko:'복구용 이메일 설정',ru:'Добавить почту для восстановления'},
+  acct_email_change:{ja:'メールアドレスを変更',en:'Change email address',zh:'更改邮箱地址',fr:'Changer l’adresse e-mail',ar:'تغيير البريد الإلكتروني',ko:'이메일 주소 변경',ru:'Изменить адрес почты'},
+  acct_email_save:{ja:'確認メールを送る',en:'Send confirmation email',zh:'发送确认邮件',fr:'Envoyer l’e-mail de confirmation',ar:'إرسال بريد التأكيد',ko:'확인 메일 보내기',ru:'Отправить письмо для подтверждения'},
+  acct_email_desc:{ja:'PINを忘れたときに再設定できるよう、実際に受け取れるメールアドレスを登録します。確認メールのリンクを開くと設定が完了します。設定後は、ログインにこのメールアドレスを使います（ユーザー名では入れなくなります）。',en:'Register an address you can actually receive mail at, so a forgotten PIN can be reset. Opening the link in the confirmation email completes it. After that you sign in with this email address rather than your username.',zh:'登记一个你确实能收信的邮箱，以便忘记 PIN 时重设。打开确认邮件中的链接即可完成。设置后将使用该邮箱登录，而不再使用用户名。',fr:'Enregistrez une adresse que vous pouvez réellement consulter, afin de réinitialiser un PIN oublié. Ouvrez le lien de l’e-mail de confirmation pour finaliser. Ensuite, vous vous connecterez avec cette adresse et non plus avec votre nom d’utilisateur.',ar:'سجّل عنوانًا يمكنك استقبال البريد عليه فعلاً حتى تتمكن من إعادة تعيين رمز منسي. افتح الرابط في بريد التأكيد لإتمام العملية. بعدها ستسجّل الدخول بهذا البريد بدلاً من اسم المستخدم.',ko:'PIN을 잊었을 때 재설정할 수 있도록, 실제로 받을 수 있는 이메일 주소를 등록합니다. 확인 메일의 링크를 열면 설정이 완료됩니다. 이후에는 사용자 이름 대신 이 이메일로 로그인합니다.',ru:'Укажите адрес, на который вы действительно получаете письма, чтобы можно было сбросить забытый PIN. Переход по ссылке из письма завершит настройку. После этого вход выполняется по этому адресу, а не по имени пользователя.'},
+  acct_email_sent:{ja:'確認メールを送りました。リンクを開くと設定完了です',en:'Confirmation email sent — open the link to finish',zh:'已发送确认邮件，打开链接即可完成',fr:'E-mail de confirmation envoyé — ouvrez le lien pour terminer',ar:'تم إرسال بريد التأكيد — افتح الرابط للإنهاء',ko:'확인 메일을 보냈습니다. 링크를 열면 완료됩니다',ru:'Письмо отправлено — откройте ссылку, чтобы завершить'},
+  acct_email_on:{ja:'復旧用メール設定済み（{0}）',en:'Recovery email set ({0})',zh:'已设置找回邮箱（{0}）',fr:'E-mail de récupération défini ({0})',ar:'تم ضبط بريد الاسترداد ({0})',ko:'복구용 이메일 설정됨 ({0})',ru:'Почта для восстановления задана ({0})'},
+  acct_email_off:{ja:'復旧用メール未設定：PINを忘れると復元できません',en:'No recovery email — a forgotten PIN cannot be restored',zh:'未设置找回邮箱：忘记 PIN 将无法恢复',fr:'Aucun e-mail de récupération — un PIN oublié sera irrécupérable',ar:'لا يوجد بريد استرداد — لا يمكن استعادة رمز منسي',ko:'복구용 이메일 미설정: PIN을 잊으면 복구할 수 없습니다',ru:'Почта не задана — забытый PIN восстановить не получится'},
+  acct_pin_current:{ja:'現在のPIN',en:'Current PIN',zh:'当前 PIN',fr:'PIN actuel',ar:'الرمز الحالي',ko:'현재 PIN',ru:'Текущий PIN'},
+  acct_pin_new:{ja:'新しいPIN（6桁）',en:'New PIN (6 digits)',zh:'新 PIN（6 位）',fr:'Nouveau PIN (6 chiffres)',ar:'الرمز الجديد (6 أرقام)',ko:'새 PIN (6자리)',ru:'Новый PIN (6 цифр)'},
+  acct_pin_change:{ja:'PINを変更',en:'Change PIN',zh:'更改 PIN',fr:'Changer le PIN',ar:'تغيير الرمز',ko:'PIN 변경',ru:'Изменить PIN'},
+  acct_pin_change_desc:{ja:'現在のPINを確認してから、新しい6桁に変更します。',en:'Confirm your current PIN, then set a new 6-digit one.',zh:'确认当前 PIN 后，设置新的 6 位数字。',fr:'Confirmez votre PIN actuel, puis définissez-en un nouveau à 6 chiffres.',ar:'أكّد رمزك الحالي ثم عيّن رمزًا جديدًا من 6 أرقام.',ko:'현재 PIN을 확인한 뒤 새로운 6자리로 변경합니다.',ru:'Подтвердите текущий PIN и задайте новый из 6 цифр.'},
+  acct_pin_save:{ja:'PINを変更する',en:'Change PIN',zh:'更改 PIN',fr:'Changer le PIN',ar:'تغيير الرمز',ko:'PIN 변경하기',ru:'Изменить PIN'},
+  acct_pin_done:{ja:'PINを変更しました',en:'PIN changed',zh:'PIN 已更改',fr:'PIN modifié',ar:'تم تغيير الرمز',ko:'PIN을 변경했습니다',ru:'PIN изменён'},
+  acct_forgot:{ja:'PINを忘れた場合',en:'Forgot your PIN?',zh:'忘记 PIN？',fr:'PIN oublié ?',ar:'نسيت الرمز؟',ko:'PIN을 잊으셨나요?',ru:'Забыли PIN?'},
+  acct_forgot_desc:{ja:'復旧用メールを登録している場合のみ、再設定リンクをお送りできます。登録していない場合は再設定できません。',en:'A reset link can only be sent if you registered a recovery email. Without one there is no way to reset it.',zh:'仅在已登记找回邮箱时才能发送重设链接。未登记则无法重设。',fr:'Un lien de réinitialisation ne peut être envoyé que si vous avez enregistré un e-mail de récupération. Sinon, aucune réinitialisation n’est possible.',ar:'يمكن إرسال رابط إعادة التعيين فقط إذا كنت قد سجّلت بريدًا للاسترداد. بدونه لا توجد طريقة لإعادة التعيين.',ko:'복구용 이메일을 등록한 경우에만 재설정 링크를 보낼 수 있습니다. 등록하지 않았다면 재설정할 수 없습니다.',ru:'Ссылку для сброса можно отправить, только если вы указали почту для восстановления. Без неё сбросить PIN нельзя.'},
+  acct_send_reset:{ja:'再設定メールを送る',en:'Send reset email',zh:'发送重设邮件',fr:'Envoyer l’e-mail de réinitialisation',ar:'إرسال بريد إعادة التعيين',ko:'재설정 메일 보내기',ru:'Отправить письмо для сброса'},
+  acct_reset_sent:{ja:'そのアドレスが登録されていれば、再設定メールを送りました。数分待っても届かない場合は、迷惑メールとアドレス違いをご確認ください',en:'If that address is registered, a reset email is on its way. If nothing arrives in a few minutes, check your spam folder and the spelling',zh:'如果该地址已登记，重设邮件已发出。若数分钟后仍未收到，请检查垃圾邮件和地址是否正确',fr:'Si cette adresse est enregistrée, un e-mail de réinitialisation vient de partir. S’il n’arrive pas d’ici quelques minutes, vérifiez vos spams et l’orthographe',ar:'إذا كان هذا العنوان مسجّلاً، فقد أُرسل بريد إعادة التعيين. إن لم يصل خلال دقائق، تحقّق من مجلد الرسائل غير المرغوبة ومن صحة العنوان',ko:'해당 주소가 등록되어 있다면 재설정 메일을 보냈습니다. 몇 분이 지나도 오지 않으면 스팸함과 주소 오타를 확인해 주세요',ru:'Если этот адрес зарегистрирован, письмо для сброса отправлено. Если через несколько минут ничего нет, проверьте «Спам» и правильность адреса'},
+  acct_e_bad_current:{ja:'現在のPINが違います',en:'That is not your current PIN',zh:'当前 PIN 不正确',fr:'Ce n’est pas votre PIN actuel',ar:'الرمز الحالي غير صحيح',ko:'현재 PIN이 올바르지 않습니다',ru:'Это не ваш текущий PIN'},
+  acct_e_email:{ja:'メールアドレスの形式が正しくありません',en:'That doesn’t look like a valid email address',zh:'邮箱地址格式不正确',fr:'Cette adresse e-mail ne semble pas valide',ar:'صيغة البريد الإلكتروني غير صحيحة',ko:'이메일 주소 형식이 올바르지 않습니다',ru:'Похоже, адрес указан неверно'},
+  acct_e_signup_email:{ja:'新規登録はユーザー名で行ってください（メールは登録後に設定できます）',en:'Sign up with a username — an email can be added afterwards',zh:'请使用用户名注册（邮箱可在注册后设置）',fr:'Inscrivez-vous avec un nom d’utilisateur — l’e-mail pourra être ajouté ensuite',ar:'سجّل باسم مستخدم — يمكن إضافة البريد لاحقًا',ko:'가입은 사용자 이름으로 해주세요 (이메일은 가입 후 설정할 수 있습니다)',ru:'Регистрируйтесь по имени пользователя — почту можно добавить позже'},
+  acct_e_same_pin:{ja:'新しいPINが現在のPINと同じです',en:'The new PIN is the same as the current one',zh:'新 PIN 与当前 PIN 相同',fr:'Le nouveau PIN est identique à l’actuel',ar:'الرمز الجديد مطابق للرمز الحالي',ko:'새 PIN이 현재 PIN과 같습니다',ru:'Новый PIN совпадает с текущим'},
+  acct_e_relogin:{ja:'安全のため、一度ログインし直してからお試しください',en:'For security, please sign in again and retry',zh:'出于安全考虑，请重新登录后再试',fr:'Par sécurité, reconnectez-vous puis réessayez',ar:'لأسباب أمنية، سجّل الدخول من جديد ثم أعد المحاولة',ko:'보안을 위해 다시 로그인한 후 시도해 주세요',ru:'В целях безопасности войдите заново и повторите'},
   acct_pending:{ja:'未保存の変更があります（まもなく同期します）',en:'Unsaved changes — syncing shortly',zh:'有尚未保存的更改（即将同步）',fr:'Modifications non enregistrées — synchronisation imminente',ar:'توجد تغييرات غير محفوظة — ستتم المزامنة قريبًا',ko:'저장되지 않은 변경이 있습니다 (곧 동기화됩니다)',ru:'Есть несохранённые изменения — скоро синхронизируются'},
   backup_auto_hint:{ja:'アカウントを作れば、追加や復習のたびに自動で保存されます。',en:'With an account this saves itself every time you add or review a word.',zh:'创建账号后，每次添加或复习都会自动保存。',fr:'Avec un compte, tout est enregistré automatiquement à chaque ajout ou révision.',ar:'مع حساب، يتم الحفظ تلقائيًا مع كل إضافة أو مراجعة.',ko:'계정을 만들면 추가하거나 복습할 때마다 자동으로 저장됩니다.',ru:'С аккаунтом всё сохраняется само при каждом добавлении и повторении.'},
   backup_auto_btn:{ja:'自動保存にする',en:'Turn on auto-save',zh:'开启自动保存',fr:'Activer la sauvegarde auto',ar:'تفعيل الحفظ التلقائي',ko:'자동 저장 켜기',ru:'Включить автосохранение'},
@@ -962,8 +985,11 @@ const T={
   v330_3:{ja:'PINを忘れると復元できないため、ユーザー名とPINは控えておいてください。ログインしなくても、これまでどおり端末内だけで使えます',en:'A forgotten PIN cannot be recovered, so keep your username and PIN written down. You can also keep using the app entirely offline without an account, exactly as before',zh:'忘记 PIN 无法找回，请记下用户名和 PIN。不登录也可以像以前一样仅在本机使用',fr:'Un PIN oublié est irrécupérable : notez votre nom d’utilisateur et votre PIN. Vous pouvez aussi continuer à utiliser l’app sans compte, comme avant',ar:'لا يمكن استعادة رمز PIN المنسي، لذا دوّن اسم المستخدم والرمز. ويمكنك أيضًا متابعة استخدام التطبيق دون حساب كما كان تمامًا',ko:'PIN을 잊으면 복구할 수 없으니 사용자 이름과 PIN을 적어 두세요. 로그인하지 않고 지금까지처럼 기기 안에서만 사용할 수도 있습니다',ru:'Забытый PIN восстановить невозможно — запишите имя пользователя и PIN. Пользоваться приложением без аккаунта, как раньше, тоже можно'},
   v340_1:{ja:'ログイン中はバックアップの催促を出さないようにしました。自動で保存されているのに手動バックアップを促すのは矛盾していたためです。設定では「クラウドに自動保存中」と表示されます',en:'The backup reminder no longer appears while signed in — nagging for a manual export when everything is already saved to the server made no sense. Settings now shows that the cloud is handling it',zh:'登录状态下不再显示备份提醒。数据已自动保存到服务器，却仍催促手动备份并不合理。设置中会显示「正在自动保存到云端」',fr:'Le rappel de sauvegarde n’apparaît plus lorsque vous êtes connecté : réclamer un export manuel alors que tout est déjà sur le serveur n’avait aucun sens. Les Réglages indiquent désormais que le cloud s’en charge',ar:'لم يعد تذكير النسخ الاحتياطي يظهر أثناء تسجيل الدخول — فالمطالبة بنسخة يدوية بينما كل شيء محفوظ على الخادم أمر متناقض. تعرض الإعدادات الآن أن الحفظ السحابي يتكفّل بذلك',ko:'로그인 중에는 백업 알림을 표시하지 않도록 했습니다. 자동으로 저장되는데 수동 백업을 재촉하는 것은 모순이기 때문입니다. 설정에는 «클라우드에 자동 저장 중»으로 표시됩니다',ru:'Напоминание о резервной копии больше не появляется, когда вы вошли в аккаунт: просить ручной экспорт, когда всё уже на сервере, бессмысленно. В настройках теперь видно, что этим занимается облако'},
   v340_2:{ja:'「保存に関する注意」を状況に合わせて出し分けるようにしました。未ログインなら「アカウントを作る」ボタンから解決でき、ログイン中は別のブラウザからでも同じ単語帳が使える旨に変わります',en:'The storage notice now matches your situation: signed out it offers a Create an account button that fixes the problem outright, and signed in it explains that the same list opens from any browser',zh:'「关于数据保存的说明」现在会因情况而异：未登录时提供「创建账号」按钮直接解决问题，已登录时则说明在其他浏览器也能打开同一单词本',fr:'L’avertissement sur le stockage s’adapte : déconnecté, il propose un bouton Créer un compte qui règle le problème ; connecté, il explique que la même liste s’ouvre depuis n’importe quel navigateur',ar:'أصبح تنبيه التخزين يتغيّر حسب حالتك: عند تسجيل الخروج يعرض زر إنشاء حساب يحل المشكلة جذريًا، وعند تسجيل الدخول يوضح أن القائمة نفسها تُفتح من أي متصفح',ko:'«저장에 관한 안내»를 상황에 맞게 다르게 표시합니다. 비로그인 시에는 «계정 만들기» 버튼으로 바로 해결할 수 있고, 로그인 중에는 다른 브라우저에서도 같은 단어장을 쓸 수 있다는 내용으로 바뀝니다',ru:'Уведомление о хранении теперь зависит от ситуации: без входа оно предлагает кнопку «Создать аккаунт», которая решает проблему, а после входа объясняет, что тот же список открывается в любом браузере'},
-  wn1:{ja:'自動保存を強化しました。同期に失敗しても諦めず、時間を空けて自動で再試行します。オフライン中の変更は、通信が戻った瞬間に保存されます',en:'Auto-save is more reliable now. A failed sync retries on its own with a growing delay instead of giving up, and anything changed while offline is pushed the moment the network returns',zh:'增强了自动保存。同步失败不会就此放弃，会间隔一段时间自动重试；离线期间的更改会在恢复网络的瞬间保存',fr:'La sauvegarde automatique est plus fiable : une synchro échouée réessaie seule avec un délai croissant au lieu d’abandonner, et tout ce qui change hors ligne part dès le retour du réseau',ar:'أصبح الحفظ التلقائي أكثر موثوقية: المزامنة الفاشلة تُعيد المحاولة تلقائيًا بفواصل متزايدة بدل الاستسلام، وما يتغيّر دون اتصال يُرفع فور عودة الشبكة',ko:'자동 저장을 강화했습니다. 동기화에 실패해도 포기하지 않고 간격을 두며 자동으로 다시 시도하며, 오프라인 중의 변경은 통신이 돌아오는 즉시 저장됩니다',ru:'Автосохранение стало надёжнее: неудачная синхронизация повторяется сама с растущей задержкой, а изменения, сделанные офлайн, уходят сразу при появлении сети'},
-  wn2:{ja:'未保存の変更が残っているときは、メニューとアカウント画面にその旨を表示します。バックアップのお知らせからも、ワンタップで自動保存に切り替えられるようにしました',en:'When changes are still waiting to be saved, the menu and account screen say so. The backup notice now also offers switching to auto-save in one tap',zh:'当仍有未保存的更改时，菜单和账号页面会明确提示。备份提醒中也可一键切换为自动保存',fr:'Quand des modifications attendent encore d’être enregistrées, le menu et l’écran du compte l’indiquent. L’avertissement de sauvegarde propose aussi de passer à l’auto-sauvegarde en un geste',ar:'عند وجود تغييرات لم تُحفظ بعد، تُظهر القائمة وشاشة الحساب ذلك بوضوح. كما يتيح تنبيه النسخ الاحتياطي التحوّل إلى الحفظ التلقائي بضغطة واحدة',ko:'저장되지 않은 변경이 남아 있으면 메뉴와 계정 화면에 표시합니다. 백업 알림에서도 한 번의 탭으로 자동 저장으로 전환할 수 있습니다',ru:'Если изменения ещё не сохранены, меню и экран аккаунта об этом сообщают. А из уведомления о резервной копии можно одним касанием перейти на автосохранение'},
+  v350_1:{ja:'自動保存を強化しました。同期に失敗しても諦めず、時間を空けて自動で再試行します。オフライン中の変更は、通信が戻った瞬間に保存されます',en:'Auto-save is more reliable now. A failed sync retries on its own with a growing delay instead of giving up, and anything changed while offline is pushed the moment the network returns',zh:'增强了自动保存。同步失败不会就此放弃，会间隔一段时间自动重试；离线期间的更改会在恢复网络的瞬间保存',fr:'La sauvegarde automatique est plus fiable : une synchro échouée réessaie seule avec un délai croissant au lieu d’abandonner, et tout ce qui change hors ligne part dès le retour du réseau',ar:'أصبح الحفظ التلقائي أكثر موثوقية: المزامنة الفاشلة تُعيد المحاولة تلقائيًا بفواصل متزايدة بدل الاستسلام، وما يتغيّر دون اتصال يُرفع فور عودة الشبكة',ko:'자동 저장을 강화했습니다. 동기화에 실패해도 포기하지 않고 간격을 두며 자동으로 다시 시도하며, 오프라인 중의 변경은 통신이 돌아오는 즉시 저장됩니다',ru:'Автосохранение стало надёжнее: неудачная синхронизация повторяется сама с растущей задержкой, а изменения, сделанные офлайн, уходят сразу при появлении сети'},
+  v350_2:{ja:'未保存の変更が残っているときは、メニューとアカウント画面にその旨を表示します。バックアップのお知らせからも、ワンタップで自動保存に切り替えられるようにしました',en:'When changes are still waiting to be saved, the menu and account screen say so. The backup notice now also offers switching to auto-save in one tap',zh:'当仍有未保存的更改时，菜单和账号页面会明确提示。备份提醒中也可一键切换为自动保存',fr:'Quand des modifications attendent encore d’être enregistrées, le menu et l’écran du compte l’indiquent. L’avertissement de sauvegarde propose aussi de passer à l’auto-sauvegarde en un geste',ar:'عند وجود تغييرات لم تُحفظ بعد، تُظهر القائمة وشاشة الحساب ذلك بوضوح. كما يتيح تنبيه النسخ الاحتياطي التحوّل إلى الحفظ التلقائي بضغطة واحدة',ko:'저장되지 않은 변경이 남아 있으면 메뉴와 계정 화면에 표시합니다. 백업 알림에서도 한 번의 탭으로 자동 저장으로 전환할 수 있습니다',ru:'Если изменения ещё не сохранены, меню и экран аккаунта об этом сообщают. А из уведомления о резервной копии можно одним касанием перейти на автосохранение'},
+  wn1:{ja:'復旧用メールを登録できるようにしました（アカウント画面）。登録するとPINを忘れても再設定メールで復旧できます。設定後はログインにそのメールアドレスを使います',en:'You can now attach a recovery email from the account screen. With one set, a forgotten PIN can be reset by email — and you then sign in with that address instead of your username',zh:'现在可在账号页面登记找回邮箱。登记后，忘记 PIN 也能通过邮件重设；设置后将使用该邮箱登录',fr:'Vous pouvez désormais associer un e-mail de récupération depuis l’écran du compte. Avec celui-ci, un PIN oublié se réinitialise par e-mail — et vous vous connectez ensuite avec cette adresse',ar:'يمكنك الآن إضافة بريد للاسترداد من شاشة الحساب. عند ضبطه يمكن إعادة تعيين رمز منسي عبر البريد، وتسجّل الدخول بعدها بذلك العنوان',ko:'계정 화면에서 복구용 이메일을 등록할 수 있게 되었습니다. 등록하면 PIN을 잊어도 메일로 재설정할 수 있으며, 이후에는 그 이메일로 로그인합니다',ru:'Теперь в разделе аккаунта можно привязать почту для восстановления. С ней забытый PIN сбрасывается письмом, а вход выполняется по этому адресу'},
+  wn2:{ja:'PINの変更ができるようになりました。ログイン画面には「PINを忘れた場合」も追加しています',en:'You can change your PIN from the account screen, and the sign-in screen now has a Forgot your PIN link',zh:'新增了更改 PIN 的功能，登录页面也加入了「忘记 PIN」入口',fr:'Vous pouvez changer votre PIN depuis l’écran du compte, et l’écran de connexion propose désormais « PIN oublié ? »',ar:'أصبح بإمكانك تغيير رمزك من شاشة الحساب، وأضفنا رابط «نسيت الرمز؟» إلى شاشة تسجيل الدخول',ko:'PIN을 변경할 수 있게 되었습니다. 로그인 화면에는 «PIN을 잊으셨나요?» 링크도 추가했습니다',ru:'PIN теперь можно изменить в разделе аккаунта, а на экране входа появилась ссылка «Забыли PIN?»'},
+  wn3:{ja:'未ログインで使っている場合、単語がこの端末にしか無いことをリストの上でお知らせします（8語以上、または3日以上続けた方が対象）。「自動保存にする」からそのまま登録できます',en:'If you use the app without an account, the list now warns that your words exist only on this device — shown once you have 8+ words or a 3-day streak — with a one-tap way to turn on auto-save',zh:'未登录使用时，列表页会提醒单词仅存在于本机（累计 8 个单词或连续 3 天以上时显示），并可直接开启自动保存',fr:'Sans compte, la liste avertit désormais que vos mots n’existent que sur cet appareil — à partir de 8 mots ou d’une série de 3 jours — avec un raccourci pour activer la sauvegarde auto',ar:'عند الاستخدام دون حساب، تنبّهك القائمة إلى أن كلماتك موجودة على هذا الجهاز فقط — يظهر ذلك عند 8 كلمات أو سلسلة 3 أيام — مع طريقة سريعة لتفعيل الحفظ التلقائي',ko:'로그인하지 않고 사용하는 경우, 단어가 이 기기에만 있다는 점을 목록 위에서 알립니다(8단어 이상 또는 3일 이상 연속 시). 그 자리에서 자동 저장을 켤 수 있습니다',ru:'Без аккаунта список теперь предупреждает, что слова есть только на этом устройстве — при 8+ словах или серии в 3 дня — и предлагает включить автосохранение одним касанием'},
   v240_1:{ja:'連続学習日数(ストリーク)機能を追加しました。自分の単語帳・パッケージのどちらで学習しても、その日の学習としてカウントされます。1日休んでもフリーズ(救済)が1回分あれば記録が途切れません',en:'Added a daily streak counter — studying your own words or any package both count toward the day. Miss a day and a freeze (if you have one) protects your streak from resetting',zh:'新增连续学习天数(streak)功能。无论学习自己的单词本还是任意单词包，当天都会计入连续天数。休息一天时,如果还有冻结次数,连续记录不会中断',fr:"Ajout d'un compteur de série quotidienne (streak). Étudier vos mots ou n'importe quel pack compte pour la journée. Manquer un jour est protégé par un gel (si disponible), sans réinitialiser la série",ar:'تمت إضافة عداد للأيام المتتالية (streak). سواء درست كلماتك الخاصة أو أي حزمة، يُحتسب اليوم ضمن السلسلة. تفويت يوم واحد محمي بتجميد (إن توفر) دون كسر السلسلة',ko:'연속 학습일(스트릭) 기능을 추가했습니다. 자신의 단어장이든 패키지든 학습하면 그날이 연속일로 계산됩니다. 하루를 쉬어도 프리즈(구제)가 있으면 기록이 끊기지 않습니다',ru:'Добавлен счётчик серии дней подряд (streak). Занятия со своими словами или любым набором засчитываются в этот день. Если вы пропустите день, заморозка (при наличии) защитит серию от сброса'},
   v240_2:{ja:'初回、およびアプリ内ブラウザ(LINEなど)とSafari/Chromeとでデータが共有されない点についての注意を追加しました。設定からもいつでも確認できます',en:'Added a heads-up (shown once, and anytime from Settings) that word data doesn’t carry over between an in-app browser like LINE and Safari/Chrome',zh:'新增了关于应用内浏览器(如LINE)与Safari/Chrome之间数据不互通的提醒(首次显示一次,设置中也可随时查看)',fr:"Ajout d'un avertissement (affiché une fois, et à tout moment depuis les Réglages) indiquant que les données ne sont pas partagées entre un navigateur intégré comme LINE et Safari/Chrome",ar:'تمت إضافة تنبيه (يظهر مرة واحدة، ويمكن مراجعته في أي وقت من الإعدادات) بأن بيانات الكلمات لا تنتقل بين متصفح داخل التطبيق مثل LINE وSafari/Chrome',ko:'앱 내 브라우저(LINE 등)와 Safari/Chrome 간에 단어 데이터가 공유되지 않는다는 안내를 추가했습니다(최초 1회 표시, 설정에서 언제든 다시 확인 가능)',ru:'Добавлено уведомление (показывается один раз, а также доступно в любое время в настройках) о том, что данные слов не передаются между встроенным браузером (например, LINE) и Safari/Chrome'},
   v200_1:{ja:"語学留学パッケージ Part2（50語）を追加。上部の単語帳セレクターから選べます",en:"Added Study Abroad package Part 2 (50 words), selectable from the deck picker at the top",zh:"新增留学单词包 Part2（50 词），可从顶部单词本选择器中选择",fr:"Ajout du pack Séjour linguistique Part 2 (50 mots), disponible dans le sélecteur en haut",ar:"تمت إضافة حزمة الدراسة بالخارج Part 2 (50 كلمة)، متاحة من محدد المجموعات بالأعلى",ko:"어학연수 패키지 Part2(50단어) 추가. 상단 단어장 선택기에서 고를 수 있어요",ru:"Добавлен набор «Языковая стажировка, часть 2» (50 слов), доступен в селекторе вверху"},
@@ -1121,6 +1147,7 @@ async function maybeRequestPersistence(){
   if(settingsOpen())renderPersistRow();
 }
 
+const RISK_MIN_WORDS=8, RISK_MIN_STREAK=3;
 const BACKUP_MIN_WORDS=10, BACKUP_STALE_DAYS=14, BACKUP_NEW_WORDS=20, BACKUP_SNOOZE_DAYS=7;
 function fmtDay(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate();}
 function unbackedUpCount(){return Math.max(0,DB.words.length-(S().lastBackupWords||0));}
@@ -2273,13 +2300,21 @@ function doExport(){
   if(settingsOpen())renderBackupStatus();
 }
 $('#btnExport').onclick=doExport;
+function accountPromptNeeded(){
+  if(typeof cloudUser!=='undefined'&&cloudUser)return false; // already syncing
+  const s=S();
+  if(s.backupSnoozeUntil&&Date.now()<s.backupSnoozeUntil)return false;
+  const st=s.streak||{};
+  // enough invested that losing it would actually sting
+  return DB.words.length>=RISK_MIN_WORDS||(st.longest||0)>=RISK_MIN_STREAK;
+}
 function renderBackupBanner(){
   const el=$('#backupBanner');
   if(!el)return;
   // Packages carry no user-authored data, so only nag on the user's own deck.
-  if(CTX.type!=='own'||!backupNeeded()){el.innerHTML='';return;}
+  if(CTX.type!=='own'||!accountPromptNeeded()){el.innerHTML='';return;}
   const s=S();
-  const msg=s.lastBackupAt?t('backup_stale',fmtDay(s.lastBackupAt)):t('backup_never',DB.words.length);
+  const msg=t('risk_body',DB.words.length);
   el.innerHTML='<div class="warn-banner"><span style="font-size:17px">⚠️</span><div class="wb-body">'+esc(msg)+
     '<span style="display:block;margin-top:6px">'+esc(t('backup_auto_hint'))+'</span>'+
     '<div class="wb-acts"><button class="wb-go" id="wbAcct">'+esc(t('backup_auto_btn'))+'</button>'+
@@ -2687,6 +2722,7 @@ function loadFirebase(){
 }
 function authErrMsg(e){
   const c=(e&&e.code)||'';
+  if(c==='wk/bad-current-pin')return t('acct_e_bad_current');
   if(c==='auth/email-already-in-use')return t('acct_e_taken');
   if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return t('acct_e_wrong');
   if(c==='auth/network-request-failed'||(e&&e.message==='sdk_load_failed'))return t('acct_e_net');
@@ -2694,22 +2730,84 @@ function authErrMsg(e){
   // Authentication was never initialised for the project at all
   if(c==='auth/operation-not-allowed'||c==='auth/configuration-not-found')return t('acct_e_disabled');
   if(c==='auth/too-many-requests')return t('acct_e_many');
+  if(c==='auth/requires-recent-login')return t('acct_e_relogin');
+  if(c==='auth/invalid-email')return t('acct_e_email');
   return (e&&(e.message||e.code))||'error';
 }
-async function cloudAuth(mode,username,pin){
-  username=(username||'').trim().toLowerCase();
-  if(!validUsername(username))return {ok:false,msg:t('acct_e_user')};
+function isEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+// Once someone attaches a recovery address, Firebase makes that the account's
+// identity, so the same field has to take either form.
+function loginId(v){
+  v=(v||'').trim().toLowerCase();
+  return v.indexOf('@')>=0?v:v+ACCT_DOMAIN;
+}
+function accountLabel(){
+  const e=(fbAuth&&fbAuth.currentUser&&fbAuth.currentUser.email)||'';
+  if(!e)return (cloudUser&&cloudUser.username)||'';
+  return e.endsWith(ACCT_DOMAIN)?e.slice(0,-ACCT_DOMAIN.length):e;
+}
+function hasRecoveryEmail(){
+  const e=(fbAuth&&fbAuth.currentUser&&fbAuth.currentUser.email)||'';
+  return !!e&&!e.endsWith(ACCT_DOMAIN);
+}
+async function cloudAuth(mode,who,pin){
+  who=(who||'').trim().toLowerCase();
+  if(who.indexOf('@')>=0){ if(!isEmail(who))return {ok:false,msg:t('acct_e_email')}; }
+  else if(!validUsername(who))return {ok:false,msg:t('acct_e_user')};
   if(!validPin(pin))return {ok:false,msg:t('acct_e_pin')};
   try{
     await loadFirebase();
-    const email=username+ACCT_DOMAIN;
-    if(mode==='signup')await fbAuth.createUserWithEmailAndPassword(email,pin);
-    else await fbAuth.signInWithEmailAndPassword(email,pin);
-    setCloudSaved({username,uid:fbAuth.currentUser.uid,lastSyncAt:null});
-    cloudUser={uid:fbAuth.currentUser.uid,username};
+    const email=loginId(who);
+    if(mode==='signup'){
+      // a real address as the *initial* id would have no username to show
+      if(who.indexOf('@')>=0)return {ok:false,msg:t('acct_e_signup_email')};
+      await fbAuth.createUserWithEmailAndPassword(email,pin);
+    }else await fbAuth.signInWithEmailAndPassword(email,pin);
+    const uname=email.endsWith(ACCT_DOMAIN)?email.slice(0,-ACCT_DOMAIN.length):email;
+    setCloudSaved({username:uname,uid:fbAuth.currentUser.uid,lastSyncAt:null});
+    cloudUser={uid:fbAuth.currentUser.uid,username:uname};
     cloudDirty=true; // merge the words already on this device
     gaEvent(mode==='signup'?'cloud_signup':'cloud_login',{});
     await cloudSync('auth');
+    return {ok:true};
+  }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+// Recovery only works through a real mailbox, so attaching one necessarily
+// makes it the login id -- Firebase allows a single email per account.
+async function setRecoveryEmail(email,pin){
+  email=(email||'').trim().toLowerCase();
+  if(!isEmail(email))return {ok:false,msg:t('acct_e_email')};
+  if(!validPin(pin))return {ok:false,msg:t('acct_e_pin')};
+  try{
+    const u=fbAuth.currentUser;
+    const cred=firebase.auth.EmailAuthProvider.credential(u.email,pin);
+    try{ await u.reauthenticateWithCredential(cred); }
+    catch(e){ throw (e&&/invalid|wrong/.test(e.code||''))?{code:'wk/bad-current-pin'}:e; }
+    await u.verifyBeforeUpdateEmail(email);
+    gaEvent('cloud_recovery_email',{});
+    return {ok:true};
+  }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+async function changePin(currentPin,newPin){
+  if(!validPin(currentPin)||!validPin(newPin))return {ok:false,msg:t('acct_e_pin')};
+  if(currentPin===newPin)return {ok:false,msg:t('acct_e_same_pin')};
+  try{
+    const u=fbAuth.currentUser;
+    const cred=firebase.auth.EmailAuthProvider.credential(u.email,currentPin);
+    try{ await u.reauthenticateWithCredential(cred); }
+    catch(e){ throw (e&&/invalid|wrong/.test(e.code||''))?{code:'wk/bad-current-pin'}:e; }
+    await u.updatePassword(newPin);
+    gaEvent('cloud_pin_changed',{});
+    return {ok:true};
+  }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+async function sendPinReset(email){
+  email=(email||'').trim().toLowerCase();
+  if(!isEmail(email))return {ok:false,msg:t('acct_e_email')};
+  try{
+    await loadFirebase();
+    await fbAuth.sendPasswordResetEmail(email);
+    gaEvent('cloud_pin_reset_sent',{});
     return {ok:true};
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
 }
@@ -2871,10 +2969,24 @@ function fmtSync(ts){
   const d=new Date(ts);
   return fmtDay(ts)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
 }
+let acctView='main';   // main | email | pin | forgot
+function acctField(id,label,opts){
+  opts=opts||{};
+  return '<label class="lab"'+(opts.mt?' style="margin-top:14px"':'')+'>'+esc(label)+'</label>'+
+    '<input id="'+id+'" class="field" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false"'+
+    (opts.pin?' type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6"':'')+
+    (opts.type?' type="'+opts.type+'"':'')+
+    ' placeholder="'+esc(opts.ph||'')+'">';
+}
+function acctErr(msg){const e=$('#acctErr');if(e)e.textContent=msg||'';}
+function acctBusy(on,label){
+  const b=$('#acctGo');if(!b)return;
+  b.disabled=!!on;b.textContent=on?t('acct_working'):label;
+}
 function renderAccountUI(){
   const mt=$('#miAcctT'),ms=$('#miAcctS');
   if(mt&&ms){
-    mt.textContent=cloudUser?cloudUser.username:t('acct_login');
+    mt.textContent=cloudUser?(accountLabel()||cloudUser.username):t('acct_login');
     ms.textContent=cloudUser
       ?(cloudState==='syncing'?t('acct_syncing')
         :cloudState==='error'?t('acct_e_short')
@@ -2884,47 +2996,100 @@ function renderAccountUI(){
   }
   const body=$('#acctBody');
   if(!body||!$('#overlayAcct').classList.contains('show'))return;
-  if(cloudUser){
+  const back='<button class="btn btn-ghost" id="acctBack" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>';
+
+  // ---- signed out
+  if(!cloudUser){
+    if(acctView==='forgot'){
+      body.innerHTML='<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_forgot_desc'))+'</p>'+
+        acctField('acctEmail',t('acct_email'),{type:'email',ph:'you@example.com'})+
+        '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+        '<button class="btn btn-primary" id="acctGo" style="margin-top:16px">'+esc(t('acct_send_reset'))+'</button>'+back;
+      $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
+      $('#acctGo').onclick=async()=>{
+        acctErr('');acctBusy(true);
+        const r=await sendPinReset($('#acctEmail').value);
+        if(r.ok){toast(t('acct_reset_sent'));acctView='main';renderAccountUI();}
+        else{acctErr(r.msg);acctBusy(false,t('acct_send_reset'));}
+      };
+      return;
+    }
     body.innerHTML=
-      '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_signed_in',cloudUser.username))+'</p>'+
-      '<div class="panel" style="padding:14px;margin-bottom:14px">'+
-        '<div class="sd">'+esc(t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))+'</div>'+
-        (cloudDirty&&cloudState!=='error'?'<div class="sd" style="margin-top:6px">'+esc(t('acct_pending'))+'</div>':'')+
-        (cloudState==='error'?'<div class="sd" style="color:var(--bad);margin-top:6px">'+esc(cloudMsg)+'</div>':'')+
-      '</div>'+
-      '<button class="btn btn-primary" id="acctSync"'+(cloudState==='syncing'?' disabled':'')+'>'+
-        esc(cloudState==='syncing'?t('acct_syncing'):t('acct_sync_now'))+'</button>'+
-      '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>';
-    $('#acctSync').onclick=()=>cloudSync('manual');
-    $('#acctOut').onclick=cloudLogout;
+      '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_desc'))+'</p>'+
+      acctField('acctUser',t('acct_username'),{ph:'yuri'})+
+      acctField('acctPin',t('acct_pin'),{pin:true,mt:true,ph:'123456'})+
+      '<p class="hint" style="margin:8px 2px 0">'+esc(t('acct_pin_note'))+'</p>'+
+      '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-primary" id="acctIn" style="margin-top:16px">'+esc(t('acct_login'))+'</button>'+
+      '<button class="btn btn-ghost" id="acctNew" style="width:100%;margin-top:10px">'+esc(t('acct_signup'))+'</button>'+
+      '<button class="btn btn-ghost" id="acctForgot" style="width:100%;margin-top:10px;background:none;color:var(--muted);font-size:13.5px">'+esc(t('acct_forgot'))+'</button>';
+    const run=async mode=>{
+      const a=$('#acctIn'),b=$('#acctNew');
+      a.disabled=b.disabled=true;acctErr('');a.textContent=t('acct_working');
+      const r=await cloudAuth(mode,$('#acctUser').value,$('#acctPin').value);
+      if(r.ok){closeAcct();toast(t('acct_done'));}
+      else{acctErr(r.msg);if($('#acctIn')){$('#acctIn').disabled=$('#acctNew').disabled=false;$('#acctIn').textContent=t('acct_login');}}
+    };
+    $('#acctIn').onclick=()=>run('login');
+    $('#acctNew').onclick=()=>run('signup');
+    $('#acctForgot').onclick=()=>{acctView='forgot';renderAccountUI();};
     return;
   }
+
+  // ---- signed in
+  if(acctView==='email'){
+    body.innerHTML='<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_email_desc'))+'</p>'+
+      acctField('acctEmail',t('acct_email'),{type:'email',ph:'you@example.com'})+
+      acctField('acctPin',t('acct_pin_current'),{pin:true,mt:true,ph:'123456'})+
+      '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-primary" id="acctGo" style="margin-top:16px">'+esc(t('acct_email_save'))+'</button>'+back;
+    $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
+    $('#acctGo').onclick=async()=>{
+      acctErr('');acctBusy(true);
+      const r=await setRecoveryEmail($('#acctEmail').value,$('#acctPin').value);
+      if(r.ok){toast(t('acct_email_sent'));acctView='main';renderAccountUI();}
+      else{acctErr(r.msg);acctBusy(false,t('acct_email_save'));}
+    };
+    return;
+  }
+  if(acctView==='pin'){
+    body.innerHTML='<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_pin_change_desc'))+'</p>'+
+      acctField('acctPinOld',t('acct_pin_current'),{pin:true,ph:'123456'})+
+      acctField('acctPinNew',t('acct_pin_new'),{pin:true,mt:true,ph:'654321'})+
+      '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-primary" id="acctGo" style="margin-top:16px">'+esc(t('acct_pin_save'))+'</button>'+back;
+    $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
+    $('#acctGo').onclick=async()=>{
+      acctErr('');acctBusy(true);
+      const r=await changePin($('#acctPinOld').value,$('#acctPinNew').value);
+      if(r.ok){toast(t('acct_pin_done'));acctView='main';renderAccountUI();}
+      else{acctErr(r.msg);acctBusy(false,t('acct_pin_save'));}
+    };
+    return;
+  }
+  const recovered=hasRecoveryEmail();
   body.innerHTML=
-    '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_desc'))+'</p>'+
-    '<label class="lab">'+esc(t('acct_username'))+'</label>'+
-    '<input id="acctUser" class="field" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="yuri">'+
-    '<label class="lab" style="margin-top:14px">'+esc(t('acct_pin'))+'</label>'+
-    '<input id="acctPin" class="field" dir="ltr" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="123456">'+
-    '<p class="hint" style="margin:8px 2px 0">'+esc(t('acct_pin_note'))+'</p>'+
-    '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
-    '<button class="btn btn-primary" id="acctIn" style="margin-top:16px">'+esc(t('acct_login'))+'</button>'+
-    '<button class="btn btn-ghost" id="acctNew" style="width:100%;margin-top:10px">'+esc(t('acct_signup'))+'</button>';
-  const run=async mode=>{
-    const btnIn=$('#acctIn'),btnNew=$('#acctNew');
-    btnIn.disabled=btnNew.disabled=true;
-    $('#acctErr').textContent='';
-    $('#acctIn').textContent=t('acct_working');
-    const r=await cloudAuth(mode,$('#acctUser').value,$('#acctPin').value);
-    if(r.ok){closeAcct();toast(t('acct_done'));}
-    else{
-      const el=$('#acctErr');if(el)el.textContent=r.msg;
-      if($('#acctIn')){$('#acctIn').disabled=$('#acctNew').disabled=false;$('#acctIn').textContent=t('acct_login');}
-    }
-  };
-  $('#acctIn').onclick=()=>run('login');
-  $('#acctNew').onclick=()=>run('signup');
+    '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_signed_in',accountLabel()))+'</p>'+
+    '<div class="panel" style="padding:14px;margin-bottom:14px">'+
+      '<div class="sd">'+esc(t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))+'</div>'+
+      (cloudDirty&&cloudState!=='error'?'<div class="sd" style="margin-top:6px">'+esc(t('acct_pending'))+'</div>':'')+
+      (cloudState==='error'?'<div class="sd" style="color:var(--bad);margin-top:6px">'+esc(cloudMsg)+'</div>':'')+
+      '<div class="sd" style="margin-top:8px;color:'+(recovered?'var(--good)':'var(--bad)')+'">'+
+        esc(recovered?t('acct_email_on',accountLabel()):t('acct_email_off'))+'</div>'+
+    '</div>'+
+    '<button class="btn btn-primary" id="acctSync"'+(cloudState==='syncing'?' disabled':'')+'>'+
+      esc(cloudState==='syncing'?t('acct_syncing'):t('acct_sync_now'))+'</button>'+
+    '<button class="btn btn-ghost" id="acctEmailBtn" style="width:100%;margin-top:10px">'+
+      esc(recovered?t('acct_email_change'):t('acct_email_set'))+'</button>'+
+    '<button class="btn btn-ghost" id="acctPinBtn" style="width:100%;margin-top:10px">'+esc(t('acct_pin_change'))+'</button>'+
+    '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>';
+  $('#acctSync').onclick=()=>cloudSync('manual');
+  $('#acctEmailBtn').onclick=()=>{acctView='email';renderAccountUI();};
+  $('#acctPinBtn').onclick=()=>{acctView='pin';renderAccountUI();};
+  $('#acctOut').onclick=cloudLogout;
 }
 function openAcct(){
+  acctView='main';
   $('#overlayAcct').classList.add('show');
   renderAccountUI();
   loadFirebase().then(renderAccountUI).catch(()=>{
