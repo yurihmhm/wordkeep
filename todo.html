@@ -236,6 +236,27 @@ footer a{color:var(--ink-2)}
   </section>
 
   <section>
+    <div class="sec-head"><h2>開発の足回り</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">「作る」側は足りているが、「壊れたことに気づく」側が手薄。友達に配って使ってもらう段階で効いてくる。</p>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">エラー監視を入れる（Sentry など）</div>
+          <div class="d">いま友達の端末でJavaScriptエラーが起きても、こちらには一切届かない。本人が「なんか動かない」と知らせてくれない限り気づけない。無料枠で、エラー内容と発生箇所が自動で通知される。<b>コストの割に効果が大きい。</b></div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">自動テストを残す</div>
+          <div class="d">同期のマージ、ストリーク計算、SRSの間隔などは毎回ブラウザ上で検証しているが、その検証は使い捨てで残らない。テストにしておけば、別の変更で壊れたときに自動で気づける。実際このプロジェクトだけでも、フリーズ消失・同期中の編集が消える競合・コントラスト不足などが後から見つかっている。<b>まずは純粋な計算部分（<code>mergeCloud</code> / <code>mergeStreak</code> / SRSの間隔）だけでも価値がある。</b></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
     <div class="sec-head"><h2>保留・要判断</h2><span class="sec-n" data-count></span></div>
     <ul>
       <li data-s="open">
