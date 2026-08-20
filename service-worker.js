@@ -4,7 +4,7 @@
 // the app shell so it opens offline. Cache strategy is deliberately
 // simple: cache the shell on install, serve navigations from cache when the
 // network is unavailable.
-const CACHE = 'wordkeep-v2';
+const CACHE = 'wordkeep-v3';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -27,7 +27,11 @@ self.addEventListener('fetch', e => {
   // to the cached page when offline.
   if (req.mode === 'navigate') {
     e.respondWith(
-      fetch(req)
+      // GitHub Pages sends Cache-Control: max-age=600, so a plain fetch()
+      // here could silently replay a stale index.html for up to 10 minutes
+      // after a deploy -- 'no-cache' forces the browser to revalidate with
+      // the server (a cheap conditional request) instead of trusting that.
+      fetch(req, { cache: 'no-cache' })
         .then(res => {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
