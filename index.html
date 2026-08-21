@@ -819,6 +819,7 @@ const T={
   gate_signup_cta:{ja:'アカウントを作る',en:'Create my account',zh:'创建账号',fr:'Créer mon compte',ar:'إنشاء حسابي',ko:'계정 만들기',ru:'Создать аккаунт'},
   acct_email_or_user:{ja:'メールアドレス（旧アカウントはユーザー名でも可）',en:'Email (older accounts can still use their username)',zh:'邮箱（旧账号也可用用户名）',fr:'E-mail (les anciens comptes peuvent utiliser leur nom d’utilisateur)',ar:'البريد الإلكتروني (يمكن للحسابات القديمة استخدام اسم المستخدم)',ko:'이메일 (기존 계정은 사용자 이름도 가능)',ru:'Эл. почта (у старых аккаунтов — имя пользователя)'},
   acct_e_need_email:{ja:'新規登録にはメールアドレスが必要です',en:'An email address is required to create an account',zh:'注册新账号需要邮箱地址',fr:'Une adresse e-mail est requise pour créer un compte',ar:'يلزم عنوان بريد إلكتروني لإنشاء حساب',ko:'계정을 만들려면 이메일 주소가 필요합니다',ru:'Для создания аккаунта нужна электронная почта'},
+  acct_e_taken2:{ja:'このメールアドレスはすでに登録されています。「ログインする」からお進みください',en:'That email is already registered — use “Log in instead”',zh:'该邮箱已注册，请改用「登录」',fr:'Cet e-mail est déjà enregistré — utilisez « Se connecter »',ar:'هذا البريد مسجّل بالفعل — استخدم «تسجيل الدخول»',ko:'이미 등록된 이메일입니다. «로그인하기»로 진행해 주세요',ru:'Эта почта уже зарегистрирована — используйте «Войти»'},
   acct_e_wrong2:{ja:'メールアドレス（またはユーザー名）かPINが違います',en:'That email (or username) and PIN don’t match',zh:'邮箱（或用户名）与 PIN 不匹配',fr:'Cet e-mail (ou nom d’utilisateur) et ce PIN ne correspondent pas',ar:'البريد الإلكتروني (أو اسم المستخدم) ورمز PIN غير متطابقين',ko:'이메일(또는 사용자 이름)과 PIN이 일치하지 않습니다',ru:'Почта (или имя пользователя) и PIN не совпадают'},
   nick_title:{ja:'ようこそ！',en:'Welcome!',zh:'欢迎！',fr:'Bienvenue !',ar:'أهلًا بك!',ko:'환영합니다!',ru:'Добро пожаловать!'},
   nick_lead:{ja:'あなたの名前（ニックネーム）は？',en:'What should we call you?',zh:'你的昵称是？',fr:'Quel est votre pseudo ?',ar:'ما اسمك (اللقب)؟',ko:'닉네임을 알려주세요',ru:'Как вас называть?'},
@@ -3090,7 +3091,7 @@ function loadFirebase(){
 function authErrMsg(e){
   const c=(e&&e.code)||'';
   if(c==='wk/bad-current-pin')return t('acct_e_bad_current');
-  if(c==='auth/email-already-in-use')return t('acct_e_taken');
+  if(c==='auth/email-already-in-use')return t('acct_e_taken2');
   if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return t('acct_e_wrong2');
   if(c==='auth/network-request-failed'||(e&&e.message==='sdk_load_failed'))return t('acct_e_net');
   // both mean the console side isn't set up: the provider is off, or
