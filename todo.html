@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.1.0 時点 &middot; 最終更新 2026-08-21</div>
+    <div class="sub">v4.1.2 時点 &middot; 最終更新 2026-08-21</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -156,13 +156,6 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
-      <li class="next" data-s="block">
-        <span class="chip block">ロゴ待ち</span>
-        <div>
-          <div class="t">アプリアイコンの差し替え</div>
-          <div class="d"><code>icon-192.png</code> / <code>icon-512.png</code> は暫定（紺の角丸に「W」）。正方形のロゴができたら同名で置くだけで反映される。作業自体は数分。</div>
-        </div>
-      </li>
       <li class="next" data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -317,6 +310,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大インシデント: 未ログインでアプリが読み込み画面から進まない</div><div class="d">起動時スプラッシュの実装ミス（<code>let splashHidden</code>の宣言より前に、それを参照する同期呼び出しが実行される順序バグ）。未ログイン時に即座にスクリプト全体が停止していた。友達からの報告で発覚、本番で再現・特定・修正・検証まで実施。</div><div class="ver">v4.1.1</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">Service Workerのキャッシュ戦略を強化</div><div class="d">上記インシデントの検証中に判明: GitHub Pagesの<code>max-age=600</code>により、修正直後でも最大10分間は古い版が再生され得た。ナビゲーション時の<code>fetch</code>を<code>no-cache</code>に変更し、確実にサーバーへ再確認させるようにした。</div><div class="ver">v4.1.1</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ブラウザタブのファビコンが地球マークのまま</div><div class="d"><code>admin.html</code>と開発ボードには<code>&lt;link rel="icon"&gt;</code>を追加していたが、肝心のアプリ本体（<code>index.html</code>）に追加し忘れていた。manifest.jsonのアイコンはホーム画面追加時にしか使われず、通常のタブには反映されないため。</div><div class="ver">v4.1.2</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">類義語（シノニム）の表示</div><div class="d">辞書APIが返す品詞ごとの synonyms を保存・表示。単語帳の裏面とタップ詳細の両方に出る。</div><div class="ver">v4.1.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">リストの品詞ラベル</div><div class="d">名・動・形などの短いラベルをリストに常時表示。7言語対応。</div><div class="ver">v4.1.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語タップで詳細ポップアップ</div><div class="d">フラッシュカード裏面と同じ描画関数を共有し、表示内容が食い違わないようにした。</div><div class="ver">v4.1.0</div></div></li>
