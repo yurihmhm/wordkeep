@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.6.0 時点 &middot; 最終更新 2026-08-22</div>
+    <div class="sub">v4.7.0 時点 &middot; 最終更新 2026-08-22</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -198,13 +198,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>アクセス解析（GA4）</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">送信はできているが、分析に使える状態にはなっていない。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">計測できていない行動がある</div>
-          <div class="d">単語検索の成功／失敗率、「今日」カードのボタンが押された率、発音の利用率、チュートリアルの離脱段階、記録画面を見た人の継続率。とくに2つ目は継続施策の効果測定に直結する。</div>
-        </div>
-      </li>
+      
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -341,6 +335,14 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語帳（カード）への導線が分かりにくい</div><div class="d">リスト上部の単独ボタンは装飾に見え、押した先も伝わっていなかった。<b>「リスト／カード」の切り替え</b>に変更し、同じ単語を2通りで見るという関係を明示。カード側にも同じ切り替えを置いたので、専用の戻るボタンも不要になった。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: 対応外の言語の端末が日本語表示になっていた</div><div class="d"><code>navigatorLang()</code>のフォールバックが<code>'ja'</code>で、<b>ドイツ語・スペイン語・タイ語などの利用者は日本語UIで開いていた</b>。英語学習アプリである以上、どの利用者も英語には足がかりがあるため<code>'en'</code>へ変更。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">多言語の導線テスト（全画面・全言語）</div><div class="d">ひらがな／カタカナは日本語にしか出現しない（中国語は漢字を共有する）ことを利用し、<b>日本語以外の6言語で全画面を走査して日本語の混入を検出</b>するテストを実施。初回起動〜ゲート〜全タブ〜全モーダルまで、すべてclean。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">復習中に言語を変えると画面が古い言語のまま</div><div class="d">上の走査で発見。周回中は<code>startQuiz()</code>を呼ばない設計のため、単語帳バーとモードタブが再描画されず日本語のまま残っていた。未回答なら設問ごと、回答済みなら結果を消さないよう周辺だけを描き直すよう修正。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">「リスト／カード」切り替えがクイズ側に乗っ取られる</div><div class="d">スタイル共用のため同じクラス名を使ったところ、<code>bindModeTabs()</code>のセレクタが全体を対象にしており、<b>クイズ画面に入ると切り替えボタンが<code>startQuiz(undefined)</code>に書き換えられていた</b>。バインドをクイズ内に限定し、クラスも分離。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ニックネーム入力欄の例が個人名だった</div><div class="d">「ゆうり」は他の利用者には意味が伝わらず、例ではなく実在の名前のように読める。「例）たろう」形式に変更し、各言語で例と分かる書き方に統一。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">アクセス解析の計測漏れを追加</div><div class="d"><code>word_lookup</code>（検索の成功／失敗。<b>従来は保存された単語しか記録されず、失敗して諦めた検索が見えていなかった</b>）／<code>home_cta_shown</code>・<code>home_cta_click</code>（表示と押下の両方を取り、率が出せる）／<code>pronounce</code>（自動再生と混ざらないよう<b>ボタン操作のみ</b>）／<code>tutorial_step</code>・<code>tutorial_done</code>（離脱段階。戻っても二重計上しない）。記録画面の閲覧は既存の<code>page_view</code>で計測済み。</div><div class="ver">v4.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">中国語表記に日本語の中黒が混入</div><div class="d">中国語の文字列がカタカナ中黒（U+30FB）を使っていた。中国語で使う U+00B7 に置換。</div><div class="ver">v4.7.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームタブへの刷新（タブ構成の見直し）</div><div class="d">下タブを <b>ホーム / 単語 / ＋ / 復習 / 記録</b> に再編。<b>リストと単語帳を「単語」タブに統合</b>して枠を作った（単語帳は行き先ではなく学習モードなので、リスト上部の「カードで覚える」から開く）。<br><b>将来ランキングを入れるときに動かすのは「記録」</b>：ホームがダッシュボードである以上、連続日数と進捗はもともとホームに出ており、記録タブの中身は大部分が重複する。今回のホーム実装がそのまま移行の下準備になっている。</div><div class="ver">v4.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームの「今日の復習」ボタン</div><div class="d">状態を<code>todayState()</code>で判定し、CTAを1つだけ出す（今日の復習／連続記録が途切れる警告／自由学習／最初の単語を追加）。連続日数・今日の復習数・学習済み語数の3指標と、単語帳・追加・単語リスト・記録への入口も配置。単語帳セレクターもホームに置き、切り替えてもホームに留まる。</div><div class="ver">v4.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">効果音と読み上げの音量が合っていない</div><div class="d">効果音のピーク振幅0.16に対し、TTSの<code>volume</code>が未設定＝1.0だった。音声はクレストファクタが高くRMSはピークの1/5程度、正弦波は0.707なので<b>ピーク同士で合わせても合わない</b>。<code>OfflineAudioContext</code>で実際にレンダリングしてRMSを測り較正した（声の約4dB下、最大音量でもクリップなし）。</div><div class="ver">v4.6.0</div></div></li>

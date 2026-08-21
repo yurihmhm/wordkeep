@@ -202,10 +202,10 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-score{text-align:center;padding:40px 20px}
 .q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--ink-strong)}
 .q-score .lbl{color:var(--muted);margin:6px 0 26px}
-.q-mode-tabs{display:flex;gap:8px;margin-bottom:16px}
-.q-mode-tabs button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
+.q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
+.q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
   background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
-.q-mode-tabs button.on{background:var(--fill);border-color:var(--fill);color:#fff}
+.q-mode-tabs button.on,.word-modes button.on{background:var(--fill);border-color:var(--fill);color:#fff}
 
 .rng{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
   background:var(--line);outline:none;margin:2px 0 0}
@@ -468,7 +468,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
   <section id="v-study" class="view">
     <div id="src-study"></div>
-    <button class="btn btn-ghost" id="studyBack" style="width:100%;margin-bottom:12px" data-i18n="back_to_words">単語リストへ戻る</button>
+    <div id="studyModes"></div>
     <h2 style="font-size:20px;margin:6px 2px 4px" data-i18n="study_title">単語帳</h2>
     <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
     <div id="studyBody"></div>
@@ -690,13 +690,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.6.0';
+const APP_VERSION='4.7.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.6.0',date:'2026-08-22',keys:['wn1','wn2','wn3']},
+  {version:'4.7.0',date:'2026-08-22',keys:['wn1','wn2']},
+  {version:'4.6.0',date:'2026-08-22',keys:['v460_1','v460_2','v460_3']},
   {version:'4.5.0',date:'2026-08-22',keys:['v450_1','v450_2']},
   {version:'4.4.0',date:'2026-08-22',keys:['v440_1']},
   {version:'4.3.0',date:'2026-08-21',keys:['v430_1','v430_2','v430_3']},
@@ -805,14 +806,19 @@ function seedStarterWords(){
 }
 
 function navigatorLang(){
-  const nl=(navigator.language||'ja').toLowerCase();
+  const nl=(navigator.language||'').toLowerCase();
+  if(nl.startsWith('ja'))return 'ja';
   if(nl.startsWith('zh'))return 'zh';
   if(nl.startsWith('en'))return 'en';
   if(nl.startsWith('fr'))return 'fr';
   if(nl.startsWith('ar'))return 'ar';
   if(nl.startsWith('ko'))return 'ko';
   if(nl.startsWith('ru'))return 'ru';
-  return 'ja';
+  // Anything else falls back to English, not Japanese. A German, Spanish or
+  // Thai speaker opening this used to get a Japanese interface -- and this is
+  // an app for learning English, so English is the one language every user
+  // has some footing in.
+  return 'en';
 }
 
 /* ---------- i18n ---------- */
@@ -825,9 +831,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'「ホーム」タブを追加しました。連続日数・今日の復習・学習の進みが一目で分かり、開いて1タップで復習を始められます',en:'Added a Home tab. Your streak, what’s due today and how far you’ve got are all in one place, and review starts in a single tap',zh:'新增「首页」标签页。连续天数、今日待复习和学习进度一目了然，打开后一点即可开始复习',fr:'Nouvel onglet Accueil : série, révisions du jour et progression au même endroit, et la révision démarre en un seul geste',ar:'أُضيف تبويب «الرئيسية»: التتابع وما يستحق المراجعة اليوم ومدى تقدّمك في مكان واحد، وتبدأ المراجعة بلمسة واحدة',ko:'«홈» 탭을 추가했습니다. 연속 일수·오늘의 복습·학습 진행 상황을 한눈에 볼 수 있고, 한 번의 탭으로 복습을 시작할 수 있습니다',ru:'Добавлена вкладка «Главная»: серия, повторения на сегодня и прогресс — в одном месте, а повторение начинается одним касанием'},
-  wn2:{ja:'「リスト」と「単語帳」を「単語」タブにまとめました。単語帳（カード）は単語タブの「カードで覚える」から開けます',en:'List and Flashcards are now one Words tab. Flashcards open from “Flashcards” inside it',zh:'「列表」与「单词卡」已合并为「单词」标签页，单词卡可从其中的「用卡片记忆」打开',fr:'Liste et Cartes mémo fusionnent dans l’onglet Mots ; les cartes s’ouvrent via « Cartes mémoire »',ar:'دُمج «القائمة» و«البطاقات» في تبويب «الكلمات»، وتُفتح البطاقات من «بطاقات الحفظ» بداخله',ko:'«목록»과 «단어 카드»를 «단어» 탭으로 통합했습니다. 카드는 그 안의 «카드로 외우기»에서 열 수 있습니다',ru:'«Список» и «Карточки» объединены во вкладку «Слова»; карточки открываются оттуда через «Карточки»'},
-  wn3:{ja:'音量を設定できるようになりました（設定 → 音量）。発音と効果音の両方に効きます。効果音が発音に比べて小さすぎた点も調整し、不正解の音はスマホのスピーカーでも聞こえる高さに変えました',en:'Added a volume setting (Settings → Volume) covering both pronunciation and answer sounds. The tones were far too quiet next to the voice, and the wrong-answer sound now sits where phone speakers can actually reproduce it',zh:'新增音量设置（设置 → 音量），同时作用于发音和答题音效。此前音效相对发音过轻，错误提示音也调整到手机扬声器能够还原的音高',fr:'Ajout d’un réglage de volume (Réglages → Volume) agissant sur la prononciation et les sons. Les sons étaient bien trop faibles face à la voix, et le son d’erreur est désormais dans une plage que les haut-parleurs de téléphone restituent',ar:'أُضيف ضبط لمستوى الصوت (الإعدادات ← مستوى الصوت) يشمل النطق وأصوات الإجابة. كانت النغمات أخفت بكثير من الصوت، وأصبح صوت الخطأ في نطاق تستطيع مكبرات الهواتف إخراجه',ko:'음량을 설정할 수 있게 되었습니다(설정 → 음량). 발음과 효과음 모두에 적용됩니다. 효과음이 발음보다 지나치게 작았던 점을 조정하고, 오답 소리는 휴대폰 스피커로도 들리는 음역으로 바꿨습니다',ru:'Добавлена настройка громкости (Настройки → Громкость) для произношения и звуков ответа. Тоны были намного тише голоса, а звук ошибки теперь в диапазоне, который телефонные динамики действительно воспроизводят'},
+  wn1:{ja:'「単語」タブに「リスト／カード」の切り替えを置きました。単語帳（カード）への行き方が分かりやすくなり、カード側からも同じ操作で戻れます',en:'The Words tab now has a List / Cards switch, so flashcards are easy to find and the same control takes you back',zh:'「单词」标签页新增「列表／卡片」切换，更容易找到单词卡，也可用同一处切回列表',fr:'L’onglet Mots dispose d’un sélecteur Liste / Cartes : les cartes mémo se trouvent plus facilement et le même bouton ramène à la liste',ar:'أصبح في تبويب «الكلمات» مبدّل «قائمة / بطاقات»، فيسهل الوصول إلى البطاقات والعودة بالطريقة نفسها',ko:'«단어» 탭에 «목록／카드» 전환을 넣었습니다. 카드로 가는 길이 명확해지고, 같은 조작으로 돌아올 수 있습니다',ru:'Во вкладке «Слова» появился переключатель «Список / Карточки» — карточки легко найти, и та же кнопка возвращает назад'},
+  wn2:{ja:'対応外の言語の端末で日本語表示になっていた不具合を修正しました。ドイツ語やスペイン語などの環境では英語で開きます',en:'Fixed devices set to an unsupported language falling back to Japanese. German, Spanish and the like now open in English',zh:'修复了使用不受支持语言的设备回退为日语的问题，德语、西班牙语等环境现在会以英语打开',fr:'Correction : les appareils dans une langue non prise en charge basculaient en japonais. L’allemand, l’espagnol et les autres s’ouvrent désormais en anglais',ar:'أُصلح رجوع الأجهزة ذات اللغات غير المدعومة إلى اليابانية؛ الألمانية والإسبانية وغيرها تفتح الآن بالإنجليزية',ko:'지원하지 않는 언어의 기기에서 일본어로 표시되던 문제를 수정했습니다. 독일어·스페인어 등은 이제 영어로 열립니다',ru:'Исправлено: устройства с неподдерживаемым языком переключались на японский. Немецкий, испанский и прочие теперь открываются на английском'},
+  v460_1:{ja:'「ホーム」タブを追加しました。連続日数・今日の復習・学習の進みが一目で分かり、開いて1タップで復習を始められます',en:'Added a Home tab. Your streak, what’s due today and how far you’ve got are all in one place, and review starts in a single tap',zh:'新增「首页」标签页。连续天数、今日待复习和学习进度一目了然，打开后一点即可开始复习',fr:'Nouvel onglet Accueil : série, révisions du jour et progression au même endroit, et la révision démarre en un seul geste',ar:'أُضيف تبويب «الرئيسية»: التتابع وما يستحق المراجعة اليوم ومدى تقدّمك في مكان واحد، وتبدأ المراجعة بلمسة واحدة',ko:'«홈» 탭을 추가했습니다. 연속 일수·오늘의 복습·학습 진행 상황을 한눈에 볼 수 있고, 한 번의 탭으로 복습을 시작할 수 있습니다',ru:'Добавлена вкладка «Главная»: серия, повторения на сегодня и прогресс — в одном месте, а повторение начинается одним касанием'},
+  v460_2:{ja:'「リスト」と「単語帳」を「単語」タブにまとめました。単語帳（カード）は単語タブの「カードで覚える」から開けます',en:'List and Flashcards are now one Words tab. Flashcards open from “Flashcards” inside it',zh:'「列表」与「单词卡」已合并为「单词」标签页，单词卡可从其中的「用卡片记忆」打开',fr:'Liste et Cartes mémo fusionnent dans l’onglet Mots ; les cartes s’ouvrent via « Cartes mémoire »',ar:'دُمج «القائمة» و«البطاقات» في تبويب «الكلمات»، وتُفتح البطاقات من «بطاقات الحفظ» بداخله',ko:'«목록»과 «단어 카드»를 «단어» 탭으로 통합했습니다. 카드는 그 안의 «카드로 외우기»에서 열 수 있습니다',ru:'«Список» и «Карточки» объединены во вкладку «Слова»; карточки открываются оттуда через «Карточки»'},
+  v460_3:{ja:'音量を設定できるようになりました（設定 → 音量）。発音と効果音の両方に効きます。効果音が発音に比べて小さすぎた点も調整し、不正解の音はスマホのスピーカーでも聞こえる高さに変えました',en:'Added a volume setting (Settings → Volume) covering both pronunciation and answer sounds. The tones were far too quiet next to the voice, and the wrong-answer sound now sits where phone speakers can actually reproduce it',zh:'新增音量设置（设置 → 音量），同时作用于发音和答题音效。此前音效相对发音过轻，错误提示音也调整到手机扬声器能够还原的音高',fr:'Ajout d’un réglage de volume (Réglages → Volume) agissant sur la prononciation et les sons. Les sons étaient bien trop faibles face à la voix, et le son d’erreur est désormais dans une plage que les haut-parleurs de téléphone restituent',ar:'أُضيف ضبط لمستوى الصوت (الإعدادات ← مستوى الصوت) يشمل النطق وأصوات الإجابة. كانت النغمات أخفت بكثير من الصوت، وأصبح صوت الخطأ في نطاق تستطيع مكبرات الهواتف إخراجه',ko:'음량을 설정할 수 있게 되었습니다(설정 → 음량). 발음과 효과음 모두에 적용됩니다. 효과음이 발음보다 지나치게 작았던 점을 조정하고, 오답 소리는 휴대폰 스피커로도 들리는 음역으로 바꿨습니다',ru:'Добавлена настройка громкости (Настройки → Громкость) для произношения и звуков ответа. Тоны были намного тише голоса, а звук ошибки теперь в диапазоне, который телефонные динамики действительно воспроизводят'},
   v450_1:{ja:'クイズで答えたときに、正解・不正解の短い音が鳴るようになりました。設定の「効果音」からいつでもオフにできます',en:'Answering a quiz question now plays a short right/wrong tone. Turn it off any time under Settings → Sounds',zh:'答题时会播放简短的正确/错误提示音。可随时在「设置 → 音效」中关闭',fr:'Répondre à une question joue désormais un bref son juste/faux. Désactivable à tout moment dans Réglages → Sons',ar:'أصبحت الإجابة على سؤال تُصدر نغمة قصيرة للصواب أو الخطأ. يمكن إيقافها في الإعدادات ← المؤثرات الصوتية',ko:'퀴즈에 답하면 정답·오답을 알리는 짧은 소리가 재생됩니다. 설정의 «효과음»에서 언제든 끌 수 있습니다',ru:'Ответ на вопрос теперь сопровождается коротким сигналом «верно/неверно». Отключить можно в Настройках → Звуки'},
   v450_2:{ja:'復習の使い勝手を改善しました。答えた直後に結果が画面内に表示されるようになり、復習の途中で他のタブに移動しても続きから再開できます。バックアップの読み込みがアカウントに同期されない問題も修正しました',en:'Review is smoother: the result now scrolls into view as soon as you answer, and leaving the tab mid-round no longer restarts it. Also fixed imported backups not syncing to your account',zh:'复习体验改进：答题后结果会立即滚动到可见位置，中途切换标签页也不会重新开始。同时修复了导入的备份未同步到账号的问题',fr:'Révision améliorée : le résultat apparaît à l’écran dès que vous répondez, et quitter l’onglet en cours de session ne la relance plus. Correction aussi des sauvegardes importées non synchronisées avec le compte',ar:'تحسّنت المراجعة: تظهر النتيجة فور الإجابة، ومغادرة التبويب أثناء الجولة لم تعد تعيدها من البداية. كما أُصلحت مشكلة عدم مزامنة النسخ الاحتياطية المستوردة مع الحساب',ko:'복습 사용성을 개선했습니다. 답한 직후 결과가 화면 안에 표시되고, 도중에 다른 탭으로 이동해도 이어서 진행됩니다. 가져온 백업이 계정에 동기화되지 않던 문제도 수정했습니다',ru:'Повторение стало удобнее: результат сразу попадает в поле зрения, а уход на другую вкладку больше не сбрасывает раунд. Также исправлено: импортированные копии не синхронизировались с аккаунтом'},
   v440_1:{ja:'単語を追加するときに「メモ」欄を追加しました。例文や自分の覚え方など、自由に書き込めます。あとから編集もでき、単語詳細やリスト検索でも使えます',en:'Added a notes field when adding a word. Jot down an example sentence, a way to remember it, or anything else — editable later, and included in the detail view and list search',zh:'添加单词时新增了「备注」栏，可自由填写例句或记忆方法。之后也可编辑，详情页与列表搜索均可使用',fr:'Ajout d’un champ de notes lors de l’ajout d’un mot : une phrase d’exemple, une astuce mnémotechnique, ce que vous voulez — modifiable ensuite, visible dans le détail et pris en compte par la recherche',ar:'أُضيف حقل «ملاحظات» عند إضافة كلمة، لتدوين جملة مثال أو طريقة للتذكر بحرية. يمكن تعديله لاحقًا، ويظهر في التفاصيل والبحث في القائمة',ko:'단어를 추가할 때 「메모」란을 추가했습니다. 예문이나 나만의 암기법 등을 자유롭게 적을 수 있으며, 나중에 수정할 수 있고 상세 화면과 목록 검색에서도 사용됩니다',ru:'При добавлении слова появилось поле «Заметки» — впишите пример предложения или свой способ запоминания. Можно редактировать позже, заметка видна в деталях и учитывается при поиске'},
@@ -839,9 +847,10 @@ const T={
   v400_2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
   v400_3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
+  mode_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'قائمة',ko:'목록',ru:'Список'},
+  mode_cards:{ja:'カード',en:'Cards',zh:'卡片',fr:'Cartes',ar:'بطاقات',ko:'카드',ru:'Карточки'},
   nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
   nav_words:{ja:'単語',en:'Words',zh:'单词',fr:'Mots',ar:'الكلمات',ko:'단어',ru:'Слова'},
-  back_to_words:{ja:'単語リストへ戻る',en:'Back to the word list',zh:'返回单词列表',fr:'Retour à la liste',ar:'العودة إلى قائمة الكلمات',ko:'단어 목록으로 돌아가기',ru:'Назад к списку слов'},
   home_hi:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
   home_you:{ja:'あなた',en:'there',zh:'你',fr:'vous',ar:'بك',ko:'여러분',ru:'друг'},
   home_sub:{ja:'今日の1回が、いちばん効きます。',en:'One session today does more than a long one next week.',zh:'今天练一次，胜过下周补一大段。',fr:'Une session aujourd’hui vaut mieux qu’une longue la semaine prochaine.',ar:'جلسة واحدة اليوم أفضل من جلسة طويلة الأسبوع القادم.',ko:'오늘의 한 번이 가장 효과적입니다.',ru:'Одно занятие сегодня полезнее долгого на следующей неделе.'},
@@ -903,7 +912,7 @@ const T={
   nick_lead:{ja:'あなたの名前（ニックネーム）は？',en:'What should we call you?',zh:'你的昵称是？',fr:'Quel est votre pseudo ?',ar:'ما اسمك (اللقب)؟',ko:'닉네임을 알려주세요',ru:'Как вас называть?'},
   nick_desc:{ja:'ランキングなど、世界中のユーザーに表示される名前です。日本語でも英語でも、好きな文字で登録できます。',en:'This is the name other learners around the world will see, for example in rankings. Any language or script is fine.',zh:'这是排行榜等场合向全球用户显示的名字，任何语言、任何文字都可以。',fr:'C’est le nom que verront les autres apprenants du monde entier, par exemple dans les classements. Toutes les langues et écritures sont acceptées.',ar:'هذا هو الاسم الذي سيراه المتعلمون حول العالم، في قوائم الترتيب مثلًا. أي لغة أو أبجدية مقبولة.',ko:'랭킹 등에서 전 세계 사용자에게 표시되는 이름입니다. 어떤 언어, 어떤 문자로도 등록할 수 있습니다.',ru:'Это имя увидят другие пользователи по всему миру, например в рейтингах. Подойдёт любой язык и любые символы.'},
   nick_label:{ja:'ニックネーム',en:'Nickname',zh:'昵称',fr:'Pseudo',ar:'اللقب',ko:'닉네임',ru:'Имя'},
-  nick_ph:{ja:'ゆうり',en:'Yuri',zh:'小明',fr:'Camille',ar:'يوري',ko:'유리',ru:'Юрий'},
+  nick_ph:{ja:'例）たろう',en:'e.g. Alex',zh:'例）小明',fr:'ex. Alex',ar:'مثال: أليكس',ko:'예) 민준',ru:'напр. Алекс'},
   nick_cd_note:{ja:'ニックネームは7日に1度だけ変更できます。',en:'You can change your nickname once every 7 days.',zh:'昵称每 7 天只能修改一次。',fr:'Vous pouvez changer de pseudo une fois tous les 7 jours.',ar:'يمكنك تغيير لقبك مرة واحدة كل 7 أيام.',ko:'닉네임은 7일에 한 번만 변경할 수 있습니다.',ru:'Менять имя можно раз в 7 дней.'},
   nick_start:{ja:'この名前ではじめる',en:'Start with this name',zh:'用这个名字开始',fr:'Commencer avec ce pseudo',ar:'ابدأ بهذا الاسم',ko:'이 이름으로 시작',ru:'Начать с этим именем'},
   nick_save:{ja:'保存',en:'Save',zh:'保存',fr:'Enregistrer',ar:'حفظ',ko:'저장',ru:'Сохранить'},
@@ -929,7 +938,7 @@ const T={
   fb_e_long:{ja:'{0}文字以内で入力してください',en:'Please keep it under {0} characters',zh:'请控制在 {0} 字以内',fr:'Merci de rester sous {0} caractères',ar:'يرجى ألا يتجاوز {0} حرفًا',ko:'{0}자 이내로 입력해 주세요',ru:'Не более {0} символов'},
   fb_e_rules:{ja:'送信できませんでした（受け付け設定が未完了の可能性があります）',en:'Couldn’t send — feedback may not be enabled on the server yet',zh:'发送失败（服务器可能尚未开启反馈接收）',fr:'Envoi impossible — la réception des retours n’est peut-être pas encore activée',ar:'تعذّر الإرسال — قد لا يكون استقبال الملاحظات مفعّلاً بعد',ko:'보내지 못했습니다 (서버에서 아직 수신 설정이 안 되었을 수 있습니다)',ru:'Не удалось отправить — приём отзывов, возможно, ещё не включён'},
   menu_title:{ja:'メニュー',en:'Menu',zh:'菜单',fr:'Menu',ar:'القائمة',ko:'메뉴',ru:'Меню'},
-  menu_set_sub:{ja:'言語・テーマ・発音・データ',en:'Language, theme, pronunciation, data',zh:'语言・主题・发音・数据',fr:'Langue, thème, prononciation, données',ar:'اللغة والسمة والنطق والبيانات',ko:'언어·테마·발음·데이터',ru:'Язык, тема, произношение, данные'},
+  menu_set_sub:{ja:'言語・テーマ・発音・データ',en:'Language, theme, pronunciation, data',zh:'语言·主题·发音·数据',fr:'Langue, thème, prononciation, données',ar:'اللغة والسمة والنطق والبيانات',ko:'언어·테마·발음·데이터',ru:'Язык, тема, произношение, данные'},
   unit_words:{ja:'語',en:'words',zh:'词',fr:'mots',ar:'كلمة',ko:'단어',ru:'слов'},
   due_chip:{ja:'今日の復習 {0}',en:'Due today {0}',zh:'今日复习 {0}',fr:'À réviser {0}',ar:'المراجعة اليوم {0}',ko:'오늘 복습 {0}',ru:'Повтор сегодня {0}'},
 
@@ -1176,8 +1185,8 @@ const T={
   storage_tip_android_3:{ja:'確認画面で「インストール」をタップ',en:'Tap "Install" to confirm.',zh:'Tap "Install" to confirm.',fr:'Tap "Install" to confirm.',ar:'Tap "Install" to confirm.',ko:'Tap "Install" to confirm.',ru:'Tap "Install" to confirm.'},
 
   whatsnew_title:{ja:'更新しました ✨',en:"What's new ✨",zh:'更新内容 ✨',fr:'Nouveautés ✨',ar:'ما الجديد ✨',ko:'업데이트 내용 ✨',ru:'Обновление ✨'},
-  v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1・Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語・English・中文・Français・العربية・한국어・Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
-  v220_1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1・Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
+  v210_1:{ja:'配布パッケージ（語学留学 Part1・Part2）を全7言語に対応。設定の言語に合わせて、日本語・English・中文・Français・العربية・한국어・Русский で意味が表示されます',en:'Word packages (Study Abroad Part 1 & 2) are now fully localized into all 7 languages — meanings follow your app language: JA, EN, ZH, FR, AR, KO, RU',zh:'单词包（留学 Part1·Part2）现已支持全部 7 种语言，意思会随应用语言显示：日本語·English·中文·Français·العربية·한국어·Русский',fr:'Les packs de mots (Séjour linguistique Part 1 et 2) sont désormais traduits dans les 7 langues — les sens suivent la langue de l’app : JA, EN, ZH, FR, AR, KO, RU',ar:'أصبحت حزم الكلمات (الدراسة بالخارج Part 1 و2) مترجمة بالكامل إلى 7 لغات — تتبع المعاني لغة التطبيق: اليابانية والإنجليزية والصينية والفرنسية والعربية والكورية والروسية',ko:'단어 패키지(어학연수 Part1·Part2)가 7개 언어 전체에 대응. 앱 언어에 맞춰 日本語·English·中文·Français·العربية·한국어·Русский 로 뜻이 표시됩니다',ru:'Наборы слов («Языковая стажировка», части 1 и 2) полностью переведены на все 7 языков — значения следуют языку приложения: JA, EN, ZH, FR, AR, KO, RU'},
+  v220_1:{ja:'配布パッケージのシリーズ名(Part1・Part2)が日本語・中国語のまま表示されていた不具合を修正し、全7言語に対応しました',en:'Fixed word package series titles (Part 1 & 2) that stayed in Japanese/Chinese regardless of app language — now fully localized into all 7 languages',zh:'修复了单词包系列标题（Part1·Part2）始终显示为日语/中文的问题，现已支持全部 7 种语言',fr:"Correction des titres des packs de mots (Partie 1 et 2) qui restaient en japonais/chinois — désormais traduits dans les 7 langues",ar:'تم إصلاح عناوين سلاسل حزم الكلمات (الجزء 1 والجزء 2) التي كانت تظهر باليابانية/الصينية دائمًا — أصبحت الآن مترجمة بالكامل إلى 7 لغات',ko:'앱 언어와 상관없이 일본어/중국어로 표시되던 단어 패키지 시리즈 제목(Part1·Part2) 문제를 수정하여 7개 언어 전체에 대응했습니다',ru:'Исправлены названия серий наборов слов (части 1 и 2), которые оставались на японском/китайском — теперь полностью переведены на все 7 языков'},
   v230_1:{ja:'語学留学の英単語 Part3(50語)を追加しました。上部の単語帳セレクターから選べます',en:'Added Study Abroad English Vocabulary Part 3 (50 words) — pick it from the deck selector at the top',zh:'新增留学英语单词 Part3(50个单词),可从顶部的单词本选择器中选择',fr:"Ajout du pack Vocabulaire anglais pour séjour linguistique — Part3 (50 mots), sélectionnable depuis le sélecteur en haut de l'écran",ar:'تمت إضافة حزمة مفردات إنجليزية للدراسة في الخارج — الجزء 3 (50 كلمة) — يمكن اختيارها من محدد المجموعات أعلى الشاشة',ko:'어학연수 영단어 Part3(50개 단어)를 추가했습니다. 상단의 단어장 선택기에서 고를 수 있습니다',ru:'Добавлен набор «Английская лексика для учёбы за границей — Part3» (50 слов) — выбирается в переключателе наборов вверху экрана'},
   v250_1:{ja:'Android/Chromeでもホーム画面に追加しやすくなりました(PWA対応)。ブラウザからインストールを促す案内が出るようになり、追加したアプリはオフラインでも開けます',en:'Easier to add to your home screen on Android/Chrome too (PWA support). The browser can now prompt you to install, and the installed app opens even offline',zh:'在 Android/Chrome 上也更容易添加到主屏幕了(支持 PWA)。浏览器现在会提示安装,安装后的应用即使离线也能打开',fr:"Plus facile à ajouter à l'écran d'accueil sur Android/Chrome aussi (prise en charge PWA). Le navigateur peut désormais proposer l'installation, et l'app installée s'ouvre même hors ligne",ar:'أصبحت الإضافة إلى الشاشة الرئيسية أسهل على Android/Chrome أيضًا (دعم PWA). يمكن للمتصفح الآن اقتراح التثبيت، ويعمل التطبيق المثبّت حتى دون اتصال',ko:'Android/Chrome에서도 홈 화면에 추가하기 쉬워졌습니다(PWA 지원). 이제 브라우저가 설치를 안내하며, 설치한 앱은 오프라인에서도 열립니다',ru:'Теперь приложение проще добавить на главный экран и в Android/Chrome (поддержка PWA). Браузер может предложить установку, а установленное приложение открывается даже офлайн'},
   v260_1:{ja:'ダークモードに対応しました。設定 > 表示 から「自動（端末の設定に合わせる）／ライト／ダーク」を選べます',en:'Added dark mode. Choose Auto (follow your device), Light, or Dark under Settings > Appearance',zh:'新增深色模式。可在 设置 > 外观 中选择「自动（跟随系统）／浅色／深色」',fr:"Ajout du mode sombre. Choisissez Auto (selon l'appareil), Clair ou Sombre dans Réglages > Apparence",ar:'تمت إضافة الوضع الداكن. اختر تلقائي (حسب الجهاز) أو فاتح أو داكن من الإعدادات > المظهر',ko:'다크 모드를 추가했습니다. 설정 > 화면 에서 자동(기기 설정 따르기)／라이트／다크 를 선택할 수 있습니다',ru:'Добавлена тёмная тема. Выберите «Авто» (как на устройстве), «Светлая» или «Тёмная» в Настройки > Оформление'},
@@ -1499,6 +1508,9 @@ document.addEventListener('click',e=>{
   if(!b)return;
   e.stopPropagation();
   e.preventDefault();
+  // Only the speaker button, never speakAuto -- mixing the two would make
+  // usage look high simply because auto-play was left on.
+  gaEvent('pronounce',{auto_speak_on:!!S().autoSpeak,accent:S().accent});
   speak(b.dataset.spk);
 },true);
 
@@ -1935,9 +1947,7 @@ function renderActiveView(){
   else if(v.id==='v-list')renderList();
   else if(v.id==='v-study')renderStudy();
   else if(v.id==='v-stats')renderStats();
-  // A quiz in progress is left alone: re-running startQuiz would discard the
-  // user's place. The next question is drawn in the new language.
-  else if(v.id==='v-quiz'&&!quizInProgress())startQuiz();
+  else if(v.id==='v-quiz')showQuiz(true);
 }
 // A quiz already under way is left alone. Leaving the tab and coming back
 // used to call startQuiz() again, which drew a fresh set of questions and
@@ -1951,6 +1961,20 @@ function quizInProgress(){
 // v-study is reached from the word tab rather than having a tab of its own,
 // so it highlights that tab instead of leaving none lit.
 const TAB_FOR={'v-study':'v-list'};
+// Entering the review view. A round already under way keeps its place, but
+// its chrome still has to be redrawn -- a language change used to leave the
+// deck bar and mode tabs in the old language for everyone but Japanese users.
+// `redraw` also redraws the current question, but only when it has not been
+// answered yet: once the result is showing, redrawing would wipe it and hand
+// out a free second attempt.
+function showQuiz(redraw){
+  if(!quizInProgress()){startQuiz();return;}
+  renderSourceBar('#src-quiz');
+  if(redraw&&!$('#qNext')){renderQ();return;}
+  const mt=$('#quizBody .q-mode-tabs');
+  if(mt)mt.outerHTML=modeTabsHTML(quiz.mode);
+  bindModeTabs();
+}
 function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   const tab=TAB_FOR[id]||id;
@@ -1958,7 +1982,7 @@ function go(id){
   if(id==='v-home')renderHome();
   if(id==='v-list')renderList();
   if(id==='v-study')renderStudy();
-  if(id==='v-quiz'&&!quizInProgress())startQuiz();
+  if(id==='v-quiz')showQuiz(false);
   if(id==='v-stats')renderStats();
   window.scrollTo(0,0);
   gaScreen(id);
@@ -2139,6 +2163,10 @@ async function lookup(){
     });
   }
   $('#saveHint').textContent=t('hint_confirm');
+  // Recorded here rather than only on save: a lookup that failed and was
+  // abandoned never reached word_added, so the failure rate was invisible.
+  gaEvent('word_lookup',{result:lookupSource,dict_hit:dictOk,
+    translated:trOk,spell_suggestions:spellSuggestions.length});
 }
 
 $('#btnSave').onclick=()=>{
@@ -2270,6 +2298,7 @@ function renderHome(){
       '<div class="s">'+esc(t('home_empty_s'))+'</div>'+
       '<button class="btn btn-gold" id="hmAdd2">'+esc(t('home_act_add'))+'</button></div>';
   }else{
+    gaEvent('home_cta_shown',{state:ts.kind,due:due,streak:st.current||0});
     h+='<div class="home-cta'+(ts.urgent?'':' calm')+'">'+
       '<div class="t"><span>'+ts.icon+'</span>'+esc(ts.title)+'</div>'+
       '<div class="s">'+esc(ts.sub)+'</div>'+
@@ -2296,7 +2325,7 @@ function renderHome(){
   el.innerHTML=h;
   renderSourceBar('#src-home');
   const go1=$('#hmGo');
-  if(go1)go1.onclick=()=>{go('v-quiz');startQuiz(ts.mode);};
+  if(go1)go1.onclick=()=>{gaEvent('home_cta_click',{state:ts.kind,mode:ts.mode});go('v-quiz');startQuiz(ts.mode);};
   const add2=$('#hmAdd2');
   if(add2)add2.onclick=()=>go('v-add');
   $('#hmCards').onclick=()=>go('v-study');
@@ -2306,12 +2335,28 @@ function renderHome(){
 }
 // 単語帳 (flashcards) stopped being a tab: it is a way of studying the list,
 // not a separate destination, and merging the two freed the slot Home needed.
+// A lone "flashcards" button read as decoration and said nothing about what
+// it led to. A segmented switch states the relationship instead: the same
+// words, two ways of looking at them -- and it doubles as the way back, so
+// the card view no longer needs a separate back button.
+function wordModesHTML(mode){
+  return '<div class="word-modes">'+
+    '<button data-wm="list" class="'+(mode==='list'?'on':'')+'">📋 '+esc(t('mode_list'))+'</button>'+
+    '<button data-wm="cards" class="'+(mode==='cards'?'on':'')+'">🗂️ '+esc(t('mode_cards'))+'</button>'+
+  '</div>';
+}
+function bindWordModes(root){
+  $$(root+' .word-modes button').forEach(b=>b.onclick=()=>{
+    go(b.dataset.wm==='cards'?'v-study':'v-list');
+  });
+}
 function renderListModes(){
   const el=$('#listModes');
   if(!el)return;
+  // Nothing to switch between on an empty deck.
   if(!curWords().length){el.innerHTML='';return;}
-  el.innerHTML='<div class="list-modes"><button id="lmCards">🗂️ '+esc(t('home_act_cards'))+'</button></div>';
-  $('#lmCards').onclick=()=>go('v-study');
+  el.innerHTML=wordModesHTML('list');
+  bindWordModes('#listModes');
 }
 function renderList(){
   renderSourceBar('#src-list');
@@ -2408,6 +2453,8 @@ function renderList(){
 let deck=[],di=0;
 function renderStudy(){
   renderSourceBar('#src-study');
+  $('#studyModes').innerHTML=wordModesHTML('cards');
+  bindWordModes('#studyModes');
   const body=$('#studyBody');
   if(!curWords().length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>'+t('study_empty')+'</div>';return;}
   deck=shuffle(curWords());di=0;
@@ -2486,7 +2533,6 @@ function openWordDetail(w){
   gaScreen('word_detail');
 }
 function closeWordDetail(){$('#overlayWordDetail').classList.remove('show');}
-$('#studyBack').onclick=()=>go('v-list');
 $('#wdClose').onclick=closeWordDetail;
 $('#overlayWordDetail').addEventListener('click',e=>{if(e.target===$('#overlayWordDetail'))closeWordDetail();});
 
@@ -2593,7 +2639,10 @@ function startQuiz(mode){
   renderQ();
 }
 function bindModeTabs(){
-  $$('.q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
+  // Scoped to the quiz body on purpose: an unscoped selector also matched the
+  // word list/cards switch, which shares this class for its styling, and
+  // rewired those buttons to startQuiz(undefined).
+  $$('#quizBody .q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
 }
 function renderQ(){
   clearTimeout(answerSpeakTimer);
@@ -3186,6 +3235,15 @@ $('#btnStorageTip').onclick=()=>openStorageTip();
 
 /* ---------- tutorial (first run) ---------- */
 let tutStep=0; // 0 = language pick, 1..N = content steps
+let tutSkipped=false;
+// Reported once per step per run. Going back and forth would otherwise inflate
+// the later steps and make the drop-off curve read backwards.
+let tutSeen={};
+function gaTutStep(n,id){
+  if(tutSeen[n])return;
+  tutSeen[n]=true;
+  gaEvent('tutorial_step',{step:n,step_id:id,first_run:!!tutIsFirstRun});
+}
 let tutIsFirstRun=false;
 function tutSteps(){
   const steps=[
@@ -3210,9 +3268,11 @@ function isStandalone(){
   return window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches
     || navigator.standalone===true;
 }
-function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
+function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutStep=0;tutSkipped=false;tutSeen={};renderTutorial();$('#overlayTut').classList.add('show');}
 function closeTutorial(){$('#overlayTut').classList.remove('show');}
 function finishTutorial(){
+  gaEvent('tutorial_done',{skipped:tutSkipped,last_step:tutStep,
+    total_steps:tutSteps().length,first_run:!!tutIsFirstRun,lang:S().lang});
   // Only ever seed once, on a genuinely fresh install -- not when a user
   // revisits the tutorial later from Settings.
   if(tutIsFirstRun&&DB.words.length===0)seedStarterWords();
@@ -3248,6 +3308,7 @@ function renderTutorial(){
       renderTutorial(); // re-render this step in the newly chosen language
     });
     $('#tutStart').onclick=()=>{tutStep=1;renderTutorial();};
+    gaTutStep(0,'language');
     return;
   }
   const s=steps[tutStep-1];
@@ -3263,9 +3324,10 @@ function renderTutorial(){
       '<button class="btn btn-primary" id="tutNext">'+(last?t('start'):t('continue'))+'</button>'+
     '</div>'+
     '<button class="btn btn-ghost" id="tutSkip" style="width:100%;margin-top:10px;background:none;color:var(--muted)">'+t('skip')+'</button>';
+  gaTutStep(tutStep,s.id||('step'+tutStep));
   $('#tutBack').onclick=()=>{tutStep--;renderTutorial();};
   $('#tutNext').onclick=()=>{if(last)finishTutorial();else{tutStep++;renderTutorial();}};
-  $('#tutSkip').onclick=finishTutorial;
+  $('#tutSkip').onclick=()=>{tutSkipped=true;finishTutorial();};
 }
 
 /* ---------- what's new (after an update) ---------- */
