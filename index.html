@@ -622,13 +622,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.1.2';
+const APP_VERSION='4.2.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.1.2',date:'2026-08-21',keys:['wn1']},
+  {version:'4.2.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.1.2',date:'2026-08-21',keys:['v412_1']},
   {version:'4.1.1',date:'2026-08-21',keys:['v411_1']},
   {version:'4.1.0',date:'2026-08-21',keys:['v410_1','wn2','wn3']},
   {version:'4.0.0',date:'2026-08-21',keys:['v400_1']},
@@ -748,7 +749,10 @@ const T={
   v400_1:{ja:'重要な修正: 別のアカウントでログインしたとき、前の人の単語が引き継がれてしまう不具合を直しました。端末に残っていた単語が、新しくログインしたアカウントに保存されてしまう状態でした',en:'Important fix: signing in as a different account could carry over the previous person’s words. Words left on the device were being saved into the newly signed-in account',zh:'重要修复：以其他账号登录时，可能会带入上一位使用者的单词。残留在设备上的单词会被保存到新登录的账号中',fr:'Correctif important : se connecter avec un autre compte pouvait reprendre les mots de la personne précédente. Les mots restés sur l’appareil étaient enregistrés dans le compte nouvellement connecté',ar:'إصلاح مهم: كان تسجيل الدخول بحساب آخر قد ينقل كلمات الشخص السابق. الكلمات المتبقية على الجهاز كانت تُحفظ في الحساب الجديد',ko:'중요한 수정: 다른 계정으로 로그인할 때 이전 사용자의 단어가 넘어가던 문제를 고쳤습니다. 기기에 남아 있던 단어가 새로 로그인한 계정에 저장되던 상태였습니다',ru:'Важное исправление: вход под другим аккаунтом мог перенести слова предыдущего пользователя. Слова, оставшиеся на устройстве, сохранялись в только что вошедший аккаунт'},
   v410_1:{ja:'単語の意味に類義語（シノニム）を表示するようにしました。単語帳の裏面や、単語をタップしたときの詳細画面に、関連する言葉が一緒に出てきます',en:'Word meanings now show synonyms where available, on the flashcard back and the new tap-to-view detail popup',zh:'单词释义现在会显示近义词。可在单词卡背面或点击单词后的详情弹窗中查看',fr:'Les définitions affichent désormais les synonymes disponibles, au dos des cartes et dans la nouvelle fenêtre de détail',ar:'أصبحت معاني الكلمات تعرض المرادفات عند توفرها، في ظهر البطاقة وفي نافذة التفاصيل الجديدة',ko:'단어 뜻에 유의어를 표시합니다. 단어 카드 뒷면과 새로 생긴 탭 상세 팝업에서 함께 보입니다',ru:'В значениях слов теперь показываются синонимы — на обороте карточки и в новом всплывающем окне деталей'},
   v411_1:{ja:'重大な不具合を修正しました。ログインしていない状態でアプリを開くと、読み込み画面のまま止まって進まなくなっていました。ご迷惑をおかけしました',en:'Fixed a critical bug where opening the app while signed out could get stuck on the loading screen and never proceed. Sorry for the trouble this caused',zh:'修复了一个严重问题：未登录状态下打开应用可能会卡在加载画面无法继续。给您带来不便，深表歉意',fr:'Correction d’un bug critique : ouvrir l’app sans être connecté pouvait rester bloqué sur l’écran de chargement. Désolé pour la gêne occasionnée',ar:'تم إصلاح خلل خطير: فتح التطبيق دون تسجيل الدخول كان قد يتوقف عند شاشة التحميل ولا يتقدم. نعتذر عن الإزعاج',ko:'심각한 오류를 수정했습니다. 로그인하지 않은 상태로 앱을 열면 로딩 화면에서 멈춰 진행되지 않는 문제가 있었습니다. 불편을 드려 죄송합니다',ru:'Исправлена критическая ошибка: при открытии приложения без входа экран загрузки мог зависать навсегда. Приносим извинения за неудобства'},
-  wn1:{ja:'ブラウザのタブに表示されるアイコンが既定の地球マークのままだった不具合を修正しました。アプリのロゴが正しく表示されます',en:'Fixed the browser tab showing a generic globe icon instead of the app logo',zh:'修复了浏览器标签页显示默认地球图标而非应用图标的问题',fr:'Correction de l’onglet du navigateur qui affichait une icône de globe générique au lieu du logo de l’app',ar:'تم إصلاح ظهور أيقونة كرة أرضية عامة في تبويب المتصفح بدلاً من شعار التطبيق',ko:'브라우저 탭에 기본 지구본 아이콘이 표시되던 문제를 수정했습니다. 이제 앱 로고가 제대로 표시됩니다',ru:'Исправлено: во вкладке браузера отображался стандартный значок глобуса вместо логотипа приложения'},
+  v412_1:{ja:'ブラウザのタブに表示されるアイコンが既定の地球マークのままだった不具合を修正しました。アプリのロゴが正しく表示されます',en:'Fixed the browser tab showing a generic globe icon instead of the app logo',zh:'修复了浏览器标签页显示默认地球图标而非应用图标的问题',fr:'Correction de l’onglet du navigateur qui affichait une icône de globe générique au lieu du logo de l’app',ar:'تم إصلاح ظهور أيقونة كرة أرضية عامة في تبويب المتصفح بدلاً من شعار التطبيق',ko:'브라우저 탭에 기본 지구본 아이콘이 표시되던 문제를 수정했습니다. 이제 앱 로고가 제대로 표시됩니다',ru:'Исправлено: во вкладке браузера отображался стандартный значок глобуса вместо логотипа приложения'},
+  wn1:{ja:'重要な修正: ログイン済みなのに「この端末にしか保存されていません」の警告が出続ける不具合を直しました。あわせて、他の端末で追加した単語が起動時に取得されない問題も修正しています',en:'Important fix: the “saved only on this device” warning kept showing even while signed in. The same underlying bug also meant words added on another device were not pulled down at startup',zh:'重要修复：已登录状态下仍持续显示「仅保存在本设备」的警告。同一根本问题还导致其他设备上添加的单词在启动时未被同步下来',fr:'Correctif important : l’avertissement « enregistré uniquement sur cet appareil » restait affiché même connecté. Le même bug empêchait aussi la récupération au démarrage des mots ajoutés sur un autre appareil',ar:'إصلاح مهم: كان تحذير «محفوظ على هذا الجهاز فقط» يستمر بالظهور رغم تسجيل الدخول. والخلل نفسه كان يمنع جلب الكلمات المضافة من جهاز آخر عند بدء التشغيل',ko:'중요한 수정: 로그인 상태인데도 «이 기기에만 저장됨» 경고가 계속 표시되던 문제를 고쳤습니다. 같은 원인으로 다른 기기에서 추가한 단어가 시작 시 받아지지 않던 문제도 함께 수정했습니다',ru:'Важное исправление: предупреждение «сохранено только на этом устройстве» показывалось даже после входа. Та же причина мешала при запуске получать слова, добавленные на другом устройстве'},
+  wn2:{ja:'チュートリアルを作り直しました。アカウントを作るとデータが守られること、ホーム画面への追加方法を、それぞれ独立した画面で案内します。すでにログイン済みの方やインストール済みの方には表示されません',en:'Rebuilt the tutorial. Keeping your words safe with an account, and adding the app to your home screen, now each get their own screen — and are skipped entirely if you are already signed in or already installed',zh:'重做了新手引导。创建账号以保护数据、以及添加到主屏幕的方法，各自独立成页；已登录或已安装的用户则不会看到',fr:'Tutoriel refait. Protéger ses mots avec un compte et ajouter l’app à l’écran d’accueil ont désormais chacun leur écran — et sont ignorés si vous êtes déjà connecté ou déjà installé',ar:'أعدنا بناء الشرح التمهيدي. حماية كلماتك بحساب، وإضافة التطبيق إلى الشاشة الرئيسية، لكلٍّ منهما شاشته الآن، ويُتخطّيان إن كنت مسجّلاً أو مثبّتًا بالفعل',ko:'튜토리얼을 다시 만들었습니다. 계정으로 단어를 지키는 방법과 홈 화면 추가 방법을 각각 별도 화면으로 안내하며, 이미 로그인했거나 설치한 경우에는 표시되지 않습니다',ru:'Обучение переработано. Сохранность слов через аккаунт и добавление на главный экран получили отдельные экраны — и пропускаются, если вы уже вошли или уже установили приложение'},
+  wn3:{ja:'設定から「使い方をもう一度見る」を押したとき、設定画面を閉じてからチュートリアルが開くようにしました',en:'Opening the tutorial from Settings now closes the settings panel first, instead of opening behind it',zh:'从设置中打开使用教程时，会先关闭设置面板，而不是在其后方打开',fr:'Ouvrir le tutoriel depuis les Réglages ferme d’abord le panneau au lieu de s’ouvrir derrière',ar:'فتح الشرح من الإعدادات يغلق لوحة الإعدادات أولاً بدل أن يُفتح خلفها',ko:'설정에서 «사용법 다시 보기»를 누르면 설정 화면을 닫은 뒤 튜토리얼이 열립니다',ru:'Открытие обучения из настроек теперь сначала закрывает панель настроек, а не открывается за ней'},
   wn2:{ja:'リストの単語に品詞ラベル（名・動・形など）を付けました。名詞と動詞が同じ形の単語も見分けやすくなります',en:'Words in the list now carry a short part-of-speech label (N, V, Adj…), making it easier to tell apart words that look the same as different parts of speech',zh:'列表中的单词新增了词性标签（名/动/形等），更容易区分形态相同但词性不同的单词',fr:'Les mots de la liste affichent désormais une étiquette de nature grammaticale (N, V, Adj…)',ar:'أصبحت الكلمات في القائمة تحمل تصنيفًا نحويًا قصيرًا (اسم، فعل، صفة...)',ko:'목록의 단어에 품사 라벨(명/동/형 등)을 붙였습니다. 형태가 같은 단어도 품사로 구분하기 쉬워집니다',ru:'У слов в списке появилась короткая пометка части речи (сущ., гл., прил. и т.д.)'},
   wn3:{ja:'単語をタップすると、意味・発音・例文などをまとめて大きく見られる詳細画面が開くようになりました',en:'Tapping a word now opens a detail view with its meanings, pronunciation and examples shown larger and all in one place',zh:'点击单词即可打开详情视图，集中显示释义、发音与例句',fr:'Toucher un mot ouvre désormais une vue détaillée regroupant sens, prononciation et exemples',ar:'يفتح النقر على الكلمة الآن عرضًا تفصيليًا يجمع المعاني والنطق والأمثلة',ko:'단어를 탭하면 뜻·발음·예문을 한곳에 크게 모아 보여주는 상세 화면이 열립니다',ru:'При нажатии на слово теперь открывается подробный экран со значениями, произношением и примерами'},
   wn2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
@@ -1015,6 +1019,11 @@ const T={
   ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인',ru:'ОК'},
   streak_chip:{ja:'{0}日連続',en:'{0}-day streak',zh:'连续{0}天',fr:'{0} jours d’affilée',ar:'{0} يوم متتالٍ',ko:'{0}일 연속',ru:'{0} дн. подряд'},
 
+  tut_acct_t:{ja:'単語を守る',en:'Keep your words safe',zh:'保护你的单词',fr:'Protégez vos mots',ar:'احمِ كلماتك',ko:'단어를 지키기',ru:'Сохраните свои слова'},
+  tut_acct_b:{ja:'アカウントを作ると、追加した単語が自動でサーバーに保存されます。スマホを変えても、ブラウザのデータを消しても、ログインすれば同じ単語帳が戻ってきます。作らない場合、単語はこの端末の中だけに残ります。',en:'With an account, every word you add is saved to the server automatically. Change phones or clear your browser data, and signing back in brings the same list with you. Without one, your words live only on this device.',zh:'创建账号后，添加的单词会自动保存到服务器。即使更换手机或清除浏览器数据，登录后同一单词本也会回来。不创建的话，单词只保存在本设备中。',fr:'Avec un compte, chaque mot ajouté est sauvegardé automatiquement sur le serveur. Changez de téléphone ou effacez vos données : il suffit de vous reconnecter pour retrouver la même liste. Sans compte, vos mots ne vivent que sur cet appareil.',ar:'مع حساب، تُحفظ كل كلمة تضيفها تلقائيًا على الخادم. غيّر هاتفك أو امسح بيانات المتصفح، ويكفي تسجيل الدخول لتعود القائمة نفسها. بدون حساب، تبقى كلماتك على هذا الجهاز فقط.',ko:'계정을 만들면 추가한 단어가 자동으로 서버에 저장됩니다. 휴대폰을 바꾸거나 브라우저 데이터를 지워도, 로그인하면 같은 단어장이 돌아옵니다. 만들지 않으면 단어는 이 기기 안에만 남습니다.',ru:'С аккаунтом каждое добавленное слово автоматически сохраняется на сервере. Смените телефон или очистите данные браузера — достаточно войти, и список вернётся. Без аккаунта слова живут только на этом устройстве.'},
+  tut_acct_btn:{ja:'アカウントを作る（30秒）',en:'Create an account (30 seconds)',zh:'创建账号（30秒）',fr:'Créer un compte (30 secondes)',ar:'إنشاء حساب (30 ثانية)',ko:'계정 만들기 (30초)',ru:'Создать аккаунт (30 секунд)'},
+  tut_home_t:{ja:'ホーム画面に追加',en:'Add to your home screen',zh:'添加到主屏幕',fr:'Ajouter à l’écran d’accueil',ar:'أضِف إلى الشاشة الرئيسية',ko:'홈 화면에 추가',ru:'Добавьте на главный экран'},
+  tut_home_b:{ja:'ホーム画面に追加すると、普通のアプリと同じように一発で開けます。ブラウザが勝手にデータを消すことも防げるので、続けやすくなります。',en:'Adding it to your home screen opens the app in one tap, like any other app — and it stops the browser from clearing your data on its own, which makes it far easier to keep going.',zh:'添加到主屏幕后，就能像普通应用一样一键打开，还能防止浏览器自行清除数据，更容易坚持下去。',fr:'Sur l’écran d’accueil, l’app s’ouvre en un geste comme n’importe quelle autre — et le navigateur cesse d’effacer vos données de lui-même, ce qui aide beaucoup à tenir dans la durée.',ar:'بإضافته إلى الشاشة الرئيسية يفتح التطبيق بلمسة واحدة كأي تطبيق آخر، ويمنع المتصفح من مسح بياناتك من تلقاء نفسه، مما يسهّل الاستمرار.',ko:'홈 화면에 추가하면 일반 앱처럼 한 번에 열 수 있고, 브라우저가 임의로 데이터를 지우는 것도 막을 수 있어 꾸준히 이어가기 쉬워집니다.',ru:'На главном экране приложение открывается одним касанием, как любое другое, а браузер перестаёт сам удалять ваши данные — так продолжать заниматься гораздо проще.'},
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
   tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.',ru:'Это язык приложения и перевода значений. Вы можете изменить его в любое время в настройках.'},
   tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词',fr:'Ajouter des mots',ar:'إضافة كلمات',ko:'단어 추가',ru:'Добавляйте слова'},
@@ -2443,7 +2452,7 @@ function segTheme(){
   });
 }
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
-$('#btnTutorial').onclick=()=>openTutorial(false);
+$('#btnTutorial').onclick=()=>{closeSettings();openTutorial(false);};
 
 function doExport(){
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
@@ -2756,28 +2765,33 @@ function renderCount(){
 // and needs no external image asset.
 const ICON_SHARE='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg>';
 const ICON_MENU='<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
-function storageTipHTML(withCta){
-  // Signed in, the whole premise of this notice no longer holds: the words are
-  // on the server, so a different browser just needs a login.
-  if(typeof cloudUser!=='undefined'&&cloudUser)
-    return '<span style="display:block">'+esc(t('storage_tip_synced',cloudUser.username))+'</span>';
+// The add-to-home-screen steps, on their own so both the storage notice and
+// the tutorial's own install step can show them. Returns '' on desktop, where
+// there is nothing useful to instruct.
+function installStepsHTML(){
   const ua=navigator.userAgent||'';
-  const isIOS=/iPad|iPhone|iPod/.test(ua);
-  const isAndroid=/Android/.test(ua);
-  let stepsHtml='';
-  if(isIOS){
-    stepsHtml='<div class="storage-tip-icon">'+ICON_SHARE+'</div><ol class="storage-tip-steps">'+
+  if(/iPad|iPhone|iPod/.test(ua)){
+    return '<div class="storage-tip-icon">'+ICON_SHARE+'</div><ol class="storage-tip-steps">'+
       '<li>'+esc(t('storage_tip_ios_1'))+'</li>'+
       '<li>'+esc(t('storage_tip_ios_2'))+'</li>'+
       '<li>'+esc(t('storage_tip_ios_3'))+'</li>'+
     '</ol>';
-  }else if(isAndroid){
-    stepsHtml='<div class="storage-tip-icon">'+ICON_MENU+'</div><ol class="storage-tip-steps">'+
+  }
+  if(/Android/.test(ua)){
+    return '<div class="storage-tip-icon">'+ICON_MENU+'</div><ol class="storage-tip-steps">'+
       '<li>'+esc(t('storage_tip_android_1'))+'</li>'+
       '<li>'+esc(t('storage_tip_android_2'))+'</li>'+
       '<li>'+esc(t('storage_tip_android_3'))+'</li>'+
     '</ol>';
   }
+  return '';
+}
+function storageTipHTML(withCta){
+  // Signed in, the whole premise of this notice no longer holds: the words are
+  // on the server, so a different browser just needs a login.
+  if(typeof cloudUser!=='undefined'&&cloudUser)
+    return '<span style="display:block">'+esc(t('storage_tip_synced',cloudUser.username))+'</span>';
+  const stepsHtml=installStepsHTML();
   // An account fixes this properly, so offer it rather than only warning.
   const cta=withCta
     ?'<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">'+
@@ -2804,13 +2818,34 @@ $('#btnStorageTip').onclick=()=>openStorageTip();
 /* ---------- tutorial (first run) ---------- */
 let tutStep=0; // 0 = language pick, 1..N = content steps
 let tutIsFirstRun=false;
-function tutSteps(){return [
-  {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
-  {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
-  {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
-  {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')},
-  {emoji:'💾',title:t('storage_tip_title'),html:storageTipHTML()}
-];}
+function tutSteps(){
+  const steps=[
+    {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
+    {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
+    {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
+    {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
+  ];
+  // The two steps that decide whether this person still has their words next
+  // month. Both are skippable, but they get their own screen rather than being
+  // a footnote. Neither is shown to someone already signed in / already
+  // running installed, since the ask would be meaningless.
+  if(!(typeof cloudUser!=='undefined'&&cloudUser)){
+    steps.push({emoji:'☁️',id:'account',title:t('tut_acct_t'),
+      html:'<span style="display:block">'+esc(t('tut_acct_b'))+'</span>'+
+'<button class="btn btn-gold" id="tutAcctBtn" style="margin-top:14px;width:100%">'+esc(t('tut_acct_btn'))+'</button>'});
+  }
+  const install=installStepsHTML();
+  if(install&&!isStandalone()){
+    steps.push({emoji:'📱',id:'install',title:t('tut_home_t'),
+      html:'<span style="display:block">'+esc(t('tut_home_b'))+'</span>'+install});
+  }
+  return steps;
+}
+// Already launched from a home-screen icon: nothing to install.
+function isStandalone(){
+  return window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches
+    || navigator.standalone===true;
+}
 function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutStep=0;renderTutorial();$('#overlayTut').classList.add('show');}
 function closeTutorial(){$('#overlayTut').classList.remove('show');}
 function finishTutorial(){
@@ -2866,6 +2901,10 @@ function renderTutorial(){
   $('#tutBack').onclick=()=>{tutStep--;renderTutorial();};
   $('#tutNext').onclick=()=>{if(last)finishTutorial();else{tutStep++;renderTutorial();}};
   $('#tutSkip').onclick=finishTutorial;
+  // Taking up the account offer ends onboarding and hands straight over to the
+  // sign-up form -- stacking it on top of a still-open tutorial reads as broken.
+  const acctBtn=$('#tutAcctBtn');
+  if(acctBtn)acctBtn.onclick=()=>{finishTutorial();openAcct();};
 }
 
 /* ---------- what's new (after an update) ---------- */
@@ -2937,6 +2976,13 @@ function loadFirebase(){
     firebase.initializeApp(FIREBASE_CONFIG);
     fbAuth=firebase.auth();
     fbDb=firebase.firestore();
+    // Resolve only once Firebase has actually reported the restored session.
+    // Resolving as soon as the listener was registered handed control back
+    // with cloudUser still null, so the startup sync bailed out of its own
+    // guard and did nothing -- words added on another device never arrived,
+    // and the signed-out warning stayed on screen for a signed-in user.
+    let settleFirstAuth;
+    const firstAuth=new Promise(r=>{settleFirstAuth=r;});
     fbAuth.onAuthStateChanged(u=>{
       if(u){
         const saved=cloudSaved();
@@ -2945,8 +2991,15 @@ function loadFirebase(){
         if(cloudState!=='syncing')cloudState='in';
       }else{cloudUser=null;cloudState='out';}
       renderAccountUI();
+      // Anything gated on sign-in state (the signed-out warning, the header)
+      // was drawn before this resolved, so repaint it now that we know.
+      renderCount();
+      renderActiveView();
       hideSplash();
+      settleFirstAuth();
     });
+    // Never hang the caller if that callback somehow never arrives.
+    await Promise.race([firstAuth,new Promise(r=>setTimeout(r,8000))]);
     fbReady=true;
     return true;
   })();

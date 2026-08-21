@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.1.2 時点 &middot; 最終更新 2026-08-21</div>
+    <div class="sub">v4.2.0 時点 &middot; 最終更新 2026-08-21</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -147,6 +147,41 @@ footer a{color:var(--ink-2)}
         <div>
           <div class="t">多義語の代表的な意味を品詞ごとに合成</div>
           <div class="d">例: patient は今「患者」しか出ず「辛抱強い」（形容詞）が埋もれている。単語まるごとの機械翻訳ではなく、<code>meanings[]</code>（品詞ごとに既に訳し分けている）を結合して代表的な意味を作れば、追加の通信なしで解決する。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>オンライン機能（構想）</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">フレンド・ランキング・リーグを見据えた土台づくり。<b>先に決めておかないと後戻りが高くつく部分</b>を切り出してある。</p>
+    <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">ログインIDと表示名を分離する</div>
+          <div class="d"><b>早めにやるべき。</b>いまはユーザー名がそのままログインIDで、変更するとログインできなくなる。人に見せる名前は後から変えたくなるのが普通なので、「ログイン用のID」と「表示名（他人に見える名前）」を別のものとして持つ。既存ユーザーには現在のユーザー名を初期表示名として移行する。<br>また、復旧用メールを登録するとログインIDがメールに置き換わる今の仕様も、この分離とあわせて整理したい（メールは連絡先、IDはIDとして扱う）。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">アイコン（アバター）の選択</div>
+          <div class="d">画像アップロードは保管・費用・不適切画像の対応が発生するので、<b>最初は絵文字またはプリセットから選ぶ方式</b>が現実的。文字列1つ保存するだけで済み、フレンド一覧やランキングでそのまま使える。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">公開プロフィールの置き場所を決める</div>
+          <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（表示名・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">表示名の重複・不適切語の扱いを決める</div>
+          <div class="d">表示名を自由にすると重複と不適切な名前が発生する。重複を許すか（IDで区別）、一意にするか（早い者勝ち）を先に決める。ランキングに他人の目が入る以上、通報や名前変更の手段も要る。</div>
         </div>
       </li>
     </ul>
@@ -310,6 +345,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ログイン済みでも「この端末にしか保存されていません」警告が出る</div><div class="d">原因は認証確定前に起動時同期が走る競合。同じ原因で「他端末で追加した単語が起動時に降りてこない」不具合も併発していた。</div><div class="ver">v4.2.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">チュートリアルの作り込み</div><div class="d">アカウント作成とホーム画面追加を独立したステップに。ログイン済み・インストール済みの場合は該当ステップを出さない。</div><div class="ver">v4.2.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定からチュートリアルを開くと設定の裏に隠れる</div><div class="d">押した時点で設定モーダルを閉じるようにした。</div><div class="ver">v4.2.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大インシデント: 未ログインでアプリが読み込み画面から進まない</div><div class="d">起動時スプラッシュの実装ミス（<code>let splashHidden</code>の宣言より前に、それを参照する同期呼び出しが実行される順序バグ）。未ログイン時に即座にスクリプト全体が停止していた。友達からの報告で発覚、本番で再現・特定・修正・検証まで実施。</div><div class="ver">v4.1.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">Service Workerのキャッシュ戦略を強化</div><div class="d">上記インシデントの検証中に判明: GitHub Pagesの<code>max-age=600</code>により、修正直後でも最大10分間は古い版が再生され得た。ナビゲーション時の<code>fetch</code>を<code>no-cache</code>に変更し、確実にサーバーへ再確認させるようにした。</div><div class="ver">v4.1.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ブラウザタブのファビコンが地球マークのまま</div><div class="d"><code>admin.html</code>と開発ボードには<code>&lt;link rel="icon"&gt;</code>を追加していたが、肝心のアプリ本体（<code>index.html</code>）に追加し忘れていた。manifest.jsonのアイコンはホーム画面追加時にしか使われず、通常のタブには反映されないため。</div><div class="ver">v4.1.2</div></div></li>
