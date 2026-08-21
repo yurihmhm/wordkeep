@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.2.0 時点 &middot; 最終更新 2026-08-21</div>
+    <div class="sub">v4.3.0 時点 &middot; 最終更新 2026-08-21</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -154,15 +154,8 @@ footer a{color:var(--ink-2)}
 
   <section>
     <div class="sec-head"><h2>オンライン機能（構想）</h2><span class="sec-n" data-count></span></div>
-    <p class="sec-note">フレンド・ランキング・リーグを見据えた土台づくり。<b>先に決めておかないと後戻りが高くつく部分</b>を切り出してある。</p>
+    <p class="sec-note">フレンド・ランキング・リーグを見据えた土台づくり。<b>v4.3.0で土台を実装済み。</b>方針：登録・ログインは<b>メールアドレス＋PIN</b>。登録直後の「ようこそ」画面で<b>ニックネーム</b>（世界のランキングに出る名前）を決めてもらう。ニックネームは日本語でも英語でも可、<b>7日に1度</b>変更できる。アプリは<b>ログイン必須</b>にし、「ログイン」ボタンは「プロフィール」に置き換える。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">ログインIDと表示名を分離する</div>
-          <div class="d"><b>早めにやるべき。</b>いまはユーザー名がそのままログインIDで、変更するとログインできなくなる。人に見せる名前は後から変えたくなるのが普通なので、「ログイン用のID」と「表示名（他人に見える名前）」を別のものとして持つ。既存ユーザーには現在のユーザー名を初期表示名として移行する。<br>また、復旧用メールを登録するとログインIDがメールに置き換わる今の仕様も、この分離とあわせて整理したい（メールは連絡先、IDはIDとして扱う）。</div>
-        </div>
-      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -174,14 +167,14 @@ footer a{color:var(--ink-2)}
         <span class="chip open">未完了</span>
         <div>
           <div class="t">公開プロフィールの置き場所を決める</div>
-          <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（表示名・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。</div>
+          <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（ニックネーム・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。<b>メールアドレスは絶対にここへ入れない。</b></div>
         </div>
       </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
-          <div class="t">表示名の重複・不適切語の扱いを決める</div>
-          <div class="d">表示名を自由にすると重複と不適切な名前が発生する。重複を許すか（IDで区別）、一意にするか（早い者勝ち）を先に決める。ランキングに他人の目が入る以上、通報や名前変更の手段も要る。</div>
+          <div class="t">ニックネームの不適切語対応</div>
+          <div class="d">ランキングで世界中の目に触れる以上、通報と管理者による強制変更の手段が要る。管理画面から改名できるようにするのが最小構成。</div>
         </div>
       </li>
     </ul>
@@ -233,6 +226,27 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>機能</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">効果は大きいが、どれも一日仕事ではない。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">ホームタブへの刷新（復習タブUIの見直し）</div>
+          <div class="d">一番左のリストタブを<b>ホームタブ</b>にして、各機能への入口をまとめる。今は「何をすればいいか」がタブを開くまで分からず、復習に辿り着くまでの距離がある。ホームが起点になれば、継続に効く導線（今日の復習・連続日数・進捗）を一箇所に集められる。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">ホームタブに「今日の復習」ボタン</div>
+          <div class="d">アプリを開いた直後の1タップで復習を始められるようにする。<b>上のホームタブ刷新とセットで効く</b>項目で、継続率にいちばん直結する導線。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">正解・不正解の効果音</div>
+          <div class="d">解答時に短い効果音を鳴らす。手応えが出て学習のテンポが良くなる。<b>必ず設定でオフにできるようにする</b>（電車内や図書館で使う人がいるため）。音源は外部ファイルではなくWeb Audio APIで生成すれば、単一HTML構成と読み込み速度を崩さずに済む。</div>
+        </div>
+      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -345,6 +359,10 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">登録・ログインをメールアドレス＋PINに変更</div><div class="d">新規登録はメールアドレス必須。PINを忘れてもメールで復旧できる。旧アカウント（<code>ユーザー名@wordkeep.invalid</code>）はログイン不能にならないよう、ユーザー名でのログインを残した。</div><div class="ver">v4.3.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ニックネーム（ようこそ画面・7日クールダウン）</div><div class="d">登録直後にニックネームを決める画面を追加。重複可・多言語可。クールダウンはFirestoreルールでもサーバー側検査する。旧ユーザーは現ユーザー名が初期値。</div><div class="ver">v4.3.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ログイン必須ゲートと「プロフィール」</div><div class="d">未ログインでは学習画面に入れない。順序はチュートリアル→ゲート→ニックネーム。メニューの「ログイン」を「プロフィール」に変更。</div><div class="ver">v4.3.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">更新のお知らせが古い内容を表示していた不具合</div><div class="d">リリースノートのキー（<code>wn2</code>/<code>wn3</code>）が3重に定義され、後の定義が前を上書きしていた。v4.2.0の利用者には旧バージョンの内容が表示されていた。過去分をバージョン別キーに整理して修正。</div><div class="ver">v4.3.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ログイン済みでも「この端末にしか保存されていません」警告が出る</div><div class="d">原因は認証確定前に起動時同期が走る競合。同じ原因で「他端末で追加した単語が起動時に降りてこない」不具合も併発していた。</div><div class="ver">v4.2.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">チュートリアルの作り込み</div><div class="d">アカウント作成とホーム画面追加を独立したステップに。ログイン済み・インストール済みの場合は該当ステップを出さない。</div><div class="ver">v4.2.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定からチュートリアルを開くと設定の裏に隠れる</div><div class="d">押した時点で設定モーダルを閉じるようにした。</div><div class="ver">v4.2.0</div></div></li>

@@ -249,6 +249,16 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   display:flex;align-items:center;justify-content:center;padding:24px;z-index:100;
   opacity:0;pointer-events:none;transition:.25s}
 .overlay.show{opacity:1;pointer-events:auto}
+/* The sign-in gate and the welcome screen are the only overlays with no way
+   out, so they sit above everything else and hide the page behind them
+   completely -- a half-visible word list under a blocking sheet reads as a
+   bug rather than as a step you have to finish. */
+.overlay.gate{background:var(--navy);backdrop-filter:none;z-index:150}
+.gate-brand{font-family:Georgia,'Times New Roman',serif;font-size:26px;letter-spacing:.02em;
+  text-align:center;color:var(--gold);margin:0 0 6px}
+.gate-lead{text-align:center;margin:0 0 20px}
+.gate-alt{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center}
+.gate-alt .hint{margin:0 0 8px}
 .sheet{background:var(--surface);border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
   box-shadow:var(--shadow);max-height:86vh;overflow:auto}
 .sheet.sheet-wide{max-width:520px;padding:20px 18px 24px}
@@ -462,8 +472,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <div class="overlay" id="overlayMenu"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="menu_title">メニュー</h3><button class="sheet-x" id="menuClose" type="button" aria-label="close">×</button></div>
   <button class="menu-item" id="miAccount" type="button">
-    <span class="mi-ic">☁️</span>
-    <span class="mi-txt"><span class="mi-t" id="miAcctT" data-i18n="acct_login">ログイン</span><span class="mi-s" id="miAcctS" data-i18n="menu_acct_sub">単語を保存して他の端末でも使う</span></span>
+    <span class="mi-ic">👤</span>
+    <span class="mi-txt"><span class="mi-t" id="miAcctT" data-i18n="profile_title">プロフィール</span><span class="mi-s" id="miAcctS" data-i18n="menu_profile_sub">ニックネーム・同期・アカウント</span></span>
   </button>
   <button class="menu-item" id="miFeedback" type="button">
     <span class="mi-ic">💬</span>
@@ -475,9 +485,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   </button>
 </div></div>
 <div class="overlay" id="overlayAcct"><div class="sheet">
-  <div class="sheet-head"><h3 data-i18n="acct_title">アカウント</h3><button class="sheet-x" id="acctClose" type="button" aria-label="close">×</button></div>
+  <div class="sheet-head"><h3 id="acctTitle" data-i18n="profile_title">プロフィール</h3><button class="sheet-x" id="acctClose" type="button" aria-label="close">×</button></div>
   <div id="acctBody"></div>
 </div></div>
+<div class="overlay gate" id="overlayGate"><div class="sheet"><div id="gateBody"></div></div></div>
+<div class="overlay gate" id="overlayNick"><div class="sheet"><div id="nickBody"></div></div></div>
 <div class="overlay" id="overlayWordDetail"><div class="sheet">
   <div class="sheet-head"><h3 id="wdWord" style="font-family:Georgia,'Times New Roman',serif"></h3><button class="sheet-x" id="wdClose" type="button" aria-label="close">×</button></div>
   <div id="wdBody"></div>
@@ -622,17 +634,18 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.2.0';
+const APP_VERSION='4.3.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.2.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.3.0',date:'2026-08-21',keys:['wn1','wn2','wn3']},
+  {version:'4.2.0',date:'2026-08-21',keys:['v420_1','v420_2','v420_3']},
   {version:'4.1.2',date:'2026-08-21',keys:['v412_1']},
   {version:'4.1.1',date:'2026-08-21',keys:['v411_1']},
-  {version:'4.1.0',date:'2026-08-21',keys:['v410_1','wn2','wn3']},
-  {version:'4.0.0',date:'2026-08-21',keys:['v400_1']},
+  {version:'4.1.0',date:'2026-08-21',keys:['v410_1','v410_2','v410_3']},
+  {version:'4.0.0',date:'2026-08-21',keys:['v400_1','v400_2','v400_3']},
   {version:'3.9.1',date:'2026-08-21',keys:['v391_1']},
   {version:'3.9.0',date:'2026-08-20',keys:['v390_1']},
   {version:'3.8.0',date:'2026-08-20',keys:['v380_1','v380_2']},
@@ -750,13 +763,16 @@ const T={
   v410_1:{ja:'単語の意味に類義語（シノニム）を表示するようにしました。単語帳の裏面や、単語をタップしたときの詳細画面に、関連する言葉が一緒に出てきます',en:'Word meanings now show synonyms where available, on the flashcard back and the new tap-to-view detail popup',zh:'单词释义现在会显示近义词。可在单词卡背面或点击单词后的详情弹窗中查看',fr:'Les définitions affichent désormais les synonymes disponibles, au dos des cartes et dans la nouvelle fenêtre de détail',ar:'أصبحت معاني الكلمات تعرض المرادفات عند توفرها، في ظهر البطاقة وفي نافذة التفاصيل الجديدة',ko:'단어 뜻에 유의어를 표시합니다. 단어 카드 뒷면과 새로 생긴 탭 상세 팝업에서 함께 보입니다',ru:'В значениях слов теперь показываются синонимы — на обороте карточки и в новом всплывающем окне деталей'},
   v411_1:{ja:'重大な不具合を修正しました。ログインしていない状態でアプリを開くと、読み込み画面のまま止まって進まなくなっていました。ご迷惑をおかけしました',en:'Fixed a critical bug where opening the app while signed out could get stuck on the loading screen and never proceed. Sorry for the trouble this caused',zh:'修复了一个严重问题：未登录状态下打开应用可能会卡在加载画面无法继续。给您带来不便，深表歉意',fr:'Correction d’un bug critique : ouvrir l’app sans être connecté pouvait rester bloqué sur l’écran de chargement. Désolé pour la gêne occasionnée',ar:'تم إصلاح خلل خطير: فتح التطبيق دون تسجيل الدخول كان قد يتوقف عند شاشة التحميل ولا يتقدم. نعتذر عن الإزعاج',ko:'심각한 오류를 수정했습니다. 로그인하지 않은 상태로 앱을 열면 로딩 화면에서 멈춰 진행되지 않는 문제가 있었습니다. 불편을 드려 죄송합니다',ru:'Исправлена критическая ошибка: при открытии приложения без входа экран загрузки мог зависать навсегда. Приносим извинения за неудобства'},
   v412_1:{ja:'ブラウザのタブに表示されるアイコンが既定の地球マークのままだった不具合を修正しました。アプリのロゴが正しく表示されます',en:'Fixed the browser tab showing a generic globe icon instead of the app logo',zh:'修复了浏览器标签页显示默认地球图标而非应用图标的问题',fr:'Correction de l’onglet du navigateur qui affichait une icône de globe générique au lieu du logo de l’app',ar:'تم إصلاح ظهور أيقونة كرة أرضية عامة في تبويب المتصفح بدلاً من شعار التطبيق',ko:'브라우저 탭에 기본 지구본 아이콘이 표시되던 문제를 수정했습니다. 이제 앱 로고가 제대로 표시됩니다',ru:'Исправлено: во вкладке браузера отображался стандартный значок глобуса вместо логотипа приложения'},
-  wn1:{ja:'重要な修正: ログイン済みなのに「この端末にしか保存されていません」の警告が出続ける不具合を直しました。あわせて、他の端末で追加した単語が起動時に取得されない問題も修正しています',en:'Important fix: the “saved only on this device” warning kept showing even while signed in. The same underlying bug also meant words added on another device were not pulled down at startup',zh:'重要修复：已登录状态下仍持续显示「仅保存在本设备」的警告。同一根本问题还导致其他设备上添加的单词在启动时未被同步下来',fr:'Correctif important : l’avertissement « enregistré uniquement sur cet appareil » restait affiché même connecté. Le même bug empêchait aussi la récupération au démarrage des mots ajoutés sur un autre appareil',ar:'إصلاح مهم: كان تحذير «محفوظ على هذا الجهاز فقط» يستمر بالظهور رغم تسجيل الدخول. والخلل نفسه كان يمنع جلب الكلمات المضافة من جهاز آخر عند بدء التشغيل',ko:'중요한 수정: 로그인 상태인데도 «이 기기에만 저장됨» 경고가 계속 표시되던 문제를 고쳤습니다. 같은 원인으로 다른 기기에서 추가한 단어가 시작 시 받아지지 않던 문제도 함께 수정했습니다',ru:'Важное исправление: предупреждение «сохранено только на этом устройстве» показывалось даже после входа. Та же причина мешала при запуске получать слова, добавленные на другом устройстве'},
-  wn2:{ja:'チュートリアルを作り直しました。アカウントを作るとデータが守られること、ホーム画面への追加方法を、それぞれ独立した画面で案内します。すでにログイン済みの方やインストール済みの方には表示されません',en:'Rebuilt the tutorial. Keeping your words safe with an account, and adding the app to your home screen, now each get their own screen — and are skipped entirely if you are already signed in or already installed',zh:'重做了新手引导。创建账号以保护数据、以及添加到主屏幕的方法，各自独立成页；已登录或已安装的用户则不会看到',fr:'Tutoriel refait. Protéger ses mots avec un compte et ajouter l’app à l’écran d’accueil ont désormais chacun leur écran — et sont ignorés si vous êtes déjà connecté ou déjà installé',ar:'أعدنا بناء الشرح التمهيدي. حماية كلماتك بحساب، وإضافة التطبيق إلى الشاشة الرئيسية، لكلٍّ منهما شاشته الآن، ويُتخطّيان إن كنت مسجّلاً أو مثبّتًا بالفعل',ko:'튜토리얼을 다시 만들었습니다. 계정으로 단어를 지키는 방법과 홈 화면 추가 방법을 각각 별도 화면으로 안내하며, 이미 로그인했거나 설치한 경우에는 표시되지 않습니다',ru:'Обучение переработано. Сохранность слов через аккаунт и добавление на главный экран получили отдельные экраны — и пропускаются, если вы уже вошли или уже установили приложение'},
-  wn3:{ja:'設定から「使い方をもう一度見る」を押したとき、設定画面を閉じてからチュートリアルが開くようにしました',en:'Opening the tutorial from Settings now closes the settings panel first, instead of opening behind it',zh:'从设置中打开使用教程时，会先关闭设置面板，而不是在其后方打开',fr:'Ouvrir le tutoriel depuis les Réglages ferme d’abord le panneau au lieu de s’ouvrir derrière',ar:'فتح الشرح من الإعدادات يغلق لوحة الإعدادات أولاً بدل أن يُفتح خلفها',ko:'설정에서 «사용법 다시 보기»를 누르면 설정 화면을 닫은 뒤 튜토리얼이 열립니다',ru:'Открытие обучения из настроек теперь сначала закрывает панель настроек, а не открывается за ней'},
-  wn2:{ja:'リストの単語に品詞ラベル（名・動・形など）を付けました。名詞と動詞が同じ形の単語も見分けやすくなります',en:'Words in the list now carry a short part-of-speech label (N, V, Adj…), making it easier to tell apart words that look the same as different parts of speech',zh:'列表中的单词新增了词性标签（名/动/形等），更容易区分形态相同但词性不同的单词',fr:'Les mots de la liste affichent désormais une étiquette de nature grammaticale (N, V, Adj…)',ar:'أصبحت الكلمات في القائمة تحمل تصنيفًا نحويًا قصيرًا (اسم، فعل، صفة...)',ko:'목록의 단어에 품사 라벨(명/동/형 등)을 붙였습니다. 형태가 같은 단어도 품사로 구분하기 쉬워집니다',ru:'У слов в списке появилась короткая пометка части речи (сущ., гл., прил. и т.д.)'},
-  wn3:{ja:'単語をタップすると、意味・発音・例文などをまとめて大きく見られる詳細画面が開くようになりました',en:'Tapping a word now opens a detail view with its meanings, pronunciation and examples shown larger and all in one place',zh:'点击单词即可打开详情视图，集中显示释义、发音与例句',fr:'Toucher un mot ouvre désormais une vue détaillée regroupant sens, prononciation et exemples',ar:'يفتح النقر على الكلمة الآن عرضًا تفصيليًا يجمع المعاني والنطق والأمثلة',ko:'단어를 탭하면 뜻·발음·예문을 한곳에 크게 모아 보여주는 상세 화면이 열립니다',ru:'При нажатии на слово теперь открывается подробный экран со значениями, произношением и примерами'},
-  wn2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
-  wn3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
+  wn1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
+  wn2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
+  wn3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
+  v420_1:{ja:'重要な修正: ログイン済みなのに「この端末にしか保存されていません」の警告が出続ける不具合を直しました。あわせて、他の端末で追加した単語が起動時に取得されない問題も修正しています',en:'Important fix: the “saved only on this device” warning kept showing even while signed in. The same underlying bug also meant words added on another device were not pulled down at startup',zh:'重要修复：已登录状态下仍持续显示「仅保存在本设备」的警告。同一根本问题还导致其他设备上添加的单词在启动时未被同步下来',fr:'Correctif important : l’avertissement « enregistré uniquement sur cet appareil » restait affiché même connecté. Le même bug empêchait aussi la récupération au démarrage des mots ajoutés sur un autre appareil',ar:'إصلاح مهم: كان تحذير «محفوظ على هذا الجهاز فقط» يستمر بالظهور رغم تسجيل الدخول. والخلل نفسه كان يمنع جلب الكلمات المضافة من جهاز آخر عند بدء التشغيل',ko:'중요한 수정: 로그인 상태인데도 «이 기기에만 저장됨» 경고가 계속 표시되던 문제를 고쳤습니다. 같은 원인으로 다른 기기에서 추가한 단어가 시작 시 받아지지 않던 문제도 함께 수정했습니다',ru:'Важное исправление: предупреждение «сохранено только на этом устройстве» показывалось даже после входа. Та же причина мешала при запуске получать слова, добавленные на другом устройстве'},
+  v420_2:{ja:'チュートリアルを作り直しました。アカウントを作るとデータが守られること、ホーム画面への追加方法を、それぞれ独立した画面で案内します。すでにログイン済みの方やインストール済みの方には表示されません',en:'Rebuilt the tutorial. Keeping your words safe with an account, and adding the app to your home screen, now each get their own screen — and are skipped entirely if you are already signed in or already installed',zh:'重做了新手引导。创建账号以保护数据、以及添加到主屏幕的方法，各自独立成页；已登录或已安装的用户则不会看到',fr:'Tutoriel refait. Protéger ses mots avec un compte et ajouter l’app à l’écran d’accueil ont désormais chacun leur écran — et sont ignorés si vous êtes déjà connecté ou déjà installé',ar:'أعدنا بناء الشرح التمهيدي. حماية كلماتك بحساب، وإضافة التطبيق إلى الشاشة الرئيسية، لكلٍّ منهما شاشته الآن، ويُتخطّيان إن كنت مسجّلاً أو مثبّتًا بالفعل',ko:'튜토리얼을 다시 만들었습니다. 계정으로 단어를 지키는 방법과 홈 화면 추가 방법을 각각 별도 화면으로 안내하며, 이미 로그인했거나 설치한 경우에는 표시되지 않습니다',ru:'Обучение переработано. Сохранность слов через аккаунт и добавление на главный экран получили отдельные экраны — и пропускаются, если вы уже вошли или уже установили приложение'},
+  v420_3:{ja:'設定から「使い方をもう一度見る」を押したとき、設定画面を閉じてからチュートリアルが開くようにしました',en:'Opening the tutorial from Settings now closes the settings panel first, instead of opening behind it',zh:'从设置中打开使用教程时，会先关闭设置面板，而不是在其后方打开',fr:'Ouvrir le tutoriel depuis les Réglages ferme d’abord le panneau au lieu de s’ouvrir derrière',ar:'فتح الشرح من الإعدادات يغلق لوحة الإعدادات أولاً بدل أن يُفتح خلفها',ko:'설정에서 «사용법 다시 보기»를 누르면 설정 화면을 닫은 뒤 튜토리얼이 열립니다',ru:'Открытие обучения из настроек теперь сначала закрывает панель настроек, а не открывается за ней'},
+  v410_2:{ja:'リストの単語に品詞ラベル（名・動・形など）を付けました。名詞と動詞が同じ形の単語も見分けやすくなります',en:'Words in the list now carry a short part-of-speech label (N, V, Adj…), making it easier to tell apart words that look the same as different parts of speech',zh:'列表中的单词新增了词性标签（名/动/形等），更容易区分形态相同但词性不同的单词',fr:'Les mots de la liste affichent désormais une étiquette de nature grammaticale (N, V, Adj…)',ar:'أصبحت الكلمات في القائمة تحمل تصنيفًا نحويًا قصيرًا (اسم، فعل، صفة...)',ko:'목록의 단어에 품사 라벨(명/동/형 등)을 붙였습니다. 형태가 같은 단어도 품사로 구분하기 쉬워집니다',ru:'У слов в списке появилась короткая пометка части речи (сущ., гл., прил. и т.д.)'},
+  v410_3:{ja:'単語をタップすると、意味・発音・例文などをまとめて大きく見られる詳細画面が開くようになりました',en:'Tapping a word now opens a detail view with its meanings, pronunciation and examples shown larger and all in one place',zh:'点击单词即可打开详情视图，集中显示释义、发音与例句',fr:'Toucher un mot ouvre désormais une vue détaillée regroupant sens, prononciation et exemples',ar:'يفتح النقر على الكلمة الآن عرضًا تفصيليًا يجمع المعاني والنطق والأمثلة',ko:'단어를 탭하면 뜻·발음·예문을 한곳에 크게 모아 보여주는 상세 화면이 열립니다',ru:'При нажатии на слово теперь открывается подробный экран со значениями, произношением и примерами'},
+  v400_2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
+  v400_3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
   nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
@@ -792,6 +808,34 @@ const T={
   acct_e_many:{ja:'試行回数が多すぎます。しばらく待ってからお試しください',en:'Too many attempts. Please wait a little and try again',zh:'尝试次数过多，请稍后再试',fr:'Trop de tentatives. Réessayez dans un moment',ar:'محاولات كثيرة جدًا. انتظر قليلاً ثم أعد المحاولة',ko:'시도 횟수가 너무 많습니다. 잠시 후 다시 시도해 주세요',ru:'Слишком много попыток. Подождите немного и повторите'},
   acct_e_disabled:{ja:'ログイン機能が有効になっていません（Firebaseでメール/パスワードを有効にしてください）',en:'Sign-in is not enabled yet (enable Email/Password in Firebase)',zh:'登录功能尚未启用（请在 Firebase 中启用邮箱/密码）',fr:'La connexion n’est pas activée (activez E-mail/Mot de passe dans Firebase)',ar:'لم يتم تفعيل تسجيل الدخول (فعّل البريد/كلمة المرور في Firebase)',ko:'로그인 기능이 아직 활성화되지 않았습니다 (Firebase에서 이메일/비밀번호를 활성화하세요)',ru:'Вход ещё не включён (включите Email/Password в Firebase)'},
   acct_e_rules:{ja:'保存できませんでした（Firestoreのルールを確認してください）',en:'Couldn’t save (check the Firestore security rules)',zh:'保存失败（请检查 Firestore 安全规则）',fr:'Enregistrement impossible (vérifiez les règles Firestore)',ar:'تعذّر الحفظ (تحقّق من قواعد Firestore)',ko:'저장하지 못했습니다 (Firestore 규칙을 확인하세요)',ru:'Не удалось сохранить (проверьте правила Firestore)'},
+  /* --- account gate / profile / nickname (v4.3.0) --- */
+  gate_title:{ja:'Wordkeepへようこそ',en:'Welcome to Wordkeep',zh:'欢迎使用 Wordkeep',fr:'Bienvenue sur Wordkeep',ar:'مرحبًا بك في Wordkeep',ko:'Wordkeep에 오신 것을 환영합니다',ru:'Добро пожаловать в Wordkeep'},
+  gate_lead:{ja:'アカウントを作ると、覚えた単語がサーバーに保存され、スマホを買い替えても、別の端末からでも同じ単語帳が開けます。',en:'Create an account and your words are saved to the server — open the same list from any device, even after you replace your phone.',zh:'创建账号后，你的单词会保存到服务器，换手机或换设备都能打开同一本单词本。',fr:'Créez un compte et vos mots sont enregistrés sur le serveur : retrouvez la même liste sur n’importe quel appareil, même après avoir changé de téléphone.',ar:'أنشئ حسابًا لتُحفظ كلماتك على الخادم، فتفتح القائمة نفسها من أي جهاز حتى بعد تغيير هاتفك.',ko:'계정을 만들면 단어가 서버에 저장되어, 휴대폰을 바꿔도 다른 기기에서도 같은 단어장을 열 수 있습니다.',ru:'Создайте аккаунт — слова сохранятся на сервере, и тот же список откроется на любом устройстве, даже после смены телефона.'},
+  gate_note:{ja:'メールアドレスは、PINを忘れたときの復旧にだけ使います。他の人には公開されません。',en:'Your email is used only to recover your account if you forget your PIN. It is never shown to anyone else.',zh:'邮箱仅用于忘记 PIN 时找回账号，不会向他人公开。',fr:'Votre e-mail sert uniquement à récupérer votre compte si vous oubliez votre PIN. Il n’est jamais montré aux autres.',ar:'يُستخدم بريدك الإلكتروني فقط لاستعادة حسابك إذا نسيت رمز PIN، ولا يُعرض لأي شخص آخر.',ko:'이메일은 PIN을 잊었을 때 계정을 복구하는 데만 사용되며, 다른 사람에게 공개되지 않습니다.',ru:'Почта нужна только для восстановления доступа, если вы забудете PIN. Другим пользователям она не видна.'},
+  gate_have:{ja:'すでにアカウントをお持ちの方',en:'Already have an account?',zh:'已有账号？',fr:'Vous avez déjà un compte ?',ar:'هل لديك حساب بالفعل؟',ko:'이미 계정이 있으신가요?',ru:'Уже есть аккаунт?'},
+  gate_new:{ja:'はじめての方',en:'New here?',zh:'第一次使用？',fr:'Première visite ?',ar:'هل أنت جديد هنا؟',ko:'처음이신가요?',ru:'Впервые здесь?'},
+  gate_to_login:{ja:'ログインする',en:'Log in instead',zh:'改为登录',fr:'Se connecter',ar:'تسجيل الدخول بدلاً من ذلك',ko:'로그인하기',ru:'Войти'},
+  gate_to_signup:{ja:'新規登録する',en:'Create an account',zh:'注册新账号',fr:'Créer un compte',ar:'إنشاء حساب',ko:'새로 가입하기',ru:'Создать аккаунт'},
+  gate_signup_cta:{ja:'アカウントを作る',en:'Create my account',zh:'创建账号',fr:'Créer mon compte',ar:'إنشاء حسابي',ko:'계정 만들기',ru:'Создать аккаунт'},
+  acct_email_or_user:{ja:'メールアドレス（旧アカウントはユーザー名でも可）',en:'Email (older accounts can still use their username)',zh:'邮箱（旧账号也可用用户名）',fr:'E-mail (les anciens comptes peuvent utiliser leur nom d’utilisateur)',ar:'البريد الإلكتروني (يمكن للحسابات القديمة استخدام اسم المستخدم)',ko:'이메일 (기존 계정은 사용자 이름도 가능)',ru:'Эл. почта (у старых аккаунтов — имя пользователя)'},
+  acct_e_need_email:{ja:'新規登録にはメールアドレスが必要です',en:'An email address is required to create an account',zh:'注册新账号需要邮箱地址',fr:'Une adresse e-mail est requise pour créer un compte',ar:'يلزم عنوان بريد إلكتروني لإنشاء حساب',ko:'계정을 만들려면 이메일 주소가 필요합니다',ru:'Для создания аккаунта нужна электронная почта'},
+  acct_e_wrong2:{ja:'メールアドレス（またはユーザー名）かPINが違います',en:'That email (or username) and PIN don’t match',zh:'邮箱（或用户名）与 PIN 不匹配',fr:'Cet e-mail (ou nom d’utilisateur) et ce PIN ne correspondent pas',ar:'البريد الإلكتروني (أو اسم المستخدم) ورمز PIN غير متطابقين',ko:'이메일(또는 사용자 이름)과 PIN이 일치하지 않습니다',ru:'Почта (или имя пользователя) и PIN не совпадают'},
+  nick_title:{ja:'ようこそ！',en:'Welcome!',zh:'欢迎！',fr:'Bienvenue !',ar:'أهلًا بك!',ko:'환영합니다!',ru:'Добро пожаловать!'},
+  nick_lead:{ja:'あなたの名前（ニックネーム）は？',en:'What should we call you?',zh:'你的昵称是？',fr:'Quel est votre pseudo ?',ar:'ما اسمك (اللقب)؟',ko:'닉네임을 알려주세요',ru:'Как вас называть?'},
+  nick_desc:{ja:'ランキングなど、世界中のユーザーに表示される名前です。日本語でも英語でも、好きな文字で登録できます。',en:'This is the name other learners around the world will see, for example in rankings. Any language or script is fine.',zh:'这是排行榜等场合向全球用户显示的名字，任何语言、任何文字都可以。',fr:'C’est le nom que verront les autres apprenants du monde entier, par exemple dans les classements. Toutes les langues et écritures sont acceptées.',ar:'هذا هو الاسم الذي سيراه المتعلمون حول العالم، في قوائم الترتيب مثلًا. أي لغة أو أبجدية مقبولة.',ko:'랭킹 등에서 전 세계 사용자에게 표시되는 이름입니다. 어떤 언어, 어떤 문자로도 등록할 수 있습니다.',ru:'Это имя увидят другие пользователи по всему миру, например в рейтингах. Подойдёт любой язык и любые символы.'},
+  nick_label:{ja:'ニックネーム',en:'Nickname',zh:'昵称',fr:'Pseudo',ar:'اللقب',ko:'닉네임',ru:'Имя'},
+  nick_ph:{ja:'ゆうり',en:'Yuri',zh:'小明',fr:'Camille',ar:'يوري',ko:'유리',ru:'Юрий'},
+  nick_cd_note:{ja:'ニックネームは7日に1度だけ変更できます。',en:'You can change your nickname once every 7 days.',zh:'昵称每 7 天只能修改一次。',fr:'Vous pouvez changer de pseudo une fois tous les 7 jours.',ar:'يمكنك تغيير لقبك مرة واحدة كل 7 أيام.',ko:'닉네임은 7일에 한 번만 변경할 수 있습니다.',ru:'Менять имя можно раз в 7 дней.'},
+  nick_start:{ja:'この名前ではじめる',en:'Start with this name',zh:'用这个名字开始',fr:'Commencer avec ce pseudo',ar:'ابدأ بهذا الاسم',ko:'이 이름으로 시작',ru:'Начать с этим именем'},
+  nick_save:{ja:'保存',en:'Save',zh:'保存',fr:'Enregistrer',ar:'حفظ',ko:'저장',ru:'Сохранить'},
+  nick_saved:{ja:'ニックネームを変更しました',en:'Nickname updated',zh:'昵称已更新',fr:'Pseudo mis à jour',ar:'تم تحديث اللقب',ko:'닉네임을 변경했습니다',ru:'Имя обновлено'},
+  nick_change:{ja:'ニックネームを変更',en:'Change nickname',zh:'修改昵称',fr:'Changer de pseudo',ar:'تغيير اللقب',ko:'닉네임 변경',ru:'Изменить имя'},
+  nick_e_empty:{ja:'ニックネームを入力してください',en:'Please enter a nickname',zh:'请输入昵称',fr:'Veuillez saisir un pseudo',ar:'يرجى إدخال لقب',ko:'닉네임을 입력해 주세요',ru:'Введите имя'},
+  nick_e_long:{ja:'ニックネームは20文字までです',en:'A nickname can be up to 20 characters',zh:'昵称最多 20 个字符',fr:'Le pseudo ne peut dépasser 20 caractères',ar:'يمكن أن يصل اللقب إلى 20 حرفًا',ko:'닉네임은 20자까지 입력할 수 있습니다',ru:'Имя не длиннее 20 символов'},
+  nick_e_cd:{ja:'次に変更できるのは、あと{0}日後です',en:'You can change it again in {0} day(s)',zh:'还需 {0} 天才能再次修改',fr:'Vous pourrez le changer dans {0} jour(s)',ar:'يمكنك تغييره بعد {0} يوم',ko:'{0}일 후에 다시 변경할 수 있습니다',ru:'Изменить снова можно через {0} дн.'},
+  nick_cd_left:{ja:'あと{0}日で変更できます',en:'Changeable in {0} day(s)',zh:'{0} 天后可修改',fr:'Modifiable dans {0} jour(s)',ar:'قابل للتغيير بعد {0} يوم',ko:'{0}일 후 변경 가능',ru:'Можно изменить через {0} дн.'},
+  profile_title:{ja:'プロフィール',en:'Profile',zh:'个人资料',fr:'Profil',ar:'الملف الشخصي',ko:'프로필',ru:'Профиль'},
+  menu_profile_sub:{ja:'ニックネーム・同期・アカウント',en:'Nickname, sync and account',zh:'昵称、同步与账号',fr:'Pseudo, synchronisation et compte',ar:'اللقب والمزامنة والحساب',ko:'닉네임·동기화·계정',ru:'Имя, синхронизация и аккаунт'},
   fb_title:{ja:'フィードバック',en:'Feedback',zh:'反馈',fr:'Retour',ar:'ملاحظات',ko:'피드백',ru:'Отзыв'},
   fb_menu_sub:{ja:'要望・不具合を開発者に送る',en:'Send a request or bug report to the developer',zh:'向开发者发送需求或问题',fr:'Envoyer une demande ou un bug au développeur',ar:'أرسل اقتراحًا أو مشكلة إلى المطوّر',ko:'요청·버그를 개발자에게 보내기',ru:'Отправить пожелание или баг разработчику'},
   fb_desc:{ja:'使ってみて困ったこと、ほしい機能、単語の意味の間違いなど、なんでも書いてください。',en:'Anything at all: something that got in your way, a feature you want, a wrong meaning you spotted.',zh:'任何内容都可以：使用中的困扰、希望增加的功能、发现的释义错误等。',fr:'Tout est bienvenu : ce qui vous a gêné, une fonctionnalité souhaitée, un sens erroné repéré.',ar:'أي شيء: مشكلة واجهتك، ميزة تتمناها، معنى خاطئ لاحظته.',ko:'무엇이든 좋습니다. 사용 중 불편했던 점, 원하는 기능, 잘못된 뜻 등을 적어 주세요.',ru:'Что угодно: что мешало, какой функции не хватает, где неверное значение.'},
@@ -2829,11 +2873,9 @@ function tutSteps(){
   // month. Both are skippable, but they get their own screen rather than being
   // a footnote. Neither is shown to someone already signed in / already
   // running installed, since the ask would be meaningless.
-  if(!(typeof cloudUser!=='undefined'&&cloudUser)){
-    steps.push({emoji:'☁️',id:'account',title:t('tut_acct_t'),
-      html:'<span style="display:block">'+esc(t('tut_acct_b'))+'</span>'+
-'<button class="btn btn-gold" id="tutAcctBtn" style="margin-top:14px;width:100%">'+esc(t('tut_acct_btn'))+'</button>'});
-  }
+  // No account step here any more. Signing in is mandatory and the gate opens
+  // the moment the tutorial ends, so an *optional* offer followed immediately
+  // by a wall just reads as the app going back on its word.
   const install=installStepsHTML();
   if(install&&!isStandalone()){
     steps.push({emoji:'📱',id:'install',title:t('tut_home_t'),
@@ -2855,6 +2897,7 @@ function finishTutorial(){
   S().onboarded=true;S().seenVersion=APP_VERSION;S().seenStorageTip=true;save();
   closeTutorial();applyStaticI18n();renderCount();
   go($$('.view.active')[0]?$$('.view.active')[0].id:'v-add');
+  maybeGate();   // onboarding is over; sign-in is the next thing that happens
 }
 function renderTutorial(){
   const box=$('#tutBody');
@@ -2901,10 +2944,6 @@ function renderTutorial(){
   $('#tutBack').onclick=()=>{tutStep--;renderTutorial();};
   $('#tutNext').onclick=()=>{if(last)finishTutorial();else{tutStep++;renderTutorial();}};
   $('#tutSkip').onclick=finishTutorial;
-  // Taking up the account offer ends onboarding and hands straight over to the
-  // sign-up form -- stacking it on top of a still-open tutorial reads as broken.
-  const acctBtn=$('#tutAcctBtn');
-  if(acctBtn)acctBtn.onclick=()=>{finishTutorial();openAcct();};
 }
 
 /* ---------- what's new (after an update) ---------- */
@@ -2945,8 +2984,22 @@ const SYNC_RETRY_MIN=15000;      // first retry after a failure
 const SYNC_RETRY_MAX=300000;     // and no less often than every 5 min
 const SYNC_PERIODIC=180000;      // sweep for anything still unsynced
 
+const NICK_MAX=20;
+const NICK_COOLDOWN=7*24*60*60*1000;   // a nickname can be changed once a week
+
 let fbReady=false,fbLoadingP=null,fbAuth=null,fbDb=null;
-let cloudUser=null;              // {uid,username}
+let cloudUser=null;              // {uid,username,nickname,nicknameAt}
+// Whether we actually know this account's nickname yet. Distinct from "has no
+// nickname": prompting for one before the account doc has been read would ask
+// existing users to name themselves all over again on every new device.
+let nickLoaded=false;
+// Declared here rather than beside the gate's own code: the auth listener sets
+// authKnown, and a `let` that is only reached later in the file is a temporal
+// dead zone waiting to happen. That exact mistake once froze the app on its
+// splash screen for every signed-out visitor.
+let authKnown=false;
+let gateMode='signup';           // signup | login | forgot
+let nickFirstRun=false;          // welcome screen vs. a deliberate rename
 let cloudState='out';            // out | in | syncing | error
 let cloudMsg='';
 let syncTimer=null,syncing=false;
@@ -2956,6 +3009,27 @@ function cloudSaved(){try{return JSON.parse(localStorage.getItem(CLOUDKEY))||nul
 function setCloudSaved(v){if(v)localStorage.setItem(CLOUDKEY,JSON.stringify(v));else localStorage.removeItem(CLOUDKEY);}
 function validUsername(u){return /^[a-z0-9_]{3,20}$/.test(u);}
 function validPin(p){return /^[0-9]{6}$/.test(p);}
+// Nicknames are display names, not identifiers: any script, duplicates allowed.
+// Counted by code point so an emoji or a surrogate pair costs one character
+// rather than two.
+function nickLen(n){return Array.from(n||'').length;}
+function validNick(n){const v=(n||'').trim();return v.length>0&&nickLen(v)<=NICK_MAX;}
+function nickDaysLeft(){
+  const at=(cloudUser&&cloudUser.nicknameAt)||0;
+  if(!at)return 0;
+  return Math.max(0,Math.ceil((at+NICK_COOLDOWN-Date.now())/86400000));
+}
+// Falls back to the username only when that username is a legacy one. For an
+// account created with a real address the "username" *is* the address, and a
+// nickname is what gets shown to other people -- so it must never stand in.
+function legacyUsername(){
+  const u=(cloudUser&&cloudUser.username)||'';
+  return u.indexOf('@')<0?u:'';
+}
+function displayName(){
+  if(!cloudUser)return '';
+  return cloudUser.nickname||legacyUsername();
+}
 function loadScript(src){
   return new Promise((res,rej)=>{
     const el=document.createElement('script');
@@ -2985,17 +3059,24 @@ function loadFirebase(){
     const firstAuth=new Promise(r=>{settleFirstAuth=r;});
     fbAuth.onAuthStateChanged(u=>{
       if(u){
-        const saved=cloudSaved();
-        cloudUser={uid:u.uid,username:(saved&&saved.username)||(u.email||'').split('@')[0]};
-        setCloudSaved({username:cloudUser.username,uid:u.uid,lastSyncAt:(saved&&saved.lastSyncAt)||null});
+        const saved=cloudSaved()||{};
+        cloudUser={uid:u.uid,username:saved.username||(u.email||'').split('@')[0],
+                   nickname:saved.nickname||'',nicknameAt:saved.nicknameAt||0};
+        // A device that already knows the nickname must not be re-prompted
+        // while the first sync is still in flight.
+        nickLoaded=!!saved.nickname;
+        setCloudSaved({username:cloudUser.username,uid:u.uid,lastSyncAt:saved.lastSyncAt||null,
+                       nickname:cloudUser.nickname,nicknameAt:cloudUser.nicknameAt});
         if(cloudState!=='syncing')cloudState='in';
-      }else{cloudUser=null;cloudState='out';}
+      }else{cloudUser=null;nickLoaded=false;cloudState='out';}
+      authKnown=true;
       renderAccountUI();
       // Anything gated on sign-in state (the signed-out warning, the header)
       // was drawn before this resolved, so repaint it now that we know.
       renderCount();
       renderActiveView();
       hideSplash();
+      maybeGate();
       settleFirstAuth();
     });
     // Never hang the caller if that callback somehow never arrives.
@@ -3010,7 +3091,7 @@ function authErrMsg(e){
   const c=(e&&e.code)||'';
   if(c==='wk/bad-current-pin')return t('acct_e_bad_current');
   if(c==='auth/email-already-in-use')return t('acct_e_taken');
-  if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return t('acct_e_wrong');
+  if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials')return t('acct_e_wrong2');
   if(c==='auth/network-request-failed'||(e&&e.message==='sdk_load_failed'))return t('acct_e_net');
   // both mean the console side isn't set up: the provider is off, or
   // Authentication was never initialised for the project at all
@@ -3038,23 +3119,55 @@ function hasRecoveryEmail(){
 }
 async function cloudAuth(mode,who,pin){
   who=(who||'').trim().toLowerCase();
-  if(who.indexOf('@')>=0){ if(!isEmail(who))return {ok:false,msg:t('acct_e_email')}; }
-  else if(!validUsername(who))return {ok:false,msg:t('acct_e_user')};
+  if(mode==='signup'){
+    // New accounts are always a real mailbox, so a forgotten PIN is
+    // recoverable. Accounts made before this change have no mailbox at all.
+    if(!isEmail(who))return {ok:false,msg:t('acct_e_need_email')};
+  }else if(who.indexOf('@')>=0){
+    if(!isEmail(who))return {ok:false,msg:t('acct_e_email')};
+  }else if(!validUsername(who))return {ok:false,msg:t('acct_e_user')};
   if(!validPin(pin))return {ok:false,msg:t('acct_e_pin')};
   try{
     await loadFirebase();
     const email=loginId(who);
-    if(mode==='signup'){
-      // a real address as the *initial* id would have no username to show
-      if(who.indexOf('@')>=0)return {ok:false,msg:t('acct_e_signup_email')};
-      await fbAuth.createUserWithEmailAndPassword(email,pin);
-    }else await fbAuth.signInWithEmailAndPassword(email,pin);
+    if(mode==='signup')await fbAuth.createUserWithEmailAndPassword(email,pin);
+    else await fbAuth.signInWithEmailAndPassword(email,pin);
     const uname=email.endsWith(ACCT_DOMAIN)?email.slice(0,-ACCT_DOMAIN.length):email;
-    setCloudSaved({username:uname,uid:fbAuth.currentUser.uid,lastSyncAt:null});
-    cloudUser={uid:fbAuth.currentUser.uid,username:uname};
+    const saved=cloudSaved()||{};
+    // Signing in as somebody else must not inherit the previous nickname.
+    const same=saved.uid===fbAuth.currentUser.uid;
+    cloudUser={uid:fbAuth.currentUser.uid,username:uname,
+               nickname:same?(saved.nickname||''):'',nicknameAt:same?(saved.nicknameAt||0):0};
+    nickLoaded=!!cloudUser.nickname;
+    setCloudSaved({username:uname,uid:cloudUser.uid,lastSyncAt:null,
+                   nickname:cloudUser.nickname,nicknameAt:cloudUser.nicknameAt});
     cloudDirty=true; // merge the words already on this device
     gaEvent(mode==='signup'?'cloud_signup':'cloud_login',{});
     await cloudSync('auth');
+    return {ok:true};
+  }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+// Duplicates are allowed, so this is a plain write with no reservation step.
+// The 7-day cooldown is checked here for the message and again in the
+// Firestore rules, which is the copy that actually holds.
+async function saveNickname(nick){
+  nick=(nick||'').trim();
+  if(!nick)return {ok:false,msg:t('nick_e_empty')};
+  if(nickLen(nick)>NICK_MAX)return {ok:false,msg:t('nick_e_long')};
+  if(!cloudUser)return {ok:false,msg:t('acct_e_net')};
+  if(nick===cloudUser.nickname)return {ok:true};
+  const left=nickDaysLeft();
+  if(left>0)return {ok:false,msg:t('nick_e_cd',left)};
+  try{
+    await loadFirebase();
+    const now=Date.now();
+    await fbDb.collection('users').doc(cloudUser.uid)
+      .set({nickname:nick,nicknameAt:now,updatedAt:now},{merge:true});
+    cloudUser.nickname=nick;cloudUser.nicknameAt=now;nickLoaded=true;
+    const saved=cloudSaved()||{};
+    saved.nickname=nick;saved.nicknameAt=now;setCloudSaved(saved);
+    gaEvent('nickname_set',{});
+    renderAccountUI();
     return {ok:true};
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
 }
@@ -3105,8 +3218,10 @@ async function cloudLogout(){
   if(cloudDirty||cloudState==='error')pushed=false;
   if(!confirm(pushed?t('acct_logout_confirm'):t('acct_logout_unsynced')))return;
   try{if(fbAuth)await fbAuth.signOut();}catch(e){}
-  setCloudSaved(null);cloudUser=null;cloudState='out';cloudMsg='';cloudDirty=false;retryDelay=0;
+  setCloudSaved(null);cloudUser=null;nickLoaded=false;cloudState='out';cloudMsg='';cloudDirty=false;retryDelay=0;
   clearTimeout(syncTimer);
+  closeAcct();
+  $('#overlayNick').classList.remove('show');
   // Back to a fresh install: the words live in the account, not here.
   DB.words=[];DB.tombs={};DB.ownerUid=null;
   PKGDB={};savePkg();
@@ -3117,6 +3232,7 @@ async function cloudLogout(){
   save();
   renderAccountUI();renderCount();renderActiveView();
   toast(t('acct_logout_done'));
+  maybeGate();
 }
 
 /* --- merge -------------------------------------------------------------- */
@@ -3183,6 +3299,10 @@ async function cloudSync(reason){
     const wcol=uref.collection('words');
     const [udoc,wsnap]=await Promise.all([uref.get(),wcol.get()]);
     const meta=udoc.exists?(udoc.data()||{}):{};
+    // The account doc is the authority on the nickname; reading it here is what
+    // tells a fresh device whether to ask for one.
+    if(meta.nickname){cloudUser.nickname=meta.nickname;cloudUser.nicknameAt=meta.nicknameAt||0;}
+    nickLoaded=true;
     const remoteWords=[];wsnap.forEach(d=>remoteWords.push(d.data()));
     const remoteById=new Map(remoteWords.map(w=>[w.id,w]));
 
@@ -3218,6 +3338,9 @@ async function cloudSync(reason){
     await commitBatched(ops);
     await uref.set(clean({
       username:cloudUser.username,
+      // Written back unchanged so the cooldown rule sees no edit. Omitted
+      // entirely while unset, so a sync can't blank out a nickname.
+      ...(cloudUser.nickname?{nickname:cloudUser.nickname,nicknameAt:cloudUser.nicknameAt||0}:{}),
       streak:S().streak,
       tombs:DB.tombs,
       packages:PKGDB,
@@ -3228,11 +3351,13 @@ async function cloudSync(reason){
 
     const saved=cloudSaved()||{};
     saved.lastSyncAt=Date.now();saved.username=cloudUser.username;saved.uid=cloudUser.uid;
+    saved.nickname=cloudUser.nickname||'';saved.nicknameAt=cloudUser.nicknameAt||0;
     setCloudSaved(saved);
     cloudState='in';cloudMsg='';
     retryDelay=0;
     gaEvent('cloud_sync',{reason:reason||'manual',word_count:DB.words.length});
     renderCount();renderList();
+    maybeGate();   // now that we know whether this account has a nickname
   }catch(e){
     cloudState='error';
     cloudMsg=(e&&e.code==='permission-denied')?t('acct_e_rules'):((e&&(e.message||e.code))||'error');
@@ -3295,53 +3420,26 @@ function acctBusy(on,label){
 function renderAccountUI(){
   const mt=$('#miAcctT'),ms=$('#miAcctS');
   if(mt&&ms){
-    mt.textContent=cloudUser?(accountLabel()||cloudUser.username):t('acct_login');
+    mt.textContent=cloudUser?(displayName()||t('profile_title')):t('profile_title');
     ms.textContent=cloudUser
       ?(cloudState==='syncing'?t('acct_syncing')
         :cloudState==='error'?t('acct_e_short')
         :cloudDirty?t('acct_pending')
         :t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))
-      :t('menu_acct_sub');
+      :t('menu_profile_sub');
   }
   const body=$('#acctBody');
   if(!body||!$('#overlayAcct').classList.contains('show'))return;
   const back='<button class="btn btn-ghost" id="acctBack" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>';
 
   // ---- signed out
+  // Signing in is no longer optional, so there is no signed-out account
+  // screen any more: the gate owns that flow and this can only be reached in
+  // the moment between a logout and the gate coming back up.
   if(!cloudUser){
-    if(acctView==='forgot'){
-      body.innerHTML='<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_forgot_desc'))+'</p>'+
-        acctField('acctEmail',t('acct_email'),{type:'email',ph:'you@example.com'})+
-        '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
-        '<button class="btn btn-primary" id="acctGo" style="margin-top:16px">'+esc(t('acct_send_reset'))+'</button>'+back;
-      $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
-      $('#acctGo').onclick=async()=>{
-        acctErr('');acctBusy(true);
-        const r=await sendPinReset($('#acctEmail').value);
-        if(r.ok){toast(t('acct_reset_sent'));acctView='main';renderAccountUI();}
-        else{acctErr(r.msg);acctBusy(false,t('acct_send_reset'));}
-      };
-      return;
-    }
-    body.innerHTML=
-      '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_desc'))+'</p>'+
-      acctField('acctUser',t('acct_username'),{ph:'yuri'})+
-      acctField('acctPin',t('acct_pin'),{pin:true,mt:true,ph:'123456'})+
-      '<p class="hint" style="margin:8px 2px 0">'+esc(t('acct_pin_note'))+'</p>'+
-      '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
-      '<button class="btn btn-primary" id="acctIn" style="margin-top:16px">'+esc(t('acct_login'))+'</button>'+
-      '<button class="btn btn-ghost" id="acctNew" style="width:100%;margin-top:10px">'+esc(t('acct_signup'))+'</button>'+
-      '<button class="btn btn-ghost" id="acctForgot" style="width:100%;margin-top:10px;background:none;color:var(--muted);font-size:13.5px">'+esc(t('acct_forgot'))+'</button>';
-    const run=async mode=>{
-      const a=$('#acctIn'),b=$('#acctNew');
-      a.disabled=b.disabled=true;acctErr('');a.textContent=t('acct_working');
-      const r=await cloudAuth(mode,$('#acctUser').value,$('#acctPin').value);
-      if(r.ok){closeAcct();toast(t('acct_done'));}
-      else{acctErr(r.msg);if($('#acctIn')){$('#acctIn').disabled=$('#acctNew').disabled=false;$('#acctIn').textContent=t('acct_login');}}
-    };
-    $('#acctIn').onclick=()=>run('login');
-    $('#acctNew').onclick=()=>run('signup');
-    $('#acctForgot').onclick=()=>{acctView='forgot';renderAccountUI();};
+    body.innerHTML='<p class="hint" style="margin:0 2px">'+esc(t('gate_lead'))+'</p>';
+    closeAcct();
+    maybeGate();
     return;
   }
 
@@ -3377,7 +3475,14 @@ function renderAccountUI(){
     return;
   }
   const recovered=hasRecoveryEmail();
+  const left=nickDaysLeft();
   body.innerHTML=
+    '<div class="panel" style="padding:14px;margin-bottom:14px">'+
+      '<div class="sd">'+esc(t('nick_label'))+'</div>'+
+      '<div style="font-size:19px;font-weight:700;margin:2px 0 4px">'+esc(displayName()||'—')+'</div>'+
+      '<div class="sd">'+esc(left>0?t('nick_cd_left',left):t('nick_cd_note'))+'</div>'+
+      '<button class="btn btn-ghost" id="acctNickBtn" style="width:100%;margin-top:10px">'+esc(t('nick_change'))+'</button>'+
+    '</div>'+
     '<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_signed_in',accountLabel()))+'</p>'+
     '<div class="panel" style="padding:14px;margin-bottom:14px">'+
       '<div class="sd">'+esc(t('acct_last_sync',fmtSync((cloudSaved()||{}).lastSyncAt)))+'</div>'+
@@ -3393,11 +3498,143 @@ function renderAccountUI(){
     '<button class="btn btn-ghost" id="acctPinBtn" style="width:100%;margin-top:10px">'+esc(t('acct_pin_change'))+'</button>'+
     '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>';
   $('#acctSync').onclick=()=>cloudSync('manual');
+  $('#acctNickBtn').onclick=openNickEdit;
   $('#acctEmailBtn').onclick=()=>{acctView='email';renderAccountUI();};
   $('#acctPinBtn').onclick=()=>{acctView='pin';renderAccountUI();};
   $('#acctOut').onclick=cloudLogout;
 }
+/* ---------- sign-in gate + nickname ------------------------------------- */
+// Wordkeep requires an account, so the gate is the first thing an unsigned
+// visitor sees. It is deliberately the only overlay with no close affordance.
+// `authKnown` exists so the gate never flashes at somebody who *is* signed in
+// but whose session has not been restored yet -- and, just as importantly, so
+// a device that cannot reach Firebase at all is left usable instead of locked
+// behind a form it has no way to submit.
+function gateShown(){return $('#overlayGate').classList.contains('show');}
+function nickShown(){return $('#overlayNick').classList.contains('show');}
+function tutShown(){return $('#overlayTut').classList.contains('show');}
+
+// Closing the welcome screen matters as much as opening it: signing out and
+// straight back in as somebody else used to leave "what should we call you?"
+// on top of an account that already had a nickname.
+function closeNickPrompt(){
+  if(nickShown()&&nickFirstRun)$('#overlayNick').classList.remove('show');
+}
+function maybeGate(){
+  if(!authKnown)return;
+  if(tutShown())return;   // the tutorial sells the app; the gate follows it
+  if(!cloudUser){
+    closeNickPrompt();
+    if(!gateShown()){gateMode='signup';showOverlay('#overlayGate');renderGate();gaScreen('gate');}
+    return;
+  }
+  $('#overlayGate').classList.remove('show');
+  if(nickLoaded&&!cloudUser.nickname){
+    if(!nickShown()){showOverlay('#overlayNick');renderNick(true);gaScreen('nickname');}
+  }else if(nickLoaded){
+    closeNickPrompt();
+  }
+}
+function showOverlay(sel){$(sel).classList.add('show');}
+
+function gateErr(msg){const e=$('#gateErr');if(e)e.textContent=msg||'';}
+function renderGate(){
+  const body=$('#gateBody');if(!body)return;
+  const brand='<h2 class="gate-brand">Wordkeep</h2>';
+
+  if(gateMode==='forgot'){
+    body.innerHTML=brand+
+      '<p class="hint gate-lead">'+esc(t('acct_forgot_desc'))+'</p>'+
+      acctField('gateEmail',t('acct_email'),{type:'email',ph:'you@example.com'})+
+      '<div id="gateErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-primary" id="gateGo" style="margin-top:16px">'+esc(t('acct_send_reset'))+'</button>'+
+      '<button class="btn btn-ghost" id="gateAlt" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>';
+    $('#gateAlt').onclick=()=>{gateMode='login';renderGate();};
+    $('#gateGo').onclick=async()=>{
+      const b=$('#gateGo');b.disabled=true;b.textContent=t('acct_working');gateErr('');
+      const r=await sendPinReset($('#gateEmail').value);
+      if(r.ok){toast(t('acct_reset_sent'));gateMode='login';renderGate();}
+      else{gateErr(r.msg);b.disabled=false;b.textContent=t('acct_send_reset');}
+    };
+    return;
+  }
+
+  const signup=gateMode==='signup';
+  body.innerHTML=brand+
+    '<p class="hint gate-lead">'+esc(t('gate_lead'))+'</p>'+
+    acctField('gateWho',signup?t('acct_email'):t('acct_email_or_user'),
+              {type:signup?'email':'',ph:signup?'you@example.com':'you@example.com'})+
+    acctField('gatePin',t('acct_pin'),{pin:true,mt:true,ph:'123456'})+
+    '<p class="hint" style="margin:8px 2px 0">'+esc(signup?t('gate_note'):t('acct_pin_note'))+'</p>'+
+    '<div id="gateErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+    '<button class="btn btn-primary" id="gateGo" style="margin-top:16px">'+
+      esc(signup?t('gate_signup_cta'):t('acct_login'))+'</button>'+
+    (signup?'':'<button class="btn btn-ghost" id="gateForgot" style="width:100%;margin-top:10px;background:none;color:var(--muted);font-size:13.5px">'+esc(t('acct_forgot'))+'</button>')+
+    '<div class="gate-alt">'+
+      '<p class="hint">'+esc(signup?t('gate_have'):t('gate_new'))+'</p>'+
+      '<button class="btn btn-ghost" id="gateAlt" style="width:100%">'+
+        esc(signup?t('gate_to_login'):t('gate_to_signup'))+'</button>'+
+    '</div>';
+  $('#gateAlt').onclick=()=>{gateMode=signup?'login':'signup';renderGate();};
+  const fg=$('#gateForgot');
+  if(fg)fg.onclick=()=>{gateMode='forgot';renderGate();};
+  $('#gateGo').onclick=async()=>{
+    const b=$('#gateGo');b.disabled=true;b.textContent=t('acct_working');gateErr('');
+    const r=await cloudAuth(signup?'signup':'login',$('#gateWho').value,$('#gatePin').value);
+    if(r.ok){toast(t('acct_done'));maybeGate();}
+    else{
+      gateErr(r.msg);
+      const bb=$('#gateGo');
+      if(bb){bb.disabled=false;bb.textContent=signup?t('gate_signup_cta'):t('acct_login');}
+    }
+  };
+}
+
+function renderNick(first){
+  if(first!==undefined)nickFirstRun=!!first;
+  const body=$('#nickBody');if(!body)return;
+  const left=nickDaysLeft();
+  const locked=!nickFirstRun&&left>0;
+  body.innerHTML=
+    (nickFirstRun?'<div class="step-emoji">🎉</div><h3 style="text-align:center;margin:0 0 6px">'+esc(t('nick_title'))+'</h3>':'')+
+    '<p'+(nickFirstRun?' class="gate-lead"':'')+' style="font-weight:600;margin:0 0 14px">'+esc(t('nick_lead'))+'</p>'+
+    '<p class="hint" style="margin:0 2px 14px">'+esc(t('nick_desc'))+'</p>'+
+    '<label class="lab">'+esc(t('nick_label'))+'</label>'+
+    '<input id="nickIn" class="field" maxlength="'+NICK_MAX+'" placeholder="'+esc(t('nick_ph'))+'"'+
+      /* pre-4.3.0 accounts arrive with a username worth offering as a start */
+      (locked?' disabled':'')+' value="'+esc(displayName())+'">'+
+    '<p class="hint" style="margin:8px 2px 0">'+esc(locked?t('nick_cd_left',left):t('nick_cd_note'))+'</p>'+
+    '<div id="nickErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+    (locked?'':'<button class="btn btn-primary" id="nickGo" style="margin-top:16px">'+
+      esc(nickFirstRun?t('nick_start'):t('nick_save'))+'</button>')+
+    (nickFirstRun?'':'<button class="btn btn-ghost" id="nickBack" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>');
+  const back=$('#nickBack');
+  if(back)back.onclick=()=>{$('#overlayNick').classList.remove('show');openAcct();};
+  const go=$('#nickGo');
+  if(go)go.onclick=async()=>{
+    go.disabled=true;go.textContent=t('acct_working');
+    const e=$('#nickErr');if(e)e.textContent='';
+    const r=await saveNickname($('#nickIn').value);
+    if(r.ok){
+      $('#overlayNick').classList.remove('show');
+      if(!nickFirstRun)toast(t('nick_saved'));
+      renderAccountUI();
+    }else{
+      const el=$('#nickErr');if(el)el.textContent=r.msg;
+      const b=$('#nickGo');
+      if(b){b.disabled=false;b.textContent=nickFirstRun?t('nick_start'):t('nick_save');}
+    }
+  };
+}
+function openNickEdit(){
+  closeAcct();
+  showOverlay('#overlayNick');
+  renderNick(false);
+  gaScreen('nickname_edit');
+}
+
 function openAcct(){
+  if(!cloudUser){maybeGate();return;}
   acctView='main';
   $('#overlayAcct').classList.add('show');
   renderAccountUI();
@@ -3440,8 +3677,16 @@ setTimeout(hideSplash,6000);
 // restore a previous session (and pull anything added on another device)
 if(cloudSaved()){
   splashNote(t('splash_restoring'));
+  // authKnown is left false if this rejects: a device that cannot reach
+  // Firebase should keep working offline, not be locked behind a form it has
+  // no way to submit.
   loadFirebase().then(()=>cloudSync('startup')).catch(()=>{}).then(hideSplash);
-}else hideSplash();
+}else{
+  // Nobody has ever signed in here, so there is nothing to restore and no
+  // ambiguity about the answer.
+  authKnown=true;
+  hideSplash();
+}
 
 /* ---------- boot ---------- */
 applyStaticI18n();
@@ -3450,6 +3695,10 @@ go('v-list');
 if(!S().onboarded){openTutorial(true);}
 else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
 else if(!S().seenStorageTip){openStorageTip();}
+// After the first-run overlays, so it doesn't bury the tutorial. Signed-in
+// sessions are handled by the auth listener instead; this covers the case
+// where there is nothing to restore and the answer is already known.
+maybeGate();
 maybeRequestPersistence();
 
 /* iOS Safari sometimes leaves the page unable to scroll to its true bottom

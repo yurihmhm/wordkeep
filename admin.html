@@ -214,11 +214,15 @@ function renderUsers(){
     '<div><b>'+active7+'</b><span>7日以内に同期</span></div>'+
     '<div><b>'+totalWords+'</b><span>単語の合計</span></div>'+
   '</div><div class="card" style="padding:6px 10px"><table><thead><tr>'+
-    '<th>ユーザー名</th><th class="num">単語</th><th class="num">連続</th><th class="num">最長</th><th>最終同期</th>'+
+    '<th>ニックネーム</th><th>ログインID</th><th class="num">単語</th><th class="num">連続</th><th class="num">最長</th><th>最終同期</th>'+
   '</tr></thead><tbody>';
   h+=users.map(u=>{
     const s=u.streak||{};
-    return '<tr><td>'+esc(u.username||u.id.slice(0,8))+'</td>'+
+    // Nickname is the public-facing name; the login id is what a password
+    // reset actually needs, so both are worth having side by side.
+    const login=(u.username||'').indexOf('@')>=0?u.username:(u.username||u.id.slice(0,8));
+    return '<tr><td>'+esc(u.nickname||'—')+'</td>'+
+      '<td>'+esc(login)+'</td>'+
       '<td class="num">'+(u.wordCount||0)+'</td>'+
       '<td class="num">'+(s.current||0)+'</td>'+
       '<td class="num">'+(s.longest||0)+'</td>'+

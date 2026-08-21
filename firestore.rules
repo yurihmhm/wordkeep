@@ -8,9 +8,28 @@ service cloud.firestore {
              && request.auth.uid == '5shCkAHirbgDVrkDmcM0KNr0ouq1';
     }
 
+    // A nickname can only be changed once every 7 days. The app checks this
+    // too, but that check is one devtools console away from being bypassed --
+    // this is the copy that actually holds.
+    function nicknameUnchanged() {
+      return !('nickname' in request.resource.data)
+             || (resource != null
+                 && 'nickname' in resource.data
+                 && request.resource.data.nickname == resource.data.nickname);
+    }
+    function nicknameAllowed() {
+      return nicknameUnchanged()
+             // first time it is ever set: nothing to cool down from
+             || resource == null
+             || !('nicknameAt' in resource.data)
+             || request.time.toMillis() >= resource.data.nicknameAt + 604800000;
+    }
+
     match /users/{userId} {
       // Each user owns their own document and everything under it.
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && nicknameAllowed();
 
       // The admin can read the summary document (username, word count, streak,
       // last update) so the admin page can list accounts. Deliberately NOT
