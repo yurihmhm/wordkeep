@@ -3347,6 +3347,10 @@ async function cloudSync(reason){
       packages:PKGDB,
       pkgUpdatedAt:DB.settings.pkgUpdatedAt||Date.now(),
       wordCount:DB.words.length,
+      // Ids only, so the admin page can delete an abandoned account's word
+      // documents without ever being granted permission to read them. Own-word
+      // ids are timestamp+random and carry nothing about the word itself.
+      wordIds:DB.words.map(w=>w.id),
       updatedAt:Date.now()
     }),{merge:true});
 

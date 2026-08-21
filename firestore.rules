@@ -12,7 +12,11 @@ service cloud.firestore {
     // too, but that check is one devtools console away from being bypassed --
     // this is the copy that actually holds.
     function nicknameUnchanged() {
-      return !('nickname' in request.resource.data)
+      // `allow write` also covers deletes, and on a delete request.resource is
+      // null -- reading .data off it throws, and a rule that throws denies.
+      // Without this guard an owner could never delete their own document.
+      return request.resource == null
+             || !('nickname' in request.resource.data)
              || (resource != null
                  && 'nickname' in resource.data
                  && request.resource.data.nickname == resource.data.nickname);
@@ -31,14 +35,31 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == userId
                    && nicknameAllowed();
 
-      // The admin can read the summary document (username, word count, streak,
-      // last update) so the admin page can list accounts. Deliberately NOT
-      // extended to the words subcollection below: managing accounts doesn't
-      // require reading what people are studying.
-      allow read: if isAdmin();
+      // The admin can read the summary document (nickname, login id, word
+      // count, streak, last update) so the admin page can list accounts, and
+      // delete it to clear out an abandoned or spam account. Deliberately NOT
+      // extended to reading the words subcollection below: managing accounts
+      // does not require reading what people are studying.
+      allow read, delete: if isAdmin();
 
-      match /{document=**} {
+      // Deleting an account's data has to reach its word documents too --
+      // otherwise removing someone from Authentication leaves their words in
+      // Firestore forever, unreachable and still counted. `delete` is granted
+      // on its own: Firestore does not require read access to delete a
+      // document by id, and the admin page gets those ids from `wordIds` on
+      // the summary document. So the admin can remove the words without being
+      // able to read a single one of them.
+      // Subcollections are listed explicitly. There used to be a
+      // `match /{document=**}` here, and it was a trap: under rules_version 2
+      // a recursive wildcard matches ZERO or more segments, so it also covered
+      // this parent document and granted an unconditional write. Permissions
+      // are OR'd, so that permissive rule silently cancelled the nickname
+      // cooldown above -- renames went through instantly. Verified with the
+      // emulator. Naming the subcollection also means any future one is denied
+      // by default rather than exposed by accident.
+      match /words/{wordId} {
         allow read, write: if request.auth != null && request.auth.uid == userId;
+        allow delete: if isAdmin();
       }
     }
 

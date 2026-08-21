@@ -214,7 +214,7 @@ function renderUsers(){
     '<div><b>'+active7+'</b><span>7日以内に同期</span></div>'+
     '<div><b>'+totalWords+'</b><span>単語の合計</span></div>'+
   '</div><div class="card" style="padding:6px 10px"><table><thead><tr>'+
-    '<th>ニックネーム</th><th>ログインID</th><th class="num">単語</th><th class="num">連続</th><th class="num">最長</th><th>最終同期</th>'+
+    '<th>ニックネーム</th><th>ログインID</th><th class="num">単語</th><th class="num">連続</th><th class="num">最長</th><th>最終同期</th><th></th>'+
   '</tr></thead><tbody>';
   h+=users.map(u=>{
     const s=u.streak||{};
@@ -226,11 +226,16 @@ function renderUsers(){
       '<td class="num">'+(u.wordCount||0)+'</td>'+
       '<td class="num">'+(s.current||0)+'</td>'+
       '<td class="num">'+(s.longest||0)+'</td>'+
-      '<td>'+ago(u.updatedAt)+'</td></tr>';
+      '<td>'+ago(u.updatedAt)+'</td>'+
+      '<td><button class="btn btn-ghost btn-sm" onclick="removeUser(\''+u.id+'\',this)">データ削除</button></td></tr>';
   }).join('');
   return h+'</tbody></table></div>'+
     '<div style="font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px">'+
-    'PINは暗号化されているため表示できません。PINの再設定やユーザーの削除は Firebase コンソールの Authentication → Users から行えます。</div>';
+    '<b>Authentication で消してもこの一覧からは消えません。</b>ログイン情報（Authentication）と学習データ（Firestore）は別の場所に保存されているためです。'+
+    'Authentication から消えるのはログイン手段だけで、単語やストリークはFirestoreに残り、この一覧にも残り続けます。'+
+    'アカウントを完全に消すには<b>「Authentication → Users で削除」→「ここで データ削除」の2手順</b>が要ります。'+
+    '<br>先にAuthentication側を消してください。ログインできる状態のまま学習データだけ消しても、その人が次に同期した時点で作り直されます。'+
+    '<br>PINは暗号化されているため表示できません。PINの再設定も Firebase コンソールの Authentication → Users から行います。</div>';
 }
 
 async function markHandled(id,to){
@@ -243,6 +248,43 @@ async function removeFeedback(id){
   await db.collection('feedback').doc(id).delete();
   feedback=feedback.filter(x=>x.id!==id);
   render();
+}
+
+// Removes an account's Firestore data. The word documents are deleted by id
+// from the summary document's `wordIds`; the rules let the admin delete them
+// without granting permission to read any of them.
+async function removeUser(uid,btn){
+  const u=users.find(x=>x.id===uid); if(!u)return;
+  const who=u.nickname||u.username||uid.slice(0,8);
+  const ids=Array.isArray(u.wordIds)?u.wordIds:null;
+  if(!confirm('「'+who+'」の学習データを削除します。\n\n単語 '+(u.wordCount||0)+
+    '語・ストリーク・パッケージ進捗がすべて消え、元に戻せません。\n\n'+
+    'Authentication 側のログイン情報は消えないので、まだ削除していない場合は先にそちらを消してください。'))return;
+  if(btn){btn.disabled=true;btn.textContent='削除中…';}
+  try{
+    if(ids&&ids.length){
+      // Firestore caps a batch at 500 writes.
+      for(let i=0;i<ids.length;i+=400){
+        const b=db.batch();
+        ids.slice(i,i+400).forEach(id=>b.delete(db.collection('users').doc(uid).collection('words').doc(id)));
+        await b.commit();
+      }
+    }
+    await db.collection('users').doc(uid).delete();
+    users=users.filter(x=>x.id!==uid);
+    // A document written before wordIds existed cannot be enumerated from here,
+    // so say so plainly rather than reporting a clean sweep.
+    if(!ids&&(u.wordCount||0)>0){
+      alert('要約データを削除しました。\n\nただしこのアカウントは wordIds を持たない古い形式のため、'+
+        '単語ドキュメント本体はここからは消せません。\nFirebase コンソール → Firestore Database → '+
+        'users → '+uid+' → words を開き、コレクションを削除してください。');
+    }
+    render();
+  }catch(e){
+    alert('削除できませんでした: '+(e.code||e.message)+
+      '\n\nFirestore のルールが最新か確認してください（管理者に delete 権限が必要です）。');
+    if(btn){btn.disabled=false;btn.textContent='データ削除';}
+  }
 }
 </script>
 </body>
