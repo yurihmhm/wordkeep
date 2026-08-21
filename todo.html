@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.5.0 時点 &middot; 最終更新 2026-08-22</div>
+    <div class="sub">v4.6.0 時点 &middot; 最終更新 2026-08-22</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -226,20 +226,8 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>機能</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">効果は大きいが、どれも一日仕事ではない。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">ホームタブへの刷新（復習タブUIの見直し）</div>
-          <div class="d">一番左のリストタブを<b>ホームタブ</b>にして、各機能への入口をまとめる。今は「何をすればいいか」がタブを開くまで分からず、復習に辿り着くまでの距離がある。ホームが起点になれば、継続に効く導線（今日の復習・連続日数・進捗）を一箇所に集められる。</div>
-        </div>
-      </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">ホームタブに「今日の復習」ボタン</div>
-          <div class="d">アプリを開いた直後の1タップで復習を始められるようにする。<b>上のホームタブ刷新とセットで効く</b>項目で、継続率にいちばん直結する導線。</div>
-        </div>
-      </li>
+      
+      
       
       <li data-s="open">
         <span class="chip open">未完了</span>
@@ -353,6 +341,12 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームタブへの刷新（タブ構成の見直し）</div><div class="d">下タブを <b>ホーム / 単語 / ＋ / 復習 / 記録</b> に再編。<b>リストと単語帳を「単語」タブに統合</b>して枠を作った（単語帳は行き先ではなく学習モードなので、リスト上部の「カードで覚える」から開く）。<br><b>将来ランキングを入れるときに動かすのは「記録」</b>：ホームがダッシュボードである以上、連続日数と進捗はもともとホームに出ており、記録タブの中身は大部分が重複する。今回のホーム実装がそのまま移行の下準備になっている。</div><div class="ver">v4.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームの「今日の復習」ボタン</div><div class="d">状態を<code>todayState()</code>で判定し、CTAを1つだけ出す（今日の復習／連続記録が途切れる警告／自由学習／最初の単語を追加）。連続日数・今日の復習数・学習済み語数の3指標と、単語帳・追加・単語リスト・記録への入口も配置。単語帳セレクターもホームに置き、切り替えてもホームに留まる。</div><div class="ver">v4.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">効果音と読み上げの音量が合っていない</div><div class="d">効果音のピーク振幅0.16に対し、TTSの<code>volume</code>が未設定＝1.0だった。音声はクレストファクタが高くRMSはピークの1/5程度、正弦波は0.707なので<b>ピーク同士で合わせても合わない</b>。<code>OfflineAudioContext</code>で実際にレンダリングしてRMSを測り較正した（声の約4dB下、最大音量でもクリップなし）。</div><div class="ver">v4.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">不正解音がスマホで聞こえない</div><div class="d">当初のA3/F3（175〜220Hz）は<b>スマホのスピーカーが300Hz以下をほとんど再生できない</b>ため、まさに本アプリが使われる端末で鳴っていなかった。G#4/D#4（311〜415Hz）へ移動。</div><div class="ver">v4.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">音量調節スライダー</div><div class="d">設定 → 音量。<b>発音と効果音の両方</b>に効く1本のスライダー。0でミュート。動かすと効果音→読み上げの順に鳴るので、<b>バランスそのものを聞きながら</b>調整できる。プラットフォームのTTSの実出力はページから測定できないため、この不確かさを吸収する役目も持つ。</div><div class="ver">v4.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語帳切り替えがホームから効かなかった</div><div class="d">デッキ選択後に戻る画面の判定がホーム追加前のままで、ホームから切り替えると単語リストへ飛ばされていた。</div><div class="ver">v4.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">正解・不正解の効果音</div><div class="d">Web Audio APIで音を生成（音源ファイルなし＝単一HTML構成と読み込み速度を維持）。正解は上がる長三度、不正解は低く短い音で、ブザーにはしていない（学習アプリで毎回不快な音が鳴るのは学習をやめる理由になるため）。設定の「効果音」でオフ可。読み上げとぶつからないよう発音は音の後にずらしている。</div><div class="ver">v4.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">回答直後に結果が画面外だった（スマホ）</div><div class="d">4択の下に結果が出るため、答えても何も起きていないように見えていた。<b><code>scrollIntoView</code>は使えなかった</b>：<code>nearest</code>/<code>end</code>はビューポート端で止まるのでタブバー（68px）の下に隠れ、smoothスクロールは環境によって黙って無視される（実測）。タブバー分を差し引いた位置へ明示的にスクロールするようにした。</div><div class="ver">v4.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">復習の途中でタブを移動すると最初からになる</div><div class="d"><code>go</code>が毎回<code>startQuiz</code>を呼んでいた。進行中なら再開するようにし、あわせて単語帳を切り替えた場合に別デッキの周回を再開しないよう<code>quiz.ctx</code>で判定するようにした。</div><div class="ver">v4.5.0</div></div></li>

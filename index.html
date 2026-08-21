@@ -207,6 +207,14 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
 .q-mode-tabs button.on{background:var(--fill);border-color:var(--fill);color:#fff}
 
+.rng{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
+  background:var(--line);outline:none;margin:2px 0 0}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;
+  border-radius:50%;background:var(--accent);border:none;cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.rng::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--accent);
+  border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.rng:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .set-row{display:flex;justify-content:space-between;align-items:center;padding:16px;
   border-bottom:1px solid var(--line);gap:12px}
 .set-row:last-child{border-bottom:none}
@@ -284,6 +292,35 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .sheet .tut-actions{display:flex;gap:10px;margin-top:6px}
 .sheet .tut-actions .btn{flex:1}
 /* "today" call-to-action on the list screen */
+.home-hi{margin:4px 2px 14px}
+.home-hi h2{font-size:21px;margin:0 0 3px}
+.home-hi .sub{font-size:13px;color:var(--muted)}
+.home-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 2px 16px}
+.hm{background:var(--surface);border:1px solid var(--line);border-radius:13px;
+  padding:12px 8px;box-shadow:var(--shadow);text-align:center}
+.hm .v{font-family:Georgia,serif;font-size:21px;font-weight:600;line-height:1.15;
+  color:var(--ink-strong);font-variant-numeric:tabular-nums}
+.hm .l{font-size:10.5px;color:var(--muted);margin-top:4px;letter-spacing:.3px}
+.hm.live .v{color:var(--accent)}
+.home-cta{background:var(--surface);border:1.5px solid rgba(240,180,41,.55);border-radius:16px;
+  padding:18px;box-shadow:var(--shadow);margin:0 2px 16px}
+.home-cta.calm{border:1px solid var(--line)}
+.home-cta .t{font-size:16.5px;font-weight:700;color:var(--ink-strong);display:flex;align-items:center;gap:9px}
+.home-cta .s{font-size:13px;color:var(--muted);line-height:1.6;margin-top:7px}
+.home-cta .btn{margin-top:14px;width:100%}
+.home-sec{font-size:11.5px;font-weight:700;letter-spacing:.6px;color:var(--muted);
+  margin:20px 2px 9px;text-transform:uppercase}
+.home-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 2px}
+.home-act{background:var(--surface);border:1px solid var(--line);border-radius:13px;
+  padding:14px 12px;box-shadow:var(--shadow);text-align:left;cursor:pointer;font:inherit;color:inherit}
+.home-act .ic{font-size:19px;display:block;margin-bottom:6px}
+.home-act .t{display:block;font-size:13.5px;font-weight:700;color:var(--ink-strong)}
+.home-act .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.home-act:active{transform:scale(.985)}
+.list-modes{display:flex;gap:8px;margin:0 2px 12px}
+.list-modes button{flex:1;font:inherit;font-size:13px;font-weight:600;padding:10px;
+  border-radius:11px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink-strong);cursor:pointer}
 .today-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
   padding:16px;margin:0 2px 12px;box-shadow:var(--shadow)}
 .today-card.urgent{border:1.5px solid rgba(240,180,41,.6)}
@@ -385,7 +422,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <main class="wrap">
 
-  <section id="v-add" class="view active">
+  <section id="v-add" class="view">
     <div style="margin:6px 2px 14px">
       <h2 style="font-size:20px" data-i18n="add_title">単語を追加</h2>
       <p class="hint" data-i18n="add_hint">英単語のスペルを入力して「調べる」を押すと、辞書と翻訳から意味・定義を自動取得する。</p>
@@ -415,9 +452,13 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     </div>
   </section>
 
+  <section id="v-home" class="view active">
+    <div id="homeBody"></div>
+  </section>
+
   <section id="v-list" class="view">
     <div id="src-list"></div>
-    <div id="todayCard"></div>
+    <div id="listModes"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
@@ -427,6 +468,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
   <section id="v-study" class="view">
     <div id="src-study"></div>
+    <button class="btn btn-ghost" id="studyBack" style="width:100%;margin-bottom:12px" data-i18n="back_to_words">単語リストへ戻る</button>
     <h2 style="font-size:20px;margin:6px 2px 4px" data-i18n="study_title">単語帳</h2>
     <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
     <div id="studyBody"></div>
@@ -446,8 +488,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 </main>
 
 <nav class="tabbar">
-  <button data-tab="v-list" class="on"><span class="ic">📚</span><span data-i18n="nav_list">リスト</span></button>
-  <button data-tab="v-study"><span class="ic">🗂️</span><span data-i18n="nav_study">単語帳</span></button>
+  <button data-tab="v-home" class="on"><span class="ic">🏠</span><span data-i18n="nav_home">ホーム</span></button>
+  <button data-tab="v-list"><span class="ic">📚</span><span data-i18n="nav_words">単語</span></button>
   <button data-tab="v-add"><span class="add-dot" style="font-size:24px;font-weight:400">＋</span></button>
   <button data-tab="v-quiz"><span class="ic">🔁</span><span data-i18n="nav_review">復習</span><span class="badge" id="dueBadge" style="display:none"></span></button>
   <button data-tab="v-stats"><span class="ic">📈</span><span data-i18n="nav_record">記録</span></button>
@@ -520,6 +562,18 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
           <button data-v="light" data-i18n="theme_light">ライト</button>
           <button data-v="dark" data-i18n="theme_dark">ダーク</button>
         </div>
+      </div>
+    </div>
+
+    <div class="set-section-t" data-i18n="sec_volume">音量</div>
+    <div class="panel">
+      <div class="set-row" style="display:block">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <div class="st" data-i18n="st_volume">音量</div>
+          <div class="sd" id="volVal" style="font-variant-numeric:tabular-nums"></div>
+        </div>
+        <div class="sd" data-i18n="desc_volume" style="margin-bottom:10px">発音と効果音の両方に効きます</div>
+        <input type="range" id="rngVolume" class="rng" min="0" max="100" step="5">
       </div>
     </div>
 
@@ -636,13 +690,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.5.0';
+const APP_VERSION='4.6.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.5.0',date:'2026-08-22',keys:['wn1','wn2']},
+  {version:'4.6.0',date:'2026-08-22',keys:['wn1','wn2','wn3']},
+  {version:'4.5.0',date:'2026-08-22',keys:['v450_1','v450_2']},
   {version:'4.4.0',date:'2026-08-22',keys:['v440_1']},
   {version:'4.3.0',date:'2026-08-21',keys:['v430_1','v430_2','v430_3']},
   {version:'4.2.0',date:'2026-08-21',keys:['v420_1','v420_2','v420_3']},
@@ -770,8 +825,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'クイズで答えたときに、正解・不正解の短い音が鳴るようになりました。設定の「効果音」からいつでもオフにできます',en:'Answering a quiz question now plays a short right/wrong tone. Turn it off any time under Settings → Sounds',zh:'答题时会播放简短的正确/错误提示音。可随时在「设置 → 音效」中关闭',fr:'Répondre à une question joue désormais un bref son juste/faux. Désactivable à tout moment dans Réglages → Sons',ar:'أصبحت الإجابة على سؤال تُصدر نغمة قصيرة للصواب أو الخطأ. يمكن إيقافها في الإعدادات ← المؤثرات الصوتية',ko:'퀴즈에 답하면 정답·오답을 알리는 짧은 소리가 재생됩니다. 설정의 «효과음»에서 언제든 끌 수 있습니다',ru:'Ответ на вопрос теперь сопровождается коротким сигналом «верно/неверно». Отключить можно в Настройках → Звуки'},
-  wn2:{ja:'復習の使い勝手を改善しました。答えた直後に結果が画面内に表示されるようになり、復習の途中で他のタブに移動しても続きから再開できます。バックアップの読み込みがアカウントに同期されない問題も修正しました',en:'Review is smoother: the result now scrolls into view as soon as you answer, and leaving the tab mid-round no longer restarts it. Also fixed imported backups not syncing to your account',zh:'复习体验改进：答题后结果会立即滚动到可见位置，中途切换标签页也不会重新开始。同时修复了导入的备份未同步到账号的问题',fr:'Révision améliorée : le résultat apparaît à l’écran dès que vous répondez, et quitter l’onglet en cours de session ne la relance plus. Correction aussi des sauvegardes importées non synchronisées avec le compte',ar:'تحسّنت المراجعة: تظهر النتيجة فور الإجابة، ومغادرة التبويب أثناء الجولة لم تعد تعيدها من البداية. كما أُصلحت مشكلة عدم مزامنة النسخ الاحتياطية المستوردة مع الحساب',ko:'복습 사용성을 개선했습니다. 답한 직후 결과가 화면 안에 표시되고, 도중에 다른 탭으로 이동해도 이어서 진행됩니다. 가져온 백업이 계정에 동기화되지 않던 문제도 수정했습니다',ru:'Повторение стало удобнее: результат сразу попадает в поле зрения, а уход на другую вкладку больше не сбрасывает раунд. Также исправлено: импортированные копии не синхронизировались с аккаунтом'},
+  wn1:{ja:'「ホーム」タブを追加しました。連続日数・今日の復習・学習の進みが一目で分かり、開いて1タップで復習を始められます',en:'Added a Home tab. Your streak, what’s due today and how far you’ve got are all in one place, and review starts in a single tap',zh:'新增「首页」标签页。连续天数、今日待复习和学习进度一目了然，打开后一点即可开始复习',fr:'Nouvel onglet Accueil : série, révisions du jour et progression au même endroit, et la révision démarre en un seul geste',ar:'أُضيف تبويب «الرئيسية»: التتابع وما يستحق المراجعة اليوم ومدى تقدّمك في مكان واحد، وتبدأ المراجعة بلمسة واحدة',ko:'«홈» 탭을 추가했습니다. 연속 일수·오늘의 복습·학습 진행 상황을 한눈에 볼 수 있고, 한 번의 탭으로 복습을 시작할 수 있습니다',ru:'Добавлена вкладка «Главная»: серия, повторения на сегодня и прогресс — в одном месте, а повторение начинается одним касанием'},
+  wn2:{ja:'「リスト」と「単語帳」を「単語」タブにまとめました。単語帳（カード）は単語タブの「カードで覚える」から開けます',en:'List and Flashcards are now one Words tab. Flashcards open from “Flashcards” inside it',zh:'「列表」与「单词卡」已合并为「单词」标签页，单词卡可从其中的「用卡片记忆」打开',fr:'Liste et Cartes mémo fusionnent dans l’onglet Mots ; les cartes s’ouvrent via « Cartes mémoire »',ar:'دُمج «القائمة» و«البطاقات» في تبويب «الكلمات»، وتُفتح البطاقات من «بطاقات الحفظ» بداخله',ko:'«목록»과 «단어 카드»를 «단어» 탭으로 통합했습니다. 카드는 그 안의 «카드로 외우기»에서 열 수 있습니다',ru:'«Список» и «Карточки» объединены во вкладку «Слова»; карточки открываются оттуда через «Карточки»'},
+  wn3:{ja:'音量を設定できるようになりました（設定 → 音量）。発音と効果音の両方に効きます。効果音が発音に比べて小さすぎた点も調整し、不正解の音はスマホのスピーカーでも聞こえる高さに変えました',en:'Added a volume setting (Settings → Volume) covering both pronunciation and answer sounds. The tones were far too quiet next to the voice, and the wrong-answer sound now sits where phone speakers can actually reproduce it',zh:'新增音量设置（设置 → 音量），同时作用于发音和答题音效。此前音效相对发音过轻，错误提示音也调整到手机扬声器能够还原的音高',fr:'Ajout d’un réglage de volume (Réglages → Volume) agissant sur la prononciation et les sons. Les sons étaient bien trop faibles face à la voix, et le son d’erreur est désormais dans une plage que les haut-parleurs de téléphone restituent',ar:'أُضيف ضبط لمستوى الصوت (الإعدادات ← مستوى الصوت) يشمل النطق وأصوات الإجابة. كانت النغمات أخفت بكثير من الصوت، وأصبح صوت الخطأ في نطاق تستطيع مكبرات الهواتف إخراجه',ko:'음량을 설정할 수 있게 되었습니다(설정 → 음량). 발음과 효과음 모두에 적용됩니다. 효과음이 발음보다 지나치게 작았던 점을 조정하고, 오답 소리는 휴대폰 스피커로도 들리는 음역으로 바꿨습니다',ru:'Добавлена настройка громкости (Настройки → Громкость) для произношения и звуков ответа. Тоны были намного тише голоса, а звук ошибки теперь в диапазоне, который телефонные динамики действительно воспроизводят'},
+  v450_1:{ja:'クイズで答えたときに、正解・不正解の短い音が鳴るようになりました。設定の「効果音」からいつでもオフにできます',en:'Answering a quiz question now plays a short right/wrong tone. Turn it off any time under Settings → Sounds',zh:'答题时会播放简短的正确/错误提示音。可随时在「设置 → 音效」中关闭',fr:'Répondre à une question joue désormais un bref son juste/faux. Désactivable à tout moment dans Réglages → Sons',ar:'أصبحت الإجابة على سؤال تُصدر نغمة قصيرة للصواب أو الخطأ. يمكن إيقافها في الإعدادات ← المؤثرات الصوتية',ko:'퀴즈에 답하면 정답·오답을 알리는 짧은 소리가 재생됩니다. 설정의 «효과음»에서 언제든 끌 수 있습니다',ru:'Ответ на вопрос теперь сопровождается коротким сигналом «верно/неверно». Отключить можно в Настройках → Звуки'},
+  v450_2:{ja:'復習の使い勝手を改善しました。答えた直後に結果が画面内に表示されるようになり、復習の途中で他のタブに移動しても続きから再開できます。バックアップの読み込みがアカウントに同期されない問題も修正しました',en:'Review is smoother: the result now scrolls into view as soon as you answer, and leaving the tab mid-round no longer restarts it. Also fixed imported backups not syncing to your account',zh:'复习体验改进：答题后结果会立即滚动到可见位置，中途切换标签页也不会重新开始。同时修复了导入的备份未同步到账号的问题',fr:'Révision améliorée : le résultat apparaît à l’écran dès que vous répondez, et quitter l’onglet en cours de session ne la relance plus. Correction aussi des sauvegardes importées non synchronisées avec le compte',ar:'تحسّنت المراجعة: تظهر النتيجة فور الإجابة، ومغادرة التبويب أثناء الجولة لم تعد تعيدها من البداية. كما أُصلحت مشكلة عدم مزامنة النسخ الاحتياطية المستوردة مع الحساب',ko:'복습 사용성을 개선했습니다. 답한 직후 결과가 화면 안에 표시되고, 도중에 다른 탭으로 이동해도 이어서 진행됩니다. 가져온 백업이 계정에 동기화되지 않던 문제도 수정했습니다',ru:'Повторение стало удобнее: результат сразу попадает в поле зрения, а уход на другую вкладку больше не сбрасывает раунд. Также исправлено: импортированные копии не синхронизировались с аккаунтом'},
   v440_1:{ja:'単語を追加するときに「メモ」欄を追加しました。例文や自分の覚え方など、自由に書き込めます。あとから編集もでき、単語詳細やリスト検索でも使えます',en:'Added a notes field when adding a word. Jot down an example sentence, a way to remember it, or anything else — editable later, and included in the detail view and list search',zh:'添加单词时新增了「备注」栏，可自由填写例句或记忆方法。之后也可编辑，详情页与列表搜索均可使用',fr:'Ajout d’un champ de notes lors de l’ajout d’un mot : une phrase d’exemple, une astuce mnémotechnique, ce que vous voulez — modifiable ensuite, visible dans le détail et pris en compte par la recherche',ar:'أُضيف حقل «ملاحظات» عند إضافة كلمة، لتدوين جملة مثال أو طريقة للتذكر بحرية. يمكن تعديله لاحقًا، ويظهر في التفاصيل والبحث في القائمة',ko:'단어를 추가할 때 「메모」란을 추가했습니다. 예문이나 나만의 암기법 등을 자유롭게 적을 수 있으며, 나중에 수정할 수 있고 상세 화면과 목록 검색에서도 사용됩니다',ru:'При добавлении слова появилось поле «Заметки» — впишите пример предложения или свой способ запоминания. Можно редактировать позже, заметка видна в деталях и учитывается при поиске'},
   v420_1:{ja:'重要な修正: ログイン済みなのに「この端末にしか保存されていません」の警告が出続ける不具合を直しました。あわせて、他の端末で追加した単語が起動時に取得されない問題も修正しています',en:'Important fix: the “saved only on this device” warning kept showing even while signed in. The same underlying bug also meant words added on another device were not pulled down at startup',zh:'重要修复：已登录状态下仍持续显示「仅保存在本设备」的警告。同一根本问题还导致其他设备上添加的单词在启动时未被同步下来',fr:'Correctif important : l’avertissement « enregistré uniquement sur cet appareil » restait affiché même connecté. Le même bug empêchait aussi la récupération au démarrage des mots ajoutés sur un autre appareil',ar:'إصلاح مهم: كان تحذير «محفوظ على هذا الجهاز فقط» يستمر بالظهور رغم تسجيل الدخول. والخلل نفسه كان يمنع جلب الكلمات المضافة من جهاز آخر عند بدء التشغيل',ko:'중요한 수정: 로그인 상태인데도 «이 기기에만 저장됨» 경고가 계속 표시되던 문제를 고쳤습니다. 같은 원인으로 다른 기기에서 추가한 단어가 시작 시 받아지지 않던 문제도 함께 수정했습니다',ru:'Важное исправление: предупреждение «сохранено только на этом устройстве» показывалось даже после входа. Та же причина мешала при запуске получать слова, добавленные на другом устройстве'},
   v420_2:{ja:'チュートリアルを作り直しました。アカウントを作るとデータが守られること、ホーム画面への追加方法を、それぞれ独立した画面で案内します。すでにログイン済みの方やインストール済みの方には表示されません',en:'Rebuilt the tutorial. Keeping your words safe with an account, and adding the app to your home screen, now each get their own screen — and are skipped entirely if you are already signed in or already installed',zh:'重做了新手引导。创建账号以保护数据、以及添加到主屏幕的方法，各自独立成页；已登录或已安装的用户则不会看到',fr:'Tutoriel refait. Protéger ses mots avec un compte et ajouter l’app à l’écran d’accueil ont désormais chacun leur écran — et sont ignorés si vous êtes déjà connecté ou déjà installé',ar:'أعدنا بناء الشرح التمهيدي. حماية كلماتك بحساب، وإضافة التطبيق إلى الشاشة الرئيسية، لكلٍّ منهما شاشته الآن، ويُتخطّيان إن كنت مسجّلاً أو مثبّتًا بالفعل',ko:'튜토리얼을 다시 만들었습니다. 계정으로 단어를 지키는 방법과 홈 화면 추가 방법을 각각 별도 화면으로 안내하며, 이미 로그인했거나 설치한 경우에는 표시되지 않습니다',ru:'Обучение переработано. Сохранность слов через аккаунт и добавление на главный экран получили отдельные экраны — и пропускаются, если вы уже вошли или уже установили приложение'},
@@ -781,6 +839,27 @@ const T={
   v400_2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
   v400_3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
+  nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
+  nav_words:{ja:'単語',en:'Words',zh:'单词',fr:'Mots',ar:'الكلمات',ko:'단어',ru:'Слова'},
+  back_to_words:{ja:'単語リストへ戻る',en:'Back to the word list',zh:'返回单词列表',fr:'Retour à la liste',ar:'العودة إلى قائمة الكلمات',ko:'단어 목록으로 돌아가기',ru:'Назад к списку слов'},
+  home_hi:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
+  home_you:{ja:'あなた',en:'there',zh:'你',fr:'vous',ar:'بك',ko:'여러분',ru:'друг'},
+  home_sub:{ja:'今日の1回が、いちばん効きます。',en:'One session today does more than a long one next week.',zh:'今天练一次，胜过下周补一大段。',fr:'Une session aujourd’hui vaut mieux qu’une longue la semaine prochaine.',ar:'جلسة واحدة اليوم أفضل من جلسة طويلة الأسبوع القادم.',ko:'오늘의 한 번이 가장 효과적입니다.',ru:'Одно занятие сегодня полезнее долгого на следующей неделе.'},
+  home_m_streak:{ja:'連続',en:'STREAK',zh:'连续',fr:'SÉRIE',ar:'التتابع',ko:'연속',ru:'СЕРИЯ'},
+  home_m_due:{ja:'今日の復習',en:'DUE',zh:'待复习',fr:'À REVOIR',ar:'للمراجعة',ko:'복습 대상',ru:'К ПОВТОРУ'},
+  home_m_learned:{ja:'学習済み',en:'LEARNED',zh:'已学',fr:'APPRIS',ar:'مُتعلَّم',ko:'학습 완료',ru:'ИЗУЧЕНО'},
+  home_more:{ja:'ほかにできること',en:'More',zh:'其他功能',fr:'Autres',ar:'المزيد',ko:'그 밖에',ru:'Ещё'},
+  home_act_cards:{ja:'カードで覚える',en:'Flashcards',zh:'用卡片记忆',fr:'Cartes mémoire',ar:'بطاقات الحفظ',ko:'카드로 외우기',ru:'Карточки'},
+  home_act_cards_s:{ja:'復習の予定には影響しません',en:'Doesn’t affect your review schedule',zh:'不影响复习计划',fr:'Sans effet sur le planning de révision',ar:'لا يؤثر على جدول المراجعة',ko:'복습 일정에는 영향 없음',ru:'Не влияет на график повторений'},
+  home_act_add:{ja:'単語を追加',en:'Add a word',zh:'添加单词',fr:'Ajouter un mot',ar:'إضافة كلمة',ko:'단어 추가',ru:'Добавить слово'},
+  home_act_add_s:{ja:'意味は自動で取得',en:'Meaning filled in for you',zh:'自动获取释义',fr:'Le sens est rempli pour vous',ar:'يُجلب المعنى تلقائيًا',ko:'뜻은 자동으로 입력',ru:'Значение подставится само'},
+  home_act_words:{ja:'単語リスト',en:'Word list',zh:'单词列表',fr:'Liste de mots',ar:'قائمة الكلمات',ko:'단어 목록',ru:'Список слов'},
+  home_act_stats:{ja:'学習の記録',en:'Your record',zh:'学习记录',fr:'Votre suivi',ar:'سجلّك',ko:'학습 기록',ru:'Ваш прогресс'},
+  home_act_stats_s:{ja:'連続日数とカレンダー',en:'Streak and calendar',zh:'连续天数与日历',fr:'Série et calendrier',ar:'التتابع والتقويم',ko:'연속 일수와 캘린더',ru:'Серия и календарь'},
+  home_nothing_due:{ja:'今日の復習はありません',en:'Nothing due today',zh:'今天没有待复习的单词',fr:'Rien à réviser aujourd’hui',ar:'لا شيء للمراجعة اليوم',ko:'오늘 복습할 단어가 없습니다',ru:'На сегодня повторений нет'},
+  home_nothing_due_sub:{ja:'自由学習なら、予定に関係なく好きなだけ解けます。',en:'Free study lets you practise as much as you like, off-schedule.',zh:'自由学习可以不受计划限制，想练多少都行。',fr:'L’étude libre vous laisse pratiquer autant que vous voulez, hors planning.',ar:'الدراسة الحرة تتيح لك التدرّب كما تشاء خارج الجدول.',ko:'자유 학습은 일정과 상관없이 원하는 만큼 풀 수 있습니다.',ru:'Свободный режим позволяет заниматься сколько угодно, вне графика.'},
+  home_empty_t:{ja:'最初の単語を入れましょう',en:'Add your first word',zh:'先添加第一个单词',fr:'Ajoutez votre premier mot',ar:'أضف كلمتك الأولى',ko:'첫 단어를 넣어봅시다',ru:'Добавьте первое слово'},
+  home_empty_s:{ja:'スペルを入れるだけで、意味も発音も自動で入ります。',en:'Type the spelling and the meaning and pronunciation come in automatically.',zh:'只需输入拼写，释义和发音会自动填入。',fr:'Saisissez l’orthographe : le sens et la prononciation arrivent tout seuls.',ar:'اكتب التهجئة فقط، وسيأتي المعنى والنطق تلقائيًا.',ko:'철자만 입력하면 뜻과 발음이 자동으로 채워집니다.',ru:'Введите написание — значение и произношение подставятся сами.'},
   nav_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'القائمة',ko:'목록',ru:'Список'},
   nav_study:{ja:'単語帳',en:'Cards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'카드',ru:'Карточки'},
   nav_review:{ja:'復習',en:'Review',zh:'复习',fr:'Révision',ar:'مراجعة',ko:'복습',ru:'Повтор'},
@@ -975,6 +1054,10 @@ const T={
   rate_normal:{ja:'ふつう',en:'Normal',zh:'正常',fr:'Normal',ar:'عادية',ko:'보통',ru:'Обычно'},
   rate_slow:{ja:'ゆっくり',en:'Slow',zh:'慢速',fr:'Lent',ar:'بطيئة',ko:'느리게',ru:'Медленно'},
   speech_unsupported:{ja:'このブラウザは音声読み上げに対応していません。',en:'This browser doesn’t support speech playback.',zh:'此浏览器不支持语音朗读。',fr:'Ce navigateur ne prend pas en charge la synthèse vocale.',ar:'هذا المتصفح لا يدعم النطق الصوتي.',ko:'이 브라우저는 음성 재생을 지원하지 않습니다.',ru:'Этот браузер не поддерживает озвучивание.'},
+  sec_volume:{ja:'音量',en:'Volume',zh:'音量',fr:'Volume',ar:'مستوى الصوت',ko:'음량',ru:'Громкость'},
+  st_volume:{ja:'音量',en:'Volume',zh:'音量',fr:'Volume',ar:'مستوى الصوت',ko:'음량',ru:'Громкость'},
+  desc_volume:{ja:'発音と効果音の両方に効きます',en:'Applies to both pronunciation and answer sounds',zh:'同时作用于发音和答题音效',fr:'S’applique à la prononciation et aux sons de réponse',ar:'يؤثر على النطق وأصوات الإجابة معًا',ko:'발음과 효과음 모두에 적용됩니다',ru:'Действует и на произношение, и на звуки ответа'},
+  volume_muted:{ja:'ミュート',en:'Muted',zh:'静音',fr:'Muet',ar:'صامت',ko:'음소거',ru:'Без звука'},
   sec_sound:{ja:'効果音',en:'Sounds',zh:'音效',fr:'Sons',ar:'المؤثرات الصوتية',ko:'효과음',ru:'Звуки'},
   st_sound:{ja:'正解・不正解の音',en:'Answer sounds',zh:'答题音效',fr:'Sons de réponse',ar:'أصوات الإجابة',ko:'정답·오답 소리',ru:'Звуки ответа'},
   desc_sound:{ja:'クイズで答えたときに短い音を鳴らす',en:'Play a short tone when you answer a quiz question',zh:'答题时播放短促提示音',fr:'Joue un son bref quand vous répondez',ar:'تشغيل نغمة قصيرة عند الإجابة',ko:'퀴즈에 답할 때 짧은 소리를 재생',ru:'Короткий сигнал при ответе на вопрос'},
@@ -1069,14 +1152,16 @@ const T={
   tut_home_b:{ja:'ホーム画面に追加すると、普通のアプリと同じように一発で開けます。ブラウザが勝手にデータを消すことも防げるので、続けやすくなります。',en:'Adding it to your home screen opens the app in one tap, like any other app — and it stops the browser from clearing your data on its own, which makes it far easier to keep going.',zh:'添加到主屏幕后，就能像普通应用一样一键打开，还能防止浏览器自行清除数据，更容易坚持下去。',fr:'Sur l’écran d’accueil, l’app s’ouvre en un geste comme n’importe quelle autre — et le navigateur cesse d’effacer vos données de lui-même, ce qui aide beaucoup à tenir dans la durée.',ar:'بإضافته إلى الشاشة الرئيسية يفتح التطبيق بلمسة واحدة كأي تطبيق آخر، ويمنع المتصفح من مسح بياناتك من تلقاء نفسه، مما يسهّل الاستمرار.',ko:'홈 화면에 추가하면 일반 앱처럼 한 번에 열 수 있고, 브라우저가 임의로 데이터를 지우는 것도 막을 수 있어 꾸준히 이어가기 쉬워집니다.',ru:'На главном экране приложение открывается одним касанием, как любое другое, а браузер перестаёт сам удалять ваши данные — так продолжать заниматься гораздо проще.'},
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
   tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.',ru:'Это язык приложения и перевода значений. Вы можете изменить его в любое время в настройках.'},
+  tut0_t:{ja:'ホームから始める',en:'Start from Home',zh:'从首页开始',fr:'Commencez par l’accueil',ar:'ابدأ من الرئيسية',ko:'홈에서 시작',ru:'Начните с главной'},
+  tut0_b:{ja:'ホームには「今日やること」がまとまっています。開いてボタンを1回押せば復習が始まります。',en:'Home gathers what to do today. Open the app, tap one button, and your review starts.',zh:'首页汇总了「今天要做的事」。打开应用后点一下按钮就能开始复习。',fr:'L’accueil rassemble ce qu’il y a à faire aujourd’hui : ouvrez l’app, un bouton, et la révision commence.',ar:'تجمع الصفحة الرئيسية ما عليك فعله اليوم: افتح التطبيق، اضغط زرًا واحدًا، وتبدأ المراجعة.',ko:'홈에는 «오늘 할 일»이 모여 있습니다. 앱을 열고 버튼 한 번이면 복습이 시작됩니다.',ru:'На главной собрано всё на сегодня: откройте приложение, одно нажатие — и повторение началось.'},
   tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词',fr:'Ajouter des mots',ar:'إضافة كلمات',ko:'단어 추가',ru:'Добавляйте слова'},
   tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。',fr:'Appuyez sur ＋, saisissez un mot anglais, touchez Rechercher pour récupérer le sens, puis Ajouter à la liste.',ar:'اضغط ＋، اكتب كلمة إنجليزية، اضغط بحث لجلب المعنى، ثم أضف إلى القائمة.',ko:'＋를 누르고 영어 단어를 입력, 검색으로 뜻을 자동 가져온 뒤 목록에 추가하세요.',ru:'Нажмите ＋, введите английское слово, нажмите «Найти» для автозаполнения значения, затем «Добавить в список».'},
   tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表',fr:'Gérer votre liste',ar:'إدارة قائمتك',ko:'목록 관리',ru:'Управляйте списком'},
-  tut2_b:{ja:'追加した単語は『リスト』で確認・編集・削除できます。',en:'See, edit, and delete your words under List.',zh:'在『列表』中查看、编辑、删除单词。',fr:'Consultez, modifiez et supprimez vos mots dans Liste.',ar:'اعرض كلماتك وعدّلها واحذفها من القائمة.',ko:'목록에서 단어를 확인·편집·삭제할 수 있어요.',ru:'Просматривайте, редактируйте и удаляйте слова в разделе «Список».'},
+  tut2_b:{ja:'追加した単語は『単語』タブで確認・編集・削除できます。',en:'See, edit, and delete your words under the Words tab.',zh:'在「单词」标签页可以查看、编辑和删除已添加的单词。',fr:'Consultez, modifiez et supprimez vos mots dans l’onglet Mots.',ar:'يمكنك عرض كلماتك وتعديلها وحذفها من تبويب «الكلمات».',ko:'추가한 단어는 「단어」 탭에서 확인·편집·삭제할 수 있습니다.',ru:'Просматривайте, редактируйте и удаляйте слова во вкладке «Слова».'},
   tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (تكرار متباعد)',ko:'복습 (간격 반복)',ru:'Повторение (интервальное)'},
   tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。',fr:'Testez-vous dans Révision. Plus vous réussissez, plus la prochaine révision s’éloigne — pour ancrer la mémoire.',ar:'اختبر نفسك في المراجعة. كلما أجبت صحيحًا تباعدت المراجعة التالية لترسيخ الحفظ.',ko:'복습에서 문제를 풀어요. 맞힐수록 다음 복습이 뒤로 미뤄져 기억에 남습니다.',ru:'Проверяйте себя в разделе «Повтор». Чем больше верных ответов, тем дальше следующий повтор — так знания закрепляются.'},
   tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡',fr:'Cartes mémo',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
-  tut4_b:{ja:'『単語帳』はタップでめくる暗記カード。スキマ時間にどうぞ。',en:'Flashcards you flip with a tap — perfect for spare moments.',zh:'『单词卡』点一下翻面，利用碎片时间背诵。',fr:'Des cartes à retourner d’un geste — parfait pour les moments libres.',ar:'بطاقات تقلبها بلمسة — مثالية لأوقات الفراغ.',ko:'탭으로 넘기는 카드 — 자투리 시간에 딱이에요.',ru:'Карточки переворачиваются одним нажатием — удобно в свободную минуту.'},
+  tut4_b:{ja:'『単語』タブの「カードで覚える」から、タップでめくる暗記カードを開けます。スキマ時間にどうぞ。',en:'Open flashcards from “Flashcards” in the Words tab — flip them with a tap, perfect for spare moments.',zh:'在「单词」标签页点击「用卡片记忆」即可打开单词卡，轻点翻面，适合碎片时间。',fr:'Ouvrez les cartes mémo via « Cartes mémoire » dans l’onglet Mots — retournez-les d’un toucher.',ar:'افتح بطاقات الحفظ من «بطاقات الحفظ» في تبويب الكلمات — اقلبها بلمسة، مثالية للأوقات القصيرة.',ko:'「단어」 탭의 «카드로 외우기»에서 탭으로 넘기는 암기 카드를 열 수 있습니다.',ru:'Откройте карточки через «Карточки» во вкладке «Слова» — переворачивайте касанием.'},
 
   // Translated fully into ja/en only for now; other languages fall back to
   // the en copy (not a real translation) to keep this addition lightweight.
@@ -1187,7 +1272,7 @@ function applyStaticI18n(){
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
 const DEFAULTS={words:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
-  autoSpeak:false,accent:'us',speechRate:'normal',sound:true,
+  autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
@@ -1324,6 +1409,28 @@ function markBackedUp(){
 }
 
 /* ---------- pronunciation (Web Speech API, offline + no key) ---------- */
+// One master volume drives both the tones and the spoken word. The two are
+// produced by completely different paths -- a raw oscillator versus the
+// platform speech engine -- so each needs its own calibration constant, and
+// only then does a single slider move them together sensibly.
+//
+// Speech has a high crest factor: at volume 1.0 its RMS is roughly a fifth of
+// its peak, while a sine's RMS is 0.707 of peak. Matching by peak amplitude
+// (what the first version effectively did, at 0.16 against an unset TTS
+// volume of 1.0) left the tones far quieter than the voice.
+// Calibrated by rendering the tones through an OfflineAudioContext and
+// comparing their RMS over the sounding portion against an estimate of speech
+// RMS at TTS_LEVEL. At 0.62 the tones land ~4dB under the voice -- a cue
+// should sit just below the content, not match it -- and peak at 0.68 even at
+// full volume, so nothing clips. The platform speech engine's real output
+// can't be measured from the page, so this is calibrated to a typical speech
+// crest factor; the slider exists partly to absorb that uncertainty.
+const TONE_LEVEL=0.62;  // peak amplitude of an answer tone at full volume
+const TTS_LEVEL=0.9;    // utterance volume at full volume
+function masterVol(){
+  const v=S().volume;
+  return typeof v==='number'?Math.max(0,Math.min(1,v)):0.7;
+}
 const TTS_OK='speechSynthesis'in window&&typeof SpeechSynthesisUtterance!=='undefined';
 let voicesCache=[];
 function loadVoices(){if(TTS_OK)voicesCache=speechSynthesis.getVoices()||[];}
@@ -1371,6 +1478,12 @@ function speak(text){
     const v=pickVoice(u.lang);
     if(v)u.voice=v;
     u.rate=S().speechRate==='slow'?0.65:1;
+    // Left unset this defaults to 1.0 -- full blast, against tones that were
+    // nowhere near it. Some platforms (notably iOS) ignore this and follow the
+    // system volume instead, which is why the tones are calibrated to a
+    // realistic speech level rather than the other way round.
+    u.volume=TTS_LEVEL*masterVol();
+    if(u.volume<=0)return;
     speechSynthesis.speak(u);
   }catch(e){}
 }
@@ -1416,6 +1529,8 @@ function tone(ctx,freq,at,dur,peak){
 }
 function playAnswerSound(ok){
   if(!S().sound)return;
+  const g=TONE_LEVEL*masterVol();
+  if(g<=0)return;
   const ctx=getAudioCtx();
   if(!ctx)return;
   // Autoplay policy leaves the context suspended until a gesture; answering a
@@ -1423,13 +1538,17 @@ function playAnswerSound(ok){
   if(ctx.state==='suspended')ctx.resume().catch(()=>{});
   try{
     if(ok){
-      tone(ctx,784,0,0.13,0.16);       // G5
-      tone(ctx,1046.5,0.10,0.22,0.13); // C6 -- a rising third reads as "yes"
+      tone(ctx,784,0,0.13,g);        // G5
+      tone(ctx,1046.5,0.10,0.22,g*0.82); // C6 -- a rising third reads as "yes"
     }else{
-      // Low, short and deliberately not a buzzer. This is a study app: a
+      // Descending, and still deliberately not a buzzer: in a study app a
       // harsh noise on every miss is a reason to stop studying.
-      tone(ctx,220,0,0.15,0.11);       // A3
-      tone(ctx,174.61,0.11,0.24,0.09); // F3
+      // Kept in the mid range rather than down at A3/F3 as before -- phone
+      // speakers roll off hard below ~300Hz, so the original low pair was
+      // near inaudible on exactly the devices this app is used on. Mid tones
+      // also sit below the 1kHz sensitivity peak, hence the small boost.
+      tone(ctx,415.30,0,0.15,g*1.15);     // G#4
+      tone(ctx,311.13,0.11,0.26,g*1.05);  // D#4
     }
   }catch(e){}
 }
@@ -1704,11 +1823,11 @@ function openDeckPicker(){
   $$('#deckBody .deck-item').forEach(b=>b.onclick=()=>{
     setSource(b.dataset.src);
     closeDeckPicker();
-    // Re-render the view the user is already on (list/study/quiz) so switching
-    // decks from any of the three tabs reflects immediately, instead of always
-    // bouncing back to the list.
+    // Re-render whichever view the user is already on so switching decks
+    // reflects immediately, instead of always bouncing back to the list.
+    // Home carries the deck bar too, so it belongs in this set.
     const active=$$('.view').find(v=>v.classList.contains('active'));
-    go(active&&/^v-(list|study|quiz)$/.test(active.id)?active.id:'v-list');
+    go(active&&/^v-(home|list|study|quiz)$/.test(active.id)?active.id:'v-list');
   });
   $('#deckClose').onclick=closeDeckPicker;
   $('#overlayDeck').classList.add('show');
@@ -1812,7 +1931,8 @@ $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 function renderActiveView(){
   const v=document.querySelector('.view.active');
   if(!v)return;
-  if(v.id==='v-list')renderList();
+  if(v.id==='v-home')renderHome();
+  else if(v.id==='v-list')renderList();
   else if(v.id==='v-study')renderStudy();
   else if(v.id==='v-stats')renderStats();
   // A quiz in progress is left alone: re-running startQuiz would discard the
@@ -1828,9 +1948,14 @@ function quizInProgress(){
   // the user's own words.
   return !!(quiz&&quiz.items&&quiz.items.length&&quiz.i<quiz.items.length&&quiz.ctx===ctxKey());
 }
+// v-study is reached from the word tab rather than having a tab of its own,
+// so it highlights that tab instead of leaving none lit.
+const TAB_FOR={'v-study':'v-list'};
 function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
-  $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
+  const tab=TAB_FOR[id]||id;
+  $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  if(id==='v-home')renderHome();
   if(id==='v-list')renderList();
   if(id==='v-study')renderStudy();
   if(id==='v-quiz'&&!quizInProgress())startQuiz();
@@ -2099,44 +2224,98 @@ function studiedToday(){
   const la=(S().streak||{}).lastActiveDate;
   return la!=null&&localDayIndex(la)===localDayIndex(Date.now());
 }
-function renderTodayCard(){
-  const el=$('#todayCard');
-  if(!el)return;
-  if(!curWords().length){el.innerHTML='';return;}
+// The state of "what should I do right now", shared by the home screen. Kept
+// as data rather than markup so the home CTA and anything else that needs the
+// same judgement can't drift apart.
+function todayState(){
   const due=curDueCount();
   const streak=(S().streak||{}).current||0;
   const done=studiedToday();
-  let cls='today-card',icon,title,sub,btn=null,mode='due';
+  if(!curWords().length)return {kind:'empty'};
+  if(due>0&&!done)return {kind:'due',urgent:true,mode:'due',icon:streak>0?'🔥':'📌',
+    title:streak>0?t('today_streak_live',streak):t('today_due_title',due),
+    sub:streak>0?t('today_streak_risk',due):t('today_due_sub'),btn:t('today_start',due)};
+  if(due>0&&done)return {kind:'more',mode:'due',icon:'👍',
+    title:t('today_done_more',due),sub:t('today_done_more_sub'),btn:t('today_continue')};
+  if(streak>0&&!done)return {kind:'streak',urgent:true,mode:'all',icon:'🔥',
+    title:t('today_streak_live',streak),sub:t('today_nodue_risk'),btn:t('today_free')};
+  if(done)return {kind:'done',icon:'🎉',title:t('today_complete'),sub:t('today_complete_sub'),
+    mode:'all',btn:t('today_free')};
+  // nothing due, no streak, but words exist -- free study is still offered
+  return {kind:'idle',icon:'📖',title:t('home_nothing_due'),sub:t('home_nothing_due_sub'),
+    mode:'all',btn:t('today_free')};
+}
+function renderHome(){
+  const el=$('#homeBody');
+  if(!el)return;
+  const st=S().streak||{};
+  const total=curWords().length;
+  const due=curDueCount();
+  const learned=curWords().filter(w=>w.box>=0).length;
+  const ts=todayState();
 
-  if(due>0&&!done){
-    cls+=' urgent';
-    icon=streak>0?'🔥':'📌';
-    title=streak>0?t('today_streak_live',streak):t('today_due_title',due);
-    sub=streak>0?t('today_streak_risk',due):t('today_due_sub');
-    btn=t('today_start',due);
-  }else if(due>0&&done){
-    icon='👍';title=t('today_done_more',due);sub=t('today_done_more_sub');
-    btn=t('today_continue');
-  }else if(streak>0&&!done){
-    // nothing scheduled, but a live streak still needs today's activity
-    cls+=' urgent';icon='🔥';title=t('today_streak_live',streak);
-    sub=t('today_nodue_risk');btn=t('today_free');mode='all';
-  }else if(done){
-    cls+=' done';icon='🎉';title=t('today_complete');sub=t('today_complete_sub');
-  }else{el.innerHTML='';return;}
+  let h='<div class="home-hi"><h2>'+esc(t('home_hi',displayName()||t('home_you')))+'</h2>'+
+    '<div class="sub">'+esc(t('home_sub'))+'</div></div>';
 
-  el.innerHTML='<div class="'+cls+'">'+
-    '<div class="tc-top"><span style="font-size:19px">'+icon+'</span>'+
-      '<span class="tc-title">'+esc(title)+'</span></div>'+
-    '<div class="tc-sub">'+esc(sub)+'</div>'+
-    (btn?'<button class="btn btn-gold" id="tcGo">'+esc(btn)+'</button>':'')+
+  h+='<div class="home-metrics">'+
+    '<div class="hm'+((st.current||0)>0?' live':'')+'"><div class="v">'+(st.current||0)+'</div>'+
+      '<div class="l">'+esc(t('home_m_streak'))+'</div></div>'+
+    '<div class="hm"><div class="v">'+due+'</div><div class="l">'+esc(t('home_m_due'))+'</div></div>'+
+    '<div class="hm"><div class="v">'+learned+'<span style="font-size:13px;color:var(--muted)">/'+total+'</span></div>'+
+      '<div class="l">'+esc(t('home_m_learned'))+'</div></div>'+
   '</div>';
-  const b=$('#tcGo');
-  if(b)b.onclick=()=>{go('v-quiz');startQuiz(mode);};
+
+  if(ts.kind==='empty'){
+    h+='<div class="home-cta calm"><div class="t">✨ '+esc(t('home_empty_t'))+'</div>'+
+      '<div class="s">'+esc(t('home_empty_s'))+'</div>'+
+      '<button class="btn btn-gold" id="hmAdd2">'+esc(t('home_act_add'))+'</button></div>';
+  }else{
+    h+='<div class="home-cta'+(ts.urgent?'':' calm')+'">'+
+      '<div class="t"><span>'+ts.icon+'</span>'+esc(ts.title)+'</div>'+
+      '<div class="s">'+esc(ts.sub)+'</div>'+
+      '<button class="btn btn-gold" id="hmGo">'+esc(ts.btn)+'</button></div>';
+  }
+
+  h+='<div id="src-home"></div>';
+
+  h+='<div class="home-sec">'+esc(t('home_more'))+'</div><div class="home-acts">'+
+    '<button class="home-act" id="hmCards"><span class="ic">🗂️</span>'+
+      '<span class="t">'+esc(t('home_act_cards'))+'</span>'+
+      '<span class="s">'+esc(t('home_act_cards_s'))+'</span></button>'+
+    '<button class="home-act" id="hmAdd"><span class="ic">➕</span>'+
+      '<span class="t">'+esc(t('home_act_add'))+'</span>'+
+      '<span class="s">'+esc(t('home_act_add_s'))+'</span></button>'+
+    '<button class="home-act" id="hmWords"><span class="ic">📚</span>'+
+      '<span class="t">'+esc(t('home_act_words'))+'</span>'+
+      '<span class="s">'+esc(t('n_words',total))+'</span></button>'+
+    '<button class="home-act" id="hmStats"><span class="ic">📈</span>'+
+      '<span class="t">'+esc(t('home_act_stats'))+'</span>'+
+      '<span class="s">'+esc(t('home_act_stats_s'))+'</span></button>'+
+  '</div>';
+
+  el.innerHTML=h;
+  renderSourceBar('#src-home');
+  const go1=$('#hmGo');
+  if(go1)go1.onclick=()=>{go('v-quiz');startQuiz(ts.mode);};
+  const add2=$('#hmAdd2');
+  if(add2)add2.onclick=()=>go('v-add');
+  $('#hmCards').onclick=()=>go('v-study');
+  $('#hmAdd').onclick=()=>go('v-add');
+  $('#hmWords').onclick=()=>go('v-list');
+  $('#hmStats').onclick=()=>go('v-stats');
+}
+// 単語帳 (flashcards) stopped being a tab: it is a way of studying the list,
+// not a separate destination, and merging the two freed the slot Home needed.
+function renderListModes(){
+  const el=$('#listModes');
+  if(!el)return;
+  if(!curWords().length){el.innerHTML='';return;}
+  el.innerHTML='<div class="list-modes"><button id="lmCards">🗂️ '+esc(t('home_act_cards'))+'</button></div>';
+  $('#lmCards').onclick=()=>go('v-study');
 }
 function renderList(){
   renderSourceBar('#src-list');
-  renderTodayCard();
+  renderListModes();
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
@@ -2307,6 +2486,7 @@ function openWordDetail(w){
   gaScreen('word_detail');
 }
 function closeWordDetail(){$('#overlayWordDetail').classList.remove('show');}
+$('#studyBack').onclick=()=>go('v-list');
 $('#wdClose').onclick=closeWordDetail;
 $('#overlayWordDetail').addEventListener('click',e=>{if(e.target===$('#overlayWordDetail'))closeWordDetail();});
 
@@ -2569,6 +2749,7 @@ function renderSettings(){
   seg('#segLen','len',true);
   $('#swWeak').classList.toggle('on',S().weak);
   $('#swSound').classList.toggle('on',!!S().sound);
+  renderVolumeRow();
   $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
   const sel=$('#selLang');
   sel.value=S().lang;
@@ -2621,6 +2802,31 @@ $('#swSound').onclick=()=>{
   S().sound=!S().sound;save();renderSettings();
   if(S().sound)playAnswerSound(true); // let them hear what they just turned on
 };
+function renderVolumeRow(){
+  const r=$('#rngVolume'),lbl=$('#volVal');
+  if(!r||!lbl)return;
+  const pct=Math.round(masterVol()*100);
+  r.value=pct;
+  lbl.textContent=pct?pct+'%':t('volume_muted');
+}
+// Previewing the tone alone would say nothing about the thing being balanced,
+// so play a tone and then the voice, at the level just chosen. Debounced
+// because `input` fires continuously while a slider is being dragged.
+let volPreviewTimer=null;
+function previewVolume(){
+  clearTimeout(volPreviewTimer);
+  volPreviewTimer=setTimeout(()=>{
+    if(!masterVol())return;
+    playAnswerSound(true);
+    setTimeout(()=>speak('Wordkeep'),420);
+  },260);
+}
+$('#rngVolume').addEventListener('input',()=>{
+  S().volume=(parseInt($('#rngVolume').value,10)||0)/100;
+  save();
+  renderVolumeRow();
+  previewVolume();
+});
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
 $('#btnTutorial').onclick=()=>{closeSettings();openTutorial(false);};
 
@@ -2983,6 +3189,7 @@ let tutStep=0; // 0 = language pick, 1..N = content steps
 let tutIsFirstRun=false;
 function tutSteps(){
   const steps=[
+    {emoji:'🏠',title:t('tut0_t'),body:t('tut0_b')},
     {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
     {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
     {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
@@ -3809,7 +4016,7 @@ if(cloudSaved()){
 /* ---------- boot ---------- */
 applyStaticI18n();
 renderCount();
-go('v-list');
+go('v-home');
 if(!S().onboarded){openTutorial(true);}
 else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
 else if(!S().seenStorageTip){openStorageTip();}
