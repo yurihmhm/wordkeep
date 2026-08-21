@@ -187,7 +187,8 @@ function renderFeedback(){
     '<div class="fb-txt">'+esc(f.text)+'</div>'+
     '<div class="meta">'+
       '<span>'+fmt(f.createdAt)+'</span>'+
-      '<span class="tag">'+esc(f.username||'未ログイン')+'</span>'+
+      '<span class="tag">'+esc(f.nickname||f.username||'未ログイン')+'</span>'+
+      (f.nickname&&f.username?'<span class="tag">'+esc(f.username)+'</span>':'')+
       (f.country?'<span class="tag">'+esc(f.country)+'</span>':'')+
       (f.tz?'<span class="tag">'+esc(f.tz)+'</span>':'')+
       '<span class="tag">v'+esc(f.version||'?')+'</span>'+

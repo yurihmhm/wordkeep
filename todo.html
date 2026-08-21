@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.4.0 時点 &middot; 最終更新 2026-08-22</div>
+    <div class="sub">v4.5.0 時点 &middot; 最終更新 2026-08-22</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -240,13 +240,7 @@ footer a{color:var(--ink-2)}
           <div class="d">アプリを開いた直後の1タップで復習を始められるようにする。<b>上のホームタブ刷新とセットで効く</b>項目で、継続率にいちばん直結する導線。</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">正解・不正解の効果音</div>
-          <div class="d">解答時に短い効果音を鳴らす。手応えが出て学習のテンポが良くなる。<b>必ず設定でオフにできるようにする</b>（電車内や図書館で使う人がいるため）。音源は外部ファイルではなくWeb Audio APIで生成すれば、単一HTML構成と読み込み速度を崩さずに済む。</div>
-        </div>
-      </li>
+      
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -359,6 +353,14 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">正解・不正解の効果音</div><div class="d">Web Audio APIで音を生成（音源ファイルなし＝単一HTML構成と読み込み速度を維持）。正解は上がる長三度、不正解は低く短い音で、ブザーにはしていない（学習アプリで毎回不快な音が鳴るのは学習をやめる理由になるため）。設定の「効果音」でオフ可。読み上げとぶつからないよう発音は音の後にずらしている。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">回答直後に結果が画面外だった（スマホ）</div><div class="d">4択の下に結果が出るため、答えても何も起きていないように見えていた。<b><code>scrollIntoView</code>は使えなかった</b>：<code>nearest</code>/<code>end</code>はビューポート端で止まるのでタブバー（68px）の下に隠れ、smoothスクロールは環境によって黙って無視される（実測）。タブバー分を差し引いた位置へ明示的にスクロールするようにした。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">復習の途中でタブを移動すると最初からになる</div><div class="d"><code>go</code>が毎回<code>startQuiz</code>を呼んでいた。進行中なら再開するようにし、あわせて単語帳を切り替えた場合に別デッキの周回を再開しないよう<code>quiz.ctx</code>で判定するようにした。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">バックアップの読み込みに3つの不具合</div><div class="d">①クラウドに同期されない（<code>cloudTouched</code>未呼び出しのため、他の編集が起きるまで端末内だけに留まっていた）②古いバックアップのストリークが現在のストリークを上書きしていた（統合するよう修正）③言語・テーマが再読み込みまで反映されなかった。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">localStorageが一杯／使用不可だとアプリが落ちる</div><div class="d"><code>save</code>が無防備で、容量超過やSafariプライベートモードで例外を投げ、呼び出し元（復習中・読み込み中・同期中）ごと停止していた。例外を捕捉して1度だけ警告を出すようにした（メモリ上のデータは正しいままなのでクラウド同期は継続する）。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語やニックネームに <code>$</code> が入ると表示が壊れる</div><div class="d"><code>t()</code>の文字列置換が、置換する<b>値の中</b>の<code>$&amp;</code>や<code>$1</code>を置換パターンとして解釈していた。分割・結合方式に変更。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">4択の選択肢生成が語彙数の2乗で重くなる</div><div class="d">3つしか使わないのに候補<b>全件</b>の重み付き順列を毎問計算していた。必要な数だけ抽出するよう修正。あわせてリスト検索を120msデバウンス（1文字ごとに全カードを再生成していた）。</div><div class="ver">v4.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">不要になったコードの削除（約8KB）</div><div class="d">ログイン必須化で到達不能になったバックアップ催促バナー一式、機能変更で参照されなくなった翻訳キー16件（×7言語）、未使用の関数、実態と矛盾する説明文とコメントを削除。設定の「単語データはこの端末のブラウザ内だけに保存されます」は事実と違うため書き換えた。</div><div class="ver">v4.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語追加時にメモ欄を追加</div><div class="d">例文や自分の覚え方などを自由に書ける欄を追加。単語の追加画面・リストの編集フォームの両方から入力・編集でき、単語詳細のポップアップに表示され、リスト検索の対象にもなる。既存の単語帳・クラウド同期の仕組みにそのまま乗る形で実装（新しいフィールドが1つ増えただけ）。</div><div class="ver">v4.4.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">Authenticationで削除しても管理ページからユーザーが消えない</div><div class="d">ログイン情報（Authentication）と学習データ（Firestore）は別の場所にあるため、Auth側を消してもFirestoreのデータは残る。管理ページに<b>「データ削除」ボタン</b>を追加し、2手順であることを画面上で説明するようにした。単語IDの一覧（<code>wordIds</code>）を要約に持たせることで、<b>管理者は単語を1件も読めないまま削除だけできる</b>（Firestoreは削除にread権限を要求しない）。</div><div class="ver">v4.3.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: ニックネームの7日制限がサーバー側で効いていなかった</div><div class="d"><code>match /{document=**}</code> はrules_version 2では<b>0個以上</b>のパスに一致するため親ドキュメントにも無条件の<code>write</code>を与えており、権限はOR結合されるのでクールダウン検査が完全に無効化されていた（何度でも即時改名できた）。エミュレータで実際に動かして発見。あわせて、削除時に<code>request.resource</code>がnullで例外になり<b>本人が自分のデータを削除できない</b>不具合も判明し修正。</div><div class="ver">v4.3.0</div></div></li>

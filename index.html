@@ -330,14 +330,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .spk:active{transform:scale(.9)}
 .face .spk,.q-word .spk{font-size:20px;opacity:.85}
 .face .spk:hover{background:rgba(255,255,255,.14)}
-.warn-banner{display:flex;align-items:flex-start;gap:10px;background:var(--dup-bg);
-  border:1px solid var(--dup-line);border-radius:12px;padding:12px 14px;margin:0 2px 12px}
-.warn-banner .wb-body{flex:1;font-size:13px;line-height:1.55;color:var(--dup-ink)}
-.warn-banner .wb-acts{display:flex;gap:10px;align-items:center;margin-top:9px}
-.warn-banner button{border:none;border-radius:9px;font-size:12.5px;font-weight:600;
-  font-family:inherit;cursor:pointer}
-.warn-banner .wb-go{background:var(--accent);color:var(--navy);padding:7px 14px}
-.warn-banner .wb-later{background:none;color:var(--dup-ink);opacity:.8;text-decoration:underline;padding:7px 2px}
 .storage-tip-icon{display:flex;justify-content:center;margin:14px 0 8px;color:var(--ink-strong)}
 .storage-tip-steps{text-align:left;max-width:280px;margin:0 auto;padding-left:22px;font-size:14px;line-height:1.7;color:var(--muted)}
 .lang-pick{display:flex;flex-direction:column;gap:10px;margin-top:12px}
@@ -426,7 +418,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <section id="v-list" class="view">
     <div id="src-list"></div>
     <div id="todayCard"></div>
-    <div id="backupBanner"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
@@ -555,6 +546,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     </div>
     <p class="hint" id="speechNote" style="margin:14px 2px 22px;display:none" data-i18n="speech_unsupported">このブラウザは音声読み上げに対応していません。</p>
 
+    <div class="set-section-t" data-i18n="sec_sound">効果音</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_sound">正解・不正解の音</div><div class="sd" data-i18n="desc_sound">クイズで答えたときに短い音を鳴らす</div></div>
+        <button class="switch" id="swSound"><i></i></button>
+      </div>
+    </div>
+
     <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
@@ -637,13 +636,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.4.0';
+const APP_VERSION='4.5.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.4.0',date:'2026-08-22',keys:['wn1']},
+  {version:'4.5.0',date:'2026-08-22',keys:['wn1','wn2']},
+  {version:'4.4.0',date:'2026-08-22',keys:['v440_1']},
   {version:'4.3.0',date:'2026-08-21',keys:['v430_1','v430_2','v430_3']},
   {version:'4.2.0',date:'2026-08-21',keys:['v420_1','v420_2','v420_3']},
   {version:'4.1.2',date:'2026-08-21',keys:['v412_1']},
@@ -686,8 +686,8 @@ const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
 /* ---------- analytics (Google Analytics 4) ---------- */
-// TODO: replace with the real GA4 Measurement ID (shared across Wordkeep /
-// a future sibling app -- app_name below is what would tell them apart).
+// One property is shared with any future sibling app; GA_APP_NAME below is
+// what tells them apart in reports.
 const GA_MEASUREMENT_ID='G-1S4CEY17ZD';
 const GA_APP_NAME='wordkeep';
 const GA_DEV=location.protocol==='file:'||/^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname);
@@ -770,7 +770,9 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'単語を追加するときに「メモ」欄を追加しました。例文や自分の覚え方など、自由に書き込めます。あとから編集もでき、単語詳細やリスト検索でも使えます',en:'Added a notes field when adding a word. Jot down an example sentence, a way to remember it, or anything else — editable later, and included in the detail view and list search',zh:'添加单词时新增了「备注」栏，可自由填写例句或记忆方法。之后也可编辑，详情页与列表搜索均可使用',fr:'Ajout d’un champ de notes lors de l’ajout d’un mot : une phrase d’exemple, une astuce mnémotechnique, ce que vous voulez — modifiable ensuite, visible dans le détail et pris en compte par la recherche',ar:'أُضيف حقل «ملاحظات» عند إضافة كلمة، لتدوين جملة مثال أو طريقة للتذكر بحرية. يمكن تعديله لاحقًا، ويظهر في التفاصيل والبحث في القائمة',ko:'단어를 추가할 때 「메모」란을 추가했습니다. 예문이나 나만의 암기법 등을 자유롭게 적을 수 있으며, 나중에 수정할 수 있고 상세 화면과 목록 검색에서도 사용됩니다',ru:'При добавлении слова появилось поле «Заметки» — впишите пример предложения или свой способ запоминания. Можно редактировать позже, заметка видна в деталях и учитывается при поиске'},
+  wn1:{ja:'クイズで答えたときに、正解・不正解の短い音が鳴るようになりました。設定の「効果音」からいつでもオフにできます',en:'Answering a quiz question now plays a short right/wrong tone. Turn it off any time under Settings → Sounds',zh:'答题时会播放简短的正确/错误提示音。可随时在「设置 → 音效」中关闭',fr:'Répondre à une question joue désormais un bref son juste/faux. Désactivable à tout moment dans Réglages → Sons',ar:'أصبحت الإجابة على سؤال تُصدر نغمة قصيرة للصواب أو الخطأ. يمكن إيقافها في الإعدادات ← المؤثرات الصوتية',ko:'퀴즈에 답하면 정답·오답을 알리는 짧은 소리가 재생됩니다. 설정의 «효과음»에서 언제든 끌 수 있습니다',ru:'Ответ на вопрос теперь сопровождается коротким сигналом «верно/неверно». Отключить можно в Настройках → Звуки'},
+  wn2:{ja:'復習の使い勝手を改善しました。答えた直後に結果が画面内に表示されるようになり、復習の途中で他のタブに移動しても続きから再開できます。バックアップの読み込みがアカウントに同期されない問題も修正しました',en:'Review is smoother: the result now scrolls into view as soon as you answer, and leaving the tab mid-round no longer restarts it. Also fixed imported backups not syncing to your account',zh:'复习体验改进：答题后结果会立即滚动到可见位置，中途切换标签页也不会重新开始。同时修复了导入的备份未同步到账号的问题',fr:'Révision améliorée : le résultat apparaît à l’écran dès que vous répondez, et quitter l’onglet en cours de session ne la relance plus. Correction aussi des sauvegardes importées non synchronisées avec le compte',ar:'تحسّنت المراجعة: تظهر النتيجة فور الإجابة، ومغادرة التبويب أثناء الجولة لم تعد تعيدها من البداية. كما أُصلحت مشكلة عدم مزامنة النسخ الاحتياطية المستوردة مع الحساب',ko:'복습 사용성을 개선했습니다. 답한 직후 결과가 화면 안에 표시되고, 도중에 다른 탭으로 이동해도 이어서 진행됩니다. 가져온 백업이 계정에 동기화되지 않던 문제도 수정했습니다',ru:'Повторение стало удобнее: результат сразу попадает в поле зрения, а уход на другую вкладку больше не сбрасывает раунд. Также исправлено: импортированные копии не синхронизировались с аккаунтом'},
+  v440_1:{ja:'単語を追加するときに「メモ」欄を追加しました。例文や自分の覚え方など、自由に書き込めます。あとから編集もでき、単語詳細やリスト検索でも使えます',en:'Added a notes field when adding a word. Jot down an example sentence, a way to remember it, or anything else — editable later, and included in the detail view and list search',zh:'添加单词时新增了「备注」栏，可自由填写例句或记忆方法。之后也可编辑，详情页与列表搜索均可使用',fr:'Ajout d’un champ de notes lors de l’ajout d’un mot : une phrase d’exemple, une astuce mnémotechnique, ce que vous voulez — modifiable ensuite, visible dans le détail et pris en compte par la recherche',ar:'أُضيف حقل «ملاحظات» عند إضافة كلمة، لتدوين جملة مثال أو طريقة للتذكر بحرية. يمكن تعديله لاحقًا، ويظهر في التفاصيل والبحث في القائمة',ko:'단어를 추가할 때 「메모」란을 추가했습니다. 예문이나 나만의 암기법 등을 자유롭게 적을 수 있으며, 나중에 수정할 수 있고 상세 화면과 목록 검색에서도 사용됩니다',ru:'При добавлении слова появилось поле «Заметки» — впишите пример предложения или свой способ запоминания. Можно редактировать позже, заметка видна в деталях и учитывается при поиске'},
   v420_1:{ja:'重要な修正: ログイン済みなのに「この端末にしか保存されていません」の警告が出続ける不具合を直しました。あわせて、他の端末で追加した単語が起動時に取得されない問題も修正しています',en:'Important fix: the “saved only on this device” warning kept showing even while signed in. The same underlying bug also meant words added on another device were not pulled down at startup',zh:'重要修复：已登录状态下仍持续显示「仅保存在本设备」的警告。同一根本问题还导致其他设备上添加的单词在启动时未被同步下来',fr:'Correctif important : l’avertissement « enregistré uniquement sur cet appareil » restait affiché même connecté. Le même bug empêchait aussi la récupération au démarrage des mots ajoutés sur un autre appareil',ar:'إصلاح مهم: كان تحذير «محفوظ على هذا الجهاز فقط» يستمر بالظهور رغم تسجيل الدخول. والخلل نفسه كان يمنع جلب الكلمات المضافة من جهاز آخر عند بدء التشغيل',ko:'중요한 수정: 로그인 상태인데도 «이 기기에만 저장됨» 경고가 계속 표시되던 문제를 고쳤습니다. 같은 원인으로 다른 기기에서 추가한 단어가 시작 시 받아지지 않던 문제도 함께 수정했습니다',ru:'Важное исправление: предупреждение «сохранено только на этом устройстве» показывалось даже после входа. Та же причина мешала при запуске получать слова, добавленные на другом устройстве'},
   v420_2:{ja:'チュートリアルを作り直しました。アカウントを作るとデータが守られること、ホーム画面への追加方法を、それぞれ独立した画面で案内します。すでにログイン済みの方やインストール済みの方には表示されません',en:'Rebuilt the tutorial. Keeping your words safe with an account, and adding the app to your home screen, now each get their own screen — and are skipped entirely if you are already signed in or already installed',zh:'重做了新手引导。创建账号以保护数据、以及添加到主屏幕的方法，各自独立成页；已登录或已安装的用户则不会看到',fr:'Tutoriel refait. Protéger ses mots avec un compte et ajouter l’app à l’écran d’accueil ont désormais chacun leur écran — et sont ignorés si vous êtes déjà connecté ou déjà installé',ar:'أعدنا بناء الشرح التمهيدي. حماية كلماتك بحساب، وإضافة التطبيق إلى الشاشة الرئيسية، لكلٍّ منهما شاشته الآن، ويُتخطّيان إن كنت مسجّلاً أو مثبّتًا بالفعل',ko:'튜토리얼을 다시 만들었습니다. 계정으로 단어를 지키는 방법과 홈 화면 추가 방법을 각각 별도 화면으로 안내하며, 이미 로그인했거나 설치한 경우에는 표시되지 않습니다',ru:'Обучение переработано. Сохранность слов через аккаунт и добавление на главный экран получили отдельные экраны — и пропускаются, если вы уже вошли или уже установили приложение'},
   v420_3:{ja:'設定から「使い方をもう一度見る」を押したとき、設定画面を閉じてからチュートリアルが開くようにしました',en:'Opening the tutorial from Settings now closes the settings panel first, instead of opening behind it',zh:'从设置中打开使用教程时，会先关闭设置面板，而不是在其后方打开',fr:'Ouvrir le tutoriel depuis les Réglages ferme d’abord le panneau au lieu de s’ouvrir derrière',ar:'فتح الشرح من الإعدادات يغلق لوحة الإعدادات أولاً بدل أن يُفتح خلفها',ko:'설정에서 «사용법 다시 보기»를 누르면 설정 화면을 닫은 뒤 튜토리얼이 열립니다',ru:'Открытие обучения из настроек теперь сначала закрывает панель настроек, а не открывается за ней'},
@@ -785,14 +787,9 @@ const T={
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
   splash_restoring:{ja:'アカウントを確認しています…',en:'Checking your account…',zh:'正在确认账号…',fr:'Vérification de votre compte…',ar:'جارٍ التحقق من حسابك…',ko:'계정을 확인하는 중…',ru:'Проверяем аккаунт…'},
   syn_label:{ja:'類義語: ',en:'Synonyms: ',zh:'近义词：',fr:'Synonymes : ',ar:'مرادفات: ',ko:'유의어: ',ru:'Синонимы: '},
-  acct_title:{ja:'アカウント',en:'Account',zh:'账号',fr:'Compte',ar:'الحساب',ko:'계정',ru:'Аккаунт'},
-  menu_acct_sub:{ja:'単語を保存して他の端末でも使う',en:'Save your words and use them on any device',zh:'保存单词，在任何设备上使用',fr:'Sauvegardez vos mots et utilisez-les sur tout appareil',ar:'احفظ كلماتك واستخدمها على أي جهاز',ko:'단어를 저장하고 다른 기기에서도 사용',ru:'Сохраняйте слова и открывайте их на любом устройстве'},
-  acct_desc:{ja:'ユーザー名と6桁の数字でログインすると、単語が自動で保存され、他の端末でも同じ単語帳が使えます。',en:'Sign in with a username and a 6-digit code to save your words automatically and open the same list on any device.',zh:'使用用户名和 6 位数字登录后，单词会自动保存，并可在其他设备上使用同一单词本。',fr:'Connectez-vous avec un nom d’utilisateur et un code à 6 chiffres : vos mots sont sauvegardés et disponibles sur tous vos appareils.',ar:'سجّل الدخول باسم مستخدم ورمز من 6 أرقام ليتم حفظ كلماتك تلقائيًا واستخدام القائمة نفسها على أي جهاز.',ko:'사용자 이름과 6자리 숫자로 로그인하면 단어가 자동 저장되고 다른 기기에서도 같은 단어장을 쓸 수 있습니다.',ru:'Войдите с именем пользователя и 6-значным кодом — слова сохранятся автоматически и откроются на любом устройстве.'},
-  acct_username:{ja:'ユーザー名（半角英数字）',en:'Username (letters and numbers)',zh:'用户名（字母和数字）',fr:'Nom d’utilisateur (lettres et chiffres)',ar:'اسم المستخدم (أحرف وأرقام)',ko:'사용자 이름 (영문·숫자)',ru:'Имя пользователя (латиница и цифры)'},
   acct_pin:{ja:'PIN（6桁の数字）',en:'PIN (6 digits)',zh:'PIN（6 位数字）',fr:'PIN (6 chiffres)',ar:'رمز PIN (6 أرقام)',ko:'PIN (6자리 숫자)',ru:'PIN (6 цифр)'},
   acct_pin_note:{ja:'PINを忘れると復元できません。ユーザー名とPINは必ず控えておいてください。',en:'There is no way to recover a forgotten PIN. Write your username and PIN down somewhere safe.',zh:'忘记 PIN 将无法找回，请务必记下用户名和 PIN。',fr:'Un PIN oublié ne peut pas être récupéré. Notez votre nom d’utilisateur et votre PIN en lieu sûr.',ar:'لا يمكن استعادة رمز PIN المنسي. دوّن اسم المستخدم والرمز في مكان آمن.',ko:'PIN을 잊으면 복구할 수 없습니다. 사용자 이름과 PIN을 꼭 적어 두세요.',ru:'Забытый PIN восстановить нельзя. Запишите имя пользователя и PIN в надёжном месте.'},
   acct_login:{ja:'ログイン',en:'Log in',zh:'登录',fr:'Se connecter',ar:'تسجيل الدخول',ko:'로그인',ru:'Войти'},
-  acct_signup:{ja:'新規登録',en:'Create an account',zh:'注册新账号',fr:'Créer un compte',ar:'إنشاء حساب',ko:'새로 가입',ru:'Создать аккаунт'},
   acct_logout_confirm:{ja:'ログアウトすると、この端末に入っている単語はすべて消去されます。単語はアカウントに保存されているので、次にログインすれば元どおりです。よろしいですか？',en:'Logging out removes every word from this device. They stay in your account, so signing back in restores them. Continue?',zh:'退出登录会清除本设备上的所有单词。它们仍保存在你的账号中，重新登录即可恢复。是否继续？',fr:'La déconnexion supprime tous les mots de cet appareil. Ils restent dans votre compte et reviendront à la prochaine connexion. Continuer ?',ar:'تسجيل الخروج يحذف كل الكلمات من هذا الجهاز. تبقى محفوظة في حسابك وتعود عند تسجيل الدخول مجددًا. هل تريد المتابعة؟',ko:'로그아웃하면 이 기기의 단어가 모두 삭제됩니다. 단어는 계정에 저장되어 있으므로 다시 로그인하면 복원됩니다. 계속할까요?',ru:'При выходе все слова удаляются с этого устройства. Они остаются в аккаунте и вернутся при следующем входе. Продолжить?'},
   acct_logout_unsynced:{ja:'まだサーバーに保存できていない変更があります。いまログアウトすると、その分は失われます。それでもログアウトしますか？',en:'Some changes haven’t reached the server yet. Logging out now loses them. Log out anyway?',zh:'仍有变更尚未保存到服务器。现在退出登录会丢失这些内容。仍要退出吗？',fr:'Certaines modifications ne sont pas encore enregistrées sur le serveur. Se déconnecter maintenant les perdra. Continuer quand même ?',ar:'هناك تغييرات لم تصل إلى الخادم بعد. تسجيل الخروج الآن سيفقدها. هل تريد تسجيل الخروج على أي حال؟',ko:'아직 서버에 저장되지 않은 변경이 있습니다. 지금 로그아웃하면 그 부분은 사라집니다. 그래도 로그아웃할까요?',ru:'Часть изменений ещё не сохранена на сервере. Выход сейчас их потеряет. Всё равно выйти?'},
   acct_logout_done:{ja:'ログアウトしました。この端末の単語は消去されています',en:'Logged out — this device has been cleared',zh:'已退出登录，本设备已清空',fr:'Déconnecté — cet appareil a été vidé',ar:'تم تسجيل الخروج — تم مسح هذا الجهاز',ko:'로그아웃했습니다. 이 기기의 단어는 삭제되었습니다',ru:'Вы вышли — устройство очищено'},
@@ -807,14 +804,11 @@ const T={
   acct_e_short:{ja:'同期できませんでした',en:'Sync failed',zh:'同步失败',fr:'Échec de la synchro',ar:'فشلت المزامنة',ko:'동기화 실패',ru:'Ошибка синхронизации'},
   acct_e_user:{ja:'ユーザー名は半角英数字と_で3〜20文字にしてください',en:'Username must be 3-20 characters: letters, numbers, or _',zh:'用户名需为 3〜20 位字母、数字或下划线',fr:'Le nom d’utilisateur doit faire 3 à 20 caractères (lettres, chiffres, _)',ar:'يجب أن يكون اسم المستخدم من 3 إلى 20 حرفًا: أحرف أو أرقام أو _',ko:'사용자 이름은 영문·숫자·_ 로 3~20자여야 합니다',ru:'Имя пользователя: 3–20 символов (латиница, цифры, _)'},
   acct_e_pin:{ja:'PINは6桁の数字で入力してください',en:'The PIN must be exactly 6 digits',zh:'PIN 必须为 6 位数字',fr:'Le PIN doit comporter exactement 6 chiffres',ar:'يجب أن يتكوّن الرمز من 6 أرقام بالضبط',ko:'PIN은 숫자 6자리여야 합니다',ru:'PIN должен состоять ровно из 6 цифр'},
-  acct_e_taken:{ja:'そのユーザー名はすでに使われています',en:'That username is already taken',zh:'该用户名已被使用',fr:'Ce nom d’utilisateur est déjà pris',ar:'اسم المستخدم هذا مُستخدم بالفعل',ko:'이미 사용 중인 사용자 이름입니다',ru:'Это имя пользователя уже занято'},
-  acct_e_wrong:{ja:'ユーザー名かPINが違います（未登録の場合は「新規登録」から）',en:'Wrong username or PIN (use Create an account if you are new)',zh:'用户名或 PIN 有误（新用户请点「注册新账号」）',fr:'Nom d’utilisateur ou PIN incorrect (utilisez Créer un compte si vous êtes nouveau)',ar:'اسم المستخدم أو الرمز غير صحيح (استخدم إنشاء حساب إن كنت جديدًا)',ko:'사용자 이름 또는 PIN이 올바르지 않습니다 (처음이면 «새로 가입»)',ru:'Неверное имя пользователя или PIN (если вы впервые — «Создать аккаунт»)'},
   acct_e_net:{ja:'ネットにつながらないため、ログインできません',en:'Can’t reach the network, so signing in isn’t possible right now',zh:'无法连接网络，暂时无法登录',fr:'Réseau inaccessible : connexion impossible pour le moment',ar:'تعذّر الوصول إلى الشبكة، لا يمكن تسجيل الدخول الآن',ko:'네트워크에 연결할 수 없어 로그인할 수 없습니다',ru:'Нет соединения — войти сейчас не получится'},
   acct_e_many:{ja:'試行回数が多すぎます。しばらく待ってからお試しください',en:'Too many attempts. Please wait a little and try again',zh:'尝试次数过多，请稍后再试',fr:'Trop de tentatives. Réessayez dans un moment',ar:'محاولات كثيرة جدًا. انتظر قليلاً ثم أعد المحاولة',ko:'시도 횟수가 너무 많습니다. 잠시 후 다시 시도해 주세요',ru:'Слишком много попыток. Подождите немного и повторите'},
   acct_e_disabled:{ja:'ログイン機能が有効になっていません（Firebaseでメール/パスワードを有効にしてください）',en:'Sign-in is not enabled yet (enable Email/Password in Firebase)',zh:'登录功能尚未启用（请在 Firebase 中启用邮箱/密码）',fr:'La connexion n’est pas activée (activez E-mail/Mot de passe dans Firebase)',ar:'لم يتم تفعيل تسجيل الدخول (فعّل البريد/كلمة المرور في Firebase)',ko:'로그인 기능이 아직 활성화되지 않았습니다 (Firebase에서 이메일/비밀번호를 활성화하세요)',ru:'Вход ещё не включён (включите Email/Password в Firebase)'},
   acct_e_rules:{ja:'保存できませんでした（Firestoreのルールを確認してください）',en:'Couldn’t save (check the Firestore security rules)',zh:'保存失败（请检查 Firestore 安全规则）',fr:'Enregistrement impossible (vérifiez les règles Firestore)',ar:'تعذّر الحفظ (تحقّق من قواعد Firestore)',ko:'저장하지 못했습니다 (Firestore 규칙을 확인하세요)',ru:'Не удалось сохранить (проверьте правила Firestore)'},
   /* --- account gate / profile / nickname (v4.3.0) --- */
-  gate_title:{ja:'Wordkeepへようこそ',en:'Welcome to Wordkeep',zh:'欢迎使用 Wordkeep',fr:'Bienvenue sur Wordkeep',ar:'مرحبًا بك في Wordkeep',ko:'Wordkeep에 오신 것을 환영합니다',ru:'Добро пожаловать в Wordkeep'},
   gate_lead:{ja:'アカウントを作ると、覚えた単語がサーバーに保存され、スマホを買い替えても、別の端末からでも同じ単語帳が開けます。',en:'Create an account and your words are saved to the server — open the same list from any device, even after you replace your phone.',zh:'创建账号后，你的单词会保存到服务器，换手机或换设备都能打开同一本单词本。',fr:'Créez un compte et vos mots sont enregistrés sur le serveur : retrouvez la même liste sur n’importe quel appareil, même après avoir changé de téléphone.',ar:'أنشئ حسابًا لتُحفظ كلماتك على الخادم، فتفتح القائمة نفسها من أي جهاز حتى بعد تغيير هاتفك.',ko:'계정을 만들면 단어가 서버에 저장되어, 휴대폰을 바꿔도 다른 기기에서도 같은 단어장을 열 수 있습니다.',ru:'Создайте аккаунт — слова сохранятся на сервере, и тот же список откроется на любом устройстве, даже после смены телефона.'},
   gate_note:{ja:'メールアドレスは、PINを忘れたときの復旧にだけ使います。他の人には公開されません。',en:'Your email is used only to recover your account if you forget your PIN. It is never shown to anyone else.',zh:'邮箱仅用于忘记 PIN 时找回账号，不会向他人公开。',fr:'Votre e-mail sert uniquement à récupérer votre compte si vous oubliez votre PIN. Il n’est jamais montré aux autres.',ar:'يُستخدم بريدك الإلكتروني فقط لاستعادة حسابك إذا نسيت رمز PIN، ولا يُعرض لأي شخص آخر.',ko:'이메일은 PIN을 잊었을 때 계정을 복구하는 데만 사용되며, 다른 사람에게 공개되지 않습니다.',ru:'Почта нужна только для восстановления доступа, если вы забудете PIN. Другим пользователям она не видна.'},
   gate_have:{ja:'すでにアカウントをお持ちの方',en:'Already have an account?',zh:'已有账号？',fr:'Vous avez déjà un compte ?',ar:'هل لديك حساب بالفعل؟',ko:'이미 계정이 있으신가요?',ru:'Уже есть аккаунт?'},
@@ -981,6 +975,9 @@ const T={
   rate_normal:{ja:'ふつう',en:'Normal',zh:'正常',fr:'Normal',ar:'عادية',ko:'보통',ru:'Обычно'},
   rate_slow:{ja:'ゆっくり',en:'Slow',zh:'慢速',fr:'Lent',ar:'بطيئة',ko:'느리게',ru:'Медленно'},
   speech_unsupported:{ja:'このブラウザは音声読み上げに対応していません。',en:'This browser doesn’t support speech playback.',zh:'此浏览器不支持语音朗读。',fr:'Ce navigateur ne prend pas en charge la synthèse vocale.',ar:'هذا المتصفح لا يدعم النطق الصوتي.',ko:'이 브라우저는 음성 재생을 지원하지 않습니다.',ru:'Этот браузер не поддерживает озвучивание.'},
+  sec_sound:{ja:'効果音',en:'Sounds',zh:'音效',fr:'Sons',ar:'المؤثرات الصوتية',ko:'효과음',ru:'Звуки'},
+  st_sound:{ja:'正解・不正解の音',en:'Answer sounds',zh:'答题音效',fr:'Sons de réponse',ar:'أصوات الإجابة',ko:'정답·오답 소리',ru:'Звуки ответа'},
+  desc_sound:{ja:'クイズで答えたときに短い音を鳴らす',en:'Play a short tone when you answer a quiz question',zh:'答题时播放短促提示音',fr:'Joue un son bref quand vous répondez',ar:'تشغيل نغمة قصيرة عند الإجابة',ko:'퀴즈에 답할 때 짧은 소리를 재생',ru:'Короткий сигнал при ответе на вопрос'},
   sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式',fr:'Format du quiz',ar:'صيغة الاختبار',ko:'출제 형식',ru:'Формат теста'},
   st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형',ru:'Тип теста'},
   desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택',ru:'Выбор из 4 вариантов'},
@@ -1006,7 +1003,8 @@ const T={
   st_import:{ja:'読み込み',en:'Import',zh:'导入',fr:'Importer',ar:'استيراد',ko:'가져오기',ru:'Импорт'},
   desc_import:{ja:'バックアップから復元・統合',en:'Restore or merge from a backup',zh:'从备份恢复或合并',fr:'Restaurer ou fusionner depuis une sauvegarde',ar:'الاستعادة أو الدمج من نسخة احتياطية',ko:'백업에서 복원·병합',ru:'Восстановить или объединить из резервной копии'},
   btn_import:{ja:'読み込む',en:'Import',zh:'导入',fr:'Importer',ar:'استيراد',ko:'가져오기',ru:'Импорт'},
-  data_note:{ja:'単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。',en:'Your words are stored only in this browser on this device. Back up now and then so you don’t lose them.',zh:'单词数据只保存在本设备的浏览器中。请偶尔备份，以免丢失。',fr:'Vos mots sont stockés uniquement dans ce navigateur, sur cet appareil. Sauvegardez de temps en temps pour ne rien perdre.',ar:'تُحفظ كلماتك في هذا المتصفح على هذا الجهاز فقط. خذ نسخة احتياطية من حين لآخر حتى لا تفقدها.',ko:'단어 데이터는 이 기기의 브라우저에만 저장됩니다. 잃지 않도록 가끔 백업하세요.',ru:'Ваши слова хранятся только в этом браузере на этом устройстве. Делайте резервные копии, чтобы не потерять их.'},
+  toast_save_fail:{ja:'この端末に保存できませんでした（空き容量不足の可能性）。アカウントには同期されますが、念のためバックアップを書き出してください。',en:'Couldn’t save on this device (storage may be full). Your account still syncs, but export a backup to be safe.',zh:'无法保存到本设备（存储空间可能已满）。账号仍会同步，但建议导出备份以防万一。',fr:'Enregistrement impossible sur cet appareil (stockage peut-être plein). La synchronisation du compte continue, mais exportez une sauvegarde par précaution.',ar:'تعذّر الحفظ على هذا الجهاز (قد تكون المساحة ممتلئة). المزامنة مع حسابك مستمرة، لكن يُفضّل تصدير نسخة احتياطية.',ko:'이 기기에 저장하지 못했습니다(저장 공간 부족일 수 있음). 계정 동기화는 계속되지만, 만약을 위해 백업을 내보내 두세요.',ru:'Не удалось сохранить на этом устройстве (возможно, нет места). Синхронизация с аккаунтом продолжается, но на всякий случай выгрузите резервную копию.'},
+  data_note:{ja:'単語はアカウントに自動保存され、ログインすればどの端末でも同じ単語帳が開けます。書き出したJSONは、アプリの外に控えを持っておきたいとき用です。',en:'Your words save to your account automatically and open on any device you sign in from. The JSON export is for keeping your own copy outside the app.',zh:'单词会自动保存到账号，登录后在任何设备都能打开同一本单词本。导出的 JSON 用于在应用之外自行留存备份。',fr:'Vos mots sont enregistrés automatiquement dans votre compte et s’ouvrent sur tout appareil où vous vous connectez. L’export JSON sert à garder votre propre copie hors de l’application.',ar:'تُحفظ كلماتك تلقائيًا في حسابك وتُفتح على أي جهاز تسجّل الدخول منه. ملف JSON للاحتفاظ بنسختك خارج التطبيق.',ko:'단어는 계정에 자동 저장되며, 로그인하면 어느 기기에서든 같은 단어장을 열 수 있습니다. 내보낸 JSON은 앱 밖에 사본을 두고 싶을 때용입니다.',ru:'Слова сохраняются в аккаунте автоматически и открываются на любом устройстве. Экспорт JSON нужен, чтобы держать свою копию вне приложения.'},
   st_storage_tip:{ja:'保存に関する注意',en:'About your saved data',zh:'关于数据保存的说明',fr:'À propos de vos données enregistrées',ar:'حول بياناتك المحفوظة',ko:'저장 데이터 안내',ru:'О сохранённых данных'},
   desc_storage_tip:{ja:'ブラウザによってデータが共有されない件について',en:'Why words can look missing in a different browser',zh:'为什么换个浏览器打开会看不到单词',fr:'Pourquoi les mots peuvent sembler manquants dans un autre navigateur',ar:'لماذا قد تبدو الكلمات مفقودة في متصفح آخر',ko:'다른 브라우저에서 단어가 사라진 것처럼 보이는 이유',ru:'Почему слова могут выглядеть пропавшими в другом браузере'},
   btn_storage_tip:{ja:'見る',en:'View',zh:'查看',fr:'Voir',ar:'عرض',ko:'보기',ru:'Посмотреть'},
@@ -1023,7 +1021,6 @@ const T={
   persist_toast_ng:{ja:'保護できませんでした。ホーム画面に追加すると保護されやすくなります',en:'Couldn’t enable protection. Adding the app to your home screen makes it more likely',zh:'未能开启保护。将应用添加到主屏幕后更容易成功',fr:'Impossible d’activer la protection. Ajouter l’app à l’écran d’accueil augmente les chances',ar:'تعذّر تفعيل الحماية. إضافة التطبيق إلى الشاشة الرئيسية تزيد فرص نجاحها',ko:'보호를 켜지 못했습니다. 홈 화면에 추가하면 적용될 가능성이 높아집니다',ru:'Не удалось включить защиту. Добавьте приложение на главный экран — так вероятнее'},
   backup_last:{ja:'最終バックアップ: {0}',en:'Last backup: {0}',zh:'上次备份：{0}',fr:'Dernière sauvegarde : {0}',ar:'آخر نسخة احتياطية: {0}',ko:'마지막 백업: {0}',ru:'Последняя копия: {0}'},
   backup_none:{ja:'まだ一度もバックアップしていません',en:'No backup yet',zh:'尚未备份',fr:'Aucune sauvegarde pour l’instant',ar:'لا توجد نسخة احتياطية بعد',ko:'아직 백업하지 않았습니다',ru:'Резервных копий пока нет'},
-  risk_body:{ja:'単語{0}語は、いまこの端末のブラウザにしか保存されていません。ブラウザのデータを消したり、しばらく開かないと消えてしまうことがあります。',en:'Your {0} words exist only in this browser right now. Clearing browser data — or simply not opening the app for a while — can wipe them.',zh:'目前这 {0} 个单词只保存在本浏览器中。清除浏览器数据，或长时间不打开应用，都可能导致丢失。',fr:'Vos {0} mots n’existent que dans ce navigateur pour l’instant. Effacer les données du navigateur — ou simplement ne pas ouvrir l’app pendant un moment — peut les supprimer.',ar:'كلماتك الـ{0} موجودة حاليًا في هذا المتصفح فقط. مسح بيانات المتصفح — أو مجرد عدم فتح التطبيق لفترة — قد يمحوها.',ko:'{0}개의 단어는 지금 이 브라우저에만 저장되어 있습니다. 브라우저 데이터를 지우거나 한동안 열지 않으면 사라질 수 있습니다.',ru:'Ваши {0} слов сейчас существуют только в этом браузере. Очистка данных браузера — или даже просто долгий перерыв — может их стереть.'},
   acct_email:{ja:'メールアドレス',en:'Email address',zh:'邮箱地址',fr:'Adresse e-mail',ar:'البريد الإلكتروني',ko:'이메일 주소',ru:'Адрес эл. почты'},
   acct_email_set:{ja:'復旧用メールを設定',en:'Add a recovery email',zh:'设置找回邮箱',fr:'Ajouter un e-mail de récupération',ar:'إضافة بريد للاسترداد',ko:'복구용 이메일 설정',ru:'Добавить почту для восстановления'},
   acct_email_change:{ja:'メールアドレスを変更',en:'Change email address',zh:'更改邮箱地址',fr:'Changer l’adresse e-mail',ar:'تغيير البريد الإلكتروني',ko:'이메일 주소 변경',ru:'Изменить адрес почты'},
@@ -1044,13 +1041,9 @@ const T={
   acct_reset_sent:{ja:'そのアドレスが登録されていれば、再設定メールを送りました。数分待っても届かない場合は、迷惑メールとアドレス違いをご確認ください',en:'If that address is registered, a reset email is on its way. If nothing arrives in a few minutes, check your spam folder and the spelling',zh:'如果该地址已登记，重设邮件已发出。若数分钟后仍未收到，请检查垃圾邮件和地址是否正确',fr:'Si cette adresse est enregistrée, un e-mail de réinitialisation vient de partir. S’il n’arrive pas d’ici quelques minutes, vérifiez vos spams et l’orthographe',ar:'إذا كان هذا العنوان مسجّلاً، فقد أُرسل بريد إعادة التعيين. إن لم يصل خلال دقائق، تحقّق من مجلد الرسائل غير المرغوبة ومن صحة العنوان',ko:'해당 주소가 등록되어 있다면 재설정 메일을 보냈습니다. 몇 분이 지나도 오지 않으면 스팸함과 주소 오타를 확인해 주세요',ru:'Если этот адрес зарегистрирован, письмо для сброса отправлено. Если через несколько минут ничего нет, проверьте «Спам» и правильность адреса'},
   acct_e_bad_current:{ja:'現在のPINが違います',en:'That is not your current PIN',zh:'当前 PIN 不正确',fr:'Ce n’est pas votre PIN actuel',ar:'الرمز الحالي غير صحيح',ko:'현재 PIN이 올바르지 않습니다',ru:'Это не ваш текущий PIN'},
   acct_e_email:{ja:'メールアドレスの形式が正しくありません',en:'That doesn’t look like a valid email address',zh:'邮箱地址格式不正确',fr:'Cette adresse e-mail ne semble pas valide',ar:'صيغة البريد الإلكتروني غير صحيحة',ko:'이메일 주소 형식이 올바르지 않습니다',ru:'Похоже, адрес указан неверно'},
-  acct_e_signup_email:{ja:'新規登録はユーザー名で行ってください（メールは登録後に設定できます）',en:'Sign up with a username — an email can be added afterwards',zh:'请使用用户名注册（邮箱可在注册后设置）',fr:'Inscrivez-vous avec un nom d’utilisateur — l’e-mail pourra être ajouté ensuite',ar:'سجّل باسم مستخدم — يمكن إضافة البريد لاحقًا',ko:'가입은 사용자 이름으로 해주세요 (이메일은 가입 후 설정할 수 있습니다)',ru:'Регистрируйтесь по имени пользователя — почту можно добавить позже'},
   acct_e_same_pin:{ja:'新しいPINが現在のPINと同じです',en:'The new PIN is the same as the current one',zh:'新 PIN 与当前 PIN 相同',fr:'Le nouveau PIN est identique à l’actuel',ar:'الرمز الجديد مطابق للرمز الحالي',ko:'새 PIN이 현재 PIN과 같습니다',ru:'Новый PIN совпадает с текущим'},
   acct_e_relogin:{ja:'安全のため、一度ログインし直してからお試しください',en:'For security, please sign in again and retry',zh:'出于安全考虑，请重新登录后再试',fr:'Par sécurité, reconnectez-vous puis réessayez',ar:'لأسباب أمنية، سجّل الدخول من جديد ثم أعد المحاولة',ko:'보안을 위해 다시 로그인한 후 시도해 주세요',ru:'В целях безопасности войдите заново и повторите'},
   acct_pending:{ja:'未保存の変更があります（まもなく同期します）',en:'Unsaved changes — syncing shortly',zh:'有尚未保存的更改（即将同步）',fr:'Modifications non enregistrées — synchronisation imminente',ar:'توجد تغييرات غير محفوظة — ستتم المزامنة قريبًا',ko:'저장되지 않은 변경이 있습니다 (곧 동기화됩니다)',ru:'Есть несохранённые изменения — скоро синхронизируются'},
-  backup_auto_hint:{ja:'アカウントを作れば、追加や復習のたびに自動で保存されます。',en:'With an account this saves itself every time you add or review a word.',zh:'创建账号后，每次添加或复习都会自动保存。',fr:'Avec un compte, tout est enregistré automatiquement à chaque ajout ou révision.',ar:'مع حساب، يتم الحفظ تلقائيًا مع كل إضافة أو مراجعة.',ko:'계정을 만들면 추가하거나 복습할 때마다 자동으로 저장됩니다.',ru:'С аккаунтом всё сохраняется само при каждом добавлении и повторении.'},
-  backup_auto_btn:{ja:'自動保存にする',en:'Turn on auto-save',zh:'开启自动保存',fr:'Activer la sauvegarde auto',ar:'تفعيل الحفظ التلقائي',ko:'자동 저장 켜기',ru:'Включить автосохранение'},
-  backup_later:{ja:'あとで',en:'Later',zh:'稍后',fr:'Plus tard',ar:'لاحقًا',ko:'나중에',ru:'Позже'},
   sec_help:{ja:'ヘルプ',en:'Help',zh:'帮助',fr:'Aide',ar:'مساعدة',ko:'도움말',ru:'Помощь'},
   st_tutorial:{ja:'使い方をもう一度見る',en:'View the tutorial again',zh:'再看一次教程',fr:'Revoir le tutoriel',ar:'مشاهدة الشرح مجددًا',ko:'사용법 다시 보기',ru:'Посмотреть обучение снова'},
   desc_tutorial:{ja:'はじめての人向けのチュートリアル',en:'The tutorial for first-time users',zh:'面向新手的使用教程',fr:'Le tutoriel pour les nouveaux',ar:'شرح للمستخدمين الجدد',ko:'처음 사용자를 위한 튜토리얼',ru:'Обучение для новых пользователей'},
@@ -1072,9 +1065,6 @@ const T={
   ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인',ru:'ОК'},
   streak_chip:{ja:'{0}日連続',en:'{0}-day streak',zh:'连续{0}天',fr:'{0} jours d’affilée',ar:'{0} يوم متتالٍ',ko:'{0}일 연속',ru:'{0} дн. подряд'},
 
-  tut_acct_t:{ja:'単語を守る',en:'Keep your words safe',zh:'保护你的单词',fr:'Protégez vos mots',ar:'احمِ كلماتك',ko:'단어를 지키기',ru:'Сохраните свои слова'},
-  tut_acct_b:{ja:'アカウントを作ると、追加した単語が自動でサーバーに保存されます。スマホを変えても、ブラウザのデータを消しても、ログインすれば同じ単語帳が戻ってきます。作らない場合、単語はこの端末の中だけに残ります。',en:'With an account, every word you add is saved to the server automatically. Change phones or clear your browser data, and signing back in brings the same list with you. Without one, your words live only on this device.',zh:'创建账号后，添加的单词会自动保存到服务器。即使更换手机或清除浏览器数据，登录后同一单词本也会回来。不创建的话，单词只保存在本设备中。',fr:'Avec un compte, chaque mot ajouté est sauvegardé automatiquement sur le serveur. Changez de téléphone ou effacez vos données : il suffit de vous reconnecter pour retrouver la même liste. Sans compte, vos mots ne vivent que sur cet appareil.',ar:'مع حساب، تُحفظ كل كلمة تضيفها تلقائيًا على الخادم. غيّر هاتفك أو امسح بيانات المتصفح، ويكفي تسجيل الدخول لتعود القائمة نفسها. بدون حساب، تبقى كلماتك على هذا الجهاز فقط.',ko:'계정을 만들면 추가한 단어가 자동으로 서버에 저장됩니다. 휴대폰을 바꾸거나 브라우저 데이터를 지워도, 로그인하면 같은 단어장이 돌아옵니다. 만들지 않으면 단어는 이 기기 안에만 남습니다.',ru:'С аккаунтом каждое добавленное слово автоматически сохраняется на сервере. Смените телефон или очистите данные браузера — достаточно войти, и список вернётся. Без аккаунта слова живут только на этом устройстве.'},
-  tut_acct_btn:{ja:'アカウントを作る（30秒）',en:'Create an account (30 seconds)',zh:'创建账号（30秒）',fr:'Créer un compte (30 secondes)',ar:'إنشاء حساب (30 ثانية)',ko:'계정 만들기 (30초)',ru:'Создать аккаунт (30 секунд)'},
   tut_home_t:{ja:'ホーム画面に追加',en:'Add to your home screen',zh:'添加到主屏幕',fr:'Ajouter à l’écran d’accueil',ar:'أضِف إلى الشاشة الرئيسية',ko:'홈 화면에 추가',ru:'Добавьте на главный экран'},
   tut_home_b:{ja:'ホーム画面に追加すると、普通のアプリと同じように一発で開けます。ブラウザが勝手にデータを消すことも防げるので、続けやすくなります。',en:'Adding it to your home screen opens the app in one tap, like any other app — and it stops the browser from clearing your data on its own, which makes it far easier to keep going.',zh:'添加到主屏幕后，就能像普通应用一样一键打开，还能防止浏览器自行清除数据，更容易坚持下去。',fr:'Sur l’écran d’accueil, l’app s’ouvre en un geste comme n’importe quelle autre — et le navigateur cesse d’effacer vos données de lui-même, ce qui aide beaucoup à tenir dans la durée.',ar:'بإضافته إلى الشاشة الرئيسية يفتح التطبيق بلمسة واحدة كأي تطبيق آخر، ويمنع المتصفح من مسح بياناتك من تلقاء نفسه، مما يسهّل الاستمرار.',ko:'홈 화면에 추가하면 일반 앱처럼 한 번에 열 수 있고, 브라우저가 임의로 데이터를 지우는 것도 막을 수 있어 꾸준히 이어가기 쉬워집니다.',ru:'На главном экране приложение открывается одним касанием, как любое другое, а браузер перестаёт сам удалять ваши данные — так продолжать заниматься гораздо проще.'},
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
@@ -1174,7 +1164,11 @@ const T={
 function t(key,...a){
   const entry=T[key];
   let s=entry?(entry[S().lang]||entry.ja):key;
-  a.forEach((v,i)=>{s=s.replace('{'+i+'}',v);});
+  // split/join rather than replace(): a string pattern in replace() only
+  // swaps the first match, and -- worse -- treats $& / $1 / $` inside the
+  // *value* as substitution patterns. Values include words and nicknames the
+  // user typed, so a word containing '$' came out mangled.
+  a.forEach((v,i)=>{s=s.split('{'+i+'}').join(String(v));});
   return s;
 }
 function applyStaticI18n(){
@@ -1193,8 +1187,8 @@ function applyStaticI18n(){
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
 const DEFAULTS={words:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
-  autoSpeak:false,accent:'us',speechRate:'normal',
-  lastBackupAt:null,lastBackupWords:0,backupSnoozeUntil:null,
+  autoSpeak:false,accent:'us',speechRate:'normal',sound:true,
+  lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
 
 // Cloud merge resolves per word by last write, so every change gets stamped.
@@ -1233,7 +1227,22 @@ function load(){
   return structuredClone(DEFAULTS);
 }
 let DB=load();
-function save(){localStorage.setItem(KEY,JSON.stringify(DB));renderCount();}
+// Writing to localStorage can throw: the quota is ~5MB and a large vocabulary
+// with review history genuinely approaches it, and Safari private browsing
+// refuses writes outright. An uncaught throw here would take down whatever
+// called save() -- mid-quiz, mid-import, mid-sync. The in-memory DB stays
+// correct and cloud sync reads from that, so the session survives; warn once
+// so the user knows a reload could cost anything not yet pushed.
+let saveFailed=false;
+function save(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(DB));
+    saveFailed=false;
+  }catch(e){
+    if(!saveFailed){saveFailed=true;toast(t('toast_save_fail'));}
+  }
+  renderCount();
+}
 const S=()=>DB.settings;
 
 /* ---------- theme (light / dark / system) ---------- */
@@ -1266,7 +1275,8 @@ applyTheme();
 // Browsers evict storage for sites they consider disposable -- iOS Safari
 // clears it after ~7 days without a visit unless the site is installed. That
 // directly undercuts the long end of the SRS schedule (90-day intervals), so
-// ask to be exempted, and nag for a backup when unsaved work piles up.
+// ask to be exempted from eviction. (The account is the real durability story;
+// this covers the gap before a sync and the case of a failed one.)
 let persistState='unknown'; // granted | denied | unsupported | unknown
 let persistAsked=false;
 async function refreshPersistState(){
@@ -1295,8 +1305,7 @@ async function maybeRequestPersistence(){
   if(settingsOpen())renderPersistRow();
 }
 
-const RISK_MIN_WORDS=8, RISK_MIN_STREAK=3;
-const BACKUP_MIN_WORDS=10, BACKUP_STALE_DAYS=14, BACKUP_NEW_WORDS=20, BACKUP_SNOOZE_DAYS=7;
+const BACKUP_MIN_WORDS=10, BACKUP_STALE_DAYS=14, BACKUP_NEW_WORDS=20;
 function fmtDay(ts){const d=new Date(ts);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate();}
 function unbackedUpCount(){return Math.max(0,DB.words.length-(S().lastBackupWords||0));}
 function backupNeeded(){
@@ -1305,19 +1314,13 @@ function backupNeeded(){
   // for a manual JSON export on top of that just contradicts the app.
   if(typeof cloudUser!=='undefined'&&cloudUser)return false;
   if(DB.words.length<BACKUP_MIN_WORDS)return false;
-  if(s.backupSnoozeUntil&&Date.now()<s.backupSnoozeUntil)return false;
   if(!s.lastBackupAt)return true;
   return (Date.now()-s.lastBackupAt)/DAY>=BACKUP_STALE_DAYS||unbackedUpCount()>=BACKUP_NEW_WORDS;
 }
 function markBackedUp(){
   S().lastBackupAt=Date.now();
   S().lastBackupWords=DB.words.length;
-  S().backupSnoozeUntil=null;
   save();
-}
-function snoozeBackup(){
-  S().backupSnoozeUntil=Date.now()+BACKUP_SNOOZE_DAYS*DAY;
-  save();renderBackupBanner();
 }
 
 /* ---------- pronunciation (Web Speech API, offline + no key) ---------- */
@@ -1385,6 +1388,51 @@ document.addEventListener('click',e=>{
   e.preventDefault();
   speak(b.dataset.spk);
 },true);
+
+/* ---------- answer sounds (Web Audio, generated -- no asset files) ---------- */
+// Generated tones rather than audio files: the app stays a single HTML file,
+// nothing extra downloads, and the sounds still work offline on first run.
+let audioCtx=null;
+function getAudioCtx(){
+  if(audioCtx)return audioCtx;
+  const C=window.AudioContext||window.webkitAudioContext;
+  if(!C)return null;
+  try{audioCtx=new C();}catch(e){audioCtx=null;}
+  return audioCtx;
+}
+function tone(ctx,freq,at,dur,peak){
+  const t0=ctx.currentTime+at;
+  const o=ctx.createOscillator(),g=ctx.createGain();
+  o.type='sine';
+  o.frequency.setValueAtTime(freq,t0);
+  // Ramp in and out instead of gating the oscillator: switching a waveform on
+  // or off instantly produces an audible click.
+  g.gain.setValueAtTime(0.0001,t0);
+  g.gain.exponentialRampToValueAtTime(peak,t0+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  o.connect(g);g.connect(ctx.destination);
+  o.start(t0);
+  o.stop(t0+dur+0.02);
+}
+function playAnswerSound(ok){
+  if(!S().sound)return;
+  const ctx=getAudioCtx();
+  if(!ctx)return;
+  // Autoplay policy leaves the context suspended until a gesture; answering a
+  // question is one, so this resumes on the first sound rather than at boot.
+  if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+  try{
+    if(ok){
+      tone(ctx,784,0,0.13,0.16);       // G5
+      tone(ctx,1046.5,0.10,0.22,0.13); // C6 -- a rising third reads as "yes"
+    }else{
+      // Low, short and deliberately not a buzzer. This is a study app: a
+      // harsh noise on every miss is a reason to stop studying.
+      tone(ctx,220,0,0.15,0.11);       // A3
+      tone(ctx,174.61,0.11,0.24,0.09); // F3
+    }
+  }catch(e){}
+}
 
 /* ---------- word packages (distributable decks) ---------- */
 // Curated, static content. title/meaning are language maps covering all 7
@@ -1565,7 +1613,7 @@ const PACKAGES=[PKG_STUDYABROAD_PART1,PKG_STUDYABROAD_PART2,PKG_STUDYABROAD_PART
 // user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
 const PKGKEY='wordkeep.packages.v1';
 function loadPkg(){try{return JSON.parse(localStorage.getItem(PKGKEY))||{};}catch(e){return {};}}
-function savePkg(){localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}
+function savePkg(){try{localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}catch(e){}}
 let PKGDB=loadPkg();
 
 // Current data source for the shared list/study/quiz views.
@@ -1622,6 +1670,8 @@ function pkgProgressPct(id){
 function curWords(){return CTX.type==='pkg'?(pkgLive||[]):DB.words;}
 function curDueCount(){return curWords().filter(isDue).length;}
 function persistProgress(){CTX.type==='pkg'?savePkgProgress():save();}
+// Identifies the deck a quiz round belongs to.
+function ctxKey(){return CTX.type==='pkg'?('pkg:'+CTX.id):'own';}
 function setSource(src){
   if(src==='own'){CTX={type:'own'};pkgLive=null;}
   else{CTX={type:'pkg',id:src};buildPkgLive(src);gaEvent('package_opened',{package_id:src});}
@@ -1728,6 +1778,22 @@ function fmtDate(ts){
   return (d.getMonth()+1)+'/'+d.getDate();
 }
 function wordExists(w){const l=w.toLowerCase();return DB.words.some(x=>(x.word||'').toLowerCase()===l);}
+// Scrolls just enough to put an element fully on screen, above the fixed tab
+// bar. scrollIntoView() is not usable here: its `nearest`/`end` alignments
+// stop at the viewport edge, which on this layout means underneath the 68px
+// tab bar, and `behavior:'smooth'` is silently ignored by some engines even
+// when reduced motion is off (verified). A plain scroll always lands.
+function revealAboveNav(el){
+  if(!el||!el.getBoundingClientRect)return;
+  const nav=document.querySelector('nav.tabbar');
+  const navH=nav?nav.getBoundingClientRect().height:0;
+  const limit=window.innerHeight-navH-12;
+  const r=el.getBoundingClientRect();
+  if(r.top>=0&&r.bottom<=limit)return; // already fully visible
+  const se=document.scrollingElement||document.documentElement;
+  const target=Math.max(0,Math.min(se.scrollHeight-se.clientHeight,se.scrollTop+(r.bottom-limit)));
+  window.scrollTo(0,target);
+}
 async function fetchWithTimeout(url,ms,opts){
   const ctrl=new AbortController();
   const t=setTimeout(()=>ctrl.abort(),ms);
@@ -1751,14 +1817,23 @@ function renderActiveView(){
   else if(v.id==='v-stats')renderStats();
   // A quiz in progress is left alone: re-running startQuiz would discard the
   // user's place. The next question is drawn in the new language.
-  else if(v.id==='v-quiz'&&!(quiz&&quiz.items&&quiz.items.length&&quiz.i<quiz.items.length))startQuiz();
+  else if(v.id==='v-quiz'&&!quizInProgress())startQuiz();
+}
+// A quiz already under way is left alone. Leaving the tab and coming back
+// used to call startQuiz() again, which drew a fresh set of questions and
+// dropped the user back to question 1 of a round they were halfway through.
+function quizInProgress(){
+  // Also requires the quiz to belong to the deck currently selected: switching
+  // to a package and opening Review must not resume a half-finished round of
+  // the user's own words.
+  return !!(quiz&&quiz.items&&quiz.items.length&&quiz.i<quiz.items.length&&quiz.ctx===ctxKey());
 }
 function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));
   if(id==='v-list')renderList();
   if(id==='v-study')renderStudy();
-  if(id==='v-quiz')startQuiz();
+  if(id==='v-quiz'&&!quizInProgress())startQuiz();
   if(id==='v-stats')renderStats();
   window.scrollTo(0,0);
   gaScreen(id);
@@ -1971,7 +2046,13 @@ $('#btnSave').onclick=()=>{
 };
 
 /* ---------- LIST ---------- */
-$('#search').addEventListener('input',renderList);
+// Debounced: renderList() rebuilds every card and rebinds every handler, so
+// running it per keystroke gets visibly janky once a vocabulary is large.
+let searchTimer=null;
+$('#search').addEventListener('input',()=>{
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(renderList,120);
+});
 // Dictionary parts of speech come back as raw English tags (dictionaryapi.dev
 // doesn't localize them). Short, translated labels make them scannable in the
 // list without forcing English into every language's UI.
@@ -2056,7 +2137,6 @@ function renderTodayCard(){
 function renderList(){
   renderSourceBar('#src-list');
   renderTodayCard();
-  renderBackupBanner();
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
@@ -2232,6 +2312,10 @@ $('#overlayWordDetail').addEventListener('click',e=>{if(e.target===$('#overlayWo
 
 /* ---------- QUIZ / REVIEW (SRS) ---------- */
 let quiz={items:[],i:0,score:0,mode:'due'};
+// The post-answer readout is delayed so it doesn't collide with the answer
+// tone. Held here so moving on before it fires cancels it -- otherwise the
+// PREVIOUS word gets read out over the next question.
+let answerSpeakTimer=null;
 function pickWords(mode){
   let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w)) : curWords().filter(w=>primaryMeaning(w));
   if(S().weak){
@@ -2286,7 +2370,8 @@ function weightedSample(items,weights,n){
 // confusable options make the quiz meaningfully harder. Weighted sampling
 // (rather than "shuffle within the closest few") keeps close matches from
 // getting diluted when the vocabulary is small or has no real look-alikes.
-function pickDistractors(w,correct,showEng){
+function pickDistractors(w,correct,showEng,n){
+  n=n||3;
   const candidates=[...new Set(
     curWords().filter(x=>x.id!==w.id&&primaryMeaning(x))
       .map(x=>showEng?primaryMeaning(x):x.word)
@@ -2295,7 +2380,10 @@ function pickDistractors(w,correct,showEng){
   const cn=norm(correct);
   const dists=candidates.map(tx=>levenshtein(norm(tx),cn));
   const weights=dists.map(d=>1/Math.pow(d+1,2)); // sharply favor closer matches
-  return weightedSample(candidates,weights,candidates.length);
+  // Draw only what the question needs. Sampling the whole list and slicing is
+  // the same result but costs a full weighted permutation -- with a large
+  // vocabulary that is O(n^2) work on every single question.
+  return weightedSample(candidates,weights,Math.min(n,candidates.length));
 }
 function startQuiz(mode){
   renderSourceBar('#src-quiz');
@@ -2317,7 +2405,7 @@ function startQuiz(mode){
     body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+(eligibleTotal?t('quiz_need4'):t('quiz_need_add'))+'</div>';
     bindModeTabs();return;
   }
-  quiz={items,i:0,score:0,mode};
+  quiz={items,i:0,score:0,mode,ctx:ctxKey()};
   gaEvent('quiz_started',{quiz_type:S().quizType,item_count:items.length,package_id:pkgId});
   if(mode==='due')gaEvent('review_started',{item_count:items.length,package_id:pkgId});
   body.innerHTML=modeTabs;
@@ -2328,6 +2416,7 @@ function bindModeTabs(){
   $$('.q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
 }
 function renderQ(){
+  clearTimeout(answerSpeakTimer);
   const body=$('#quizBody');
   const w=quiz.items[quiz.i];
   const dir=S().dir;
@@ -2345,8 +2434,8 @@ function renderQ(){
 
   if(S().quizType==='choice'){
     const correct=showEng?primaryMeaning(w):w.word;
-    const others=pickDistractors(w,correct,showEng);
-    const opts=shuffle([correct,...others.slice(0,3)]);
+    const others=pickDistractors(w,correct,showEng,3);
+    const opts=shuffle([correct,...others]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
     bindModeTabs();
@@ -2435,8 +2524,23 @@ function grade(w,ok,correctText,isInput){
     '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?t('btn_next_q'):t('btn_see_result'))+'</button>';
   if(isInput){$('#qfb').innerHTML=fbHtml;}
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
-  speakAuto(w.word);
-  $('#qNext').onclick=()=>{
+  playAnswerSound(ok);
+  // Let the tone finish before the word is read out -- played together, both
+  // are harder to make out than either alone.
+  clearTimeout(answerSpeakTimer);
+  if(S().sound&&S().autoSpeak)answerSpeakTimer=setTimeout(()=>speakAuto(w.word),340);
+  else speakAuto(w.word);
+  const next=$('#qNext');
+  // On a phone the four options push the result below the fold, so answering
+  // looked like nothing happened. Bring the verdict and the next button into
+  // view instead of relying on the user to scroll and find them.
+  revealAboveNav(next);
+  // Typed answers mean hands are already on the keyboard: focusing the button
+  // lets Enter carry straight on to the next question instead of forcing a
+  // reach for the mouse. Not done for tapped choices, where a focus ring on a
+  // freshly appeared button just looks like a stray highlight.
+  if(isInput&&next&&next.focus)next.focus();
+  next.onclick=()=>{
     quiz.i++;
     if(quiz.i<quiz.items.length)renderQ();
     else showScore();
@@ -2464,6 +2568,7 @@ function renderSettings(){
   seg('#segDir','dir');
   seg('#segLen','len',true);
   $('#swWeak').classList.toggle('on',S().weak);
+  $('#swSound').classList.toggle('on',!!S().sound);
   $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
   const sel=$('#selLang');
   sel.value=S().lang;
@@ -2512,6 +2617,10 @@ function segTheme(){
     b.onclick=()=>{S().theme=b.dataset.v;save();applyTheme();renderSettings();};
   });
 }
+$('#swSound').onclick=()=>{
+  S().sound=!S().sound;save();renderSettings();
+  if(S().sound)playAnswerSound(true); // let them hear what they just turned on
+};
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
 $('#btnTutorial').onclick=()=>{closeSettings();openTutorial(false);};
 
@@ -2523,34 +2632,9 @@ function doExport(){
   a.click();
   markBackedUp();
   toast(t('toast_export'));
-  renderBackupBanner();
   if(settingsOpen())renderBackupStatus();
 }
 $('#btnExport').onclick=doExport;
-function accountPromptNeeded(){
-  if(typeof cloudUser!=='undefined'&&cloudUser)return false; // already syncing
-  const s=S();
-  if(s.backupSnoozeUntil&&Date.now()<s.backupSnoozeUntil)return false;
-  const st=s.streak||{};
-  // enough invested that losing it would actually sting
-  return DB.words.length>=RISK_MIN_WORDS||(st.longest||0)>=RISK_MIN_STREAK;
-}
-function renderBackupBanner(){
-  const el=$('#backupBanner');
-  if(!el)return;
-  // Packages carry no user-authored data, so only nag on the user's own deck.
-  if(CTX.type!=='own'||!accountPromptNeeded()){el.innerHTML='';return;}
-  const s=S();
-  const msg=t('risk_body',DB.words.length);
-  el.innerHTML='<div class="warn-banner"><span style="font-size:17px">⚠️</span><div class="wb-body">'+esc(msg)+
-    '<span style="display:block;margin-top:6px">'+esc(t('backup_auto_hint'))+'</span>'+
-    '<div class="wb-acts"><button class="wb-go" id="wbAcct">'+esc(t('backup_auto_btn'))+'</button>'+
-    '<button class="wb-later" id="wbGo">'+esc(t('btn_export'))+'</button>'+
-    '<button class="wb-later" id="wbLater">'+esc(t('backup_later'))+'</button></div></div></div>';
-  $('#wbAcct').onclick=openAcct;
-  $('#wbGo').onclick=doExport;
-  $('#wbLater').onclick=snoozeBackup;
-}
 function renderBackupStatus(){
   const el=$('#backupStatus');if(!el)return;
   const s=S();
@@ -2729,6 +2813,8 @@ async function sendFeedback(text,country){
       createdAt:Date.now(),
       uid:(cloudUser&&cloudUser.uid)||null,
       username:(cloudUser&&cloudUser.username)||null,
+      // the login id is what a reply needs; the nickname is who they are
+      nickname:(cloudUser&&cloudUser.nickname)||null,
       version:APP_VERSION,
       lang:S().lang,
       words:DB.words.length,
@@ -2793,14 +2879,28 @@ $('#fileImport').onchange=e=>{
   r.onload=()=>{
     try{
       const d=JSON.parse(r.result);
-      if(!d.words)throw 0;
+      if(!Array.isArray(d.words))throw 0;
       d.words.forEach(migrateWord);
       const ids=new Set(DB.words.map(w=>w.id));
       const add=d.words.filter(w=>!ids.has(w.id));
       add.forEach(touchWord);
       DB.words=[...add,...DB.words];
-      if(d.settings)DB.settings={...DB.settings,...d.settings};
-      save();toast(t('toast_loaded',add.length));go('v-list');
+      if(d.settings){
+        // The streak is merged, never overwritten. A backup taken weeks ago
+        // carries an old streak, and letting it clobber the live one meant
+        // restoring words could cost the user their run.
+        const st=mergeStreak(DB.settings.streak,d.settings.streak);
+        DB.settings={...DB.settings,...d.settings,streak:st};
+        // Language and theme live in settings too, so the screen has to be
+        // rebuilt -- otherwise the change only appeared after a reload.
+        applyTheme();applyStaticI18n();
+      }
+      save();
+      // Imported words used to sit on the device unsynced until some
+      // unrelated edit happened to trigger a push, which could be never.
+      cloudTouched();
+      renderCount();
+      toast(t('toast_loaded',add.length));go('v-list');
     }catch(err){toast(t('toast_import_fail'));}
   };
   r.readAsText(f);e.target.value='';
@@ -2850,8 +2950,10 @@ function installStepsHTML(){
 function storageTipHTML(withCta){
   // Signed in, the whole premise of this notice no longer holds: the words are
   // on the server, so a different browser just needs a login.
+  // displayName(), not username: since 4.3.0 the username of an email account
+  // IS the email address, so this was printing the user's address at them.
   if(typeof cloudUser!=='undefined'&&cloudUser)
-    return '<span style="display:block">'+esc(t('storage_tip_synced',cloudUser.username))+'</span>';
+    return '<span style="display:block">'+esc(t('storage_tip_synced',displayName()))+'</span>';
   const stepsHtml=installStepsHTML();
   // An account fixes this properly, so offer it rather than only warning.
   const cta=withCta
@@ -2886,11 +2988,7 @@ function tutSteps(){
     {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
     {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
   ];
-  // The two steps that decide whether this person still has their words next
-  // month. Both are skippable, but they get their own screen rather than being
-  // a footnote. Neither is shown to someone already signed in / already
-  // running installed, since the ask would be meaningless.
-  // No account step here any more. Signing in is mandatory and the gate opens
+  // No account step here. Signing in is mandatory and the gate opens
   // the moment the tutorial ends, so an *optional* offer followed immediately
   // by a wall just reads as the app going back on its word.
   const install=installStepsHTML();
@@ -3023,14 +3121,13 @@ let syncTimer=null,syncing=false;
 let cloudDirty=false,retryDelay=0;
 
 function cloudSaved(){try{return JSON.parse(localStorage.getItem(CLOUDKEY))||null;}catch(e){return null;}}
-function setCloudSaved(v){if(v)localStorage.setItem(CLOUDKEY,JSON.stringify(v));else localStorage.removeItem(CLOUDKEY);}
+function setCloudSaved(v){try{if(v)localStorage.setItem(CLOUDKEY,JSON.stringify(v));else localStorage.removeItem(CLOUDKEY);}catch(e){}}
 function validUsername(u){return /^[a-z0-9_]{3,20}$/.test(u);}
 function validPin(p){return /^[0-9]{6}$/.test(p);}
 // Nicknames are display names, not identifiers: any script, duplicates allowed.
 // Counted by code point so an emoji or a surrogate pair costs one character
 // rather than two.
 function nickLen(n){return Array.from(n||'').length;}
-function validNick(n){const v=(n||'').trim();return v.length>0&&nickLen(v)<=NICK_MAX;}
 function nickDaysLeft(){
   const at=(cloudUser&&cloudUser.nicknameAt)||0;
   if(!at)return 0;
@@ -3244,7 +3341,7 @@ async function cloudLogout(){
   PKGDB={};savePkg();
   if(CTX.type==='pkg')setSource('own');
   S().streak={current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null};
-  S().lastBackupAt=null;S().lastBackupWords=0;S().backupSnoozeUntil=null;
+  S().lastBackupAt=null;S().lastBackupWords=0;
   seedStarterWords();
   save();
   renderAccountUI();renderCount();renderActiveView();
