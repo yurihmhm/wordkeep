@@ -690,13 +690,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.7.0';
+const APP_VERSION='4.8.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.7.0',date:'2026-08-22',keys:['wn1','wn2']},
+  {version:'4.8.0',date:'2026-08-22',keys:['wn1','wn2','wn3']},
+  {version:'4.7.0',date:'2026-08-22',keys:['v470_1','v470_2']},
   {version:'4.6.0',date:'2026-08-22',keys:['v460_1','v460_2','v460_3']},
   {version:'4.5.0',date:'2026-08-22',keys:['v450_1','v450_2']},
   {version:'4.4.0',date:'2026-08-22',keys:['v440_1']},
@@ -831,8 +832,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'「単語」タブに「リスト／カード」の切り替えを置きました。単語帳（カード）への行き方が分かりやすくなり、カード側からも同じ操作で戻れます',en:'The Words tab now has a List / Cards switch, so flashcards are easy to find and the same control takes you back',zh:'「单词」标签页新增「列表／卡片」切换，更容易找到单词卡，也可用同一处切回列表',fr:'L’onglet Mots dispose d’un sélecteur Liste / Cartes : les cartes mémo se trouvent plus facilement et le même bouton ramène à la liste',ar:'أصبح في تبويب «الكلمات» مبدّل «قائمة / بطاقات»، فيسهل الوصول إلى البطاقات والعودة بالطريقة نفسها',ko:'«단어» 탭에 «목록／카드» 전환을 넣었습니다. 카드로 가는 길이 명확해지고, 같은 조작으로 돌아올 수 있습니다',ru:'Во вкладке «Слова» появился переключатель «Список / Карточки» — карточки легко найти, и та же кнопка возвращает назад'},
-  wn2:{ja:'対応外の言語の端末で日本語表示になっていた不具合を修正しました。ドイツ語やスペイン語などの環境では英語で開きます',en:'Fixed devices set to an unsupported language falling back to Japanese. German, Spanish and the like now open in English',zh:'修复了使用不受支持语言的设备回退为日语的问题，德语、西班牙语等环境现在会以英语打开',fr:'Correction : les appareils dans une langue non prise en charge basculaient en japonais. L’allemand, l’espagnol et les autres s’ouvrent désormais en anglais',ar:'أُصلح رجوع الأجهزة ذات اللغات غير المدعومة إلى اليابانية؛ الألمانية والإسبانية وغيرها تفتح الآن بالإنجليزية',ko:'지원하지 않는 언어의 기기에서 일본어로 표시되던 문제를 수정했습니다. 독일어·스페인어 등은 이제 영어로 열립니다',ru:'Исправлено: устройства с неподдерживаемым языком переключались на японский. Немецкий, испанский и прочие теперь открываются на английском'},
+  wn1:{ja:'重大な修正: 入力式クイズで、ロシア語・韓国語・アラビア語の意味を正しく入力しても必ず不正解になっていました。不正解は復習間隔が最初に戻る仕様のため、該当言語の方の学習記録に影響していました。心よりお詫びします',en:'Important fix: in the typed quiz, correct answers in Russian, Korean and Arabic were always marked wrong. Since a wrong answer resets the review interval, this affected those users’ progress. We’re sorry',zh:'重要修复：输入式测验中，用俄语、韩语、阿拉伯语输入正确释义也总是被判为错误。由于答错会将复习间隔重置，这影响了相关用户的学习记录，深表歉意',fr:'Correctif important : dans le quiz à saisie, les réponses correctes en russe, coréen et arabe étaient toujours comptées fausses. Une erreur réinitialisant l’intervalle de révision, cela a affecté la progression de ces utilisateurs. Toutes nos excuses',ar:'إصلاح مهم: في اختبار الكتابة، كانت الإجابات الصحيحة بالروسية والكورية والعربية تُحتسب خاطئة دائمًا. وبما أن الخطأ يعيد ضبط فترة المراجعة، فقد أثّر ذلك في تقدّم هؤلاء المستخدمين، ونعتذر بشدة',ko:'중요한 수정: 입력식 퀴즈에서 러시아어·한국어·아랍어로 뜻을 올바르게 입력해도 항상 오답 처리되었습니다. 오답은 복습 간격을 처음으로 되돌리는 방식이라 해당 언어 사용자의 학습 기록에 영향을 주었습니다. 진심으로 사과드립니다',ru:'Важное исправление: в тесте с вводом правильные ответы на русском, корейском и арабском всегда засчитывались как неверные. Поскольку ошибка сбрасывает интервал повторения, это сказалось на прогрессе. Приносим извинения'},
+  wn2:{ja:'入力式クイズの採点を見直しました。1文字だけの入力が正解になっていた問題を修正し、逆に「importnat」のような打ち間違いは正解として扱うようにしました',en:'Reworked typed-answer marking. A single character no longer counts as correct, while a genuine typo like “importnat” now does',zh:'重做了输入式测验的判分：单个字符不再算作正确，而「importnat」这类真正的拼写失误现在会算对',fr:'Notation des réponses saisies revue : un seul caractère ne compte plus comme correct, tandis qu’une vraie faute de frappe comme « importnat » est désormais acceptée',ar:'أُعيد ضبط تصحيح الإجابات المكتوبة: لم يعد حرف واحد يُحتسب صحيحًا، بينما تُقبل الآن أخطاء الكتابة الحقيقية مثل «importnat»',ko:'입력식 채점을 재정비했습니다. 한 글자만 입력해도 정답이 되던 문제를 고치고, 반대로 «importnat» 같은 실제 오타는 정답으로 인정합니다',ru:'Переработана проверка набранных ответов: один символ больше не засчитывается, а настоящая опечатка вроде «importnat» теперь принимается'},
+  wn3:{ja:'単語パッケージを選んでいるとき、上部の語数と復習バッジが自分の単語帳の数のままになっていた問題を修正しました。表示と実際に出題される単語が一致します',en:'Fixed the header count and review badge still showing your own deck while a word package was selected — they now match what Review will actually give you',zh:'修复了选择单词包时，顶部词数与复习角标仍显示自己单词本数量的问题，现在与实际出题内容一致',fr:'Correction : le compteur d’en-tête et le badge de révision affichaient encore votre propre liste quand un pack était sélectionné. Ils correspondent maintenant à ce que la révision propose',ar:'أُصلح بقاء عدّاد الأعلى وشارة المراجعة يعرضان قائمتك الخاصة أثناء اختيار حزمة كلمات؛ صارا الآن مطابقين لما ستقدّمه المراجعة فعليًا',ko:'단어 패키지를 선택했을 때 상단 단어 수와 복습 배지가 내 단어장 기준으로 남아 있던 문제를 수정했습니다. 실제 출제되는 내용과 일치합니다',ru:'Исправлено: счётчик в шапке и значок повторения продолжали показывать вашу колоду при выбранном пакете. Теперь они совпадают с тем, что даст повторение'},
+  v470_1:{ja:'「単語」タブに「リスト／カード」の切り替えを置きました。単語帳（カード）への行き方が分かりやすくなり、カード側からも同じ操作で戻れます',en:'The Words tab now has a List / Cards switch, so flashcards are easy to find and the same control takes you back',zh:'「单词」标签页新增「列表／卡片」切换，更容易找到单词卡，也可用同一处切回列表',fr:'L’onglet Mots dispose d’un sélecteur Liste / Cartes : les cartes mémo se trouvent plus facilement et le même bouton ramène à la liste',ar:'أصبح في تبويب «الكلمات» مبدّل «قائمة / بطاقات»، فيسهل الوصول إلى البطاقات والعودة بالطريقة نفسها',ko:'«단어» 탭에 «목록／카드» 전환을 넣었습니다. 카드로 가는 길이 명확해지고, 같은 조작으로 돌아올 수 있습니다',ru:'Во вкладке «Слова» появился переключатель «Список / Карточки» — карточки легко найти, и та же кнопка возвращает назад'},
+  v470_2:{ja:'対応外の言語の端末で日本語表示になっていた不具合を修正しました。ドイツ語やスペイン語などの環境では英語で開きます',en:'Fixed devices set to an unsupported language falling back to Japanese. German, Spanish and the like now open in English',zh:'修复了使用不受支持语言的设备回退为日语的问题，德语、西班牙语等环境现在会以英语打开',fr:'Correction : les appareils dans une langue non prise en charge basculaient en japonais. L’allemand, l’espagnol et les autres s’ouvrent désormais en anglais',ar:'أُصلح رجوع الأجهزة ذات اللغات غير المدعومة إلى اليابانية؛ الألمانية والإسبانية وغيرها تفتح الآن بالإنجليزية',ko:'지원하지 않는 언어의 기기에서 일본어로 표시되던 문제를 수정했습니다. 독일어·스페인어 등은 이제 영어로 열립니다',ru:'Исправлено: устройства с неподдерживаемым языком переключались на японский. Немецкий, испанский и прочие теперь открываются на английском'},
   v460_1:{ja:'「ホーム」タブを追加しました。連続日数・今日の復習・学習の進みが一目で分かり、開いて1タップで復習を始められます',en:'Added a Home tab. Your streak, what’s due today and how far you’ve got are all in one place, and review starts in a single tap',zh:'新增「首页」标签页。连续天数、今日待复习和学习进度一目了然，打开后一点即可开始复习',fr:'Nouvel onglet Accueil : série, révisions du jour et progression au même endroit, et la révision démarre en un seul geste',ar:'أُضيف تبويب «الرئيسية»: التتابع وما يستحق المراجعة اليوم ومدى تقدّمك في مكان واحد، وتبدأ المراجعة بلمسة واحدة',ko:'«홈» 탭을 추가했습니다. 연속 일수·오늘의 복습·학습 진행 상황을 한눈에 볼 수 있고, 한 번의 탭으로 복습을 시작할 수 있습니다',ru:'Добавлена вкладка «Главная»: серия, повторения на сегодня и прогресс — в одном месте, а повторение начинается одним касанием'},
   v460_2:{ja:'「リスト」と「単語帳」を「単語」タブにまとめました。単語帳（カード）は単語タブの「カードで覚える」から開けます',en:'List and Flashcards are now one Words tab. Flashcards open from “Flashcards” inside it',zh:'「列表」与「单词卡」已合并为「单词」标签页，单词卡可从其中的「用卡片记忆」打开',fr:'Liste et Cartes mémo fusionnent dans l’onglet Mots ; les cartes s’ouvrent via « Cartes mémoire »',ar:'دُمج «القائمة» و«البطاقات» في تبويب «الكلمات»، وتُفتح البطاقات من «بطاقات الحفظ» بداخله',ko:'«목록»과 «단어 카드»를 «단어» 탭으로 통합했습니다. 카드는 그 안의 «카드로 외우기»에서 열 수 있습니다',ru:'«Список» и «Карточки» объединены во вкладку «Слова»; карточки открываются оттуда через «Карточки»'},
   v460_3:{ja:'音量を設定できるようになりました（設定 → 音量）。発音と効果音の両方に効きます。効果音が発音に比べて小さすぎた点も調整し、不正解の音はスマホのスピーカーでも聞こえる高さに変えました',en:'Added a volume setting (Settings → Volume) covering both pronunciation and answer sounds. The tones were far too quiet next to the voice, and the wrong-answer sound now sits where phone speakers can actually reproduce it',zh:'新增音量设置（设置 → 音量），同时作用于发音和答题音效。此前音效相对发音过轻，错误提示音也调整到手机扬声器能够还原的音高',fr:'Ajout d’un réglage de volume (Réglages → Volume) agissant sur la prononciation et les sons. Les sons étaient bien trop faibles face à la voix, et le son d’erreur est désormais dans une plage que les haut-parleurs de téléphone restituent',ar:'أُضيف ضبط لمستوى الصوت (الإعدادات ← مستوى الصوت) يشمل النطق وأصوات الإجابة. كانت النغمات أخفت بكثير من الصوت، وأصبح صوت الخطأ في نطاق تستطيع مكبرات الهواتف إخراجه',ko:'음량을 설정할 수 있게 되었습니다(설정 → 음량). 발음과 효과음 모두에 적용됩니다. 효과음이 발음보다 지나치게 작았던 점을 조정하고, 오답 소리는 휴대폰 스피커로도 들리는 음역으로 바꿨습니다',ru:'Добавлена настройка громкости (Настройки → Громкость) для произношения и звуков ответа. Тоны были намного тише голоса, а звук ошибки теперь в диапазоне, который телефонные динамики действительно воспроизводят'},
@@ -1289,10 +1293,17 @@ const DEFAULTS={words:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:
 function touchWord(w){if(w)w.updatedAt=Date.now();return w;}
 function tombstone(id){DB.tombs[id]=Date.now();}
 function migrateWord(w){
-  if(typeof w.box!=='number')w.box=-1;
-  if(typeof w.updatedAt!=='number')w.updatedAt=w.added||Date.now();
-  if(typeof w.nextDue!=='number')w.nextDue=w.added||Date.now();
-  if(!w.hist)w.hist=[];
+  // Number.isFinite rather than typeof: NaN and Infinity are both numbers, so
+  // a typeof check let them through. A NaN box makes INTERVALS[box] undefined,
+  // which makes the next due date NaN, which is never <= now -- the word
+  // silently drops out of review forever and no amount of answering brings it
+  // back. Clamping the box also keeps a corrupt value from doing the same.
+  const num=(v,d)=>Number.isFinite(v)?v:d;
+  w.box=Math.max(-1,Math.min(num(w.box,-1),INTERVALS.length-1));
+  w.added=num(w.added,Date.now());
+  w.updatedAt=num(w.updatedAt,w.added);
+  w.nextDue=num(w.nextDue,w.added);
+  if(!Array.isArray(w.hist))w.hist=[];
   if(!Array.isArray(w.examples))w.examples=[];
   return w;
 }
@@ -1769,8 +1780,10 @@ function buildPkgLive(id){
     return {id:'pkg:'+id+':'+pw.word,word:pw.word,kata:'',ja:meaning,phon:'',
       meanings:[{pos:pw.pos,def:'',defJa:''}],examples:[],
       seen:p.seen||0,correct:p.correct||0,wrong:p.wrong||0,added:i,
-      box:(typeof p.box==='number'?p.box:-1),
-      nextDue:(typeof p.nextDue==='number'?p.nextDue:Date.now()),
+      // Number.isFinite for the same reason as migrateWord: a NaN box drops
+      // the word out of review permanently.
+      box:Math.max(-1,Math.min(Number.isFinite(p.box)?p.box:-1,INTERVALS.length-1)),
+      nextDue:Number.isFinite(p.nextDue)?p.nextDue:Date.now(),
       hist:Array.isArray(p.hist)?p.hist:[],
       // Keep every language's meaning so search matches regardless of the
       // currently displayed language (the visible one is in meanings[]).
@@ -1806,6 +1819,9 @@ function ctxKey(){return CTX.type==='pkg'?('pkg:'+CTX.id):'own';}
 function setSource(src){
   if(src==='own'){CTX={type:'own'};pkgLive=null;}
   else{CTX={type:'pkg',id:src};buildPkgLive(src);gaEvent('package_opened',{package_id:src});}
+  // The header counts follow the selected deck, so they have to be redrawn
+  // here; nothing else on the switch path calls renderCount().
+  renderCount();
 }
 
 /* deck source bar + picker sheet */
@@ -1853,7 +1869,6 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
 function isDue(w){return w.nextDue<=Date.now();}
-function dueCount(){return DB.words.filter(isDue).length;}
 // Local-calendar-day index (not raw ms/DAY math) so a streak day boundary
 // lands on local midnight rather than drifting with DST, matching how
 // fmtDate() already treats "today" via toDateString().
@@ -1979,7 +1994,7 @@ function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   const tab=TAB_FOR[id]||id;
   $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
-  if(id==='v-home')renderHome();
+  if(id==='v-home')renderHome(true);
   if(id==='v-list')renderList();
   if(id==='v-study')renderStudy();
   if(id==='v-quiz')showQuiz(false);
@@ -2273,7 +2288,11 @@ function todayState(){
   return {kind:'idle',icon:'📖',title:t('home_nothing_due'),sub:t('home_nothing_due_sub'),
     mode:'all',btn:t('today_free')};
 }
-function renderHome(){
+// `report` is passed only when the user actually navigated here. A background
+// sync also re-renders Home, and counting those as impressions would inflate
+// the denominator of the CTA click-through rate -- the 3-minute sweep alone
+// would log one every few minutes while the app sat open on this screen.
+function renderHome(report){
   const el=$('#homeBody');
   if(!el)return;
   const st=S().streak||{};
@@ -2298,7 +2317,7 @@ function renderHome(){
       '<div class="s">'+esc(t('home_empty_s'))+'</div>'+
       '<button class="btn btn-gold" id="hmAdd2">'+esc(t('home_act_add'))+'</button></div>';
   }else{
-    gaEvent('home_cta_shown',{state:ts.kind,due:due,streak:st.current||0});
+    if(report)gaEvent('home_cta_shown',{state:ts.kind,due:due,streak:st.current||0});
     h+='<div class="home-cta'+(ts.urgent?'':' calm')+'">'+
       '<div class="t"><span>'+ts.icon+'</span>'+esc(ts.title)+'</div>'+
       '<div class="s">'+esc(ts.sub)+'</div>'+
@@ -2696,18 +2715,62 @@ function renderQ(){
   }
   if(showEng)speakAuto(w.word);
 }
-function norm(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー\s]/g,' ').replace(/\s+/g,' ').trim();}
+// Strips punctuation, keeps letters and digits in EVERY script. The previous
+// version allowlisted ASCII plus kana and CJK, which meant Cyrillic, Hangul
+// and Arabic were treated as punctuation and erased: a Russian, Korean or
+// Arabic user typing the exactly correct meaning normalized to an empty
+// string and was marked wrong every single time -- and under this app's
+// deliberately strict SRS, wrong resets the word to the start of the
+// schedule. Input-mode review was actively destroying their progress.
+function norm(s){
+  return (s||'').toLowerCase().normalize('NFKC')
+    .replace(/[^\p{L}\p{N}\s]/gu,' ')
+    .replace(/\s+/g,' ').trim();
+}
+// Folds Latin accents so "prefere" matches "préféré". Restricted to the Latin
+// combining-marks block on purpose: NFD also splits Hangul syllables into
+// jamo, and stripping marks wholesale would mangle other scripts.
+function foldMarks(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').normalize('NFC');}
+// A typo should cost less than a blank. One edit once the answer is long
+// enough for a slip to be plausible, two when it is longer still; short
+// answers must be exact, because at three or four characters one edit is
+// usually a different word.
+function typoOk(a,tg){
+  const n=tg.length;
+  if(n<5)return false;
+  // A slip keeps the length about the same -- a transposition is identical,
+  // a dropped or doubled character is off by one. Two whole characters added
+  // is not a typo, it is a different word: "unimportant" is two edits from
+  // "important" and means the opposite.
+  if(Math.abs(a.length-n)>1)return false;
+  return levenshtein(a,tg)<=(n>=8?2:1);
+}
 function closeEnough(ans,target,w,showEng){
-  const a=norm(ans), tg=norm(target);
+  const a=foldMarks(norm(ans)), tg=foldMarks(norm(target));
   if(!a)return false;
   if(a===tg)return true;
-  if(tg.includes(a)||a.includes(tg))return true;
+  // Containment only counts when the answer is a substantial part of the
+  // target. With no length floor, a single character that happened to appear
+  // in the answer graded as CORRECT ("a" for "important"), which is not just
+  // a free pass -- it pushed the word out to a longer interval.
+  const lo=Math.min(a.length,tg.length), hi=Math.max(a.length,tg.length);
+  if(lo>=2&&lo/hi>=0.6){
+    // Answer is part of the target: a partial but substantial answer.
+    if(tg.includes(a))return true;
+    // Answer is the target plus extra. Only credit a trailing inflection --
+    // extra at the FRONT is usually a negation ("unimportant" for
+    // "important", "неважный" for "важный"), which is the opposite meaning
+    // and must not be graded correct.
+    if(a.startsWith(tg))return true;
+  }
+  if(typoOk(a,tg))return true;
   if(!showEng){
-    if(norm(w.word)===a)return true;
-    return false;
+    const wn=foldMarks(norm(w.word));
+    return wn===a||typoOk(a,wn);
   }
   const bag=new Set();
-  norm((w.ja||'')+' '+(w.meanings||[]).map(m=>m.defJa||m.def).join(' ')).split(' ').forEach(x=>{if(x.length>1)bag.add(x);});
+  foldMarks(norm((w.ja||'')+' '+(w.meanings||[]).map(m=>m.defJa||m.def).join(' ')))
+    .split(' ').forEach(x=>{if(x.length>1)bag.add(x);});
   const aw=a.split(' ').filter(x=>x.length>1);
   if(!aw.length)return false;
   const hit=aw.filter(x=>bag.has(x)||[...bag].some(b=>b.includes(x)||x.includes(b))).length;
@@ -2933,12 +2996,16 @@ function dayIdxParts(idx){
 // single word can be trimmed at the far end.
 function allHistEntries(){
   const out=[];
-  (DB.words||[]).forEach(w=>(w.hist||[]).forEach(h=>{if(h&&typeof h.t==='number')out.push(h);}));
+  // Number.isFinite, not typeof: NaN IS a number, and a NaN timestamp becomes
+  // a NaN day index -- a phantom bucket that inflated "days studied" and the
+  // review total without ever appearing on the calendar.
+  const ok=h=>h&&Number.isFinite(h.t);
+  (DB.words||[]).forEach(w=>(w.hist||[]).forEach(h=>{if(ok(h))out.push(h);}));
   Object.keys(PKGDB||{}).forEach(pid=>{
     const prog=PKGDB[pid]||{};
     Object.keys(prog).forEach(k=>{
       const h=prog[k]&&prog[k].hist;
-      if(Array.isArray(h))h.forEach(e=>{if(e&&typeof e.t==='number')out.push(e);});
+      if(Array.isArray(h))h.forEach(e=>{if(ok(e))out.push(e);});
     });
   });
   return out;
@@ -3163,8 +3230,12 @@ $('#fileImport').onchange=e=>{
 
 /* ---------- header / badge ---------- */
 function renderCount(){
-  const n=DB.words.length;
-  const due=dueCount();
+  // Deck-aware. These used to be fixed to the user's own words, so selecting a
+  // package left the header and the Review badge advertising a completely
+  // different number from what tapping Review would actually serve -- the
+  // quiz draws from the selected deck, not from DB.words.
+  const n=curWords().length;
+  const due=curDueCount();
   const streakN=(S().streak||{}).current||0;
   $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<button class="streak-chip" id="streakChip" type="button">🔥 '+esc(t('streak_chip',streakN))+'</button>':'');
   const chip=$('#streakChip');
@@ -3442,7 +3513,13 @@ function loadFirebase(){
     const firstAuth=new Promise(r=>{settleFirstAuth=r;});
     fbAuth.onAuthStateChanged(u=>{
       if(u){
-        const saved=cloudSaved()||{};
+        // Only inherit the stored session when it belongs to THIS account.
+        // Signing in as somebody else fires this listener before cloudAuth()
+        // has replaced the saved blob, so without the uid check the new user
+        // briefly took on the previous user's nickname -- and maybeGate()
+        // runs right here, so they could skip the welcome screen entirely.
+        const raw=cloudSaved()||{};
+        const saved=raw.uid===u.uid?raw:{};
         cloudUser={uid:u.uid,username:saved.username||(u.email||'').split('@')[0],
                    nickname:saved.nickname||'',nicknameAt:saved.nicknameAt||0};
         // A device that already knows the nickname must not be re-prompted
@@ -3743,7 +3820,13 @@ async function cloudSync(reason){
     cloudState='in';cloudMsg='';
     retryDelay=0;
     gaEvent('cloud_sync',{reason:reason||'manual',word_count:DB.words.length});
-    renderCount();renderList();
+    renderCount();
+    renderList();
+    // Home is the landing view, so words pulled from another device used to
+    // appear in the header count while its own metrics stayed stale. The quiz
+    // and flashcards are deliberately left alone: redrawing those mid-round
+    // would reshuffle a question or a card out from under the user.
+    if($('#v-home').classList.contains('active'))renderHome();
     maybeGate();   // now that we know whether this account has a nickname
   }catch(e){
     cloudState='error';

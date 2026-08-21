@@ -100,7 +100,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.7.0 時点 &middot; 最終更新 2026-08-22</div>
+    <div class="sub">v4.8.0 時点 &middot; 最終更新 2026-08-22</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -335,6 +335,15 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: ロシア語・韓国語・アラビア語で入力式クイズが必ず不正解になっていた</div><div class="d"><code>norm()</code>がASCII＋かな＋漢字だけの許可リストで、それ以外の字種を記号として除去していた。該当言語の意味は<b>正規化の時点で空文字になり、正解を入力しても必ず不正解</b>。しかも不正解＝箱を最初に戻す仕様なので、<b>入力式の復習が学習履歴を破壊し続けていた</b>。全字種の文字と数字を残す方式へ変更。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">1文字の入力が正解になっていた</div><div class="d">部分一致に長さの下限が無く、「important」に対して「a」が正解扱い。単なるズルではなく<b>次の出題間隔が延びる</b>ため実害があった。実質的な部分一致（長さ比0.6以上かつ2文字以上）に限定。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">打ち間違いが不正解、否定形が正解になっていた</div><div class="d">レーベンシュタイン距離の関数は存在したのに採点に使われておらず、「importnat」は不正解。一方で前方に文字が足された「unimportant」は正解になっていた（<b>反対の意味</b>）。長さがほぼ同じ場合のみ編集距離1〜2を許容し、前方付加は不許可に。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">NaNの値が単語を永久に復習不能にする</div><div class="d"><code>migrateWord</code>が<code>typeof x!=='number'</code>で判定しており、<b>NaNは number なので素通り</b>していた。NaNのbox →<code>INTERVALS[box]</code>がundefined → 次回出題日がNaN → NaNは決して「今日以前」にならず、<b>その単語は二度と出題されない</b>。有限値の検査とbox範囲のクランプを追加。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">パッケージ選択時に上部の語数・復習バッジが自分の単語帳のままだった</div><div class="d">復習タブは選択中のデッキを出題するのに、ヘッダーとバッジは<code>DB.words</code>固定。<b>バッジが「2」なのに押すと50問出る</b>状態だった。デッキ連動に変更。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">別アカウントでログインすると前の人のニックネームを一時的に引き継ぐ</div><div class="d">認証リスナーが保存済みセッションのuidを検査せずに読み込んでいた。<code>maybeGate()</code>がこのリスナー内で走るため、<b>新規ユーザーがようこそ画面を飛ばす</b>可能性があった。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">同期でホーム画面が更新されない／CTA表示回数が水増しされる</div><div class="d">他端末から降りてきた単語がヘッダーには反映されるのにホームの指標は古いままだった（ホームは起動時の着地点なので影響が大きい）。あわせて、3分ごとの同期でも<code>home_cta_shown</code>が送られていたため、押下率の分母が水増しされる問題も修正。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">NaNの学習履歴が「学習した日数」を水増しする</div><div class="d"><code>typeof h.t==='number'</code>がNaNを通し、NaNのday indexという幽霊バケツが集計に混ざっていた。</div><div class="ver">v4.8.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">純ロジックの自動テスト（61件）</div><div class="d"><code>tests/logic.test.js</code>。<code>extract.mjs</code>が<code>index.html</code>から関数を抜き出すので、実物と乖離しない。マージ・ストリーク・日付境界（DST/年跨ぎ）・重み付き抽出・採点・データ移行を網羅。上記の不具合はすべてこの仕組みで発見・再発防止。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語帳（カード）への導線が分かりにくい</div><div class="d">リスト上部の単独ボタンは装飾に見え、押した先も伝わっていなかった。<b>「リスト／カード」の切り替え</b>に変更し、同じ単語を2通りで見るという関係を明示。カード側にも同じ切り替えを置いたので、専用の戻るボタンも不要になった。</div><div class="ver">v4.7.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: 対応外の言語の端末が日本語表示になっていた</div><div class="d"><code>navigatorLang()</code>のフォールバックが<code>'ja'</code>で、<b>ドイツ語・スペイン語・タイ語などの利用者は日本語UIで開いていた</b>。英語学習アプリである以上、どの利用者も英語には足がかりがあるため<code>'en'</code>へ変更。</div><div class="ver">v4.7.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">多言語の導線テスト（全画面・全言語）</div><div class="d">ひらがな／カタカナは日本語にしか出現しない（中国語は漢字を共有する）ことを利用し、<b>日本語以外の6言語で全画面を走査して日本語の混入を検出</b>するテストを実施。初回起動〜ゲート〜全タブ〜全モーダルまで、すべてclean。</div><div class="ver">v4.7.0</div></div></li>
