@@ -392,6 +392,9 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .source-bar .src-name{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .source-bar .src-caret{color:var(--muted);font-size:12px}
 .deck-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.deck-edit{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:none;border:none;font-size:16px;cursor:pointer;padding:8px;line-height:1;opacity:.75}
+.deck-edit:hover{opacity:1}
 .deck-sec{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:10px 2px 2px}
 .deck-item{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;
   padding:13px 15px;font-family:inherit;cursor:pointer}
@@ -700,13 +703,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.9.0';
+const APP_VERSION='5.0.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.9.0',date:'2026-08-23',keys:['wn1','wn2']},
+  {version:'5.0.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'4.9.0',date:'2026-08-23',keys:['v490_1','v490_2']},
   {version:'4.8.0',date:'2026-08-22',keys:['v480_1','v480_2','v480_3']},
   {version:'4.7.0',date:'2026-08-22',keys:['v470_1','v470_2']},
   {version:'4.6.0',date:'2026-08-22',keys:['v460_1','v460_2','v460_3']},
@@ -843,8 +847,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'単語をまとめて追加できるようになりました。追加画面の「リストを貼り付ける」から、単語をカンマや改行で区切って貼るだけです。意味は自動で取得します',en:'You can now add many words at once. Use “Paste a list” on the add screen — separate words with commas or line breaks and the meanings are fetched for you',zh:'现在可以批量添加单词。在添加页点击「粘贴列表」，用逗号或换行分隔单词即可，释义会自动获取',fr:'Vous pouvez désormais ajouter plusieurs mots d’un coup. Utilisez « Coller une liste » sur l’écran d’ajout : séparez les mots par des virgules ou des retours à la ligne, les sens sont récupérés pour vous',ar:'يمكنك الآن إضافة عدة كلمات دفعة واحدة عبر «لصق قائمة» في شاشة الإضافة: افصل الكلمات بفواصل أو أسطر وسيتم جلب المعاني تلقائيًا',ko:'단어를 한꺼번에 추가할 수 있게 되었습니다. 추가 화면의 «목록 붙여넣기»에서 쉼표나 줄바꿈으로 구분해 붙여넣으면 뜻을 자동으로 가져옵니다',ru:'Теперь можно добавлять много слов сразу. На экране добавления нажмите «Вставить список» — разделяйте слова запятыми или переносами строк, значения подставятся сами'},
-  wn2:{ja:'ChatGPTなど他のAIに整形してもらった単語リストも、そのまま貼り付けられます。意味・品詞・カタカナ発音・メモまで一度に入り、この形式なら通信も発生しません。専用のプロンプトをコピーするボタンも用意しました',en:'A list formatted by another assistant such as ChatGPT can be pasted straight in — meaning, part of speech, phonetic reading and notes all at once, with no network calls at all. There is a button to copy a ready-made prompt for that',zh:'也可以直接粘贴由 ChatGPT 等其他 AI 整理好的列表：释义、词性、读音与备注一次录入，且完全不产生网络请求。并提供了复制现成提示词的按钮',fr:'Une liste mise en forme par un autre assistant comme ChatGPT se colle telle quelle : sens, nature, prononciation et notes d’un coup, sans aucun appel réseau. Un bouton copie la consigne toute prête',ar:'يمكن لصق قائمة نسّقها مساعد آخر مثل ChatGPT مباشرةً: المعنى والقسم والنطق والملاحظات دفعة واحدة، دون أي اتصال بالشبكة. وهناك زر لنسخ مطالبة جاهزة',ko:'ChatGPT 등 다른 AI가 정리해 준 목록도 그대로 붙여넣을 수 있습니다. 뜻·품사·발음·메모까지 한 번에 들어가며 이 형식이면 통신도 발생하지 않습니다. 전용 프롬프트를 복사하는 버튼도 있습니다',ru:'Список, оформленный другим ассистентом вроде ChatGPT, можно вставить как есть: значение, часть речи, произношение и заметки сразу и вообще без сетевых запросов. Есть кнопка, копирующая готовый запрос'},
+  wn1:{ja:'自分で単語帳を作れるようになりました。「IT編」「ビジネス英語」のように名前を付けてテーマごとに分けられます。上部の単語帳セレクターの「＋ 新しい単語帳」から作成でき、まとめて追加のときに入れる先も選べます',en:'You can now create your own notebooks. Name them by topic — “IT”, “Business English” — and keep words separated. Create one from “＋ New notebook” in the deck selector, and choose where a pasted batch should land',zh:'现在可以自建单词本。按主题命名，如「IT」「商务英语」，分开管理。在上方单词本选择器的「＋ 新建单词本」创建，批量添加时也能选择放入哪一本',fr:'Vous pouvez désormais créer vos propres carnets. Nommez-les par thème — « IT », « anglais des affaires » — pour séparer vos mots. Créez-en un via « ＋ Nouveau carnet » dans le sélecteur, et choisissez où atterrit un lot collé',ar:'يمكنك الآن إنشاء دفاترك الخاصة وتسميتها حسب الموضوع مثل «تقنية» و«إنجليزية الأعمال». أنشئ دفترًا من «＋ دفتر جديد» في محدّد الدفاتر، واختر وجهة أي دفعة تلصقها',ko:'직접 단어장을 만들 수 있게 되었습니다. 「IT편」「비즈니스 영어」처럼 주제별로 이름을 붙여 나눌 수 있습니다. 상단 단어장 선택기의 「＋ 새 단어장」에서 만들 수 있고, 한꺼번에 추가할 때 넣을 곳도 고를 수 있습니다',ru:'Теперь можно создавать свои словари. Назовите их по темам — «IT», «Деловой английский» — и держите слова раздельно. Создать можно через «＋ Новый словарь» в переключателе, а при вставке списка выбрать, куда он попадёт'},
+  wn2:{ja:'ホームのあいさつが時間帯に合わせて変わるようになりました。朝・昼・夜でことばが変わり、下の一文も日替わりです',en:'The greeting on Home now follows the time of day, and the line beneath it changes from day to day',zh:'首页问候语会随时段变化，下方的一句话也会每天不同',fr:'Le message d’accueil suit désormais l’heure de la journée, et la phrase en dessous change chaque jour',ar:'أصبحت تحية الصفحة الرئيسية تتغيّر حسب وقت اليوم، والجملة أسفلها تتبدّل يوميًا',ko:'홈의 인사말이 시간대에 따라 바뀝니다. 아침·낮·저녁에 따라 달라지고, 아래 한 줄도 날마다 바뀝니다',ru:'Приветствие на главной теперь зависит от времени суток, а строка под ним меняется день ото дня'},
+  wn3:{ja:'単語帳（カード）の裏に出るメモの見出しから「（任意）」を消しました',en:'Removed “(optional)” from the notes heading on the back of a flashcard',zh:'移除了单词卡背面备注标题中的「（可选）」',fr:'Suppression de « (facultatif) » sur l’intitulé des notes au dos d’une carte',ar:'أُزيلت كلمة «(اختياري)» من عنوان الملاحظات خلف البطاقة',ko:'카드 뒷면 메모 제목에서 「(선택)」을 없앴습니다',ru:'Убрано «(необязательно)» из заголовка заметок на обороте карточки'},
+  v490_1:{ja:'単語をまとめて追加できるようになりました。追加画面の「リストを貼り付ける」から、単語をカンマや改行で区切って貼るだけです。意味は自動で取得します',en:'You can now add many words at once. Use “Paste a list” on the add screen — separate words with commas or line breaks and the meanings are fetched for you',zh:'现在可以批量添加单词。在添加页点击「粘贴列表」，用逗号或换行分隔单词即可，释义会自动获取',fr:'Vous pouvez désormais ajouter plusieurs mots d’un coup. Utilisez « Coller une liste » sur l’écran d’ajout : séparez les mots par des virgules ou des retours à la ligne, les sens sont récupérés pour vous',ar:'يمكنك الآن إضافة عدة كلمات دفعة واحدة عبر «لصق قائمة» في شاشة الإضافة: افصل الكلمات بفواصل أو أسطر وسيتم جلب المعاني تلقائيًا',ko:'단어를 한꺼번에 추가할 수 있게 되었습니다. 추가 화면의 «목록 붙여넣기»에서 쉼표나 줄바꿈으로 구분해 붙여넣으면 뜻을 자동으로 가져옵니다',ru:'Теперь можно добавлять много слов сразу. На экране добавления нажмите «Вставить список» — разделяйте слова запятыми или переносами строк, значения подставятся сами'},
+  v490_2:{ja:'ChatGPTなど他のAIに整形してもらった単語リストも、そのまま貼り付けられます。意味・品詞・カタカナ発音・メモまで一度に入り、この形式なら通信も発生しません。専用のプロンプトをコピーするボタンも用意しました',en:'A list formatted by another assistant such as ChatGPT can be pasted straight in — meaning, part of speech, phonetic reading and notes all at once, with no network calls at all. There is a button to copy a ready-made prompt for that',zh:'也可以直接粘贴由 ChatGPT 等其他 AI 整理好的列表：释义、词性、读音与备注一次录入，且完全不产生网络请求。并提供了复制现成提示词的按钮',fr:'Une liste mise en forme par un autre assistant comme ChatGPT se colle telle quelle : sens, nature, prononciation et notes d’un coup, sans aucun appel réseau. Un bouton copie la consigne toute prête',ar:'يمكن لصق قائمة نسّقها مساعد آخر مثل ChatGPT مباشرةً: المعنى والقسم والنطق والملاحظات دفعة واحدة، دون أي اتصال بالشبكة. وهناك زر لنسخ مطالبة جاهزة',ko:'ChatGPT 등 다른 AI가 정리해 준 목록도 그대로 붙여넣을 수 있습니다. 뜻·품사·발음·메모까지 한 번에 들어가며 이 형식이면 통신도 발생하지 않습니다. 전용 프롬프트를 복사하는 버튼도 있습니다',ru:'Список, оформленный другим ассистентом вроде ChatGPT, можно вставить как есть: значение, часть речи, произношение и заметки сразу и вообще без сетевых запросов. Есть кнопка, копирующая готовый запрос'},
   v480_1:{ja:'重大な修正: 入力式クイズで、ロシア語・韓国語・アラビア語の意味を正しく入力しても必ず不正解になっていました。不正解は復習間隔が最初に戻る仕様のため、該当言語の方の学習記録に影響していました。心よりお詫びします',en:'Important fix: in the typed quiz, correct answers in Russian, Korean and Arabic were always marked wrong. Since a wrong answer resets the review interval, this affected those users’ progress. We’re sorry',zh:'重要修复：输入式测验中，用俄语、韩语、阿拉伯语输入正确释义也总是被判为错误。由于答错会将复习间隔重置，这影响了相关用户的学习记录，深表歉意',fr:'Correctif important : dans le quiz à saisie, les réponses correctes en russe, coréen et arabe étaient toujours comptées fausses. Une erreur réinitialisant l’intervalle de révision, cela a affecté la progression de ces utilisateurs. Toutes nos excuses',ar:'إصلاح مهم: في اختبار الكتابة، كانت الإجابات الصحيحة بالروسية والكورية والعربية تُحتسب خاطئة دائمًا. وبما أن الخطأ يعيد ضبط فترة المراجعة، فقد أثّر ذلك في تقدّم هؤلاء المستخدمين، ونعتذر بشدة',ko:'중요한 수정: 입력식 퀴즈에서 러시아어·한국어·아랍어로 뜻을 올바르게 입력해도 항상 오답 처리되었습니다. 오답은 복습 간격을 처음으로 되돌리는 방식이라 해당 언어 사용자의 학습 기록에 영향을 주었습니다. 진심으로 사과드립니다',ru:'Важное исправление: в тесте с вводом правильные ответы на русском, корейском и арабском всегда засчитывались как неверные. Поскольку ошибка сбрасывает интервал повторения, это сказалось на прогрессе. Приносим извинения'},
   v480_2:{ja:'入力式クイズの採点を見直しました。1文字だけの入力が正解になっていた問題を修正し、逆に「importnat」のような打ち間違いは正解として扱うようにしました',en:'Reworked typed-answer marking. A single character no longer counts as correct, while a genuine typo like “importnat” now does',zh:'重做了输入式测验的判分：单个字符不再算作正确，而「importnat」这类真正的拼写失误现在会算对',fr:'Notation des réponses saisies revue : un seul caractère ne compte plus comme correct, tandis qu’une vraie faute de frappe comme « importnat » est désormais acceptée',ar:'أُعيد ضبط تصحيح الإجابات المكتوبة: لم يعد حرف واحد يُحتسب صحيحًا، بينما تُقبل الآن أخطاء الكتابة الحقيقية مثل «importnat»',ko:'입력식 채점을 재정비했습니다. 한 글자만 입력해도 정답이 되던 문제를 고치고, 반대로 «importnat» 같은 실제 오타는 정답으로 인정합니다',ru:'Переработана проверка набранных ответов: один символ больше не засчитывается, а настоящая опечатка вроде «importnat» теперь принимается'},
   v480_3:{ja:'単語パッケージを選んでいるとき、上部の語数と復習バッジが自分の単語帳の数のままになっていた問題を修正しました。表示と実際に出題される単語が一致します',en:'Fixed the header count and review badge still showing your own deck while a word package was selected — they now match what Review will actually give you',zh:'修复了选择单词包时，顶部词数与复习角标仍显示自己单词本数量的问题，现在与实际出题内容一致',fr:'Correction : le compteur d’en-tête et le badge de révision affichaient encore votre propre liste quand un pack était sélectionné. Ils correspondent maintenant à ce que la révision propose',ar:'أُصلح بقاء عدّاد الأعلى وشارة المراجعة يعرضان قائمتك الخاصة أثناء اختيار حزمة كلمات؛ صارا الآن مطابقين لما ستقدّمه المراجعة فعليًا',ko:'단어 패키지를 선택했을 때 상단 단어 수와 복습 배지가 내 단어장 기준으로 남아 있던 문제를 수정했습니다. 실제 출제되는 내용과 일치합니다',ru:'Исправлено: счётчик в шапке и значок повторения продолжали показывать вашу колоду при выбранном пакете. Теперь они совпадают с тем, что даст повторение'},
@@ -868,6 +875,17 @@ const T={
   mode_cards:{ja:'カード',en:'Cards',zh:'卡片',fr:'Cartes',ar:'بطاقات',ko:'카드',ru:'Карточки'},
   nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
   nav_words:{ja:'単語',en:'Words',zh:'单词',fr:'Mots',ar:'الكلمات',ko:'단어',ru:'Слова'},
+  note_heading:{ja:'メモ',en:'Notes',zh:'备注',fr:'Notes',ar:'ملاحظات',ko:'메모',ru:'Заметки'},
+  hi_first:{ja:'ようこそ、{0}',en:'Welcome, {0}',zh:'欢迎，{0}',fr:'Bienvenue, {0}',ar:'أهلًا بك، {0}',ko:'환영합니다, {0}',ru:'Добро пожаловать, {0}'},
+  hi_morning:{ja:'おはよう、{0}',en:'Good morning, {0}',zh:'早上好，{0}',fr:'Bonjour, {0}',ar:'صباح الخير، {0}',ko:'좋은 아침이에요, {0}',ru:'Доброе утро, {0}'},
+  hi_day:{ja:'こんにちは、{0}',en:'Hello, {0}',zh:'你好，{0}',fr:'Bonjour, {0}',ar:'مرحبًا، {0}',ko:'안녕하세요, {0}',ru:'Здравствуйте, {0}'},
+  hi_evening:{ja:'こんばんは、{0}',en:'Good evening, {0}',zh:'晚上好，{0}',fr:'Bonsoir, {0}',ar:'مساء الخير، {0}',ko:'좋은 저녁이에요, {0}',ru:'Добрый вечер, {0}'},
+  hi_night:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
+  sub_first:{ja:'まずは1語から。ここが単語帳になります。',en:'Start with a single word. This will become your notebook.',zh:'先从一个单词开始，这里会成为你的单词本。',fr:'Commencez par un seul mot. Ceci deviendra votre carnet.',ar:'ابدأ بكلمة واحدة، وسيصبح هذا دفترك.',ko:'우선 한 단어부터. 여기가 당신의 단어장이 됩니다.',ru:'Начните с одного слова — здесь появится ваш словарь.'},
+  sub_2:{ja:'覚えたころに、もう一度出てきます。',en:'Words come back just as you start to forget them.',zh:'正当你快忘记时，单词会再次出现。',fr:'Les mots reviennent juste quand vous commencez à les oublier.',ar:'تعود الكلمات في اللحظة التي تبدأ فيها بنسيانها.',ko:'잊어갈 때쯤 다시 나타납니다.',ru:'Слова возвращаются как раз тогда, когда вы начинаете их забывать.'},
+  sub_3:{ja:'5分でも、開かない日より強いです。',en:'Five minutes beats a day you never opened it.',zh:'哪怕只有五分钟，也胜过一天不打开。',fr:'Cinq minutes valent mieux qu’un jour sans l’ouvrir.',ar:'خمس دقائق أفضل من يوم لم تفتحه فيه أصلًا.',ko:'5분이라도, 열지 않은 날보다 낫습니다.',ru:'Пять минут лучше дня, когда вы вообще не открыли приложение.'},
+  sub_4:{ja:'間違えた分だけ、早く戻ってきます。',en:'Whatever you miss comes back sooner.',zh:'答错的部分会更早回来。',fr:'Ce que vous ratez revient plus tôt.',ar:'ما تخطئ فيه يعود إليك أسرع.',ko:'틀린 만큼 더 빨리 돌아옵니다.',ru:'Что не вспомнили — вернётся раньше.'},
+  sub_5:{ja:'今日の分を終えれば、それで十分です。',en:'Finish today’s and that’s enough.',zh:'完成今天的份量就足够了。',fr:'Terminez ce qui est prévu aujourd’hui, cela suffit.',ar:'أنهِ نصيب اليوم، وهذا يكفي.',ko:'오늘 몫만 끝내면 그것으로 충분합니다.',ru:'Сделайте сегодняшнее — этого достаточно.'},
   home_hi:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
   home_you:{ja:'あなた',en:'there',zh:'你',fr:'vous',ar:'بك',ko:'여러분',ru:'друг'},
   home_sub:{ja:'今日の1回が、いちばん効きます。',en:'One session today does more than a long one next week.',zh:'今天练一次，胜过下周补一大段。',fr:'Une session aujourd’hui vaut mieux qu’une longue la semaine prochaine.',ar:'جلسة واحدة اليوم أفضل من جلسة طويلة الأسبوع القادم.',ko:'오늘의 한 번이 가장 효과적입니다.',ru:'Одно занятие сегодня полезнее долгого на следующей неделе.'},
@@ -967,6 +985,22 @@ const T={
   ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音',fr:'pré-fé-rer',ar:'النطق',ko:'발음',ru:'произношение'},
   label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思',fr:'Sens (français)',ar:'المعنى (بالعربية)',ko:'뜻 (한국어)',ru:'Значение (по-русски)'},
   ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）',fr:'Rempli après la recherche (modifiable)',ar:'يُملأ تلقائيًا بعد البحث (قابل للتعديل)',ko:'검색 후 자동 입력 (수정 가능)',ru:'Заполняется автоматически после поиска (можно редактировать)'},
+  deck_new:{ja:'新しい単語帳',en:'New notebook',zh:'新建单词本',fr:'Nouveau carnet',ar:'دفتر جديد',ko:'새 단어장',ru:'Новый словарь'},
+  deck_new_sub:{ja:'テーマごとに分けられます',en:'Group your words by topic',fr:'Regroupez vos mots par thème',zh:'按主题分类整理',ar:'صنّف كلماتك حسب الموضوع',ko:'주제별로 나눌 수 있습니다',ru:'Разложите слова по темам'},
+  deck_edit:{ja:'単語帳を編集',en:'Edit notebook',zh:'编辑单词本',fr:'Modifier le carnet',ar:'تعديل الدفتر',ko:'단어장 편집',ru:'Изменить словарь'},
+  deck_name:{ja:'単語帳の名前',en:'Notebook name',zh:'单词本名称',fr:'Nom du carnet',ar:'اسم الدفتر',ko:'단어장 이름',ru:'Название словаря'},
+  deck_name_ph:{ja:'例）IT・ビジネス英語',en:'e.g. IT and business',zh:'例）IT／商务英语',fr:'ex. informatique et business',ar:'مثال: تقنية وأعمال',ko:'예) IT·비즈니스 영어',ru:'напр. IT и бизнес'},
+  deck_name_prompt:{ja:'新しい単語帳の名前を入力してください',en:'Name for the new notebook',zh:'请输入新单词本的名称',fr:'Nom du nouveau carnet',ar:'اسم الدفتر الجديد',ko:'새 단어장의 이름을 입력하세요',ru:'Название нового словаря'},
+  deck_create:{ja:'作成する',en:'Create',zh:'创建',fr:'Créer',ar:'إنشاء',ko:'만들기',ru:'Создать'},
+  deck_created:{ja:'「{0}」を作成しました',en:'Created “{0}”',zh:'已创建「{0}」',fr:'« {0} » créé',ar:'تم إنشاء «{0}»',ko:'「{0}」을(를) 만들었습니다',ru:'Создан «{0}»'},
+  deck_delete:{ja:'この単語帳を削除',en:'Delete this notebook',zh:'删除该单词本',fr:'Supprimer ce carnet',ar:'حذف هذا الدفتر',ko:'이 단어장 삭제',ru:'Удалить этот словарь'},
+  deck_delete_note:{ja:'削除しても、入っている{0}語は「自分の単語帳」に移るだけで消えません。',en:'Deleting it keeps the {0} words — they move back to your own notebook.',zh:'删除后其中的 {0} 个单词不会消失，会移回「自己的单词本」。',fr:'La suppression conserve les {0} mots : ils reviennent dans votre carnet.',ar:'الحذف يبقي الكلمات الـ{0}؛ تعود إلى دفترك الخاص.',ko:'삭제해도 안에 있는 {0}단어는 사라지지 않고 「내 단어장」으로 옮겨집니다.',ru:'При удалении {0} слов не пропадут — они вернутся в ваш словарь.'},
+  deck_delete_confirm:{ja:'「{0}」を削除しますか？\n\n入っている{1}語は「自分の単語帳」に移ります（単語は消えません）。',en:'Delete “{0}”?\n\nIts {1} words move back to your own notebook — nothing is lost.',zh:'要删除「{0}」吗？\n\n其中的 {1} 个单词会移回「自己的单词本」，不会丢失。',fr:'Supprimer « {0} » ?\n\nSes {1} mots reviennent dans votre carnet, rien n’est perdu.',ar:'حذف «{0}»؟\n\nستنتقل كلماته الـ{1} إلى دفترك الخاص، ولن يُفقد شيء.',ko:'「{0}」을(를) 삭제할까요?\n\n안에 있는 {1}단어는 「내 단어장」으로 옮겨집니다(단어는 사라지지 않습니다).',ru:'Удалить «{0}»?\n\nЕго {1} слов вернутся в ваш словарь — ничего не потеряется.'},
+  deck_deleted:{ja:'単語帳を削除しました',en:'Notebook deleted',zh:'已删除单词本',fr:'Carnet supprimé',ar:'تم حذف الدفتر',ko:'단어장을 삭제했습니다',ru:'Словарь удалён'},
+  deck_e_name:{ja:'名前を入力してください（24文字まで）',en:'Please enter a name (up to 24 characters)',zh:'请输入名称（最多 24 个字符）',fr:'Veuillez saisir un nom (24 caractères max.)',ar:'يرجى إدخال اسم (حتى 24 حرفًا)',ko:'이름을 입력해 주세요 (24자까지)',ru:'Введите название (до 24 символов)'},
+  ed_deck:{ja:'単語帳',en:'Notebook',zh:'单词本',fr:'Carnet',ar:'الدفتر',ko:'단어장',ru:'Словарь'},
+  bulk_deck:{ja:'追加先の単語帳',en:'Add to which notebook',zh:'添加到哪个单词本',fr:'Ajouter à quel carnet',ar:'إلى أي دفتر تُضاف',ko:'추가할 단어장',ru:'В какой словарь добавить'},
+  bulk_deck_note:{ja:'テーマごとに分けておくと、あとで探しやすくなります。',en:'Splitting by topic makes them much easier to find later.',zh:'按主题分开，之后更容易查找。',fr:'Les séparer par thème les rend bien plus faciles à retrouver.',ar:'التقسيم حسب الموضوع يجعل العثور عليها لاحقًا أسهل بكثير.',ko:'주제별로 나눠 두면 나중에 찾기 쉬워집니다.',ru:'Разделение по темам заметно упрощает поиск потом.'},
   bulk_title:{ja:'まとめて追加',en:'Add several at once',zh:'批量添加',fr:'Ajout groupé',ar:'إضافة دفعة واحدة',ko:'한꺼번에 추가',ru:'Добавить сразу несколько'},
   bulk_lead:{ja:'単語のリストを貼り付けて、一度に登録できます。',en:'Paste a list of words and add them all in one go.',zh:'粘贴单词列表，一次性全部添加。',fr:'Collez une liste de mots et ajoutez-les d’un coup.',ar:'الصق قائمة كلمات وأضِفها دفعة واحدة.',ko:'단어 목록을 붙여넣어 한 번에 등록할 수 있습니다.',ru:'Вставьте список слов и добавьте их все сразу.'},
   bulk_open:{ja:'リストを貼り付ける',en:'Paste a list',zh:'粘贴列表',fr:'Coller une liste',ar:'لصق قائمة',ko:'목록 붙여넣기',ru:'Вставить список'},
@@ -1324,7 +1358,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -1350,6 +1384,7 @@ function migrateWord(w){
 function buildDB(r){
   const merged={...DEFAULTS,...r,settings:{...DEFAULTS.settings,...(r.settings||{})}};
   if(!merged.tombs||typeof merged.tombs!=='object')merged.tombs={};
+  if(!Array.isArray(merged.decks))merged.decks=[];
   // Existing users (already have words) shouldn't get the first-run tutorial;
   // mark them onboarded so they get the "what's new" notice instead.
   if(merged.words.length>0 && (!r.settings || r.settings.onboarded===undefined))merged.settings.onboarded=true;
@@ -1799,7 +1834,7 @@ function savePkg(){try{localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}catch
 let PKGDB=loadPkg();
 
 // Current data source for the shared list/study/quiz views.
-let CTX={type:'own'};              // {type:'own'} or {type:'pkg',id}
+let CTX={type:'own'};              // {type:'own'} | {type:'deck',id} | {type:'pkg',id}
 let pkgLive=null;                  // live word objects for the active package
 function pkgById(id){return PACKAGES.find(p=>p.id===id);}
 function pkgTitle(pkg){return (pkg.title[S().lang])||pkg.title.ja;}
@@ -1851,13 +1886,22 @@ function pkgProgressPct(id){
   return Math.round(sum/pkg.words.length*100);
 }
 // Active-source helpers used by the shared views instead of touching DB.words directly.
-function curWords(){return CTX.type==='pkg'?(pkgLive||[]):DB.words;}
+function curWords(){
+  if(CTX.type==='pkg')return pkgLive||[];
+  return wordsInDeck(CTX.type==='deck'?CTX.id:null);
+}
 function curDueCount(){return curWords().filter(isDue).length;}
 function persistProgress(){CTX.type==='pkg'?savePkgProgress():save();}
 // Identifies the deck a quiz round belongs to.
-function ctxKey(){return CTX.type==='pkg'?('pkg:'+CTX.id):'own';}
+function ctxKey(){return CTX.type==='own'?'own':(CTX.type+':'+CTX.id);}
 function setSource(src){
   if(src==='own'){CTX={type:'own'};pkgLive=null;}
+  else if(String(src).startsWith('deck:')){
+    const id=String(src).slice(5);
+    // A deck removed on another device must not leave the app pointing at it.
+    CTX=deckById(id)?{type:'deck',id}:{type:'own'};
+    pkgLive=null;
+  }
   else{CTX={type:'pkg',id:src};buildPkgLive(src);gaEvent('package_opened',{package_id:src});}
   // The header counts follow the selected deck, so they have to be redrawn
   // here; nothing else on the switch path calls renderCount().
@@ -1865,9 +1909,77 @@ function setSource(src){
 }
 
 /* deck source bar + picker sheet */
+/* ---------- user-made decks --------------------------------------------- */
+// A deck is a label on the word, not a separate list. Words already sync
+// document-by-document, so a new field rides along with no change to the merge
+// at all, nothing needs migrating (a word with no deck is simply in the
+// default one), and moving a word between decks is a single field write.
+//
+// Decks themselves live in the account summary and merge by id, newest write
+// winning. Deletion is a tombstone on the deck rather than a removal, because
+// a plain union would resurrect a deck deleted on another device.
+function allDecks(){return (DB.decks||[]).filter(d=>d&&d.id&&!d.deleted);}
+function deckById(id){return allDecks().find(d=>d.id===id)||null;}
+function deckName(id){const d=deckById(id);return d?d.name:t('deck_own');}
+function wordsInDeck(id){
+  // undefined / null / '' all mean the default deck, so old words need no
+  // migration and a deleted deck's leftovers fall back rather than vanish.
+  if(!id)return DB.words.filter(w=>!w.deck||!deckById(w.deck));
+  return DB.words.filter(w=>w.deck===id);
+}
+function validDeckName(n){const v=(n||'').trim();return v.length>0&&nickLen(v)<=DECK_NAME_MAX;}
+function createDeck(name){
+  name=(name||'').trim();
+  if(!validDeckName(name))return null;
+  const d={id:'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+           name,createdAt:Date.now(),updatedAt:Date.now()};
+  if(!Array.isArray(DB.decks))DB.decks=[];
+  DB.decks.push(d);
+  touchDecks();
+  gaEvent('deck_created',{total:allDecks().length});
+  return d;
+}
+function renameDeck(id,name){
+  const d=(DB.decks||[]).find(x=>x.id===id);
+  if(!d||!validDeckName(name))return false;
+  d.name=name.trim();d.updatedAt=Date.now();
+  touchDecks();
+  return true;
+}
+function deleteDeck(id){
+  const d=(DB.decks||[]).find(x=>x.id===id);
+  if(!d)return false;
+  // The words outlive the deck: they fall back to the default one. Silently
+  // deleting somebody's vocabulary along with a label would be indefensible.
+  DB.words.forEach(w=>{if(w.deck===id){w.deck=null;touchWord(w);}});
+  d.deleted=Date.now();d.updatedAt=Date.now();
+  touchDecks();
+  gaEvent('deck_deleted',{});
+  return true;
+}
+function touchDecks(){
+  DB.settings.decksUpdatedAt=Date.now();
+  save();cloudTouched();
+}
+// Union by id, newest write wins. Used on sync.
+function mergeDecks(local,remote){
+  const by=new Map();
+  (local||[]).forEach(d=>{if(d&&d.id)by.set(d.id,d);});
+  (remote||[]).forEach(d=>{
+    if(!d||!d.id)return;
+    const cur=by.get(d.id);
+    if(!cur||(d.updatedAt||0)>(cur.updatedAt||0))by.set(d.id,d);
+  });
+  return [...by.values()];
+}
+// The deck a newly added word should land in: whichever the user is looking
+// at, unless that is a read-only package.
+function targetDeck(){return CTX.type==='deck'?CTX.id:null;}
 function sourceBarHTML(){
-  const name=CTX.type==='pkg'?esc(pkgTitle(pkgById(CTX.id))):t('deck_own');
-  const icon=CTX.type==='pkg'?'📦':'📗';
+  const name=CTX.type==='pkg'?esc(pkgTitle(pkgById(CTX.id)))
+            :CTX.type==='deck'?esc(deckName(CTX.id))
+            :esc(t('deck_own'));
+  const icon=CTX.type==='pkg'?'📦':CTX.type==='deck'?'🗂️':'📗';
   // No id here: this bar is rendered into three containers (list/study/quiz),
   // so a shared id would make only the first one clickable. Bind on the
   // element inside its own container instead.
@@ -1875,9 +1987,24 @@ function sourceBarHTML(){
     '<span class="src-name">'+name+'</span><span class="src-caret">▾</span></button>';
 }
 function renderSourceBar(sel){const el=$(sel);if(!el)return;el.innerHTML=sourceBarHTML();el.querySelector('.source-bar').onclick=openDeckPicker;}
+let deckEditing=null;   // id of the deck whose name is being edited
+function deckRowHTML(id,title,sub,on,editable){
+  return '<div style="position:relative">'+
+    '<button class="deck-item'+(on?' on':'')+'" data-src="'+esc(id)+'">'+
+      '<div class="dp-title">'+esc(title)+'</div><div class="dp-sub">'+esc(sub)+'</div></button>'+
+    (editable?'<button class="deck-edit" data-edit="'+esc(id)+'" type="button" aria-label="edit">✏️</button>':'')+
+  '</div>';
+}
 function openDeckPicker(){
-  const own='<button class="deck-item'+(CTX.type==='own'?' on':'')+'" data-src="own">'+
-    '<div class="dp-title">'+t('deck_own')+'</div><div class="dp-sub">'+t('n_words',DB.words.length)+'</div></button>';
+  deckEditing=null;
+  renderDeckPicker();
+  $('#overlayDeck').classList.add('show');
+}
+function renderDeckPicker(){
+  if(deckEditing){renderDeckEdit();return;}
+  const own=deckRowHTML('own',t('deck_own'),t('n_words',wordsInDeck(null).length),CTX.type==='own',false);
+  const mine=allDecks().map(d=>deckRowHTML('deck:'+d.id,d.name,t('n_words',wordsInDeck(d.id).length),
+                                           CTX.type==='deck'&&CTX.id===d.id,true)).join('');
   const pkgs=PACKAGES.map(p=>{
     const pct=pkgProgressPct(p.id);
     return '<button class="deck-item'+(CTX.type==='pkg'&&CTX.id===p.id?' on':'')+'" data-src="'+p.id+'">'+
@@ -1886,9 +2013,18 @@ function openDeckPicker(){
       '<div class="dp-bar"><i style="width:'+pct+'%"></i></div></button>';
   }).join('');
   $('#deckBody').innerHTML='<h3 style="text-align:center">'+t('deck_pick_title')+'</h3>'+
-    '<div class="deck-list">'+own+'<div class="deck-sec">'+t('deck_packages')+'</div>'+pkgs+'</div>'+
+    '<div class="deck-list">'+own+mine+
+      '<button class="deck-item" id="deckNew" style="border-style:dashed">'+
+        '<div class="dp-title">＋ '+esc(t('deck_new'))+'</div>'+
+        '<div class="dp-sub">'+esc(t('deck_new_sub'))+'</div></button>'+
+      '<div class="deck-sec">'+t('deck_packages')+'</div>'+pkgs+'</div>'+
     '<button class="btn btn-ghost" id="deckClose" style="width:100%;margin-top:14px">'+t('close')+'</button>';
-  $$('#deckBody .deck-item').forEach(b=>b.onclick=()=>{
+  $('#deckNew').onclick=()=>{deckEditing='new';renderDeckPicker();};
+  $$('#deckBody .deck-edit').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();
+    deckEditing=b.dataset.edit;renderDeckPicker();
+  });
+  $$('#deckBody .deck-item[data-src]').forEach(b=>b.onclick=()=>{
     setSource(b.dataset.src);
     closeDeckPicker();
     // Re-render whichever view the user is already on so switching decks
@@ -1898,9 +2034,52 @@ function openDeckPicker(){
     go(active&&/^v-(home|list|study|quiz)$/.test(active.id)?active.id:'v-list');
   });
   $('#deckClose').onclick=closeDeckPicker;
-  $('#overlayDeck').classList.add('show');
 }
-function closeDeckPicker(){$('#overlayDeck').classList.remove('show');}
+function renderDeckEdit(){
+  const isNew=deckEditing==='new';
+  const d=isNew?null:deckById(deckEditing);
+  if(!isNew&&!d){deckEditing=null;renderDeckPicker();return;}
+  const n=isNew?0:wordsInDeck(d.id).length;
+  $('#deckBody').innerHTML=
+    '<h3 style="text-align:center">'+esc(isNew?t('deck_new'):t('deck_edit'))+'</h3>'+
+    '<label class="lab" style="margin-top:14px">'+esc(t('deck_name'))+'</label>'+
+    '<input id="deckNameIn" class="field" maxlength="'+DECK_NAME_MAX+'" placeholder="'+esc(t('deck_name_ph'))+'" value="'+esc(isNew?'':d.name)+'">'+
+    '<div id="deckErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+    '<button class="btn btn-primary" id="deckSave" style="margin-top:14px">'+esc(isNew?t('deck_create'):t('btn_save'))+'</button>'+
+    (isNew?'':'<button class="btn btn-ghost" id="deckDel" style="width:100%;margin-top:10px;color:var(--bad)">'+esc(t('deck_delete'))+'</button>'+
+            '<p class="hint" style="margin:8px 2px 0">'+esc(t('deck_delete_note',n))+'</p>')+
+    '<button class="btn btn-ghost" id="deckBack" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>';
+  const inp=$('#deckNameIn');
+  inp.focus();
+  const commit=()=>{
+    const v=inp.value;
+    if(!validDeckName(v)){$('#deckErr').textContent=t('deck_e_name');return;}
+    if(isNew){
+      const nd=createDeck(v);
+      deckEditing=null;
+      setSource('deck:'+nd.id);
+      closeDeckPicker();
+      renderActiveView();renderCount();
+      toast(t('deck_created',nd.name));
+      return;
+    }
+    renameDeck(d.id,v);
+    deckEditing=null;renderDeckPicker();renderActiveView();
+  };
+  $('#deckSave').onclick=commit;
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')commit();});
+  $('#deckBack').onclick=()=>{deckEditing=null;renderDeckPicker();};
+  const del=$('#deckDel');
+  if(del)del.onclick=()=>{
+    if(!confirm(t('deck_delete_confirm',d.name,n)))return;
+    const wasHere=CTX.type==='deck'&&CTX.id===d.id;
+    deleteDeck(d.id);
+    if(wasHere)setSource('own');
+    deckEditing=null;renderDeckPicker();renderActiveView();renderCount();
+    toast(t('deck_deleted'));
+  };
+}
+function closeDeckPicker(){deckEditing=null;$('#overlayDeck').classList.remove('show');}
 
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -2229,7 +2408,7 @@ $('#btnSave').onclick=()=>{
   if(!w)return;
   // Adding always targets the user's own deck -- switch context back to it so
   // the list they land on shows the word they just added/found.
-  if(wordExists(w)){setSource('own');toast(t('toast_dup',w));go('v-list');return;}
+  if(wordExists(w)){if(CTX.type==='pkg')setSource('own');toast(t('toast_dup',w));go('v-list');return;}
   const now=Date.now();
   const item={
     id:now+''+Math.random().toString(36).slice(2,6),
@@ -2237,6 +2416,7 @@ $('#btnSave').onclick=()=>{
     kata:$('#inKata').value.trim(),
     ja:$('#inJa').value.trim(),
     note:$('#inNote').value.trim(),
+    deck:targetDeck(),
     phon:pending?pending.phon:'',
     meanings:pending?pending.meanings:[],
     examples:pending?(pending.examples||[]):[],
@@ -2244,7 +2424,9 @@ $('#btnSave').onclick=()=>{
     box:-1,nextDue:now,hist:[]
   };
   touchWord(item);DB.words.unshift(item);save();cloudTouched();
-  setSource('own'); // ensure the newly added word is what the list shows next
+  // Packages are read-only, so an add made while one is open goes to the
+  // user's own deck. A custom deck is writable and stays selected.
+  if(CTX.type==='pkg')setSource('own');
   gaEvent('word_added',{lookup_source:pending?pending.source:'lookup_failed_manual_entry',package_id:null});
   maybeRequestPersistence(); // now that there's real data, the ask is likely to be granted
   inWord.value='';$('#inKata').value='';$('#inJa').value='';$('#inNote').value='';
@@ -2263,6 +2445,7 @@ $('#btnSave').onclick=()=>{
 const BULK_MAX=200;                // a sane ceiling for one paste
 const BULK_LOOKUP_GAP=260;         // ms between lookups, to stay polite
 let bulkRows=[],bulkBusy=false,bulkCancel=false;
+let bulkDeck=null;   // destination deck for this paste
 
 function bulkPosKey(raw){
   const v=(raw||'').trim().toLowerCase();
@@ -2335,6 +2518,31 @@ async function bulkLookup(word){
   else if(!needTr&&out.meanings[0])out.ja=out.meanings[0].def;
   return {...out,found:dictOk||!!out.ja};
 }
+// Where a pasted batch should land. This is the whole point of the feature
+// for a list that came out of a conversation about one topic.
+function deckChooserHTML(){
+  const opts=[{v:'',n:t('deck_own')}].concat(allDecks().map(d=>({v:d.id,n:d.name})));
+  return '<label class="lab">'+esc(t('bulk_deck'))+'</label>'+
+    '<select id="bulkDeckSel" class="sel" style="width:100%">'+
+      opts.map(o=>'<option value="'+esc(o.v)+'"'+(o.v===(bulkDeck||'')?' selected':'')+'>'+esc(o.n)+'</option>').join('')+
+      '<option value="__new">＋ '+esc(t('deck_new'))+'</option>'+
+    '</select>'+
+    '<p class="hint" style="margin:6px 2px 14px">'+esc(t('bulk_deck_note'))+'</p>';
+}
+function bindDeckChooser(){
+  const sel=$('#bulkDeckSel');
+  if(!sel)return;
+  sel.onchange=()=>{
+    if(sel.value==='__new'){
+      const name=prompt(t('deck_name_prompt'));
+      const d=name?createDeck(name):null;
+      bulkDeck=d?d.id:bulkDeck;
+      renderBulk();
+      return;
+    }
+    bulkDeck=sel.value||null;
+  };
+}
 function bulkPromptText(){
   const lang=({ja:'日本語',en:'English',zh:'中文',fr:'français',ar:'العربية',ko:'한국어',ru:'русский'})[S().lang]||'English';
   return t('bulk_prompt_body',lang);
@@ -2353,6 +2561,7 @@ function renderBulk(){
         '<div class="sd" style="margin-top:8px">'+esc(t('bulk_fmt_note'))+'</div>'+
         '<button class="btn btn-ghost" id="bulkCopyPrompt" style="width:100%;margin-top:10px">'+esc(t('bulk_copy_prompt'))+'</button>'+
       '</div>'+
+      deckChooserHTML()+
       '<label class="lab">'+esc(t('bulk_paste_label'))+'</label>'+
       '<textarea id="bulkText" class="field" rows="8" style="resize:vertical;line-height:1.6" placeholder="'+esc(t('bulk_ph'))+'"></textarea>'+
       '<div id="bulkErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
@@ -2369,6 +2578,7 @@ function renderBulk(){
         if(ta){ta.value=bulkPromptText();ta.focus();}
       }
     };
+    bindDeckChooser();
     $('#bulkParse').onclick=()=>{
       const rows=parseBulk($('#bulkText').value);
       if(!rows.length){$('#bulkErr').textContent=t('bulk_e_empty');return;}
@@ -2466,6 +2676,7 @@ function commitBulk(){
     kata:r.kata||'',
     ja:r.ja,
     note:r.note||'',
+    deck:bulkDeck,
     phon:r.phon||'',
     meanings:r.meanings&&r.meanings.length?r.meanings:(r.pos?[{pos:r.pos,def:'',defJa:''}]:[]),
     examples:[],
@@ -2475,7 +2686,7 @@ function commitBulk(){
   items.forEach(touchWord);
   DB.words=[...items,...DB.words];
   save();cloudTouched();
-  setSource('own');
+  setSource(bulkDeck?('deck:'+bulkDeck):'own');
   gaEvent('bulk_added',{count:items.length});
   maybeRequestPersistence();
   bulkRows=[];
@@ -2483,7 +2694,7 @@ function commitBulk(){
   toast(t('bulk_done',items.length));
   go('v-list');
 }
-function openBulk(){bulkRows=[];$('#overlayBulk').classList.add('show');renderBulk();gaScreen('bulk_add');}
+function openBulk(){bulkRows=[];bulkDeck=targetDeck();$('#overlayBulk').classList.add('show');renderBulk();gaScreen('bulk_add');}
 function closeBulk(){if(bulkBusy){bulkCancel=true;}$('#overlayBulk').classList.remove('show');}
 $('#btnBulk').onclick=openBulk;
 $('#bulkClose').onclick=closeBulk;
@@ -2568,6 +2779,39 @@ function todayState(){
 // sync also re-renders Home, and counting those as impressions would inflate
 // the denominator of the CTA click-through rate -- the 3-minute sweep alone
 // would log one every few minutes while the app sat open on this screen.
+// Greeting. Varies by time of day, and the encouragement under it rotates --
+// the same sentence every single morning stops being read after a week.
+//
+// The variant is chosen from the calendar day plus the time band rather than
+// at random, so it stays put while the user is on the screen (a re-render
+// would otherwise reshuffle the words under them) and still differs between
+// the morning and evening of the same day.
+function timeBand(){
+  const h=new Date().getHours();
+  if(h<5)return 'night';
+  if(h<11)return 'morning';
+  if(h<17)return 'day';
+  if(h<22)return 'evening';
+  return 'night';
+}
+function pickStable(keys,salt){
+  const band={night:0,morning:1,day:2,evening:3}[timeBand()]||0;
+  const n=Math.abs(localDayIndex(Date.now())*4+band+(salt||0));
+  return keys[n%keys.length];
+}
+function firstTimeHere(){
+  // Never finished a study session: greet them as new rather than "welcome back".
+  return !((S().streak||{}).lastActiveDate);
+}
+function greetingLine(){
+  const name=displayName()||t('home_you');
+  if(firstTimeHere())return t('hi_first',name);
+  return t({morning:'hi_morning',day:'hi_day',evening:'hi_evening',night:'hi_night'}[timeBand()],name);
+}
+function greetingSub(){
+  if(firstTimeHere())return t('sub_first');
+  return t(pickStable(['home_sub','sub_2','sub_3','sub_4','sub_5'],1));
+}
 function renderHome(report){
   const el=$('#homeBody');
   if(!el)return;
@@ -2577,8 +2821,8 @@ function renderHome(report){
   const learned=curWords().filter(w=>w.box>=0).length;
   const ts=todayState();
 
-  let h='<div class="home-hi"><h2>'+esc(t('home_hi',displayName()||t('home_you')))+'</h2>'+
-    '<div class="sub">'+esc(t('home_sub'))+'</div></div>';
+  let h='<div class="home-hi"><h2>'+esc(greetingLine())+'</h2>'+
+    '<div class="sub">'+esc(greetingSub())+'</div></div>';
 
   h+='<div class="home-metrics">'+
     '<div class="hm'+((st.current||0)>0?' live':'')+'"><div class="v">'+(st.current||0)+'</div>'+
@@ -2686,6 +2930,11 @@ function renderList(){
         '<label class="lab" style="margin-top:10px">'+t('ed_kata')+'</label><input class="field edit-kata" value="'+esc(w.kata||'')+'">'+
         '<label class="lab" style="margin-top:10px">'+t('ed_meaning')+'</label><input class="field edit-ja" value="'+esc(w.ja||'')+'">'+
         '<label class="lab" style="margin-top:10px">'+t('ed_note')+'</label><textarea class="field edit-note" rows="3" style="resize:vertical;line-height:1.6">'+esc(w.note||'')+'</textarea>'+
+        (allDecks().length?'<label class="lab" style="margin-top:10px">'+t('ed_deck')+'</label>'+
+          '<select class="sel edit-deck" style="width:100%">'+
+            [{v:'',n:t('deck_own')}].concat(allDecks().map(d=>({v:d.id,n:d.name})))
+              .map(o=>'<option value="'+esc(o.v)+'"'+(o.v===(w.deck||'')?' selected':'')+'>'+esc(o.n)+'</option>').join('')+
+          '</select>':'')+
         '<div class="row" style="margin-top:12px">'+
         '<button class="btn btn-primary edit-save" data-id="'+w.id+'" style="flex:1">'+t('btn_save')+'</button>'+
         '<button class="btn btn-ghost edit-cancel" style="flex:1">'+t('btn_cancel')+'</button>'+
@@ -2695,7 +2944,7 @@ function renderList(){
     const posTxt=posLabel(w.meanings&&w.meanings[0]&&w.meanings[0].pos);
     return '<div class="card" data-word-id="'+w.id+'"><div style="flex:1">'+
       '<div>'+(posTxt?'<span class="pos-badge">'+esc(posTxt)+'</span>':'')+'<span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+
-        (w.note?'<span title="'+esc(t('label_note'))+'" style="margin-left:6px">📝</span>':'')+spkBtn(w.word)+'</div>'+
+        (w.note?'<span title="'+esc(t('note_heading'))+'" style="margin-left:6px">📝</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
@@ -2737,6 +2986,8 @@ function renderList(){
     w.kata=card.querySelector('.edit-kata').value.trim();
     w.ja=card.querySelector('.edit-ja').value.trim();
     w.note=card.querySelector('.edit-note').value.trim();
+    const dsel=card.querySelector('.edit-deck');
+    if(dsel)w.deck=dsel.value||null;
     touchWord(w);save();cloudTouched();
     editingId=null;
     renderList();
@@ -2813,7 +3064,7 @@ function wordDetailHTML(w){
     back+='<div style="margin-top:14px">'+w.examples.map(ex=>'<div class="bex">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--muted)">'+esc(ex.ja||'')+'</span></div>').join('')+'</div>';
   }
   if(w.note){
-    back+='<div style="margin-top:14px"><div class="bpos">'+esc(t('label_note'))+'</div>'+
+    back+='<div style="margin-top:14px"><div class="bpos">'+esc(t('note_heading'))+'</div>'+
       '<div style="white-space:pre-wrap;margin-top:4px">'+esc(w.note)+'</div></div>';
   }
   if(!w.ja&&!(w.meanings||[]).length)back='<div style="color:var(--muted)">'+t('no_meaning')+'</div>'+back;
@@ -3715,6 +3966,7 @@ const SYNC_RETRY_MIN=15000;      // first retry after a failure
 const SYNC_RETRY_MAX=300000;     // and no less often than every 5 min
 const SYNC_PERIODIC=180000;      // sweep for anything still unsynced
 
+const DECK_NAME_MAX=24;
 const NICK_MAX=20;
 const NICK_COOLDOWN=7*24*60*60*1000;   // a nickname can be changed once a week
 
@@ -3959,7 +4211,7 @@ async function cloudLogout(){
   closeAcct();
   $('#overlayNick').classList.remove('show');
   // Back to a fresh install: the words live in the account, not here.
-  DB.words=[];DB.tombs={};DB.ownerUid=null;
+  DB.words=[];DB.decks=[];DB.tombs={};DB.ownerUid=null;
   PKGDB={};savePkg();
   if(CTX.type==='pkg')setSource('own');
   S().streak={current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null};
@@ -4054,6 +4306,9 @@ async function cloudSync(reason){
     DB.tombs=tombs;
     DB.ownerUid=cloudUser.uid;
     S().streak=mergeStreak(S().streak,meta.streak);
+    // Union by id with newest-write-wins, so a deck made on one device shows
+    // up on the other and one deleted on either stays deleted.
+    DB.decks=mergeDecks(DB.decks,meta.decks);
     // Package progress is a small blob and rarely edited on two devices at
     // once, so it takes the newer side wholesale rather than merging per word.
     if((meta.pkgUpdatedAt||0)>(DB.settings.pkgUpdatedAt||0)&&meta.packages){
@@ -4078,6 +4333,7 @@ async function cloudSync(reason){
       // entirely while unset, so a sync can't blank out a nickname.
       ...(cloudUser.nickname?{nickname:cloudUser.nickname,nicknameAt:cloudUser.nicknameAt||0}:{}),
       streak:S().streak,
+      decks:DB.decks||[],
       tombs:DB.tombs,
       packages:PKGDB,
       pkgUpdatedAt:DB.settings.pkgUpdatedAt||Date.now(),

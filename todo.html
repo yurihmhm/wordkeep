@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.9.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.0.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -184,7 +184,7 @@ footer a{color:var(--ink-2)}
 
   <section>
     <div class="sec-head"><h2>追加を検討したい機能</h2><span class="sec-n" data-count></span></div>
-    <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>一括追加はv4.9.0で実装済み。</b>残るなかでは<b>絞り込み</b>が次に効くと思う——一括追加で語数が一気に増えるようになった以上、一覧から探せない問題が先に来る。</p>
+    <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>一括追加(v4.9.0)と自作の単語帳(v5.0.0)は実装済み。</b>「タグで分類」は単語帳が満たしたので取り下げた。残るなかでは<b>絞り込み</b>が次に効く——語数が増える手段が揃った以上、一覧から探せない問題が先に来る。</p>
     <ul>
       
       <li class="next" data-s="open">
@@ -222,13 +222,7 @@ footer a{color:var(--ink-2)}
           <div class="d">現在は管理者しか消せない。全世界で使ってもらう前提なら、<b>本人が自分のデータを消せる導線は用意しておくべき</b>（EUではGDPRで求められる項目でもある）。プロフィール画面に「アカウントを削除」を置き、単語ドキュメント→要約ドキュメント→認証ユーザーの順に消す。<b>PIN再入力での本人確認は必須。</b></div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">タグ／グループで単語を分類する</div>
-          <div class="d">「今週の授業」「教科書3章」のようにまとめたい要求は必ず出てくる。ただし<b>絞り込みが先</b>だと思う。タグは付ける手間がかかるので、まず状態で絞れるようにして、それでも足りないと分かってから入れる方が無駄がない。</div>
-        </div>
-      </li>
+      
     </ul>
   </section>
 
@@ -381,6 +375,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">自分で単語帳を作れるようにした</div><div class="d">「IT編」のように名前を付けてテーマごとに分けられる。<b>単語帳は別のリストではなく、単語に付けたラベル</b>として実装した——単語はもともと1件ずつ同期しているので、フィールドを1つ足すだけで同期側の変更がゼロで済み、既存データの移行も不要（<code>deck</code>が無い単語＝自分の単語帳）、単語の移動もフィールド1つの書き換えで済む。<br><b>削除しても単語は消さない</b>。自分の単語帳へ移すだけ。単語帳自体は削除フラグを立てる方式で、単純に統合すると<b>他端末で削除した単語帳が復活する</b>ため。まとめて追加の入れ先も選べる。</div><div class="ver">v5.0.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームのあいさつを時間帯対応・日替わりに</div><div class="d">朝・昼・夜・深夜で言葉が変わり、下の一文も日替わり。<b>乱数ではなく「日付＋時間帯」から選ぶ</b>ので、画面を再描画しても文が入れ替わらず（同期のたびに文章が変わると落ち着かない）、朝と夜では違う。初回利用者には「おかえり」ではなく「ようこそ」を出す。</div><div class="ver">v5.0.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">カード裏のメモ見出しから「（任意）」を削除</div><div class="d">入力欄のラベルには意味があるが、<b>すでに書かれた内容の見出しに「任意」は無意味</b>だった。見出し用のキーを分離。</div><div class="ver">v5.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語の一括追加</div><div class="d">追加画面の「リストを貼り付ける」から。<b>2つの入力形式を1つの貼り付け欄で受ける</b>：<code>|</code> かタブがあれば整形済み（単語｜意味｜品詞｜カタカナ｜メモ）、無ければ単語だけのリストとみなして改行・カンマ・読点で分割する。<br><b>なぜ両方要るか</b>：辞書APIは<b>カタカナ発音を構造的に返せない</b>（IPAのみ）ので、その欄はAI整形でしか埋まらない。一方で単語だけの貼り付けは手軽なので、意味が空の行だけAPIで補う。<br>APIは<b>1語あたり2リクエスト</b>に抑えた（通常追加は3。定義の翻訳を省いている）。260ms間隔で順次実行し、進捗表示と中止ボタンあり。取得できなかった語は自動でチェックを外す（意味の無い単語は出題できないため）。<br>追加前に必ずプレビューを挟み、登録済み・リスト内重複を印付きで表示する。他のAI用のプロンプトをコピーするボタンも用意。</div><div class="ver">v4.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">自動テストを残す</div><div class="d"><code>tests/logic.test.js</code>（61件）と、コミット時に自動で走る pre-commit フックを追加。<code>extract.mjs</code>が<code>index.html</code>から対象関数を抜き出すので、テストが実物と乖離しない。構文エラーかテスト失敗があるとコミットが拒否されるため、走らせ忘れが起きない。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: ロシア語・韓国語・アラビア語で入力式クイズが必ず不正解になっていた</div><div class="d"><code>norm()</code>がASCII＋かな＋漢字だけの許可リストで、それ以外の字種を記号として除去していた。該当言語の意味は<b>正規化の時点で空文字になり、正解を入力しても必ず不正解</b>。しかも不正解＝箱を最初に戻す仕様なので、<b>入力式の復習が学習履歴を破壊し続けていた</b>。全字種の文字と数字を残す方式へ変更。</div><div class="ver">v4.8.0</div></div></li>
