@@ -450,6 +450,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <button class="btn btn-primary" id="btnSave" style="margin-top:18px" disabled data-i18n="btn_add">リストに追加</button>
       <p class="hint" id="saveHint" data-i18n="hint_type_first">まず英単語を入力してね。</p>
     </div>
+
+    <div class="panel" style="padding:18px;margin-top:14px">
+      <div class="st" data-i18n="bulk_title">まとめて追加</div>
+      <p class="hint" style="margin:6px 0 12px" data-i18n="bulk_lead">単語のリストを貼り付けて、一度に登録できます。</p>
+      <button class="btn btn-ghost" id="btnBulk" style="width:100%" data-i18n="bulk_open">リストを貼り付ける</button>
+    </div>
   </section>
 
   <section id="v-home" class="view active">
@@ -529,6 +535,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <div class="overlay" id="overlayWordDetail"><div class="sheet">
   <div class="sheet-head"><h3 id="wdWord" style="font-family:Georgia,'Times New Roman',serif"></h3><button class="sheet-x" id="wdClose" type="button" aria-label="close">×</button></div>
   <div id="wdBody"></div>
+</div></div>
+<div class="overlay" id="overlayBulk"><div class="sheet sheet-wide">
+  <div class="sheet-head"><h3 data-i18n="bulk_title">まとめて追加</h3><button class="sheet-x" id="bulkClose" type="button" aria-label="close">×</button></div>
+  <div id="bulkBody"></div>
 </div></div>
 <div class="overlay" id="overlayFb"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="fb_title">フィードバック</h3><button class="sheet-x" id="fbClose" type="button" aria-label="close">×</button></div>
@@ -690,13 +700,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='4.8.0';
+const APP_VERSION='4.9.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'4.8.0',date:'2026-08-22',keys:['wn1','wn2','wn3']},
+  {version:'4.9.0',date:'2026-08-23',keys:['wn1','wn2']},
+  {version:'4.8.0',date:'2026-08-22',keys:['v480_1','v480_2','v480_3']},
   {version:'4.7.0',date:'2026-08-22',keys:['v470_1','v470_2']},
   {version:'4.6.0',date:'2026-08-22',keys:['v460_1','v460_2','v460_3']},
   {version:'4.5.0',date:'2026-08-22',keys:['v450_1','v450_2']},
@@ -832,9 +843,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'重大な修正: 入力式クイズで、ロシア語・韓国語・アラビア語の意味を正しく入力しても必ず不正解になっていました。不正解は復習間隔が最初に戻る仕様のため、該当言語の方の学習記録に影響していました。心よりお詫びします',en:'Important fix: in the typed quiz, correct answers in Russian, Korean and Arabic were always marked wrong. Since a wrong answer resets the review interval, this affected those users’ progress. We’re sorry',zh:'重要修复：输入式测验中，用俄语、韩语、阿拉伯语输入正确释义也总是被判为错误。由于答错会将复习间隔重置，这影响了相关用户的学习记录，深表歉意',fr:'Correctif important : dans le quiz à saisie, les réponses correctes en russe, coréen et arabe étaient toujours comptées fausses. Une erreur réinitialisant l’intervalle de révision, cela a affecté la progression de ces utilisateurs. Toutes nos excuses',ar:'إصلاح مهم: في اختبار الكتابة، كانت الإجابات الصحيحة بالروسية والكورية والعربية تُحتسب خاطئة دائمًا. وبما أن الخطأ يعيد ضبط فترة المراجعة، فقد أثّر ذلك في تقدّم هؤلاء المستخدمين، ونعتذر بشدة',ko:'중요한 수정: 입력식 퀴즈에서 러시아어·한국어·아랍어로 뜻을 올바르게 입력해도 항상 오답 처리되었습니다. 오답은 복습 간격을 처음으로 되돌리는 방식이라 해당 언어 사용자의 학습 기록에 영향을 주었습니다. 진심으로 사과드립니다',ru:'Важное исправление: в тесте с вводом правильные ответы на русском, корейском и арабском всегда засчитывались как неверные. Поскольку ошибка сбрасывает интервал повторения, это сказалось на прогрессе. Приносим извинения'},
-  wn2:{ja:'入力式クイズの採点を見直しました。1文字だけの入力が正解になっていた問題を修正し、逆に「importnat」のような打ち間違いは正解として扱うようにしました',en:'Reworked typed-answer marking. A single character no longer counts as correct, while a genuine typo like “importnat” now does',zh:'重做了输入式测验的判分：单个字符不再算作正确，而「importnat」这类真正的拼写失误现在会算对',fr:'Notation des réponses saisies revue : un seul caractère ne compte plus comme correct, tandis qu’une vraie faute de frappe comme « importnat » est désormais acceptée',ar:'أُعيد ضبط تصحيح الإجابات المكتوبة: لم يعد حرف واحد يُحتسب صحيحًا، بينما تُقبل الآن أخطاء الكتابة الحقيقية مثل «importnat»',ko:'입력식 채점을 재정비했습니다. 한 글자만 입력해도 정답이 되던 문제를 고치고, 반대로 «importnat» 같은 실제 오타는 정답으로 인정합니다',ru:'Переработана проверка набранных ответов: один символ больше не засчитывается, а настоящая опечатка вроде «importnat» теперь принимается'},
-  wn3:{ja:'単語パッケージを選んでいるとき、上部の語数と復習バッジが自分の単語帳の数のままになっていた問題を修正しました。表示と実際に出題される単語が一致します',en:'Fixed the header count and review badge still showing your own deck while a word package was selected — they now match what Review will actually give you',zh:'修复了选择单词包时，顶部词数与复习角标仍显示自己单词本数量的问题，现在与实际出题内容一致',fr:'Correction : le compteur d’en-tête et le badge de révision affichaient encore votre propre liste quand un pack était sélectionné. Ils correspondent maintenant à ce que la révision propose',ar:'أُصلح بقاء عدّاد الأعلى وشارة المراجعة يعرضان قائمتك الخاصة أثناء اختيار حزمة كلمات؛ صارا الآن مطابقين لما ستقدّمه المراجعة فعليًا',ko:'단어 패키지를 선택했을 때 상단 단어 수와 복습 배지가 내 단어장 기준으로 남아 있던 문제를 수정했습니다. 실제 출제되는 내용과 일치합니다',ru:'Исправлено: счётчик в шапке и значок повторения продолжали показывать вашу колоду при выбранном пакете. Теперь они совпадают с тем, что даст повторение'},
+  wn1:{ja:'単語をまとめて追加できるようになりました。追加画面の「リストを貼り付ける」から、単語をカンマや改行で区切って貼るだけです。意味は自動で取得します',en:'You can now add many words at once. Use “Paste a list” on the add screen — separate words with commas or line breaks and the meanings are fetched for you',zh:'现在可以批量添加单词。在添加页点击「粘贴列表」，用逗号或换行分隔单词即可，释义会自动获取',fr:'Vous pouvez désormais ajouter plusieurs mots d’un coup. Utilisez « Coller une liste » sur l’écran d’ajout : séparez les mots par des virgules ou des retours à la ligne, les sens sont récupérés pour vous',ar:'يمكنك الآن إضافة عدة كلمات دفعة واحدة عبر «لصق قائمة» في شاشة الإضافة: افصل الكلمات بفواصل أو أسطر وسيتم جلب المعاني تلقائيًا',ko:'단어를 한꺼번에 추가할 수 있게 되었습니다. 추가 화면의 «목록 붙여넣기»에서 쉼표나 줄바꿈으로 구분해 붙여넣으면 뜻을 자동으로 가져옵니다',ru:'Теперь можно добавлять много слов сразу. На экране добавления нажмите «Вставить список» — разделяйте слова запятыми или переносами строк, значения подставятся сами'},
+  wn2:{ja:'ChatGPTなど他のAIに整形してもらった単語リストも、そのまま貼り付けられます。意味・品詞・カタカナ発音・メモまで一度に入り、この形式なら通信も発生しません。専用のプロンプトをコピーするボタンも用意しました',en:'A list formatted by another assistant such as ChatGPT can be pasted straight in — meaning, part of speech, phonetic reading and notes all at once, with no network calls at all. There is a button to copy a ready-made prompt for that',zh:'也可以直接粘贴由 ChatGPT 等其他 AI 整理好的列表：释义、词性、读音与备注一次录入，且完全不产生网络请求。并提供了复制现成提示词的按钮',fr:'Une liste mise en forme par un autre assistant comme ChatGPT se colle telle quelle : sens, nature, prononciation et notes d’un coup, sans aucun appel réseau. Un bouton copie la consigne toute prête',ar:'يمكن لصق قائمة نسّقها مساعد آخر مثل ChatGPT مباشرةً: المعنى والقسم والنطق والملاحظات دفعة واحدة، دون أي اتصال بالشبكة. وهناك زر لنسخ مطالبة جاهزة',ko:'ChatGPT 등 다른 AI가 정리해 준 목록도 그대로 붙여넣을 수 있습니다. 뜻·품사·발음·메모까지 한 번에 들어가며 이 형식이면 통신도 발생하지 않습니다. 전용 프롬프트를 복사하는 버튼도 있습니다',ru:'Список, оформленный другим ассистентом вроде ChatGPT, можно вставить как есть: значение, часть речи, произношение и заметки сразу и вообще без сетевых запросов. Есть кнопка, копирующая готовый запрос'},
+  v480_1:{ja:'重大な修正: 入力式クイズで、ロシア語・韓国語・アラビア語の意味を正しく入力しても必ず不正解になっていました。不正解は復習間隔が最初に戻る仕様のため、該当言語の方の学習記録に影響していました。心よりお詫びします',en:'Important fix: in the typed quiz, correct answers in Russian, Korean and Arabic were always marked wrong. Since a wrong answer resets the review interval, this affected those users’ progress. We’re sorry',zh:'重要修复：输入式测验中，用俄语、韩语、阿拉伯语输入正确释义也总是被判为错误。由于答错会将复习间隔重置，这影响了相关用户的学习记录，深表歉意',fr:'Correctif important : dans le quiz à saisie, les réponses correctes en russe, coréen et arabe étaient toujours comptées fausses. Une erreur réinitialisant l’intervalle de révision, cela a affecté la progression de ces utilisateurs. Toutes nos excuses',ar:'إصلاح مهم: في اختبار الكتابة، كانت الإجابات الصحيحة بالروسية والكورية والعربية تُحتسب خاطئة دائمًا. وبما أن الخطأ يعيد ضبط فترة المراجعة، فقد أثّر ذلك في تقدّم هؤلاء المستخدمين، ونعتذر بشدة',ko:'중요한 수정: 입력식 퀴즈에서 러시아어·한국어·아랍어로 뜻을 올바르게 입력해도 항상 오답 처리되었습니다. 오답은 복습 간격을 처음으로 되돌리는 방식이라 해당 언어 사용자의 학습 기록에 영향을 주었습니다. 진심으로 사과드립니다',ru:'Важное исправление: в тесте с вводом правильные ответы на русском, корейском и арабском всегда засчитывались как неверные. Поскольку ошибка сбрасывает интервал повторения, это сказалось на прогрессе. Приносим извинения'},
+  v480_2:{ja:'入力式クイズの採点を見直しました。1文字だけの入力が正解になっていた問題を修正し、逆に「importnat」のような打ち間違いは正解として扱うようにしました',en:'Reworked typed-answer marking. A single character no longer counts as correct, while a genuine typo like “importnat” now does',zh:'重做了输入式测验的判分：单个字符不再算作正确，而「importnat」这类真正的拼写失误现在会算对',fr:'Notation des réponses saisies revue : un seul caractère ne compte plus comme correct, tandis qu’une vraie faute de frappe comme « importnat » est désormais acceptée',ar:'أُعيد ضبط تصحيح الإجابات المكتوبة: لم يعد حرف واحد يُحتسب صحيحًا، بينما تُقبل الآن أخطاء الكتابة الحقيقية مثل «importnat»',ko:'입력식 채점을 재정비했습니다. 한 글자만 입력해도 정답이 되던 문제를 고치고, 반대로 «importnat» 같은 실제 오타는 정답으로 인정합니다',ru:'Переработана проверка набранных ответов: один символ больше не засчитывается, а настоящая опечатка вроде «importnat» теперь принимается'},
+  v480_3:{ja:'単語パッケージを選んでいるとき、上部の語数と復習バッジが自分の単語帳の数のままになっていた問題を修正しました。表示と実際に出題される単語が一致します',en:'Fixed the header count and review badge still showing your own deck while a word package was selected — they now match what Review will actually give you',zh:'修复了选择单词包时，顶部词数与复习角标仍显示自己单词本数量的问题，现在与实际出题内容一致',fr:'Correction : le compteur d’en-tête et le badge de révision affichaient encore votre propre liste quand un pack était sélectionné. Ils correspondent maintenant à ce que la révision propose',ar:'أُصلح بقاء عدّاد الأعلى وشارة المراجعة يعرضان قائمتك الخاصة أثناء اختيار حزمة كلمات؛ صارا الآن مطابقين لما ستقدّمه المراجعة فعليًا',ko:'단어 패키지를 선택했을 때 상단 단어 수와 복습 배지가 내 단어장 기준으로 남아 있던 문제를 수정했습니다. 실제 출제되는 내용과 일치합니다',ru:'Исправлено: счётчик в шапке и значок повторения продолжали показывать вашу колоду при выбранном пакете. Теперь они совпадают с тем, что даст повторение'},
   v470_1:{ja:'「単語」タブに「リスト／カード」の切り替えを置きました。単語帳（カード）への行き方が分かりやすくなり、カード側からも同じ操作で戻れます',en:'The Words tab now has a List / Cards switch, so flashcards are easy to find and the same control takes you back',zh:'「单词」标签页新增「列表／卡片」切换，更容易找到单词卡，也可用同一处切回列表',fr:'L’onglet Mots dispose d’un sélecteur Liste / Cartes : les cartes mémo se trouvent plus facilement et le même bouton ramène à la liste',ar:'أصبح في تبويب «الكلمات» مبدّل «قائمة / بطاقات»، فيسهل الوصول إلى البطاقات والعودة بالطريقة نفسها',ko:'«단어» 탭에 «목록／카드» 전환을 넣었습니다. 카드로 가는 길이 명확해지고, 같은 조작으로 돌아올 수 있습니다',ru:'Во вкладке «Слова» появился переключатель «Список / Карточки» — карточки легко найти, и та же кнопка возвращает назад'},
   v470_2:{ja:'対応外の言語の端末で日本語表示になっていた不具合を修正しました。ドイツ語やスペイン語などの環境では英語で開きます',en:'Fixed devices set to an unsupported language falling back to Japanese. German, Spanish and the like now open in English',zh:'修复了使用不受支持语言的设备回退为日语的问题，德语、西班牙语等环境现在会以英语打开',fr:'Correction : les appareils dans une langue non prise en charge basculaient en japonais. L’allemand, l’espagnol et les autres s’ouvrent désormais en anglais',ar:'أُصلح رجوع الأجهزة ذات اللغات غير المدعومة إلى اليابانية؛ الألمانية والإسبانية وغيرها تفتح الآن بالإنجليزية',ko:'지원하지 않는 언어의 기기에서 일본어로 표시되던 문제를 수정했습니다. 독일어·스페인어 등은 이제 영어로 열립니다',ru:'Исправлено: устройства с неподдерживаемым языком переключались на японский. Немецкий, испанский и прочие теперь открываются на английском'},
   v460_1:{ja:'「ホーム」タブを追加しました。連続日数・今日の復習・学習の進みが一目で分かり、開いて1タップで復習を始められます',en:'Added a Home tab. Your streak, what’s due today and how far you’ve got are all in one place, and review starts in a single tap',zh:'新增「首页」标签页。连续天数、今日待复习和学习进度一目了然，打开后一点即可开始复习',fr:'Nouvel onglet Accueil : série, révisions du jour et progression au même endroit, et la révision démarre en un seul geste',ar:'أُضيف تبويب «الرئيسية»: التتابع وما يستحق المراجعة اليوم ومدى تقدّمك في مكان واحد، وتبدأ المراجعة بلمسة واحدة',ko:'«홈» 탭을 추가했습니다. 연속 일수·오늘의 복습·학습 진행 상황을 한눈에 볼 수 있고, 한 번의 탭으로 복습을 시작할 수 있습니다',ru:'Добавлена вкладка «Главная»: серия, повторения на сегодня и прогресс — в одном месте, а повторение начинается одним касанием'},
@@ -954,6 +967,33 @@ const T={
   ph_kata:{ja:'プレファー',en:'pruh-FUR',zh:'读音',fr:'pré-fé-rer',ar:'النطق',ko:'발음',ru:'произношение'},
   label_meaning:{ja:'日本語の意味',en:'Meaning (English)',zh:'中文意思',fr:'Sens (français)',ar:'المعنى (بالعربية)',ko:'뜻 (한국어)',ru:'Значение (по-русски)'},
   ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）',fr:'Rempli après la recherche (modifiable)',ar:'يُملأ تلقائيًا بعد البحث (قابل للتعديل)',ko:'검색 후 자동 입력 (수정 가능)',ru:'Заполняется автоматически после поиска (можно редактировать)'},
+  bulk_title:{ja:'まとめて追加',en:'Add several at once',zh:'批量添加',fr:'Ajout groupé',ar:'إضافة دفعة واحدة',ko:'한꺼번에 추가',ru:'Добавить сразу несколько'},
+  bulk_lead:{ja:'単語のリストを貼り付けて、一度に登録できます。',en:'Paste a list of words and add them all in one go.',zh:'粘贴单词列表，一次性全部添加。',fr:'Collez une liste de mots et ajoutez-les d’un coup.',ar:'الصق قائمة كلمات وأضِفها دفعة واحدة.',ko:'단어 목록을 붙여넣어 한 번에 등록할 수 있습니다.',ru:'Вставьте список слов и добавьте их все сразу.'},
+  bulk_open:{ja:'リストを貼り付ける',en:'Paste a list',zh:'粘贴列表',fr:'Coller une liste',ar:'لصق قائمة',ko:'목록 붙여넣기',ru:'Вставить список'},
+  bulk_desc:{ja:'英単語だけを改行かカンマで区切って貼り付けると、意味は自動で取得します。下の形式で貼り付ければ、カタカナ発音やメモまで一度に入り、通信も発生しません。',en:'Paste plain words separated by line breaks or commas and the meanings are fetched for you. Paste the format below instead and the reading and notes come in too, with no network calls at all.',zh:'仅粘贴单词（换行或逗号分隔）即可自动获取释义。若按下面的格式粘贴，读音与备注也会一并录入，且完全不产生网络请求。',fr:'Collez de simples mots séparés par des retours à la ligne ou des virgules et les sens sont récupérés pour vous. Avec le format ci-dessous, la prononciation et les notes arrivent aussi, sans aucun appel réseau.',ar:'الصق كلمات فقط مفصولة بأسطر أو فواصل وسيتم جلب المعاني تلقائيًا. أو الصق بالتنسيق أدناه لتُدخل النطق والملاحظات أيضًا دون أي اتصال بالشبكة.',ko:'단어만 줄바꿈이나 쉼표로 구분해 붙여넣으면 뜻을 자동으로 가져옵니다. 아래 형식으로 붙여넣으면 발음과 메모까지 한 번에 들어가고 통신도 발생하지 않습니다.',ru:'Вставьте просто слова через перенос строки или запятую — значения подставятся сами. А в формате ниже добавятся ещё и произношение с заметками, вообще без сетевых запросов.'},
+  bulk_fmt_t:{ja:'詳しく入れたい場合の形式',en:'Format for the richer version',zh:'录入更完整信息的格式',fr:'Format pour la version enrichie',ar:'تنسيق النسخة الأكمل',ko:'자세히 넣고 싶을 때의 형식',ru:'Формат для расширенной версии'},
+  bulk_fmt_note:{ja:'後ろの項目は省略できます。ChatGPTなど他のAIにこの形へ整えてもらうと早いです。',en:'Trailing fields can be left out. Asking another assistant such as ChatGPT to produce this shape is the quick way.',zh:'后面的字段可以省略。让 ChatGPT 等其他 AI 整理成这个格式最快。',fr:'Les champs de fin sont facultatifs. Le plus rapide est de demander ce format à un autre assistant comme ChatGPT.',ar:'يمكن حذف الحقول الأخيرة. أسرع طريقة هي أن تطلب هذا التنسيق من مساعد آخر مثل ChatGPT.',ko:'뒤쪽 항목은 생략할 수 있습니다. ChatGPT 등 다른 AI에게 이 형식으로 정리해 달라고 하면 빠릅니다.',ru:'Последние поля можно опустить. Быстрее всего попросить другой ассистент вроде ChatGPT выдать этот формат.'},
+  bulk_copy_prompt:{ja:'他のAI用のプロンプトをコピー',en:'Copy a prompt for another assistant',zh:'复制给其他 AI 用的提示词',fr:'Copier une consigne pour un autre assistant',ar:'نسخ مطالبة لمساعد آخر',ko:'다른 AI용 프롬프트 복사',ru:'Скопировать запрос для другого ассистента'},
+  bulk_copied:{ja:'コピーしました',en:'Copied',zh:'已复制',fr:'Copié',ar:'تم النسخ',ko:'복사했습니다',ru:'Скопировано'},
+  bulk_prompt_body:{ja:'以下の英単語について、1行に1語、次の形式で出力してください。\n\n英単語 | 意味 | 品詞 | カタカナ発音 | メモ\n\nルール:\n- 見出し・番号・箇条書き記号・表・コードブロックは使わず、上の行だけを出力する\n- 意味は{0}で簡潔に（1〜15文字程度）\n- 品詞は noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase から英語で1つ\n- カタカナ発音は英語の音をカタカナで（例: prefer → プリファー）\n- メモには類義語や使い分けを短く。無ければ空欄のままでよい\n- 区切りは必ず半角の | を使う\n\n単語:\n',en:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n',zh:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n',fr:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n',ar:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n',ko:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n',ru:'For each English word below, output one line per word in this format.\n\nword | meaning | part of speech | phonetic reading | note\n\nRules:\n- Output only those lines. No headings, numbering, bullets, tables or code blocks\n- Write the meaning in {0}, briefly\n- Part of speech in English, one of: noun / verb / adjective / adverb / preposition / conjunction / pronoun / phrase\n- Phonetic reading: how the word sounds, written in {0}\n- Note: synonyms or usage differences, briefly. Leave empty if there is nothing useful\n- Separate fields with the pipe character |\n\nWords:\n'},
+  bulk_paste_label:{ja:'ここに貼り付け',en:'Paste here',zh:'粘贴到这里',fr:'Collez ici',ar:'الصق هنا',ko:'여기에 붙여넣기',ru:'Вставьте сюда'},
+  bulk_ph:{ja:'prefer, vivid, journey\nまたは\nprefer | 〜を好む | verb | プリファー | rather',en:'prefer, vivid, journey\nor\nprefer | to like better | verb | pri-FUR | rather',zh:'prefer, vivid, journey\n或\nprefer | 更喜欢 | verb | 普里弗 | rather',fr:'prefer, vivid, journey\nou\nprefer | préférer | verb | pri-FEUR | rather',ar:'prefer, vivid, journey\nأو\nprefer | يفضّل | verb | بريفَر | rather',ko:'prefer, vivid, journey\n또는\nprefer | 선호하다 | verb | 프리퍼 | rather',ru:'prefer, vivid, journey\nили\nprefer | предпочитать | verb | при-ФЁР | rather'},
+  bulk_parse:{ja:'内容を確認する',en:'Review the list',zh:'确认内容',fr:'Vérifier la liste',ar:'مراجعة القائمة',ko:'내용 확인',ru:'Проверить список'},
+  bulk_review:{ja:'{0}件を読み取りました。{1}件を追加します。',en:'Read {0} entries. {1} will be added.',zh:'已读取 {0} 条，将添加 {1} 条。',fr:'{0} entrées lues. {1} seront ajoutées.',ar:'تمت قراءة {0} مدخلًا، وسيُضاف {1}.',ko:'{0}건을 읽었습니다. {1}건을 추가합니다.',ru:'Прочитано {0} записей. Будет добавлено {1}.'},
+  bulk_need_lookup:{ja:'うち{0}件は意味が空欄なので、辞書から取得します。',en:'{0} of them have no meaning yet and will be looked up.',zh:'其中 {0} 条没有释义，将从词典获取。',fr:'{0} d’entre elles n’ont pas de sens et seront recherchées.',ar:'{0} منها بلا معنى وسيتم البحث عنها.',ko:'그중 {0}건은 뜻이 비어 있어 사전에서 가져옵니다.',ru:'У {0} из них нет значения — они будут найдены в словаре.'},
+  bulk_lookup_go:{ja:'{0}件の意味を取得する',en:'Look up {0} meanings',zh:'获取 {0} 条释义',fr:'Rechercher {0} sens',ar:'ابحث عن {0} معنى',ko:'{0}건의 뜻 가져오기',ru:'Найти {0} значений'},
+  bulk_add_go:{ja:'{0}件を追加する',en:'Add {0} words',zh:'添加 {0} 条',fr:'Ajouter {0} mots',ar:'أضف {0} كلمة',ko:'{0}건 추가하기',ru:'Добавить {0} слов'},
+  bulk_looking:{ja:'取得中… {0} / {1}',en:'Looking up… {0} / {1}',zh:'获取中… {0} / {1}',fr:'Recherche… {0} / {1}',ar:'جارٍ البحث… {0} / {1}',ko:'가져오는 중… {0} / {1}',ru:'Поиск… {0} / {1}'},
+  bulk_stop:{ja:'ここで止める',en:'Stop here',zh:'到此停止',fr:'Arrêter ici',ar:'التوقف هنا',ko:'여기서 멈추기',ru:'Остановить'},
+  bulk_missed:{ja:'{0}件は意味が取得できませんでした。チェックを外してあります',en:'{0} could not be looked up and have been unchecked',zh:'{0} 条未能获取释义，已取消勾选',fr:'{0} n’ont pas pu être trouvés et ont été décochés',ar:'تعذّر العثور على {0}، وأُلغي تحديدها',ko:'{0}건은 뜻을 가져오지 못해 체크를 해제했습니다',ru:'{0} не найдены и сняты с отметки'},
+  bulk_done:{ja:'{0}件を追加しました',en:'Added {0} words',zh:'已添加 {0} 条',fr:'{0} mots ajoutés',ar:'تمت إضافة {0} كلمة',ko:'{0}건을 추가했습니다',ru:'Добавлено слов: {0}'},
+  bulk_s_ready:{ja:'追加できます',en:'Ready',zh:'可添加',fr:'Prêt',ar:'جاهز',ko:'추가 가능',ru:'Готово'},
+  bulk_s_pending:{ja:'意味を取得',en:'Will look up',zh:'待获取',fr:'À rechercher',ar:'سيتم البحث',ko:'뜻 가져오기',ru:'Будет найдено'},
+  bulk_s_nomeaning:{ja:'意味なし',en:'Not found',zh:'未找到',fr:'Introuvable',ar:'غير موجود',ko:'찾지 못함',ru:'Не найдено'},
+  bulk_s_exists:{ja:'登録済み',en:'Already saved',zh:'已存在',fr:'Déjà enregistré',ar:'محفوظ مسبقًا',ko:'이미 등록됨',ru:'Уже есть'},
+  bulk_s_dupe:{ja:'リスト内で重複',en:'Repeated in the list',zh:'列表内重复',fr:'En double dans la liste',ar:'مكرر في القائمة',ko:'목록 내 중복',ru:'Повтор в списке'},
+  bulk_e_empty:{ja:'単語が読み取れませんでした',en:'No words could be read',zh:'未能读取到单词',fr:'Aucun mot n’a pu être lu',ar:'تعذّرت قراءة أي كلمة',ko:'단어를 읽지 못했습니다',ru:'Не удалось прочитать слова'},
+  bulk_e_none:{ja:'追加できる単語がありません（意味が空のものは追加できません）',en:'Nothing to add — entries without a meaning can’t be saved',zh:'没有可添加的单词（无释义的条目无法保存）',fr:'Rien à ajouter — les entrées sans sens ne peuvent pas être enregistrées',ar:'لا شيء لإضافته — لا يمكن حفظ المدخلات بلا معنى',ko:'추가할 단어가 없습니다 (뜻이 없는 항목은 저장할 수 없습니다)',ru:'Нечего добавлять — записи без значения сохранить нельзя'},
   label_note:{ja:'メモ（任意）',en:'Notes (optional)',zh:'备注（可选）',fr:'Notes (facultatif)',ar:'ملاحظات (اختياري)',ko:'메모 (선택)',ru:'Заметки (необязательно)'},
   ph_note:{ja:'例文や覚え方など、自由に',en:'Example sentences, memory tricks, anything',zh:'例句、记忆技巧等，随意填写',fr:'Phrases d’exemple, astuces mnémotechniques, etc.',ar:'جمل مثال أو طرق للتذكر، أي شيء',ko:'예문이나 암기 방법 등 자유롭게',ru:'Примеры предложений, мнемоники — что угодно'},
   btn_add:{ja:'リストに追加',en:'Add to list',zh:'添加到列表',fr:'Ajouter à la liste',ar:'أضف إلى القائمة',ko:'목록에 추가',ru:'Добавить в список'},
@@ -2212,6 +2252,242 @@ $('#btnSave').onclick=()=>{
   $('#saveHint').textContent=t('hint_type_first');
   toast(t('toast_added',w));
 };
+
+/* ---------- bulk add ---------------------------------------------------- */
+// Two shapes of input, one paste box. A list that has been through another AI
+// carries fields the dictionary API cannot supply at all -- katakana reading
+// most obviously, since dictionaryapi.dev returns IPA only -- and costs no
+// network calls. A bare list of words is quicker to produce but has to be
+// looked up, and at up to five requests per word that is the expensive path.
+// Deciding between them per line means neither has to be chosen up front.
+const BULK_MAX=200;                // a sane ceiling for one paste
+const BULK_LOOKUP_GAP=260;         // ms between lookups, to stay polite
+let bulkRows=[],bulkBusy=false,bulkCancel=false;
+
+function bulkPosKey(raw){
+  const v=(raw||'').trim().toLowerCase();
+  if(!v)return '';
+  if(POS_LABEL[v])return v;
+  // Accept what a person or another AI is likely to write, in either the
+  // app's own language or English shorthand.
+  const alias={
+    'n':'noun','n.':'noun','名詞':'noun','名':'noun','сущ':'noun','명사':'noun','اسم':'noun','名词':'noun','nom':'noun',
+    'v':'verb','v.':'verb','動詞':'verb','動':'verb','гл':'verb','동사':'verb','فعل':'verb','动词':'verb','verbe':'verb',
+    'adj':'adjective','adj.':'adjective','形容詞':'adjective','形':'adjective','прил':'adjective','형용사':'adjective','صفة':'adjective','形容词':'adjective','adjectif':'adjective',
+    'adv':'adverb','adv.':'adverb','副詞':'adverb','副':'adverb','нар':'adverb','부사':'adverb','ظرف':'adverb','副词':'adverb','adverbe':'adverb',
+    'prep':'preposition','前置詞':'preposition','전치사':'preposition','介词':'preposition',
+    'conj':'conjunction','接続詞':'conjunction','접속사':'conjunction','连词':'conjunction',
+    'pron':'pronoun','代名詞':'pronoun','대명사':'pronoun','代词':'pronoun',
+    'phr':'phrase','句':'phrase','熟語':'phrase','短语':'phrase','구':'phrase',
+    'int':'interjection','interj':'interjection','感嘆詞':'interjection','間投詞':'interjection'
+  };
+  return alias[v]||v;
+}
+// A meaning can easily contain a comma, so commas only separate words when the
+// input carries no field delimiter at all.
+function parseBulk(text){
+  const raw=(text||'').replace(/\r/g,'');
+  const structured=/[|\t]/.test(raw);
+  let units=[];
+  if(structured){
+    units=raw.split('\n').map(l=>l.trim()).filter(Boolean).map(line=>{
+      const f=line.split(/\s*[|\t]\s*/).map(x=>x.trim());
+      return {word:f[0]||'',ja:f[1]||'',pos:bulkPosKey(f[2]),kata:f[3]||'',note:f[4]||''};
+    });
+  }else{
+    units=raw.split(/[\n,、，]/).map(w=>w.trim()).filter(Boolean)
+             .map(w=>({word:w,ja:'',pos:'',kata:'',note:''}));
+  }
+  const seen=new Set();
+  const rows=[];
+  for(const u of units){
+    // Strip any list numbering the source may have carried in.
+    const word=u.word.replace(/^[\-*•]\s*/,'').replace(/^\d+[.)]\s*/,'').trim();
+    if(!word)continue;
+    const key=word.toLowerCase();
+    let status='ok';
+    if(seen.has(key))status='dupe_in_paste';
+    else if(wordExists(word))status='exists';
+    seen.add(key);
+    rows.push({...u,word,status,include:status==='ok',looked:false});
+    if(rows.length>=BULK_MAX)break;
+  }
+  return rows;
+}
+// Deliberately lighter than lookup(): it skips translating each dictionary
+// definition, which is three of the up-to-five requests a single add makes.
+// Across a paste of fifty words that is the difference between ~100 requests
+// and ~250 against a free translation quota.
+async function bulkLookup(word){
+  const needTr=mmPair()!==null;
+  const [d,tr]=await Promise.allSettled([
+    fetchDictionary(word),
+    needTr?fetchTranslation(word):Promise.reject('skip')
+  ]);
+  const dictOk=d.status==='fulfilled';
+  const out={ja:'',pos:'',phon:'',meanings:[]};
+  if(dictOk){
+    out.phon=d.value.phon||'';
+    out.meanings=d.value.meanings||[];
+    out.pos=(out.meanings[0]&&out.meanings[0].pos)||'';
+  }
+  if(tr.status==='fulfilled')out.ja=tr.value;
+  else if(!needTr&&out.meanings[0])out.ja=out.meanings[0].def;
+  return {...out,found:dictOk||!!out.ja};
+}
+function bulkPromptText(){
+  const lang=({ja:'日本語',en:'English',zh:'中文',fr:'français',ar:'العربية',ko:'한국어',ru:'русский'})[S().lang]||'English';
+  return t('bulk_prompt_body',lang);
+}
+function renderBulk(){
+  const b=$('#bulkBody');
+  if(!b)return;
+  if(!bulkRows.length){
+    b.innerHTML=
+      '<p class="hint" style="margin:0 2px 12px">'+esc(t('bulk_desc'))+'</p>'+
+      '<div class="panel" style="padding:13px;margin-bottom:14px">'+
+        '<div class="sd" style="font-weight:700;color:var(--ink-strong)">'+esc(t('bulk_fmt_t'))+'</div>'+
+        '<div class="sd" style="margin-top:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.7">'+
+          esc('prefer | 〜を好む | verb | プリファー | rather / would rather')+'<br>'+
+          esc('vivid | 鮮やかな | adjective | ヴィヴィッド |')+'</div>'+
+        '<div class="sd" style="margin-top:8px">'+esc(t('bulk_fmt_note'))+'</div>'+
+        '<button class="btn btn-ghost" id="bulkCopyPrompt" style="width:100%;margin-top:10px">'+esc(t('bulk_copy_prompt'))+'</button>'+
+      '</div>'+
+      '<label class="lab">'+esc(t('bulk_paste_label'))+'</label>'+
+      '<textarea id="bulkText" class="field" rows="8" style="resize:vertical;line-height:1.6" placeholder="'+esc(t('bulk_ph'))+'"></textarea>'+
+      '<div id="bulkErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-primary" id="bulkParse" style="margin-top:14px">'+esc(t('bulk_parse'))+'</button>';
+    $('#bulkCopyPrompt').onclick=async()=>{
+      const btn=$('#bulkCopyPrompt');
+      try{
+        await navigator.clipboard.writeText(bulkPromptText());
+        btn.textContent=t('bulk_copied');
+        setTimeout(()=>{if($('#bulkCopyPrompt'))$('#bulkCopyPrompt').textContent=t('bulk_copy_prompt');},1800);
+      }catch(e){
+        // Clipboard access can be refused; showing the text still lets them copy it.
+        const ta=$('#bulkText');
+        if(ta){ta.value=bulkPromptText();ta.focus();}
+      }
+    };
+    $('#bulkParse').onclick=()=>{
+      const rows=parseBulk($('#bulkText').value);
+      if(!rows.length){$('#bulkErr').textContent=t('bulk_e_empty');return;}
+      bulkRows=rows;renderBulk();
+      gaEvent('bulk_parsed',{count:rows.length,structured:/[|\t]/.test($('#bulkText').value)});
+    };
+    return;
+  }
+
+  const need=bulkRows.filter(r=>r.include&&!r.ja&&!r.looked).length;
+  const chosen=bulkRows.filter(r=>r.include).length;
+  const chip=r=>{
+    if(r.status==='exists')return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_exists'))+'</span>';
+    if(r.status==='dupe_in_paste')return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_dupe'))+'</span>';
+    if(!r.ja&&r.looked)return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_nomeaning'))+'</span>';
+    // tag-new is the green one and tag-due the red one, so "ready to add"
+    // takes green and "still needs a lookup" takes the neutral grey.
+    if(!r.ja)return '<span class="tag-sm tag-next">'+esc(t('bulk_s_pending'))+'</span>';
+    return '<span class="tag-sm tag-new">'+esc(t('bulk_s_ready'))+'</span>';
+  };
+  b.innerHTML=
+    '<p class="hint" style="margin:0 2px 10px">'+esc(t('bulk_review',bulkRows.length,chosen))+'</p>'+
+    (need?'<p class="hint" style="margin:0 2px 12px;color:var(--accent)">'+esc(t('bulk_need_lookup',need))+'</p>':'')+
+    '<div id="bulkProg"></div>'+
+    '<div class="panel" style="padding:4px 10px;max-height:46vh;overflow:auto">'+
+      bulkRows.map((r,i)=>
+        '<div class="card" style="align-items:flex-start;gap:10px">'+
+          '<input type="checkbox" class="bulk-chk" data-i="'+i+'"'+(r.include?' checked':'')+' style="margin-top:4px;width:20px;height:20px;flex:none">'+
+          '<div style="flex:1;min-width:0">'+
+            '<div><span class="w">'+esc(r.word)+'</span>'+(r.kata?'<span class="kata">'+esc(r.kata)+'</span>':'')+'</div>'+
+            (r.ja?'<div class="m">'+esc(r.ja)+'</div>':'')+
+            (r.note?'<div class="sd" style="margin-top:3px">📝 '+esc(r.note.slice(0,60))+'</div>':'')+
+            '<div class="meta">'+chip(r)+(r.pos?'<span class="tag-sm">'+esc(posLabel(r.pos))+'</span>':'')+'</div>'+
+          '</div>'+
+        '</div>').join('')+
+    '</div>'+
+    '<div id="bulkErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+    (need?'<button class="btn btn-primary" id="bulkGo" style="margin-top:14px">'+esc(t('bulk_lookup_go',need))+'</button>'
+        :'<button class="btn btn-primary" id="bulkGo" style="margin-top:14px">'+esc(t('bulk_add_go',chosen))+'</button>')+
+    '<button class="btn btn-ghost" id="bulkBack" style="width:100%;margin-top:10px">'+esc(t('back'))+'</button>';
+
+  $$('#bulkBody .bulk-chk').forEach(c=>c.onchange=()=>{
+    bulkRows[+c.dataset.i].include=c.checked;
+    renderBulk();
+  });
+  $('#bulkBack').onclick=()=>{bulkRows=[];renderBulk();};
+  $('#bulkGo').onclick=()=>{ need?runBulkLookup():commitBulk(); };
+}
+async function runBulkLookup(){
+  if(bulkBusy)return;
+  bulkBusy=true;bulkCancel=false;
+  const todo=bulkRows.filter(r=>r.include&&!r.ja&&!r.looked);
+  const prog=$('#bulkProg');
+  const go=$('#bulkGo');
+  if(go)go.disabled=true;
+  let done=0,found=0;
+  const paint=()=>{
+    if(!$('#bulkProg'))return;
+    $('#bulkProg').innerHTML='<div class="panel" style="padding:12px;margin-bottom:12px">'+
+      '<div class="sd">'+esc(t('bulk_looking',done,todo.length))+'</div>'+
+      '<div class="q-progress" style="margin-top:8px"><i style="width:'+Math.round(done/todo.length*100)+'%"></i></div>'+
+      '<button class="btn btn-ghost" id="bulkStop" style="width:100%;margin-top:10px">'+esc(t('bulk_stop'))+'</button></div>';
+    const st=$('#bulkStop'); if(st)st.onclick=()=>{bulkCancel=true;};
+  };
+  paint();
+  for(const r of todo){
+    if(bulkCancel)break;
+    try{
+      const got=await bulkLookup(r.word);
+      if(got.ja){r.ja=got.ja;found++;}
+      if(!r.pos&&got.pos)r.pos=got.pos;
+      if(got.phon)r.phon=got.phon;
+      if(got.meanings&&got.meanings.length)r.meanings=got.meanings;
+    }catch(e){}
+    r.looked=true;
+    done++;paint();
+    if(done<todo.length)await new Promise(res=>setTimeout(res,BULK_LOOKUP_GAP));
+  }
+  bulkBusy=false;
+  gaEvent('bulk_lookup',{attempted:done,found:found,cancelled:bulkCancel});
+  // Anything still without a meaning is unchecked rather than silently added
+  // as a bare word -- a word with no meaning can never be quizzed.
+  bulkRows.forEach(r=>{if(r.include&&r.looked&&!r.ja)r.include=false;});
+  renderBulk();
+  const miss=todo.length-found;
+  if(miss>0)toast(t('bulk_missed',miss));
+}
+function commitBulk(){
+  const rows=bulkRows.filter(r=>r.include&&r.ja);
+  if(!rows.length){$('#bulkErr').textContent=t('bulk_e_none');return;}
+  const now=Date.now();
+  const items=rows.map((r,i)=>migrateWord({
+    id:(now+i)+''+Math.random().toString(36).slice(2,6),
+    word:r.word,
+    kata:r.kata||'',
+    ja:r.ja,
+    note:r.note||'',
+    phon:r.phon||'',
+    meanings:r.meanings&&r.meanings.length?r.meanings:(r.pos?[{pos:r.pos,def:'',defJa:''}]:[]),
+    examples:[],
+    seen:0,correct:0,wrong:0,added:now+i,
+    box:-1,nextDue:now,hist:[]
+  }));
+  items.forEach(touchWord);
+  DB.words=[...items,...DB.words];
+  save();cloudTouched();
+  setSource('own');
+  gaEvent('bulk_added',{count:items.length});
+  maybeRequestPersistence();
+  bulkRows=[];
+  closeBulk();
+  toast(t('bulk_done',items.length));
+  go('v-list');
+}
+function openBulk(){bulkRows=[];$('#overlayBulk').classList.add('show');renderBulk();gaScreen('bulk_add');}
+function closeBulk(){if(bulkBusy){bulkCancel=true;}$('#overlayBulk').classList.remove('show');}
+$('#btnBulk').onclick=openBulk;
+$('#bulkClose').onclick=closeBulk;
+$('#overlayBulk').addEventListener('click',e=>{if(e.target===$('#overlayBulk'))closeBulk();});
 
 /* ---------- LIST ---------- */
 // Debounced: renderList() rebuilds every card and rebinds every handler, so

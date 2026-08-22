@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.8.0 時点 &middot; 最終更新 2026-08-22（機能提案を追加）</div>
+    <div class="sub">v4.9.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -184,15 +184,9 @@ footer a{color:var(--ink-2)}
 
   <section>
     <div class="sec-head"><h2>追加を検討したい機能</h2><span class="sec-n" data-count></span></div>
-    <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>上の2つ（一括追加・絞り込み）が投資対効果で頭ひとつ抜けている</b>と思う。どちらも「語数が増えたときに詰まる」問題で、パッケージ拡充やランキングより先に効いてくる。</p>
+    <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>一括追加はv4.9.0で実装済み。</b>残るなかでは<b>絞り込み</b>が次に効くと思う——一括追加で語数が一気に増えるようになった以上、一覧から探せない問題が先に来る。</p>
     <ul>
-      <li class="next" data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">単語の一括追加（複数行をまとめて登録）</div>
-          <div class="d"><b>いま一番の詰まりどころだと思う。</b>授業で20語聞いても、1語ずつ「調べる→追加」を繰り返す人はいない。改行区切りで貼り付け→まとめて辞書引き→結果を一覧で確認して一括保存、という導線にすると、<b>アプリに入る語数そのものが増える</b>。SRSも記録もランキングも、入力量が上限を決めている以上、ここが一番効く。<br>実装上の注意：辞書APIを一度に大量に叩かないよう間隔を空ける必要がある。失敗した語だけ手入力に回せる作りにする。</div>
-        </div>
-      </li>
+      
       <li class="next" data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -387,6 +381,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語の一括追加</div><div class="d">追加画面の「リストを貼り付ける」から。<b>2つの入力形式を1つの貼り付け欄で受ける</b>：<code>|</code> かタブがあれば整形済み（単語｜意味｜品詞｜カタカナ｜メモ）、無ければ単語だけのリストとみなして改行・カンマ・読点で分割する。<br><b>なぜ両方要るか</b>：辞書APIは<b>カタカナ発音を構造的に返せない</b>（IPAのみ）ので、その欄はAI整形でしか埋まらない。一方で単語だけの貼り付けは手軽なので、意味が空の行だけAPIで補う。<br>APIは<b>1語あたり2リクエスト</b>に抑えた（通常追加は3。定義の翻訳を省いている）。260ms間隔で順次実行し、進捗表示と中止ボタンあり。取得できなかった語は自動でチェックを外す（意味の無い単語は出題できないため）。<br>追加前に必ずプレビューを挟み、登録済み・リスト内重複を印付きで表示する。他のAI用のプロンプトをコピーするボタンも用意。</div><div class="ver">v4.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">自動テストを残す</div><div class="d"><code>tests/logic.test.js</code>（61件）と、コミット時に自動で走る pre-commit フックを追加。<code>extract.mjs</code>が<code>index.html</code>から対象関数を抜き出すので、テストが実物と乖離しない。構文エラーかテスト失敗があるとコミットが拒否されるため、走らせ忘れが起きない。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: ロシア語・韓国語・アラビア語で入力式クイズが必ず不正解になっていた</div><div class="d"><code>norm()</code>がASCII＋かな＋漢字だけの許可リストで、それ以外の字種を記号として除去していた。該当言語の意味は<b>正規化の時点で空文字になり、正解を入力しても必ず不正解</b>。しかも不正解＝箱を最初に戻す仕様なので、<b>入力式の復習が学習履歴を破壊し続けていた</b>。全字種の文字と数字を残す方式へ変更。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">1文字の入力が正解になっていた</div><div class="d">部分一致に長さの下限が無く、「important」に対して「a」が正解扱い。単なるズルではなく<b>次の出題間隔が延びる</b>ため実害があった。実質的な部分一致（長さ比0.6以上かつ2文字以上）に限定。</div><div class="ver">v4.8.0</div></div></li>
