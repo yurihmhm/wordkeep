@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.0.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.1.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -187,13 +187,7 @@ footer a{color:var(--ink-2)}
     <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>一括追加(v4.9.0)と自作の単語帳(v5.0.0)は実装済み。</b>「タグで分類」は単語帳が満たしたので取り下げた。残るなかでは<b>絞り込み</b>が次に効く——語数が増える手段が揃った以上、一覧から探せない問題が先に来る。</p>
     <ul>
       
-      <li class="next" data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">リストの絞り込み（未学習／要復習／学習済み）</div>
-          <div class="d">検索はあるが状態で絞れない。語数が数百になると一覧が実質使えなくなり、<b>パッケージの中身を増やす計画とも噛み合わない</b>（増やすほど探せなくなる）。既存の<code>box</code>と<code>isDue</code>で判定できるので、UIを足すだけで済む。</div>
-        </div>
-      </li>
+      
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -375,6 +369,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">リストの絞り込み</div><div class="d">「すべて／今日の復習／未学習／学習済み」で切り替え、各件数も表示。検索と併用できる。<b>チップは折り返す方式にした</b>——4つで約374px必要なのに375pxの端末では容器が335pxしかなく、横スクロールだと最後の1つが常に見切れる。気づかれないスクロールの裏に隠すより2行にする方が正直だと判断した。</div><div class="ver">v5.1.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定画面をカテゴリ分けに再構成</div><div class="d">9セクションの長い1画面を、6カテゴリ（言語／表示／音声・効果音／学習／データ／ヘルプ）の一覧＋詳細に変更。<br><b>モーダルの重ねでも別画面でもなく、1枚のシートの中身を入れ替える方式</b>を選んだ：モーダルを重ねると×が2つ並び背景タップの意味も曖昧になる（このアプリは実際にチュートリアルが設定の裏に開く不具合を出している）。別画面にするとどのタブも点灯せず戻り先も曖昧になる（単語帳タブで既に対処済みの問題）。<br>実装は<b>既存のマークアップをそのままページに包んだだけ</b>なので、全てのidとバインド済みハンドラが無傷で動く。</div><div class="ver">v5.1.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">「PIN」が何か分からないという意見への対応</div><div class="d">「6桁の数字パスワード」と明記。エラー文にも例（481596）を添えた。</div><div class="ver">v5.1.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">自分で単語帳を作れるようにした</div><div class="d">「IT編」のように名前を付けてテーマごとに分けられる。<b>単語帳は別のリストではなく、単語に付けたラベル</b>として実装した——単語はもともと1件ずつ同期しているので、フィールドを1つ足すだけで同期側の変更がゼロで済み、既存データの移行も不要（<code>deck</code>が無い単語＝自分の単語帳）、単語の移動もフィールド1つの書き換えで済む。<br><b>削除しても単語は消さない</b>。自分の単語帳へ移すだけ。単語帳自体は削除フラグを立てる方式で、単純に統合すると<b>他端末で削除した単語帳が復活する</b>ため。まとめて追加の入れ先も選べる。</div><div class="ver">v5.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ホームのあいさつを時間帯対応・日替わりに</div><div class="d">朝・昼・夜・深夜で言葉が変わり、下の一文も日替わり。<b>乱数ではなく「日付＋時間帯」から選ぶ</b>ので、画面を再描画しても文が入れ替わらず（同期のたびに文章が変わると落ち着かない）、朝と夜では違う。初回利用者には「おかえり」ではなく「ようこそ」を出す。</div><div class="ver">v5.0.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">カード裏のメモ見出しから「（任意）」を削除</div><div class="d">入力欄のラベルには意味があるが、<b>すでに書かれた内容の見出しに「任意」は無意味</b>だった。見出し用のキーを分離。</div><div class="ver">v5.0.0</div></div></li>

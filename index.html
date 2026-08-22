@@ -230,6 +230,18 @@ select.sel{width:auto;min-width:130px;flex-shrink:0;padding:11px 12px;font-size:
 .switch.on{background:var(--good)}
 .switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--knob);transition:.2s}
 .switch.on i{left:23px}
+.set-cat{display:flex;align-items:center;gap:13px;width:100%;padding:15px 4px;
+  background:none;border:none;border-bottom:1px solid var(--line);cursor:pointer;
+  font:inherit;color:inherit;text-align:left}
+.set-cat:last-child{border-bottom:none}
+.set-cat .sc-ic{font-size:21px;flex:none;width:30px;text-align:center}
+.set-cat .sc-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.set-cat .sc-t{font-size:15.5px;font-weight:700;color:var(--ink-strong)}
+.set-cat .sc-s{font-size:12.5px;color:var(--muted);line-height:1.45}
+.set-cat .sc-arrow{color:var(--muted);font-size:20px;flex:none}
+.set-cat:active{background:var(--ghost-bg)}
+.set-back{background:none;border:none;font-size:26px;line-height:1;color:var(--ink-strong);
+  cursor:pointer;padding:0 4px 0 0;flex:none}
 .set-section-t{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;
   text-transform:uppercase;margin:22px 2px 8px}
 
@@ -317,6 +329,16 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .home-act .t{display:block;font-size:13.5px;font-weight:700;color:var(--ink-strong)}
 .home-act .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
 .home-act:active{transform:scale(.985)}
+ /* Wraps rather than scrolls: the four chips need ~374px and a 375px phone
+   gives the container 335, so the last one sat permanently half-cut behind a
+   horizontal scroll most people would never discover. */
+.list-filter{display:flex;flex-wrap:wrap;gap:7px;margin:0 2px 12px}
+.list-filter .lf{display:flex;align-items:center;gap:5px;font:inherit;font-size:12.5px;
+  font-weight:600;padding:7px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.list-filter .lf.on{background:var(--fill);border-color:var(--fill);color:#fff}
+.list-filter .lf:disabled{opacity:.4;cursor:default}
+.list-filter .lf-n{font-variant-numeric:tabular-nums;opacity:.75;font-size:11.5px}
 .list-modes{display:flex;gap:8px;margin:0 2px 12px}
 .list-modes button{flex:1;font:inherit;font-size:13px;font-weight:600;padding:10px;
   border-radius:11px;border:1px solid var(--line);background:var(--surface);
@@ -468,6 +490,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <section id="v-list" class="view">
     <div id="src-list"></div>
     <div id="listModes"></div>
+    <div id="listFilter"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
@@ -548,8 +571,22 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <div id="fbBody"></div>
 </div></div>
 <div class="overlay" id="overlaySet"><div class="sheet sheet-wide">
-  <div class="sheet-head"><h3 data-i18n="set_title">設定</h3><button class="sheet-x" id="setClose" type="button" aria-label="close">×</button></div>
-
+  <div class="sheet-head">
+    <div style="display:flex;align-items:center;gap:6px;min-width:0">
+      <button class="set-back" id="setBack" type="button" aria-label="back" hidden>‹</button>
+      <h3 id="setTitle" data-i18n="set_title">設定</h3>
+    </div>
+    <button class="sheet-x" id="setClose" type="button" aria-label="close">×</button>
+  </div>
+    <div id="setNav">
+      <button class="set-cat" data-page="lang" type="button"><span class="sc-ic">🌐</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_lang"></span><span class="sc-s" data-i18n="cat_lang_sub"></span></span><span class="sc-arrow">›</span></button>
+      <button class="set-cat" data-page="display" type="button"><span class="sc-ic">🎨</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_display"></span><span class="sc-s" data-i18n="cat_display_sub"></span></span><span class="sc-arrow">›</span></button>
+      <button class="set-cat" data-page="sound" type="button"><span class="sc-ic">🔊</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_sound"></span><span class="sc-s" data-i18n="cat_sound_sub"></span></span><span class="sc-arrow">›</span></button>
+      <button class="set-cat" data-page="study" type="button"><span class="sc-ic">📝</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_study"></span><span class="sc-s" data-i18n="cat_study_sub"></span></span><span class="sc-arrow">›</span></button>
+      <button class="set-cat" data-page="data" type="button"><span class="sc-ic">💾</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_data"></span><span class="sc-s" data-i18n="cat_data_sub"></span></span><span class="sc-arrow">›</span></button>
+      <button class="set-cat" data-page="help" type="button"><span class="sc-ic">❓</span><span class="sc-txt"><span class="sc-t" data-i18n="cat_help"></span><span class="sc-s" data-i18n="cat_help_sub"></span></span><span class="sc-arrow">›</span></button>
+    </div>
+    <div class="set-page" data-page="lang" hidden>
     <div class="set-section-t" data-i18n="sec_lang">言語</div>
     <div class="panel">
       <div class="set-row">
@@ -566,6 +603,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    </div>
+    <div class="set-page" data-page="display" hidden>
     <div class="set-section-t" data-i18n="sec_appearance">表示</div>
     <div class="panel">
       <div class="set-row">
@@ -578,6 +617,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    </div>
+    <div class="set-page" data-page="sound" hidden>
     <div class="set-section-t" data-i18n="sec_volume">音量</div>
     <div class="panel">
       <div class="set-row" style="display:block">
@@ -621,6 +662,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    </div>
+    <div class="set-page" data-page="study" hidden>
     <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
@@ -658,6 +701,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    </div>
+    <div class="set-page" data-page="data" hidden>
     <div class="set-section-t" data-i18n="sec_data">データ</div>
     <div class="panel">
       <div class="set-row">
@@ -681,6 +726,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <input type="file" id="fileImport" accept="application/json" style="display:none">
     <p class="hint" style="margin:14px 2px 22px" data-i18n="data_note">単語データはこの端末のブラウザ内だけに保存されます。消えると困るので、たまにバックアップを。</p>
 
+    </div>
+    <div class="set-page" data-page="help" hidden>
     <div class="set-section-t" data-i18n="sec_help">ヘルプ</div>
     <div class="panel">
       <div class="set-row">
@@ -691,7 +738,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
     <div class="set-section-t" data-i18n="sec_changelog">更新履歴</div>
     <div class="panel" id="changelogPanel"></div>
-    <p class="hint" style="margin:14px 2px 4px" id="verNote"></p>
+    <p class="hint" style="margin:14px 2px 4px" id="verNote"></p>    </div>
+
     <p class="hint" style="margin:0 2px 30px;opacity:.7" data-i18n="analytics_note">利用状況分析のため匿名の利用データを収集しています。</p>
 </div></div>
 <div class="overlay" id="overlayStorageTip"><div class="sheet">
@@ -703,13 +751,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.0.0';
+const APP_VERSION='5.1.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.0.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.1.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.0.0',date:'2026-08-23',keys:['v500_1','v500_2','v500_3']},
   {version:'4.9.0',date:'2026-08-23',keys:['v490_1','v490_2']},
   {version:'4.8.0',date:'2026-08-22',keys:['v480_1','v480_2','v480_3']},
   {version:'4.7.0',date:'2026-08-22',keys:['v470_1','v470_2']},
@@ -847,9 +896,12 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'自分で単語帳を作れるようになりました。「IT編」「ビジネス英語」のように名前を付けてテーマごとに分けられます。上部の単語帳セレクターの「＋ 新しい単語帳」から作成でき、まとめて追加のときに入れる先も選べます',en:'You can now create your own notebooks. Name them by topic — “IT”, “Business English” — and keep words separated. Create one from “＋ New notebook” in the deck selector, and choose where a pasted batch should land',zh:'现在可以自建单词本。按主题命名，如「IT」「商务英语」，分开管理。在上方单词本选择器的「＋ 新建单词本」创建，批量添加时也能选择放入哪一本',fr:'Vous pouvez désormais créer vos propres carnets. Nommez-les par thème — « IT », « anglais des affaires » — pour séparer vos mots. Créez-en un via « ＋ Nouveau carnet » dans le sélecteur, et choisissez où atterrit un lot collé',ar:'يمكنك الآن إنشاء دفاترك الخاصة وتسميتها حسب الموضوع مثل «تقنية» و«إنجليزية الأعمال». أنشئ دفترًا من «＋ دفتر جديد» في محدّد الدفاتر، واختر وجهة أي دفعة تلصقها',ko:'직접 단어장을 만들 수 있게 되었습니다. 「IT편」「비즈니스 영어」처럼 주제별로 이름을 붙여 나눌 수 있습니다. 상단 단어장 선택기의 「＋ 새 단어장」에서 만들 수 있고, 한꺼번에 추가할 때 넣을 곳도 고를 수 있습니다',ru:'Теперь можно создавать свои словари. Назовите их по темам — «IT», «Деловой английский» — и держите слова раздельно. Создать можно через «＋ Новый словарь» в переключателе, а при вставке списка выбрать, куда он попадёт'},
-  wn2:{ja:'ホームのあいさつが時間帯に合わせて変わるようになりました。朝・昼・夜でことばが変わり、下の一文も日替わりです',en:'The greeting on Home now follows the time of day, and the line beneath it changes from day to day',zh:'首页问候语会随时段变化，下方的一句话也会每天不同',fr:'Le message d’accueil suit désormais l’heure de la journée, et la phrase en dessous change chaque jour',ar:'أصبحت تحية الصفحة الرئيسية تتغيّر حسب وقت اليوم، والجملة أسفلها تتبدّل يوميًا',ko:'홈의 인사말이 시간대에 따라 바뀝니다. 아침·낮·저녁에 따라 달라지고, 아래 한 줄도 날마다 바뀝니다',ru:'Приветствие на главной теперь зависит от времени суток, а строка под ним меняется день ото дня'},
-  wn3:{ja:'単語帳（カード）の裏に出るメモの見出しから「（任意）」を消しました',en:'Removed “(optional)” from the notes heading on the back of a flashcard',zh:'移除了单词卡背面备注标题中的「（可选）」',fr:'Suppression de « (facultatif) » sur l’intitulé des notes au dos d’une carte',ar:'أُزيلت كلمة «(اختياري)» من عنوان الملاحظات خلف البطاقة',ko:'카드 뒷면 메모 제목에서 「(선택)」을 없앴습니다',ru:'Убрано «(необязательно)» из заголовка заметок на обороте карточки'},
+  wn1:{ja:'単語リストに絞り込みを追加しました。「今日の復習」「未学習」「学習済み」で切り替えられ、それぞれの語数も表示されます。検索と組み合わせても使えます',en:'Added filters to the word list: Due, Not started and Learned, each showing how many. They combine with search',zh:'单词列表新增筛选：待复习／未学习／已学习，并显示各自数量，可与搜索组合使用',fr:'Filtres ajoutés à la liste : à revoir, non commencés, appris — avec le nombre pour chacun. Ils se combinent avec la recherche',ar:'أُضيفت فلاتر إلى قائمة الكلمات: للمراجعة، لم تبدأ، مُتعلَّمة، مع عدد كل منها، وتعمل مع البحث معًا',ko:'단어 목록에 필터를 추가했습니다. 복습 대상·미학습·학습 완료로 전환할 수 있고 각각의 단어 수도 표시됩니다. 검색과 함께 사용할 수 있습니다',ru:'В списке слов появились фильтры: к повтору, не начаты, изучены — с количеством у каждого. Работают вместе с поиском'},
+  wn2:{ja:'設定を整理しました。「言語」「表示」「音声・効果音」「学習」「データ」「ヘルプ」の6つに分け、そこから開く形にしています。長い1画面を延々とスクロールする必要がなくなりました',en:'Settings are reorganised into six categories — Language, Appearance, Sound, Studying, Data and Help — that you open from a list, instead of one long scroll',zh:'设置已重新整理为「语言」「显示」「声音」「学习」「数据」「帮助」六大类，从列表进入，不必再滚动一整屏',fr:'Les réglages sont réorganisés en six catégories — Langue, Apparence, Son, Apprentissage, Données, Aide — ouvertes depuis une liste, au lieu d’un long défilement',ar:'أُعيد تنظيم الإعدادات في ست فئات: اللغة والمظهر والصوت والدراسة والبيانات والمساعدة، تُفتح من قائمة بدل التمرير الطويل',ko:'설정을 「언어」「화면」「소리」「학습」「데이터」「도움말」의 6가지로 정리해 목록에서 열도록 바꿨습니다. 긴 화면을 계속 스크롤할 필요가 없어졌습니다',ru:'Настройки разложены по шести разделам — язык, оформление, звук, обучение, данные и помощь — которые открываются из списка вместо одной длинной прокрутки'},
+  wn3:{ja:'「PIN」が何なのか分かりにくいというご意見をいただいたので、「6桁の数字パスワード」と明記するようにしました',en:'“PIN” wasn’t clear to everyone, so it now says plainly that it is a 6-digit number used as your password',zh:'有反馈称不清楚「PIN」是什么，现已明确标注为「6 位数字密码」',fr:'« PIN » n’était pas clair pour tout le monde : il est désormais précisé qu’il s’agit d’un mot de passe à 6 chiffres',ar:'لم تكن كلمة «PIN» واضحة للجميع، فصار مكتوبًا صراحةً أنها كلمة مرور من 6 أرقام',ko:'「PIN」이 무엇인지 알기 어렵다는 의견이 있어 「6자리 숫자 비밀번호」라고 명확히 표기했습니다',ru:'Слово «PIN» многим было непонятно — теперь прямо указано, что это пароль из шести цифр'},
+  v500_1:{ja:'自分で単語帳を作れるようになりました。「IT編」「ビジネス英語」のように名前を付けてテーマごとに分けられます。上部の単語帳セレクターの「＋ 新しい単語帳」から作成でき、まとめて追加のときに入れる先も選べます',en:'You can now create your own notebooks. Name them by topic — “IT”, “Business English” — and keep words separated. Create one from “＋ New notebook” in the deck selector, and choose where a pasted batch should land',zh:'现在可以自建单词本。按主题命名，如「IT」「商务英语」，分开管理。在上方单词本选择器的「＋ 新建单词本」创建，批量添加时也能选择放入哪一本',fr:'Vous pouvez désormais créer vos propres carnets. Nommez-les par thème — « IT », « anglais des affaires » — pour séparer vos mots. Créez-en un via « ＋ Nouveau carnet » dans le sélecteur, et choisissez où atterrit un lot collé',ar:'يمكنك الآن إنشاء دفاترك الخاصة وتسميتها حسب الموضوع مثل «تقنية» و«إنجليزية الأعمال». أنشئ دفترًا من «＋ دفتر جديد» في محدّد الدفاتر، واختر وجهة أي دفعة تلصقها',ko:'직접 단어장을 만들 수 있게 되었습니다. 「IT편」「비즈니스 영어」처럼 주제별로 이름을 붙여 나눌 수 있습니다. 상단 단어장 선택기의 「＋ 새 단어장」에서 만들 수 있고, 한꺼번에 추가할 때 넣을 곳도 고를 수 있습니다',ru:'Теперь можно создавать свои словари. Назовите их по темам — «IT», «Деловой английский» — и держите слова раздельно. Создать можно через «＋ Новый словарь» в переключателе, а при вставке списка выбрать, куда он попадёт'},
+  v500_2:{ja:'ホームのあいさつが時間帯に合わせて変わるようになりました。朝・昼・夜でことばが変わり、下の一文も日替わりです',en:'The greeting on Home now follows the time of day, and the line beneath it changes from day to day',zh:'首页问候语会随时段变化，下方的一句话也会每天不同',fr:'Le message d’accueil suit désormais l’heure de la journée, et la phrase en dessous change chaque jour',ar:'أصبحت تحية الصفحة الرئيسية تتغيّر حسب وقت اليوم، والجملة أسفلها تتبدّل يوميًا',ko:'홈의 인사말이 시간대에 따라 바뀝니다. 아침·낮·저녁에 따라 달라지고, 아래 한 줄도 날마다 바뀝니다',ru:'Приветствие на главной теперь зависит от времени суток, а строка под ним меняется день ото дня'},
+  v500_3:{ja:'単語帳（カード）の裏に出るメモの見出しから「（任意）」を消しました',en:'Removed “(optional)” from the notes heading on the back of a flashcard',zh:'移除了单词卡背面备注标题中的「（可选）」',fr:'Suppression de « (facultatif) » sur l’intitulé des notes au dos d’une carte',ar:'أُزيلت كلمة «(اختياري)» من عنوان الملاحظات خلف البطاقة',ko:'카드 뒷면 메모 제목에서 「(선택)」을 없앴습니다',ru:'Убрано «(необязательно)» из заголовка заметок на обороте карточки'},
   v490_1:{ja:'単語をまとめて追加できるようになりました。追加画面の「リストを貼り付ける」から、単語をカンマや改行で区切って貼るだけです。意味は自動で取得します',en:'You can now add many words at once. Use “Paste a list” on the add screen — separate words with commas or line breaks and the meanings are fetched for you',zh:'现在可以批量添加单词。在添加页点击「粘贴列表」，用逗号或换行分隔单词即可，释义会自动获取',fr:'Vous pouvez désormais ajouter plusieurs mots d’un coup. Utilisez « Coller une liste » sur l’écran d’ajout : séparez les mots par des virgules ou des retours à la ligne, les sens sont récupérés pour vous',ar:'يمكنك الآن إضافة عدة كلمات دفعة واحدة عبر «لصق قائمة» في شاشة الإضافة: افصل الكلمات بفواصل أو أسطر وسيتم جلب المعاني تلقائيًا',ko:'단어를 한꺼번에 추가할 수 있게 되었습니다. 추가 화면의 «목록 붙여넣기»에서 쉼표나 줄바꿈으로 구분해 붙여넣으면 뜻을 자동으로 가져옵니다',ru:'Теперь можно добавлять много слов сразу. На экране добавления нажмите «Вставить список» — разделяйте слова запятыми или переносами строк, значения подставятся сами'},
   v490_2:{ja:'ChatGPTなど他のAIに整形してもらった単語リストも、そのまま貼り付けられます。意味・品詞・カタカナ発音・メモまで一度に入り、この形式なら通信も発生しません。専用のプロンプトをコピーするボタンも用意しました',en:'A list formatted by another assistant such as ChatGPT can be pasted straight in — meaning, part of speech, phonetic reading and notes all at once, with no network calls at all. There is a button to copy a ready-made prompt for that',zh:'也可以直接粘贴由 ChatGPT 等其他 AI 整理好的列表：释义、词性、读音与备注一次录入，且完全不产生网络请求。并提供了复制现成提示词的按钮',fr:'Une liste mise en forme par un autre assistant comme ChatGPT se colle telle quelle : sens, nature, prononciation et notes d’un coup, sans aucun appel réseau. Un bouton copie la consigne toute prête',ar:'يمكن لصق قائمة نسّقها مساعد آخر مثل ChatGPT مباشرةً: المعنى والقسم والنطق والملاحظات دفعة واحدة، دون أي اتصال بالشبكة. وهناك زر لنسخ مطالبة جاهزة',ko:'ChatGPT 등 다른 AI가 정리해 준 목록도 그대로 붙여넣을 수 있습니다. 뜻·품사·발음·메모까지 한 번에 들어가며 이 형식이면 통신도 발생하지 않습니다. 전용 프롬프트를 복사하는 버튼도 있습니다',ru:'Список, оформленный другим ассистентом вроде ChatGPT, можно вставить как есть: значение, часть речи, произношение и заметки сразу и вообще без сетевых запросов. Есть кнопка, копирующая готовый запрос'},
   v480_1:{ja:'重大な修正: 入力式クイズで、ロシア語・韓国語・アラビア語の意味を正しく入力しても必ず不正解になっていました。不正解は復習間隔が最初に戻る仕様のため、該当言語の方の学習記録に影響していました。心よりお詫びします',en:'Important fix: in the typed quiz, correct answers in Russian, Korean and Arabic were always marked wrong. Since a wrong answer resets the review interval, this affected those users’ progress. We’re sorry',zh:'重要修复：输入式测验中，用俄语、韩语、阿拉伯语输入正确释义也总是被判为错误。由于答错会将复习间隔重置，这影响了相关用户的学习记录，深表歉意',fr:'Correctif important : dans le quiz à saisie, les réponses correctes en russe, coréen et arabe étaient toujours comptées fausses. Une erreur réinitialisant l’intervalle de révision, cela a affecté la progression de ces utilisateurs. Toutes nos excuses',ar:'إصلاح مهم: في اختبار الكتابة، كانت الإجابات الصحيحة بالروسية والكورية والعربية تُحتسب خاطئة دائمًا. وبما أن الخطأ يعيد ضبط فترة المراجعة، فقد أثّر ذلك في تقدّم هؤلاء المستخدمين، ونعتذر بشدة',ko:'중요한 수정: 입력식 퀴즈에서 러시아어·한국어·아랍어로 뜻을 올바르게 입력해도 항상 오답 처리되었습니다. 오답은 복습 간격을 처음으로 되돌리는 방식이라 해당 언어 사용자의 학습 기록에 영향을 주었습니다. 진심으로 사과드립니다',ru:'Важное исправление: в тесте с вводом правильные ответы на русском, корейском и арабском всегда засчитывались как неверные. Поскольку ошибка сбрасывает интервал повторения, это сказалось на прогрессе. Приносим извинения'},
@@ -871,6 +923,11 @@ const T={
   v400_2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
   v400_3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
+  flt_all:{ja:'すべて',en:'All',zh:'全部',fr:'Tous',ar:'الكل',ko:'전체',ru:'Все'},
+  flt_due:{ja:'今日の復習',en:'Due',zh:'待复习',fr:'À revoir',ar:'للمراجعة',ko:'복습 대상',ru:'К повтору'},
+  flt_new:{ja:'未学習',en:'Not started',zh:'未学习',fr:'Non commencés',ar:'لم تبدأ',ko:'미학습',ru:'Не начаты'},
+  flt_learned:{ja:'学習済み',en:'Learned',zh:'已学习',fr:'Appris',ar:'مُتعلَّمة',ko:'학습 완료',ru:'Изучены'},
+  flt_none:{ja:'この条件に当てはまる単語はありません',en:'No words match this filter',zh:'没有符合此筛选的单词',fr:'Aucun mot ne correspond à ce filtre',ar:'لا توجد كلمات تطابق هذا الفلتر',ko:'이 조건에 맞는 단어가 없습니다',ru:'Нет слов по этому фильтру'},
   mode_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'قائمة',ko:'목록',ru:'Список'},
   mode_cards:{ja:'カード',en:'Cards',zh:'卡片',fr:'Cartes',ar:'بطاقات',ko:'카드',ru:'Карточки'},
   nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
@@ -910,8 +967,8 @@ const T={
   nav_record:{ja:'記録',en:'Record',zh:'记录',fr:'Suivi',ar:'السجل',ko:'기록',ru:'Прогресс'},
   splash_restoring:{ja:'アカウントを確認しています…',en:'Checking your account…',zh:'正在确认账号…',fr:'Vérification de votre compte…',ar:'جارٍ التحقق من حسابك…',ko:'계정을 확인하는 중…',ru:'Проверяем аккаунт…'},
   syn_label:{ja:'類義語: ',en:'Synonyms: ',zh:'近义词：',fr:'Synonymes : ',ar:'مرادفات: ',ko:'유의어: ',ru:'Синонимы: '},
-  acct_pin:{ja:'PIN（6桁の数字）',en:'PIN (6 digits)',zh:'PIN（6 位数字）',fr:'PIN (6 chiffres)',ar:'رمز PIN (6 أرقام)',ko:'PIN (6자리 숫자)',ru:'PIN (6 цифр)'},
-  acct_pin_note:{ja:'PINを忘れると復元できません。ユーザー名とPINは必ず控えておいてください。',en:'There is no way to recover a forgotten PIN. Write your username and PIN down somewhere safe.',zh:'忘记 PIN 将无法找回，请务必记下用户名和 PIN。',fr:'Un PIN oublié ne peut pas être récupéré. Notez votre nom d’utilisateur et votre PIN en lieu sûr.',ar:'لا يمكن استعادة رمز PIN المنسي. دوّن اسم المستخدم والرمز في مكان آمن.',ko:'PIN을 잊으면 복구할 수 없습니다. 사용자 이름과 PIN을 꼭 적어 두세요.',ru:'Забытый PIN восстановить нельзя. Запишите имя пользователя и PIN в надёжном месте.'},
+  acct_pin:{ja:'PIN（6桁の数字パスワード）',en:'PIN (a 6-digit number, used as your password)',zh:'PIN（6 位数字密码）',fr:'PIN (mot de passe à 6 chiffres)',ar:'رمز PIN (كلمة مرور من 6 أرقام)',ko:'PIN (6자리 숫자 비밀번호)',ru:'PIN (пароль из 6 цифр)'},
+  acct_pin_note:{ja:'PINはこのアプリのパスワードです。数字6桁で、忘れるとメールから再設定します。',en:'The PIN is your password for this app: six digits. If you forget it, you can reset it by email.',zh:'PIN 就是本应用的密码，为 6 位数字。忘记时可通过邮箱重设。',fr:'Le PIN est votre mot de passe pour cette app : six chiffres. Oublié ? Réinitialisez-le par e-mail.',ar:'رمز PIN هو كلمة مرورك في هذا التطبيق، ويتكوّن من ستة أرقام. إن نسيته يمكنك إعادة تعيينه عبر البريد.',ko:'PIN은 이 앱의 비밀번호입니다. 숫자 6자리이며, 잊으면 이메일로 재설정할 수 있습니다.',ru:'PIN — это ваш пароль в приложении: шесть цифр. Забыли — сбросьте по почте.'},
   acct_login:{ja:'ログイン',en:'Log in',zh:'登录',fr:'Se connecter',ar:'تسجيل الدخول',ko:'로그인',ru:'Войти'},
   acct_logout_confirm:{ja:'ログアウトすると、この端末に入っている単語はすべて消去されます。単語はアカウントに保存されているので、次にログインすれば元どおりです。よろしいですか？',en:'Logging out removes every word from this device. They stay in your account, so signing back in restores them. Continue?',zh:'退出登录会清除本设备上的所有单词。它们仍保存在你的账号中，重新登录即可恢复。是否继续？',fr:'La déconnexion supprime tous les mots de cet appareil. Ils restent dans votre compte et reviendront à la prochaine connexion. Continuer ?',ar:'تسجيل الخروج يحذف كل الكلمات من هذا الجهاز. تبقى محفوظة في حسابك وتعود عند تسجيل الدخول مجددًا. هل تريد المتابعة؟',ko:'로그아웃하면 이 기기의 단어가 모두 삭제됩니다. 단어는 계정에 저장되어 있으므로 다시 로그인하면 복원됩니다. 계속할까요?',ru:'При выходе все слова удаляются с этого устройства. Они остаются в аккаунте и вернутся при следующем входе. Продолжить?'},
   acct_logout_unsynced:{ja:'まだサーバーに保存できていない変更があります。いまログアウトすると、その分は失われます。それでもログアウトしますか？',en:'Some changes haven’t reached the server yet. Logging out now loses them. Log out anyway?',zh:'仍有变更尚未保存到服务器。现在退出登录会丢失这些内容。仍要退出吗？',fr:'Certaines modifications ne sont pas encore enregistrées sur le serveur. Se déconnecter maintenant les perdra. Continuer quand même ?',ar:'هناك تغييرات لم تصل إلى الخادم بعد. تسجيل الخروج الآن سيفقدها. هل تريد تسجيل الخروج على أي حال؟',ko:'아직 서버에 저장되지 않은 변경이 있습니다. 지금 로그아웃하면 그 부분은 사라집니다. 그래도 로그아웃할까요?',ru:'Часть изменений ещё не сохранена на сервере. Выход сейчас их потеряет. Всё равно выйти?'},
@@ -926,7 +983,7 @@ const T={
   acct_sync_now:{ja:'今すぐ同期',en:'Sync now',zh:'立即同步',fr:'Synchroniser maintenant',ar:'زامن الآن',ko:'지금 동기화',ru:'Синхронизировать'},
   acct_e_short:{ja:'同期できませんでした',en:'Sync failed',zh:'同步失败',fr:'Échec de la synchro',ar:'فشلت المزامنة',ko:'동기화 실패',ru:'Ошибка синхронизации'},
   acct_e_user:{ja:'ユーザー名は半角英数字と_で3〜20文字にしてください',en:'Username must be 3-20 characters: letters, numbers, or _',zh:'用户名需为 3〜20 位字母、数字或下划线',fr:'Le nom d’utilisateur doit faire 3 à 20 caractères (lettres, chiffres, _)',ar:'يجب أن يكون اسم المستخدم من 3 إلى 20 حرفًا: أحرف أو أرقام أو _',ko:'사용자 이름은 영문·숫자·_ 로 3~20자여야 합니다',ru:'Имя пользователя: 3–20 символов (латиница, цифры, _)'},
-  acct_e_pin:{ja:'PINは6桁の数字で入力してください',en:'The PIN must be exactly 6 digits',zh:'PIN 必须为 6 位数字',fr:'Le PIN doit comporter exactement 6 chiffres',ar:'يجب أن يتكوّن الرمز من 6 أرقام بالضبط',ko:'PIN은 숫자 6자리여야 합니다',ru:'PIN должен состоять ровно из 6 цифр'},
+  acct_e_pin:{ja:'PINは6桁の数字で入力してください（例: 481596）',en:'The PIN must be exactly 6 digits (e.g. 481596)',zh:'PIN 必须是 6 位数字（例：481596）',fr:'Le PIN doit comporter exactement 6 chiffres (ex. 481596)',ar:'يجب أن يتكوّن رمز PIN من 6 أرقام بالضبط (مثال: 481596)',ko:'PIN은 6자리 숫자로 입력해 주세요 (예: 481596)',ru:'PIN должен состоять ровно из 6 цифр (например, 481596)'},
   acct_e_net:{ja:'ネットにつながらないため、ログインできません',en:'Can’t reach the network, so signing in isn’t possible right now',zh:'无法连接网络，暂时无法登录',fr:'Réseau inaccessible : connexion impossible pour le moment',ar:'تعذّر الوصول إلى الشبكة، لا يمكن تسجيل الدخول الآن',ko:'네트워크에 연결할 수 없어 로그인할 수 없습니다',ru:'Нет соединения — войти сейчас не получится'},
   acct_e_many:{ja:'試行回数が多すぎます。しばらく待ってからお試しください',en:'Too many attempts. Please wait a little and try again',zh:'尝试次数过多，请稍后再试',fr:'Trop de tentatives. Réessayez dans un moment',ar:'محاولات كثيرة جدًا. انتظر قليلاً ثم أعد المحاولة',ko:'시도 횟수가 너무 많습니다. 잠시 후 다시 시도해 주세요',ru:'Слишком много попыток. Подождите немного и повторите'},
   acct_e_disabled:{ja:'ログイン機能が有効になっていません（Firebaseでメール/パスワードを有効にしてください）',en:'Sign-in is not enabled yet (enable Email/Password in Firebase)',zh:'登录功能尚未启用（请在 Firebase 中启用邮箱/密码）',fr:'La connexion n’est pas activée (activez E-mail/Mot de passe dans Firebase)',ar:'لم يتم تفعيل تسجيل الدخول (فعّل البريد/كلمة المرور في Firebase)',ko:'로그인 기능이 아직 활성화되지 않았습니다 (Firebase에서 이메일/비밀번호를 활성화하세요)',ru:'Вход ещё не включён (включите Email/Password в Firebase)'},
@@ -1094,6 +1151,18 @@ const T={
   btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习',fr:'Continuer la révision',ar:'متابعة المراجعة',ko:'계속 복습',ru:'Продолжить повтор'},
   btn_back_list:{ja:'リストに戻る',en:'Back to list',zh:'返回列表',fr:'Retour à la liste',ar:'العودة إلى القائمة',ko:'목록으로',ru:'Вернуться к списку'},
 
+  cat_lang:{ja:'言語',en:'Language',zh:'语言',fr:'Langue',ar:'اللغة',ko:'언어',ru:'Язык'},
+  cat_lang_sub:{ja:'アプリの表示と、意味の訳に使う言語',en:'App display and the language meanings are translated into',zh:'应用显示语言与释义翻译语言',fr:'Affichage de l’app et langue des traductions',ar:'لغة التطبيق ولغة ترجمة المعاني',ko:'앱 표시와 뜻 번역에 사용할 언어',ru:'Язык интерфейса и переводов'},
+  cat_display:{ja:'表示',en:'Appearance',zh:'显示',fr:'Apparence',ar:'المظهر',ko:'화면',ru:'Оформление'},
+  cat_display_sub:{ja:'ライト／ダーク／端末に合わせる',en:'Light, dark or follow your device',zh:'浅色／深色／跟随系统',fr:'Clair, sombre ou selon l’appareil',ar:'فاتح أو داكن أو حسب الجهاز',ko:'라이트／다크／기기 설정에 맞춤',ru:'Светлая, тёмная или как на устройстве'},
+  cat_sound:{ja:'音声・効果音',en:'Sound',zh:'声音',fr:'Son',ar:'الصوت',ko:'소리',ru:'Звук'},
+  cat_sound_sub:{ja:'音量、発音の自動再生・アクセント・速さ、効果音',en:'Volume, pronunciation playback, accent, speed, answer sounds',zh:'音量、发音自动播放、口音、语速、答题音效',fr:'Volume, lecture de la prononciation, accent, vitesse, sons de réponse',ar:'مستوى الصوت والنطق واللكنة والسرعة وأصوات الإجابة',ko:'음량, 발음 자동 재생·악센트·속도, 효과음',ru:'Громкость, произношение, акцент, скорость, звуки ответа'},
+  cat_study:{ja:'学習',en:'Studying',zh:'学习',fr:'Apprentissage',ar:'الدراسة',ko:'학습',ru:'Обучение'},
+  cat_study_sub:{ja:'出題形式、問題数、苦手を優先、復習の間隔',en:'Quiz format, session size, weak words first, review intervals',zh:'出题形式、题量、优先薄弱词、复习间隔',fr:'Format du quiz, taille de session, mots faibles d’abord, intervalles',ar:'صيغة الاختبار وعدد الأسئلة وأولوية الكلمات الصعبة وفترات المراجعة',ko:'출제 형식, 문제 수, 취약 단어 우선, 복습 간격',ru:'Формат теста, размер сессии, сложные слова, интервалы'},
+  cat_data:{ja:'データ',en:'Data',zh:'数据',fr:'Données',ar:'البيانات',ko:'데이터',ru:'Данные'},
+  cat_data_sub:{ja:'バックアップの書き出し・読み込み、保存に関する注意',en:'Export and import a backup, notes on storage',zh:'导出与导入备份、存储须知',fr:'Exporter et importer une sauvegarde, notes sur le stockage',ar:'تصدير واستيراد نسخة احتياطية وملاحظات التخزين',ko:'백업 내보내기·가져오기, 저장에 관한 안내',ru:'Экспорт и импорт копии, о хранении данных'},
+  cat_help:{ja:'ヘルプ',en:'Help',zh:'帮助',fr:'Aide',ar:'المساعدة',ko:'도움말',ru:'Помощь'},
+  cat_help_sub:{ja:'使い方をもう一度見る、更新履歴、バージョン',en:'View the tutorial again, changelog, version',zh:'重看使用教程、更新历史、版本',fr:'Revoir le tutoriel, historique des mises à jour, version',ar:'إعادة عرض الشرح وسجل التحديثات والإصدار',ko:'사용법 다시 보기, 업데이트 내역, 버전',ru:'Обучение заново, история обновлений, версия'},
   set_title:{ja:'設定',en:'Settings',zh:'设置',fr:'Réglages',ar:'الإعدادات',ko:'설정',ru:'Настройки'},
   sec_lang:{ja:'言語',en:'Language',zh:'语言',fr:'Langue',ar:'اللغة',ko:'언어',ru:'Язык'},
   st_lang:{ja:'表示・訳の言語',en:'App & translation language',zh:'界面与翻译语言',fr:'Langue de l’app et des traductions',ar:'لغة التطبيق والترجمة',ko:'앱·번역 언어',ru:'Язык приложения и перевода'},
@@ -1199,8 +1268,8 @@ const T={
   acct_email_sent:{ja:'確認メールを送りました。リンクを開くと設定完了です',en:'Confirmation email sent — open the link to finish',zh:'已发送确认邮件，打开链接即可完成',fr:'E-mail de confirmation envoyé — ouvrez le lien pour terminer',ar:'تم إرسال بريد التأكيد — افتح الرابط للإنهاء',ko:'확인 메일을 보냈습니다. 링크를 열면 완료됩니다',ru:'Письмо отправлено — откройте ссылку, чтобы завершить'},
   acct_email_on:{ja:'復旧用メール設定済み（{0}）',en:'Recovery email set ({0})',zh:'已设置找回邮箱（{0}）',fr:'E-mail de récupération défini ({0})',ar:'تم ضبط بريد الاسترداد ({0})',ko:'복구용 이메일 설정됨 ({0})',ru:'Почта для восстановления задана ({0})'},
   acct_email_off:{ja:'復旧用メール未設定：PINを忘れると復元できません',en:'No recovery email — a forgotten PIN cannot be restored',zh:'未设置找回邮箱：忘记 PIN 将无法恢复',fr:'Aucun e-mail de récupération — un PIN oublié sera irrécupérable',ar:'لا يوجد بريد استرداد — لا يمكن استعادة رمز منسي',ko:'복구용 이메일 미설정: PIN을 잊으면 복구할 수 없습니다',ru:'Почта не задана — забытый PIN восстановить не получится'},
-  acct_pin_current:{ja:'現在のPIN',en:'Current PIN',zh:'当前 PIN',fr:'PIN actuel',ar:'الرمز الحالي',ko:'현재 PIN',ru:'Текущий PIN'},
-  acct_pin_new:{ja:'新しいPIN（6桁）',en:'New PIN (6 digits)',zh:'新 PIN（6 位）',fr:'Nouveau PIN (6 chiffres)',ar:'الرمز الجديد (6 أرقام)',ko:'새 PIN (6자리)',ru:'Новый PIN (6 цифр)'},
+  acct_pin_current:{ja:'現在のPIN（6桁の数字）',en:'Current PIN (6-digit number)',zh:'当前 PIN（6 位数字）',fr:'PIN actuel (6 chiffres)',ar:'رمز PIN الحالي (6 أرقام)',ko:'현재 PIN (6자리 숫자)',ru:'Текущий PIN (6 цифр)'},
+  acct_pin_new:{ja:'新しいPIN（6桁の数字）',en:'New PIN (6-digit number)',zh:'新 PIN（6 位数字）',fr:'Nouveau PIN (6 chiffres)',ar:'رمز PIN جديد (6 أرقام)',ko:'새 PIN (6자리 숫자)',ru:'Новый PIN (6 цифр)'},
   acct_pin_change:{ja:'PINを変更',en:'Change PIN',zh:'更改 PIN',fr:'Changer le PIN',ar:'تغيير الرمز',ko:'PIN 변경',ru:'Изменить PIN'},
   acct_pin_change_desc:{ja:'現在のPINを確認してから、新しい6桁に変更します。',en:'Confirm your current PIN, then set a new 6-digit one.',zh:'确认当前 PIN 后，设置新的 6 位数字。',fr:'Confirmez votre PIN actuel, puis définissez-en un nouveau à 6 chiffres.',ar:'أكّد رمزك الحالي ثم عيّن رمزًا جديدًا من 6 أرقام.',ko:'현재 PIN을 확인한 뒤 새로운 6자리로 변경합니다.',ru:'Подтвердите текущий PIN и задайте новый из 6 цифр.'},
   acct_pin_save:{ja:'PINを変更する',en:'Change PIN',zh:'更改 PIN',fr:'Changer le PIN',ar:'تغيير الرمز',ko:'PIN 변경하기',ru:'Изменить PIN'},
@@ -2897,17 +2966,59 @@ function renderListModes(){
   el.innerHTML=wordModesHTML('list');
   bindWordModes('#listModes');
 }
+// Search alone stops being enough once a vocabulary is large -- and bulk paste
+// plus custom notebooks exist precisely to make it large. Filtering by state
+// answers the questions actually being asked: what have I not started, what is
+// waiting for me today, what have I got through.
+let listFilter='all';
+function filterCounts(){
+  const arr=curWords();
+  return {
+    all:arr.length,
+    new:arr.filter(w=>w.box===-1&&!w.seen).length,
+    due:arr.filter(isDue).length,
+    learned:arr.filter(w=>w.box>=0).length
+  };
+}
+function applyFilter(arr){
+  if(listFilter==='new')return arr.filter(w=>w.box===-1&&!w.seen);
+  if(listFilter==='due')return arr.filter(isDue);
+  if(listFilter==='learned')return arr.filter(w=>w.box>=0);
+  return arr;
+}
+function renderListFilter(){
+  const el=$('#listFilter');
+  if(!el)return;
+  const c=filterCounts();
+  if(!c.all){el.innerHTML='';return;}
+  const chip=(k,label,n)=>'<button class="lf'+(listFilter===k?' on':'')+'" data-f="'+k+'"'+
+    (n===0&&k!=='all'?' disabled':'')+'>'+esc(label)+'<span class="lf-n">'+n+'</span></button>';
+  el.innerHTML='<div class="list-filter">'+
+    chip('all',t('flt_all'),c.all)+chip('due',t('flt_due'),c.due)+
+    chip('new',t('flt_new'),c.new)+chip('learned',t('flt_learned'),c.learned)+'</div>';
+  $$('#listFilter .lf').forEach(b=>b.onclick=()=>{
+    listFilter=b.dataset.f;
+    gaEvent('list_filter',{filter:listFilter});
+    renderList();
+  });
+}
 function renderList(){
   renderSourceBar('#src-list');
   renderListModes();
+  renderListFilter();
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
-  let arr=curWords();
+  let arr=applyFilter(curWords());
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   if(!arr.length){
-    p.innerHTML='<div class="empty"><div class="big">📖</div>'+(curWords().length?t('no_match'):t('empty_list'))+'</div>';
+    const why=!curWords().length?t('empty_list')
+              :listFilter!=='all'?t('flt_none')
+              :t('no_match');
+    // Not escaped: these are developer-authored strings and empty_list
+    // carries a <br>. Escaping it printed the tag as text.
+    p.innerHTML='<div class="empty"><div class="big">📖</div>'+why+'</div>';
     return;
   }
   p.innerHTML=arr.map(w=>{
@@ -3711,12 +3822,33 @@ $('#overlayFb').addEventListener('click',e=>{if(e.target===$('#overlayFb'))close
 function openMenu(){$('#overlayMenu').classList.add('show');gaScreen('menu');}
 function closeMenu(){$('#overlayMenu').classList.remove('show');}
 function settingsOpen(){return $('#overlaySet').classList.contains('show');}
-function openSettings(){renderSettings();$('#overlaySet').classList.add('show');gaScreen('v-set');}
+// One sheet whose content swaps, rather than a stack of modals or a separate
+// view. Stacking modals gives two close buttons and an ambiguous backdrop tap
+// (and this app has already shipped a bug where one overlay opened behind
+// another); a separate view would leave no tab lit and no obvious way back.
+let setPage=null;
+function showSetPage(page){
+  setPage=page;
+  $$('#overlaySet .set-page').forEach(el=>{el.hidden=el.dataset.page!==page;});
+  $('#setNav').hidden=!!page;
+  $('#setBack').hidden=!page;
+  $('#setTitle').textContent=page?t('cat_'+page):t('set_title');
+  // Coming back from a long page part-way down should start at the top.
+  const sheet=$('#overlaySet .sheet');
+  if(sheet)sheet.scrollTop=0;
+  if(page)gaScreen('settings_'+page);
+}
+$$('#setNav .set-cat').forEach(b=>b.onclick=()=>showSetPage(b.dataset.page));
+$('#setBack').onclick=()=>showSetPage(null);
+function openSettings(){showSetPage(null);renderSettings();$('#overlaySet').classList.add('show');gaScreen('v-set');}
 function closeSettings(){$('#overlaySet').classList.remove('show');}
 $('#btnMenu').onclick=openMenu;
 $('#menuClose').onclick=closeMenu;
 $('#miSettings').onclick=()=>{closeMenu();openSettings();};
 $('#setClose').onclick=closeSettings;
+// Inside a category, the hardware/browser back gesture should step back to
+// the list rather than leaving settings entirely.
+window.addEventListener('popstate',()=>{if(settingsOpen()&&setPage)showSetPage(null);});
 // tapping the dimmed backdrop closes, but clicks inside the sheet must not
 [['#overlayMenu',closeMenu],['#overlaySet',closeSettings]].forEach(([sel,close])=>{
   $(sel).addEventListener('click',e=>{if(e.target===$(sel))close();});
