@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Wordkeep 開発ボード</title>
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -100,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v4.8.0 時点 &middot; 最終更新 2026-08-22</div>
+    <div class="sub">v4.8.0 時点 &middot; 最終更新 2026-08-22（機能提案を追加）</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -175,6 +177,62 @@ footer a{color:var(--ink-2)}
         <div>
           <div class="t">ニックネームの不適切語対応</div>
           <div class="d">ランキングで世界中の目に触れる以上、通報と管理者による強制変更の手段が要る。管理画面から改名できるようにするのが最小構成。</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>追加を検討したい機能</h2><span class="sec-n" data-count></span></div>
+    <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>上の2つ（一括追加・絞り込み）が投資対効果で頭ひとつ抜けている</b>と思う。どちらも「語数が増えたときに詰まる」問題で、パッケージ拡充やランキングより先に効いてくる。</p>
+    <ul>
+      <li class="next" data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">単語の一括追加（複数行をまとめて登録）</div>
+          <div class="d"><b>いま一番の詰まりどころだと思う。</b>授業で20語聞いても、1語ずつ「調べる→追加」を繰り返す人はいない。改行区切りで貼り付け→まとめて辞書引き→結果を一覧で確認して一括保存、という導線にすると、<b>アプリに入る語数そのものが増える</b>。SRSも記録もランキングも、入力量が上限を決めている以上、ここが一番効く。<br>実装上の注意：辞書APIを一度に大量に叩かないよう間隔を空ける必要がある。失敗した語だけ手入力に回せる作りにする。</div>
+        </div>
+      </li>
+      <li class="next" data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">リストの絞り込み（未学習／要復習／学習済み）</div>
+          <div class="d">検索はあるが状態で絞れない。語数が数百になると一覧が実質使えなくなり、<b>パッケージの中身を増やす計画とも噛み合わない</b>（増やすほど探せなくなる）。既存の<code>box</code>と<code>isDue</code>で判定できるので、UIを足すだけで済む。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">苦手な単語（リーチ）の検出と、それだけを復習するモード</div>
+          <div class="d">SRSで定番の考え方。何度やっても間違える単語は、放置すると<b>永遠に周回して意欲を削る</b>。<code>wrong</code>と<code>correct</code>は既に記録しているので、一定回数以上間違えた語に印を付け、「この単語、何度も間違えています。覚え方をメモしませんか」と<b>メモ欄へ誘導する</b>のが自然。あわせて「苦手だけ」の復習モードを追加すると、今日の復習／自由学習と並ぶ3つ目の入口になる。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">追加時に「もう知っている」を選べるようにする</div>
+          <div class="d">現在はすべて未学習（box -1）から始まる。すでに half 知っている単語まで最初から総ざらいさせられるのは、<b>語数を増やすほど苦痛になる</b>。追加時に「知っている」を選べば少し先の箱から始められるようにする。<br><b>ただし過大評価のリスクがある</b>ので、飛ばしすぎない（最大でも中間の箱まで）方が安全だと思う。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">バックアップにパッケージの進捗が入っていない</div>
+          <div class="d"><code>doExport</code>は<code>DB</code>だけを書き出しており、パッケージ進捗（<code>wordkeep.packages.v1</code>）が含まれていない。書き出したJSONから復元しても<b>パッケージの学習記録だけ失われる</b>。読み込み側の対応もセットで必要。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">利用者が自分でアカウントを削除できない</div>
+          <div class="d">現在は管理者しか消せない。全世界で使ってもらう前提なら、<b>本人が自分のデータを消せる導線は用意しておくべき</b>（EUではGDPRで求められる項目でもある）。プロフィール画面に「アカウントを削除」を置き、単語ドキュメント→要約ドキュメント→認証ユーザーの順に消す。<b>PIN再入力での本人確認は必須。</b></div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">タグ／グループで単語を分類する</div>
+          <div class="d">「今週の授業」「教科書3章」のようにまとめたい要求は必ず出てくる。ただし<b>絞り込みが先</b>だと思う。タグは付ける手間がかかるので、まず状態で絞れるようにして、それでも足りないと分かってから入れる方が無駄がない。</div>
         </div>
       </li>
     </ul>
@@ -294,13 +352,7 @@ footer a{color:var(--ink-2)}
           <div class="d">いま友達の端末でJavaScriptエラーが起きても、こちらには一切届かない。本人が「なんか動かない」と知らせてくれない限り気づけない。無料枠で、エラー内容と発生箇所が自動で通知される。<b>コストの割に効果が大きい。</b></div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
-        <div>
-          <div class="t">自動テストを残す</div>
-          <div class="d">同期のマージ、ストリーク計算、SRSの間隔などは毎回ブラウザ上で検証しているが、その検証は使い捨てで残らない。テストにしておけば、別の変更で壊れたときに自動で気づける。実際このプロジェクトだけでも、フリーズ消失・同期中の編集が消える競合・コントラスト不足などが後から見つかっている。<b>まずは純粋な計算部分（<code>mergeCloud</code> / <code>mergeStreak</code> / SRSの間隔）だけでも価値がある。</b></div>
-        </div>
-      </li>
+      
     </ul>
   </section>
 
@@ -335,6 +387,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">自動テストを残す</div><div class="d"><code>tests/logic.test.js</code>（61件）と、コミット時に自動で走る pre-commit フックを追加。<code>extract.mjs</code>が<code>index.html</code>から対象関数を抜き出すので、テストが実物と乖離しない。構文エラーかテスト失敗があるとコミットが拒否されるため、走らせ忘れが起きない。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: ロシア語・韓国語・アラビア語で入力式クイズが必ず不正解になっていた</div><div class="d"><code>norm()</code>がASCII＋かな＋漢字だけの許可リストで、それ以外の字種を記号として除去していた。該当言語の意味は<b>正規化の時点で空文字になり、正解を入力しても必ず不正解</b>。しかも不正解＝箱を最初に戻す仕様なので、<b>入力式の復習が学習履歴を破壊し続けていた</b>。全字種の文字と数字を残す方式へ変更。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">1文字の入力が正解になっていた</div><div class="d">部分一致に長さの下限が無く、「important」に対して「a」が正解扱い。単なるズルではなく<b>次の出題間隔が延びる</b>ため実害があった。実質的な部分一致（長さ比0.6以上かつ2文字以上）に限定。</div><div class="ver">v4.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">打ち間違いが不正解、否定形が正解になっていた</div><div class="d">レーベンシュタイン距離の関数は存在したのに採点に使われておらず、「importnat」は不正解。一方で前方に文字が足された「unimportant」は正解になっていた（<b>反対の意味</b>）。長さがほぼ同じ場合のみ編集距離1〜2を許容し、前方付加は不許可に。</div><div class="ver">v4.8.0</div></div></li>
