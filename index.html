@@ -505,12 +505,27 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   margin-top:10px;font-size:10.5px;color:var(--muted)}
 .heat-legend .heat-c{width:10px;height:10px}
 .stats-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0 2px 18px}
+/* Marks a word that has a memo. Sized and toned like the speaker beside it --
+   as the 📝 emoji it was drawn by the platform and sat heavier than everything
+   around it. */
+.note-dot{display:inline-flex;align-items:center;margin-left:7px;color:inherit;
+  opacity:.45;vertical-align:middle;line-height:0}
+.note-dot svg{width:1em;height:1em}
+/* The bulk-add preview puts the memo on its own line, so the mark leads it
+   rather than trailing a word. */
+.note-line{display:flex;align-items:flex-start;gap:5px;margin-top:3px}
+.note-line .note-dot{margin-left:0;margin-top:.15em;flex:none}
 .spk{background:none;border:none;padding:3px 6px;line-height:0;cursor:pointer;
   border-radius:8px;opacity:.6;font-family:inherit;vertical-align:middle;color:inherit;
-  display:inline-flex;align-items:center;transition:opacity .12s}
+  display:inline-flex;align-items:center;transition:opacity .12s;
+  /* A button does not inherit font-size, so without this the em below resolved
+     against the UA's 13.3px default and the icon came out smaller than the
+     memo mark sitting right next to it. */
+  font-size:inherit}
 /* Sized in em so it tracks whatever text it sits beside -- the button appears
-   next to a 15px list row and a 34px flashcard face. */
-.spk svg{width:1.05em;height:1.05em}
+   next to a 15px list row and a 34px flashcard face. Same value as .note-dot,
+   which shares the line with it. */
+.spk svg{width:1em;height:1em}
 .spk:hover{opacity:1;background:var(--ghost-bg)}
 .spk:active{transform:scale(.9)}
 /* On a card or a question the button stands alone rather than beside running
@@ -909,15 +924,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.11.1';
+const APP_VERSION='5.11.2';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.11.1',date:'2026-08-24',keys:['wn1']},
+  {version:'5.11.2',date:'2026-08-24',keys:['wn1']},
+  {version:'5.11.1',date:'2026-08-24',keys:['v5111_1']},
   {version:'5.11.0',date:'2026-08-24',keys:['v5110_1','v5110_2','v5110_3']},
-  {version:'5.10.0',date:'2026-08-24',keys:['v5100_1','v5100_2','v5100_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1012,13 +1027,11 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'発音ボタンのアイコンを、絵文字から他のアイコンと揃いのものに差し替えました。端末によって形が変わることもなくなります',en:'The pronunciation button now uses the same drawn icon as the rest of the app instead of an emoji, so it no longer changes shape between devices',zh:'发音按钮的图标由表情符号改为与其他图标统一的样式，不会再因设备不同而变形',fr:'Le bouton de prononciation utilise désormais la même icône dessinée que le reste de l’application au lieu d’un émoji, et ne change plus de forme selon l’appareil',ar:'صار زر النطق يستخدم الأيقونة المرسومة نفسها المستعملة في بقية التطبيق بدل الإيموجي، فلم يعد شكله يختلف بين الأجهزة',ko:'발음 버튼의 아이콘을 이모지에서 다른 아이콘과 같은 것으로 교체했습니다. 기기에 따라 모양이 달라지는 일도 없어집니다',ru:'Кнопка произношения теперь использует тот же нарисованный значок, что и остальное приложение, вместо эмодзи — его форма больше не меняется от устройства к устройству'},
+  wn1:{ja:'メモがある単語につく印も、絵文字から他と揃いのアイコンに差し替えました',en:'The mark on a word that has a note is now the same drawn icon as the rest, instead of an emoji',zh:'带有备注的单词所显示的标记也由表情符号改为与其他统一的图标',fr:'La marque signalant qu’un mot a une note utilise elle aussi l’icône dessinée au lieu d’un émoji',ar:'صارت علامة الكلمة التي لها ملاحظة أيقونة مرسومة مثل البقية بدل الإيموجي',ko:'메모가 있는 단어에 붙는 표시도 이모지에서 다른 것과 같은 아이콘으로 교체했습니다',ru:'Отметка у слова с заметкой теперь тоже нарисованный значок, как и остальные, а не эмодзи'},
+  v5111_1:{ja:'発音ボタンのアイコンを、絵文字から他のアイコンと揃いのものに差し替えました。端末によって形が変わることもなくなります',en:'The pronunciation button now uses the same drawn icon as the rest of the app instead of an emoji, so it no longer changes shape between devices',zh:'发音按钮的图标由表情符号改为与其他图标统一的样式，不会再因设备不同而变形',fr:'Le bouton de prononciation utilise désormais la même icône dessinée que le reste de l’application au lieu d’un émoji, et ne change plus de forme selon l’appareil',ar:'صار زر النطق يستخدم الأيقونة المرسومة نفسها المستعملة في بقية التطبيق بدل الإيموجي، فلم يعد شكله يختلف بين الأجهزة',ko:'발음 버튼의 아이콘을 이모지에서 다른 아이콘과 같은 것으로 교체했습니다. 기기에 따라 모양이 달라지는 일도 없어집니다',ru:'Кнопка произношения теперь использует тот же нарисованный значок, что и остальное приложение, вместо эмодзи — его форма больше не меняется от устройства к устройству'},
   v5110_1:{ja:'ランキングで同じ回数の人が同じ順位になるようにしました。これまでは並び順が毎回変わり、同点なのに順位が入れ替わって見えていました',en:'People on the same score now share a place in the ranking. Until now the order shifted on every refresh, so tied users appeared to swap positions',zh:'排行榜中成绩相同的人现在并列同一名次。此前顺序每次刷新都会变化，明明同分却看起来名次互换',fr:'Les personnes à égalité partagent désormais la même place au classement. Auparavant l’ordre changeait à chaque actualisation, donnant l’impression d’un échange de positions',ar:'صار أصحاب النتيجة نفسها يتشاركون المركز ذاته في الترتيب. وكان الترتيب يتغيّر مع كل تحديث فيبدو أن المتعادلين يتبادلان المواقع',ko:'랭킹에서 같은 횟수인 사람이 같은 순위가 되도록 했습니다. 지금까지는 새로 고칠 때마다 순서가 바뀌어, 동점인데도 순위가 뒤바뀌어 보였습니다',ru:'В рейтинге участники с одинаковым результатом теперь делят место. Раньше порядок менялся при каждом обновлении, и они будто менялись позициями'},
   v5110_2:{ja:'ニックネームを変えると、ランキングにもすぐ反映されるようにしました。これまでは次に同期するまで古い名前のままでした',en:'Changing your nickname now updates the leaderboard straight away. Until now the old name stayed up until the next sync',zh:'修改昵称后排行榜会立即更新。此前需等到下次同步才会变更',fr:'Changer votre pseudo met désormais le classement à jour immédiatement. Jusqu’ici l’ancien nom restait affiché jusqu’à la synchronisation suivante',ar:'صار تغيير اسمك المستعار ينعكس على لوحة الترتيب فورًا. وكان الاسم القديم يبقى معروضًا حتى المزامنة التالية',ko:'닉네임을 바꾸면 랭킹에도 바로 반영됩니다. 지금까지는 다음 동기화 전까지 예전 이름 그대로였습니다',ru:'Смена никнейма теперь сразу обновляет рейтинг. Прежде старое имя оставалось до следующей синхронизации'},
   v5110_3:{ja:'ランキングの種目をすばやく切り替えたときに、前の種目の内容が表示されてしまう不具合を直しました。切り替えの反応も速くなっています',en:'Fixed the ranking showing the previous board when you switched categories quickly. Switching is also faster now',zh:'修复了快速切换排行榜类别时显示上一个榜单的问题，切换也更快了',fr:'Correction : changer rapidement de catégorie affichait le classement précédent. Le changement est aussi plus rapide',ar:'أُصلح عرض اللوحة السابقة عند التبديل السريع بين فئات الترتيب. كما صار التبديل أسرع',ko:'랭킹 부문을 빠르게 전환했을 때 이전 부문의 내용이 표시되던 문제를 고쳤습니다. 전환도 빨라졌습니다',ru:'Исправлено: быстрое переключение категорий рейтинга показывало предыдущую таблицу. Переключение также стало быстрее'},
-  v5100_1:{ja:'ニックネームに不適切な言葉や、運営を名乗る名前を登録できないようにしました。ランキングで全員に表示されるようになったためです',en:'Nicknames containing offensive words, or impersonating the app’s own staff, can no longer be registered — they are shown to everyone on the leaderboard now',zh:'昵称不再允许包含不当词汇或冒充官方的名称，因为它们现在会显示在排行榜上供所有人查看',fr:'Les pseudos contenant des mots offensants ou se faisant passer pour l’équipe ne peuvent plus être enregistrés : ils sont désormais visibles de tous dans le classement',ar:'لم يعد بالإمكان تسجيل ألقاب تحتوي كلمات مسيئة أو تنتحل صفة فريق التطبيق، لأنها تظهر الآن للجميع في الترتيب',ko:'닉네임에 부적절한 말이나 운영진을 사칭하는 이름을 등록할 수 없게 했습니다. 랭킹에서 모두에게 표시되기 때문입니다',ru:'Никнеймы с оскорбительными словами или выдающие себя за команду приложения больше нельзя зарегистрировать — теперь они видны всем в рейтинге'},
-  v5100_2:{ja:'更新履歴は直近3バージョンだけを最初に表示し、それより前は「過去のバージョンを読み込む」で必要なときだけ取得するようにしました。アプリの読み込みが約30%軽くなっています',en:'The changelog now shows only the last three versions up front; older ones load on demand via a button. The app itself is about 30% lighter to load',zh:'更新记录默认只显示最近三个版本，更早的通过「加载更早的版本」按需获取。应用加载体积减少约 30%',fr:'L’historique n’affiche d’emblée que les trois dernières versions ; les précédentes se chargent à la demande. L’application est environ 30% plus légère au chargement',ar:'صار سجل التحديثات يعرض آخر ثلاث نسخ فقط، وتُحمَّل الأقدم عند الطلب بزر. وصار تحميل التطبيق أخف بنحو 30%',ko:'업데이트 내역은 최근 3개 버전만 먼저 보여 주고, 그 이전은 «이전 버전 불러오기»로 필요할 때만 가져옵니다. 앱 로딩이 약 30% 가벼워졌습니다',ru:'История обновлений сразу показывает только три последние версии; более ранние загружаются по кнопке. Само приложение стало примерно на 30% легче'},
-  v5100_3:{ja:'バックアップの書き出しにパッケージの進捗が入っていない不具合を直しました。これまでは復元するとパッケージで覚えた分が消えていました',en:'Fixed backups leaving out your package progress. Until now, restoring one silently threw away everything you had learned from a package',zh:'修复了备份未包含单词包进度的问题。此前恢复备份会悄悄丢失单词包中的学习记录',fr:'Correction : les sauvegardes omettaient la progression des packs. Jusqu’ici, une restauration effaçait silencieusement tout ce qui y avait été appris',ar:'أُصلح إغفال النسخ الاحتياطية لتقدّمك في الحزم؛ فقد كانت الاستعادة تمحو بصمت كل ما تعلّمته منها',ko:'백업 내보내기에 패키지 진행 상황이 빠져 있던 문제를 고쳤습니다. 지금까지는 복원하면 패키지에서 외운 만큼이 사라졌습니다',ru:'Исправлено: резервные копии не включали прогресс по наборам. До сих пор восстановление молча стирало всё выученное из них'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1737,6 +1750,7 @@ function speak(text){
   }catch(e){}
 }
 function speakAuto(text){if(S().autoSpeak)speak(text);}
+const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
 const SPEAKER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>';
 function spkBtn(text){
   if(!TTS_OK||!text)return '';
@@ -2832,7 +2846,7 @@ function renderBulk(){
           '<div style="flex:1;min-width:0">'+
             '<div><span class="w">'+esc(r.word)+'</span>'+(r.kata?'<span class="kata">'+esc(r.kata)+'</span>':'')+'</div>'+
             (r.ja?'<div class="m">'+esc(r.ja)+'</div>':'')+
-            (r.note?'<div class="sd" style="margin-top:3px">📝 '+esc(r.note.slice(0,60))+'</div>':'')+
+            (r.note?'<div class="sd note-line"><span class="note-dot">'+NOTE_SVG+'</span>'+esc(r.note.slice(0,60))+'</div>':'')+
             '<div class="meta">'+chip(r)+(r.pos?'<span class="tag-sm">'+esc(posLabel(r.pos))+'</span>':'')+'</div>'+
           '</div>'+
         '</div>').join('')+
@@ -3244,7 +3258,7 @@ function renderList(){
     const posTxt=posLabel(w.meanings&&w.meanings[0]&&w.meanings[0].pos);
     return '<div class="card" data-word-id="'+w.id+'"><div style="flex:1">'+
       '<div>'+(posTxt?'<span class="pos-badge">'+esc(posTxt)+'</span>':'')+'<span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+
-        (w.note?'<span title="'+esc(t('note_heading'))+'" style="margin-left:6px">📝</span>':'')+spkBtn(w.word)+'</div>'+
+        (w.note?'<span class="note-dot" title="'+esc(t('note_heading'))+'" aria-label="'+esc(t('note_heading'))+'">'+NOTE_SVG+'</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       (isLeech(w)?'<span class="tag-sm tag-leech">⚠️ '+esc(t('flt_leech'))+'</span>':'')+
