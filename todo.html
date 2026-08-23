@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.5.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.6.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -336,6 +336,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力のキーボードを画面下部に固定</div><div class="d">従来は本文と一緒に流れていたため、<b>打っている最中にキーボードごと動き、両脇に余白が残っていた</b>。<code>position:fixed</code>で最下部に張り付け、左右いっぱいまで使うようにした。配置もiOSの標準に寄せ、<b>シフトの位置に「'」、最下段に常設のスペースキー</b>を置いた（従来は答えに含まれるときだけ現れる仕様で、<b>問題ごとにキーボードの形が変わる</b>方が打ちにくい）。ヒントはキーボードの上のボタンが担うので、キー側の<code>?</code>は廃止。浮かせた分の高さは<code>--kb-h</code>から算出して本文側に確保する。</div><div class="ver">v5.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">正解後に「単語の詳細」「単語を聞く」「次の問題」の3ボタン</div><div class="d">答え合わせが済んだらキーボードを閉じ、空いた場所に3つのタイルを出す。<b>覚えたてのうちにメモを読み返す・発音を聞く</b>のは「次へ」と同じくらい価値があるのに、従来は幅いっぱいの「次の問題」1つだけで、音声は判定枠の中の小さなスピーカー記号だった（当たり判定が小さいので廃止）。4択でも同じ3つを出す。キーボードを下げる処理は<code>grade()</code>側に置いた——呼び出し側に任せると<b>1経路でも漏れたときキーボードが判定を覆い隠す</b>ため。</div><div class="ver">v5.6.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">問題を途中で終わらせるボタン</div><div class="d">一度始めると最後まで解く以外に出口がなかった。進行バーの右に✕を置き、設定画面へ戻れるようにした。<b>成績は1問ごとに保存されている</b>ので、途中で抜けても解いた分は残る。</div><div class="ver">v5.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">復習タブに設定画面を挟む</div><div class="d">タブを開いた瞬間に出題せず、<b>単語帳・出題形式・問題数を選んで「はじめる」</b>方式に変更。変えたいものが1箇所に揃い、かつ<b>解いている間は設定類が画面から完全に消える</b>——従来は単語帳バーとモードタブが毎問の上に居座り、周回中にいじる誘いになっていた。<br><b>ホームのCTAは従来どおり1タップで即開始</b>（アプリを開いて解き始めるまでの距離を伸ばさないため）。モードタブは役目を終えたので<code>modeTabsHTML</code>／<code>bindModeTabs</code>ごと削除。</div><div class="ver">v5.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定の変更が即座に反映されない</div><div class="d">出題形式や言語を変えても、他のタブを押すまで反映されなかった。変更時に<code>applySettingsNow()</code>で背後の画面を描き直す。<b>出題形式・問題数・向きを周回中に変えた場合は設定画面へ戻す</b>——途中の設問だけ古い形式のまま残るのを避けるため。</div><div class="ver">v5.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">まとめて追加でチェックを外すと先頭に飛ばされる</div><div class="d">利用者からの報告。チェック変更のたびに<code>renderBulk()</code>で全体を作り直しており、<b>40件貼って25件目を外すと毎回先頭まで戻される</b>状態だった。変化するのは件数表示とボタン文言だけなので、その2つだけを更新するようにした。</div><div class="ver">v5.5.0</div></div></li>

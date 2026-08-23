@@ -22,6 +22,9 @@
   --accent:#f0b429;
   --good:#1f9d6b; --bad:#d8524a;
   --good-bg:#eafaf3; --good-ink:#0d6b47; --good-line:#bfe8d5;
+  /* 4 rows of keys + the gaps between them + the strip's own padding. Kept
+     here so the space the page reserves stays in step with the key height. */
+  --kb-key-h:54px; --kb-h:calc(4 * var(--kb-key-h) + 3 * 9px + 18px);
   --kb-bg:#d1d3d9; --kb-key:#ffffff; --kb-fn:#adb3bd; --kb-ink:#0b1220; --kb-shadow:rgba(0,0,0,.28);
   --bad-bg:#fdeeed; --bad-ink:#a8352e; --bad-line:#f3cfcc;
   --chip-bg:#e5edf8; --ghost-bg:#eef2f9; --track:#e8eef7;
@@ -240,21 +243,46 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 /* Bigger and further apart than a stock phone keyboard on purpose: this one
    is only ever used for single letters under time pressure, so hit area
    matters more than fitting a full layout. */
-.sp-kb{margin-top:16px;padding:10px 4px 12px;border-radius:12px;background:var(--kb-bg);
+/* Pinned to the bottom of the viewport, edge to edge, exactly where a system
+   keyboard sits. It used to flow with the page, so it drifted while you typed
+   and left a margin down each side -- both make touch-typing guesswork. */
+.sp-kb{position:fixed;left:0;right:0;bottom:0;z-index:60;
+  padding:9px 3px calc(9px + env(safe-area-inset-bottom));background:var(--kb-bg);
   user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .sp-row{display:flex;gap:6px;justify-content:center;margin-bottom:9px}
 .sp-row:last-child{margin-bottom:0}
 .sp-row.r2{padding:0 5.2%}
-.sp-key{flex:1;min-width:0;height:54px;border-radius:8px;border:none;
+.sp-key{flex:1;min-width:0;height:var(--kb-key-h);border-radius:8px;border:none;
   background:var(--kb-key);color:var(--kb-ink);
   font-family:inherit;font-size:23px;font-weight:400;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 1.5px 0 var(--kb-shadow);transition:background .04s,transform .04s}
 /* The two function keys sit on the darker grey iOS uses for shift/delete. */
 .sp-key.fn{flex:1.5;background:var(--kb-fn);font-size:19px}
-.sp-key.space{flex:6;font-size:14px}
+.sp-key.space{flex:8;font-size:14px;background:var(--kb-key)}
 .sp-key.down{background:var(--fill);color:#fff;transform:translateY(1.5px);box-shadow:none}
-@media (min-width:520px){ .sp-key{height:58px;font-size:25px} }
+@media (min-width:520px){ :root{--kb-key-h:58px} .sp-key{font-size:25px} }
+/* Ending a round early. Progress is written after every answer, so leaving
+   costs nothing -- there was simply no way out once a round had started. */
+.q-kbpad{padding-bottom:calc(var(--kb-h) + env(safe-area-inset-bottom) + 20px)}
+.q-top{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.q-top .q-progress{flex:1;margin-bottom:0}
+.q-quit{flex:none;width:30px;height:30px;border-radius:99px;border:none;cursor:pointer;
+  background:var(--ghost-bg);color:var(--muted);font-size:15px;line-height:1;
+  display:flex;align-items:center;justify-content:center}
+.q-quit:active{background:var(--line)}
+/* Post-answer actions. Three equal tiles rather than one wide button: hearing
+   the word and opening its details are worth as much as moving on. */
+.q-acts{display:flex;gap:10px;margin-top:16px}
+.q-act{flex:1;min-width:0}
+.q-act{border:none;border-radius:16px;padding:13px 4px 11px;cursor:pointer;
+  background:var(--navy);color:#fff;font-family:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  font-size:11.5px;font-weight:600;line-height:1.3;text-align:center;
+  box-shadow:0 2px 6px rgba(15,30,61,.18);transition:transform .06s,filter .06s}
+.q-act svg{width:22px;height:22px;flex:none}
+.q-act.main{background:var(--accent);color:var(--navy);box-shadow:0 2px 8px rgba(240,180,41,.34)}
+.q-act:active{transform:translateY(1px);filter:brightness(.94)}
 .q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
   background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
@@ -805,13 +833,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.5.0';
+const APP_VERSION='5.6.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.5.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.6.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.5.0',date:'2026-08-23',keys:['v550_1','v550_2','v550_3']},
   {version:'5.4.0',date:'2026-08-23',keys:['v540_1','v540_2','v540_3']},
   {version:'5.3.0',date:'2026-08-23',keys:['v530_1','v530_2','v530_3']},
   {version:'5.2.0',date:'2026-08-23',keys:['v520_1','v520_2','v520_3']},
@@ -961,9 +990,12 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'復習タブを開くと、いきなり問題が始まるのではなく設定画面が出るようにしました。単語帳・出題形式・問題数を選んで「はじめる」。問題を解いている間は設定類が一切表示されないので、解くことに集中できます（ホームのボタンからは今までどおり1タップで始まります）',en:'Opening the Review tab now shows a setup screen instead of launching straight in: pick the notebook, format and number of questions, then Start. Once a round begins nothing but the question is on screen. The Home button still starts in one tap',zh:'打开「复习」标签页不再直接出题，而是先显示设置：选择单词本、出题形式与题量后点「开始」。答题过程中不再显示任何设置，专注做题。首页按钮仍可一键开始',fr:'L’onglet Révision affiche désormais un écran de préparation au lieu de démarrer aussitôt : carnet, format et nombre de questions, puis Commencer. Pendant la série, seule la question reste à l’écran. Le bouton de l’accueil démarre toujours en un geste',ar:'صار فتح تبويب المراجعة يعرض شاشة إعداد بدل البدء فورًا: اختر الدفتر والصيغة وعدد الأسئلة ثم «ابدأ». وأثناء الجولة لا يظهر سوى السؤال. وزر الصفحة الرئيسية ما زال يبدأ بلمسة واحدة',ko:'복습 탭을 열면 바로 문제가 시작되지 않고 설정 화면이 나옵니다. 단어장·출제 형식·문제 수를 고르고 «시작하기». 문제를 푸는 동안에는 설정이 일절 표시되지 않아 집중할 수 있습니다(홈 버튼에서는 지금처럼 한 번에 시작됩니다)',ru:'Вкладка «Повторение» теперь показывает экран настройки вместо мгновенного старта: словарь, формат, число вопросов — затем «Начать». Во время раунда на экране только вопрос. Кнопка на главной по-прежнему запускает одним касанием'},
-  wn2:{ja:'設定の変更がすぐに反映されない不具合を直しました。出題形式や言語を変えたあと、他のタブを押さなくてもその場で反映されます',en:'Fixed settings not taking effect until you navigated elsewhere. Changing the quiz format or language now applies immediately',zh:'修复了设置需切换标签页才生效的问题。更改出题形式或语言后会立即生效',fr:'Correction : les réglages n’étaient appliqués qu’après avoir changé d’onglet. Le format et la langue prennent effet immédiatement',ar:'أُصلح عدم سريان الإعدادات إلا بعد الانتقال إلى تبويب آخر. صار تغيير الصيغة أو اللغة يُطبَّق فورًا',ko:'설정 변경이 바로 반영되지 않던 문제를 고쳤습니다. 출제 형식이나 언어를 바꾸면 그 자리에서 즉시 적용됩니다',ru:'Исправлено: настройки применялись только после перехода на другую вкладку. Формат и язык теперь действуют сразу'},
-  wn3:{ja:'まとめて追加でチェックを外すと、リストの先頭まで戻されてしまう問題を直しました。スクロール位置はそのままです。あわせて、スペル入力のキーボードのキーを大きくして押しやすくしました',en:'Unticking a row in bulk add no longer throws you back to the top of the list — your scroll position stays put. The spelling keyboard also has noticeably bigger keys',zh:'批量添加时取消勾选不再跳回列表顶部，滚动位置保持不变。同时加大了拼写键盘的按键',fr:'Décocher une ligne dans l’ajout groupé ne renvoie plus en haut de la liste : la position de défilement est conservée. Les touches du clavier d’orthographe sont aussi plus grandes',ar:'لم يعد إلغاء تحديد صف في الإضافة الجماعية يعيدك إلى أعلى القائمة؛ يبقى موضع التمرير كما هو. كما صارت مفاتيح لوحة الإملاء أكبر',ko:'한꺼번에 추가에서 체크를 해제해도 목록 맨 위로 되돌아가지 않습니다. 스크롤 위치가 그대로 유지됩니다. 스펠링 키보드의 키도 크게 키웠습니다',ru:'Снятие галочки при массовом добавлении больше не отбрасывает к началу списка — позиция прокрутки сохраняется. Клавиши клавиатуры для написания стали заметно крупнее'},
+  wn1:{ja:'スペル入力のキーボードを画面下部に固定しました。iOSの標準キーボードに近い配置で、両脇の余白をなくして端から端まで使います。打っている最中にキーボードごと動くことはもうありません。「\'」はシフトの位置に、下段にはスペースキーを常設しました',en:'The spelling keyboard is now pinned to the bottom of the screen, edge to edge and laid out like the iOS default — no more side margins, and it no longer drifts while you type. An apostrophe sits where shift would be, and there is a permanent space bar on the bottom row',zh:'拼写键盘现已固定在屏幕底部，左右不留空白、贯通两端，布局贴近 iOS 原生键盘，打字时不再随页面移动。撇号放在 shift 的位置，底行常驻空格键',fr:'Le clavier d’orthographe est désormais fixé en bas de l’écran, d’un bord à l’autre et disposé comme celui d’iOS : plus de marges latérales, et il ne bouge plus pendant la saisie. L’apostrophe occupe la place de la touche majuscule, et une barre d’espace figure en permanence sur la rangée du bas',ar:'صارت لوحة الإملاء مثبَّتة في أسفل الشاشة، من حافة إلى حافة وبترتيب قريب من لوحة iOS الافتراضية: لا هوامش جانبية، ولم تعد تتحرك أثناء الكتابة. وُضعت الفاصلة العليا مكان مفتاح الحروف الكبيرة، وأضيف مفتاح مسافة دائم في الصف السفلي',ko:'스펠링 키보드를 화면 아래쪽에 고정했습니다. 좌우 여백 없이 끝에서 끝까지 쓰며, iOS 기본 키보드에 가까운 배치입니다. 입력하는 동안 키보드가 함께 움직이지 않습니다. 어포스트로피는 시프트 자리에, 아래 줄에는 스페이스 키를 상시 두었습니다',ru:'Клавиатура для написания закреплена внизу экрана — во всю ширину, без полей по бокам и с раскладкой, близкой к стандартной клавиатуре iOS. Она больше не съезжает во время набора. Апостроф занял место клавиши Shift, а в нижнем ряду появился постоянный пробел'},
+  wn2:{ja:'正解・不正解のあと、キーボードが閉じて「単語の詳細」「単語を聞く」「次の問題」の3つのボタンが出るようになりました。覚えたてのうちにメモを読み返したり、発音を聞いたりできます',en:'After you answer, the keyboard closes and three buttons appear: Details, Listen and Next. You can reread your note or hear the word said properly while it is still fresh',zh:'作答之后键盘会收起，并出现「单词详情」「朗读单词」「下一题」三个按钮，可趁记忆尚新回看笔记或听发音',fr:'Après votre réponse, le clavier se referme et trois boutons apparaissent : Détails, Écouter et Suivant. De quoi relire votre note ou entendre le mot pendant qu’il est encore frais',ar:'بعد الإجابة تُغلق لوحة المفاتيح وتظهر ثلاثة أزرار: التفاصيل والاستماع والتالي، فتراجع ملاحظتك أو تسمع نطق الكلمة وهي ما تزال طازجة في ذهنك',ko:'정답·오답 뒤에 키보드가 닫히고 «단어 상세» «단어 듣기» «다음 문제» 세 버튼이 나옵니다. 기억이 생생할 때 메모를 다시 읽거나 발음을 들을 수 있습니다',ru:'После ответа клавиатура закрывается и появляются три кнопки: «Подробнее», «Прослушать» и «Далее». Можно перечитать заметку или услышать слово, пока оно свежо в памяти'},
+  wn3:{ja:'問題を途中でやめられるようになりました。進行バーの右にある✕を押すと設定画面に戻ります。答えた分の成績はそのまま記録されています',en:'You can now leave a round part-way through: the ✕ beside the progress bar takes you back to the setup screen. Everything you already answered stays recorded',zh:'现在可以中途结束答题：点击进度条右侧的 ✕ 即可返回设置画面，已作答的记录会照常保存',fr:'Vous pouvez désormais quitter une série en cours : le ✕ à droite de la barre de progression ramène à l’écran de préparation. Tout ce que vous avez déjà répondu reste enregistré',ar:'صار بإمكانك إنهاء الجولة في منتصفها: زر ✕ بجانب شريط التقدّم يعيدك إلى شاشة الإعداد، وكل ما أجبت عنه يبقى محفوظًا',ko:'문제를 도중에 그만둘 수 있습니다. 진행 바 오른쪽의 ✕를 누르면 설정 화면으로 돌아갑니다. 이미 답한 기록은 그대로 남습니다',ru:'Теперь раунд можно прервать: значок ✕ рядом с полосой прогресса возвращает на экран настройки, а всё уже отвеченное сохраняется'},
+  v550_1:{ja:'復習タブを開くと、いきなり問題が始まるのではなく設定画面が出るようにしました。単語帳・出題形式・問題数を選んで「はじめる」。問題を解いている間は設定類が一切表示されないので、解くことに集中できます（ホームのボタンからは今までどおり1タップで始まります）',en:'Opening the Review tab now shows a setup screen instead of launching straight in: pick the notebook, format and number of questions, then Start. Once a round begins nothing but the question is on screen. The Home button still starts in one tap',zh:'打开「复习」标签页不再直接出题，而是先显示设置：选择单词本、出题形式与题量后点「开始」。答题过程中不再显示任何设置，专注做题。首页按钮仍可一键开始',fr:'L’onglet Révision affiche désormais un écran de préparation au lieu de démarrer aussitôt : carnet, format et nombre de questions, puis Commencer. Pendant la série, seule la question reste à l’écran. Le bouton de l’accueil démarre toujours en un geste',ar:'صار فتح تبويب المراجعة يعرض شاشة إعداد بدل البدء فورًا: اختر الدفتر والصيغة وعدد الأسئلة ثم «ابدأ». وأثناء الجولة لا يظهر سوى السؤال. وزر الصفحة الرئيسية ما زال يبدأ بلمسة واحدة',ko:'복습 탭을 열면 바로 문제가 시작되지 않고 설정 화면이 나옵니다. 단어장·출제 형식·문제 수를 고르고 «시작하기». 문제를 푸는 동안에는 설정이 일절 표시되지 않아 집중할 수 있습니다(홈 버튼에서는 지금처럼 한 번에 시작됩니다)',ru:'Вкладка «Повторение» теперь показывает экран настройки вместо мгновенного старта: словарь, формат, число вопросов — затем «Начать». Во время раунда на экране только вопрос. Кнопка на главной по-прежнему запускает одним касанием'},
+  v550_2:{ja:'設定の変更がすぐに反映されない不具合を直しました。出題形式や言語を変えたあと、他のタブを押さなくてもその場で反映されます',en:'Fixed settings not taking effect until you navigated elsewhere. Changing the quiz format or language now applies immediately',zh:'修复了设置需切换标签页才生效的问题。更改出题形式或语言后会立即生效',fr:'Correction : les réglages n’étaient appliqués qu’après avoir changé d’onglet. Le format et la langue prennent effet immédiatement',ar:'أُصلح عدم سريان الإعدادات إلا بعد الانتقال إلى تبويب آخر. صار تغيير الصيغة أو اللغة يُطبَّق فورًا',ko:'설정 변경이 바로 반영되지 않던 문제를 고쳤습니다. 출제 형식이나 언어를 바꾸면 그 자리에서 즉시 적용됩니다',ru:'Исправлено: настройки применялись только после перехода на другую вкладку. Формат и язык теперь действуют сразу'},
+  v550_3:{ja:'まとめて追加でチェックを外すと、リストの先頭まで戻されてしまう問題を直しました。スクロール位置はそのままです。あわせて、スペル入力のキーボードのキーを大きくして押しやすくしました',en:'Unticking a row in bulk add no longer throws you back to the top of the list — your scroll position stays put. The spelling keyboard also has noticeably bigger keys',zh:'批量添加时取消勾选不再跳回列表顶部，滚动位置保持不变。同时加大了拼写键盘的按键',fr:'Décocher une ligne dans l’ajout groupé ne renvoie plus en haut de la liste : la position de défilement est conservée. Les touches du clavier d’orthographe sont aussi plus grandes',ar:'لم يعد إلغاء تحديد صف في الإضافة الجماعية يعيدك إلى أعلى القائمة؛ يبقى موضع التمرير كما هو. كما صارت مفاتيح لوحة الإملاء أكبر',ko:'한꺼번에 추가에서 체크를 해제해도 목록 맨 위로 되돌아가지 않습니다. 스크롤 위치가 그대로 유지됩니다. 스펠링 키보드의 키도 크게 키웠습니다',ru:'Снятие галочки при массовом добавлении больше не отбрасывает к началу списка — позиция прокрутки сохраняется. Клавиши клавиатуры для написания стали заметно крупнее'},
   v540_1:{ja:'重要な修正: 単語帳（カード）の裏で、意味が長いと上のほうが見えず、スクロールしても届かない不具合を直しました。ご報告ありがとうございます',en:'Important fix: on the back of a flashcard, a long meaning had its first lines cut off and no amount of scrolling reached them. Thank you for reporting it',zh:'重要修复：单词卡背面释义较长时，顶部内容被裁切且无法滚动查看。感谢反馈',fr:'Correctif important : au dos d’une carte, un sens un peu long voyait ses premières lignes coupées, sans pouvoir y accéder en défilant. Merci du signalement',ar:'إصلاح مهم: في ظهر البطاقة، كانت الأسطر الأولى من المعاني الطويلة تُقتطع ولا يمكن الوصول إليها بالتمرير. شكرًا على الإبلاغ',ko:'중요한 수정: 단어 카드 뒷면에서 뜻이 길면 윗부분이 잘려 스크롤해도 볼 수 없던 문제를 고쳤습니다. 제보 감사합니다',ru:'Важное исправление: на обороте карточки длинное значение обрезалось сверху, и прокрутка до него не доходила. Спасибо за сообщение'},
   v540_2:{ja:'スペル入力のキーボードを作り直しました。「?」を左、削除を右にして、iPhoneのキーボードと同じ並びにしています。前の配置は押し間違いが多いというご意見をいただきました',en:'Rebuilt the spelling keyboard: hint on the left, delete on the right, matching where iPhone puts them. The previous arrangement was causing mis-taps',zh:'重做了拼写键盘：「?」在左、删除在右，与 iPhone 键盘一致。此前的排列容易误触',fr:'Clavier d’orthographe refait : indice à gauche, suppression à droite, comme sur iPhone. L’ancienne disposition provoquait des erreurs de frappe',ar:'أُعيد بناء لوحة مفاتيح الإملاء: التلميح يسارًا والحذف يمينًا، مثل ترتيب آيفون. الترتيب السابق كان يسبّب ضغطات خاطئة',ko:'스펠링 입력 키보드를 다시 만들었습니다. 「?」를 왼쪽, 삭제를 오른쪽에 두어 아이폰 키보드와 같은 배열로 했습니다. 이전 배열은 오타가 잦다는 의견이 있었습니다',ru:'Клавиатура для написания переделана: подсказка слева, удаление справа — как на iPhone. Прежний порядок приводил к ошибочным нажатиям'},
   v540_3:{ja:'「自由学習」は今日の復習が終わってから出るようにし、「苦手」タブは記号ではなく文字で表示するようにしました。単語の追加画面には、どの単語帳に入るかを表示しています。また、出題形式の「意味入力」は廃止しました',en:'Free study now appears only once today’s review is done, and the Trouble tab is spelled out instead of shown as a warning glyph. The add screen shows which notebook the word will go to. The meaning-typing quiz format has been retired',zh:'「自由学习」改为今日复习完成后才出现，「易错」标签改用文字而非警告符号。添加页会显示将存入哪个单词本。另外，出题形式中的「输入释义」已停用',fr:'L’étude libre n’apparaît qu’une fois la révision du jour terminée, et l’onglet Difficiles est écrit en toutes lettres. L’écran d’ajout indique le carnet de destination. Le format « saisie du sens » a été retiré',ar:'تظهر «الدراسة الحرة» الآن بعد إنهاء مراجعة اليوم فقط، وصار تبويب «صعبة» مكتوبًا بدل رمز التحذير. وتعرض شاشة الإضافة الدفتر الذي ستُحفظ فيه الكلمة. كما أُلغيت صيغة «كتابة المعنى»',ko:'「자유 학습」은 오늘의 복습을 마친 뒤에 나타나고, 「취약」 탭은 기호 대신 글자로 표시합니다. 단어 추가 화면에는 어느 단어장에 들어가는지 표시됩니다. 또한 출제 형식의 「뜻 입력」은 폐지했습니다',ru:'«Свободное занятие» появляется только после сегодняшнего повторения, а вкладка «Трудные» подписана словом вместо значка. На экране добавления видно, в какой словарь попадёт слово. Формат «ввод значения» упразднён'},
@@ -1235,7 +1267,11 @@ const T={
   correct_label:{ja:'正しい答え：',en:'Answer: ',zh:'正确答案：',fr:'Réponse : ',ar:'الإجابة: ',ko:'정답: ',ru:'Правильный ответ: '},
   next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）',fr:'Prochaine révision : dans {0} jours ({1})',ar:'المراجعة القادمة: بعد {0} أيام ({1})',ko:'다음 복습: {0}일 후 ({1})',ru:'Следующий повтор: через {0} дн. ({1})'},
   again_soon:{ja:'このあともう一度出題します。復習の間隔は最初からになります',en:'We’ll ask again shortly — the interval starts over from the beginning',zh:'稍后会再次出题。复习间隔将从头开始',fr:'Nous le redemanderons bientôt — l’intervalle repart de zéro',ar:'سنسألك عنها مجددًا بعد قليل — يبدأ الفاصل من جديد',ko:'잠시 후 다시 출제됩니다. 복습 간격은 처음부터 다시 시작됩니다',ru:'Спросим ещё раз чуть позже — интервал начнётся заново'},
-  btn_next_q:{ja:'次の問題 →',en:'Next →',zh:'下一题 →',fr:'Suivant →',ar:'التالي →',ko:'다음 문제 →',ru:'Далее →'},
+  btn_next_q:{ja:'次の問題',en:'Next',zh:'下一题',fr:'Suivant',ar:'التالي',ko:'다음 문제',ru:'Далее'},
+  act_detail:{ja:'単語の詳細',en:'Details',zh:'单词详情',fr:'Détails',ar:'التفاصيل',ko:'단어 상세',ru:'Подробнее'},
+  act_listen:{ja:'単語を聞く',en:'Listen',zh:'朗读单词',fr:'Écouter',ar:'استمع',ko:'단어 듣기',ru:'Прослушать'},
+  btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
+  sp_space:{ja:'space',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
   btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기',ru:'Показать результат'},
   accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%',fr:'Précision {0}%',ar:'الدقة {0}%',ko:'정답률 {0}%',ru:'Точность {0}%'},
   btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习',fr:'Continuer la révision',ar:'متابعة المراجعة',ko:'계속 복습',ru:'Продолжить повтор'},
@@ -3469,6 +3505,7 @@ function pickDistractors(w,correct,showEng,n){
 function renderQuizSetup(){
   const body=$('#quizBody');
   if(!body)return;
+  clearKeyboardSpace();
   renderSourceBar('#src-quiz');
   const due=curDueCount(), lc=leechCount();
   const total=curWords().filter(w=>primaryMeaning(w)).length;
@@ -3579,7 +3616,8 @@ function spellDisplayHTML(){
     }
     return out;
   }
-  const typed=spell.buf.split('').map(c=>'<span class="sp-slot filled">'+esc(c)+'</span>').join('');
+  const typed=spell.buf.split('').map(c=>
+    '<span class="sp-slot'+(c===' '?' gap':' filled')+'">'+esc(c)+'</span>').join('');
   return typed+(spell.done?'':'<span class="sp-slot cur"></span>');
 }
 function renderSpellDisplay(){
@@ -3587,32 +3625,28 @@ function renderSpellDisplay(){
   if(el)el.innerHTML=spellDisplayHTML();
 }
 function spellKeyboardHTML(){
-  const needSpace=spell.target.includes(' ');
-  const extra=[];
-  if(spell.target.includes('-'))extra.push('-');
-  if(spell.target.includes("'"))extra.push("'");
+  const del='<svg viewBox="0 0 26 18" width="26" height="18" aria-hidden="true">'+
+    '<path d="M8.2 1h15a1.8 1.8 0 0 1 1.8 1.8v12.4a1.8 1.8 0 0 1-1.8 1.8h-15L1 9z" '+
+    'fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'+
+    '<path d="M12 6.5l6 5M18 6.5l-6 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'+
+    '</svg>';
   let h='<div class="sp-kb">';
   SPELL_ROWS.forEach((row,i)=>{
     h+='<div class="sp-row'+(i===1?' r2':'')+'">';
-    // Hint on the left, delete on the right -- the positions iOS puts shift
-    // and delete in. Having them the other way round made people hit delete
-    // when they meant hint.
-    if(i===2)h+='<button class="sp-key fn" data-k="__hint" type="button">?</button>';
+    // Apostrophe where iOS puts shift, delete where iOS puts delete. The hint
+    // lives in its own button above the keyboard, so it does not need a key.
+    if(i===2)h+='<button class="sp-key fn" data-k="\'" type="button">\'</button>';
     row.split('').forEach(c=>{h+='<button class="sp-key" data-k="'+c+'" type="button">'+c+'</button>';});
-    if(i===2)h+='<button class="sp-key fn" data-k="__del" type="button" aria-label="delete">'+
-      '<svg viewBox="0 0 26 18" width="24" height="17" aria-hidden="true">'+
-      '<path d="M8.2 1h15a1.8 1.8 0 0 1 1.8 1.8v12.4a1.8 1.8 0 0 1-1.8 1.8h-15L1 9z" '+
-      'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'+
-      '<path d="M12 6.5l6 5M18 6.5l-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'+
-      '</svg></button>';
+    if(i===2)h+='<button class="sp-key fn" data-k="__del" type="button" aria-label="delete">'+del+'</button>';
     h+='</div>';
   });
-  if(needSpace||extra.length){
-    h+='<div class="sp-row">';
-    extra.forEach(c=>{h+='<button class="sp-key" data-k="'+esc(c)+'" type="button">'+esc(c)+'</button>';});
-    if(needSpace)h+='<button class="sp-key space" data-k=" " type="button">'+esc(t('sp_space'))+'</button>';
-    h+='</div>';
-  }
+  // Space and hyphen are always available rather than appearing only for
+  // answers that need them -- a keyboard that changes shape between questions
+  // is harder to type on than one extra key.
+  h+='<div class="sp-row">'+
+    '<button class="sp-key fn" data-k="-" type="button">-</button>'+
+    '<button class="sp-key space" data-k=" " type="button">'+esc(t('sp_space'))+'</button>'+
+  '</div>';
   return h+'</div>';
 }
 function spellHintLabel(){
@@ -3658,8 +3692,6 @@ function spellHint(){
   const hb=$('#spHint');
   if(hb)hb.textContent=spellHintLabel();
   renderSpellDisplay();
-  const kb=$('#spKb');
-  if(kb)kb.innerHTML=spellKeyboardHTML(), bindSpellKeys();
 }
 function checkSpell(){
   if(spell.done)return;
@@ -3670,9 +3702,34 @@ function checkSpell(){
   if(d)d.classList.add('ok');
   finishSpell(quiz.items[quiz.i],true);
 }
-function finishSpell(w,ok){
+// The keyboard is out of flow now, so the page has to reserve room for it --
+// otherwise the word being asked sits underneath it.
+// The reservation is inline state on a container that outlives the question,
+// so anything that redraws the quiz body has to give it back first -- a
+// desktop round, the score card and the setup screen all have no keyboard.
+function clearKeyboardSpace(){
+  const body=$('#quizBody');
+  if(!body)return;
+  body.style.paddingBottom='';
+  body.classList.remove('q-kbpad');
+}
+function padForKeyboard(){
+  const kb=$('.sp-kb'),body=$('#quizBody');
+  if(!kb||!body)return;
+  // The class alone is enough; measuring only sharpens it, and a measurement
+  // taken before layout has run returns 0 -- which would reserve nothing.
+  body.classList.add('q-kbpad');
+  const h=kb.offsetHeight;
+  if(h>0)body.style.paddingBottom=(h+20)+'px';
+}
+// Dismiss the keyboard and give its screen space back. Answering is over, so
+// leaving it up would only cover the verdict.
+function closeSpellKeyboard(){
   const kb=$('#spKb'); if(kb)kb.innerHTML='';
   const hb=$('#spHint'); if(hb)hb.style.display='none';
+  clearKeyboardSpace();
+}
+function finishSpell(w,ok){
   grade(w,ok,spellTargetOf(w),true);
 }
 function bindSpellKeys(){
@@ -3683,7 +3740,6 @@ function bindSpellKeys(){
       e.preventDefault();
       const k=b.dataset.k;
       if(k==='__del')spellDel();
-      else if(k==='__hint')spellHint();
       else spellPush(k);
       b.classList.add('down');
       setTimeout(()=>b.classList.remove('down'),90);
@@ -3705,6 +3761,7 @@ document.addEventListener('keydown',spellKeyHandler);
 
 function renderQ(){
   clearTimeout(answerSpeakTimer);
+  clearKeyboardSpace();
   const body=$('#quizBody');
   const w=quiz.items[quiz.i];
   const dir=S().dir;
@@ -3717,7 +3774,8 @@ function renderQ(){
   const face=showEng?w.word:primaryMeaning(w);
   const kata=showEng?(w.kata||''):'';
 
-  let inner='<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+  let inner='<div class="q-top"><div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+    '<button class="q-quit" id="qQuit" type="button" aria-label="'+esc(t('btn_quit_round'))+'" title="'+esc(t('btn_quit_round'))+'">✕</button></div>'+
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
     // Only offer audio when the prompt IS the English word -- otherwise it
     // would read out the answer the user is being asked to produce.
@@ -3734,7 +3792,7 @@ function renderQ(){
     $('#spHint').onclick=spellHint;
     // Only where there is no other way to type: a system keyboard would show
     // predictive candidates, and here those candidates are the answer.
-    if(touchDevice()){$('#spKb').innerHTML=spellKeyboardHTML();bindSpellKeys();}
+    if(touchDevice()){$('#spKb').innerHTML=spellKeyboardHTML();bindSpellKeys();padForKeyboard();}
     else $('#spKb').innerHTML='<p class="hint" style="text-align:center;margin-top:14px">'+esc(t('sp_type_hint'))+'</p>';
   }else if(S().quizType==='choice'){
     const correct=showEng?primaryMeaning(w):w.word;
@@ -3751,9 +3809,38 @@ function renderQ(){
       grade(w,ok,correct);
     });
   }
+  const qq=$('#qQuit');
+  if(qq)qq.onclick=quitRound;
   if(showEng)speakAuto(w.word);
 }
+// Leaving mid-round. Every answer already updated the schedule and the streak,
+// so this just drops what is left of the queue and goes back to the setup card.
+function quitRound(){
+  clearTimeout(answerSpeakTimer);
+  if(TTS_OK)try{speechSynthesis.cancel();}catch(e){}
+  closeSpellKeyboard();
+  gaEvent('quiz_quit',{answered:quiz.i,total:quiz.items.length});
+  quiz={items:[],i:0,score:0,mode:quiz.mode||'due'};
+  renderQuizSetup();
+}
+// The keyboard is gone by now, so the space it freed goes to these. The two
+// extra tiles are the things worth doing while a word is still fresh: read
+// what you wrote about it, or hear it said properly.
+function quizActionsHTML(){
+  const I={d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5h6a2.5 2.5 0 0 1 2 2.4V20a2 2 0 0 0-1.7-1H4z"/><path d="M20 4.5h-6a2.5 2.5 0 0 0-2 2.4V20a2 2 0 0 1 1.7-1H20z"/></svg>',s:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>',n:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5.5 15.5 12 9 18.5"/></svg>'};
+  const last=quiz.i+1>=quiz.items.length;
+  return '<div class="q-acts">'+
+    '<button class="q-act" id="qDetail" type="button">'+I.d+'<span>'+esc(t('act_detail'))+'</span></button>'+
+    (TTS_OK?'<button class="q-act" id="qSay" type="button">'+I.s+'<span>'+esc(t('act_listen'))+'</span></button>':'')+
+    '<button class="q-act main" id="qNext" type="button">'+I.n+'<span>'+
+      esc(last?t('btn_see_result'):t('btn_next_q'))+'</span></button>'+
+  '</div>';
+}
 function grade(w,ok,correctText,isInput){
+  // Answering is over whichever way we got here -- typed, timed out or the
+  // answer revealed -- so the keyboard comes down here rather than in each
+  // caller, where one missed path would leave it covering the verdict.
+  closeSpellKeyboard();
   const rec=curWords().find(x=>x.id===w.id);
   let nextInText='';
   if(rec){
@@ -3785,9 +3872,8 @@ function grade(w,ok,correctText,isInput){
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
-    // The answer is revealed by now, so hearing the word is always safe here
-    // -- and it's the moment it sticks best.
-    (TTS_OK?'<div style="margin-top:6px">'+spkBtn(w.word)+'</div>':'')+
+    // Hearing the word used to be a small speaker icon here; it is now one of
+    // the three tiles below, which is a far easier target.
     '<div class="nextin">'+nextInText+'</div>'+
     '</div>'+
     // Missing a leech is the moment to do something about it, not just to be
@@ -3801,9 +3887,13 @@ function grade(w,ok,correctText,isInput){
         '<textarea id="leechNote" class="field" rows="2" style="resize:vertical;line-height:1.6;margin-top:9px" placeholder="'+esc(t('leech_ph'))+'">'+esc(rec.note||'')+'</textarea>'+
         '<button class="btn btn-ghost" id="leechSave" style="width:100%;margin-top:9px">'+esc(t('leech_save'))+'</button>'+
       '</div>':'')+
-    '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?t('btn_next_q'):t('btn_see_result'))+'</button>';
+    quizActionsHTML();
   if(isInput){$('#qfb').innerHTML=fbHtml;}
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
+  const det=$('#qDetail');
+  if(det)det.onclick=()=>{const r=curWords().find(x=>x.id===w.id)||w;openWordDetail(r);};
+  const say=$('#qSay');
+  if(say)say.onclick=()=>speak(w.word);
   const lsave=$('#leechSave');
   if(lsave)lsave.onclick=()=>{
     rec.note=$('#leechNote').value.trim();
@@ -3835,6 +3925,7 @@ function grade(w,ok,correctText,isInput){
   };
 }
 function showScore(){
+  clearKeyboardSpace();
   const pct=Math.round(quiz.score/quiz.items.length*100);
   const pkgId=CTX.type==='pkg'?CTX.id:null;
   gaEvent('quiz_completed',{quiz_type:S().quizType,accuracy:pct,item_count:quiz.items.length,package_id:pkgId});
