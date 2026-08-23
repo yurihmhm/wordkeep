@@ -192,6 +192,11 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .opt.correct{border-color:var(--good);background:var(--good-bg);color:var(--good-ink)}
 .opt.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad-ink)}
 .opt:disabled{cursor:default}
+.leech-box{background:var(--dup-bg);border:1px solid var(--line);border-radius:13px;
+  padding:14px;margin-top:14px}
+.leech-box .lb-t{font-size:14px;font-weight:700;color:var(--dup-ink)}
+.leech-box .lb-s{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:5px}
+.tag-leech{background:var(--dup-bg);color:var(--dup-ink)}
 .q-feedback{margin-top:16px;padding:16px;border-radius:14px;font-size:15px;line-height:1.55}
 .q-feedback.ok{background:var(--good-bg);border:1px solid var(--good-line)}
 .q-feedback.ng{background:var(--bad-bg);border:1px solid var(--bad-line)}
@@ -751,13 +756,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.1.0';
+const APP_VERSION='5.2.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.1.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.2.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.1.0',date:'2026-08-23',keys:['v510_1','v510_2','v510_3']},
   {version:'5.0.0',date:'2026-08-23',keys:['v500_1','v500_2','v500_3']},
   {version:'4.9.0',date:'2026-08-23',keys:['v490_1','v490_2']},
   {version:'4.8.0',date:'2026-08-22',keys:['v480_1','v480_2','v480_3']},
@@ -802,7 +808,14 @@ const CHANGELOG=[
   {version:'1.2.0',date:'2026-07-17',keys:['v120_1','v120_2','v120_3','v120_4']},
   {version:'1.0.0',date:'2026-07-17',keys:['v100_1','v100_2','v100_3','v100_4']}
 ];
-const INTERVALS=[1,3,5,7,14,20,30,60,90]; // days
+// Days until the next review, indexed by box. The ratios between consecutive
+// steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
+// jumped 3x on the very first step -- the moment memory is weakest -- and then
+// *shrank* to 1.4x, which is backwards for expanding retrieval practice. These
+// ratios are even (2.0, 2.0, 1.75, 1.71, 1.75, 1.67, 1.71, 1.5) and the review
+// days land on 1/3/7/14/26/47/82/142/232. Same length as before, so existing
+// box indices stay valid and nothing needs migrating.
+const INTERVALS=[1,2,4,7,12,21,35,60,90]; // days
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
@@ -896,9 +909,12 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'単語リストに絞り込みを追加しました。「今日の復習」「未学習」「学習済み」で切り替えられ、それぞれの語数も表示されます。検索と組み合わせても使えます',en:'Added filters to the word list: Due, Not started and Learned, each showing how many. They combine with search',zh:'单词列表新增筛选：待复习／未学习／已学习，并显示各自数量，可与搜索组合使用',fr:'Filtres ajoutés à la liste : à revoir, non commencés, appris — avec le nombre pour chacun. Ils se combinent avec la recherche',ar:'أُضيفت فلاتر إلى قائمة الكلمات: للمراجعة، لم تبدأ، مُتعلَّمة، مع عدد كل منها، وتعمل مع البحث معًا',ko:'단어 목록에 필터를 추가했습니다. 복습 대상·미학습·학습 완료로 전환할 수 있고 각각의 단어 수도 표시됩니다. 검색과 함께 사용할 수 있습니다',ru:'В списке слов появились фильтры: к повтору, не начаты, изучены — с количеством у каждого. Работают вместе с поиском'},
-  wn2:{ja:'設定を整理しました。「言語」「表示」「音声・効果音」「学習」「データ」「ヘルプ」の6つに分け、そこから開く形にしています。長い1画面を延々とスクロールする必要がなくなりました',en:'Settings are reorganised into six categories — Language, Appearance, Sound, Studying, Data and Help — that you open from a list, instead of one long scroll',zh:'设置已重新整理为「语言」「显示」「声音」「学习」「数据」「帮助」六大类，从列表进入，不必再滚动一整屏',fr:'Les réglages sont réorganisés en six catégories — Langue, Apparence, Son, Apprentissage, Données, Aide — ouvertes depuis une liste, au lieu d’un long défilement',ar:'أُعيد تنظيم الإعدادات في ست فئات: اللغة والمظهر والصوت والدراسة والبيانات والمساعدة، تُفتح من قائمة بدل التمرير الطويل',ko:'설정을 「언어」「화면」「소리」「학습」「데이터」「도움말」의 6가지로 정리해 목록에서 열도록 바꿨습니다. 긴 화면을 계속 스크롤할 필요가 없어졌습니다',ru:'Настройки разложены по шести разделам — язык, оформление, звук, обучение, данные и помощь — которые открываются из списка вместо одной длинной прокрутки'},
-  wn3:{ja:'「PIN」が何なのか分かりにくいというご意見をいただいたので、「6桁の数字パスワード」と明記するようにしました',en:'“PIN” wasn’t clear to everyone, so it now says plainly that it is a 6-digit number used as your password',zh:'有反馈称不清楚「PIN」是什么，现已明确标注为「6 位数字密码」',fr:'« PIN » n’était pas clair pour tout le monde : il est désormais précisé qu’il s’agit d’un mot de passe à 6 chiffres',ar:'لم تكن كلمة «PIN» واضحة للجميع، فصار مكتوبًا صراحةً أنها كلمة مرور من 6 أرقام',ko:'「PIN」이 무엇인지 알기 어렵다는 의견이 있어 「6자리 숫자 비밀번호」라고 명확히 표기했습니다',ru:'Слово «PIN» многим было непонятно — теперь прямо указано, что это пароль из шести цифр'},
+  wn1:{ja:'復習の間隔を見直しました。1→2→4→7→12→21→35→60→90日になり、忘れやすい最初の数回を短めにしています。これまでは最初が1日→3日と大きく飛んでいました',en:'Reworked the review intervals: 1, 2, 4, 7, 12, 21, 35, 60 and 90 days, with the first few closer together where forgetting is fastest. The old ladder jumped from 1 day straight to 3',zh:'调整了复习间隔：1→2→4→7→12→21→35→60→90 天，最容易遗忘的前几次更密集。此前第一步是 1 天直接跳到 3 天',fr:'Intervalles de révision revus : 1, 2, 4, 7, 12, 21, 35, 60 et 90 jours, plus rapprochés au début là où l’oubli est le plus rapide. L’ancien passait de 1 jour à 3 d’un coup',ar:'أُعيد ضبط فترات المراجعة: 1 و2 و4 و7 و12 و21 و35 و60 و90 يومًا، مع تقارب المرات الأولى حيث النسيان أسرع. كان التدرّج السابق يقفز من يوم إلى ثلاثة',ko:'복습 간격을 재조정했습니다. 1→2→4→7→12→21→35→60→90일이 되어, 가장 잊기 쉬운 초반을 짧게 잡았습니다. 이전에는 1일에서 3일로 크게 뛰었습니다',ru:'Пересчитаны интервалы повторения: 1, 2, 4, 7, 12, 21, 35, 60 и 90 дней — в начале чаще, там забывание быстрее. Раньше первый шаг прыгал с 1 дня сразу на 3'},
+  wn2:{ja:'何度も間違える単語を「苦手」として見つけるようにしました。リストで印が付き、絞り込みや「苦手だけの復習」もできます。間違えた直後にはその場でメモを書けるので、自分の覚え方を残せます',en:'Words you keep missing are now flagged as Trouble words: marked in the list, filterable, and drillable on their own. Miss one and you can write your own memory hook right there',zh:'反复答错的单词会被标为「易错」：列表中显示标记，可筛选，也可只复习这些词。答错后可当场写下自己的记忆点',fr:'Les mots que vous ratez sans cesse sont marqués « difficiles » : signalés dans la liste, filtrables, révisables à part. En cas d’erreur, vous pouvez noter votre propre astuce sur-le-champ',ar:'الكلمات التي تخطئ فيها مرارًا تُوسم بـ«صعبة»: تظهر معلَّمة في القائمة ويمكن تصفيتها ومراجعتها وحدها، وعند الخطأ يمكنك كتابة طريقتك للتذكر فورًا',ko:'자주 틀리는 단어를 «취약»으로 표시합니다. 목록에 표시되고, 필터링과 «취약 단어만 복습»도 가능합니다. 틀린 직후 그 자리에서 메모를 적어 자기만의 암기법을 남길 수 있습니다',ru:'Слова, в которых вы постоянно ошибаетесь, помечаются как трудные: видны в списке, фильтруются и повторяются отдельно. Ошиблись — тут же запишите свою подсказку'},
+  wn3:{ja:'今日の復習が3語しかないときに復習を始められなかった不具合を直しました。4択の選択肢は単語帳全体から作るので、出題が少なくても問題なく出せます',en:'Fixed being unable to start a review when only a few words were due. The four options come from your whole notebook, so a short round works fine',zh:'修复了当天只有少量待复习单词时无法开始复习的问题。四个选项取自整本单词本，因此题量少也能正常出题',fr:'Correction : impossible de lancer une révision quand peu de mots étaient dus. Les quatre choix viennent de tout le carnet, donc une courte session fonctionne',ar:'أُصلح تعذّر بدء المراجعة عندما تكون الكلمات المستحقة قليلة. الخيارات الأربعة تأتي من الدفتر كله، لذا تعمل الجولة القصيرة بلا مشكلة',ko:'오늘의 복습이 3단어뿐일 때 복습을 시작할 수 없던 문제를 고쳤습니다. 4지선다의 선택지는 단어장 전체에서 만들기 때문에 문제 수가 적어도 정상적으로 출제됩니다',ru:'Исправлено: нельзя было начать повторение, когда слов к повтору было мало. Четыре варианта берутся из всей колоды, поэтому короткий раунд работает'},
+  v510_1:{ja:'単語リストに絞り込みを追加しました。「今日の復習」「未学習」「学習済み」で切り替えられ、それぞれの語数も表示されます。検索と組み合わせても使えます',en:'Added filters to the word list: Due, Not started and Learned, each showing how many. They combine with search',zh:'单词列表新增筛选：待复习／未学习／已学习，并显示各自数量，可与搜索组合使用',fr:'Filtres ajoutés à la liste : à revoir, non commencés, appris — avec le nombre pour chacun. Ils se combinent avec la recherche',ar:'أُضيفت فلاتر إلى قائمة الكلمات: للمراجعة، لم تبدأ، مُتعلَّمة، مع عدد كل منها، وتعمل مع البحث معًا',ko:'단어 목록에 필터를 추가했습니다. 복습 대상·미학습·학습 완료로 전환할 수 있고 각각의 단어 수도 표시됩니다. 검색과 함께 사용할 수 있습니다',ru:'В списке слов появились фильтры: к повтору, не начаты, изучены — с количеством у каждого. Работают вместе с поиском'},
+  v510_2:{ja:'設定を整理しました。「言語」「表示」「音声・効果音」「学習」「データ」「ヘルプ」の6つに分け、そこから開く形にしています。長い1画面を延々とスクロールする必要がなくなりました',en:'Settings are reorganised into six categories — Language, Appearance, Sound, Studying, Data and Help — that you open from a list, instead of one long scroll',zh:'设置已重新整理为「语言」「显示」「声音」「学习」「数据」「帮助」六大类，从列表进入，不必再滚动一整屏',fr:'Les réglages sont réorganisés en six catégories — Langue, Apparence, Son, Apprentissage, Données, Aide — ouvertes depuis une liste, au lieu d’un long défilement',ar:'أُعيد تنظيم الإعدادات في ست فئات: اللغة والمظهر والصوت والدراسة والبيانات والمساعدة، تُفتح من قائمة بدل التمرير الطويل',ko:'설정을 「언어」「화면」「소리」「학습」「데이터」「도움말」의 6가지로 정리해 목록에서 열도록 바꿨습니다. 긴 화면을 계속 스크롤할 필요가 없어졌습니다',ru:'Настройки разложены по шести разделам — язык, оформление, звук, обучение, данные и помощь — которые открываются из списка вместо одной длинной прокрутки'},
+  v510_3:{ja:'「PIN」が何なのか分かりにくいというご意見をいただいたので、「6桁の数字パスワード」と明記するようにしました',en:'“PIN” wasn’t clear to everyone, so it now says plainly that it is a 6-digit number used as your password',zh:'有反馈称不清楚「PIN」是什么，现已明确标注为「6 位数字密码」',fr:'« PIN » n’était pas clair pour tout le monde : il est désormais précisé qu’il s’agit d’un mot de passe à 6 chiffres',ar:'لم تكن كلمة «PIN» واضحة للجميع، فصار مكتوبًا صراحةً أنها كلمة مرور من 6 أرقام',ko:'「PIN」이 무엇인지 알기 어렵다는 의견이 있어 「6자리 숫자 비밀번호」라고 명확히 표기했습니다',ru:'Слово «PIN» многим было непонятно — теперь прямо указано, что это пароль из шести цифр'},
   v500_1:{ja:'自分で単語帳を作れるようになりました。「IT編」「ビジネス英語」のように名前を付けてテーマごとに分けられます。上部の単語帳セレクターの「＋ 新しい単語帳」から作成でき、まとめて追加のときに入れる先も選べます',en:'You can now create your own notebooks. Name them by topic — “IT”, “Business English” — and keep words separated. Create one from “＋ New notebook” in the deck selector, and choose where a pasted batch should land',zh:'现在可以自建单词本。按主题命名，如「IT」「商务英语」，分开管理。在上方单词本选择器的「＋ 新建单词本」创建，批量添加时也能选择放入哪一本',fr:'Vous pouvez désormais créer vos propres carnets. Nommez-les par thème — « IT », « anglais des affaires » — pour séparer vos mots. Créez-en un via « ＋ Nouveau carnet » dans le sélecteur, et choisissez où atterrit un lot collé',ar:'يمكنك الآن إنشاء دفاترك الخاصة وتسميتها حسب الموضوع مثل «تقنية» و«إنجليزية الأعمال». أنشئ دفترًا من «＋ دفتر جديد» في محدّد الدفاتر، واختر وجهة أي دفعة تلصقها',ko:'직접 단어장을 만들 수 있게 되었습니다. 「IT편」「비즈니스 영어」처럼 주제별로 이름을 붙여 나눌 수 있습니다. 상단 단어장 선택기의 「＋ 새 단어장」에서 만들 수 있고, 한꺼번에 추가할 때 넣을 곳도 고를 수 있습니다',ru:'Теперь можно создавать свои словари. Назовите их по темам — «IT», «Деловой английский» — и держите слова раздельно. Создать можно через «＋ Новый словарь» в переключателе, а при вставке списка выбрать, куда он попадёт'},
   v500_2:{ja:'ホームのあいさつが時間帯に合わせて変わるようになりました。朝・昼・夜でことばが変わり、下の一文も日替わりです',en:'The greeting on Home now follows the time of day, and the line beneath it changes from day to day',zh:'首页问候语会随时段变化，下方的一句话也会每天不同',fr:'Le message d’accueil suit désormais l’heure de la journée, et la phrase en dessous change chaque jour',ar:'أصبحت تحية الصفحة الرئيسية تتغيّر حسب وقت اليوم، والجملة أسفلها تتبدّل يوميًا',ko:'홈의 인사말이 시간대에 따라 바뀝니다. 아침·낮·저녁에 따라 달라지고, 아래 한 줄도 날마다 바뀝니다',ru:'Приветствие на главной теперь зависит от времени суток, а строка под ним меняется день ото дня'},
   v500_3:{ja:'単語帳（カード）の裏に出るメモの見出しから「（任意）」を消しました',en:'Removed “(optional)” from the notes heading on the back of a flashcard',zh:'移除了单词卡背面备注标题中的「（可选）」',fr:'Suppression de « (facultatif) » sur l’intitulé des notes au dos d’une carte',ar:'أُزيلت كلمة «(اختياري)» من عنوان الملاحظات خلف البطاقة',ko:'카드 뒷면 메모 제목에서 「(선택)」을 없앴습니다',ru:'Убрано «(необязательно)» из заголовка заметок на обороте карточки'},
@@ -923,6 +939,13 @@ const T={
   v400_2:{ja:'ログアウトすると、その端末の単語をすべて消去するようにしました。単語はアカウントに残っているので、ログインし直せば元どおりです。共用の端末や、友達に見せたあとでも安心して使えます',en:'Logging out now clears every word from that device. They remain in your account, so signing back in restores them — safer on a shared phone or after showing the app to someone',zh:'退出登录时会清除该设备上的所有单词。单词仍保存在账号中，重新登录即可恢复，共用设备或给他人展示后更安心',fr:'La déconnexion efface désormais tous les mots de l’appareil. Ils restent dans votre compte et reviennent à la reconnexion — plus sûr sur un téléphone partagé',ar:'يمسح تسجيل الخروج الآن كل الكلمات من الجهاز. تبقى في حسابك وتعود عند تسجيل الدخول — أأمن على هاتف مشترك',ko:'로그아웃하면 그 기기의 단어를 모두 삭제합니다. 단어는 계정에 남아 있어 다시 로그인하면 복원되므로, 공용 기기에서도 안심하고 쓸 수 있습니다',ru:'Выход теперь удаляет все слова с устройства. Они остаются в аккаунте и возвращаются при следующем входе — безопаснее на общем телефоне'},
   v400_3:{ja:'起動時に読み込み画面を表示するようにしました。ログイン状態の確認が終わるまで待つので、「ログアウトされている」と誤解されることがなくなります',en:'Added a loading screen at startup. It waits until your sign-in state is known, so the app no longer looks logged out for the first moment',zh:'启动时新增加载画面。会等到确认登录状态后再显示，避免被误认为已退出登录',fr:'Ajout d’un écran de chargement au démarrage. Il attend que votre état de connexion soit connu, pour ne plus donner l’impression d’être déconnecté',ar:'تمت إضافة شاشة تحميل عند البدء. تنتظر حتى تتضح حالة تسجيل دخولك، فلا يبدو التطبيق وكأنك خرجت منه',ko:'시작할 때 로딩 화면을 표시합니다. 로그인 상태 확인이 끝날 때까지 기다리므로, 로그아웃된 것으로 오해하지 않게 됩니다',ru:'Добавлен экран загрузки при запуске. Он ждёт, пока станет известен статус входа, чтобы приложение не выглядело разлогиненным'},
 
+  flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
+  leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
+  leech_body:{ja:'同じやり方では入りにくい単語です。語呂合わせでも、使った場面でも、自分の言葉でメモを残すと定着しやすくなります。',en:'This one isn’t going in by repetition alone. A hook of your own — a pun, a scene where you heard it, anything — makes it stick far better.',zh:'仅靠重复很难记住这个词。用自己的话写个记忆点吧——谐音、听到它的场景，什么都行。',fr:'La répétition seule ne suffit pas ici. Un repère à vous — un jeu de mots, une scène où vous l’avez entendu — le fixera bien mieux.',ar:'التكرار وحده لا يثبّت هذه الكلمة. اكتب رابطًا خاصًا بك — تشبيهًا أو موقفًا سمعتها فيه — وسيثبت المعنى أفضل بكثير.',ko:'반복만으로는 잘 들어오지 않는 단어입니다. 말장난이든 들었던 상황이든, 자기 말로 메모를 남기면 훨씬 잘 붙습니다.',ru:'Одним повторением это слово не берётся. Свой собственный крючок — созвучие, ситуация, где вы его слышали — закрепит его гораздо лучше.'},
+  leech_ph:{ja:'例）considerable＝かなりの。consider（考える）とは別物',en:'e.g. “considerable” = sizeable — not the same as “consider”',zh:'例）considerable＝相当大的，与 consider 不同',fr:'ex. « considerable » = important — à ne pas confondre avec « consider »',ar:'مثال: considerable = كبير، وليست مثل consider',ko:'예) considerable＝상당한. consider(고려하다)와는 다름',ru:'напр. «considerable» = значительный, не то же, что «consider»'},
+  leech_save:{ja:'メモを保存',en:'Save the note',zh:'保存备注',fr:'Enregistrer la note',ar:'حفظ الملاحظة',ko:'메모 저장',ru:'Сохранить заметку'},
+  leech_saved:{ja:'保存しました',en:'Saved',zh:'已保存',fr:'Enregistré',ar:'تم الحفظ',ko:'저장했습니다',ru:'Сохранено'},
+  quiz_no_leech:{ja:'苦手な単語はありません。',en:'No trouble words right now.',zh:'目前没有易错单词。',fr:'Aucun mot difficile pour l’instant.',ar:'لا توجد كلمات صعبة حاليًا.',ko:'지금은 취약한 단어가 없습니다.',ru:'Сейчас трудных слов нет.'},
   flt_all:{ja:'すべて',en:'All',zh:'全部',fr:'Tous',ar:'الكل',ko:'전체',ru:'Все'},
   flt_due:{ja:'今日の復習',en:'Due',zh:'待复习',fr:'À revoir',ar:'للمراجعة',ko:'복습 대상',ru:'К повтору'},
   flt_new:{ja:'未学習',en:'Not started',zh:'未学习',fr:'Non commencés',ar:'لم تبدأ',ko:'미학습',ru:'Не начаты'},
@@ -1232,7 +1255,7 @@ const T={
   len_all:{ja:'全部',en:'All',zh:'全部',fr:'Tout',ar:'الكل',ko:'전체',ru:'Все'},
   sec_review:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (التكرار المتباعد)',ko:'복습 (간격 반복)',ru:'Повторение (интервальное)'},
   st_schedule:{ja:'復習スケジュール',en:'Review schedule',zh:'复习计划',fr:'Planning de révision',ar:'جدول المراجعة',ko:'복습 일정',ru:'График повторения'},
-  desc_schedule:{ja:'正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えると最初からやり直しです。',en:'Correct answers push the next review to 1→3→5→7→14→20→30→60→90 days. A miss restarts the schedule from the beginning.',zh:'答对后按 1→3→5→7→14→20→30→60→90 天再出现；答错则从头开始。',fr:'Une bonne réponse repousse la révision à 1→3→5→7→14→20→30→60→90 jours. Une erreur fait repartir de zéro.',ar:'الإجابة الصحيحة تؤجل المراجعة إلى 1→3→5→7→14→20→30→60→90 يومًا. الخطأ يعيد الجدول من البداية.',ko:'정답이면 다음 복습이 1→3→5→7→14→20→30→60→90일 후로. 틀리면 처음부터 다시 시작합니다.',ru:'При верном ответе следующий повтор через 1→3→5→7→14→20→30→60→90 дней. Ошибка возвращает график к началу.'},
+  desc_schedule:{ja:'正解すると 1→2→4→7→12→21→35→60→90日後に再出題。忘れやすい最初の数回を短めにしてあります。間違えると最初からやり直しです。',en:'Get it right and the next review comes in 1, then 2, 4, 7, 12, 21, 35, 60 and 90 days — closer together at the start, where forgetting is fastest. A miss sends the word back to the beginning.',zh:'答对后依次在 1→2→4→7→12→21→35→60→90 天后再次出题，最容易遗忘的前几次间隔更短。答错则从头开始。',fr:'Une bonne réponse repousse la révision à 1, puis 2, 4, 7, 12, 21, 35, 60 et 90 jours — plus rapprochées au début, là où l’oubli est le plus rapide. Une erreur ramène le mot au départ.',ar:'عند الإجابة الصحيحة تعود الكلمة بعد 1 ثم 2 و4 و7 و12 و21 و35 و60 و90 يومًا، وتكون الفترات الأولى أقصر حيث النسيان أسرع. والخطأ يعيدها إلى البداية.',ko:'정답이면 1→2→4→7→12→21→35→60→90일 후에 다시 출제됩니다. 가장 잊기 쉬운 초반 몇 번을 짧게 잡았습니다. 틀리면 처음부터 다시 시작합니다.',ru:'При верном ответе слово вернётся через 1, затем 2, 4, 7, 12, 21, 35, 60 и 90 дней — в начале чаще, там забывание идёт быстрее. Ошибка возвращает слово к началу.'},
   st_weak:{ja:'苦手を優先',en:'Prioritize weak words',zh:'优先薄弱词',fr:'Prioriser les mots faibles',ar:'إعطاء الأولوية للكلمات الصعبة',ko:'약점 우선',ru:'Приоритет слабых слов'},
   desc_weak:{ja:'復習対象の中でも間違えた単語を出やすくする',en:'Show words you miss more often within the due set',zh:'在到期词中更常出现答错过的词',fr:'Afficher plus souvent les mots ratés parmi ceux à réviser',ar:'إظهار الكلمات التي تخطئ فيها أكثر ضمن المستحقة',ko:'복습 대상 중 자주 틀린 단어를 더 자주 출제',ru:'Чаще показывать слова, в которых вы чаще ошибаетесь'},
   sec_data:{ja:'データ',en:'Data',zh:'数据',fr:'Données',ar:'البيانات',ko:'데이터',ru:'Данные'},
@@ -2815,6 +2838,17 @@ function searchText(w){
   if(w._allMeanings)s+=' '+w._allMeanings;
   return s.toLowerCase();
 }
+// A word that keeps coming back wrong will keep coming back wrong: under this
+// app's strict reset a miss sends it to the start, so a genuinely unlearnable
+// word cycles forever and quietly becomes the reason someone stops. Both
+// conditions matter -- a word seen fifty times with four misses is not a
+// problem, one seen six times with four misses is.
+const LEECH_MIN_WRONG=4, LEECH_MIN_RATE=0.4;
+function isLeech(w){
+  const wrong=w.wrong||0, seen=w.seen||0;
+  return wrong>=LEECH_MIN_WRONG && seen>0 && wrong/seen>=LEECH_MIN_RATE;
+}
+function leechCount(){return curWords().filter(isLeech).length;}
 let editingId=null;
 // Without push notifications there's nothing to pull people back in, so the
 // least we can do is make the moment they DO open the app count: lead with
@@ -2977,13 +3011,15 @@ function filterCounts(){
     all:arr.length,
     new:arr.filter(w=>w.box===-1&&!w.seen).length,
     due:arr.filter(isDue).length,
-    learned:arr.filter(w=>w.box>=0).length
+    learned:arr.filter(w=>w.box>=0).length,
+    leech:arr.filter(isLeech).length
   };
 }
 function applyFilter(arr){
   if(listFilter==='new')return arr.filter(w=>w.box===-1&&!w.seen);
   if(listFilter==='due')return arr.filter(isDue);
   if(listFilter==='learned')return arr.filter(w=>w.box>=0);
+  if(listFilter==='leech')return arr.filter(isLeech);
   return arr;
 }
 function renderListFilter(){
@@ -2995,7 +3031,10 @@ function renderListFilter(){
     (n===0&&k!=='all'?' disabled':'')+'>'+esc(label)+'<span class="lf-n">'+n+'</span></button>';
   el.innerHTML='<div class="list-filter">'+
     chip('all',t('flt_all'),c.all)+chip('due',t('flt_due'),c.due)+
-    chip('new',t('flt_new'),c.new)+chip('learned',t('flt_learned'),c.learned)+'</div>';
+    chip('new',t('flt_new'),c.new)+chip('learned',t('flt_learned'),c.learned)+
+    // Only offered once there is something to see -- an always-visible zero
+    // would just be a standing reminder of a problem nobody has yet.
+    (c.leech?chip('leech','⚠️ '+t('flt_leech'),c.leech):'')+'</div>';
   $$('#listFilter .lf').forEach(b=>b.onclick=()=>{
     listFilter=b.dataset.f;
     gaEvent('list_filter',{filter:listFilter});
@@ -3058,6 +3097,7 @@ function renderList(){
         (w.note?'<span title="'+esc(t('note_heading'))+'" style="margin-left:6px">📝</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
+      (isLeech(w)?'<span class="tag-sm tag-leech">⚠️ '+esc(t('flt_leech'))+'</span>':'')+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
       (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
@@ -3200,7 +3240,9 @@ let quiz={items:[],i:0,score:0,mode:'due'};
 // PREVIOUS word gets read out over the next question.
 let answerSpeakTimer=null;
 function pickWords(mode){
-  let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w)) : curWords().filter(w=>primaryMeaning(w));
+  let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w))
+           : mode==='leech' ? curWords().filter(w=>isLeech(w)&&primaryMeaning(w))
+           : curWords().filter(w=>primaryMeaning(w));
   if(S().weak){
     pool=[...pool].sort((a,b)=>{
       const overdueA=(Date.now()-a.nextDue), overdueB=(Date.now()-b.nextDue);
@@ -3214,9 +3256,12 @@ function pickWords(mode){
   return pool.slice(0,n);
 }
 function modeTabsHTML(mode){
+  const lc=leechCount();
   return '<div class="q-mode-tabs">'+
     '<button data-m="due" class="'+(mode==='due'?'on':'')+'">'+t('quiz_due',curDueCount())+'</button>'+
     '<button data-m="all" class="'+(mode==='all'?'on':'')+'">'+t('quiz_free')+'</button>'+
+    // Offered only when leeches exist; a permanent empty tab would be noise.
+    (lc?'<button data-m="leech" class="'+(mode==='leech'?'on':'')+'">⚠️ '+lc+'</button>':'')+
     '</div>';
 }
 function levenshtein(a,b){
@@ -3279,12 +3324,20 @@ function startQuiz(mode){
   const modeTabs=modeTabsHTML(mode);
 
   const eligibleTotal=curWords().filter(w=>primaryMeaning(w)).length;
+  if(mode==='leech'&&!leechCount()){
+    body.innerHTML=modeTabs+'<div class="empty"><div class="big">🎉</div>'+t('quiz_no_leech')+'</div>';
+    bindModeTabs();return;
+  }
   if(mode==='due'&&due===0){
     body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>'+t('quiz_done')+'<br><span style="font-size:12.5px">'+t('quiz_done_sub')+'</span></div>';
     bindModeTabs();return;
   }
   const need=S().quizType==='choice'?4:1;
-  if(items.length<need||eligibleTotal<need){
+  // The four options come from the whole deck, not from this round, so the
+  // round only has to be non-empty. Requiring four QUESTIONS meant three due
+  // words could not be reviewed at all -- and made the new Trouble tab a dead
+  // end, since it appears as soon as there are two.
+  if(!items.length||eligibleTotal<need){
     body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+(eligibleTotal?t('quiz_need4'):t('quiz_need_add'))+'</div>';
     bindModeTabs();return;
   }
@@ -3451,9 +3504,28 @@ function grade(w,ok,correctText,isInput){
     (TTS_OK?'<div style="margin-top:6px">'+spkBtn(w.word)+'</div>':'')+
     '<div class="nextin">'+nextInText+'</div>'+
     '</div>'+
+    // Missing a leech is the moment to do something about it, not just to be
+    // told again that it was wrong. Offer the memo right here: writing your own
+    // hook for a word is the thing that actually breaks the cycle, and the
+    // field already exists.
+    (!ok&&rec&&isLeech(rec)?
+      '<div class="leech-box">'+
+        '<div class="lb-t">⚠️ '+esc(t('leech_title',rec.wrong||0))+'</div>'+
+        '<div class="lb-s">'+esc(t('leech_body'))+'</div>'+
+        '<textarea id="leechNote" class="field" rows="2" style="resize:vertical;line-height:1.6;margin-top:9px" placeholder="'+esc(t('leech_ph'))+'">'+esc(rec.note||'')+'</textarea>'+
+        '<button class="btn btn-ghost" id="leechSave" style="width:100%;margin-top:9px">'+esc(t('leech_save'))+'</button>'+
+      '</div>':'')+
     '<button class="btn btn-gold" id="qNext" style="margin-top:16px;width:100%">'+(quiz.i+1<quiz.items.length?t('btn_next_q'):t('btn_see_result'))+'</button>';
   if(isInput){$('#qfb').innerHTML=fbHtml;}
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
+  const lsave=$('#leechSave');
+  if(lsave)lsave.onclick=()=>{
+    rec.note=$('#leechNote').value.trim();
+    touchWord(rec);persistProgress();cloudTouched();
+    lsave.disabled=true;lsave.textContent=t('leech_saved');
+    gaEvent('leech_note_saved',{wrong:rec.wrong||0});
+  };
+  if(!ok&&rec&&isLeech(rec))gaEvent('leech_shown',{wrong:rec.wrong||0,seen:rec.seen||0});
   playAnswerSound(ok);
   // Let the tone finish before the word is read out -- played together, both
   // are harder to make out than either alone.
