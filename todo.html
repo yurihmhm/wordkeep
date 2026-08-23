@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.6.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.7.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -336,6 +336,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">下タブのアイコンを自作の画像に差し替え</div><div class="d">ホーム・単語・復習・記録の4つを絵文字から描き下ろしのPNGへ。1300px前後の原画を<b>余白を切り落として正方形に整えたうえで72pxに縮小し、data URIで埋め込んだ</b>（合計20KB）。24pxの画像のために4リクエスト増やすと初回描画でちらつくうえ、<b>単一ファイルである意味はキャッシュされた瞬間オフラインで動くこと</b>なので、外部ファイルにはしなかった。非選択のタブは<code>opacity:.55</code>で落とす（画像なので文字色では表現できない）。</div><div class="ver">v5.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">アイコンがライトテーマで消える問題</div><div class="d">渡された画は暗い背景を前提に描かれており、<b>実測でホームは不透明画素の87%・復習は52%が白に近い</b>。白いタブバーの上ではほぼ輪郭ごと消えていた。<code>drop-shadow</code>を上下左右に4枚重ねて<b>細い紺の縁取り</b>を作り、絵そのものには手を入れずに輪郭を出した。ダークテーマでは<code>filter:none</code>——すでに読める絵に縁を足すと眠くなるだけなので。</div><div class="ver">v5.7.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語帳の名前の変更・削除ができなかった</div><div class="d"><code>deckRowHTML()</code>が受け取るidを<b>選択用の<code>deck:d1</code>と編集用の<code>d1</code>で兼用していた</b>ため、鉛筆を押すと<code>renderDeckEdit()</code>が「deck:d1」という名の単語帳を探しに行って見つからず、そのまま一覧へ戻っていた。<b>押しても何も起きないので機能自体が無いように見えていた。</b>2つを別の引数に分離。あわせて、端に浮いた薄い16pxの絵文字では飾りにしか見えなかったので、<b>枠と「編集」の文字を付けたチップ</b>にした。</div><div class="ver">v5.7.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力のキーボードを画面下部に固定</div><div class="d">従来は本文と一緒に流れていたため、<b>打っている最中にキーボードごと動き、両脇に余白が残っていた</b>。<code>position:fixed</code>で最下部に張り付け、左右いっぱいまで使うようにした。配置もiOSの標準に寄せ、<b>シフトの位置に「'」、最下段に常設のスペースキー</b>を置いた（従来は答えに含まれるときだけ現れる仕様で、<b>問題ごとにキーボードの形が変わる</b>方が打ちにくい）。ヒントはキーボードの上のボタンが担うので、キー側の<code>?</code>は廃止。浮かせた分の高さは<code>--kb-h</code>から算出して本文側に確保する。</div><div class="ver">v5.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">正解後に「単語の詳細」「単語を聞く」「次の問題」の3ボタン</div><div class="d">答え合わせが済んだらキーボードを閉じ、空いた場所に3つのタイルを出す。<b>覚えたてのうちにメモを読み返す・発音を聞く</b>のは「次へ」と同じくらい価値があるのに、従来は幅いっぱいの「次の問題」1つだけで、音声は判定枠の中の小さなスピーカー記号だった（当たり判定が小さいので廃止）。4択でも同じ3つを出す。キーボードを下げる処理は<code>grade()</code>側に置いた——呼び出し側に任せると<b>1経路でも漏れたときキーボードが判定を覆い隠す</b>ため。</div><div class="ver">v5.6.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">問題を途中で終わらせるボタン</div><div class="d">一度始めると最後まで解く以外に出口がなかった。進行バーの右に✕を置き、設定画面へ戻れるようにした。<b>成績は1問ごとに保存されている</b>ので、途中で抜けても解いた分は残る。</div><div class="ver">v5.6.0</div></div></li>
