@@ -170,5 +170,55 @@ console.log('\nmigrateWord hardening');
   t('hist forced to an array',()=>Array.isArray(M.migrateWord({id:'f',hist:{bad:1}}).hist)||'not an array');
 }
 
+console.log('\nrankRows (leaderboard)');
+{
+  const T=20000;
+  const rows=[
+    {uid:'a',nickname:'A',todayN:5,todayIdx:T,streak:3},
+    {uid:'b',nickname:'B',todayN:9,todayIdx:T-1,streak:9},   // studied yesterday
+    {uid:'c',nickname:'C',todayN:7,todayIdx:T,streak:0},
+    {uid:'d',nickname:'D',todayN:0,todayIdx:T,streak:4},
+  ];
+  t("yesterday's count does not lead today's board",()=>
+    M.rankRows(rows,'todayN',T).map(r=>r.uid).join(',')==='c,a'||
+    M.rankRows(rows,'todayN',T).map(r=>r.uid).join(','));
+  t('zero values are left off the board',()=>
+    M.rankRows(rows,'streak',T).map(r=>r.uid).join(',')==='b,d,a'||
+    M.rankRows(rows,'streak',T).map(r=>r.uid).join(','));
+  t('a row with no nickname is skipped',()=>
+    M.rankRows([{uid:'x',todayN:9,todayIdx:T}],'todayN',T).length===0||'not skipped');
+  t('null rows do not throw',()=>
+    M.rankRows([null,undefined,{uid:'y',nickname:'Y',streak:2}],'streak',T).length===1||'wrong count');
+  t('a numeric string still sorts as a number',()=>
+    M.rankRows([{uid:'p',nickname:'P',streak:'10'},{uid:'q',nickname:'Q',streak:9}],'streak',T)
+      .map(r=>r.uid).join(',')==='p,q'||'sorted as text');
+  t('a row missing the field entirely is dropped',()=>
+    M.rankRows([{uid:'m',nickname:'M'},{uid:'n',nickname:'N',streak:1}],'streak',T)
+      .map(r=>r.uid).join(',')==='n'||'not dropped');
+}
+
+console.log('\nboardNum (what gets published is bounded)');
+{
+  t('passes a normal value through',()=>M.boardNum(12,100)===12||'no');
+  t('negatives become 0',()=>M.boardNum(-4,100)===0||'no');
+  t('NaN becomes 0',()=>M.boardNum(NaN,100)===0||'no');
+  // Deliberately 0, not the cap: Infinity means something upstream is broken,
+  // and clamping would publish that as a top score instead of a zero.
+  t('Infinity becomes 0 rather than the cap',()=>M.boardNum(Infinity,100)===0||'no');
+  t('a numeric string is coerced',()=>M.boardNum('37',100)===37||'no');
+  t('a non-numeric string becomes 0',()=>M.boardNum('abc',100)===0||'no');
+  t('undefined becomes 0',()=>M.boardNum(undefined,100)===0||'no');
+  t('fractions are floored, so the rules see an int',()=>M.boardNum(9.9,100)===9||'no');
+  t('over the cap clamps to the cap',()=>M.boardNum(500,100)===100||'no');
+}
+
+console.log('\nfmtNum');
+{
+  t('zero',()=>M.fmtNum(0)==='0'||M.fmtNum(0));
+  t('below a thousand is untouched',()=>M.fmtNum(999)==='999'||M.fmtNum(999));
+  t('thousands separator',()=>M.fmtNum(1000)==='1,000'||M.fmtNum(1000));
+  t('millions',()=>M.fmtNum(1234567)==='1,234,567'||M.fmtNum(1234567));
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

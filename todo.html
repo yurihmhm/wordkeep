@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.8.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.9.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">要再検討</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮546KB、gzip配信で<b>実転送量は194KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮570KB、gzip配信で<b>実転送量は202KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,11 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ランキングを追加</div><div class="d">5種目（今日の復習数・総復習数・単語数・連続日数・学習日数）。<b>下タブは5枠が埋まっているので新設せず</b>、性質の近い記録タブに切り替えで同居させた。順位は<b>数字と色だけ</b>——1位ゴールド・2位シルバー・3位ブロンズ、以下は無彩色。絵文字なし。<b>50位圏外でも自分の順位は下に固定表示</b>する（一番知りたいのがそこなので、スクロールで探させない）。</div><div class="ver">v5.9.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ランキングのデータと、信用できる範囲</div><div class="d">Firestoreの<code>board/{uid}</code>に<b>ニックネームと数値だけ</b>を置く。単語は一切入らない。読みは全ログインユーザー、書きは本人のみ。<b>数値はクライアントが書くので、クライアント以上には信用できない。</b>ルールで型・範囲・フィールド名を縛って被害は限定したが、「本当にその回数やったか」は証明できない。厳密にやるにはサーバーが単語履歴から再計算する必要があり、それはCloud Functionの仕事。</div><div class="ver">v5.9.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">「今日の復習数」が古い行に占領される問題</div><div class="d">各行は<b>持ち主が次にアプリを開くまで前日の数値のまま</b>なので、素直に並べると1週間ずっと昨日の記録が首位に居座る。<code>todayIdx</code>が今日と一致する行だけを残す。2フィールドの複合インデックスを避けるため、200件取ってから絞って上位50件を出す方式にした。</div><div class="ver">v5.9.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">参加はオフにできる</div><div class="d">既定はオン。設定から切ると<b>その場で行を<code>delete</code></b>する。隠すだけでは、消してほしいと言った人が他人の画面に載ったままになる。説明文にも「単語そのものは公開されない」と明記した。</div><div class="ver">v5.9.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">「単語」と「設定」のアイコンを描き直し</div><div class="d">生成されたSVGのうち、<b>本は中身のない枠＋仕切り線にしか見えず、歯車は歯が浅すぎて花のような塊</b>になっていた。歯車は手書きだと歯が揃わないので<b>Pythonで極座標から生成</b>し、角を丸めてevenoddで中心に穴を開けた。</div><div class="ver">v5.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">アイコンを単色SVGに描き直し</div><div class="d">下タブ4つとメニュー3つを、<b>単色シルエットのインラインSVG</b>へ。<code>fill:currentColor</code>なので色はCSSが決める。選択中はWordkeepのゴールド。ただし<b>明るい金(#f0b429)は白地に対して1.9:1しかなく11pxのラベルが読めない</b>ので、ラベルだけ同系の濃い金(#a8730a・4.1:1)に落とし、アイコンは明るいままにした。同じ色相なので2色には見えない。<b>v5.7.0で必要だったdrop-shadow 4枚重ねの縁取りは、単色にしたことで丸ごと不要になった</b>（11KB→1KB弱）。</div><div class="ver">v5.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">生成SVGの光学サイズを正規化</div><div class="d">受け取ったSVGは<b>見た目の大きさが揃っていなかった</b>。<code>getBBox()</code>で実測すると、<b>歯車は中心が3.2ズレて面積が35%小さく、復習は21%大きい</b>。そのまま並べると歯車だけ上に浮いて小さく見える。パスには手を入れず、<b>各<code>viewBox</code>をずらして全アイコンが枠の75.4%を占めるように統一</b>した。</div><div class="ver">v5.8.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">下タブのアイコンを自作の画像に差し替え</div><div class="d">ホーム・単語・復習・記録の4つを絵文字から描き下ろしのPNGへ。1300px前後の原画を<b>余白を切り落として正方形に整えたうえで72pxに縮小し、data URIで埋め込んだ</b>（合計20KB）。24pxの画像のために4リクエスト増やすと初回描画でちらつくうえ、<b>単一ファイルである意味はキャッシュされた瞬間オフラインで動くこと</b>なので、外部ファイルにはしなかった。非選択のタブは<code>opacity:.55</code>で落とす（画像なので文字色では表現できない）。</div><div class="ver">v5.7.0</div></div></li>

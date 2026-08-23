@@ -273,6 +273,38 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-quit:active{background:var(--line)}
 /* Post-answer actions. Three equal tiles rather than one wide button: hearing
    the word and opening its details are worth as much as moving on. */
+/* ---- leaderboard ---- */
+.rk-switch{display:flex;gap:6px;background:var(--ghost-bg);border-radius:12px;padding:4px;margin-bottom:16px}
+.rk-switch button{flex:1;border:none;background:none;border-radius:9px;padding:9px 4px;cursor:pointer;
+  font-family:inherit;font-size:13.5px;font-weight:700;color:var(--muted)}
+.rk-switch button.on{background:var(--surface);color:var(--ink-strong);box-shadow:0 1px 3px rgba(15,30,61,.12)}
+.rk-metrics{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}
+.rk-metrics::-webkit-scrollbar{display:none}
+.rk-metrics button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:99px;
+  padding:8px 14px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+.rk-metrics button.on{background:var(--fill);border-color:var(--fill);color:#fff}
+.rk-list{display:flex;flex-direction:column;gap:7px}
+.rk-row{display:flex;align-items:center;gap:12px;background:var(--surface);
+  border:1.5px solid var(--line);border-radius:12px;padding:11px 14px}
+/* Rank is carried by a number and its colour, not by a medal emoji: the top
+   three read at a glance, and everyone below stays quiet. */
+.rk-n{flex:none;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;background:var(--ghost-bg);color:var(--muted);font-variant-numeric:tabular-nums}
+.rk-row.p1 .rk-n{background:var(--accent);color:var(--navy)}
+.rk-row.p2 .rk-n{background:#c3cbd8;color:#2b3648}
+.rk-row.p3 .rk-n{background:#cd8b52;color:#fff}
+.rk-row.p1{border-color:var(--accent)}
+.rk-nm{flex:1;min-width:0;font-size:14.5px;font-weight:600;color:var(--ink-strong);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-v{flex:none;font-size:14px;font-weight:800;color:var(--ink-strong);font-variant-numeric:tabular-nums}
+.rk-row.me{background:var(--surface-2);border-color:var(--ink-strong)}
+.rk-me-tag{flex:none;font-size:10px;font-weight:800;color:var(--muted);
+  background:var(--ghost-bg);border-radius:99px;padding:2px 7px}
+.rk-sep{display:flex;align-items:center;gap:10px;margin:12px 2px 6px;color:var(--muted);font-size:11.5px;font-weight:700}
+.rk-sep::before,.rk-sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.rk-note{font-size:12px;color:var(--muted);text-align:center;margin:14px 2px 0;line-height:1.6}
+.rk-state{text-align:center;padding:34px 16px;color:var(--muted);font-size:13.5px;line-height:1.7}
+.rk-state svg{width:38px;height:38px;fill:var(--line);margin-bottom:10px}
 .q-acts{display:flex;gap:10px;margin-top:16px}
 .q-act{flex:1;min-width:0}
 .q-act{border:none;border-radius:16px;padding:13px 4px 11px;cursor:pointer;
@@ -618,6 +650,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
   <section id="v-stats" class="view">
     <h2 style="font-size:20px;margin:0 2px 16px" data-i18n="stats_title">学習の記録</h2>
+    <div class="rk-switch" id="rkSwitch">
+      <button data-rk="mine" class="on" data-i18n="rank_tab_mine">わたしの記録</button>
+      <button data-rk="board" data-i18n="rank_tab_board">ランキング</button>
+    </div>
     <div id="statsBody"></div>
   </section>
 
@@ -625,11 +661,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 </main>
 
 <nav class="tabbar">
-  <button data-tab="v-home" class="on"><svg class="ic" viewBox="-0.15 -0.04 24.3 24.3" fill="currentColor" aria-hidden="true"><path d="M3 10.6 11.2 3.5a1.25 1.25 0 0 1 1.6 0L21 10.6a1.25 1.25 0 0 1 .43.94v8.2A1.26 1.26 0 0 1 20.17 21H15v-6.1a1.3 1.3 0 0 0-1.3-1.3h-3.4a1.3 1.3 0 0 0-1.3 1.3V21H3.83a1.26 1.26 0 0 1-1.26-1.26v-8.2A1.25 1.25 0 0 1 3 10.6Z"/></svg><span data-i18n="nav_home">ホーム</span></button>
-  <button data-tab="v-list"><svg class="ic" viewBox="-0.05 -0.67 24.1 24.1" fill="currentColor" aria-hidden="true"><path d="M3.2 4.1A2.1 2.1 0 0 1 5.3 2H11a2 2 0 0 1 1 .27A2 2 0 0 1 13 2h5.7a2.1 2.1 0 0 1 2.1 2.1v14.8a1.1 1.1 0 0 1-1.1 1.1h-5.9a2.55 2.55 0 0 0-1.8.75A2.55 2.55 0 0 0 10.2 20H4.3a1.1 1.1 0 0 1-1.1-1.1V4.1ZM11 4H5.4v13.8h4.8c.28 0 .55.03.8.1V4Zm2 13.9c.25-.07.52-.1.8-.1h4.8V4H13v13.9Z"/></svg><span data-i18n="nav_words">単語</span></button>
+  <button data-tab="v-home" class="on"><svg class="ic" viewBox="-0.17 -0.07 24.34 24.34" fill="currentColor" aria-hidden="true"><path d="M3 10.6 11.2 3.5a1.25 1.25 0 0 1 1.6 0L21 10.6a1.25 1.25 0 0 1 .43.94v8.2A1.26 1.26 0 0 1 20.17 21H15v-6.1a1.3 1.3 0 0 0-1.3-1.3h-3.4a1.3 1.3 0 0 0-1.3 1.3V21H3.83a1.26 1.26 0 0 1-1.26-1.26v-8.2A1.25 1.25 0 0 1 3 10.6Z"/></svg><span data-i18n="nav_home">ホーム</span></button>
+  <button data-tab="v-list"><svg class="ic" viewBox="0.43 0.3 23.15 23.15" fill="currentColor" aria-hidden="true"><path d="M3 4.65a1.2 1.2 0 0 1 1.46-1.17A14.7 14.7 0 0 1 11 6.4v13.9a13.2 13.2 0 0 0-6.42-2.6A1.26 1.26 0 0 1 3 16.45V4.65ZM21 4.65a1.2 1.2 0 0 0-1.46-1.17A14.7 14.7 0 0 0 13 6.4v13.9a13.2 13.2 0 0 1 6.42-2.6A1.26 1.26 0 0 0 21 16.45V4.65Z"/></svg><span data-i18n="nav_words">単語</span></button>
   <button data-tab="v-add"><span class="add-dot" style="font-size:24px;font-weight:400">＋</span></button>
-  <button data-tab="v-quiz"><svg class="ic" viewBox="-1.28 -1.28 26.56 26.56" fill="currentColor" aria-hidden="true"><path d="M17.9 3.1a1.15 1.15 0 0 1 1.62 0l3 3a1.15 1.15 0 0 1 0 1.62l-3 3a1.15 1.15 0 1 1-1.62-1.62l1.04-1.04H9.2a4.7 4.7 0 0 0-4.52 3.4 1.16 1.16 0 0 1-2.23-.62A7 7 0 0 1 9.2 5.75h9.74L17.9 4.72a1.15 1.15 0 0 1 0-1.62ZM6.1 20.9a1.15 1.15 0 0 1-1.62 0l-3-3a1.15 1.15 0 0 1 0-1.62l3-3a1.15 1.15 0 1 1 1.62 1.62l-1.04 1.04h9.74a4.7 4.7 0 0 0 4.52-3.4 1.16 1.16 0 0 1 2.23.62 7 7 0 0 1-6.75 5.09H5.06L6.1 19.28a1.15 1.15 0 0 1 0 1.62Z"/></svg><span data-i18n="nav_review">復習</span><span class="badge" id="dueBadge" style="display:none"></span></button>
-  <button data-tab="v-stats"><svg class="ic" viewBox="0.75 1.75 22.51 22.51" fill="currentColor" aria-hidden="true"><path d="M3 15.2A1.2 1.2 0 0 1 4.2 14h2.6A1.2 1.2 0 0 1 8 15.2V21H3v-5.8Zm6.5-4A1.2 1.2 0 0 1 10.7 10h2.6a1.2 1.2 0 0 1 1.2 1.2V21h-5v-9.8Zm6.5-5A1.2 1.2 0 0 1 17.2 5h2.6A1.2 1.2 0 0 1 21 6.2V21h-5V6.2Z"/></svg><span data-i18n="nav_record">記録</span></button>
+  <button data-tab="v-quiz"><svg class="ic" viewBox="-1.31 -1.31 26.61 26.61" fill="currentColor" aria-hidden="true"><path d="M17.9 3.1a1.15 1.15 0 0 1 1.62 0l3 3a1.15 1.15 0 0 1 0 1.62l-3 3a1.15 1.15 0 1 1-1.62-1.62l1.04-1.04H9.2a4.7 4.7 0 0 0-4.52 3.4 1.16 1.16 0 0 1-2.23-.62A7 7 0 0 1 9.2 5.75h9.74L17.9 4.72a1.15 1.15 0 0 1 0-1.62ZM6.1 20.9a1.15 1.15 0 0 1-1.62 0l-3-3a1.15 1.15 0 0 1 0-1.62l3-3a1.15 1.15 0 1 1 1.62 1.62l-1.04 1.04h9.74a4.7 4.7 0 0 0 4.52-3.4 1.16 1.16 0 0 1 2.23.62 7 7 0 0 1-6.75 5.09H5.06L6.1 19.28a1.15 1.15 0 0 1 0 1.62Z"/></svg><span data-i18n="nav_review">復習</span><span class="badge" id="dueBadge" style="display:none"></span></button>
+  <button data-tab="v-stats"><svg class="ic" viewBox="0.72 1.72 22.55 22.55" fill="currentColor" aria-hidden="true"><path d="M3 15.2A1.2 1.2 0 0 1 4.2 14h2.6A1.2 1.2 0 0 1 8 15.2V21H3v-5.8Zm6.5-4A1.2 1.2 0 0 1 10.7 10h2.6a1.2 1.2 0 0 1 1.2 1.2V21h-5v-9.8Zm6.5-5A1.2 1.2 0 0 1 17.2 5h2.6A1.2 1.2 0 0 1 21 6.2V21h-5V6.2Z"/></svg><span data-i18n="nav_record">記録</span></button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -645,15 +681,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <div class="overlay" id="overlayMenu"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="menu_title">メニュー</h3><button class="sheet-x" id="menuClose" type="button" aria-label="close">×</button></div>
   <button class="menu-item" id="miAccount" type="button">
-    <svg class="mi-ic" viewBox="0.2 0.3 23.61 23.61" fill="currentColor" aria-hidden="true"><path d="M12 2.2a4.7 4.7 0 1 1 0 9.4 4.7 4.7 0 0 1 0-9.4ZM4 19.4c0-3.7 3.58-6.3 8-6.3s8 2.6 8 6.3v.4A2.2 2.2 0 0 1 17.8 22H6.2A2.2 2.2 0 0 1 4 19.8v-.4Z"/></svg>
+    <svg class="mi-ic" viewBox="0.17 0.27 23.66 23.66" fill="currentColor" aria-hidden="true"><path d="M12 2.2a4.7 4.7 0 1 1 0 9.4 4.7 4.7 0 0 1 0-9.4ZM4 19.4c0-3.7 3.58-6.3 8-6.3s8 2.6 8 6.3v.4A2.2 2.2 0 0 1 17.8 22H6.2A2.2 2.2 0 0 1 4 19.8v-.4Z"/></svg>
     <span class="mi-txt"><span class="mi-t" id="miAcctT" data-i18n="profile_title">プロフィール</span><span class="mi-s" id="miAcctS" data-i18n="menu_profile_sub">ニックネーム・同期・アカウント</span></span>
   </button>
   <button class="menu-item" id="miFeedback" type="button">
-    <svg class="mi-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.2c-5.08 0-9.2 3.36-9.2 7.5 0 2.3 1.28 4.36 3.28 5.73v3.13a.9.9 0 0 0 1.4.75l3.02-2a10.7 10.7 0 0 0 1.5.1c5.08 0 9.2-3.36 9.2-7.71S17.08 3.2 12 3.2ZM8.3 9.6a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/></svg>
+    <svg class="mi-ic" viewBox="0.16 -0.01 23.69 23.69" fill="currentColor" aria-hidden="true"><path d="M12 3.2c-5.08 0-9.2 3.36-9.2 7.5 0 2.3 1.28 4.36 3.28 5.73v3.13a.9.9 0 0 0 1.4.75l3.02-2a10.7 10.7 0 0 0 1.5.1c5.08 0 9.2-3.36 9.2-7.71S17.08 3.2 12 3.2ZM8.3 9.6a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/></svg>
     <span class="mi-txt"><span class="mi-t" data-i18n="fb_title">フィードバック</span><span class="mi-s" data-i18n="fb_menu_sub">要望・不具合を開発者に送る</span></span>
   </button>
   <button class="menu-item" id="miSettings" type="button">
-    <svg class="mi-ic" viewBox="2.48 -0.68 19.04 19.04" fill="currentColor" aria-hidden="true"><path d="M10.46 2.36a1.3 1.3 0 0 1 1.28-1.06h.52a1.3 1.3 0 0 1 1.28 1.06l.34 1.8c.43.17.84.41 1.22.7l1.74-.6a1.3 1.3 0 0 1 1.56.59l.26.45a1.3 1.3 0 0 1-.28 1.64l-1.4 1.2c.06.46.06.93 0 1.4l1.4 1.2a1.3 1.3 0 0 1 .28 1.64l-.26.45a1.3 1.3 0 0 1-1.56.59l-1.74-.6c-.38.29-.79.53-1.22.7l-.34 1.8a1.3 1.3 0 0 1-1.28 1.06h-.52a1.3 1.3 0 0 1-1.28-1.06l-.34-1.8a6.8 6.8 0 0 1-1.22-.7l-1.74.6a1.3 1.3 0 0 1-1.56-.59l-.26-.45a1.3 1.3 0 0 1 .28-1.64l1.4-1.2a6.4 6.4 0 0 1 0-1.4l-1.4-1.2a1.3 1.3 0 0 1-.28-1.64l.26-.45a1.3 1.3 0 0 1 1.56-.59l1.74.6c.38-.29.79-.53 1.22-.7l.34-1.8ZM12 7.3a3.7 3.7 0 1 0 0 7.4 3.7 3.7 0 0 0 0-7.4Zm0 2.3a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Z"/></svg>
+    <svg class="mi-ic" viewBox="-2.22 -2.22 28.44 28.44" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9.08 4.72 Q9.89 4.39 9.90 3.49 L9.91 2.20 Q9.92 1.30 10.82 1.30 L13.18 1.30 Q14.08 1.30 14.09 2.20 L14.10 3.49 Q14.11 4.39 14.92 4.72 L15.08 4.79 Q15.89 5.12 16.53 4.49 L17.45 3.59 Q18.10 2.96 18.73 3.60 L20.40 5.27 Q21.04 5.90 20.41 6.55 L19.51 7.47 Q18.88 8.11 19.21 8.92 L19.28 9.08 Q19.61 9.89 20.51 9.90 L21.80 9.91 Q22.70 9.92 22.70 10.82 L22.70 13.18 Q22.70 14.08 21.80 14.09 L20.51 14.10 Q19.61 14.11 19.28 14.92 L19.21 15.08 Q18.88 15.89 19.51 16.53 L20.41 17.45 Q21.04 18.10 20.40 18.73 L18.73 20.40 Q18.10 21.04 17.45 20.41 L16.53 19.51 Q15.89 18.88 15.08 19.21 L14.92 19.28 Q14.11 19.61 14.10 20.51 L14.09 21.80 Q14.08 22.70 13.18 22.70 L10.82 22.70 Q9.92 22.70 9.91 21.80 L9.90 20.51 Q9.89 19.61 9.08 19.28 L8.92 19.21 Q8.11 18.88 7.47 19.51 L6.55 20.41 Q5.90 21.04 5.27 20.40 L3.60 18.73 Q2.96 18.10 3.59 17.45 L4.49 16.53 Q5.12 15.89 4.79 15.08 L4.72 14.92 Q4.39 14.11 3.49 14.10 L2.20 14.09 Q1.30 14.08 1.30 13.18 L1.30 10.82 Q1.30 9.92 2.20 9.91 L3.49 9.90 Q4.39 9.89 4.72 9.08 L4.79 8.92 Q5.12 8.11 4.49 7.47 L3.59 6.55 Q2.96 5.90 3.60 5.27 L5.27 3.60 Q5.90 2.96 6.55 3.59 L7.47 4.49 Q8.11 5.12 8.92 4.79 Z M12.00 8.50a3.50 3.50 0 1 0 0.01 0 Z"/></svg>
     <span class="mi-txt"><span class="mi-t" data-i18n="set_title">設定</span><span class="mi-s" data-i18n="menu_set_sub">言語・テーマ・発音・データ</span></span>
   </button>
 </div></div>
@@ -795,6 +831,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    <div class="set-section-t" data-i18n="rank_tab_board">ランキング</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_rank">ランキングに参加する</div><div class="sd" data-i18n="desc_rank"></div></div>
+        <button class="switch" id="swRank"><i></i></button>
+      </div>
+    </div>
+
     <div class="set-section-t" data-i18n="sec_review">復習（間隔反復）</div>
     <div class="panel">
       <div class="set-row">
@@ -856,13 +900,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.8.0';
+const APP_VERSION='5.9.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.8.0',date:'2026-08-23',keys:['wn1','wn2']},
+  {version:'5.9.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.8.0',date:'2026-08-23',keys:['v580_1','v580_2']},
   {version:'5.7.0',date:'2026-08-23',keys:['v570_1','v570_2','v570_3']},
   {version:'5.6.0',date:'2026-08-23',keys:['v560_1','v560_2','v560_3']},
   {version:'5.5.0',date:'2026-08-23',keys:['v550_1','v550_2','v550_3']},
@@ -1015,8 +1060,11 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'下のタブのアイコンを描き直しました。単色のすっきりした形になり、選んでいるタブはWordkeepのゴールドで示されます。メニューのプロフィール・フィードバック・設定も同じ絵柄に揃えました',en:'The tab-bar icons have been redrawn as clean single-colour shapes, and the selected tab is now marked in Wordkeep’s gold. The Profile, Feedback and Settings entries in the menu match the same set',zh:'重绘了底部标签栏的图标，改为简洁的单色造型，当前选中的标签以 Wordkeep 的金色标示。菜单中的个人资料、反馈与设置也统一为同一套图形',fr:'Les icônes de la barre d’onglets ont été redessinées en formes monochromes épurées, et l’onglet actif est signalé par l’or de Wordkeep. Les entrées Profil, Retour et Réglages du menu suivent le même jeu',ar:'أُعيد رسم أيقونات شريط التبويب على هيئة أشكال أحادية اللون أنيقة، ويُميَّز التبويب المحدَّد بلون Wordkeep الذهبي. كما وُحِّدت أيقونات الملف الشخصي والملاحظات والإعدادات في القائمة على النسق نفسه',ko:'하단 탭의 아이콘을 다시 그렸습니다. 단색의 깔끔한 형태가 되었고, 선택된 탭은 Wordkeep의 골드로 표시됩니다. 메뉴의 프로필·피드백·설정도 같은 그림체로 맞췄습니다',ru:'Значки нижней панели перерисованы в виде чистых одноцветных форм, а выбранная вкладка отмечается фирменным золотом Wordkeep. Пункты меню «Профиль», «Отзыв» и «Настройки» приведены к тому же набору'},
-  wn2:{ja:'アイコンが単色になったことで、テーマに合わせて色を変えられるようになりました。前のバージョンで必要だった縁取りの処理がなくなり、アプリの読み込みも少し軽くなっています',en:'Because the icons are now single-colour shapes, their colour follows the theme directly. The outline treatment the previous version needed is gone, and the app loads a little lighter',zh:'由于图标改为单色造型，颜色可直接随主题变化。上一版本所需的描边处理已不再需要，加载也略微变轻',fr:'Les icônes étant désormais monochromes, leur couleur suit directement le thème. Le contour dont la version précédente avait besoin a disparu, et l’application se charge un peu plus légèrement',ar:'بما أن الأيقونات صارت أشكالًا أحادية اللون، صار لونها يتبع السمة مباشرة. واختفت معالجة التحديد التي احتاجتها النسخة السابقة، وصار تحميل التطبيق أخف قليلًا',ko:'아이콘이 단색이 되면서 색이 테마를 그대로 따라갑니다. 이전 버전에서 필요했던 테두리 처리가 사라졌고, 앱도 조금 가벼워졌습니다',ru:'Так как значки стали одноцветными, их цвет напрямую следует теме. Обводка, которая требовалась в прошлой версии, больше не нужна, и приложение загружается чуть легче'},
+  wn1:{ja:'ランキングを追加しました。記録タブの上で「ランキング」に切り替えると、今日の復習数・総復習数・単語数・連続日数・学習日数の5種目で他の利用者と並びます。自分の順位は上位50人の外にいても下に表示されます',en:'Added a ranking. Switch to Ranking at the top of the Record tab to see five boards — reviews today, total reviews, words, streak and days studied. Your own position is shown even when it falls outside the top 50',zh:'新增排行榜。在「记录」标签页顶部切换到「排行榜」，即可看到今日复习・累计复习・单词数・连续天数・学习天数五个榜单。即使不在前 50 名，也会在下方显示你的排名',fr:'Ajout d’un classement. Basculez sur Classement en haut de l’onglet Suivi pour cinq palmarès : révisions du jour, total, mots, série et jours étudiés. Votre position s’affiche même hors du top 50',ar:'أُضيف ترتيب. بدّل إلى «الترتيب» أعلى تبويب السجل لترى خمس لوحات: مراجعات اليوم وإجمالي المراجعات والكلمات والأيام المتتالية وأيام الدراسة. ويظهر ترتيبك حتى لو كان خارج أفضل 50',ko:'랭킹을 추가했습니다. 기록 탭 위에서 «랭킹»으로 전환하면 오늘 복습 수·총 복습 수·단어 수·연속 일수·학습 일수의 5개 부문에서 다른 사용자와 나란히 표시됩니다. 상위 50명 밖이어도 내 순위는 아래에 나옵니다',ru:'Добавлен рейтинг. Переключитесь на «Рейтинг» вверху вкладки «Прогресс» — пять таблиц: повторы за сегодня, всего повторов, слова, серия и дни занятий. Ваше место показывается, даже если вы вне первых 50'},
+  wn2:{ja:'ランキングに出るのはニックネームと回数だけで、覚えている単語そのものは一切公開されません。設定の「ランキング」からいつでも参加をやめられます。やめた時点で一覧から消えます',en:'Only your nickname and the counts appear on the board — never the words you are studying. You can leave at any time from Settings → Ranking, and you disappear from the board the moment you do',zh:'榜单上只显示昵称与数值，你正在学习的单词绝不会公开。可随时在「设置 →排行榜」中退出，退出后立即从榜单消失',fr:'Seuls votre pseudo et les compteurs figurent au classement — jamais les mots que vous étudiez. Vous pouvez partir à tout moment depuis Réglages → Classement, et vous disparaissez aussitôt',ar:'لا يظهر في اللوحة سوى اسمك المستعار والأرقام، ولا تُنشر الكلمات التي تدرسها أبدًا. ويمكنك الانسحاب في أي وقت من «الإعدادات ← الترتيب»، فتختفي من اللوحة فورًا',ko:'랭킹에 나오는 것은 닉네임과 횟수뿐이며, 외우고 있는 단어 자체는 전혀 공개되지 않습니다. 설정의 «랭킹»에서 언제든 참여를 그만둘 수 있고, 그만둔 즉시 목록에서 사라집니다',ru:'В рейтинге видны только никнейм и цифры — сами изучаемые слова не публикуются никогда. Выйти можно в любой момент в «Настройки → Рейтинг», и вы сразу исчезаете из списка'},
+  wn3:{ja:'「単語」と「設定」のアイコンを描き直しました。本と歯車が形として読み取りづらかったためです',en:'Redrew the Words and Settings icons — the book and the gear were hard to read as shapes',zh:'重绘了「单词」与「设置」图标，此前的书本与齿轮造型辨识度不佳',fr:'Icônes Mots et Réglages redessinées : le livre et l’engrenage se lisaient mal',ar:'أُعيد رسم أيقونتي «الكلمات» و«الإعدادات»؛ فقد كان الكتاب والترس صعبَي التمييز كشكلين',ko:'«단어»와 «설정» 아이콘을 다시 그렸습니다. 책과 톱니바퀴가 형태로 알아보기 어려웠기 때문입니다',ru:'Перерисованы значки «Слова» и «Настройки» — книга и шестерёнка плохо читались как формы'},
+  v580_1:{ja:'下のタブのアイコンを描き直しました。単色のすっきりした形になり、選んでいるタブはWordkeepのゴールドで示されます。メニューのプロフィール・フィードバック・設定も同じ絵柄に揃えました',en:'The tab-bar icons have been redrawn as clean single-colour shapes, and the selected tab is now marked in Wordkeep’s gold. The Profile, Feedback and Settings entries in the menu match the same set',zh:'重绘了底部标签栏的图标，改为简洁的单色造型，当前选中的标签以 Wordkeep 的金色标示。菜单中的个人资料、反馈与设置也统一为同一套图形',fr:'Les icônes de la barre d’onglets ont été redessinées en formes monochromes épurées, et l’onglet actif est signalé par l’or de Wordkeep. Les entrées Profil, Retour et Réglages du menu suivent le même jeu',ar:'أُعيد رسم أيقونات شريط التبويب على هيئة أشكال أحادية اللون أنيقة، ويُميَّز التبويب المحدَّد بلون Wordkeep الذهبي. كما وُحِّدت أيقونات الملف الشخصي والملاحظات والإعدادات في القائمة على النسق نفسه',ko:'하단 탭의 아이콘을 다시 그렸습니다. 단색의 깔끔한 형태가 되었고, 선택된 탭은 Wordkeep의 골드로 표시됩니다. 메뉴의 프로필·피드백·설정도 같은 그림체로 맞췄습니다',ru:'Значки нижней панели перерисованы в виде чистых одноцветных форм, а выбранная вкладка отмечается фирменным золотом Wordkeep. Пункты меню «Профиль», «Отзыв» и «Настройки» приведены к тому же набору'},
+  v580_2:{ja:'アイコンが単色になったことで、テーマに合わせて色を変えられるようになりました。前のバージョンで必要だった縁取りの処理がなくなり、アプリの読み込みも少し軽くなっています',en:'Because the icons are now single-colour shapes, their colour follows the theme directly. The outline treatment the previous version needed is gone, and the app loads a little lighter',zh:'由于图标改为单色造型，颜色可直接随主题变化。上一版本所需的描边处理已不再需要，加载也略微变轻',fr:'Les icônes étant désormais monochromes, leur couleur suit directement le thème. Le contour dont la version précédente avait besoin a disparu, et l’application se charge un peu plus légèrement',ar:'بما أن الأيقونات صارت أشكالًا أحادية اللون، صار لونها يتبع السمة مباشرة. واختفت معالجة التحديد التي احتاجتها النسخة السابقة، وصار تحميل التطبيق أخف قليلًا',ko:'아이콘이 단색이 되면서 색이 테마를 그대로 따라갑니다. 이전 버전에서 필요했던 테두리 처리가 사라졌고, 앱도 조금 가벼워졌습니다',ru:'Так как значки стали одноцветными, их цвет напрямую следует теме. Обводка, которая требовалась в прошлой версии, больше не нужна, и приложение загружается чуть легче'},
   v570_1:{ja:'下のタブのアイコンを描き下ろしのものに差し替えました。ホーム・単語・復習・記録の4つです',en:'The four tab-bar icons — Home, Words, Review and Progress — have been replaced with custom artwork',zh:'底部标签栏的四个图标（首页・单词・复习・记录）已更换为专门绘制的图标',fr:'Les quatre icônes de la barre d’onglets — Accueil, Mots, Révision et Progression — ont été remplacées par des illustrations dédiées',ar:'استُبدلت أيقونات شريط التبويب الأربع — الرئيسية والكلمات والمراجعة والتقدّم — برسوم خاصة بالتطبيق',ko:'하단 탭의 아이콘 4개(홈·단어·복습·기록)를 새로 그린 것으로 교체했습니다',ru:'Четыре значка нижней панели — «Главная», «Слова», «Повторение» и «Прогресс» — заменены на собственные иллюстрации'},
   v570_2:{ja:'単語帳の名前の変更と削除ができなくなっていた不具合を直しました。鉛筆ボタンを押しても何も起きない状態だったので、ボタン自体も「✏️ 編集」とはっきり分かる形にしました',en:'Fixed renaming and deleting a notebook: the pencil button did nothing at all. It is now a clearly labelled Edit button rather than a faint icon at the edge',zh:'修复了无法重命名与删除单词本的问题——点击铅笔按钮毫无反应。该按钮也改为清晰标注的「编辑」，不再是边缘的淡色图标',fr:'Correction du renommage et de la suppression d’un carnet : le bouton crayon ne faisait rien. C’est désormais un bouton « Modifier » clairement identifié, et non une icône pâle au bord',ar:'أُصلح تغيير اسم الدفتر وحذفه؛ كان زر القلم لا يفعل شيئًا. وصار زرًا واضحًا مكتوبًا عليه «تعديل» بدل أيقونة باهتة عند الحافة',ko:'단어장 이름 변경과 삭제가 되지 않던 문제를 고쳤습니다. 연필 버튼을 눌러도 아무 일도 일어나지 않는 상태였습니다. 버튼도 «편집»이라고 분명히 알 수 있는 형태로 바꿨습니다',ru:'Исправлены переименование и удаление словаря: кнопка с карандашом не делала ничего. Теперь это явная кнопка «Изменить», а не бледный значок у края'},
   v570_3:{ja:'単語帳を削除しても、入っている単語は「自分の単語帳」に移るだけで消えません。削除の前に何語入っているかも表示します',en:'Deleting a notebook never deletes the words in it — they move to My words. The count is shown before you confirm',zh:'删除单词本不会删除其中的单词，它们会移到「我的单词本」。确认前会显示单词数量',fr:'Supprimer un carnet ne supprime jamais les mots qu’il contient : ils passent dans « Mes mots ». Le nombre est indiqué avant la confirmation',ar:'حذف الدفتر لا يحذف كلماته أبدًا؛ فهي تنتقل إلى «كلماتي». ويظهر عددها قبل التأكيد',ko:'단어장을 삭제해도 안에 든 단어는 지워지지 않고 «내 단어장»으로 옮겨집니다. 확인 전에 몇 개가 들어 있는지도 보여 줍니다',ru:'Удаление словаря никогда не удаляет слова из него — они переходят в «Мои слова». Их количество показывается до подтверждения'},
@@ -1299,6 +1347,29 @@ const T={
   next_review:{ja:'次の復習: {0}日後（{1}）',en:'Next review: in {0} days ({1})',zh:'下次复习：{0} 天后（{1}）',fr:'Prochaine révision : dans {0} jours ({1})',ar:'المراجعة القادمة: بعد {0} أيام ({1})',ko:'다음 복습: {0}일 후 ({1})',ru:'Следующий повтор: через {0} дн. ({1})'},
   again_soon:{ja:'このあともう一度出題します。復習の間隔は最初からになります',en:'We’ll ask again shortly — the interval starts over from the beginning',zh:'稍后会再次出题。复习间隔将从头开始',fr:'Nous le redemanderons bientôt — l’intervalle repart de zéro',ar:'سنسألك عنها مجددًا بعد قليل — يبدأ الفاصل من جديد',ko:'잠시 후 다시 출제됩니다. 복습 간격은 처음부터 다시 시작됩니다',ru:'Спросим ещё раз чуть позже — интервал начнётся заново'},
   btn_next_q:{ja:'次の問題',en:'Next',zh:'下一题',fr:'Suivant',ar:'التالي',ko:'다음 문제',ru:'Далее'},
+  rank_tab_mine:{ja:'わたしの記録',en:'My record',zh:'我的记录',fr:'Mon suivi',ar:'سجلّي',ko:'내 기록',ru:'Мои данные'},
+  rank_tab_board:{ja:'ランキング',en:'Ranking',zh:'排行榜',fr:'Classement',ar:'الترتيب',ko:'랭킹',ru:'Рейтинг'},
+  rank_m_today:{ja:'今日の復習',en:'Today',zh:'今日复习',fr:'Aujourd’hui',ar:'اليوم',ko:'오늘 복습',ru:'Сегодня'},
+  rank_m_total:{ja:'総復習数',en:'Total reviews',zh:'累计复习',fr:'Total révisé',ar:'إجمالي المراجعات',ko:'총 복습 수',ru:'Всего повторов'},
+  rank_m_words:{ja:'単語数',en:'Words',zh:'单词数',fr:'Mots',ar:'الكلمات',ko:'단어 수',ru:'Слова'},
+  rank_m_streak:{ja:'連続日数',en:'Streak',zh:'连续天数',fr:'Série',ar:'أيام متتالية',ko:'연속 일수',ru:'Серия'},
+  rank_m_days:{ja:'学習日数',en:'Days studied',zh:'学习天数',fr:'Jours étudiés',ar:'أيام الدراسة',ko:'학습 일수',ru:'Дней занятий'},
+  rank_u_times:{ja:'{0}回',en:'{0}',zh:'{0} 次',fr:'{0}',ar:'{0}',ko:'{0}회',ru:'{0}'},
+  rank_u_words:{ja:'{0}語',en:'{0}',zh:'{0} 词',fr:'{0}',ar:'{0}',ko:'{0}개',ru:'{0}'},
+  rank_u_days:{ja:'{0}日',en:'{0}d',zh:'{0} 天',fr:'{0} j',ar:'{0} ي',ko:'{0}일',ru:'{0} дн.'},
+  rank_you:{ja:'あなた',en:'You',zh:'你',fr:'Vous',ar:'أنت',ko:'나',ru:'Вы'},
+  rank_loading:{ja:'読み込み中…',en:'Loading…',zh:'加载中…',fr:'Chargement…',ar:'جارٍ التحميل…',ko:'불러오는 중…',ru:'Загрузка…'},
+  rank_empty:{ja:'まだ誰も記録がありません。最初の1人になりましょう。',en:'No one is on the board yet. Be the first.',zh:'排行榜还没有记录，来做第一个吧。',fr:'Personne au classement pour l’instant. Soyez le premier.',ar:'لا أحد على اللوحة بعد. كن أول من يظهر.',ko:'아직 아무도 기록이 없습니다. 첫 번째가 되어 보세요.',ru:'В рейтинге пока никого. Станьте первым.'},
+  rank_err:{ja:'ランキングを読み込めませんでした。通信を確認してもう一度お試しください。',en:'Could not load the ranking. Check your connection and try again.',zh:'无法加载排行榜。请检查网络后重试。',fr:'Impossible de charger le classement. Vérifiez votre connexion et réessayez.',ar:'تعذّر تحميل الترتيب. تحقّق من الاتصال وحاول مجددًا.',ko:'랭킹을 불러오지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요.',ru:'Не удалось загрузить рейтинг. Проверьте соединение и повторите.'},
+  rank_retry:{ja:'もう一度',en:'Try again',zh:'重试',fr:'Réessayer',ar:'أعد المحاولة',ko:'다시 시도',ru:'Повторить'},
+  rank_off:{ja:'ランキングに参加していません。設定から参加すると、あなたの記録もここに並びます。',en:'You are not taking part. Join from Settings and your record appears here too.',zh:'你尚未参加排行榜。在设置中加入后，你的记录也会显示在这里。',fr:'Vous ne participez pas. Rejoignez depuis les réglages pour y figurer aussi.',ar:'أنت غير مشارك. انضم من الإعدادات ليظهر سجلّك هنا أيضًا.',ko:'랭킹에 참여하고 있지 않습니다. 설정에서 참여하면 내 기록도 여기에 표시됩니다.',ru:'Вы не участвуете. Присоединитесь в настройках, и ваши результаты появятся здесь.'},
+  rank_join:{ja:'参加する',en:'Join',zh:'加入',fr:'Rejoindre',ar:'انضم',ko:'참여하기',ru:'Участвовать'},
+  rank_offline:{ja:'ランキングを見るにはインターネット接続が必要です。',en:'The ranking needs an internet connection.',zh:'查看排行榜需要网络连接。',fr:'Le classement nécessite une connexion internet.',ar:'يحتاج الترتيب إلى اتصال بالإنترنت.',ko:'랭킹을 보려면 인터넷 연결이 필요합니다.',ru:'Для рейтинга нужно подключение к интернету.'},
+  rank_outside:{ja:'あなたの順位',en:'Your position',zh:'你的排名',fr:'Votre position',ar:'ترتيبك',ko:'내 순위',ru:'Ваше место'},
+  rank_unranked:{ja:'まだ順位がつきません',en:'Not ranked yet',zh:'暂无排名',fr:'Pas encore classé',ar:'لا ترتيب بعد',ko:'아직 순위가 없습니다',ru:'Пока без места'},
+  rank_top:{ja:'上位{0}人を表示しています',en:'Showing the top {0}',zh:'显示前 {0} 名',fr:'Affichage du top {0}',ar:'عرض أفضل {0}',ko:'상위 {0}명을 표시하고 있습니다',ru:'Показаны первые {0}'},
+  st_rank:{ja:'ランキングに参加する',en:'Take part in the ranking',zh:'参加排行榜',fr:'Participer au classement',ar:'المشاركة في الترتيب',ko:'랭킹에 참여',ru:'Участвовать в рейтинге'},
+  desc_rank:{ja:'ニックネームと学習の記録（復習数・単語数・連続日数）が他の利用者にも見えるようになります。単語そのものは公開されません。オフにするといつでも一覧から消えます。',en:'Your nickname and study counts (reviews, words, streak) become visible to other users. Your actual vocabulary is never shared. Turning it off removes you from the board at once.',zh:'你的昵称与学习数据（复习数・单词数・连续天数）将对其他用户可见。你的单词内容不会公开。关闭后会立即从榜单移除。',fr:'Votre pseudo et vos compteurs (révisions, mots, série) deviennent visibles par les autres. Votre vocabulaire lui-même n’est jamais partagé. En désactivant, vous disparaissez aussitôt du classement.',ar:'سيصبح اسمك المستعار وأرقام دراستك (المراجعات والكلمات والأيام المتتالية) مرئية للآخرين. أما كلماتك نفسها فلا تُنشر أبدًا. وإيقافه يزيلك من اللوحة فورًا.',ko:'닉네임과 학습 기록(복습 수·단어 수·연속 일수)이 다른 사용자에게 보이게 됩니다. 단어 자체는 공개되지 않습니다. 끄면 즉시 목록에서 사라집니다.',ru:'Ваш никнейм и счётчики (повторы, слова, серия) станут видны другим. Сами слова никогда не публикуются. При выключении вы сразу исчезаете из рейтинга.'},
   act_detail:{ja:'単語の詳細',en:'Details',zh:'单词详情',fr:'Détails',ar:'التفاصيل',ko:'단어 상세',ru:'Подробнее'},
   act_listen:{ja:'単語を聞く',en:'Listen',zh:'朗读单词',fr:'Écouter',ar:'استمع',ko:'단어 듣기',ru:'Прослушать'},
   btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
@@ -1589,7 +1660,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -2453,6 +2524,7 @@ async function fetchWithTimeout(url,ms,opts){
 
 /* ---------- tabs ---------- */
 $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+bindRankSwitch();
 // Static labels come from data-i18n, but most of the screen is built by
 // render functions -- without this a language change only took effect after
 // navigating somewhere else.
@@ -4047,10 +4119,21 @@ function renderSpeechRows(){
   if(note)note.style.display=TTS_OK?'none':'';
   if(!TTS_OK)return;
   $('#swAutoSpeak').classList.toggle('on',!!S().autoSpeak);
+  $('#swRank').classList.toggle('on',rankOptIn());
   // sample the change so the difference is audible right away
   seg('#segAccent','accent',false,()=>speak('Wordkeep'));
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
 }
+$('#swRank').onclick=()=>{
+  const on=!rankOptIn();
+  S().rankOptIn=on;save();
+  $('#swRank').classList.toggle('on',on);
+  gaEvent('rank_opt',{on:on});
+  // Publish or withdraw immediately -- a toggle that only takes effect at the
+  // next sync would leave someone listed after they asked not to be.
+  publishBoard().then(()=>{rankCache={key:'',rows:null,at:0};
+    if($('#v-stats').classList.contains('active')&&rankView==='board')renderBoard();});
+};
 $('#swAutoSpeak').onclick=()=>{
   S().autoSpeak=!S().autoSpeak;save();renderSettings();applySettingsNow('autoSpeak');
   if(S().autoSpeak)speak('Wordkeep'); // confirm out loud that it works
@@ -4179,7 +4262,186 @@ function heatLevel(n){
   if(n<=10)return 3;
   return 4;
 }
+/* ==========================================================================
+   Leaderboard
+   One public document per participant in `board/{uid}`, holding a nickname and
+   a handful of counters -- never any vocabulary. Reading is open to any signed
+   in user, which is what makes it a board; writing is restricted to the owner.
+   The numbers come from the client, so they are trusted exactly as far as the
+   client is; the rules bound them but cannot prove the reviews happened.
+   ========================================================================== */
+const PODIUM_PATH='M9.6 9.1a1.3 1.3 0 0 1 1.3-1.3h2.2a1.3 1.3 0 0 1 1.3 1.3V21H9.6V9.1ZM1.8 13.6a1.3 1.3 0 0 1 1.3-1.3h2.2a1.3 1.3 0 0 1 1.3 1.3V21H1.8v-7.4ZM17.4 11.6a1.3 1.3 0 0 1 1.3-1.3h2.2a1.3 1.3 0 0 1 1.3 1.3V21h-4.8v-9.4ZM12 1.2l1.36 2.42 2.72.5-1.9 2 .34 2.74L12 7.66 9.48 8.86l.34-2.74-1.9-2 2.72-.5L12 1.2Z';
+const RANK_LIMIT=50;
+// Ask for more rows than are shown so the "today" board can drop the stale
+// ones -- a row keeps yesterday's count until its owner next opens the app,
+// and filtering on two fields at once would need a composite index.
+const RANK_FETCH=200;
+const RANK_METRICS=[
+  {k:'todayN', label:'rank_m_today',  unit:'rank_u_times'},
+  {k:'totalN', label:'rank_m_total',  unit:'rank_u_times'},
+  {k:'words',  label:'rank_m_words',  unit:'rank_u_words'},
+  {k:'streak', label:'rank_m_streak', unit:'rank_u_days'},
+  {k:'days',   label:'rank_m_days',   unit:'rank_u_days'},
+];
+let rankView='mine';                       // which half of the record tab
+let rankMetric='todayN';
+let rankCache={key:'',rows:null,at:0};
+const RANK_TTL=60000;                      // a board does not need to be live
+
+function rankOptIn(){return S().rankOptIn!==false;}   // on unless turned off
+
+// Everything the board shows, computed from what is already on the device.
+function myBoardStats(){
+  const counts=dailyCounts();
+  const today=localDayIndex(Date.now());
+  let totalN=0,days=0;
+  counts.forEach(v=>{totalN+=v.n;if(v.n>0)days++;});
+  const st=S().streak||{};
+  return {
+    todayN:boardNum((counts.get(today)||{}).n,100000),
+    todayIdx:boardNum(today,1000000),
+    totalN:boardNum(totalN,100000000),
+    words:boardNum(DB.words.length,1000000),
+    streak:boardNum(st.current,100000),
+    best:boardNum(st.longest,100000),
+    days:boardNum(days,100000),
+  };
+}
+
+// Called at the end of a sync. Never blocks it: the board is a nicety, and a
+// failure here must not make a successful word sync look broken.
+async function publishBoard(){
+  if(!cloudUser||!fbDb)return;
+  const ref=fbDb.collection('board').doc(cloudUser.uid);
+  try{
+    if(!rankOptIn()||!cloudUser.nickname){
+      // Leaving the board means leaving no row behind, not just hiding one.
+      if(S().rankPublished){await ref.delete();S().rankPublished=false;save();}
+      return;
+    }
+    await ref.set({nickname:String(cloudUser.nickname).slice(0,60),
+                   ...myBoardStats(),at:Date.now()});
+    if(!S().rankPublished){S().rankPublished=true;save();}
+    rankCache={key:'',rows:null,at:0};
+  }catch(e){ console.warn('board publish failed',e); }
+}
+
+async function fetchBoard(metric){
+  const key=metric;
+  if(rankCache.key===key&&rankCache.rows&&Date.now()-rankCache.at<RANK_TTL)return rankCache.rows;
+  const snap=await fbDb.collection('board').orderBy(metric,'desc').limit(RANK_FETCH).get();
+  const raw=[];
+  snap.forEach(d=>raw.push({uid:d.id,...(d.data()||{})}));
+  const rows=rankRows(raw,metric,localDayIndex(Date.now()));
+  rankCache={key,rows,at:Date.now()};
+  return rows;
+}
+// Kept apart from the fetch so it can be exercised without Firestore.
+// Firestore has already ordered by `metric`, but only within the page it
+// returned, and a row keeps yesterday's count until its owner next opens the
+// app -- so today's board would otherwise be led all week by someone who has
+// not studied since. Re-sorting also guards against a document missing the
+// field entirely, which Firestore omits from an ordered query rather than
+// treating as zero.
+function rankRows(rows,metric,todayIdx){
+  const keep=metric==='todayN'
+    ? r=>Number(r.todayIdx)===todayIdx&&Number(r.todayN)>0
+    : r=>Number(r[metric])>0;
+  return rows.filter(r=>r&&keep(r)&&r.nickname)
+             .sort((a,b)=>(Number(b[metric])||0)-(Number(a[metric])||0));
+}
+// Whatever the caller hands over ends up in a public document, and the rules
+// reject anything that is not a non-negative integer in range -- so a NaN or a
+// stray string has to be turned into a number here, not discovered as a
+// permission error after the fact.
+function boardNum(v,max){
+  const n=Math.floor(Number(v));
+  if(!Number.isFinite(n)||n<0)return 0;
+  return n>max?max:n;
+}
+
+function rankFmt(m,v){return t(m.unit,fmtNum(v||0));}
+function fmtNum(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+
+function rankRowHTML(pos,r,m,me){
+  return '<div class="rk-row'+(pos<=3?' p'+pos:'')+(me?' me':'')+'">'+
+    '<span class="rk-n">'+pos+'</span>'+
+    '<span class="rk-nm">'+esc(r.nickname||'—')+'</span>'+
+    (me?'<span class="rk-me-tag">'+esc(t('rank_you'))+'</span>':'')+
+    '<span class="rk-v">'+esc(rankFmt(m,r[m.k]))+'</span>'+
+  '</div>';
+}
+
+function rankStateHTML(msg,btn){
+  return '<div class="rk-state">'+
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+PODIUM_PATH+'"/></svg>'+
+    '<div>'+esc(msg)+'</div>'+
+    (btn?'<button class="btn btn-ghost" id="rkAct" style="margin-top:14px">'+esc(btn)+'</button>':'')+
+  '</div>';
+}
+
+function renderBoard(){
+  const body=$('#statsBody');
+  if(!body)return;
+  const chips='<div class="rk-metrics">'+RANK_METRICS.map(m=>
+    '<button data-m="'+m.k+'"'+(m.k===rankMetric?' class="on"':'')+'>'+esc(t(m.label))+'</button>').join('')+'</div>';
+  const shell=b=>{body.innerHTML=chips+'<div id="rkBody">'+b+'</div>';bindRankChips();};
+
+  if(!navigator.onLine){shell(rankStateHTML(t('rank_offline'),t('rank_retry')));
+    const a=$('#rkAct');if(a)a.onclick=renderBoard;return;}
+  if(!cloudUser||!fbDb){shell(rankStateHTML(t('rank_offline')));return;}
+  shell('<div class="rk-state">'+esc(t('rank_loading'))+'</div>');
+
+  const m=RANK_METRICS.find(x=>x.k===rankMetric)||RANK_METRICS[0];
+  fetchBoard(m.k).then(rows=>{
+    if(rankView!=='board')return;                 // user switched away mid-flight
+    const el=$('#rkBody'); if(!el)return;
+    if(!rows.length){el.innerHTML=rankStateHTML(t('rank_empty'));return;}
+    const myIdx=rows.findIndex(r=>r.uid===(cloudUser&&cloudUser.uid));
+    const top=rows.slice(0,RANK_LIMIT);
+    let h='<div class="rk-list">'+top.map((r,i)=>rankRowHTML(i+1,r,m,r.uid===(cloudUser||{}).uid)).join('')+'</div>';
+    // Being on the board but off the visible end is the case that most wants
+    // answering, so the own row is pinned rather than left to be scrolled for.
+    if(myIdx>=RANK_LIMIT){
+      h+='<div class="rk-sep">'+esc(t('rank_outside'))+'</div>'+
+         '<div class="rk-list">'+rankRowHTML(myIdx+1,rows[myIdx],m,true)+'</div>';
+    }else if(myIdx<0){
+      h+='<div class="rk-sep">'+esc(t('rank_outside'))+'</div>'+
+         '<div class="rk-state" style="padding:16px">'+
+           esc(rankOptIn()?t('rank_unranked'):t('rank_off'))+
+           (rankOptIn()?'':'<div><button class="btn btn-ghost" id="rkAct" style="margin-top:12px">'+esc(t('rank_join'))+'</button></div>')+
+         '</div>';
+    }
+    if(rows.length>RANK_LIMIT)h+='<p class="rk-note">'+esc(t('rank_top',RANK_LIMIT))+'</p>';
+    el.innerHTML=h;
+    const a=$('#rkAct');
+    if(a)a.onclick=()=>{S().rankOptIn=true;save();$('#swRank').classList.add('on');
+      publishBoard().then(()=>{rankCache={key:'',rows:null,at:0};renderBoard();});};
+    gaScreen('ranking');
+  }).catch(e=>{
+    const el=$('#rkBody');if(!el)return;
+    el.innerHTML=rankStateHTML(t('rank_err'),t('rank_retry'));
+    const a=$('#rkAct');if(a)a.onclick=()=>{rankCache={key:'',rows:null,at:0};renderBoard();};
+    console.warn('board read failed',e);
+  });
+}
+function bindRankChips(){
+  $$('.rk-metrics button').forEach(b=>b.onclick=()=>{
+    rankMetric=b.dataset.m;renderBoard();
+    gaEvent('rank_metric',{metric:rankMetric});
+  });
+}
+function bindRankSwitch(){
+  $$('#rkSwitch button').forEach(b=>b.onclick=()=>{
+    rankView=b.dataset.rk;
+    $$('#rkSwitch button').forEach(x=>x.classList.toggle('on',x===b));
+    renderStats();
+  });
+}
 function renderStats(){
+  const sw=$('#rkSwitch');
+  if(sw)$$('#rkSwitch button').forEach(b=>b.classList.toggle('on',b.dataset.rk===rankView));
+  if(rankView==='board'){renderBoard();return;}
   const counts=dailyCounts();
   const today=localDayIndex(Date.now());
   const st=S().streak||{};
@@ -4998,6 +5260,9 @@ async function cloudSync(reason){
     cloudState='in';cloudMsg='';
     retryDelay=0;
     gaEvent('cloud_sync',{reason:reason||'manual',word_count:DB.words.length});
+    // Deliberately not awaited: the board is a nicety, and a failure writing it
+    // must not make a word sync that already succeeded look like it failed.
+    publishBoard();
     renderCount();
     renderList();
     // Home is the landing view, so words pulled from another device used to

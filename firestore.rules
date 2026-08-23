@@ -63,6 +63,45 @@ service cloud.firestore {
       }
     }
 
+    // ---- Leaderboard ------------------------------------------------------
+    // One small public document per participant. It holds only what the board
+    // shows -- a nickname and a handful of counters -- never any vocabulary.
+    // Anyone signed in can read the whole collection, because that is what a
+    // leaderboard is; only the owner can write their own row.
+    //
+    // These numbers come from the client, so they are trusted only as far as
+    // the client is. Validating them here bounds the damage (no strings where
+    // numbers belong, no negative or absurd values, no extra fields used as
+    // free storage) but it cannot prove someone actually did the reviews.
+    // Making that airtight needs a server recomputing from word history, which
+    // is a Cloud Function and a different piece of work.
+    function boardNum(field, max) {
+      return field in request.resource.data
+             && request.resource.data[field] is int
+             && request.resource.data[field] >= 0
+             && request.resource.data[field] <= max;
+    }
+    match /board/{userId} {
+      allow read: if request.auth != null;
+      allow delete: if (request.auth != null && request.auth.uid == userId)
+                    || isAdmin();
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && request.resource.data.keys().hasOnly(
+                        ['nickname','todayN','todayIdx','totalN','words',
+                         'streak','best','days','at'])
+                   && request.resource.data.nickname is string
+                   && request.resource.data.nickname.size() > 0
+                   && request.resource.data.nickname.size() <= 60
+                   && boardNum('todayN', 100000)
+                   && boardNum('todayIdx', 1000000)
+                   && boardNum('totalN', 100000000)
+                   && boardNum('words', 1000000)
+                   && boardNum('streak', 100000)
+                   && boardNum('best', 100000)
+                   && boardNum('days', 100000)
+                   && boardNum('at', 99999999999999);
+    }
+
     match /feedback/{id} {
       // Anyone can send feedback, including signed-out users, but the payload
       // is capped so the collection can't be used as free storage.
