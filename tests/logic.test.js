@@ -220,5 +220,28 @@ console.log('\nfmtNum');
   t('millions',()=>M.fmtNum(1234567)==='1,234,567'||M.fmtNum(1234567));
 }
 
+console.log('\nwithRanks / stable order');
+{
+  const T=20000;
+  const tied=[{uid:'e',nickname:'E',streak:5},{uid:'a',nickname:'A',streak:9},
+              {uid:'c',nickname:'C',streak:9},{uid:'b',nickname:'B',streak:5},
+              {uid:'d',nickname:'D',streak:1}];
+  const fmt=x=>M.withRanks(M.rankRows(x,'streak',T),'streak')
+                .map(r=>r._rank+':'+r.nickname).join(' ');
+  t('equal scores share a place and the next one skips',()=>
+    fmt(tied)==='1:A 1:C 3:B 3:E 5:D'||fmt(tied));
+  // Firestore returns ties in no particular order, so without a tiebreak the
+  // same people swapped rank numbers on every refresh.
+  t('the order does not depend on the order Firestore returned',()=>
+    fmt(tied)===fmt(tied.slice().reverse())||fmt(tied)+' vs '+fmt(tied.slice().reverse()));
+  t('a lone row is rank 1',()=>
+    fmt([{uid:'z',nickname:'Z',streak:3}])==='1:Z'||fmt([{uid:'z',nickname:'Z',streak:3}]));
+  t('all tied share rank 1',()=>{
+    const all=[1,2,3].map(i=>({uid:'u'+i,nickname:'U'+i,streak:4}));
+    return M.withRanks(M.rankRows(all,'streak',T),'streak').every(r=>r._rank===1)||'not all 1';
+  });
+  t('empty input does not throw',()=>M.withRanks([],'streak').length===0||'no');
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.10.0 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.11.0 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮444KB、gzip配信で<b>実転送量は152KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮443KB、gzip配信で<b>実転送量は151KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">同点なのに順位が入れ替わって見えた</div><div class="d">並び順にタイブレークが無く、<b>Firestoreが返した順のまま</b>だったので、同じ回数の2人の順位が更新のたびに入れ替わった。uidでタイブレークして安定させたうえで、<b>同点は同じ順位（1,2,2,4）</b>にした。配列の位置で番号を振ると、まったく同じ連続日数の相手に「あなたが下」と言うことになる。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">遅い応答が現在の種目を上書きしていた</div><div class="d">種目を素早く切り替えると、<b>前の種目の応答が後から届いて現在の一覧を書き換えていた</b>。チップは「連続日数」なのに中身は「今日の復習」という状態。描画前に<code>rankMetric</code>が変わっていないか確認する。回線が遅いほど出やすい。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">キャッシュが1種目分しか無く読み取りを浪費していた</div><div class="d">チップを行き来するたびに再取得しており、<b>1回200ドキュメント読む</b>。8タップで1400読み取りになっていた。<b>無料枠は1日5万読み取り</b>なので実際に効く。種目ごとにキャッシュを持たせ、8タップで5取得（1000）に。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ニックネームを変えてもランキングは古い名前のままだった</div><div class="d"><code>saveNickname()</code>が<code>publishBoard()</code>を呼んでおらず、<b>次の同期まで古い名前が残っていた</b>。不適切な名前を消したくて改名した人にとっては最悪の挙動。即座に反映するようにした。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">同じ内容でも同期のたびに書き込んでいた</div><div class="d">同期はどんな変更でも走るが、その大半はランキングの数値を動かさない。前回書いた内容と比較して、<b>変化があるときだけ書く</b>ようにした。無料枠の書き込みは1日2万。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">Service Workerが古い changelog.json を永久に返していた</div><div class="d"><b>v5.10.0で入れたランタイムキャッシュの副作用。</b>このファイルはリリースのたびに増えるのに、素のURLだと<b>端末が最初に取得したコピーで固定され、後から外部化したバージョンが永久に出てこない</b>。実際に5.8.0と5.7.0が履歴から消えていた。URLに<code>?v=</code>を付けて解決。</div><div class="ver">v5.11.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t"><code>deleteDeck()</code>が削除済みの単語帳をCTXに残していた</div><div class="d">呼び出し側で戻していたので実害は無かったが、<b>削除する関数が「二度言われないと直らない」のはおかしい</b>ので関数側に移した。</div><div class="ver">v5.11.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ニックネームの審査を入れた</div><div class="d">v5.9.0でニックネームが<b>全ログインユーザーに配信されるものに変わった</b>ので、内容チェックを追加。それまでは文字数しか見ていなかった。大小文字・アクセント・全角・leet(<code>0→o</code> <code>3→e</code> <code>$→s</code>)・区切りを畳んでから判定するので、<code>ｆ ｕ ｃ ｋ</code>も<code>n1gg3r</code>も同じ形になる。<b>これはモデレーションではなく速度制限。</b>リストはアプリ内にあり、その気になれば自分のコピーから消せる。</div><div class="ver">v5.10.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">誤検知を避けるためリストを2つに分けた</div><div class="d">最初は全部を部分一致にしたら、<b>Dickinson・Hancock・Cocktail・Shitake・Scunthorpe・しねま が弾かれた</b>（実在の姓と単語）。まともな語に含まれない語だけを部分一致に残し、<code>dick</code> <code>cock</code> <code>shit</code> <code>ass</code> <code>rape</code> <code>しね</code> などは完全一致に移した。<b>無実の人に「あなたの名前は不適切です」と言うほうが、1件見逃して管理者が直すより悪い。</b>ゼロ幅文字とbidi制御文字も弾く（一覧で見えないうえ、bidiは行の他の文字を並べ替えられる）。</div><div class="ver">v5.10.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">管理ページから強制改名できるように</div><div class="d">アプリ内の判定は自分のコピーから消せるので、<b>本当の歯止めはこちら</b>。7日クールダウンを無視して即座に変更し、<b>同時にランキングの行を<code>delete</code></b>する（その名前が他人の画面から今すぐ消える必要があるため。本人が次に同期すれば新しい名前で戻る）。<code>nicknameAt</code>は進めない——本人が選んだ名前ではないのに、自分で決め直すのに1週間待たせるのはおかしい。ルール側は<code>nickname</code>と<code>updatedAt</code>だけに絞ってあり、管理者でもストリークや単語IDには触れない。</div><div class="ver">v5.10.0</div></div></li>
