@@ -211,6 +211,14 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-feedback.ng{background:var(--bad-bg);border:1px solid var(--bad-line)}
 .q-feedback .ans{font-family:Georgia,serif;font-size:19px;font-weight:600;color:var(--ink-strong)}
 .q-feedback .nextin{font-size:12.5px;color:var(--muted);margin-top:8px}
+.qs-grp{margin-bottom:18px}
+.qs-lab{font-size:12px;font-weight:700;letter-spacing:.4px;color:var(--muted);margin:0 2px 8px}
+.qs-opts{display:flex;flex-wrap:wrap;gap:8px}
+.qs-o{flex:1;min-width:88px;padding:13px 10px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink-strong);font:inherit;font-size:14px;font-weight:600;
+  cursor:pointer;transition:background .1s,border-color .1s}
+.qs-o.on{background:var(--fill);border-color:var(--fill);color:#fff}
+.qs-o:disabled{opacity:.42;cursor:default}
 .q-progress{height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-bottom:20px}
 .q-progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
 .q-score{text-align:center;padding:40px 20px}
@@ -229,21 +237,24 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .sp-disp.ok .sp-slot{background:var(--good-bg);border-bottom-color:var(--good);color:var(--good-ink)}
 
 /* Sized and spaced like a phone keyboard so the muscle memory transfers. */
-.sp-kb{margin-top:16px;padding:8px 3px 10px;border-radius:12px;background:var(--kb-bg);
+/* Bigger and further apart than a stock phone keyboard on purpose: this one
+   is only ever used for single letters under time pressure, so hit area
+   matters more than fitting a full layout. */
+.sp-kb{margin-top:16px;padding:10px 4px 12px;border-radius:12px;background:var(--kb-bg);
   user-select:none;-webkit-user-select:none;touch-action:manipulation}
-.sp-row{display:flex;gap:6px;justify-content:center;margin-bottom:8px}
+.sp-row{display:flex;gap:6px;justify-content:center;margin-bottom:9px}
 .sp-row:last-child{margin-bottom:0}
 .sp-row.r2{padding:0 5.2%}
-.sp-key{flex:1;min-width:0;height:44px;border-radius:6px;border:none;
+.sp-key{flex:1;min-width:0;height:54px;border-radius:8px;border:none;
   background:var(--kb-key);color:var(--kb-ink);
-  font-family:inherit;font-size:20px;font-weight:400;cursor:pointer;
+  font-family:inherit;font-size:23px;font-weight:400;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 1px 0 var(--kb-shadow);transition:background .04s,transform .04s}
+  box-shadow:0 1.5px 0 var(--kb-shadow);transition:background .04s,transform .04s}
 /* The two function keys sit on the darker grey iOS uses for shift/delete. */
-.sp-key.fn{flex:1.45;background:var(--kb-fn);font-size:17px}
-.sp-key.space{flex:6;font-size:13px}
-.sp-key.down{background:var(--fill);color:#fff;transform:translateY(1px);box-shadow:none}
-@media (min-width:520px){ .sp-key{height:48px;font-size:21px} }
+.sp-key.fn{flex:1.5;background:var(--kb-fn);font-size:19px}
+.sp-key.space{flex:6;font-size:14px}
+.sp-key.down{background:var(--fill);color:#fff;transform:translateY(1.5px);box-shadow:none}
+@media (min-width:520px){ .sp-key{height:58px;font-size:25px} }
 .q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
   background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
@@ -794,13 +805,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.4.0';
+const APP_VERSION='5.5.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.4.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.5.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.4.0',date:'2026-08-23',keys:['v540_1','v540_2','v540_3']},
   {version:'5.3.0',date:'2026-08-23',keys:['v530_1','v530_2','v530_3']},
   {version:'5.2.0',date:'2026-08-23',keys:['v520_1','v520_2','v520_3']},
   {version:'5.1.0',date:'2026-08-23',keys:['v510_1','v510_2','v510_3']},
@@ -949,9 +961,12 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'重要な修正: 単語帳（カード）の裏で、意味が長いと上のほうが見えず、スクロールしても届かない不具合を直しました。ご報告ありがとうございます',en:'Important fix: on the back of a flashcard, a long meaning had its first lines cut off and no amount of scrolling reached them. Thank you for reporting it',zh:'重要修复：单词卡背面释义较长时，顶部内容被裁切且无法滚动查看。感谢反馈',fr:'Correctif important : au dos d’une carte, un sens un peu long voyait ses premières lignes coupées, sans pouvoir y accéder en défilant. Merci du signalement',ar:'إصلاح مهم: في ظهر البطاقة، كانت الأسطر الأولى من المعاني الطويلة تُقتطع ولا يمكن الوصول إليها بالتمرير. شكرًا على الإبلاغ',ko:'중요한 수정: 단어 카드 뒷면에서 뜻이 길면 윗부분이 잘려 스크롤해도 볼 수 없던 문제를 고쳤습니다. 제보 감사합니다',ru:'Важное исправление: на обороте карточки длинное значение обрезалось сверху, и прокрутка до него не доходила. Спасибо за сообщение'},
-  wn2:{ja:'スペル入力のキーボードを作り直しました。「?」を左、削除を右にして、iPhoneのキーボードと同じ並びにしています。前の配置は押し間違いが多いというご意見をいただきました',en:'Rebuilt the spelling keyboard: hint on the left, delete on the right, matching where iPhone puts them. The previous arrangement was causing mis-taps',zh:'重做了拼写键盘：「?」在左、删除在右，与 iPhone 键盘一致。此前的排列容易误触',fr:'Clavier d’orthographe refait : indice à gauche, suppression à droite, comme sur iPhone. L’ancienne disposition provoquait des erreurs de frappe',ar:'أُعيد بناء لوحة مفاتيح الإملاء: التلميح يسارًا والحذف يمينًا، مثل ترتيب آيفون. الترتيب السابق كان يسبّب ضغطات خاطئة',ko:'스펠링 입력 키보드를 다시 만들었습니다. 「?」를 왼쪽, 삭제를 오른쪽에 두어 아이폰 키보드와 같은 배열로 했습니다. 이전 배열은 오타가 잦다는 의견이 있었습니다',ru:'Клавиатура для написания переделана: подсказка слева, удаление справа — как на iPhone. Прежний порядок приводил к ошибочным нажатиям'},
-  wn3:{ja:'「自由学習」は今日の復習が終わってから出るようにし、「苦手」タブは記号ではなく文字で表示するようにしました。単語の追加画面には、どの単語帳に入るかを表示しています。また、出題形式の「意味入力」は廃止しました',en:'Free study now appears only once today’s review is done, and the Trouble tab is spelled out instead of shown as a warning glyph. The add screen shows which notebook the word will go to. The meaning-typing quiz format has been retired',zh:'「自由学习」改为今日复习完成后才出现，「易错」标签改用文字而非警告符号。添加页会显示将存入哪个单词本。另外，出题形式中的「输入释义」已停用',fr:'L’étude libre n’apparaît qu’une fois la révision du jour terminée, et l’onglet Difficiles est écrit en toutes lettres. L’écran d’ajout indique le carnet de destination. Le format « saisie du sens » a été retiré',ar:'تظهر «الدراسة الحرة» الآن بعد إنهاء مراجعة اليوم فقط، وصار تبويب «صعبة» مكتوبًا بدل رمز التحذير. وتعرض شاشة الإضافة الدفتر الذي ستُحفظ فيه الكلمة. كما أُلغيت صيغة «كتابة المعنى»',ko:'「자유 학습」은 오늘의 복습을 마친 뒤에 나타나고, 「취약」 탭은 기호 대신 글자로 표시합니다. 단어 추가 화면에는 어느 단어장에 들어가는지 표시됩니다. 또한 출제 형식의 「뜻 입력」은 폐지했습니다',ru:'«Свободное занятие» появляется только после сегодняшнего повторения, а вкладка «Трудные» подписана словом вместо значка. На экране добавления видно, в какой словарь попадёт слово. Формат «ввод значения» упразднён'},
+  wn1:{ja:'復習タブを開くと、いきなり問題が始まるのではなく設定画面が出るようにしました。単語帳・出題形式・問題数を選んで「はじめる」。問題を解いている間は設定類が一切表示されないので、解くことに集中できます（ホームのボタンからは今までどおり1タップで始まります）',en:'Opening the Review tab now shows a setup screen instead of launching straight in: pick the notebook, format and number of questions, then Start. Once a round begins nothing but the question is on screen. The Home button still starts in one tap',zh:'打开「复习」标签页不再直接出题，而是先显示设置：选择单词本、出题形式与题量后点「开始」。答题过程中不再显示任何设置，专注做题。首页按钮仍可一键开始',fr:'L’onglet Révision affiche désormais un écran de préparation au lieu de démarrer aussitôt : carnet, format et nombre de questions, puis Commencer. Pendant la série, seule la question reste à l’écran. Le bouton de l’accueil démarre toujours en un geste',ar:'صار فتح تبويب المراجعة يعرض شاشة إعداد بدل البدء فورًا: اختر الدفتر والصيغة وعدد الأسئلة ثم «ابدأ». وأثناء الجولة لا يظهر سوى السؤال. وزر الصفحة الرئيسية ما زال يبدأ بلمسة واحدة',ko:'복습 탭을 열면 바로 문제가 시작되지 않고 설정 화면이 나옵니다. 단어장·출제 형식·문제 수를 고르고 «시작하기». 문제를 푸는 동안에는 설정이 일절 표시되지 않아 집중할 수 있습니다(홈 버튼에서는 지금처럼 한 번에 시작됩니다)',ru:'Вкладка «Повторение» теперь показывает экран настройки вместо мгновенного старта: словарь, формат, число вопросов — затем «Начать». Во время раунда на экране только вопрос. Кнопка на главной по-прежнему запускает одним касанием'},
+  wn2:{ja:'設定の変更がすぐに反映されない不具合を直しました。出題形式や言語を変えたあと、他のタブを押さなくてもその場で反映されます',en:'Fixed settings not taking effect until you navigated elsewhere. Changing the quiz format or language now applies immediately',zh:'修复了设置需切换标签页才生效的问题。更改出题形式或语言后会立即生效',fr:'Correction : les réglages n’étaient appliqués qu’après avoir changé d’onglet. Le format et la langue prennent effet immédiatement',ar:'أُصلح عدم سريان الإعدادات إلا بعد الانتقال إلى تبويب آخر. صار تغيير الصيغة أو اللغة يُطبَّق فورًا',ko:'설정 변경이 바로 반영되지 않던 문제를 고쳤습니다. 출제 형식이나 언어를 바꾸면 그 자리에서 즉시 적용됩니다',ru:'Исправлено: настройки применялись только после перехода на другую вкладку. Формат и язык теперь действуют сразу'},
+  wn3:{ja:'まとめて追加でチェックを外すと、リストの先頭まで戻されてしまう問題を直しました。スクロール位置はそのままです。あわせて、スペル入力のキーボードのキーを大きくして押しやすくしました',en:'Unticking a row in bulk add no longer throws you back to the top of the list — your scroll position stays put. The spelling keyboard also has noticeably bigger keys',zh:'批量添加时取消勾选不再跳回列表顶部，滚动位置保持不变。同时加大了拼写键盘的按键',fr:'Décocher une ligne dans l’ajout groupé ne renvoie plus en haut de la liste : la position de défilement est conservée. Les touches du clavier d’orthographe sont aussi plus grandes',ar:'لم يعد إلغاء تحديد صف في الإضافة الجماعية يعيدك إلى أعلى القائمة؛ يبقى موضع التمرير كما هو. كما صارت مفاتيح لوحة الإملاء أكبر',ko:'한꺼번에 추가에서 체크를 해제해도 목록 맨 위로 되돌아가지 않습니다. 스크롤 위치가 그대로 유지됩니다. 스펠링 키보드의 키도 크게 키웠습니다',ru:'Снятие галочки при массовом добавлении больше не отбрасывает к началу списка — позиция прокрутки сохраняется. Клавиши клавиатуры для написания стали заметно крупнее'},
+  v540_1:{ja:'重要な修正: 単語帳（カード）の裏で、意味が長いと上のほうが見えず、スクロールしても届かない不具合を直しました。ご報告ありがとうございます',en:'Important fix: on the back of a flashcard, a long meaning had its first lines cut off and no amount of scrolling reached them. Thank you for reporting it',zh:'重要修复：单词卡背面释义较长时，顶部内容被裁切且无法滚动查看。感谢反馈',fr:'Correctif important : au dos d’une carte, un sens un peu long voyait ses premières lignes coupées, sans pouvoir y accéder en défilant. Merci du signalement',ar:'إصلاح مهم: في ظهر البطاقة، كانت الأسطر الأولى من المعاني الطويلة تُقتطع ولا يمكن الوصول إليها بالتمرير. شكرًا على الإبلاغ',ko:'중요한 수정: 단어 카드 뒷면에서 뜻이 길면 윗부분이 잘려 스크롤해도 볼 수 없던 문제를 고쳤습니다. 제보 감사합니다',ru:'Важное исправление: на обороте карточки длинное значение обрезалось сверху, и прокрутка до него не доходила. Спасибо за сообщение'},
+  v540_2:{ja:'スペル入力のキーボードを作り直しました。「?」を左、削除を右にして、iPhoneのキーボードと同じ並びにしています。前の配置は押し間違いが多いというご意見をいただきました',en:'Rebuilt the spelling keyboard: hint on the left, delete on the right, matching where iPhone puts them. The previous arrangement was causing mis-taps',zh:'重做了拼写键盘：「?」在左、删除在右，与 iPhone 键盘一致。此前的排列容易误触',fr:'Clavier d’orthographe refait : indice à gauche, suppression à droite, comme sur iPhone. L’ancienne disposition provoquait des erreurs de frappe',ar:'أُعيد بناء لوحة مفاتيح الإملاء: التلميح يسارًا والحذف يمينًا، مثل ترتيب آيفون. الترتيب السابق كان يسبّب ضغطات خاطئة',ko:'스펠링 입력 키보드를 다시 만들었습니다. 「?」를 왼쪽, 삭제를 오른쪽에 두어 아이폰 키보드와 같은 배열로 했습니다. 이전 배열은 오타가 잦다는 의견이 있었습니다',ru:'Клавиатура для написания переделана: подсказка слева, удаление справа — как на iPhone. Прежний порядок приводил к ошибочным нажатиям'},
+  v540_3:{ja:'「自由学習」は今日の復習が終わってから出るようにし、「苦手」タブは記号ではなく文字で表示するようにしました。単語の追加画面には、どの単語帳に入るかを表示しています。また、出題形式の「意味入力」は廃止しました',en:'Free study now appears only once today’s review is done, and the Trouble tab is spelled out instead of shown as a warning glyph. The add screen shows which notebook the word will go to. The meaning-typing quiz format has been retired',zh:'「自由学习」改为今日复习完成后才出现，「易错」标签改用文字而非警告符号。添加页会显示将存入哪个单词本。另外，出题形式中的「输入释义」已停用',fr:'L’étude libre n’apparaît qu’une fois la révision du jour terminée, et l’onglet Difficiles est écrit en toutes lettres. L’écran d’ajout indique le carnet de destination. Le format « saisie du sens » a été retiré',ar:'تظهر «الدراسة الحرة» الآن بعد إنهاء مراجعة اليوم فقط، وصار تبويب «صعبة» مكتوبًا بدل رمز التحذير. وتعرض شاشة الإضافة الدفتر الذي ستُحفظ فيه الكلمة. كما أُلغيت صيغة «كتابة المعنى»',ko:'「자유 학습」은 오늘의 복습을 마친 뒤에 나타나고, 「취약」 탭은 기호 대신 글자로 표시합니다. 단어 추가 화면에는 어느 단어장에 들어가는지 표시됩니다. 또한 출제 형식의 「뜻 입력」은 폐지했습니다',ru:'«Свободное занятие» появляется только после сегодняшнего повторения, а вкладка «Трудные» подписана словом вместо значка. На экране добавления видно, в какой словарь попадёт слово. Формат «ввод значения» упразднён'},
   v530_1:{ja:'新しい出題形式「スペル入力」を追加しました（設定 → 学習 → クイズのタイプ）。意味を見て英単語をタイプし、正しく打てた瞬間に正解になります。答え合わせボタンはありません',en:'New quiz type: Spelling (Settings → Studying → Quiz format). You see the meaning and type the English word — it is marked correct the moment you finish it. There is no check button',zh:'新增出题形式「拼写输入」（设置 → 学习 → 出题形式）。看释义输入单词，拼对的瞬间即判定正确，无需点击确认',fr:'Nouveau format : Orthographe (Réglages → Apprentissage). Vous voyez le sens et tapez le mot — validé dès qu’il est complet, sans bouton de vérification',ar:'صيغة جديدة: «الإملاء» (الإعدادات ← الدراسة). تشاهد المعنى وتكتب الكلمة، وتُحتسب صحيحة لحظة اكتمالها دون زر تحقّق',ko:'새 출제 형식 «스펠링 입력»을 추가했습니다(설정 → 학습 → 퀴즈 타입). 뜻을 보고 영단어를 입력하면, 정확히 입력한 순간 정답이 됩니다. 확인 버튼은 없습니다',ru:'Новый формат: «Написание» (Настройки → Обучение). Вы видите значение и набираете слово — засчитывается в момент, когда оно закончено, без кнопки проверки'},
   v530_2:{ja:'スペル入力には専用のキーボードを搭載しました。標準キーボードは予測変換で答えが出てしまうためです。1文字ごとに軽いタップ音が鳴ります。パソコンではキーボードは表示されず、そのままキー入力できます',en:'Spelling mode ships its own keyboard, because the system keyboard’s predictive bar would hand you the answer. Each key gives a light tap sound. On a computer no keyboard appears — just type',zh:'拼写模式内置了专用键盘：系统键盘的联想候选会直接泄露答案。每次按键有轻微敲击音。在电脑上不显示键盘，直接用实体键盘输入',fr:'Le mode Orthographe embarque son propre clavier : la barre de suggestions du clavier système donnerait la réponse. Chaque touche émet un léger clic. Sur ordinateur, aucun clavier ne s’affiche',ar:'يأتي وضع الإملاء بلوحة مفاتيح خاصة، لأن اقتراحات لوحة المفاتيح النظامية تكشف الإجابة. لكل ضغطة نقرة خفيفة. وعلى الحاسوب لا تظهر لوحة مفاتيح، بل اكتب مباشرة',ko:'스펠링 입력에는 전용 키보드를 넣었습니다. 시스템 키보드의 예측 변환이 답을 노출하기 때문입니다. 한 글자마다 가벼운 탭 소리가 납니다. PC에서는 키보드가 표시되지 않고 그대로 입력할 수 있습니다',ru:'В режиме написания своя клавиатура: подсказки системной клавиатуры выдали бы ответ. Каждое нажатие даёт лёгкий щелчок. На компьютере клавиатура не показывается — просто печатайте'},
   v530_3:{ja:'ヒントは3段階です。1回目で文字数、2回目で最初の1文字、3回目でボタンが「答えを見る」に変わります。答えを見た場合は不正解の扱いです。正解音も、より達成感のある音に変えました',en:'Hints come in three steps: the letter count, then the first letter, then the button becomes Show the answer. Revealing it counts as a miss. The correct-answer sound is brighter too',zh:'提示分三级：先给字数，再给首字母，第三次按钮变为「查看答案」。查看答案计为答错。正确音效也更清亮了',fr:'Trois niveaux d’indice : le nombre de lettres, puis la première lettre, puis le bouton devient « Voir la réponse ». Révéler compte comme une erreur. Le son de bonne réponse est plus éclatant',ar:'التلميحات على ثلاث مراحل: عدد الحروف ثم الحرف الأول ثم يتحول الزر إلى «عرض الإجابة». وكشف الإجابة يُحتسب خطأً. كما أصبح صوت الإجابة الصحيحة أكثر إشراقًا',ko:'힌트는 3단계입니다. 1번째는 글자 수, 2번째는 첫 글자, 3번째에 버튼이 «정답 보기»로 바뀝니다. 정답을 보면 오답 처리입니다. 정답 소리도 더 상쾌하게 바꿨습니다',ru:'Подсказка в три шага: число букв, затем первая буква, затем кнопка становится «Показать ответ». Показ ответа засчитывается как ошибка. Звук верного ответа стал ярче'},
@@ -1201,6 +1216,12 @@ const T={
   btn_reshuffle:{ja:'シャッフルし直す',en:'Reshuffle',zh:'重新洗牌',fr:'Remélanger',ar:'إعادة الخلط',ko:'다시 섞기',ru:'Перемешать заново'},
   no_meaning:{ja:'意味メモがありません',en:'No meaning saved',zh:'没有意思备注',fr:'Aucun sens enregistré',ar:'لا يوجد معنى محفوظ',ko:'저장된 뜻이 없습니다',ru:'Значение не сохранено'},
 
+  qs_range:{ja:'出題する範囲',en:'What to review',zh:'出题范围',fr:'Quoi réviser',ar:'ما الذي تراجعه',ko:'출제 범위',ru:'Что повторять'},
+  qs_start:{ja:'はじめる',en:'Start',zh:'开始',fr:'Commencer',ar:'ابدأ',ko:'시작하기',ru:'Начать'},
+  qs_count:{ja:'{0}問を出題します',en:'{0} questions in this round',zh:'本轮共 {0} 题',fr:'{0} questions dans cette série',ar:'{0} سؤالًا في هذه الجولة',ko:'{0}문제를 출제합니다',ru:'{0} вопросов в этом раунде'},
+  qs_none:{ja:'この条件で出題できる単語がありません',en:'No words match this selection',zh:'没有符合当前条件的单词',fr:'Aucun mot ne correspond à cette sélection',ar:'لا توجد كلمات تطابق هذا الاختيار',ko:'이 조건으로 출제할 단어가 없습니다',ru:'Нет слов под этот выбор'},
+  qs_back:{ja:'設定に戻る',en:'Back to setup',zh:'返回设置',fr:'Retour aux options',ar:'العودة إلى الإعداد',ko:'설정으로 돌아가기',ru:'Назад к настройке'},
+  len_all:{ja:'全部',en:'All',zh:'全部',fr:'Tous',ar:'الكل',ko:'전체',ru:'Все'},
   quiz_due:{ja:'今日の復習（{0}）',en:'Due today ({0})',zh:'今日复习（{0}）',fr:'À réviser ({0})',ar:'مراجعة اليوم ({0})',ko:'오늘 복습 ({0})',ru:'Повтор сегодня ({0})'},
   quiz_free:{ja:'自由学習（全部）',en:'Free study (all)',zh:'自由学习（全部）',fr:'Étude libre (tout)',ar:'دراسة حرة (الكل)',ko:'자유 학습 (전체)',ru:'Свободное изучение (все)'},
   quiz_done:{ja:'今日復習する単語はありません。<br>お疲れさま！',en:'No words to review today.<br>Nice work!',zh:'今天没有需要复习的单词。<br>辛苦了！',fr:'Aucun mot à réviser aujourd’hui.<br>Bravo !',ar:'لا توجد كلمات للمراجعة اليوم.<br>أحسنت!',ko:'오늘 복습할 단어가 없습니다.<br>수고했어요!',ru:'Сегодня нет слов для повторения.<br>Отличная работа!'},
@@ -2389,12 +2410,8 @@ const TAB_FOR={'v-study':'v-list'};
 // answered yet: once the result is showing, redrawing would wipe it and hand
 // out a free second attempt.
 function showQuiz(redraw){
-  if(!quizInProgress()){startQuiz();return;}
-  renderSourceBar('#src-quiz');
-  if(redraw&&!$('#qNext')){renderQ();return;}
-  const mt=$('#quizBody .q-mode-tabs');
-  if(mt)mt.outerHTML=modeTabsHTML(quiz.mode);
-  bindModeTabs();
+  if(!quizInProgress()){renderQuizSetup();return;}
+  if(redraw&&!$('#qNext'))renderQ();
 }
 function go(id){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
@@ -2735,6 +2752,18 @@ function bulkPromptText(){
   const lang=({ja:'日本語',en:'English',zh:'中文',fr:'français',ar:'العربية',ko:'한국어',ru:'русский'})[S().lang]||'English';
   return t('bulk_prompt_body',lang);
 }
+// The counts and the action button are the only parts affected by ticking a
+// row, so they are updated in place.
+function refreshBulkSummary(){
+  const chosen=bulkRows.filter(r=>r.include).length;
+  const need=bulkRows.filter(r=>r.include&&!r.ja&&!r.looked).length;
+  const sum=$('#bulkSummary');
+  if(sum)sum.textContent=t('bulk_review',bulkRows.length,chosen);
+  const nd=$('#bulkNeed');
+  if(nd){nd.textContent=need?t('bulk_need_lookup',need):'';nd.style.display=need?'':'none';}
+  const go=$('#bulkGo');
+  if(go)go.textContent=need?t('bulk_lookup_go',need):t('bulk_add_go',chosen);
+}
 function renderBulk(){
   const b=$('#bulkBody');
   if(!b)return;
@@ -2788,8 +2817,9 @@ function renderBulk(){
     return '<span class="tag-sm tag-new">'+esc(t('bulk_s_ready'))+'</span>';
   };
   b.innerHTML=
-    '<p class="hint" style="margin:0 2px 10px">'+esc(t('bulk_review',bulkRows.length,chosen))+'</p>'+
-    (need?'<p class="hint" style="margin:0 2px 12px;color:var(--accent)">'+esc(t('bulk_need_lookup',need))+'</p>':'')+
+    '<p class="hint" id="bulkSummary" style="margin:0 2px 10px">'+esc(t('bulk_review',bulkRows.length,chosen))+'</p>'+
+    '<p class="hint" id="bulkNeed" style="margin:0 2px 12px;color:var(--accent)'+(need?'':';display:none')+'">'+
+      (need?esc(t('bulk_need_lookup',need)):'')+'</p>'+
     '<div id="bulkProg"></div>'+
     '<div class="panel" style="padding:4px 10px;max-height:46vh;overflow:auto">'+
       bulkRows.map((r,i)=>
@@ -2810,7 +2840,10 @@ function renderBulk(){
 
   $$('#bulkBody .bulk-chk').forEach(c=>c.onchange=()=>{
     bulkRows[+c.dataset.i].include=c.checked;
-    renderBulk();
+    // Re-rendering the whole panel here rebuilt the list and threw the user
+    // back to the top, which is punishing when unticking the twentieth row of
+    // a long paste. Only the two things that actually changed are updated.
+    refreshBulkSummary();
   });
   $('#bulkBack').onclick=()=>{bulkRows=[];renderBulk();};
   $('#bulkGo').onclick=()=>{ need?runBulkLookup():commitBulk(); };
@@ -3352,6 +3385,7 @@ let quiz={items:[],i:0,score:0,mode:'due'};
 // tone. Held here so moving on before it fires cancels it -- otherwise the
 // PREVIOUS word gets read out over the next question.
 let answerSpeakTimer=null;
+let quizSetup={mode:null};
 function pickWords(mode){
   let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w))
            : mode==='leech' ? curWords().filter(w=>isLeech(w)&&primaryMeaning(w))
@@ -3367,20 +3401,6 @@ function pickWords(mode){
   }
   const n=S().len===0?pool.length:Math.min(S().len,pool.length);
   return pool.slice(0,n);
-}
-function modeTabsHTML(mode){
-  const lc=leechCount(), due=curDueCount();
-  return '<div class="q-mode-tabs">'+
-    '<button data-m="due" class="'+(mode==='due'?'on':'')+'">'+t('quiz_due',due)+'</button>'+
-    // Free study is what you do once today's work is done, so it only appears
-    // then -- offering it alongside an unfinished review invites skipping the
-    // thing that actually keeps the schedule honest. It stays visible while
-    // you are in it so the round can be finished.
-    (due===0||mode==='all'?'<button data-m="all" class="'+(mode==='all'?'on':'')+'">'+t('quiz_free')+'</button>':'')+
-    // A bare warning triangle read as an error rather than a label. The word
-    // plus a count says what it is.
-    (lc?'<button data-m="leech" class="'+(mode==='leech'?'on':'')+'">'+esc(t('flt_leech'))+' '+lc+'</button>':'')+
-    '</div>';
 }
 function levenshtein(a,b){
   a=a||'';b=b||'';
@@ -3438,24 +3458,71 @@ function pickDistractors(w,correct,showEng,n){
   // vocabulary that is O(n^2) work on every single question.
   return weightedSample(candidates,weights,Math.min(n,candidates.length));
 }
-function startQuiz(mode){
+// A setup screen before the round, rather than settings sitting beside the
+// questions. Two reasons: everything you might want to change is in one place
+// at the moment you actually care about it, and once the round starts the
+// screen holds nothing but the question -- the deck bar and mode tabs used to
+// sit above every single question, inviting a fiddle mid-round.
+//
+// The Home button deliberately bypasses this and starts immediately: getting
+// from opening the app to answering in one tap is the whole point of that CTA.
+function renderQuizSetup(){
+  const body=$('#quizBody');
+  if(!body)return;
   renderSourceBar('#src-quiz');
+  const due=curDueCount(), lc=leechCount();
+  const total=curWords().filter(w=>primaryMeaning(w)).length;
+  if(!total){
+    body.innerHTML='<div class="empty"><div class="big">✏️</div>'+t('quiz_need_add')+'</div>';
+    return;
+  }
+  const modes=[{v:'due',n:t('quiz_due',due),on:due>0}];
+  if(lc)modes.push({v:'leech',n:t('flt_leech')+' '+lc,on:true});
+  modes.push({v:'all',n:t('quiz_free'),on:true});
+  if(!quizSetup.mode||!modes.some(m=>m.v===quizSetup.mode&&m.on))
+    quizSetup.mode=due>0?'due':'all';
+
+  const grp=(label,html)=>'<div class="qs-grp"><div class="qs-lab">'+esc(label)+'</div>'+html+'</div>';
+  const pick=(name,opts,cur)=>'<div class="qs-opts">'+opts.map(o=>
+    '<button class="qs-o'+(String(o.v)===String(cur)?' on':'')+'" data-g="'+name+'" data-v="'+esc(String(o.v))+'"'+
+    (o.on===false?' disabled':'')+'>'+esc(o.n)+'</button>').join('')+'</div>';
+
+  body.innerHTML=
+    grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
+    grp(t('st_quiztype'),pick('type',[{v:'choice',n:t('opt_choice')},{v:'spell',n:t('opt_spell')}],S().quizType))+
+    grp(t('st_len'),pick('len',[{v:5,n:'5'},{v:10,n:'10'},{v:20,n:'20'},{v:0,n:t('len_all')}],S().len))+
+    '<button class="btn btn-gold" id="qsStart" style="margin-top:20px;width:100%;font-size:16px;padding:16px">'+
+      esc(t('qs_start'))+'</button>'+
+    '<p class="hint" id="qsNote" style="text-align:center;margin-top:10px"></p>';
+
+  $$('#quizBody .qs-o').forEach(b=>b.onclick=()=>{
+    const g=b.dataset.g, v=b.dataset.v;
+    if(g==='mode')quizSetup.mode=v;
+    else if(g==='type'){S().quizType=v;save();}
+    else {S().len=parseInt(v);save();}
+    renderQuizSetup();
+  });
+  const n=pickWords(quizSetup.mode).length;
+  $('#qsNote').textContent=n?t('qs_count',n):t('qs_none');
+  const st=$('#qsStart');
+  st.disabled=!n;
+  st.onclick=()=>startQuiz(quizSetup.mode);
+}
+function startQuiz(mode){
+  $('#src-quiz').innerHTML='';   // nothing but the question while a round runs
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
   const pkgId=CTX.type==='pkg'?CTX.id:null;
   const due=curDueCount();
   const items=pickWords(mode);
   const body=$('#quizBody');
-  const modeTabs=modeTabsHTML(mode);
 
   const eligibleTotal=curWords().filter(w=>primaryMeaning(w)).length;
   if(mode==='leech'&&!leechCount()){
-    body.innerHTML=modeTabs+'<div class="empty"><div class="big">🎉</div>'+t('quiz_no_leech')+'</div>';
-    bindModeTabs();return;
+    renderQuizSetup();return;
   }
   if(mode==='due'&&due===0){
-    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>'+t('quiz_done')+'<br><span style="font-size:12.5px">'+t('quiz_done_sub')+'</span></div>';
-    bindModeTabs();return;
+    renderQuizSetup();return;
   }
   const need=S().quizType==='choice'?4:1;   // only 4-choice needs a pool to draw options from
   // The four options come from the whole deck, not from this round, so the
@@ -3463,21 +3530,15 @@ function startQuiz(mode){
   // words could not be reviewed at all -- and made the new Trouble tab a dead
   // end, since it appears as soon as there are two.
   if(!items.length||eligibleTotal<need){
-    body.innerHTML=modeTabs+'<div class="empty"><div class="big">✏️</div>'+(eligibleTotal?t('quiz_need4'):t('quiz_need_add'))+'</div>';
-    bindModeTabs();return;
+    renderQuizSetup();
+    const note=$('#qsNote');
+    if(note)note.textContent=eligibleTotal?t('quiz_need4'):t('quiz_need_add');
+    return;
   }
   quiz={items,i:0,score:0,mode,ctx:ctxKey()};
   gaEvent('quiz_started',{quiz_type:S().quizType,item_count:items.length,package_id:pkgId});
   if(mode==='due')gaEvent('review_started',{item_count:items.length,package_id:pkgId});
-  body.innerHTML=modeTabs;
-  bindModeTabs();
   renderQ();
-}
-function bindModeTabs(){
-  // Scoped to the quiz body on purpose: an unscoped selector also matched the
-  // word list/cards switch, which shares this class for its styling, and
-  // rewired those buttons to startQuiz(undefined).
-  $$('#quizBody .q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
 }
 /* ---------- spell mode -------------------------------------------------- */
 // Meaning on screen, type the English spelling. Judged the instant the buffer
@@ -3656,7 +3717,7 @@ function renderQ(){
   const face=showEng?w.word:primaryMeaning(w);
   const kata=showEng?(w.kata||''):'';
 
-  let inner=modeTabsHTML(quiz.mode)+'<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+  let inner='<div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
     // Only offer audio when the prompt IS the English word -- otherwise it
     // would read out the answer the user is being asked to produce.
@@ -3669,7 +3730,6 @@ function renderQ(){
       '<div id="spKb"></div>'+
       '<div id="qfb"></div>';
     body.innerHTML=inner;
-    bindModeTabs();
     renderSpellDisplay();
     $('#spHint').onclick=spellHint;
     // Only where there is no other way to type: a system keyboard would show
@@ -3682,7 +3742,6 @@ function renderQ(){
     const opts=shuffle([correct,...others]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
-    bindModeTabs();
     $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
       const ok=btn.textContent===correct;
       $$('#opts .opt').forEach(b=>{b.disabled=true;
@@ -3784,10 +3843,10 @@ function showScore(){
     '<div class="big">'+quiz.score+'/'+quiz.items.length+'</div>'+
     '<div class="lbl">'+t('accuracy',pct)+'</div>'+
     '<button class="btn btn-primary" id="qAgain">'+t('btn_continue_review')+'</button>'+
-    '<button class="btn btn-ghost" id="qToList" style="margin-top:10px;width:100%">'+t('btn_back_list')+'</button>'+
+    '<button class="btn btn-ghost" id="qToList" style="margin-top:10px;width:100%">'+t('qs_back')+'</button>'+
     '</div>';
   $('#qAgain').onclick=()=>startQuiz(quiz.mode);
-  $('#qToList').onclick=()=>go('v-list');
+  $('#qToList').onclick=()=>{quiz={items:[],i:0,score:0,mode:'due'};renderQuizSetup();};
 }
 
 /* ---------- SETTINGS ---------- */
@@ -3802,7 +3861,13 @@ function renderSettings(){
   $('#quizTypeDesc').textContent=S().quizType==='spell'?t('desc_quiztype_spell'):t('desc_quiztype_choice');
   const sel=$('#selLang');
   sel.value=S().lang;
-  sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderActiveView();renderSettings();};
+  sel.onchange=()=>{
+    S().lang=sel.value;save();
+    applyStaticI18n();
+    if(CTX.type==='pkg')buildPkgLive(CTX.id);
+    renderSettings();
+    applySettingsNow('lang');
+  };
   renderSpeechRows();
   renderBackupStatus();
   renderPersistRow();
@@ -3817,12 +3882,32 @@ function renderChangelog(){
     return '<div class="cl-entry"><div class="cl-version">'+t('version_note',entry.version)+current+date+'</div><ul>'+notes+'</ul></div>';
   }).join('');
 }
+// Anything the user just changed should be visible the moment the sheet is
+// closed -- and where it is visible behind the sheet, right away.
+function applySettingsNow(keyName){
+  renderCount();
+  // Changing the format or the round size mid-round would leave the current
+  // question in the old shape, so the round is dropped back to the setup
+  // screen where the new choice is plainly shown.
+  if((keyName==='quizType'||keyName==='len'||keyName==='dir')&&quiz&&quiz.items&&quiz.items.length){
+    quiz={items:[],i:0,score:0,mode:quiz.mode||'due'};
+  }
+  renderActiveView();
+}
 function seg(sel,keyName,num,after){
   const cur=S()[keyName];
   $$(sel+' button').forEach(b=>{
     const v=num?parseInt(b.dataset.v):b.dataset.v;
     b.classList.toggle('on',v===cur);
-    b.onclick=()=>{S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;save();renderSettings();if(after)after();};
+    b.onclick=()=>{
+      S()[keyName]=num?parseInt(b.dataset.v):b.dataset.v;
+      save();renderSettings();
+      // Changes used to sit in the settings sheet until the user navigated
+      // somewhere else, so the quiz format in particular looked like it had
+      // not applied. Repaint whatever is behind the sheet immediately.
+      applySettingsNow(keyName);
+      if(after)after();
+    };
   });
 }
 function renderSpeechRows(){
@@ -3837,18 +3922,18 @@ function renderSpeechRows(){
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
 }
 $('#swAutoSpeak').onclick=()=>{
-  S().autoSpeak=!S().autoSpeak;save();renderSettings();
+  S().autoSpeak=!S().autoSpeak;save();renderSettings();applySettingsNow('autoSpeak');
   if(S().autoSpeak)speak('Wordkeep'); // confirm out loud that it works
 };
 function segTheme(){
   const cur=S().theme||'system';
   $$('#segTheme button').forEach(b=>{
     b.classList.toggle('on',b.dataset.v===cur);
-    b.onclick=()=>{S().theme=b.dataset.v;save();applyTheme();renderSettings();};
+    b.onclick=()=>{S().theme=b.dataset.v;save();applyTheme();renderSettings();applySettingsNow('theme');};
   });
 }
 $('#swSound').onclick=()=>{
-  S().sound=!S().sound;save();renderSettings();
+  S().sound=!S().sound;save();renderSettings();applySettingsNow('sound');
   if(S().sound)playAnswerSound(true); // let them hear what they just turned on
 };
 function renderVolumeRow(){
@@ -3876,7 +3961,7 @@ $('#rngVolume').addEventListener('input',()=>{
   renderVolumeRow();
   previewVolume();
 });
-$('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();};
+$('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();applySettingsNow('weak');};
 $('#btnTutorial').onclick=()=>{closeSettings();openTutorial(false);};
 
 function doExport(){

@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.4.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.5.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -336,6 +336,10 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">復習タブに設定画面を挟む</div><div class="d">タブを開いた瞬間に出題せず、<b>単語帳・出題形式・問題数を選んで「はじめる」</b>方式に変更。変えたいものが1箇所に揃い、かつ<b>解いている間は設定類が画面から完全に消える</b>——従来は単語帳バーとモードタブが毎問の上に居座り、周回中にいじる誘いになっていた。<br><b>ホームのCTAは従来どおり1タップで即開始</b>（アプリを開いて解き始めるまでの距離を伸ばさないため）。モードタブは役目を終えたので<code>modeTabsHTML</code>／<code>bindModeTabs</code>ごと削除。</div><div class="ver">v5.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定の変更が即座に反映されない</div><div class="d">出題形式や言語を変えても、他のタブを押すまで反映されなかった。変更時に<code>applySettingsNow()</code>で背後の画面を描き直す。<b>出題形式・問題数・向きを周回中に変えた場合は設定画面へ戻す</b>——途中の設問だけ古い形式のまま残るのを避けるため。</div><div class="ver">v5.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">まとめて追加でチェックを外すと先頭に飛ばされる</div><div class="d">利用者からの報告。チェック変更のたびに<code>renderBulk()</code>で全体を作り直しており、<b>40件貼って25件目を外すと毎回先頭まで戻される</b>状態だった。変化するのは件数表示とボタン文言だけなので、その2つだけを更新するようにした。</div><div class="ver">v5.5.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力のキーボードを大きく</div><div class="d">高さ44→54px、文字23px、間隔も拡大。<b>1文字ずつしか打たない用途</b>なので、フル配列を詰め込むことより当たり判定の大きさを優先した。</div><div class="ver">v5.5.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: カード裏の長い意味が上端で切れてスクロールできない</div><div class="d">利用者からの報告。<code>.face</code>が<code>justify-content:center</code>で、<b>フレックスの中央揃えは中身がはみ出すと上端を切り落とし、そこへスクロールできなくなる</b>という既知の挙動。実測で<b>104pxが到達不能</b>だった。<code>safe center</code>（はみ出す場合だけ先頭揃えに退避）へ変更。非対応ブラウザはこの宣言を無視して従来動作のままなので、退行はしない。</div><div class="ver">v5.4.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力キーボードを作り直し</div><div class="d">「?」を左、削除を右へ。<b>iPhoneのシフト／削除と同じ位置</b>にした——前の配置（削除が左）は押し間違いが多いとの声。削除キーはiOS同様のアイコンをSVGで描画。キー面・背面パネル・機能キーの3色を変数化し、ライト／ダークで別々に指定。</div><div class="ver">v5.4.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">出題形式「意味入力」を廃止</div><div class="d">スペル入力が入ったことで役割が重複。<b>これに伴い<code>closeEnough</code>／<code>norm</code>／<code>foldMarks</code>／<code>typoOk</code>が丸ごと不要になった</b>ので削除した（<code>norm</code>だけは4択の誤答選出でも使っていたため復活させた——削除直後に参照が残っていることに気づいた）。既存ユーザーの設定は「スペル入力」へ自動移行する。</div><div class="ver">v5.4.0</div></div></li>
