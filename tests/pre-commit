@@ -10,8 +10,10 @@
 
 changed() { git diff --cached --name-only | grep -qx "$1"; }
 
+pkg_changed() { git diff --cached --name-only | grep -q '^packages/'; }
+
 # Nothing relevant staged? Nothing to check.
-if ! changed index.html && ! changed tests/logic.test.js && ! changed tests/extract.mjs; then
+if ! changed index.html && ! changed tests/logic.test.js && ! changed tests/extract.mjs && ! pkg_changed; then
   exit 0
 fi
 
@@ -38,6 +40,16 @@ echo "pre-commit: running logic tests..."
   echo ""
   echo "BLOCKED: logic tests failed. Fix them, or use --no-verify if you"
   echo "genuinely mean to commit a known-failing state."
+  exit 1
+}
+
+# The catalogue in index.html and packages/*.json have to agree: the app trusts
+# `count` for the progress bar before the words are downloaded, and a mismatched
+# version means the file is re-fetched on every open.
+echo "pre-commit: checking package files..."
+node tests/build-packages.mjs || {
+  echo ""
+  echo "BLOCKED: the package catalogue and packages/*.json disagree (see above)."
   exit 1
 }
 

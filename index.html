@@ -582,6 +582,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   padding:13px 15px;font-family:inherit;cursor:pointer}
 .deck-item.on{border-color:var(--ink-strong);background:var(--surface-2)}
 .deck-item .dp-title{font-size:15px;font-weight:600;color:var(--ink-strong)}
+/* Marks a package whose words are not on this device. Deliberately quiet: it
+   says "this will be fetched", not "something is wrong". */
+.dp-dl{display:inline-flex;vertical-align:middle;margin-left:7px;opacity:.5;line-height:0}
+.dp-dl svg{width:15px;height:15px}
+.deck-item.busy{opacity:.6}
 .deck-item .dp-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .deck-item .dp-bar{height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:8px}
 .deck-item .dp-bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
@@ -1167,6 +1172,11 @@ const T={
   ph_meaning:{ja:'調べると自動で入ります（編集可）',en:'Auto-filled after lookup (editable)',zh:'查询后自动填入（可编辑）',fr:'Rempli après la recherche (modifiable)',ar:'يُملأ تلقائيًا بعد البحث (قابل للتعديل)',ko:'검색 후 자동 입력 (수정 가능)',ru:'Заполняется автоматически после поиска (можно редактировать)'},
   deck_new:{ja:'新しい単語帳',en:'New notebook',zh:'新建单词本',fr:'Nouveau carnet',ar:'دفتر جديد',ko:'새 단어장',ru:'Новый словарь'},
   deck_new_sub:{ja:'テーマごとに分けられます',en:'Group your words by topic',fr:'Regroupez vos mots par thème',zh:'按主题分类整理',ar:'صنّف كلماتك حسب الموضوع',ko:'주제별로 나눌 수 있습니다',ru:'Разложите слова по темам'},
+  pkg_not_held:{ja:'未取得',en:'not downloaded',zh:'未下载',fr:'non téléchargé',ar:'غير مُنزَّل',ko:'미다운로드',ru:'не загружено'},
+  pkg_getting:{ja:'取得中…',en:'Downloading…',zh:'下载中…',fr:'Téléchargement…',ar:'جارٍ التنزيل…',ko:'받는 중…',ru:'Загрузка…'},
+  pkg_fail:{ja:'単語パッケージを取得できませんでした。通信を確認してもう一度お試しください',en:'Could not download the package. Check your connection and try again',zh:'无法下载单词包，请检查网络后重试',fr:'Impossible de télécharger le pack. Vérifiez votre connexion et réessayez',ar:'تعذّر تنزيل الحزمة. تحقّق من الاتصال وحاول مجددًا',ko:'단어 패키지를 받지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось загрузить набор. Проверьте соединение и повторите'},
+  pkg_offline:{ja:'この単語パッケージはまだ端末にありません。取得にはインターネット接続が必要です',en:'This package is not on your device yet, and downloading it needs an internet connection',zh:'该单词包尚未下载到本机，下载需要网络连接',fr:'Ce pack n’est pas encore sur votre appareil ; son téléchargement nécessite une connexion',ar:'هذه الحزمة ليست على جهازك بعد، وتنزيلها يحتاج اتصالًا بالإنترنت',ko:'이 단어 패키지는 아직 기기에 없습니다. 받으려면 인터넷 연결이 필요합니다',ru:'Этого набора ещё нет на устройстве, а для загрузки нужен интернет'},
+  pkg_need_dl:{ja:'この単語パッケージはまだ端末にありません。単語帳の一覧から選ぶと取得します',en:'This package is not on your device yet. Pick it from the notebook list to download it',zh:'该单词包尚未下载。请从单词本列表中选择以下载',fr:'Ce pack n’est pas encore sur votre appareil. Choisissez-le dans la liste des carnets pour le télécharger',ar:'هذه الحزمة ليست على جهازك بعد. اخترها من قائمة الدفاتر لتنزيلها',ko:'이 단어 패키지는 아직 기기에 없습니다. 단어장 목록에서 선택하면 받습니다',ru:'Этого набора ещё нет на устройстве. Выберите его в списке словарей, чтобы загрузить'},
   deck_manage:{ja:'編集',en:'Edit',zh:'编辑',fr:'Modifier',ar:'تعديل',ko:'편집',ru:'Изменить'},
   deck_edit:{ja:'単語帳を編集',en:'Edit notebook',zh:'编辑单词本',fr:'Modifier le carnet',ar:'تعديل الدفتر',ko:'단어장 편집',ru:'Изменить словарь'},
   deck_name:{ja:'単語帳の名前',en:'Notebook name',zh:'单词本名称',fr:'Nom du carnet',ar:'اسم الدفتر',ko:'단어장 이름',ru:'Название словаря'},
@@ -1750,6 +1760,7 @@ function speak(text){
   }catch(e){}
 }
 function speakAuto(text){if(S().autoSpeak)speak(text);}
+const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
 const SPEAKER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>';
 function spkBtn(text){
@@ -1868,175 +1879,20 @@ function playAnswerSound(ok){
 // UI languages; any language missing on a future package still falls back
 // to ja (see pkgTitle/buildPkgLive), so adding more languages later or
 // shipping a new package with partial translation never breaks anything.
-const PKG_STUDYABROAD_PART1={
-  id:'studyabroad_part1',
-  title:{ja:'語学留学の英単語 Part1',en:'Study Abroad English Words Part 1',zh:'留学英语单词 Part1',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 1',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 1',ko:'유학 영단어 Part1',ru:'Английские слова для учёбы за рубежом Часть 1'},
-  words:[
-    {word:'noun', pos:'noun', meaning:{ja:'名詞', en:'a word that names a person, place, or thing', zh:'名词', fr:'nom', ar:'اسم', ko:'명사', ru:'существительное'}},
-    {word:'verb', pos:'noun', meaning:{ja:'動詞', en:'a word that describes an action or state', zh:'动词', fr:'verbe', ar:'فعل', ko:'동사', ru:'глагол'}},
-    {word:'adjective', pos:'noun', meaning:{ja:'形容詞', en:'a word that describes a noun', zh:'形容词', fr:'adjectif', ar:'صفة', ko:'형용사', ru:'прилагательное'}},
-    {word:'adverb', pos:'noun', meaning:{ja:'副詞', en:'a word that describes a verb, adjective, or another adverb', zh:'副词', fr:'adverbe', ar:'ظرف', ko:'부사', ru:'наречие'}},
-    {word:'preposition', pos:'noun', meaning:{ja:'前置詞', en:'a word that shows the relation between a noun and other words', zh:'介词', fr:'préposition', ar:'حرف جر', ko:'전치사', ru:'предлог'}},
-    {word:'pronoun', pos:'noun', meaning:{ja:'代名詞', en:'a word used in place of a noun', zh:'代词', fr:'pronom', ar:'ضمير', ko:'대명사', ru:'местоимение'}},
-    {word:'conjunction', pos:'noun', meaning:{ja:'接続詞', en:'a word that connects words, phrases, or clauses', zh:'连词', fr:'conjonction', ar:'حرف عطف', ko:'접속사', ru:'союз'}},
-    {word:'subject', pos:'noun', meaning:{ja:'主語／科目／話題', en:'the person or thing a sentence is about, or a school topic', zh:'主语／科目／话题', fr:'sujet', ar:'الفاعل / الموضوع', ko:'주어/과목', ru:'подлежащее / предмет'}},
-    {word:'object', pos:'noun', meaning:{ja:'目的語／物', en:'the thing affected by the action, or a physical item', zh:'宾语／物体', fr:'objet / complément', ar:'المفعول به / الشيء', ko:'목적어/사물', ru:'дополнение / предмет'}},
-    {word:'sentence', pos:'noun', meaning:{ja:'文', en:'a group of words that expresses a complete thought', zh:'句子', fr:'phrase', ar:'جملة', ko:'문장', ru:'предложение'}},
-    {word:'phrase', pos:'noun', meaning:{ja:'句／フレーズ', en:'a small group of words that go together', zh:'短语', fr:"expression / groupe de mots", ar:'عبارة', ko:'구/어구', ru:'фраза'}},
-    {word:'expression', pos:'noun', meaning:{ja:'表現', en:'a way of saying something', zh:'表达', fr:'expression', ar:'تعبير', ko:'표현', ru:'выражение'}},
-    {word:'meaning', pos:'noun', meaning:{ja:'意味', en:'what a word or phrase refers to', zh:'意思', fr:'sens / signification', ar:'معنى', ko:'의미', ru:'значение'}},
-    {word:'pronunciation', pos:'noun', meaning:{ja:'発音', en:'the way a word is spoken', zh:'发音', fr:'prononciation', ar:'نطق', ko:'발음', ru:'произношение'}},
-    {word:'grammar', pos:'noun', meaning:{ja:'文法', en:'the rules for how words are used in a language', zh:'语法', fr:'grammaire', ar:'قواعد اللغة', ko:'문법', ru:'грамматика'}},
-    {word:'vocabulary', pos:'noun', meaning:{ja:'語彙、単語力', en:'the words a person knows or uses', zh:'词汇量', fr:'vocabulaire', ar:'مفردات', ko:'어휘', ru:'словарный запас'}},
-    {word:'accent', pos:'noun', meaning:{ja:'アクセント／なまり', en:'a distinctive way of pronouncing words', zh:'口音', fr:'accent', ar:'لكنة', ko:'억양/발음 특징', ru:'акцент'}},
-    {word:'syllable', pos:'noun', meaning:{ja:'音節', en:'a unit of sound in a word', zh:'音节', fr:'syllabe', ar:'مقطع لفظي', ko:'음절', ru:'слог'}},
-    {word:'example', pos:'noun', meaning:{ja:'例', en:'something that shows what is meant', zh:'例子', fr:'exemple', ar:'مثال', ko:'예시', ru:'пример'}},
-    {word:'mistake', pos:'noun', meaning:{ja:'間違い', en:'an error', zh:'错误', fr:'erreur / faute', ar:'خطأ', ko:'실수', ru:'ошибка'}},
-    {word:'understand', pos:'verb', meaning:{ja:'理解する', en:'to know the meaning of something', zh:'理解', fr:'comprendre', ar:'يفهم', ko:'이해하다', ru:'понимать'}},
-    {word:'explain', pos:'verb', meaning:{ja:'説明する', en:'to make something clear', zh:'解释', fr:'expliquer', ar:'يشرح', ko:'설명하다', ru:'объяснять'}},
-    {word:'pronounce', pos:'verb', meaning:{ja:'発音する', en:'to say a word in a certain way', zh:'读出/发音', fr:'prononcer', ar:'ينطق', ko:'발음하다', ru:'произносить'}},
-    {word:'repeat', pos:'verb', meaning:{ja:'繰り返す', en:'to say or do something again', zh:'重复', fr:'répéter', ar:'يكرر', ko:'반복하다', ru:'повторять'}},
-    {word:'translate', pos:'verb', meaning:{ja:'翻訳する', en:'to change words from one language to another', zh:'翻译', fr:'traduire', ar:'يترجم', ko:'번역하다', ru:'переводить'}},
-    {word:'describe', pos:'verb', meaning:{ja:'説明する、描写する', en:'to say what something is like', zh:'描述', fr:'décrire', ar:'يصف', ko:'묘사하다/설명하다', ru:'описывать'}},
-    {word:'compare', pos:'verb', meaning:{ja:'比較する', en:'to look at how things are similar or different', zh:'比较', fr:'comparer', ar:'يقارن', ko:'비교하다', ru:'сравнивать'}},
-    {word:'discuss', pos:'verb', meaning:{ja:'話し合う', en:'to talk about something with others', zh:'讨论', fr:'discuter', ar:'يناقش', ko:'논의하다', ru:'обсуждать'}},
-    {word:'mention', pos:'verb', meaning:{ja:'言及する', en:'to talk about something briefly', zh:'提到', fr:'mentionner', ar:'يذكر', ko:'언급하다', ru:'упоминать'}},
-    {word:'answer', pos:'verb', meaning:{ja:'答える', en:'to reply to a question', zh:'回答', fr:'répondre', ar:'يجيب', ko:'대답하다', ru:'отвечать'}},
-    {word:'guess', pos:'verb', meaning:{ja:'推測する', en:'to give an answer without being sure', zh:'猜测', fr:'deviner', ar:'يخمن', ko:'추측하다', ru:'угадывать'}},
-    {word:'memorize', pos:'verb', meaning:{ja:'暗記する', en:'to learn something so you can remember it', zh:'记住', fr:'mémoriser', ar:'يحفظ', ko:'암기하다', ru:'запоминать'}},
-    {word:'review', pos:'verb', meaning:{ja:'復習する', en:'to look at something again to learn it better', zh:'复习', fr:'réviser', ar:'يراجع', ko:'복습하다', ru:'повторять (материал)'}},
-    {word:'improve', pos:'verb', meaning:{ja:'改善する、上達させる', en:'to make or become better', zh:'提高', fr:'améliorer', ar:'يحسّن', ko:'향상시키다', ru:'улучшать'}},
-    {word:'submit', pos:'verb', meaning:{ja:'提出する', en:'to hand in work for checking', zh:'提交', fr:'soumettre / rendre', ar:'يقدّم / يسلّم', ko:'제출하다', ru:'сдавать / представлять'}},
-    {word:'correct', pos:'adjective', meaning:{ja:'正しい', en:'right or accurate', zh:'正确的', fr:'correct(e)', ar:'صحيح', ko:'맞는/정확한', ru:'правильный'}},
-    {word:'incorrect', pos:'adjective', meaning:{ja:'間違っている', en:'wrong', zh:'不正确的', fr:'incorrect(e)', ar:'غير صحيح', ko:'틀린', ru:'неправильный'}},
-    {word:'similar', pos:'adjective', meaning:{ja:'似ている', en:'alike in some way', zh:'相似的', fr:'similaire', ar:'مشابه', ko:'비슷한', ru:'похожий'}},
-    {word:'different', pos:'adjective', meaning:{ja:'異なる', en:'not the same', zh:'不同的', fr:'différent(e)', ar:'مختلف', ko:'다른', ru:'другой / отличающийся'}},
-    {word:'formal', pos:'adjective', meaning:{ja:'フォーマルな、改まった', en:'proper and following set rules, not casual', zh:'正式的', fr:'formel(le)', ar:'رسمي', ko:'격식 있는', ru:'формальный / официальный'}},
-    {word:'casual', pos:'adjective', meaning:{ja:'カジュアルな、日常的な', en:'relaxed and informal', zh:'随意的', fr:'décontracté(e)', ar:'غير رسمي', ko:'캐주얼한/일상적인', ru:'непринуждённый / повседневный'}},
-    {word:'natural', pos:'adjective', meaning:{ja:'自然な', en:'normal, not forced', zh:'自然的', fr:'naturel(le)', ar:'طبيعي', ko:'자연스러운', ru:'естественный'}},
-    {word:'specific', pos:'adjective', meaning:{ja:'具体的な、特定の', en:'exact and particular', zh:'具体的', fr:'spécifique', ar:'محدد', ko:'구체적인', ru:'конкретный'}},
-    {word:'confusing', pos:'adjective', meaning:{ja:'分かりにくい、混乱させる', en:'hard to understand', zh:'令人困惑的', fr:'déroutant(e)', ar:'مربك', ko:'헷갈리는', ru:'запутанный'}},
-    {word:'fluent', pos:'adjective', meaning:{ja:'流暢な', en:'able to speak smoothly and easily', zh:'流利的', fr:'courant(e)', ar:'طلق/بطلاقة', ko:'유창한', ru:'свободно владеющий (языком)'}},
-    {word:'actually', pos:'adverb', meaning:{ja:'実は／実際には', en:'in fact, really', zh:'实际上', fr:'en fait', ar:'في الواقع', ko:'사실은', ru:'на самом деле'}},
-    {word:'probably', pos:'adverb', meaning:{ja:'おそらく', en:'most likely', zh:'可能', fr:'probablement', ar:'على الأرجح', ko:'아마도', ru:'вероятно'}},
-    {word:'instead', pos:'adverb', meaning:{ja:'代わりに', en:'in place of something else', zh:'而是', fr:'à la place / au lieu de cela', ar:'بدلاً من ذلك', ko:'대신에', ru:'вместо (этого)'}},
-    {word:'although', pos:'conjunction', meaning:{ja:'〜だけれども', en:'despite the fact that', zh:'虽然', fr:'bien que', ar:'على الرغم من أن', ko:'비록 ~이지만', ru:'хотя'}},
-    {word:'during', pos:'preposition', meaning:{ja:'〜の間に', en:'throughout a period of time', zh:'在…期间', fr:'pendant', ar:'خلال', ko:'~동안', ru:'во время'}}
-  ]
-};
-const PKG_STUDYABROAD_PART2={
-  id:'studyabroad_part2',
-  title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'},
-  words:[
-    {word:'assignment', pos:'noun', meaning:{ja:'課題', en:'a task given as schoolwork', zh:'作业', fr:'devoir / travail à rendre', ar:'واجب/مهمة', ko:'과제', ru:'задание'}},
-    {word:'homework', pos:'noun', meaning:{ja:'宿題', en:'schoolwork done at home', zh:'家庭作业', fr:'devoirs (à la maison)', ar:'واجب منزلي', ko:'숙제', ru:'домашнее задание'}},
-    {word:'worksheet', pos:'noun', meaning:{ja:'ワークシート、練習用紙', en:'a paper with exercises to complete', zh:'练习卷', fr:"feuille d'exercices", ar:'ورقة عمل', ko:'학습지', ru:'рабочий лист'}},
-    {word:'textbook', pos:'noun', meaning:{ja:'教科書', en:'a book used for studying a subject', zh:'教科书', fr:'manuel scolaire', ar:'كتاب دراسي', ko:'교과서', ru:'учебник'}},
-    {word:'dictionary', pos:'noun', meaning:{ja:'辞書', en:'a book or app that explains word meanings', zh:'词典', fr:'dictionnaire', ar:'قاموس', ko:'사전', ru:'словарь'}},
-    {word:'definition', pos:'noun', meaning:{ja:'定義、意味の説明', en:'an explanation of what a word means', zh:'定义', fr:'définition', ar:'تعريف', ko:'정의', ru:'определение'}},
-    {word:'context', pos:'noun', meaning:{ja:'文脈', en:'the situation or words around something', zh:'上下文', fr:'contexte', ar:'سياق', ko:'맥락/문맥', ru:'контекст'}},
-    {word:'topic', pos:'noun', meaning:{ja:'話題、テーマ', en:'the subject being talked or written about', zh:'话题', fr:'sujet / thème', ar:'موضوع', ko:'주제', ru:'тема'}},
-    {word:'question', pos:'noun', meaning:{ja:'質問、問題', en:'something asked to get information', zh:'问题', fr:'question', ar:'سؤال', ko:'질문', ru:'вопрос'}},
-    {word:'feedback', pos:'noun', meaning:{ja:'添削、意見、評価', en:'comments on how well you did', zh:'反馈', fr:'retour / commentaires', ar:'ملاحظات/تقييم', ko:'피드백', ru:'отзыв / обратная связь'}},
-    {word:'presentation', pos:'noun', meaning:{ja:'発表、プレゼン', en:'a talk given to explain or show something', zh:'报告', fr:'exposé / présentation', ar:'عرض تقديمي', ko:'발표', ru:'презентация / доклад'}},
-    {word:'discussion', pos:'noun', meaning:{ja:'話し合い', en:'a conversation about a topic', zh:'讨论', fr:'discussion', ar:'مناقشة', ko:'토론/논의', ru:'обсуждение'}},
-    {word:'partner', pos:'noun', meaning:{ja:'ペアの相手', en:'the person you work with', zh:'搭档', fr:'partenaire', ar:'شريك', ko:'짝/파트너', ru:'партнёр'}},
-    {word:'group', pos:'noun', meaning:{ja:'グループ', en:'a number of people together', zh:'小组', fr:'groupe', ar:'مجموعة', ko:'그룹/모둠', ru:'группа'}},
-    {word:'deadline', pos:'noun', meaning:{ja:'締め切り', en:'the time by which something must be finished', zh:'截止日期', fr:'date limite', ar:'الموعد النهائي', ko:'마감일', ru:'крайний срок'}},
-    {word:'ask', pos:'verb', meaning:{ja:'質問する、尋ねる', en:'to say a question', zh:'问', fr:'demander', ar:'يسأل', ko:'묻다/질문하다', ru:'спрашивать'}},
-    {word:'clarify', pos:'verb', meaning:{ja:'明確にする、分かりやすく説明する', en:'to make something easier to understand', zh:'澄清', fr:'clarifier', ar:'يوضّح', ko:'명확히 하다', ru:'уточнять / прояснять'}},
-    {word:'summarize', pos:'verb', meaning:{ja:'要約する', en:'to give the main points briefly', zh:'总结', fr:'résumer', ar:'يلخّص', ko:'요약하다', ru:'суммировать / резюмировать'}},
-    {word:'define', pos:'verb', meaning:{ja:'定義する', en:'to explain the exact meaning of a word', zh:'定义', fr:'définir', ar:'يُعرّف', ko:'정의하다', ru:'определять (значение)'}},
-    {word:'correct', pos:'verb', meaning:{ja:'訂正する', en:'to fix a mistake', zh:'纠正', fr:'corriger', ar:'يصحّح', ko:'정정하다/고치다', ru:'исправлять'}},
-    {word:'practice', pos:'verb', meaning:{ja:'練習する', en:'to do something repeatedly to improve', zh:'练习', fr:"pratiquer / s'entraîner", ar:'يتدرّب/يمارس', ko:'연습하다', ru:'практиковать(ся)'}},
-    {word:'participate', pos:'verb', meaning:{ja:'参加する', en:'to take part in something', zh:'参与', fr:'participer', ar:'يشارك', ko:'참여하다', ru:'участвовать'}},
-    {word:'prepare', pos:'verb', meaning:{ja:'準備する', en:'to get ready for something', zh:'准备', fr:'préparer', ar:'يُحضّر', ko:'준비하다', ru:'готовить(ся)'}},
-    {word:'complete', pos:'verb', meaning:{ja:'完成させる、終える', en:'to finish something', zh:'完成', fr:'compléter / terminer', ar:'يُكمل/ينهي', ko:'완성하다/끝내다', ru:'завершать'}},
-    {word:'choose', pos:'verb', meaning:{ja:'選ぶ', en:'to pick one out of several', zh:'选择', fr:'choisir', ar:'يختار', ko:'선택하다', ru:'выбирать'}},
-    {word:'include', pos:'verb', meaning:{ja:'含む', en:'to have something as a part', zh:'包括', fr:'inclure', ar:'يتضمّن', ko:'포함하다', ru:'включать'}},
-    {word:'underline', pos:'verb', meaning:{ja:'下線を引く', en:'to draw a line under words', zh:'划下划线', fr:'souligner', ar:'يضع خطًا تحت', ko:'밑줄을 긋다', ru:'подчёркивать'}},
-    {word:'highlight', pos:'verb', meaning:{ja:'強調する、マーカーを引く', en:'to mark something to make it stand out', zh:'标出重点', fr:'surligner / mettre en évidence', ar:'يُبرز/يُظلّل', ko:'강조하다/형광펜으로 표시하다', ru:'выделять'}},
-    {word:'focus', pos:'verb', meaning:{ja:'集中する', en:'to give full attention to something', zh:'专注', fr:'se concentrer', ar:'يُركّز', ko:'집중하다', ru:'сосредотачиваться'}},
-    {word:'notice', pos:'verb', meaning:{ja:'気づく', en:'to become aware of something', zh:'注意到', fr:'remarquer', ar:'يلاحظ', ko:'알아차리다', ru:'замечать'}},
-    {word:'clear', pos:'adjective', meaning:{ja:'明確な、分かりやすい', en:'easy to understand', zh:'清楚的', fr:'clair(e)', ar:'واضح', ko:'명확한', ru:'понятный / ясный'}},
-    {word:'unclear', pos:'adjective', meaning:{ja:'不明確な、分かりにくい', en:'not easy to understand', zh:'不清楚的', fr:'peu clair(e)', ar:'غير واضح', ko:'불명확한', ru:'неясный'}},
-    {word:'difficult', pos:'adjective', meaning:{ja:'難しい', en:'hard to do or understand', zh:'难的', fr:'difficile', ar:'صعب', ko:'어려운', ru:'трудный'}},
-    {word:'easy', pos:'adjective', meaning:{ja:'簡単な', en:'not difficult', zh:'容易的', fr:'facile', ar:'سهل', ko:'쉬운', ru:'лёгкий / простой'}},
-    {word:'important', pos:'adjective', meaning:{ja:'重要な', en:'having great value or significance', zh:'重要的', fr:'important(e)', ar:'مهم', ko:'중요한', ru:'важный'}},
-    {word:'common', pos:'adjective', meaning:{ja:'一般的な、よく使われる', en:'happening often, widely used', zh:'常见的', fr:'courant(e) / commun(e)', ar:'شائع', ko:'흔한/일반적인', ru:'обычный / распространённый'}},
-    {word:'unfamiliar', pos:'adjective', meaning:{ja:'なじみのない、知らない', en:'not known to you', zh:'不熟悉的', fr:'peu familier / inconnu(e)', ar:'غير مألوف', ko:'낯선/생소한', ru:'незнакомый'}},
-    {word:'appropriate', pos:'adjective', meaning:{ja:'適切な', en:'suitable for the situation', zh:'合适的', fr:'approprié(e)', ar:'مناسب', ko:'적절한', ru:'подходящий'}},
-    {word:'available', pos:'adjective', meaning:{ja:'利用できる、空いている', en:'able to be used or obtained', zh:'可用的', fr:'disponible', ar:'متاح', ko:'이용 가능한', ru:'доступный'}},
-    {word:'necessary', pos:'adjective', meaning:{ja:'必要な', en:'needed', zh:'必要的', fr:'nécessaire', ar:'ضروري', ko:'필요한', ru:'необходимый'}},
-    {word:'especially', pos:'adverb', meaning:{ja:'特に', en:'more than usual, particularly', zh:'尤其是', fr:'surtout / particulièrement', ar:'خصوصًا/بشكل خاص', ko:'특히', ru:'особенно'}},
-    {word:'exactly', pos:'adverb', meaning:{ja:'正確に、まさに', en:'precisely, in an exact way', zh:'确切地', fr:'exactement', ar:'بالضبط', ko:'정확히', ru:'точно'}},
-    {word:'basically', pos:'adverb', meaning:{ja:'基本的には、簡単に言うと', en:'in the simplest way of explaining', zh:'基本上', fr:'fondamentalement / en gros', ar:'أساسًا', ko:'기본적으로', ru:'в основном / по сути'}},
-    {word:'generally', pos:'adverb', meaning:{ja:'一般的に', en:'usually, in most cases', zh:'一般来说', fr:'généralement', ar:'عمومًا', ko:'일반적으로', ru:'как правило'}},
-    {word:'however', pos:'adverb', meaning:{ja:'しかしながら', en:'used to introduce a contrasting idea', zh:'然而', fr:'cependant', ar:'لكن/ومع ذلك', ko:'하지만/그러나', ru:'однако'}},
-    {word:'therefore', pos:'adverb', meaning:{ja:'したがって', en:'for that reason', zh:'因此', fr:'donc / par conséquent', ar:'لذلك', ko:'그러므로/따라서', ru:'следовательно / поэтому'}},
-    {word:'for example', pos:'phrase', meaning:{ja:'例えば', en:'used to introduce an example', zh:'例如', fr:'par exemple', ar:'على سبيل المثال', ko:'예를 들어', ru:'например'}},
-    {word:'in addition', pos:'phrase', meaning:{ja:'さらに、加えて', en:'used to add another point', zh:'此外', fr:'de plus / en outre', ar:'بالإضافة إلى ذلك', ko:'게다가/추가로', ru:'кроме того'}},
-    {word:'firstly', pos:'adverb', meaning:{ja:'第一に、まず', en:'used to introduce the first point', zh:'首先', fr:"premièrement / d'abord", ar:'أولاً', ko:'첫째로', ru:'во-первых'}},
-    {word:'finally', pos:'adverb', meaning:{ja:'最後に', en:'used to introduce the last point', zh:'最后', fr:'finalement / enfin', ar:'أخيرًا', ko:'마지막으로', ru:'наконец'}}
-  ]
-};
-const PKG_STUDYABROAD_PART3 = {
-  id: 'studyabroad_part3',
-  title: { ja: '語学留学の英単語 Part3', en: 'Study Abroad English Vocabulary — Part 3', zh: '留学英语单词 Part3', fr: 'Vocabulaire anglais pour séjour linguistique — Part3', ar: 'مفردات إنجليزية للدراسة في الخارج — الجزء 3', ko: '어학연수 영단어 Part3', ru: 'Английская лексика для учёбы за границей — Part3' },
-  words: [
-    {word:'attendance', pos:'noun', meaning:{ja:'出席', en:'being present at a class or event', zh:'出席', fr:'présence / assiduité', ar:'حضور', ko:'출석', ru:'посещаемость'}},
-    {word:'absence', pos:'noun', meaning:{ja:'欠席', en:'not being present', zh:'缺席', fr:'absence', ar:'غياب', ko:'결석', ru:'отсутствие'}},
-    {word:'schedule', pos:'noun', meaning:{ja:'予定、時間割', en:'a plan of times for things to happen', zh:'时间表/日程', fr:'emploi du temps / horaire', ar:'جدول زمني', ko:'일정/시간표', ru:'расписание'}},
-    {word:'classmate', pos:'noun', meaning:{ja:'クラスメート', en:'a person in the same class as you', zh:'同学', fr:'camarade de classe', ar:'زميل الصف', ko:'반 친구', ru:'одноклассник'}},
-    {word:'instructor', pos:'noun', meaning:{ja:'講師、先生', en:'a person who teaches a class', zh:'讲师/老师', fr:'instructeur / formateur', ar:'مدرّب/معلم', ko:'강사', ru:'преподаватель'}},
-    {word:'course', pos:'noun', meaning:{ja:'授業、コース', en:'a series of classes on a subject', zh:'课程', fr:'cours', ar:'دورة/مقرر', ko:'강좌/코스', ru:'курс'}},
-    {word:'level', pos:'noun', meaning:{ja:'レベル', en:'a stage of ability or difficulty', zh:'水平/级别', fr:'niveau', ar:'مستوى', ko:'수준/레벨', ru:'уровень'}},
-    {word:'skill', pos:'noun', meaning:{ja:'技能、能力', en:'the ability to do something well', zh:'技能', fr:'compétence', ar:'مهارة', ko:'기술/능력', ru:'навык'}},
-    {word:'note', pos:'noun', meaning:{ja:'メモ、ノート', en:'a short piece of writing to remember something', zh:'笔记', fr:'note', ar:'ملاحظة', ko:'메모/노트', ru:'заметка'}},
-    {word:'quiz', pos:'noun', meaning:{ja:'小テスト', en:'a short test', zh:'小测验', fr:'quiz / interrogation', ar:'اختبار قصير', ko:'쪽지시험/퀴즈', ru:'небольшой тест'}},
-    {word:'exam', pos:'noun', meaning:{ja:'試験', en:'a formal test of knowledge', zh:'考试', fr:'examen', ar:'امتحان', ko:'시험', ru:'экзамен'}},
-    {word:'result', pos:'noun', meaning:{ja:'結果', en:'what happens because of something', zh:'结果', fr:'résultat', ar:'نتيجة', ko:'결과', ru:'результат'}},
-    {word:'score', pos:'noun', meaning:{ja:'点数', en:'the number of points earned', zh:'分数', fr:'score / note', ar:'درجة/نتيجة', ko:'점수', ru:'оценка (в баллах)'}},
-    {word:'rule', pos:'noun', meaning:{ja:'ルール', en:'an official instruction on what to do', zh:'规则', fr:'règle', ar:'قاعدة', ko:'규칙', ru:'правило'}},
-    {word:'instruction', pos:'noun', meaning:{ja:'指示、説明', en:'a direction telling you what to do', zh:'指示/说明', fr:'instruction / consigne', ar:'تعليمات', ko:'지시/설명', ru:'инструкция'}},
-    {word:'attend', pos:'verb', meaning:{ja:'出席する', en:'to go to and be present at', zh:'出席', fr:'assister à', ar:'يحضر', ko:'출석하다', ru:'посещать'}},
-    {word:'miss', pos:'verb', meaning:{ja:'欠席する、逃す', en:'to fail to attend or catch something', zh:'错过/缺席', fr:'manquer / rater', ar:'يفوّت/يغيب عن', ko:'놓치다/결석하다', ru:'пропускать'}},
-    {word:'check', pos:'verb', meaning:{ja:'確認する', en:"to look at something to make sure it's right", zh:'检查', fr:'vérifier', ar:'يتحقق من', ko:'확인하다', ru:'проверять'}},
-    {word:'organize', pos:'verb', meaning:{ja:'整理する', en:'to arrange things in order', zh:'整理/组织', fr:'organiser', ar:'ينظّم', ko:'정리하다', ru:'организовывать'}},
-    {word:'share', pos:'verb', meaning:{ja:'共有する', en:'to give part of something, or tell others', zh:'分享', fr:'partager', ar:'يشارك', ko:'공유하다', ru:'делиться'}},
-    {word:'respond', pos:'verb', meaning:{ja:'返答する', en:'to reply or react to something', zh:'回应', fr:'répondre', ar:'يستجيب/يرد', ko:'응답하다', ru:'отвечать/реагировать'}},
-    {word:'agree', pos:'verb', meaning:{ja:'賛成する', en:'to have the same opinion', zh:'同意', fr:"être d'accord", ar:'يوافق', ko:'동의하다', ru:'соглашаться'}},
-    {word:'disagree', pos:'verb', meaning:{ja:'反対する', en:'to have a different opinion', zh:'不同意', fr:"ne pas être d'accord", ar:'يعارض/لا يوافق', ko:'반대하다', ru:'не соглашаться'}},
-    {word:'support', pos:'verb', meaning:{ja:'支える、根拠を示す', en:'to back up an idea, or hold something up', zh:'支持/支撑', fr:'soutenir', ar:'يدعم', ko:'지지하다/뒷받침하다', ru:'поддерживать'}},
-    {word:'express', pos:'verb', meaning:{ja:'表現する', en:'to show a feeling or idea in words', zh:'表达', fr:'exprimer', ar:'يعبّر عن', ko:'표현하다', ru:'выражать'}},
-    {word:'communicate', pos:'verb', meaning:{ja:'意思疎通する', en:'to share information or feelings with others', zh:'交流/沟通', fr:'communiquer', ar:'يتواصل', ko:'의사소통하다', ru:'общаться'}},
-    {word:'concentrate', pos:'verb', meaning:{ja:'集中する', en:'to focus your attention on something', zh:'集中注意力', fr:'se concentrer', ar:'يركّز', ko:'집중하다', ru:'концентрироваться'}},
-    {word:'recognize', pos:'verb', meaning:{ja:'見分ける、認識する', en:"to identify someone or something you've seen before", zh:'认出/识别', fr:'reconnaître', ar:'يتعرّف على', ko:'알아보다/인식하다', ru:'узнавать/распознавать'}},
-    {word:'remember', pos:'verb', meaning:{ja:'覚えている', en:'to keep something in your memory', zh:'记得', fr:'se souvenir', ar:'يتذكر', ko:'기억하다', ru:'помнить'}},
-    {word:'forget', pos:'verb', meaning:{ja:'忘れる', en:'to fail to remember', zh:'忘记', fr:'oublier', ar:'ينسى', ko:'잊다', ru:'забывать'}},
-    {word:'absent', pos:'adjective', meaning:{ja:'欠席している', en:'not present', zh:'缺席的', fr:'absent(e)', ar:'غائب', ko:'결석한', ru:'отсутствующий'}},
-    {word:'present', pos:'adjective', meaning:{ja:'出席している', en:'being there, attending', zh:'出席的', fr:'présent(e)', ar:'حاضر', ko:'출석한', ru:'присутствующий'}},
-    {word:'ready', pos:'adjective', meaning:{ja:'準備ができている', en:'prepared for something', zh:'准备好的', fr:'prêt(e)', ar:'جاهز', ko:'준비된', ru:'готовый'}},
-    {word:'confident', pos:'adjective', meaning:{ja:'自信がある', en:'feeling sure of yourself', zh:'自信的', fr:'confiant(e)', ar:'واثق', ko:'자신감 있는', ru:'уверенный (в себе)'}},
-    {word:'nervous', pos:'adjective', meaning:{ja:'緊張している', en:'feeling worried or anxious', zh:'紧张的', fr:'nerveux/nerveuse', ar:'متوتر', ko:'긴장한', ru:'нервный/взволнованный'}},
-    {word:'comfortable', pos:'adjective', meaning:{ja:'気楽な、快適な', en:'feeling relaxed and at ease', zh:'舒适的/自在的', fr:"à l'aise / confortable", ar:'مرتاح', ko:'편안한', ru:'комфортный/удобный'}},
-    {word:'helpful', pos:'adjective', meaning:{ja:'役に立つ', en:'giving useful help', zh:'有帮助的', fr:'utile / serviable', ar:'مفيد', ko:'도움이 되는', ru:'полезный (о помощи)'}},
-    {word:'useful', pos:'adjective', meaning:{ja:'有用な', en:'able to be used for a practical purpose', zh:'有用的', fr:'utile', ar:'مفيد', ko:'유용한', ru:'полезный'}},
-    {word:'accurate', pos:'adjective', meaning:{ja:'正確な', en:'correct and exact', zh:'准确的', fr:'précis(e) / exact(e)', ar:'دقيق', ko:'정확한', ru:'точный'}},
-    {word:'complete', pos:'adjective', meaning:{ja:'完全な、完成した', en:'having all parts, finished', zh:'完整的', fr:'complet/complète', ar:'مكتمل/كامل', ko:'완전한/완성된', ru:'полный/завершённый'}},
-    {word:'usually', pos:'adverb', meaning:{ja:'普段は', en:'most of the time, normally', zh:'通常', fr:'habituellement', ar:'عادةً', ko:'보통/대개', ru:'обычно'}},
-    {word:'sometimes', pos:'adverb', meaning:{ja:'ときどき', en:'on some occasions, not always', zh:'有时', fr:'parfois', ar:'أحيانًا', ko:'가끔', ru:'иногда'}},
-    {word:'rarely', pos:'adverb', meaning:{ja:'めったに〜ない', en:'not often', zh:'很少', fr:'rarement', ar:'نادرًا', ko:'좀처럼 ~않다', ru:'редко'}},
-    {word:'recently', pos:'adverb', meaning:{ja:'最近', en:'not long ago', zh:'最近', fr:'récemment', ar:'مؤخرًا', ko:'최근에', ru:'недавно'}},
-    {word:'currently', pos:'adverb', meaning:{ja:'現在', en:'at this time, now', zh:'目前', fr:'actuellement', ar:'حاليًا', ko:'현재', ru:'в настоящее время'}},
-    {word:'maybe', pos:'adverb', meaning:{ja:'たぶん、もしかすると', en:'possibly', zh:'也许', fr:'peut-être', ar:'ربما', ko:'아마', ru:'может быть'}},
-    {word:'perhaps', pos:'adverb', meaning:{ja:'おそらく', en:'possibly, maybe', zh:'或许', fr:'peut-être', ar:'ربما', ko:'아마도', ru:'возможно'}},
-    {word:'otherwise', pos:'adverb', meaning:{ja:'そうでなければ', en:'if not, under other circumstances', zh:'否则', fr:'sinon / autrement', ar:'وإلا', ko:'그렇지 않으면', ru:'иначе'}},
-    {word:'at least', pos:'phrase', meaning:{ja:'少なくとも', en:'not less than', zh:'至少', fr:'au moins', ar:'على الأقل', ko:'적어도', ru:'по крайней мере'}},
-    {word:'by the way', pos:'phrase', meaning:{ja:'ところで', en:'used to introduce something not related to the main topic', zh:'顺便说一下', fr:'au fait / à propos', ar:'بالمناسبة', ko:'그런데', ru:'кстати'}}
-  ]
-};
-const PACKAGES=[PKG_STUDYABROAD_PART1,PKG_STUDYABROAD_PART2,PKG_STUDYABROAD_PART3];
+// The catalogue only. Each entry is about 170 bytes; the words themselves are
+// roughly 3.8KB gzipped per package and live in packages/<id>.json, fetched the
+// first time someone opens one. Shipping them all inline meant every visitor
+// downloaded every package to study none of them, and the cost grew with each
+// one added -- which is the opposite of what "add lots of packages" needs.
+//
+// `v` is the content version. Bumping it makes the app re-fetch, and progress
+// survives because it is keyed by the word itself rather than by position.
+const PKG_CATALOG=[
+  {id:'studyabroad_part1',v:1,count:50,title:{ja:'語学留学の英単語 Part1',en:'Study Abroad English Words Part 1',zh:'留学英语单词 Part1',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 1',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 1',ko:'유학 영단어 Part1',ru:'Английские слова для учёбы за рубежом Часть 1'}},
+  {id:'studyabroad_part2',v:1,count:50,title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'}},
+  {id:'studyabroad_part3',v:1,count:50,title:{ja:'語学留学の英単語 Part3',en:'Study Abroad English Vocabulary — Part 3',zh:'留学英语单词 Part3',fr:'Vocabulaire anglais pour séjour linguistique — Part3',ar:'مفردات إنجليزية للدراسة في الخارج — الجزء 3',ko:'어학연수 영단어 Part3',ru:'Английская лексика для учёбы за границей — Part3'}},
+];
+const PACKAGES=PKG_CATALOG;
 
 // Package learning progress lives in its own key, fully separate from the
 // user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
@@ -2049,16 +1905,77 @@ let PKGDB=loadPkg();
 let CTX={type:'own'};              // {type:'own'} | {type:'deck',id} | {type:'pkg',id}
 let pkgLive=null;                  // live word objects for the active package
 function pkgById(id){return PACKAGES.find(p=>p.id===id);}
+/* ---- package word data ----------------------------------------------------
+   Progress has always lived in PKGKEY; this is the words themselves, kept apart
+   so a package can be re-fetched without touching what the user has learned.
+   Both are keyed by the word string, which is why a content update does not
+   cost anyone their progress.
+   -------------------------------------------------------------------------- */
+const PKGWKEY='wordkeep.pkgwords.v1';
+function loadPkgWords(){try{return JSON.parse(localStorage.getItem(PKGWKEY))||{};}catch(e){return {};}}
+let PKGW=loadPkgWords();
+function savePkgWords(){
+  try{localStorage.setItem(PKGWKEY,JSON.stringify(PKGW));return true;}
+  catch(e){
+    // Same one-shot warning as save(): a package is tens of KB and is the most
+    // likely thing to hit a full store, and failing silently would leave the
+    // user tapping a package that never opens.
+    if(!saveFailed){saveFailed=true;toast(t('toast_save_fail'));}
+    return false;
+  }
+}
+// Downloaded AND current: a catalogue entry with a newer `v` means the stored
+// copy is stale and has to come down again.
+function pkgReady(id){
+  const c=pkgById(id),held=PKGW[id];
+  return !!(c&&held&&Array.isArray(held.words)&&held.words.length&&(held.v|0)>=(c.v|0));
+}
+function pkgWords(id){return pkgReady(id)?PKGW[id].words:null;}
+let pkgFetching={};                        // id -> promise, so a double tap fetches once
+async function downloadPkg(id){
+  const c=pkgById(id);
+  if(!c)throw new Error('unknown package');
+  if(pkgReady(id))return PKGW[id].words;
+  if(pkgFetching[id])return pkgFetching[id];
+  // The version is in the URL for the same reason as changelog.json: the
+  // service worker keeps what it fetched, so a bare name would pin the first
+  // copy a device ever saw and a corrected package would never arrive.
+  const url='packages/'+encodeURIComponent(id)+'.json?v='+(c.v|0);
+  pkgFetching[id]=(async()=>{
+    try{
+      const r=await fetch(url,{cache:'force-cache'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const d=await r.json();
+      if(!d||d.id!==id||!Array.isArray(d.words)||!d.words.length)throw new Error('shape');
+      // Trust nothing about a file that may be older than this build: a word
+      // with no meaning would render as a blank card and grade as wrong.
+      const words=d.words.filter(w=>w&&typeof w.word==='string'&&w.word&&w.meaning&&typeof w.meaning==='object');
+      if(!words.length)throw new Error('empty');
+      // Stamped with the CATALOGUE's version, not the file's. The URL carried
+      // the version, so whatever came back is the answer for it -- and trusting
+      // the file instead means one forgotten bump inside the JSON leaves the
+      // app re-fetching the same package on every single open.
+      PKGW[id]={v:(c.v|0),words};
+      savePkgWords();
+      gaEvent('package_downloaded',{package_id:id,words:words.length});
+      return words;
+    }finally{ delete pkgFetching[id]; }
+  })();
+  return pkgFetching[id];
+}
 function pkgTitle(pkg){return (pkg.title[S().lang])||pkg.title.ja;}
 // Build DB.words-shaped objects so every existing render/quiz function works
 // unchanged. Meaning goes into meanings[] (not ja) so the flashcard back shows
 // "[pos] meaning" once, without duplication.
 function buildPkgLive(id){
   const pkg=pkgById(id);
-  if(!pkg){pkgLive=[];return;}
+  const words=pkgWords(id);
+  // Not downloaded yet is a normal state, not an error: the views render an
+  // empty source and the picker is what offers the download.
+  if(!pkg||!words){pkgLive=[];return;}
   const prog=PKGDB[id]||{};
   const lang=S().lang;
-  pkgLive=pkg.words.map((pw,i)=>{
+  pkgLive=words.map((pw,i)=>{
     const p=prog[pw.word]||{};
     const meaning=pw.meaning[lang]||pw.meaning.ja;
     // Put the meaning in `ja` so the flashcard back renders it big/bold (.bja),
@@ -2086,16 +2003,20 @@ function savePkgProgress(){
 }
 // % complete: average per-word achievement, box normalized over INTERVALS
 // (unlearned = 0). Reads from storage so it's accurate for any package.
+// Counted against the catalogue's `count` rather than the word list, so the
+// picker can show a real percentage for a package whose words are not on this
+// device -- progress syncs between devices, the download does not.
 function pkgProgressPct(id){
   const pkg=pkgById(id);
-  if(!pkg||!pkg.words.length)return 0;
+  const total=pkg?(pkg.count|0):0;
+  if(!total)return 0;
   const prog=PKGDB[id]||{};
   let sum=0;
-  pkg.words.forEach(pw=>{
-    const box=(prog[pw.word]&&typeof prog[pw.word].box==='number')?prog[pw.word].box:-1;
+  Object.keys(prog).forEach(k=>{
+    const box=(prog[k]&&typeof prog[k].box==='number')?prog[k].box:-1;
     sum+=box<0?0:(box+1)/INTERVALS.length;
   });
-  return Math.round(sum/pkg.words.length*100);
+  return Math.min(100,Math.round(sum/total*100));
 }
 // Active-source helpers used by the shared views instead of touching DB.words directly.
 function curWords(){
@@ -2231,9 +2152,16 @@ function renderDeckPicker(){
                                            CTX.type==='deck'&&CTX.id===d.id,d.id)).join('');
   const pkgs=PACKAGES.map(p=>{
     const pct=pkgProgressPct(p.id);
-    return '<button class="deck-item'+(CTX.type==='pkg'&&CTX.id===p.id?' on':'')+'" data-src="'+p.id+'">'+
-      '<div class="dp-title">'+esc(pkgTitle(p))+'</div>'+
-      '<div class="dp-sub">'+t('n_words',p.words.length)+' · '+pct+'%</div>'+
+    const ready=pkgReady(p.id);
+    const busy=!!pkgFetching[p.id];
+    // The sub-line says what tapping will do. A package that is not on this
+    // device still shows its progress, because progress syncs and the download
+    // does not -- someone who studied it on their phone should see that here.
+    const state=busy?t('pkg_getting'):(ready?'':' · '+t('pkg_not_held'));
+    return '<button class="deck-item'+(CTX.type==='pkg'&&CTX.id===p.id?' on':'')+(busy?' busy':'')+
+      '" data-src="'+p.id+'" data-pkg="'+esc(p.id)+'"'+(busy?' disabled':'')+'>'+
+      '<div class="dp-title">'+esc(pkgTitle(p))+(ready?'':'<span class="dp-dl">'+DOWNLOAD_SVG+'</span>')+'</div>'+
+      '<div class="dp-sub">'+(busy?esc(t('pkg_getting')):t('n_words',p.count|0)+' · '+pct+'%'+esc(state))+'</div>'+
       '<div class="dp-bar"><i style="width:'+pct+'%"></i></div></button>';
   }).join('');
   $('#deckBody').innerHTML='<h3 style="text-align:center">'+t('deck_pick_title')+'</h3>'+
@@ -2248,14 +2176,28 @@ function renderDeckPicker(){
     e.stopPropagation();
     deckEditing=b.dataset.edit;renderDeckPicker();
   });
-  $$('#deckBody .deck-item[data-src]').forEach(b=>b.onclick=()=>{
-    setSource(b.dataset.src);
+  const openSource=src=>{
+    setSource(src);
     closeDeckPicker();
     // Re-render whichever view the user is already on so switching decks
     // reflects immediately, instead of always bouncing back to the list.
     // Home carries the deck bar too, so it belongs in this set.
     const active=$$('.view').find(v=>v.classList.contains('active'));
     go(active&&/^v-(home|list|study|quiz)$/.test(active.id)?active.id:'v-list');
+  };
+  $$('#deckBody .deck-item[data-src]').forEach(b=>b.onclick=async()=>{
+    const pkgId=b.dataset.pkg;
+    // A package the device does not hold yet is fetched here rather than behind
+    // a separate "download" button: tapping it means "I want to study this",
+    // and making that two steps would be ceremony for its own sake.
+    if(pkgId&&!pkgReady(pkgId)){
+      if(!navigator.onLine){toast(t('pkg_offline'));return;}
+      renderDeckPicker();                       // repaint the row as busy
+      try{ await downloadPkg(pkgId); }
+      catch(e){ console.warn('package download failed',e); toast(t('pkg_fail')); renderDeckPicker(); return; }
+      renderDeckPicker();
+    }
+    openSource(b.dataset.src);
   });
   $('#deckClose').onclick=closeDeckPicker;
 }

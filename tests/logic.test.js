@@ -243,5 +243,25 @@ console.log('\nwithRanks / stable order');
   t('empty input does not throw',()=>M.withRanks([],'streak').length===0||'no');
 }
 
+console.log('\npkgProgressPct (works before the words are downloaded)');
+{
+  // The catalogue knows the size; the word list may not be on this device.
+  // Progress syncs between devices, the download does not, so the picker has to
+  // show a real number for a package it does not hold.
+  const setup=(count,prog)=>{ M.__setPkg([{id:'p',v:1,count}], {p:prog}); };
+  t('no progress is 0%',()=>{ setup(50,{}); return M.pkgProgressPct('p')===0||M.pkgProgressPct('p'); });
+  t('unknown package is 0%',()=>{ setup(50,{}); return M.pkgProgressPct('zzz')===0||'not 0'; });
+  t('a package with no count is 0% and does not divide by zero',()=>{
+    setup(0,{a:{box:3}}); return M.pkgProgressPct('p')===0||M.pkgProgressPct('p'); });
+  t('every word at the top box is 100%',()=>{
+    const prog={}; for(let i=0;i<10;i++)prog['w'+i]={box:INTERVALS.length-1};
+    setup(10,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
+  t('unlearned words count as zero, not negative',()=>{
+    setup(10,{a:{box:-1},b:{box:-1}}); return M.pkgProgressPct('p')===0||M.pkgProgressPct('p'); });
+  t('more progress keys than the catalogue count still caps at 100',()=>{
+    const prog={}; for(let i=0;i<80;i++)prog['w'+i]={box:INTERVALS.length-1};
+    setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);
