@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.11.0 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.11.1 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -339,6 +339,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">発音ボタンを絵文字からSVGに</div><div class="d">🔊の絵文字は<b>プラットフォームが描くので端末ごとに形が違い</b>、単色SVGに揃えた他のアイコンから浮いていた。「単語を聞く」タイルと<code>SPEAKER_SVG</code>を共有している（別々に持つと片方だけ直して食い違う）。サイズは文脈で切り替え——一覧は隣の文字に合わせて<code>em</code>、カードと出題は単独で置かれるので固定24px。<b><code>em</code>だけにしたら16pxのラッパーを継いで、置き換える前の絵文字より小さくなった。</b></div><div class="ver">v5.11.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">同点なのに順位が入れ替わって見えた</div><div class="d">並び順にタイブレークが無く、<b>Firestoreが返した順のまま</b>だったので、同じ回数の2人の順位が更新のたびに入れ替わった。uidでタイブレークして安定させたうえで、<b>同点は同じ順位（1,2,2,4）</b>にした。配列の位置で番号を振ると、まったく同じ連続日数の相手に「あなたが下」と言うことになる。</div><div class="ver">v5.11.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">遅い応答が現在の種目を上書きしていた</div><div class="d">種目を素早く切り替えると、<b>前の種目の応答が後から届いて現在の一覧を書き換えていた</b>。チップは「連続日数」なのに中身は「今日の復習」という状態。描画前に<code>rankMetric</code>が変わっていないか確認する。回線が遅いほど出やすい。</div><div class="ver">v5.11.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">キャッシュが1種目分しか無く読み取りを浪費していた</div><div class="d">チップを行き来するたびに再取得しており、<b>1回200ドキュメント読む</b>。8タップで1400読み取りになっていた。<b>無料枠は1日5万読み取り</b>なので実際に効く。種目ごとにキャッシュを持たせ、8タップで5取得（1000）に。</div><div class="ver">v5.11.0</div></div></li>
