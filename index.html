@@ -207,6 +207,30 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-score{text-align:center;padding:40px 20px}
 .q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--ink-strong)}
 .q-score .lbl{color:var(--muted);margin:6px 0 26px}
+/* --- spell mode ------------------------------------------------------- */
+.sp-disp{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
+  min-height:56px;align-items:center;margin:16px 0 4px}
+.sp-slot{width:34px;height:46px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-family:Georgia,'Times New Roman',serif;font-size:24px;
+  font-weight:600;color:var(--ink-strong);background:var(--surface-2);
+  border-bottom:2.5px solid var(--line);text-transform:lowercase}
+.sp-slot.filled{background:var(--surface);border-bottom-color:var(--fill)}
+.sp-slot.gap{width:14px;background:none;border-bottom-color:transparent}
+.sp-slot.cur{border-bottom-color:var(--accent);box-shadow:0 2px 0 -0.5px var(--accent)}
+.sp-disp.ok .sp-slot{background:var(--good-bg);border-bottom-color:var(--good);color:var(--good-ink)}
+
+/* Sized and spaced like a phone keyboard so the muscle memory transfers. */
+.sp-kb{margin-top:16px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.sp-row{display:flex;gap:5px;justify-content:center;margin-bottom:7px}
+.sp-row.r2{padding:0 4.5%}
+.sp-key{flex:1;min-width:0;height:46px;border-radius:7px;border:none;
+  background:var(--surface);color:var(--ink-strong);
+  font-family:inherit;font-size:19px;font-weight:500;cursor:pointer;
+  box-shadow:0 1px 0 rgba(0,0,0,.35);transition:background .04s,transform .04s}
+.sp-key.wide{flex:1.5;font-size:16px;background:var(--ghost-bg)}
+.sp-key.space{flex:6;font-size:13px}
+.sp-key.down{background:var(--fill);color:#fff;transform:translateY(1px);box-shadow:none}
+@media (min-width:520px){ .sp-key{height:50px;font-size:20px} }
 .q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
   background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
@@ -675,6 +699,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         <div><div class="st" data-i18n="st_quiztype">クイズのタイプ</div><div class="sd" id="quizTypeDesc"></div></div>
         <div class="seg" id="segQuizType">
           <button data-v="choice" data-i18n="opt_choice">4択</button>
+          <button data-v="spell" data-i18n="opt_spell">スペル入力</button>
           <button data-v="input" data-i18n="opt_input">意味入力</button>
         </div>
       </div>
@@ -756,13 +781,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.2.0';
+const APP_VERSION='5.3.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.2.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.3.0',date:'2026-08-23',keys:['wn1','wn2','wn3']},
+  {version:'5.2.0',date:'2026-08-23',keys:['v520_1','v520_2','v520_3']},
   {version:'5.1.0',date:'2026-08-23',keys:['v510_1','v510_2','v510_3']},
   {version:'5.0.0',date:'2026-08-23',keys:['v500_1','v500_2','v500_3']},
   {version:'4.9.0',date:'2026-08-23',keys:['v490_1','v490_2']},
@@ -909,9 +935,12 @@ const T={
   v430_1:{ja:'アカウント登録がメールアドレスとPINになりました。PINを忘れてもメールで復旧できます。すでにユーザー名で登録済みの方は、これまでどおりユーザー名でもログインできます',en:'Accounts are now created with an email address and a PIN, so a forgotten PIN can be recovered by email. If you signed up with a username, that still works for logging in',zh:'现在使用邮箱和 PIN 注册账号，忘记 PIN 也可通过邮箱找回。此前用用户名注册的用户仍可继续用用户名登录',fr:'Les comptes se créent désormais avec une adresse e-mail et un PIN : un PIN oublié se récupère par e-mail. Si vous vous êtes inscrit avec un nom d’utilisateur, il fonctionne toujours pour la connexion',ar:'أصبح إنشاء الحساب بالبريد الإلكتروني ورمز PIN، فيمكن استعادة الرمز المنسي عبر البريد. ومن سجّل باسم مستخدم سابقًا يمكنه الاستمرار في الدخول به',ko:'계정 등록이 이메일 주소와 PIN 방식으로 바뀌었습니다. PIN을 잊어도 이메일로 복구할 수 있습니다. 기존에 사용자 이름으로 가입한 분은 그대로 사용자 이름으로도 로그인할 수 있습니다',ru:'Аккаунт теперь создаётся по адресу почты и PIN, поэтому забытый PIN можно восстановить письмом. Если вы регистрировались по имени пользователя, вход по нему по-прежнему работает'},
   v430_2:{ja:'ニックネームを設定できるようになりました。今後のランキングやフレンド機能で表示される名前で、日本語でも英語でも登録できます。変更は7日に1度までです',en:'You can now set a nickname — the name that will appear in the rankings and friend features to come. Any language is fine, and it can be changed once every 7 days',zh:'现在可以设置昵称，将用于今后的排行榜与好友功能，支持任何语言，每 7 天可修改一次',fr:'Vous pouvez désormais choisir un pseudo, le nom qui apparaîtra dans les classements et les fonctions d’amis à venir. Toutes les langues sont acceptées, modifiable tous les 7 jours',ar:'يمكنك الآن تعيين لقب، وهو الاسم الذي سيظهر في قوائم الترتيب وميزات الأصدقاء القادمة. أي لغة مقبولة، ويمكن تغييره مرة كل 7 أيام',ko:'닉네임을 설정할 수 있게 되었습니다. 앞으로의 랭킹·친구 기능에 표시되는 이름이며, 어떤 언어로도 등록할 수 있고 7일에 한 번 변경할 수 있습니다',ru:'Теперь можно задать имя — оно появится в будущих рейтингах и функциях друзей. Подойдёт любой язык, менять можно раз в 7 дней'},
   v430_3:{ja:'メニューの「ログイン」を「プロフィール」に変更し、ニックネームや同期の状態をまとめて確認できるようにしました',en:'“Log in” in the menu is now “Profile”, where your nickname and sync status live together',zh:'菜单中的「登录」已改为「个人资料」，昵称与同步状态集中在一处查看',fr:'« Se connecter » devient « Profil » dans le menu : pseudo et état de synchronisation au même endroit',ar:'أصبح «تسجيل الدخول» في القائمة «الملف الشخصي»، حيث يجتمع لقبك وحالة المزامنة',ko:'메뉴의 «로그인»을 «프로필»로 바꾸어, 닉네임과 동기화 상태를 한곳에서 확인할 수 있게 했습니다',ru:'Пункт «Войти» в меню стал «Профилем» — там же имя и статус синхронизации'},
-  wn1:{ja:'復習の間隔を見直しました。1→2→4→7→12→21→35→60→90日になり、忘れやすい最初の数回を短めにしています。これまでは最初が1日→3日と大きく飛んでいました',en:'Reworked the review intervals: 1, 2, 4, 7, 12, 21, 35, 60 and 90 days, with the first few closer together where forgetting is fastest. The old ladder jumped from 1 day straight to 3',zh:'调整了复习间隔：1→2→4→7→12→21→35→60→90 天，最容易遗忘的前几次更密集。此前第一步是 1 天直接跳到 3 天',fr:'Intervalles de révision revus : 1, 2, 4, 7, 12, 21, 35, 60 et 90 jours, plus rapprochés au début là où l’oubli est le plus rapide. L’ancien passait de 1 jour à 3 d’un coup',ar:'أُعيد ضبط فترات المراجعة: 1 و2 و4 و7 و12 و21 و35 و60 و90 يومًا، مع تقارب المرات الأولى حيث النسيان أسرع. كان التدرّج السابق يقفز من يوم إلى ثلاثة',ko:'복습 간격을 재조정했습니다. 1→2→4→7→12→21→35→60→90일이 되어, 가장 잊기 쉬운 초반을 짧게 잡았습니다. 이전에는 1일에서 3일로 크게 뛰었습니다',ru:'Пересчитаны интервалы повторения: 1, 2, 4, 7, 12, 21, 35, 60 и 90 дней — в начале чаще, там забывание быстрее. Раньше первый шаг прыгал с 1 дня сразу на 3'},
-  wn2:{ja:'何度も間違える単語を「苦手」として見つけるようにしました。リストで印が付き、絞り込みや「苦手だけの復習」もできます。間違えた直後にはその場でメモを書けるので、自分の覚え方を残せます',en:'Words you keep missing are now flagged as Trouble words: marked in the list, filterable, and drillable on their own. Miss one and you can write your own memory hook right there',zh:'反复答错的单词会被标为「易错」：列表中显示标记，可筛选，也可只复习这些词。答错后可当场写下自己的记忆点',fr:'Les mots que vous ratez sans cesse sont marqués « difficiles » : signalés dans la liste, filtrables, révisables à part. En cas d’erreur, vous pouvez noter votre propre astuce sur-le-champ',ar:'الكلمات التي تخطئ فيها مرارًا تُوسم بـ«صعبة»: تظهر معلَّمة في القائمة ويمكن تصفيتها ومراجعتها وحدها، وعند الخطأ يمكنك كتابة طريقتك للتذكر فورًا',ko:'자주 틀리는 단어를 «취약»으로 표시합니다. 목록에 표시되고, 필터링과 «취약 단어만 복습»도 가능합니다. 틀린 직후 그 자리에서 메모를 적어 자기만의 암기법을 남길 수 있습니다',ru:'Слова, в которых вы постоянно ошибаетесь, помечаются как трудные: видны в списке, фильтруются и повторяются отдельно. Ошиблись — тут же запишите свою подсказку'},
-  wn3:{ja:'今日の復習が3語しかないときに復習を始められなかった不具合を直しました。4択の選択肢は単語帳全体から作るので、出題が少なくても問題なく出せます',en:'Fixed being unable to start a review when only a few words were due. The four options come from your whole notebook, so a short round works fine',zh:'修复了当天只有少量待复习单词时无法开始复习的问题。四个选项取自整本单词本，因此题量少也能正常出题',fr:'Correction : impossible de lancer une révision quand peu de mots étaient dus. Les quatre choix viennent de tout le carnet, donc une courte session fonctionne',ar:'أُصلح تعذّر بدء المراجعة عندما تكون الكلمات المستحقة قليلة. الخيارات الأربعة تأتي من الدفتر كله، لذا تعمل الجولة القصيرة بلا مشكلة',ko:'오늘의 복습이 3단어뿐일 때 복습을 시작할 수 없던 문제를 고쳤습니다. 4지선다의 선택지는 단어장 전체에서 만들기 때문에 문제 수가 적어도 정상적으로 출제됩니다',ru:'Исправлено: нельзя было начать повторение, когда слов к повтору было мало. Четыре варианта берутся из всей колоды, поэтому короткий раунд работает'},
+  wn1:{ja:'新しい出題形式「スペル入力」を追加しました（設定 → 学習 → クイズのタイプ）。意味を見て英単語をタイプし、正しく打てた瞬間に正解になります。答え合わせボタンはありません',en:'New quiz type: Spelling (Settings → Studying → Quiz format). You see the meaning and type the English word — it is marked correct the moment you finish it. There is no check button',zh:'新增出题形式「拼写输入」（设置 → 学习 → 出题形式）。看释义输入单词，拼对的瞬间即判定正确，无需点击确认',fr:'Nouveau format : Orthographe (Réglages → Apprentissage). Vous voyez le sens et tapez le mot — validé dès qu’il est complet, sans bouton de vérification',ar:'صيغة جديدة: «الإملاء» (الإعدادات ← الدراسة). تشاهد المعنى وتكتب الكلمة، وتُحتسب صحيحة لحظة اكتمالها دون زر تحقّق',ko:'새 출제 형식 «스펠링 입력»을 추가했습니다(설정 → 학습 → 퀴즈 타입). 뜻을 보고 영단어를 입력하면, 정확히 입력한 순간 정답이 됩니다. 확인 버튼은 없습니다',ru:'Новый формат: «Написание» (Настройки → Обучение). Вы видите значение и набираете слово — засчитывается в момент, когда оно закончено, без кнопки проверки'},
+  wn2:{ja:'スペル入力には専用のキーボードを搭載しました。標準キーボードは予測変換で答えが出てしまうためです。1文字ごとに軽いタップ音が鳴ります。パソコンではキーボードは表示されず、そのままキー入力できます',en:'Spelling mode ships its own keyboard, because the system keyboard’s predictive bar would hand you the answer. Each key gives a light tap sound. On a computer no keyboard appears — just type',zh:'拼写模式内置了专用键盘：系统键盘的联想候选会直接泄露答案。每次按键有轻微敲击音。在电脑上不显示键盘，直接用实体键盘输入',fr:'Le mode Orthographe embarque son propre clavier : la barre de suggestions du clavier système donnerait la réponse. Chaque touche émet un léger clic. Sur ordinateur, aucun clavier ne s’affiche',ar:'يأتي وضع الإملاء بلوحة مفاتيح خاصة، لأن اقتراحات لوحة المفاتيح النظامية تكشف الإجابة. لكل ضغطة نقرة خفيفة. وعلى الحاسوب لا تظهر لوحة مفاتيح، بل اكتب مباشرة',ko:'스펠링 입력에는 전용 키보드를 넣었습니다. 시스템 키보드의 예측 변환이 답을 노출하기 때문입니다. 한 글자마다 가벼운 탭 소리가 납니다. PC에서는 키보드가 표시되지 않고 그대로 입력할 수 있습니다',ru:'В режиме написания своя клавиатура: подсказки системной клавиатуры выдали бы ответ. Каждое нажатие даёт лёгкий щелчок. На компьютере клавиатура не показывается — просто печатайте'},
+  wn3:{ja:'ヒントは3段階です。1回目で文字数、2回目で最初の1文字、3回目でボタンが「答えを見る」に変わります。答えを見た場合は不正解の扱いです。正解音も、より達成感のある音に変えました',en:'Hints come in three steps: the letter count, then the first letter, then the button becomes Show the answer. Revealing it counts as a miss. The correct-answer sound is brighter too',zh:'提示分三级：先给字数，再给首字母，第三次按钮变为「查看答案」。查看答案计为答错。正确音效也更清亮了',fr:'Trois niveaux d’indice : le nombre de lettres, puis la première lettre, puis le bouton devient « Voir la réponse ». Révéler compte comme une erreur. Le son de bonne réponse est plus éclatant',ar:'التلميحات على ثلاث مراحل: عدد الحروف ثم الحرف الأول ثم يتحول الزر إلى «عرض الإجابة». وكشف الإجابة يُحتسب خطأً. كما أصبح صوت الإجابة الصحيحة أكثر إشراقًا',ko:'힌트는 3단계입니다. 1번째는 글자 수, 2번째는 첫 글자, 3번째에 버튼이 «정답 보기»로 바뀝니다. 정답을 보면 오답 처리입니다. 정답 소리도 더 상쾌하게 바꿨습니다',ru:'Подсказка в три шага: число букв, затем первая буква, затем кнопка становится «Показать ответ». Показ ответа засчитывается как ошибка. Звук верного ответа стал ярче'},
+  v520_1:{ja:'復習の間隔を見直しました。1→2→4→7→12→21→35→60→90日になり、忘れやすい最初の数回を短めにしています。これまでは最初が1日→3日と大きく飛んでいました',en:'Reworked the review intervals: 1, 2, 4, 7, 12, 21, 35, 60 and 90 days, with the first few closer together where forgetting is fastest. The old ladder jumped from 1 day straight to 3',zh:'调整了复习间隔：1→2→4→7→12→21→35→60→90 天，最容易遗忘的前几次更密集。此前第一步是 1 天直接跳到 3 天',fr:'Intervalles de révision revus : 1, 2, 4, 7, 12, 21, 35, 60 et 90 jours, plus rapprochés au début là où l’oubli est le plus rapide. L’ancien passait de 1 jour à 3 d’un coup',ar:'أُعيد ضبط فترات المراجعة: 1 و2 و4 و7 و12 و21 و35 و60 و90 يومًا، مع تقارب المرات الأولى حيث النسيان أسرع. كان التدرّج السابق يقفز من يوم إلى ثلاثة',ko:'복습 간격을 재조정했습니다. 1→2→4→7→12→21→35→60→90일이 되어, 가장 잊기 쉬운 초반을 짧게 잡았습니다. 이전에는 1일에서 3일로 크게 뛰었습니다',ru:'Пересчитаны интервалы повторения: 1, 2, 4, 7, 12, 21, 35, 60 и 90 дней — в начале чаще, там забывание быстрее. Раньше первый шаг прыгал с 1 дня сразу на 3'},
+  v520_2:{ja:'何度も間違える単語を「苦手」として見つけるようにしました。リストで印が付き、絞り込みや「苦手だけの復習」もできます。間違えた直後にはその場でメモを書けるので、自分の覚え方を残せます',en:'Words you keep missing are now flagged as Trouble words: marked in the list, filterable, and drillable on their own. Miss one and you can write your own memory hook right there',zh:'反复答错的单词会被标为「易错」：列表中显示标记，可筛选，也可只复习这些词。答错后可当场写下自己的记忆点',fr:'Les mots que vous ratez sans cesse sont marqués « difficiles » : signalés dans la liste, filtrables, révisables à part. En cas d’erreur, vous pouvez noter votre propre astuce sur-le-champ',ar:'الكلمات التي تخطئ فيها مرارًا تُوسم بـ«صعبة»: تظهر معلَّمة في القائمة ويمكن تصفيتها ومراجعتها وحدها، وعند الخطأ يمكنك كتابة طريقتك للتذكر فورًا',ko:'자주 틀리는 단어를 «취약»으로 표시합니다. 목록에 표시되고, 필터링과 «취약 단어만 복습»도 가능합니다. 틀린 직후 그 자리에서 메모를 적어 자기만의 암기법을 남길 수 있습니다',ru:'Слова, в которых вы постоянно ошибаетесь, помечаются как трудные: видны в списке, фильтруются и повторяются отдельно. Ошиблись — тут же запишите свою подсказку'},
+  v520_3:{ja:'今日の復習が3語しかないときに復習を始められなかった不具合を直しました。4択の選択肢は単語帳全体から作るので、出題が少なくても問題なく出せます',en:'Fixed being unable to start a review when only a few words were due. The four options come from your whole notebook, so a short round works fine',zh:'修复了当天只有少量待复习单词时无法开始复习的问题。四个选项取自整本单词本，因此题量少也能正常出题',fr:'Correction : impossible de lancer une révision quand peu de mots étaient dus. Les quatre choix viennent de tout le carnet, donc une courte session fonctionne',ar:'أُصلح تعذّر بدء المراجعة عندما تكون الكلمات المستحقة قليلة. الخيارات الأربعة تأتي من الدفتر كله، لذا تعمل الجولة القصيرة بلا مشكلة',ko:'오늘의 복습이 3단어뿐일 때 복습을 시작할 수 없던 문제를 고쳤습니다. 4지선다의 선택지는 단어장 전체에서 만들기 때문에 문제 수가 적어도 정상적으로 출제됩니다',ru:'Исправлено: нельзя было начать повторение, когда слов к повтору было мало. Четыре варианта берутся из всей колоды, поэтому короткий раунд работает'},
   v510_1:{ja:'単語リストに絞り込みを追加しました。「今日の復習」「未学習」「学習済み」で切り替えられ、それぞれの語数も表示されます。検索と組み合わせても使えます',en:'Added filters to the word list: Due, Not started and Learned, each showing how many. They combine with search',zh:'单词列表新增筛选：待复习／未学习／已学习，并显示各自数量，可与搜索组合使用',fr:'Filtres ajoutés à la liste : à revoir, non commencés, appris — avec le nombre pour chacun. Ils se combinent avec la recherche',ar:'أُضيفت فلاتر إلى قائمة الكلمات: للمراجعة، لم تبدأ، مُتعلَّمة، مع عدد كل منها، وتعمل مع البحث معًا',ko:'단어 목록에 필터를 추가했습니다. 복습 대상·미학습·학습 완료로 전환할 수 있고 각각의 단어 수도 표시됩니다. 검색과 함께 사용할 수 있습니다',ru:'В списке слов появились фильтры: к повтору, не начаты, изучены — с количеством у каждого. Работают вместе с поиском'},
   v510_2:{ja:'設定を整理しました。「言語」「表示」「音声・効果音」「学習」「データ」「ヘルプ」の6つに分け、そこから開く形にしています。長い1画面を延々とスクロールする必要がなくなりました',en:'Settings are reorganised into six categories — Language, Appearance, Sound, Studying, Data and Help — that you open from a list, instead of one long scroll',zh:'设置已重新整理为「语言」「显示」「声音」「学习」「数据」「帮助」六大类，从列表进入，不必再滚动一整屏',fr:'Les réglages sont réorganisés en six catégories — Langue, Apparence, Son, Apprentissage, Données, Aide — ouvertes depuis une liste, au lieu d’un long défilement',ar:'أُعيد تنظيم الإعدادات في ست فئات: اللغة والمظهر والصوت والدراسة والبيانات والمساعدة، تُفتح من قائمة بدل التمرير الطويل',ko:'설정을 「언어」「화면」「소리」「학습」「데이터」「도움말」의 6가지로 정리해 목록에서 열도록 바꿨습니다. 긴 화면을 계속 스크롤할 필요가 없어졌습니다',ru:'Настройки разложены по шести разделам — язык, оформление, звук, обучение, данные и помощь — которые открываются из списка вместо одной длинной прокрутки'},
   v510_3:{ja:'「PIN」が何なのか分かりにくいというご意見をいただいたので、「6桁の数字パスワード」と明記するようにしました',en:'“PIN” wasn’t clear to everyone, so it now says plainly that it is a 6-digit number used as your password',zh:'有反馈称不清楚「PIN」是什么，现已明确标注为「6 位数字密码」',fr:'« PIN » n’était pas clair pour tout le monde : il est désormais précisé qu’il s’agit d’un mot de passe à 6 chiffres',ar:'لم تكن كلمة «PIN» واضحة للجميع، فصار مكتوبًا صراحةً أنها كلمة مرور من 6 أرقام',ko:'「PIN」이 무엇인지 알기 어렵다는 의견이 있어 「6자리 숫자 비밀번호」라고 명확히 표기했습니다',ru:'Слово «PIN» многим было непонятно — теперь прямо указано, что это пароль из шести цифр'},
@@ -1244,6 +1273,13 @@ const T={
   st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형',ru:'Тип теста'},
   desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택',ru:'Выбор из 4 вариантов'},
   desc_quiztype_input:{ja:'自分で入力。意味が近ければ正解＋正答を表示',en:'Type it in. Close answers count, with the correct one shown',zh:'自己输入，意思接近即算对并显示答案',fr:'Saisie libre. Les réponses proches comptent, avec la bonne affichée',ar:'الكتابة يدويًا. الإجابات القريبة تُحتسب مع عرض الصحيحة',ko:'직접 입력. 뜻이 비슷하면 정답 처리하고 정답을 표시',ru:'Ввод вручную. Близкие ответы засчитываются, показывается верный'},
+  opt_spell:{ja:'スペル入力',en:'Spelling',zh:'拼写输入',fr:'Orthographe',ar:'الإملاء',ko:'스펠링 입력',ru:'Написание'},
+  prompt_spell:{ja:'この意味の単語を入力',en:'Type the word for this meaning',zh:'输入对应这个意思的单词',fr:'Tapez le mot correspondant',ar:'اكتب الكلمة المقابلة لهذا المعنى',ko:'이 뜻에 해당하는 단어를 입력',ru:'Введите слово с этим значением'},
+  sp_hint:{ja:'ヒントを見る',en:'Show a hint',zh:'查看提示',fr:'Voir un indice',ar:'عرض تلميح',ko:'힌트 보기',ru:'Показать подсказку'},
+  sp_reveal:{ja:'答えを見る',en:'Show the answer',zh:'查看答案',fr:'Voir la réponse',ar:'عرض الإجابة',ko:'정답 보기',ru:'Показать ответ'},
+  sp_space:{ja:'スペース',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
+  sp_type_hint:{ja:'キーボードで入力してください。Enterでヒント、Backspaceで1文字削除。',en:'Type on your keyboard. Enter for a hint, Backspace to delete a letter.',zh:'请用键盘输入。Enter 查看提示，Backspace 删除一个字母。',fr:'Tapez au clavier. Entrée pour un indice, Retour arrière pour effacer une lettre.',ar:'اكتب باستخدام لوحة المفاتيح. Enter للتلميح وBackspace لحذف حرف.',ko:'키보드로 입력하세요. Enter는 힌트, Backspace는 한 글자 삭제입니다.',ru:'Печатайте на клавиатуре. Enter — подсказка, Backspace — удалить букву.'},
+  desc_quiztype_spell:{ja:'意味を見てスペルを入力。正しく打てた瞬間に正解になります',en:'See the meaning, type the spelling. It is marked correct the moment you finish the word',zh:'看释义输入拼写，拼对的瞬间即判定正确',fr:'Voyez le sens, tapez l’orthographe : validé dès que le mot est complet',ar:'انظر إلى المعنى واكتب التهجئة؛ تُحتسب صحيحة لحظة اكتمال الكلمة',ko:'뜻을 보고 스펠링을 입력합니다. 정확히 입력한 순간 정답이 됩니다',ru:'Видите значение — набираете написание; засчитывается в тот момент, когда слово закончено'},
   opt_choice:{ja:'4択',en:'Choice',zh:'选择',fr:'Choix',ar:'اختيار',ko:'선택',ru:'Выбор'},
   opt_input:{ja:'意味入力',en:'Type',zh:'输入',fr:'Saisie',ar:'كتابة',ko:'입력',ru:'Ввод'},
   st_dir:{ja:'出題の向き',en:'Direction',zh:'出题方向',fr:'Sens de la question',ar:'اتجاه السؤال',ko:'출제 방향',ru:'Направление'},
@@ -1717,6 +1753,41 @@ function tone(ctx,freq,at,dur,peak){
   o.start(t0);
   o.stop(t0+dur+0.02);
 }
+// A key tap has to be instant and cost nothing: it fires on every keystroke.
+// The noise buffer is built once and replayed, since allocating one per press
+// is wasteful and audibly late on a slow phone.
+let tapBuf=null;
+function keyTapBuffer(ctx){
+  if(tapBuf)return tapBuf;
+  const n=Math.floor(ctx.sampleRate*0.012);
+  tapBuf=ctx.createBuffer(1,n,ctx.sampleRate);
+  const d=tapBuf.getChannelData(0);
+  for(let i=0;i<n;i++){
+    // Noise under a steep decay -- that short filtered burst is what a phone
+    // keyboard actually sounds like, far more than a musical tone does.
+    d[i]=(Math.random()*2-1)*Math.pow(1-i/n,3.5);
+  }
+  return tapBuf;
+}
+function playKeyTap(kind){
+  if(!S().sound)return;
+  const g=TONE_LEVEL*masterVol();
+  if(g<=0)return;
+  const ctx=getAudioCtx();
+  if(!ctx)return;
+  if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+  try{
+    const src=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),gn=ctx.createGain();
+    src.buffer=keyTapBuffer(ctx);
+    bp.type='bandpass';
+    // Backspace sits lower so it reads as "undo" without a separate sound.
+    bp.frequency.value=kind==='del'?900:2100;
+    bp.Q.value=0.9;
+    gn.gain.value=g*(kind==='del'?0.34:0.28);
+    src.connect(bp);bp.connect(gn);gn.connect(ctx.destination);
+    src.start();
+  }catch(e){}
+}
 function playAnswerSound(ok){
   if(!S().sound)return;
   const g=TONE_LEVEL*masterVol();
@@ -1728,8 +1799,13 @@ function playAnswerSound(ok){
   if(ctx.state==='suspended')ctx.resume().catch(()=>{});
   try{
     if(ok){
-      tone(ctx,784,0,0.13,g);        // G5
-      tone(ctx,1046.5,0.10,0.22,g*0.82); // C6 -- a rising third reads as "yes"
+      // An ascending major triad, each note overlapping the last, plus a
+      // quiet octave on top. A two-note cue said "yes"; this one is meant to
+      // feel like something landed.
+      tone(ctx,1046.5,0,0.11,g*0.85);      // C6
+      tone(ctx,1318.5,0.055,0.13,g*0.85);  // E6
+      tone(ctx,1568.0,0.11,0.30,g*0.90);   // G6
+      tone(ctx,2093.0,0.13,0.26,g*0.30);   // C7, just a shimmer
     }else{
       // Descending, and still deliberately not a buzzer: in a study app a
       // harsh noise on every miss is a reason to stop studying.
@@ -3332,7 +3408,7 @@ function startQuiz(mode){
     body.innerHTML=modeTabs+'<div class="empty"><div class="big">✅</div>'+t('quiz_done')+'<br><span style="font-size:12.5px">'+t('quiz_done_sub')+'</span></div>';
     bindModeTabs();return;
   }
-  const need=S().quizType==='choice'?4:1;
+  const need=S().quizType==='choice'?4:1;   // only 4-choice needs a pool to draw options from
   // The four options come from the whole deck, not from this round, so the
   // round only has to be non-empty. Requiring four QUESTIONS meant three due
   // words could not be reviewed at all -- and made the new Trouble tab a dead
@@ -3354,14 +3430,172 @@ function bindModeTabs(){
   // rewired those buttons to startQuiz(undefined).
   $$('#quizBody .q-mode-tabs button').forEach(b=>b.onclick=()=>startQuiz(b.dataset.m));
 }
+/* ---------- spell mode -------------------------------------------------- */
+// Meaning on screen, type the English spelling. Judged the instant the buffer
+// matches, with no submit button -- the moment you finish the word IS the
+// answer, which is what makes it feel like recall rather than form-filling.
+//
+// It ships its own keyboard on touch devices for one specific reason: iOS and
+// Android show predictive candidates above the system keyboard, and for a
+// spelling test those candidates ARE the answer. There is no way to reliably
+// suppress them, so the system keyboard cannot be used here at all.
+let spell={buf:'',hint:0,done:false,target:''};
+const SPELL_ROWS=[
+  'qwertyuiop',
+  'asdfghjkl',
+  'zxcvbnm'
+];
+// A physical keyboard is always accepted -- a tablet with a case keyboard
+// should work -- but the on-screen one only appears where there is no other
+// way to type.
+function touchDevice(){
+  return (navigator.maxTouchPoints||0)>0 ||
+         (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+}
+function spellNorm(s){return (s||'').toLowerCase().replace(/\s+/g,' ').trim();}
+function spellTargetOf(w){return (w.word||'').trim();}
+
+function spellDisplayHTML(){
+  const tg=spell.target, n=tg.length;
+  // Once the length is known, laying the answer out as slots says the same
+  // thing as "7 letters" but keeps the position obvious while typing.
+  if(spell.hint>=1){
+    let out='';
+    for(let i=0;i<n;i++){
+      const ch=spell.buf[i]||'';
+      const isSpace=tg[i]===' ';
+      const cur=i===spell.buf.length&&!spell.done;
+      out+='<span class="sp-slot'+(isSpace?' gap':'')+(cur?' cur':'')+(ch?' filled':'')+'">'+esc(ch||'')+'</span>';
+    }
+    return out;
+  }
+  const typed=spell.buf.split('').map(c=>'<span class="sp-slot filled">'+esc(c)+'</span>').join('');
+  return typed+(spell.done?'':'<span class="sp-slot cur"></span>');
+}
+function renderSpellDisplay(){
+  const el=$('#spDisp');
+  if(el)el.innerHTML=spellDisplayHTML();
+}
+function spellKeyboardHTML(){
+  const needSpace=spell.target.includes(' ');
+  const extra=[];
+  if(spell.target.includes('-'))extra.push('-');
+  if(spell.target.includes("'"))extra.push("'");
+  let h='<div class="sp-kb">';
+  SPELL_ROWS.forEach((row,i)=>{
+    h+='<div class="sp-row'+(i===1?' r2':'')+'">';
+    if(i===2)h+='<button class="sp-key wide" data-k="__del" type="button" aria-label="backspace">⌫</button>';
+    row.split('').forEach(c=>{h+='<button class="sp-key" data-k="'+c+'" type="button">'+c+'</button>';});
+    if(i===2)h+='<button class="sp-key wide" data-k="__hint" type="button">?</button>';
+    h+='</div>';
+  });
+  if(needSpace||extra.length){
+    h+='<div class="sp-row">';
+    extra.forEach(c=>{h+='<button class="sp-key" data-k="'+esc(c)+'" type="button">'+esc(c)+'</button>';});
+    if(needSpace)h+='<button class="sp-key space" data-k=" " type="button">'+esc(t('sp_space'))+'</button>';
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+function spellHintLabel(){
+  return spell.hint>=2?t('sp_reveal'):t('sp_hint');
+}
+function spellPush(ch){
+  if(spell.done)return;
+  const max=spell.hint>=1?spell.target.length:spell.target.length+5;
+  if(spell.buf.length>=max)return;
+  spell.buf+=ch;
+  playKeyTap();
+  renderSpellDisplay();
+  checkSpell();
+}
+function spellDel(){
+  if(spell.done||!spell.buf.length)return;
+  // The first letter is given, not typed, so backspace must not eat it.
+  const floor=spell.hint>=2?1:0;
+  if(spell.buf.length<=floor)return;
+  spell.buf=spell.buf.slice(0,-1);
+  playKeyTap('del');
+  renderSpellDisplay();
+}
+function spellHint(){
+  if(spell.done)return;
+  const w=quiz.items[quiz.i];
+  if(spell.hint===0){
+    spell.hint=1;
+    gaEvent('spell_hint',{level:1});
+  }else if(spell.hint===1){
+    spell.hint=2;
+    if(!spell.buf)spell.buf=spell.target[0];
+    gaEvent('spell_hint',{level:2});
+  }else{
+    // Giving up. Marked wrong, because it was not recalled.
+    spell.done=true;
+    spell.buf=spell.target;
+    renderSpellDisplay();
+    gaEvent('spell_revealed',{});
+    finishSpell(w,false);
+    return;
+  }
+  const hb=$('#spHint');
+  if(hb)hb.textContent=spellHintLabel();
+  renderSpellDisplay();
+  const kb=$('#spKb');
+  if(kb)kb.innerHTML=spellKeyboardHTML(), bindSpellKeys();
+}
+function checkSpell(){
+  if(spell.done)return;
+  if(spellNorm(spell.buf)!==spellNorm(spell.target))return;
+  spell.done=true;
+  renderSpellDisplay();
+  const d=$('#spDisp');
+  if(d)d.classList.add('ok');
+  finishSpell(quiz.items[quiz.i],true);
+}
+function finishSpell(w,ok){
+  const kb=$('#spKb'); if(kb)kb.innerHTML='';
+  const hb=$('#spHint'); if(hb)hb.style.display='none';
+  grade(w,ok,spellTargetOf(w),true);
+}
+function bindSpellKeys(){
+  $$('#spKb .sp-key').forEach(b=>{
+    // pointerdown, not click: the tap has to answer immediately, and a click
+    // waits for the finger to lift.
+    b.onpointerdown=e=>{
+      e.preventDefault();
+      const k=b.dataset.k;
+      if(k==='__del')spellDel();
+      else if(k==='__hint')spellHint();
+      else spellPush(k);
+      b.classList.add('down');
+      setTimeout(()=>b.classList.remove('down'),90);
+    };
+  });
+}
+// A physical keyboard works everywhere, including on a tablet with a case.
+function spellKeyHandler(e){
+  if(!$('#spDisp')||spell.done)return;
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==='Backspace'){e.preventDefault();spellDel();return;}
+  if(e.key==='Enter'){e.preventDefault();spellHint();return;}
+  if(e.key.length===1&&/[a-zA-Z' -]/.test(e.key)){
+    e.preventDefault();
+    spellPush(e.key.toLowerCase());
+  }
+}
+document.addEventListener('keydown',spellKeyHandler);
+
 function renderQ(){
   clearTimeout(answerSpeakTimer);
   const body=$('#quizBody');
   const w=quiz.items[quiz.i];
   const dir=S().dir;
   const prog=Math.round(quiz.i/quiz.items.length*100);
-  const showEng=dir==='e2j';
-  const promptTxt=showEng?t('prompt_e2j'):t('prompt_j2e');
+  const spellMode=S().quizType==='spell';
+  // Spelling is inherently meaning -> word, so this mode overrides the
+  // direction setting rather than pretending to honour it.
+  const showEng=spellMode?false:dir==='e2j';
+  const promptTxt=spellMode?t('prompt_spell'):(showEng?t('prompt_e2j'):t('prompt_j2e'));
   const face=showEng?w.word:primaryMeaning(w);
   const kata=showEng?(w.kata||''):'';
 
@@ -3371,7 +3605,21 @@ function renderQ(){
     // would read out the answer the user is being asked to produce.
     '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
 
-  if(S().quizType==='choice'){
+  if(spellMode){
+    spell={buf:'',hint:0,done:false,target:spellTargetOf(w)};
+    inner+='<div id="spDisp" class="sp-disp"></div>'+
+      '<button class="btn btn-ghost" id="spHint" style="width:100%;margin-top:12px">'+esc(spellHintLabel())+'</button>'+
+      '<div id="spKb"></div>'+
+      '<div id="qfb"></div>';
+    body.innerHTML=inner;
+    bindModeTabs();
+    renderSpellDisplay();
+    $('#spHint').onclick=spellHint;
+    // Only where there is no other way to type: a system keyboard would show
+    // predictive candidates, and here those candidates are the answer.
+    if(touchDevice()){$('#spKb').innerHTML=spellKeyboardHTML();bindSpellKeys();}
+    else $('#spKb').innerHTML='<p class="hint" style="text-align:center;margin-top:14px">'+esc(t('sp_type_hint'))+'</p>';
+  }else if(S().quizType==='choice'){
     const correct=showEng?primaryMeaning(w):w.word;
     const others=pickDistractors(w,correct,showEng,3);
     const opts=shuffle([correct,...others]);
@@ -3572,7 +3820,9 @@ function renderSettings(){
   $('#swWeak').classList.toggle('on',S().weak);
   $('#swSound').classList.toggle('on',!!S().sound);
   renderVolumeRow();
-  $('#quizTypeDesc').textContent=S().quizType==='choice'?t('desc_quiztype_choice'):t('desc_quiztype_input');
+  $('#quizTypeDesc').textContent=
+    S().quizType==='choice'?t('desc_quiztype_choice'):
+    S().quizType==='spell'?t('desc_quiztype_spell'):t('desc_quiztype_input');
   const sel=$('#selLang');
   sel.value=S().lang;
   sel.onchange=()=>{S().lang=sel.value;save();applyStaticI18n();renderCount();if(CTX.type==='pkg')buildPkgLive(CTX.id);renderActiveView();renderSettings();};
