@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.3.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.4.0 時点 &middot; 最終更新 2026-08-23</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -336,6 +336,11 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">重大: カード裏の長い意味が上端で切れてスクロールできない</div><div class="d">利用者からの報告。<code>.face</code>が<code>justify-content:center</code>で、<b>フレックスの中央揃えは中身がはみ出すと上端を切り落とし、そこへスクロールできなくなる</b>という既知の挙動。実測で<b>104pxが到達不能</b>だった。<code>safe center</code>（はみ出す場合だけ先頭揃えに退避）へ変更。非対応ブラウザはこの宣言を無視して従来動作のままなので、退行はしない。</div><div class="ver">v5.4.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力キーボードを作り直し</div><div class="d">「?」を左、削除を右へ。<b>iPhoneのシフト／削除と同じ位置</b>にした——前の配置（削除が左）は押し間違いが多いとの声。削除キーはiOS同様のアイコンをSVGで描画。キー面・背面パネル・機能キーの3色を変数化し、ライト／ダークで別々に指定。</div><div class="ver">v5.4.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">出題形式「意味入力」を廃止</div><div class="d">スペル入力が入ったことで役割が重複。<b>これに伴い<code>closeEnough</code>／<code>norm</code>／<code>foldMarks</code>／<code>typoOk</code>が丸ごと不要になった</b>ので削除した（<code>norm</code>だけは4択の誤答選出でも使っていたため復活させた——削除直後に参照が残っていることに気づいた）。既存ユーザーの設定は「スペル入力」へ自動移行する。</div><div class="ver">v5.4.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">「自由学習」を今日の復習の後に出す／「苦手」タブの表示</div><div class="d">未着手の復習があるうちに自由学習を並べると、<b>スケジュールを守る側の行動を飛ばす誘いになる</b>ため、今日の復習が0になってから出す（自由学習の最中は消えないので周回は完了できる）。⚠️だけのタブは<b>エラー表示に見えて読みづらい</b>という指摘どおりなので、「苦手 3」と文字で出すようにした。</div><div class="ver">v5.4.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語の追加画面に追加先の単語帳を表示</div><div class="d">どの単語帳に入るのか画面から分からず、単語帳を切り替えたあとに取り違えやすかった。追加先をその場で変更でき、パッケージ選択中は「パッケージには追加できないため選んだ単語帳に入る」と明示する。</div><div class="ver">v5.4.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">出題形式「スペル入力」を追加</div><div class="d">意味を見て英単語をタイプし、<b>正しく打てた瞬間に正解</b>（答え合わせボタンなし）。4択と違い<b>消去法が効かない</b>ので、正解が「覚えている」証拠になる。<br>ヒントは3段階：文字数 → 最初の1文字 → 「答えを見る」。<b>ヒント使用は減点なし、答えを見たら不正解</b>とした——文字数と1文字を見ても綴りを出すのは自力であり、ヒントを罰するとヒントを使わず投げ出す方に倒れるため。</div><div class="ver">v5.3.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">スペル入力用の独自キーボード</div><div class="d"><b>標準キーボードは使えない</b>：iOS/Androidの予測変換バーに答えがそのまま出るうえ、確実に抑止する方法がない。QWERTY配列・iOS風の見た目・1文字ごとの軽いタップ音（BackspaceだけQ値の低い低め音）で自作。<br>タップ音は<b>ノイズバッファを1度だけ生成して再利用</b>する（毎回作ると低速端末で音が遅れる）。反応は<code>click</code>ではなく<code>pointerdown</code>——指を離すまで待つと打鍵感が出ない。<br><b>PCではキーボードを出さず物理キーで入力</b>。物理キーは常時受け付けるので、キーボード付きタブレットでも動く。</div><div class="ver">v5.3.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">正解音をより達成感のあるものに</div><div class="d">2音（G5→C6）から、上行する長三和音（C6→E6→G6）＋高オクターブの余韻に変更。</div><div class="ver">v5.3.0</div></div></li>

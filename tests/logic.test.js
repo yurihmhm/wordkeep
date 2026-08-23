@@ -1,5 +1,8 @@
 const M=require('./pure.js');
 const {DAY,INTERVALS}=M;
+// The meaning-typing quiz format was retired in v5.4.0, taking closeEnough,
+// foldMarks and typoOk with it. Their tests went too rather than being kept
+// alive against deleted code; git history has them if the format returns.
 let pass=0,fail=0;
 const t=(n,f)=>{try{const r=f();if(r===true){pass++;console.log('  PASS '+n);}else{fail++;console.log('  FAIL '+n+'  -> '+r);}}
                 catch(e){fail++;console.log('  FAIL '+n+'  -> threw '+e.message);}};
@@ -148,34 +151,6 @@ t('japanese',()=>M.nickLen('たろう')===3);
 
 
 /* --- appended: answer grading (see tests/README.md) --------------------- */
-
-console.log('\nanswer grading (closeEnough)');
-{
-  const w={word:'important',ja:'\u91cd\u8981\u306a',meanings:[{def:'having great value',defJa:'\u3068\u3066\u3082\u5927\u5207\u306a'}]};
-  const T=(a,tg,se)=>M.closeEnough(a,tg,w,se);
-  // Every script must survive normalization. norm() used to allowlist ASCII
-  // plus kana/CJK, so Cyrillic, Hangul and Arabic were erased and a correct
-  // answer graded WRONG -- which, under the strict SRS, reset the word.
-  [['\u0432\u0430\u0436\u043d\u044b\u0439','ru'],['\uc911\uc694\ud55c','ko'],['\u0645\u0647\u0645','ar'],
-   ['\u91cd\u8981\u7684','zh'],['important','en'],['\u91cd\u8981\u306a','ja'],['wichtig','de']]
-    .forEach(([p,l])=>t('exact answer in '+l,()=>T(p,p,true)===true||'graded wrong'));
-  t('accents optional (prefere = prefere)',()=>T('prefere','pr\u00e9f\u00e9r\u00e9',true)===true||'rejected');
-  t('typo: transposition',()=>T('importnat','important',false)===true||'rejected');
-  t('typo: dropped letter',()=>T('imortant','important',false)===true||'rejected');
-  t('partial prefix credited',()=>T('importan','important',false)===true||'rejected');
-  t('trailing inflection credited',()=>T('importantly','important',false)===true||'rejected');
-  // A single character that happens to appear in the answer used to grade as
-  // CORRECT -- and pushed the word out to a longer interval.
-  t('single char rejected (en)',()=>T('a','important',false)===false||'ACCEPTED');
-  t('single char rejected (ja)',()=>T('\u306a','\u91cd\u8981\u306a',true)===false||'ACCEPTED');
-  t('single char rejected (ru)',()=>T('\u0432','\u0432\u0430\u0436\u043d\u044b\u0439',true)===false||'ACCEPTED');
-  // Extra characters at the FRONT are usually a negation, i.e. the opposite.
-  t('negation rejected (en)',()=>T('unimportant','important',false)===false||'ACCEPTED');
-  t('negation rejected (ru)',()=>T('\u043d\u0435\u0432\u0430\u0436\u043d\u044b\u0439','\u0432\u0430\u0436\u043d\u044b\u0439',true)===false||'ACCEPTED');
-  t('different short word rejected',()=>T('cot','cat',false)===false||'ACCEPTED');
-  t('unrelated rejected',()=>T('banana','important',false)===false||'ACCEPTED');
-  t('empty rejected',()=>T('','important',false)===false||'ACCEPTED');
-}
 
 console.log('\nmigrateWord hardening');
 {

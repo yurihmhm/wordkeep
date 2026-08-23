@@ -4,8 +4,8 @@ import fs from 'fs';
 const src = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const js = src.slice(src.lastIndexOf('<script>') + 8, src.lastIndexOf('</script>'));
 const names = ['wordStamp','mergeCloud','hasStreak','mergeStreak','localDayIndex','monthKey',
-  'grantMonthlyFreeze','levenshtein','weightedSample','norm','foldMarks','typoOk',
-  'closeEnough','nickLen','clean','migrateWord'];
+  'grantMonthlyFreeze','levenshtein','weightedSample','norm',
+  'nickLen','clean','migrateWord'];
 const out = [];
 for (const n of names) {
   const m = new RegExp('\\nfunction ' + n + '\\(').exec(js);
