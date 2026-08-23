@@ -228,7 +228,9 @@ function renderUsers(){
       '<td class="num">'+(s.current||0)+'</td>'+
       '<td class="num">'+(s.longest||0)+'</td>'+
       '<td>'+ago(u.updatedAt)+'</td>'+
-      '<td><button class="btn btn-ghost btn-sm" onclick="removeUser(\''+u.id+'\',this)">データ削除</button></td></tr>';
+      '<td style="white-space:nowrap">'+
+        '<button class="btn btn-ghost btn-sm" onclick="renameUser(\''+u.id+'\',this)">改名</button> '+
+        '<button class="btn btn-ghost btn-sm" onclick="removeUser(\''+u.id+'\',this)">データ削除</button></td></tr>';
   }).join('');
   return h+'</tbody></table></div>'+
     '<div style="font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px">'+
@@ -252,6 +254,41 @@ async function removeFeedback(id){
 }
 
 // Removes an account's Firestore data. The word documents are deleted by id
+// Forcing a rename. The in-app word list is a blunt filter that a determined
+// person can edit out of their own copy, so this is the backstop -- and since
+// v5.9.0 a nickname is on a public leaderboard, where the 7-day cooldown would
+// otherwise leave a bad one up for a week.
+//
+// The leaderboard row is DELETED rather than rewritten: the offending name has
+// to leave other people's screens now, and the owner's next sync republishes
+// the row with the new name on its own.
+async function renameUser(uid,btn){
+  const u=users.find(x=>x.id===uid);
+  if(!u)return;
+  const cur=u.nickname||'';
+  const next=prompt('新しいニックネーム（20文字まで）\n\n現在: '+(cur||'（未設定）')+
+    '\n\n※7日間のクールダウンは無視して即座に変更されます。\n※ランキングからはすぐに消えます。',cur);
+  if(next===null)return;
+  const name=next.trim();
+  if(!name){alert('空にはできません。');return;}
+  if(Array.from(name).length>20){alert('20文字までです。');return;}
+  if(name===cur){return;}
+  if(!confirm('「'+cur+'」→「'+name+'」に変更します。よろしいですか？'))return;
+  if(btn){btn.disabled=true;btn.textContent='変更中…';}
+  try{
+    // nicknameAt is deliberately NOT advanced: the person did not choose this
+    // name, so they should not have to wait a week to pick their own.
+    await db.collection('users').doc(uid).set({nickname:name,updatedAt:Date.now()},{merge:true});
+    try{ await db.collection('board').doc(uid).delete(); }
+    catch(e){ console.warn('board row not removed',e); }
+    u.nickname=name;
+    render();
+  }catch(e){
+    alert('変更できませんでした: '+(e&&e.message||e)+
+      '\n\nFirestoreルールに管理者の update 権限が入っているか確認してください。');
+    if(btn){btn.disabled=false;btn.textContent='改名';}
+  }
+}
 // from the summary document's `wordIds`; the rules let the admin delete them
 // without granting permission to read any of them.
 async function removeUser(uid,btn){

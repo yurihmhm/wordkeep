@@ -4,7 +4,7 @@
 // the app shell so it opens offline. Cache strategy is deliberately
 // simple: cache the shell on install, serve navigations from cache when the
 // network is unavailable.
-const CACHE = 'wordkeep-v3';
+const CACHE = 'wordkeep-v4';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -41,8 +41,19 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
-  // Other same-origin GETs: cache-first with a network fallback.
+  // Other same-origin GETs: cache-first, and keep what the network returns.
+  // changelog.json is deliberately NOT precached -- it is 138KB that most
+  // people never open -- but once someone has asked for it, holding on to it
+  // means the back catalogue still opens offline and is not re-fetched.
   if (new URL(req.url).origin === self.location.origin) {
-    e.respondWith(caches.match(req).then(r => r || fetch(req)));
+    e.respondWith(
+      caches.match(req).then(r => r || fetch(req).then(res => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+        }
+        return res;
+      }))
+    );
   }
 });

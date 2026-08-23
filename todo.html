@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.9.0 時点 &middot; 最終更新 2026-08-23</div>
+    <div class="sub">v5.10.0 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -151,11 +151,11 @@ footer a{color:var(--ink-2)}
           <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（ニックネーム・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。<b>メールアドレスは絶対にここへ入れない。</b></div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">ニックネームの不適切語対応</div>
-          <div class="d">ランキングで世界中の目に触れる以上、通報と管理者による強制変更の手段が要る。管理画面から改名できるようにするのが最小構成。</div>
+          <div class="d">ランキングで世界中の目に触れる以上、通報と管理者による強制変更の手段が要る。管理画面から改名できるようにするのが最小構成。 <b>→ v5.10.0で対応：</b>部分一致と完全一致の2リストに分け、管理ページに強制改名を追加した。</div>
         </div>
       </li>
     </ul>
@@ -172,11 +172,11 @@ footer a{color:var(--ink-2)}
           <div class="d">現在はすべて未学習（box -1）から始まる。すでに half 知っている単語まで最初から総ざらいさせられるのは、<b>語数を増やすほど苦痛になる</b>。追加時に「知っている」を選べば少し先の箱から始められるようにする。<br><b>ただし過大評価のリスクがある</b>ので、飛ばしすぎない（最大でも中間の箱まで）方が安全だと思う。</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">バックアップにパッケージの進捗が入っていない</div>
-          <div class="d"><code>doExport</code>は<code>DB</code>だけを書き出しており、パッケージ進捗（<code>wordkeep.packages.v1</code>）が含まれていない。書き出したJSONから復元しても<b>パッケージの学習記録だけ失われる</b>。読み込み側の対応もセットで必要。</div>
+          <div class="d"><code>doExport</code>は<code>DB</code>だけを書き出しており、パッケージ進捗（<code>wordkeep.packages.v1</code>）が含まれていない。書き出したJSONから復元しても<b>パッケージの学習記録だけ失われる</b>。読み込み側の対応もセットで必要。 <b>→ v5.10.0で対応：</b><code>doExport()</code>に<code>packages</code>を追加し、読み込みはパッケージ単位でマージするようにした。</div>
         </div>
       </li>
       <li data-s="open">
@@ -266,10 +266,10 @@ footer a{color:var(--ink-2)}
     <p class="sec-note">転送量は実測済み。分割は当面やらないと判断した。</p>
     <ul>
       <li data-s="done">
-        <span class="chip done">要再検討</span>
+        <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮570KB、gzip配信で<b>実転送量は202KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮444KB、gzip配信で<b>実転送量は152KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,12 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ニックネームの審査を入れた</div><div class="d">v5.9.0でニックネームが<b>全ログインユーザーに配信されるものに変わった</b>ので、内容チェックを追加。それまでは文字数しか見ていなかった。大小文字・アクセント・全角・leet(<code>0→o</code> <code>3→e</code> <code>$→s</code>)・区切りを畳んでから判定するので、<code>ｆ ｕ ｃ ｋ</code>も<code>n1gg3r</code>も同じ形になる。<b>これはモデレーションではなく速度制限。</b>リストはアプリ内にあり、その気になれば自分のコピーから消せる。</div><div class="ver">v5.10.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">誤検知を避けるためリストを2つに分けた</div><div class="d">最初は全部を部分一致にしたら、<b>Dickinson・Hancock・Cocktail・Shitake・Scunthorpe・しねま が弾かれた</b>（実在の姓と単語）。まともな語に含まれない語だけを部分一致に残し、<code>dick</code> <code>cock</code> <code>shit</code> <code>ass</code> <code>rape</code> <code>しね</code> などは完全一致に移した。<b>無実の人に「あなたの名前は不適切です」と言うほうが、1件見逃して管理者が直すより悪い。</b>ゼロ幅文字とbidi制御文字も弾く（一覧で見えないうえ、bidiは行の他の文字を並べ替えられる）。</div><div class="ver">v5.10.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">管理ページから強制改名できるように</div><div class="d">アプリ内の判定は自分のコピーから消せるので、<b>本当の歯止めはこちら</b>。7日クールダウンを無視して即座に変更し、<b>同時にランキングの行を<code>delete</code></b>する（その名前が他人の画面から今すぐ消える必要があるため。本人が次に同期すれば新しい名前で戻る）。<code>nicknameAt</code>は進めない——本人が選んだ名前ではないのに、自分で決め直すのに1週間待たせるのはおかしい。ルール側は<code>nickname</code>と<code>updatedAt</code>だけに絞ってあり、管理者でもストリークや単語IDには触れない。</div><div class="ver">v5.10.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">バックアップは残す判断をした（ただし壊れていたので直した）</div><div class="d">アカウントがある今このボタンは要るか、という話。<b>残した。</b><b>クラウド同期はバックアップではない</b>——削除も同期するので、単語が消える不具合が起きたらtombstoneが全端末とサーバーに伝わる。同期の不具合が届かない唯一のコピーがこれ。Firebaseの無料枠は単一障害点でもある。そして<b>このリポジトリは実際に単語データを壊す不具合を出している</b>（boxがNaN／ownerUidガード／tombstoneの順序）ので、守る対象は仮定ではない。ただし<code>doExport()</code>は<code>DB</code>だけを書き出しており、<b>パッケージの進捗が入っていなかった</b>。復元すると成功したように見えてパッケージの学習分だけ消えていた。読み込みはパッケージ単位でマージする。</div><div class="ver">v5.10.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">更新履歴を外部化した</div><div class="d">直近3バージョンだけを内蔵し、それ以前は<code>changelog.json</code>から必要なときだけ取得。<b>49バージョン×7言語＝gzip 60KBを、ほぼ誰も開かないのに全員が毎回落としていた。</b>gzip 202KB → 152KB。Service Workerはプリキャッシュ<b>しない</b>（139KBを全員に配ることになる）が、一度取得したら保存するので2回目以降はオフラインでも開ける。</div><div class="ver">v5.10.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヒヤリ：抽出スクリプトがパッケージ定義を丸ごと消した</div><div class="d">更新履歴を抜き出す正規表現に<code>re.DOTALL</code>を付けたまま非貪欲マッチを使ったため、<b>1エントリの範囲を越えて次の<code>},</code>まで飲み込み、単語パッケージ3本の定義が消えた</b>。ブラウザで開いて初めて気づいた。行アンカー＋DOTALLなしに変え、<b>削除した文字数が一致するかの検証と、消えては困る定義が残っているかのチェック、書き出し前の<code>node --check</code></b>を入れ直した。<b>生成スクリプトも検証なしに実行すべきではない。</b></div><div class="ver">v5.10.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ランキングを追加</div><div class="d">5種目（今日の復習数・総復習数・単語数・連続日数・学習日数）。<b>下タブは5枠が埋まっているので新設せず</b>、性質の近い記録タブに切り替えで同居させた。順位は<b>数字と色だけ</b>——1位ゴールド・2位シルバー・3位ブロンズ、以下は無彩色。絵文字なし。<b>50位圏外でも自分の順位は下に固定表示</b>する（一番知りたいのがそこなので、スクロールで探させない）。</div><div class="ver">v5.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ランキングのデータと、信用できる範囲</div><div class="d">Firestoreの<code>board/{uid}</code>に<b>ニックネームと数値だけ</b>を置く。単語は一切入らない。読みは全ログインユーザー、書きは本人のみ。<b>数値はクライアントが書くので、クライアント以上には信用できない。</b>ルールで型・範囲・フィールド名を縛って被害は限定したが、「本当にその回数やったか」は証明できない。厳密にやるにはサーバーが単語履歴から再計算する必要があり、それはCloud Functionの仕事。</div><div class="ver">v5.9.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">「今日の復習数」が古い行に占領される問題</div><div class="d">各行は<b>持ち主が次にアプリを開くまで前日の数値のまま</b>なので、素直に並べると1週間ずっと昨日の記録が首位に居座る。<code>todayIdx</code>が今日と一致する行だけを残す。2フィールドの複合インデックスを避けるため、200件取ってから絞って上位50件を出す方式にした。</div><div class="ver">v5.9.0</div></div></li>

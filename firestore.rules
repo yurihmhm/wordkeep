@@ -42,6 +42,18 @@ service cloud.firestore {
       // does not require reading what people are studying.
       allow read, delete: if isAdmin();
 
+      // Forcing a rename. The in-app word list only screens people who have not
+      // edited it out of their own copy, and a nickname now shows on a public
+      // leaderboard where the 7-day cooldown would leave a bad one up for a
+      // week. Restricted to the nickname and the timestamp so this cannot be
+      // used to touch a person's streak, decks or word ids.
+      allow update: if isAdmin()
+                    && request.resource.data.diff(resource.data)
+                         .affectedKeys().hasOnly(['nickname','updatedAt'])
+                    && request.resource.data.nickname is string
+                    && request.resource.data.nickname.size() > 0
+                    && request.resource.data.nickname.size() <= 60;
+
       // Deleting an account's data has to reach its word documents too --
       // otherwise removing someone from Authentication leaves their words in
       // Firestore forever, unreachable and still counted. `delete` is granted
