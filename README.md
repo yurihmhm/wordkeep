@@ -88,7 +88,7 @@
 - localStorageは`wordkeep.v2`と共用で上限はおよそ5MB。1本およそ9KBなので**100本で約900KB**。それを超える規模にするならIndexedDBへ移す
 ### パッケージの追加・更新
 
-**`packages/<id>.json` が唯一の正。** カタログは生成物なので手で書かない。
+現在5本（語学留学 Part1〜3・IT/テック・ワーホリ）。**`packages/<id>.json` が唯一の正。** カタログは生成物なので手で書かない。
 
 ```bash
 node tests/build-packages.mjs

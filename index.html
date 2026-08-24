@@ -929,15 +929,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.12.0';
+const APP_VERSION='5.13.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.12.0',date:'2026-08-24',keys:['wn1','wn2']},
+  {version:'5.13.0',date:'2026-08-24',keys:['wn1']},
+  {version:'5.12.0',date:'2026-08-24',keys:['v5120_1','v5120_2']},
   {version:'5.11.2',date:'2026-08-24',keys:['v5112_1']},
-  {version:'5.11.1',date:'2026-08-24',keys:['v5111_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1032,10 +1032,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語パッケージは、開いたときにその場で取得する方式になりました。使わないパッケージの単語まで毎回読み込むことがなくなり、アプリの起動が軽くなっています。取得済みのパッケージはオフラインでもそのまま使えます',en:'Word packages are now downloaded when you open one, instead of every package loading with the app. Startup is lighter, and a package you have already downloaded still works offline',zh:'单词包改为在打开时才下载，不再随应用一次性加载全部内容，启动更轻快。已下载的单词包仍可离线使用',fr:'Les packs de vocabulaire se téléchargent maintenant à l’ouverture, au lieu d’être tous chargés avec l’application. Le démarrage est plus léger, et un pack déjà téléchargé fonctionne hors ligne',ar:'صارت حزم المفردات تُنزَّل عند فتحها بدل تحميلها كلها مع التطبيق، فصار بدء التشغيل أخف. والحزمة التي نزّلتها تعمل دون اتصال كما هي',ko:'단어 패키지는 열었을 때 그 자리에서 받는 방식이 되었습니다. 쓰지 않는 패키지의 단어까지 매번 불러오지 않게 되어 앱 실행이 가벼워졌습니다. 이미 받은 패키지는 오프라인에서도 그대로 쓸 수 있습니다',ru:'Наборы слов теперь загружаются в момент открытия, а не все сразу вместе с приложением. Запуск стал легче, а уже загруженный набор работает и без интернета'},
-  wn2:{ja:'単語パッケージ「IT・テックの英単語」（50語）を追加しました',en:'Added a new word package: IT and Tech English Words (50 words)',zh:'新增单词包「IT・科技英语单词」（50 词）',fr:'Nouveau pack de vocabulaire : anglais de l’informatique (50 mots)',ar:'أُضيفت حزمة مفردات جديدة: مفردات إنجليزية في تقنية المعلومات (50 كلمة)',ko:'단어 패키지 «IT·테크 영단어»(50단어)를 추가했습니다',ru:'Добавлен новый набор слов: английские слова из сферы IT (50 слов)'},
+  wn1:{ja:'単語パッケージ「ワーホリで使える英単語 Part1」（106語）を追加しました。仕事探し・住まい・お金・手続きまわりの単語です',en:'Added a word package: Working Holiday English Words Part 1 (106 words) — vocabulary for job hunting, housing, money and paperwork',zh:'新增单词包「打工度假英语单词 Part1」（106 词），涵盖找工作、住宿、金钱与各类手续',fr:'Nouveau pack : anglais pour un visa vacances-travail, partie 1 (106 mots) — recherche d’emploi, logement, argent et démarches',ar:'أُضيفت حزمة «مفردات إنجليزية لعطلة العمل - الجزء 1» (106 كلمات): البحث عن عمل والسكن والمال والمعاملات',ko:'단어 패키지 «워킹홀리데이 영단어 Part1»(106단어)을 추가했습니다. 일자리·주거·돈·각종 수속에 관한 단어입니다',ru:'Добавлен набор «Английские слова для рабочей поездки, часть 1» (106 слов): работа, жильё, деньги и оформление документов'},
+  v5120_1:{ja:'単語パッケージは、開いたときにその場で取得する方式になりました。使わないパッケージの単語まで毎回読み込むことがなくなり、アプリの起動が軽くなっています。取得済みのパッケージはオフラインでもそのまま使えます',en:'Word packages are now downloaded when you open one, instead of every package loading with the app. Startup is lighter, and a package you have already downloaded still works offline',zh:'单词包改为在打开时才下载，不再随应用一次性加载全部内容，启动更轻快。已下载的单词包仍可离线使用',fr:'Les packs de vocabulaire se téléchargent maintenant à l’ouverture, au lieu d’être tous chargés avec l’application. Le démarrage est plus léger, et un pack déjà téléchargé fonctionne hors ligne',ar:'صارت حزم المفردات تُنزَّل عند فتحها بدل تحميلها كلها مع التطبيق، فصار بدء التشغيل أخف. والحزمة التي نزّلتها تعمل دون اتصال كما هي',ko:'단어 패키지는 열었을 때 그 자리에서 받는 방식이 되었습니다. 쓰지 않는 패키지의 단어까지 매번 불러오지 않게 되어 앱 실행이 가벼워졌습니다. 이미 받은 패키지는 오프라인에서도 그대로 쓸 수 있습니다',ru:'Наборы слов теперь загружаются в момент открытия, а не все сразу вместе с приложением. Запуск стал легче, а уже загруженный набор работает и без интернета'},
+  v5120_2:{ja:'単語パッケージ「IT・テックの英単語」（50語）を追加しました',en:'Added a new word package: IT and Tech English Words (50 words)',zh:'新增单词包「IT・科技英语单词」（50 词）',fr:'Nouveau pack de vocabulaire : anglais de l’informatique (50 mots)',ar:'أُضيفت حزمة مفردات جديدة: مفردات إنجليزية في تقنية المعلومات (50 كلمة)',ko:'단어 패키지 «IT·테크 영단어»(50단어)를 추가했습니다',ru:'Добавлен новый набор слов: английские слова из сферы IT (50 слов)'},
   v5112_1:{ja:'メモがある単語につく印も、絵文字から他と揃いのアイコンに差し替えました',en:'The mark on a word that has a note is now the same drawn icon as the rest, instead of an emoji',zh:'带有备注的单词所显示的标记也由表情符号改为与其他统一的图标',fr:'La marque signalant qu’un mot a une note utilise elle aussi l’icône dessinée au lieu d’un émoji',ar:'صارت علامة الكلمة التي لها ملاحظة أيقونة مرسومة مثل البقية بدل الإيموجي',ko:'메모가 있는 단어에 붙는 표시도 이모지에서 다른 것과 같은 아이콘으로 교체했습니다',ru:'Отметка у слова с заметкой теперь тоже нарисованный значок, как и остальные, а не эмодзи'},
-  v5111_1:{ja:'発音ボタンのアイコンを、絵文字から他のアイコンと揃いのものに差し替えました。端末によって形が変わることもなくなります',en:'The pronunciation button now uses the same drawn icon as the rest of the app instead of an emoji, so it no longer changes shape between devices',zh:'发音按钮的图标由表情符号改为与其他图标统一的样式，不会再因设备不同而变形',fr:'Le bouton de prononciation utilise désormais la même icône dessinée que le reste de l’application au lieu d’un émoji, et ne change plus de forme selon l’appareil',ar:'صار زر النطق يستخدم الأيقونة المرسومة نفسها المستعملة في بقية التطبيق بدل الإيموجي، فلم يعد شكله يختلف بين الأجهزة',ko:'발음 버튼의 아이콘을 이모지에서 다른 아이콘과 같은 것으로 교체했습니다. 기기에 따라 모양이 달라지는 일도 없어집니다',ru:'Кнопка произношения теперь использует тот же нарисованный значок, что и остальное приложение, вместо эмодзи — его форма больше не меняется от устройства к устройству'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1891,6 +1891,7 @@ const PKG_CATALOG=[
   {id:'studyabroad_part2',v:1,count:50,title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'}},
   {id:'studyabroad_part3',v:1,count:50,title:{ja:'語学留学の英単語 Part3',en:'Study Abroad English Vocabulary — Part 3',zh:'留学英语单词 Part3',fr:'Vocabulaire anglais pour séjour linguistique — Part3',ar:'مفردات إنجليزية للدراسة في الخارج — الجزء 3',ko:'어학연수 영단어 Part3',ru:'Английская лексика для учёбы за границей — Part3'}},
   {id:'tech_en',v:1,count:50,title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
+  {id:'workingholiday_en',v:1,count:106,title:{ja:'ワーホリで使える英単語 Part1',en:'Working Holiday English Words Part1',zh:'打工度假英语单词 Part1',fr:'Vocabulaire anglais pour un visa vacances-travail',ar:'مفردات إنجليزية لعطلة العمل',ko:'워킹홀리데이 영단어',ru:'Английские слова для рабочей поездки'}},
 ];
 const PACKAGES=PKG_CATALOG;
 
