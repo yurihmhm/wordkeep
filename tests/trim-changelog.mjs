@@ -44,7 +44,10 @@ for (const k of moved) {
   s = s.slice(0, m.index) + s.slice(m.index + m[0].length);
 }
 if (before - s.length !== removed) { console.error('removed more than the matched lines'); process.exit(1); }
-for (const landmark of ['PKG_STUDYABROAD_PART1={', 'PKG_STUDYABROAD_PART2={', 'function t(key', 'const T={'])
+// Landmarks are things that must survive the edit. Keep them current: the
+// package definitions used to be here and are now in packages/*.json, so
+// checking for them would fail forever rather than catching anything.
+for (const landmark of ['const PKG_CATALOG=[', 'const PACKAGES=PKG_CATALOG', 'function t(key', 'const T={'])
   if (!s.includes(landmark)) { console.error('landmark lost: ' + landmark); process.exit(1); }
 
 store.versions = [...move.map(e => ({ version: e.version, date: e.date, keys: e.keys })), ...store.versions];

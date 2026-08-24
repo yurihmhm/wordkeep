@@ -929,15 +929,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.11.2';
+const APP_VERSION='5.12.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.11.2',date:'2026-08-24',keys:['wn1']},
+  {version:'5.12.0',date:'2026-08-24',keys:['wn1','wn2']},
+  {version:'5.11.2',date:'2026-08-24',keys:['v5112_1']},
   {version:'5.11.1',date:'2026-08-24',keys:['v5111_1']},
-  {version:'5.11.0',date:'2026-08-24',keys:['v5110_1','v5110_2','v5110_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1032,11 +1032,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'メモがある単語につく印も、絵文字から他と揃いのアイコンに差し替えました',en:'The mark on a word that has a note is now the same drawn icon as the rest, instead of an emoji',zh:'带有备注的单词所显示的标记也由表情符号改为与其他统一的图标',fr:'La marque signalant qu’un mot a une note utilise elle aussi l’icône dessinée au lieu d’un émoji',ar:'صارت علامة الكلمة التي لها ملاحظة أيقونة مرسومة مثل البقية بدل الإيموجي',ko:'메모가 있는 단어에 붙는 표시도 이모지에서 다른 것과 같은 아이콘으로 교체했습니다',ru:'Отметка у слова с заметкой теперь тоже нарисованный значок, как и остальные, а не эмодзи'},
+  wn1:{ja:'単語パッケージは、開いたときにその場で取得する方式になりました。使わないパッケージの単語まで毎回読み込むことがなくなり、アプリの起動が軽くなっています。取得済みのパッケージはオフラインでもそのまま使えます',en:'Word packages are now downloaded when you open one, instead of every package loading with the app. Startup is lighter, and a package you have already downloaded still works offline',zh:'单词包改为在打开时才下载，不再随应用一次性加载全部内容，启动更轻快。已下载的单词包仍可离线使用',fr:'Les packs de vocabulaire se téléchargent maintenant à l’ouverture, au lieu d’être tous chargés avec l’application. Le démarrage est plus léger, et un pack déjà téléchargé fonctionne hors ligne',ar:'صارت حزم المفردات تُنزَّل عند فتحها بدل تحميلها كلها مع التطبيق، فصار بدء التشغيل أخف. والحزمة التي نزّلتها تعمل دون اتصال كما هي',ko:'단어 패키지는 열었을 때 그 자리에서 받는 방식이 되었습니다. 쓰지 않는 패키지의 단어까지 매번 불러오지 않게 되어 앱 실행이 가벼워졌습니다. 이미 받은 패키지는 오프라인에서도 그대로 쓸 수 있습니다',ru:'Наборы слов теперь загружаются в момент открытия, а не все сразу вместе с приложением. Запуск стал легче, а уже загруженный набор работает и без интернета'},
+  wn2:{ja:'単語パッケージ「IT・テックの英単語」（50語）を追加しました',en:'Added a new word package: IT and Tech English Words (50 words)',zh:'新增单词包「IT・科技英语单词」（50 词）',fr:'Nouveau pack de vocabulaire : anglais de l’informatique (50 mots)',ar:'أُضيفت حزمة مفردات جديدة: مفردات إنجليزية في تقنية المعلومات (50 كلمة)',ko:'단어 패키지 «IT·테크 영단어»(50단어)를 추가했습니다',ru:'Добавлен новый набор слов: английские слова из сферы IT (50 слов)'},
+  v5112_1:{ja:'メモがある単語につく印も、絵文字から他と揃いのアイコンに差し替えました',en:'The mark on a word that has a note is now the same drawn icon as the rest, instead of an emoji',zh:'带有备注的单词所显示的标记也由表情符号改为与其他统一的图标',fr:'La marque signalant qu’un mot a une note utilise elle aussi l’icône dessinée au lieu d’un émoji',ar:'صارت علامة الكلمة التي لها ملاحظة أيقونة مرسومة مثل البقية بدل الإيموجي',ko:'메모가 있는 단어에 붙는 표시도 이모지에서 다른 것과 같은 아이콘으로 교체했습니다',ru:'Отметка у слова с заметкой теперь тоже нарисованный значок, как и остальные, а не эмодзи'},
   v5111_1:{ja:'発音ボタンのアイコンを、絵文字から他のアイコンと揃いのものに差し替えました。端末によって形が変わることもなくなります',en:'The pronunciation button now uses the same drawn icon as the rest of the app instead of an emoji, so it no longer changes shape between devices',zh:'发音按钮的图标由表情符号改为与其他图标统一的样式，不会再因设备不同而变形',fr:'Le bouton de prononciation utilise désormais la même icône dessinée que le reste de l’application au lieu d’un émoji, et ne change plus de forme selon l’appareil',ar:'صار زر النطق يستخدم الأيقونة المرسومة نفسها المستعملة في بقية التطبيق بدل الإيموجي، فلم يعد شكله يختلف بين الأجهزة',ko:'발음 버튼의 아이콘을 이모지에서 다른 아이콘과 같은 것으로 교체했습니다. 기기에 따라 모양이 달라지는 일도 없어집니다',ru:'Кнопка произношения теперь использует тот же нарисованный значок, что и остальное приложение, вместо эмодзи — его форма больше не меняется от устройства к устройству'},
-  v5110_1:{ja:'ランキングで同じ回数の人が同じ順位になるようにしました。これまでは並び順が毎回変わり、同点なのに順位が入れ替わって見えていました',en:'People on the same score now share a place in the ranking. Until now the order shifted on every refresh, so tied users appeared to swap positions',zh:'排行榜中成绩相同的人现在并列同一名次。此前顺序每次刷新都会变化，明明同分却看起来名次互换',fr:'Les personnes à égalité partagent désormais la même place au classement. Auparavant l’ordre changeait à chaque actualisation, donnant l’impression d’un échange de positions',ar:'صار أصحاب النتيجة نفسها يتشاركون المركز ذاته في الترتيب. وكان الترتيب يتغيّر مع كل تحديث فيبدو أن المتعادلين يتبادلان المواقع',ko:'랭킹에서 같은 횟수인 사람이 같은 순위가 되도록 했습니다. 지금까지는 새로 고칠 때마다 순서가 바뀌어, 동점인데도 순위가 뒤바뀌어 보였습니다',ru:'В рейтинге участники с одинаковым результатом теперь делят место. Раньше порядок менялся при каждом обновлении, и они будто менялись позициями'},
-  v5110_2:{ja:'ニックネームを変えると、ランキングにもすぐ反映されるようにしました。これまでは次に同期するまで古い名前のままでした',en:'Changing your nickname now updates the leaderboard straight away. Until now the old name stayed up until the next sync',zh:'修改昵称后排行榜会立即更新。此前需等到下次同步才会变更',fr:'Changer votre pseudo met désormais le classement à jour immédiatement. Jusqu’ici l’ancien nom restait affiché jusqu’à la synchronisation suivante',ar:'صار تغيير اسمك المستعار ينعكس على لوحة الترتيب فورًا. وكان الاسم القديم يبقى معروضًا حتى المزامنة التالية',ko:'닉네임을 바꾸면 랭킹에도 바로 반영됩니다. 지금까지는 다음 동기화 전까지 예전 이름 그대로였습니다',ru:'Смена никнейма теперь сразу обновляет рейтинг. Прежде старое имя оставалось до следующей синхронизации'},
-  v5110_3:{ja:'ランキングの種目をすばやく切り替えたときに、前の種目の内容が表示されてしまう不具合を直しました。切り替えの反応も速くなっています',en:'Fixed the ranking showing the previous board when you switched categories quickly. Switching is also faster now',zh:'修复了快速切换排行榜类别时显示上一个榜单的问题，切换也更快了',fr:'Correction : changer rapidement de catégorie affichait le classement précédent. Le changement est aussi plus rapide',ar:'أُصلح عرض اللوحة السابقة عند التبديل السريع بين فئات الترتيب. كما صار التبديل أسرع',ko:'랭킹 부문을 빠르게 전환했을 때 이전 부문의 내용이 표시되던 문제를 고쳤습니다. 전환도 빨라졌습니다',ru:'Исправлено: быстрое переключение категорий рейтинга показывало предыдущую таблицу. Переключение также стало быстрее'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
