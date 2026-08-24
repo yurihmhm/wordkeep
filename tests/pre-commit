@@ -47,9 +47,12 @@ echo "pre-commit: running logic tests..."
 # `count` for the progress bar before the words are downloaded, and a mismatched
 # version means the file is re-fetched on every open.
 echo "pre-commit: checking package files..."
-node tests/build-packages.mjs || {
+# --check, so the hook never rewrites index.html after it was staged: the
+# commit would then contain something other than what was verified.
+node tests/build-packages.mjs --check || {
   echo ""
   echo "BLOCKED: the package catalogue and packages/*.json disagree (see above)."
+  echo "Run 'node tests/build-packages.mjs' and stage index.html."
   exit 1
 }
 
