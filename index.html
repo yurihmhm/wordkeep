@@ -84,7 +84,15 @@ header{
   #splash{transition:none}
 }
 header .hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-header .brand{display:flex;align-items:baseline;gap:10px}
+header .brand{display:flex;align-items:center;gap:10px;min-width:0}
+.hdr-streak{display:flex;align-items:center;gap:4px;flex:none;cursor:pointer;
+  background:rgba(240,180,41,.15);border:1px solid rgba(240,180,41,.38);
+  border-radius:99px;padding:3px 10px 3px 8px;font-family:inherit;
+  font-size:13px;font-weight:800;color:var(--accent);line-height:1;
+  font-variant-numeric:tabular-nums}
+.hdr-streak svg{width:14px;height:14px;flex:none}
+.hdr-streak:active{transform:scale(.94)}
+.hdr-streak[hidden]{display:none}
 header h1{font-size:23px;letter-spacing:.4px}
 header .hamburger{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
   border-radius:10px;width:36px;height:36px;flex-shrink:0;cursor:pointer;
@@ -622,7 +630,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <header>
   <div class="wrap">
     <div class="hdr-top">
-      <div class="brand"><h1>Wordkeep</h1></div>
+      <div class="brand"><h1>Wordkeep</h1><button class="hdr-streak" id="hdrStreak" type="button" hidden></button></div>
       <button class="hamburger" id="btnMenu" type="button" aria-label="menu"><span></span><span></span><span></span></button>
     </div>
 
@@ -947,15 +955,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.14.0';
+const APP_VERSION='5.14.1';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.14.0',date:'2026-08-24',keys:['wn1','wn2','wn3']},
+  {version:'5.14.1',date:'2026-08-24',keys:['wn1']},
+  {version:'5.14.0',date:'2026-08-24',keys:['v5140_1','v5140_2','v5140_3']},
   {version:'5.13.0',date:'2026-08-24',keys:['v5130_1']},
-  {version:'5.12.0',date:'2026-08-24',keys:['v5120_1','v5120_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1050,12 +1058,11 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'画面上部の紺色の帯を小さくしました。語数・今日の復習・連続日数はホーム画面と下のタブに同じものが出ているので、帯からは外しています。単語リストの絞り込みボタンも、使われていなかったので外しました',en:'The navy bar at the top is now much shorter. The word count, today’s reviews and the streak all appear again on Home and in the tab bar, so they no longer sit up there. The word list’s filter chips are gone too — nobody was using them',zh:'顶部深蓝色栏已大幅缩小。词数、今日复习与连续天数在首页和底部标签栏中同样可见，故不再重复显示。单词列表的筛选按钮也已移除，因为几乎无人使用',fr:'Le bandeau bleu marine en haut est nettement plus court. Le nombre de mots, les révisions du jour et la série figurent déjà sur l’accueil et dans la barre d’onglets. Les filtres de la liste ont aussi été retirés, faute d’usage',ar:'صار الشريط الكحلي أعلى الشاشة أقصر بكثير. فعدد الكلمات ومراجعات اليوم والأيام المتتالية تظهر جميعها في الصفحة الرئيسية وشريط التبويب. كما أُزيلت أزرار التصفية من قائمة الكلمات لعدم استخدامها',ko:'화면 위쪽의 남색 띠를 크게 줄였습니다. 단어 수·오늘의 복습·연속 일수는 홈 화면과 하단 탭에 그대로 나오므로 띠에서는 뺐습니다. 단어 목록의 필터 버튼도 쓰이지 않아 없앴습니다',ru:'Тёмно-синяя полоса вверху стала заметно ниже. Число слов, повторы за сегодня и серия и так видны на главной и в панели вкладок. Фильтры в списке слов тоже убраны — ими не пользовались'},
-  wn2:{ja:'スペル入力で、問題文が長いと入力欄やヒントが画面の外に出てしまう問題を直しました。文の長さに合わせて文字を小さくし、3行以内に収めます。答えのマス目も単語の長さに合わせて縮み、長い単語でも1行に並びます',en:'Fixed long prompts pushing the typing area and the hint button off-screen in spelling mode. The text now scales to its length and is capped at three lines, and the answer slots shrink so even a long word stays on one row',zh:'修复了拼写模式下题干过长时输入区与提示按钮被挤出屏幕的问题。文字会随长度缩放并限制在三行内，答案格也会缩小，长单词也能排在一行',fr:'Correction : en mode orthographe, un énoncé long repoussait la zone de saisie et le bouton d’indice hors écran. Le texte s’adapte à sa longueur, se limite à trois lignes, et les cases de réponse rétrécissent pour tenir sur une seule ligne',ar:'أُصلحت مشكلة دفع النص الطويل لمنطقة الكتابة وزر التلميح خارج الشاشة في وضع الإملاء. صار حجم النص يتناسب مع طوله ولا يتجاوز ثلاثة أسطر، وتتقلّص خانات الإجابة لتبقى في سطر واحد',ko:'스펠링 입력에서 문제문이 길면 입력란과 힌트가 화면 밖으로 밀려나던 문제를 고쳤습니다. 길이에 맞춰 글자가 작아지고 3줄 이내로 들어가며, 정답 칸도 줄어들어 긴 단어도 한 줄에 놓입니다',ru:'Исправлено: в режиме написания длинный вопрос выталкивал поле ввода и кнопку подсказки за экран. Текст масштабируется по длине и не превышает трёх строк, а ячейки ответа сжимаются, чтобы длинное слово помещалось в одну строку'},
-  wn3:{ja:'ヒントを押したときに、それまで入力していた文字を消すようにしました。文字数がわかった状態で書きかけの綴りが残っていると、かえって考えにくかったためです。あわせて画面のアイコンを絵文字から描き起こしのものに揃えました',en:'Asking for a hint now clears what you had typed: leaving a half-finished guess in slots that have just told you the real length only got in the way. The remaining emoji around the app were also replaced with drawn icons',zh:'点击提示时会清空已输入的字母——在得知正确长度后，残留的半截拼写反而碍事。同时将界面上剩余的表情符号替换为统一的图标',fr:'Demander un indice efface désormais ce que vous aviez tapé : garder une tentative inachevée dans des cases qui viennent de révéler la vraie longueur ne faisait que gêner. Les émojis restants ont aussi été remplacés par des icônes dessinées',ar:'صار طلب التلميح يمسح ما كتبته: فبقاء محاولة ناقصة في خانات كشفت لتوّها الطول الحقيقي كان يعيق أكثر مما يساعد. كما استُبدلت بقية الإيموجي في الواجهة بأيقونات مرسومة',ko:'힌트를 누르면 그때까지 입력한 글자를 지웁니다. 글자 수를 안 상태에서 쓰다 만 철자가 남아 있으면 오히려 방해가 되기 때문입니다. 화면에 남아 있던 이모지도 그린 아이콘으로 통일했습니다',ru:'Запрос подсказки теперь стирает набранное: незаконченная догадка в ячейках, которые только что показали настоящую длину, лишь мешала. Оставшиеся эмодзи в интерфейсе заменены нарисованными значками'},
+  wn1:{ja:'連続日数をアプリ名の横に戻しました。タップすると学習の記録が開きます',en:'The streak is back, beside the app name. Tap it to open your record',zh:'连续天数已回到应用名称旁边，点击可打开学习记录',fr:'La série est de retour, à côté du nom de l’application. Touchez-la pour ouvrir votre suivi',ar:'عادت الأيام المتتالية بجانب اسم التطبيق. المسه لفتح سجل تعلّمك',ko:'연속 일수를 앱 이름 옆에 되돌렸습니다. 누르면 학습 기록이 열립니다',ru:'Серия вернулась — рядом с названием приложения. Нажмите, чтобы открыть свой прогресс'},
+  v5140_1:{ja:'画面上部の紺色の帯を小さくしました。語数・今日の復習・連続日数はホーム画面と下のタブに同じものが出ているので、帯からは外しています。単語リストの絞り込みボタンも、使われていなかったので外しました',en:'The navy bar at the top is now much shorter. The word count, today’s reviews and the streak all appear again on Home and in the tab bar, so they no longer sit up there. The word list’s filter chips are gone too — nobody was using them',zh:'顶部深蓝色栏已大幅缩小。词数、今日复习与连续天数在首页和底部标签栏中同样可见，故不再重复显示。单词列表的筛选按钮也已移除，因为几乎无人使用',fr:'Le bandeau bleu marine en haut est nettement plus court. Le nombre de mots, les révisions du jour et la série figurent déjà sur l’accueil et dans la barre d’onglets. Les filtres de la liste ont aussi été retirés, faute d’usage',ar:'صار الشريط الكحلي أعلى الشاشة أقصر بكثير. فعدد الكلمات ومراجعات اليوم والأيام المتتالية تظهر جميعها في الصفحة الرئيسية وشريط التبويب. كما أُزيلت أزرار التصفية من قائمة الكلمات لعدم استخدامها',ko:'화면 위쪽의 남색 띠를 크게 줄였습니다. 단어 수·오늘의 복습·연속 일수는 홈 화면과 하단 탭에 그대로 나오므로 띠에서는 뺐습니다. 단어 목록의 필터 버튼도 쓰이지 않아 없앴습니다',ru:'Тёмно-синяя полоса вверху стала заметно ниже. Число слов, повторы за сегодня и серия и так видны на главной и в панели вкладок. Фильтры в списке слов тоже убраны — ими не пользовались'},
+  v5140_2:{ja:'スペル入力で、問題文が長いと入力欄やヒントが画面の外に出てしまう問題を直しました。文の長さに合わせて文字を小さくし、3行以内に収めます。答えのマス目も単語の長さに合わせて縮み、長い単語でも1行に並びます',en:'Fixed long prompts pushing the typing area and the hint button off-screen in spelling mode. The text now scales to its length and is capped at three lines, and the answer slots shrink so even a long word stays on one row',zh:'修复了拼写模式下题干过长时输入区与提示按钮被挤出屏幕的问题。文字会随长度缩放并限制在三行内，答案格也会缩小，长单词也能排在一行',fr:'Correction : en mode orthographe, un énoncé long repoussait la zone de saisie et le bouton d’indice hors écran. Le texte s’adapte à sa longueur, se limite à trois lignes, et les cases de réponse rétrécissent pour tenir sur une seule ligne',ar:'أُصلحت مشكلة دفع النص الطويل لمنطقة الكتابة وزر التلميح خارج الشاشة في وضع الإملاء. صار حجم النص يتناسب مع طوله ولا يتجاوز ثلاثة أسطر، وتتقلّص خانات الإجابة لتبقى في سطر واحد',ko:'스펠링 입력에서 문제문이 길면 입력란과 힌트가 화면 밖으로 밀려나던 문제를 고쳤습니다. 길이에 맞춰 글자가 작아지고 3줄 이내로 들어가며, 정답 칸도 줄어들어 긴 단어도 한 줄에 놓입니다',ru:'Исправлено: в режиме написания длинный вопрос выталкивал поле ввода и кнопку подсказки за экран. Текст масштабируется по длине и не превышает трёх строк, а ячейки ответа сжимаются, чтобы длинное слово помещалось в одну строку'},
+  v5140_3:{ja:'ヒントを押したときに、それまで入力していた文字を消すようにしました。文字数がわかった状態で書きかけの綴りが残っていると、かえって考えにくかったためです。あわせて画面のアイコンを絵文字から描き起こしのものに揃えました',en:'Asking for a hint now clears what you had typed: leaving a half-finished guess in slots that have just told you the real length only got in the way. The remaining emoji around the app were also replaced with drawn icons',zh:'点击提示时会清空已输入的字母——在得知正确长度后，残留的半截拼写反而碍事。同时将界面上剩余的表情符号替换为统一的图标',fr:'Demander un indice efface désormais ce que vous aviez tapé : garder une tentative inachevée dans des cases qui viennent de révéler la vraie longueur ne faisait que gêner. Les émojis restants ont aussi été remplacés par des icônes dessinées',ar:'صار طلب التلميح يمسح ما كتبته: فبقاء محاولة ناقصة في خانات كشفت لتوّها الطول الحقيقي كان يعيق أكثر مما يساعد. كما استُبدلت بقية الإيموجي في الواجهة بأيقونات مرسومة',ko:'힌트를 누르면 그때까지 입력한 글자를 지웁니다. 글자 수를 안 상태에서 쓰다 만 철자가 남아 있으면 오히려 방해가 되기 때문입니다. 화면에 남아 있던 이모지도 그린 아이콘으로 통일했습니다',ru:'Запрос подсказки теперь стирает набранное: незаконченная догадка в ячейках, которые только что показали настоящую длину, лишь мешала. Оставшиеся эмодзи в интерфейсе заменены нарисованными значками'},
   v5130_1:{ja:'単語パッケージ「ワーホリで使える英単語 Part1」（106語）を追加しました。仕事探し・住まい・お金・手続きまわりの単語です',en:'Added a word package: Working Holiday English Words Part 1 (106 words) — vocabulary for job hunting, housing, money and paperwork',zh:'新增单词包「打工度假英语单词 Part1」（106 词），涵盖找工作、住宿、金钱与各类手续',fr:'Nouveau pack : anglais pour un visa vacances-travail, partie 1 (106 mots) — recherche d’emploi, logement, argent et démarches',ar:'أُضيفت حزمة «مفردات إنجليزية لعطلة العمل - الجزء 1» (106 كلمات): البحث عن عمل والسكن والمال والمعاملات',ko:'단어 패키지 «워킹홀리데이 영단어 Part1»(106단어)을 추가했습니다. 일자리·주거·돈·각종 수속에 관한 단어입니다',ru:'Добавлен набор «Английские слова для рабочей поездки, часть 1» (106 слов): работа, жильё, деньги и оформление документов'},
-  v5120_1:{ja:'単語パッケージは、開いたときにその場で取得する方式になりました。使わないパッケージの単語まで毎回読み込むことがなくなり、アプリの起動が軽くなっています。取得済みのパッケージはオフラインでもそのまま使えます',en:'Word packages are now downloaded when you open one, instead of every package loading with the app. Startup is lighter, and a package you have already downloaded still works offline',zh:'单词包改为在打开时才下载，不再随应用一次性加载全部内容，启动更轻快。已下载的单词包仍可离线使用',fr:'Les packs de vocabulaire se téléchargent maintenant à l’ouverture, au lieu d’être tous chargés avec l’application. Le démarrage est plus léger, et un pack déjà téléchargé fonctionne hors ligne',ar:'صارت حزم المفردات تُنزَّل عند فتحها بدل تحميلها كلها مع التطبيق، فصار بدء التشغيل أخف. والحزمة التي نزّلتها تعمل دون اتصال كما هي',ko:'단어 패키지는 열었을 때 그 자리에서 받는 방식이 되었습니다. 쓰지 않는 패키지의 단어까지 매번 불러오지 않게 되어 앱 실행이 가벼워졌습니다. 이미 받은 패키지는 오프라인에서도 그대로 쓸 수 있습니다',ru:'Наборы слов теперь загружаются в момент открытия, а не все сразу вместе с приложением. Запуск стал легче, а уже загруженный набор работает и без интернета'},
-  v5120_2:{ja:'単語パッケージ「IT・テックの英単語」（50語）を追加しました',en:'Added a new word package: IT and Tech English Words (50 words)',zh:'新增单词包「IT・科技英语单词」（50 词）',fr:'Nouveau pack de vocabulaire : anglais de l’informatique (50 mots)',ar:'أُضيفت حزمة مفردات جديدة: مفردات إنجليزية في تقنية المعلومات (50 كلمة)',ko:'단어 패키지 «IT·테크 영단어»(50단어)를 추가했습니다',ru:'Добавлен новый набор слов: английские слова из сферы IT (50 слов)'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -4594,10 +4601,18 @@ function renderCount(){
   // different number from what tapping Review would actually serve -- the
   // quiz draws from the selected deck, not from DB.words.
   const due=curDueCount();
-  // The header used to carry the word count, the due chip and the streak. All
-  // three are shown again a few pixels below -- the count and streak as tiles
-  // on Home, the due number as the Review tab's badge -- so the row was paying
-  // for itself twice and cost about a third of the bar's height.
+  // The word count and the due chip were dropped from the header: both are
+  // shown again a few pixels below, on Home and on the Review tab's badge.
+  // The streak is not -- it is the one number worth seeing on every screen,
+  // because it is the thing you can break by doing nothing. Set beside the
+  // wordmark rather than on its own row, so it costs no height.
+  const st=$('#hdrStreak');
+  if(st){
+    const n=(S().streak||{}).current||0;
+    st.hidden=n<=0;
+    if(n>0)st.innerHTML=FLAME_SVG+'<span>'+n+'</span>';
+    st.onclick=()=>go('v-stats');
+  }
   // a left-open tab still shows what's waiting
   document.title=due>0?'('+due+') Wordkeep':'Wordkeep';
   const badge=$('#dueBadge');

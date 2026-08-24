@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.14.0 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.14.1 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -339,6 +339,7 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">連続日数をワードマークの横に</div><div class="d">v5.14.0で語数・今日の復習と一緒に外したが、<b>連続日数だけは性質が違う</b>——他の2つは「今どうなっているか」だが、これは<b>何もしないと壊れる</b>唯一の数字なので、どの画面にいても見えている価値がある。独立した行ではなく<b>ワードマークの横</b>に置いたので高さは63pxのまま。タップで学習の記録へ。</div><div class="ver">v5.14.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヘッダーを54%に縮小</div><div class="d">語数・今日の復習・連続日数を並べていたが、<b>その3つはホームのタイルと復習タブのバッジに同じものが出ている</b>。二重に払っていた分をやめて<b>116px → 63px</b>。情報は何も失っていない。</div><div class="ver">v5.14.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語リストの絞り込みを撤去</div><div class="d">使われていなかったうえ、リストの上に<b>常時2行</b>を占めていた。検索は残す。苦手な単語は復習の設定画面から出題できるので、導線自体は消えていない。</div><div class="ver">v5.14.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">長い問題文が入力欄を画面外に押し出していた</div><div class="d">意味は一語のこともあれば一文のこともあるのに固定サイズだったため、<b>周回の開始がスクロールから始まっていた</b>。<code>fitQuestion()</code>が長さから文字サイズを段階的に決め、3行で打ち止め。<b>CJKは同じ文字数でも約2倍の幅</b>を取るので別の段を使う。下限は17px——<b>収めるために読めなくしたら本末転倒</b>。</div><div class="ver">v5.14.0</div></div></li>
