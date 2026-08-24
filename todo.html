@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.13.0 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.14.0 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮416KB、gzip配信で<b>実転送量は140KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮426KB、gzip配信で<b>実転送量は144KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,12 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヘッダーを54%に縮小</div><div class="d">語数・今日の復習・連続日数を並べていたが、<b>その3つはホームのタイルと復習タブのバッジに同じものが出ている</b>。二重に払っていた分をやめて<b>116px → 63px</b>。情報は何も失っていない。</div><div class="ver">v5.14.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語リストの絞り込みを撤去</div><div class="d">使われていなかったうえ、リストの上に<b>常時2行</b>を占めていた。検索は残す。苦手な単語は復習の設定画面から出題できるので、導線自体は消えていない。</div><div class="ver">v5.14.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">長い問題文が入力欄を画面外に押し出していた</div><div class="d">意味は一語のこともあれば一文のこともあるのに固定サイズだったため、<b>周回の開始がスクロールから始まっていた</b>。<code>fitQuestion()</code>が長さから文字サイズを段階的に決め、3行で打ち止め。<b>CJKは同じ文字数でも約2倍の幅</b>を取るので別の段を使う。下限は17px——<b>収めるために読めなくしたら本末転倒</b>。</div><div class="ver">v5.14.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">答えのマス目を実測幅から計算</div><div class="d">最初は文字数→サイズの表を1台のスマホに合わせて書いたが、13文字が2行に折れた。<code>(幅 - 隙間×(文字数-1)) ÷ 文字数</code>で出して20〜34pxに収める。<b>決め打ちの表は画面幅が変わると破綻する</b>し、広い画面では小さいままになる。</div><div class="ver">v5.14.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヒントを押したら入力済みの文字を消す</div><div class="d">文字数が判明した直後に書きかけの綴りが残っていると、<b>正しい長さのマス目に間違った途中経過が乗って</b>かえって考えにくい。epopの挙動に合わせた。</div><div class="ver">v5.14.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">残りの絵文字をSVGに</div><div class="d">一覧／カードの切替、ホームの各カード、空状態、記録のタイル。<b>切替アイコンが最初ボタンいっぱいに膨らんだ</b>——スタイルを当てたクラス名が実際に使われているものと違ったうえ、<b>サイズ指定のないインラインSVGは与えられた箱を埋める</b>ため。設定のカテゴリは6つ全部が絵文字で揃っているので触っていない。</div><div class="ver">v5.14.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">「ワーホリで使える英単語 Part1」を追加（106語）</div><div class="d">利用者が自分でJSONを作り、<code>node tests/build-packages.mjs</code>を打つだけで載った。<b>外部化してツールを直した効果がそのまま出た形。</b>106語×7言語に欠けなし・重複なし、5本目を足してもindex.htmlのgzipは140KBのまま。仕事探し・住まい・お金・手続きの語彙。</div><div class="ver">v5.13.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">パッケージ追加はJSONを置くだけにした</div><div class="d">当初<code>build-packages.mjs</code>は<b>検証しかせず、カタログへの登録は手作業</b>だった。「ここに置いて実行すれば反映される？」と聞かれて、答えが「いいえ、もう1手あります」になるなら<b>ツールの設計が悪い</b>。<code>packages/*.json</code>を唯一の正として、<b>カタログを生成する</b>ように変更。人が触るのはJSONだけになった。検証も強化（id とファイル名の一致・7言語・<b>同じ単語の重複</b>・vが整数）。pre-commitからは<code>--check</code>で走る——<b>ステージ後にindex.htmlを書き換えたら、検証したものと違うものがcommitされる。</b></div><div class="ver">v5.12.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">trim-changelog の見張り項目が古くなっていた</div><div class="d">残っていることを確認する目印に<code>PKG_STUDYABROAD_PART1={</code>を使っていたが、<b>外部化でその定義自体が無くなった</b>ため、正しい状態なのに毎回止まるようになっていた。リリース時に実際に踏んだ。<code>PKG_CATALOG</code>に差し替え。<b>見張りも中身が変わったら更新しないと、何も守らずに邪魔だけする。</b></div><div class="ver">v5.12.0</div></div></li>

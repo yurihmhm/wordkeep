@@ -65,8 +65,8 @@ h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;margin:0}
 
 header{
   background:var(--fill); color:#fff;
-  padding:calc(env(safe-area-inset-top) + 20px) 18px 20px;
-  border-radius:0 0 22px 22px;
+  padding:calc(env(safe-area-inset-top) + 13px) 18px 14px;
+  border-radius:0 0 20px 20px;
 }
 #splash{position:fixed;inset:0;z-index:200;background:var(--navy);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
@@ -83,11 +83,11 @@ header{
   #splash .sp-bar i{animation:none;width:100%}
   #splash{transition:none}
 }
-header .hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+header .hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 header .brand{display:flex;align-items:baseline;gap:10px}
-header h1{font-size:26px;letter-spacing:.5px}
+header h1{font-size:23px;letter-spacing:.4px}
 header .hamburger{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
-  border-radius:11px;width:40px;height:40px;flex-shrink:0;margin-top:2px;cursor:pointer;
+  border-radius:10px;width:36px;height:36px;flex-shrink:0;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
 header .hamburger span{display:block;width:17px;height:2px;background:#fff;border-radius:2px}
 header .hamburger:active{transform:scale(.94)}
@@ -163,7 +163,11 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .tag-new{background:var(--good-bg);color:var(--good-ink)}
 .del{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
 .empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14.5px;line-height:1.7}
-.empty .big{font-size:34px;margin-bottom:10px}
+/* These slots used to hold an emoji, so they were sized with font-size. The
+   SVGs that replaced them take their size directly and their colour from the
+   surrounding text. */
+.empty .big{margin-bottom:12px;line-height:0}
+.empty .big svg{width:40px;height:40px;stroke:var(--line);stroke-width:1.6}
 
 .deck{perspective:1200px;margin:8px 0 18px}
 .flip{position:relative;width:100%;min-height:320px;transform-style:preserve-3d;
@@ -195,7 +199,14 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .deck-nav .pos-ind{font-size:13px;color:var(--muted)}
 
 .q-word{text-align:center;margin:10px 0 22px}
-.q-word .qw{font-family:Georgia,serif;font-size:36px;font-weight:600}
+/* The prompt is a meaning, which can be a whole sentence. At a fixed 36px a
+   long one pushed the hint button and the typing area below the fold, so the
+   round began with a scroll. The size is stepped down by length instead, and
+   clamped to three lines -- small enough to fit, never small enough to squint
+   at. `--qw` is set per question by fitQuestion(). */
+.q-word .qw{font-family:Georgia,serif;font-size:var(--qw,36px);font-weight:600;
+  line-height:1.25;display:-webkit-box;-webkit-box-orient:vertical;
+  -webkit-line-clamp:3;overflow:hidden;overflow-wrap:break-word}
 .q-word .qk{color:var(--accent);font-size:16px;margin-top:6px}
 .q-word .qprompt{font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
 .opt{width:100%;text-align:left;padding:15px 18px;margin-bottom:10px;border:1.5px solid var(--line);
@@ -228,14 +239,19 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-score .big{font-family:Georgia,serif;font-size:52px;color:var(--ink-strong)}
 .q-score .lbl{color:var(--muted);margin:6px 0 26px}
 /* --- spell mode ------------------------------------------------------- */
-.sp-disp{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
-  min-height:56px;align-items:center;margin:16px 0 4px}
-.sp-slot{width:34px;height:46px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;font-family:Georgia,'Times New Roman',serif;font-size:24px;
+.sp-disp{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;
+  min-height:50px;align-items:center;margin:14px 0 4px}
+/* Slots shrink with the answer's length for the same reason: "accommodation"
+   at full size wrapped onto a second and third row and shoved the keyboard
+   off-screen. Driven by --sl, set per question by fitQuestion(). */
+.sp-slot{width:var(--sl,34px);height:calc(var(--sl,34px) * 1.35);border-radius:8px;
+  display:flex;align-items:center;
+  justify-content:center;font-family:Georgia,'Times New Roman',serif;
+  font-size:calc(var(--sl,34px) * .7);
   font-weight:600;color:var(--ink-strong);background:var(--surface-2);
   border-bottom:2.5px solid var(--line);text-transform:lowercase}
 .sp-slot.filled{background:var(--surface);border-bottom-color:var(--fill)}
-.sp-slot.gap{width:14px;background:none;border-bottom-color:transparent}
+.sp-slot.gap{width:calc(var(--sl,34px) * .4);background:none;border-bottom-color:transparent}
 .sp-slot.cur{border-bottom-color:var(--accent);box-shadow:0 2px 0 -0.5px var(--accent)}
 .sp-disp.ok .sp-slot{background:var(--good-bg);border-bottom-color:var(--good);color:var(--good-ink)}
 
@@ -317,7 +333,11 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-act:active{transform:translateY(1px);filter:brightness(.94)}
 .q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
-  background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+  background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px}
+/* Without an explicit size an inline SVG fills the box it is given, so these
+   grew to the full height of the button. */
+.q-mode-tabs button svg,.word-modes button svg{width:17px;height:17px;flex:none}
 .q-mode-tabs button.on,.word-modes button.on{background:var(--fill);border-color:var(--fill);color:#fff}
 
 .rng{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
@@ -440,6 +460,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   padding:18px;box-shadow:var(--shadow);margin:0 2px 16px}
 .home-cta.calm{border:1px solid var(--line)}
 .home-cta .t{font-size:16.5px;font-weight:700;color:var(--ink-strong);display:flex;align-items:center;gap:9px}
+.home-cta .t svg{width:21px;height:21px;flex:none;color:var(--accent)}
+.home-cta.calm .t svg{color:var(--muted)}
 .home-cta .s{font-size:13px;color:var(--muted);line-height:1.6;margin-top:7px}
 .home-cta .btn{margin-top:14px;width:100%}
 .home-sec{font-size:11.5px;font-weight:700;letter-spacing:.6px;color:var(--muted);
@@ -447,20 +469,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .home-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 2px}
 .home-act{background:var(--surface);border:1px solid var(--line);border-radius:13px;
   padding:14px 12px;box-shadow:var(--shadow);text-align:left;cursor:pointer;font:inherit;color:inherit}
-.home-act .ic{font-size:19px;display:block;margin-bottom:6px}
+.home-act .ic{display:block;margin-bottom:8px;line-height:0;color:var(--ink-2)}
+.home-act .ic svg{width:21px;height:21px}
 .home-act .t{display:block;font-size:13.5px;font-weight:700;color:var(--ink-strong)}
 .home-act .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
 .home-act:active{transform:scale(.985)}
  /* Wraps rather than scrolls: the four chips need ~374px and a 375px phone
    gives the container 335, so the last one sat permanently half-cut behind a
    horizontal scroll most people would never discover. */
-.list-filter{display:flex;flex-wrap:wrap;gap:7px;margin:0 2px 12px}
-.list-filter .lf{display:flex;align-items:center;gap:5px;font:inherit;font-size:12.5px;
-  font-weight:600;padding:7px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;
-  border:1px solid var(--line);background:var(--surface);color:var(--muted)}
-.list-filter .lf.on{background:var(--fill);border-color:var(--fill);color:#fff}
-.list-filter .lf:disabled{opacity:.4;cursor:default}
-.list-filter .lf-n{font-variant-numeric:tabular-nums;opacity:.75;font-size:11.5px}
 .list-modes{display:flex;gap:8px;margin:0 2px 12px}
 .list-modes button{flex:1;font:inherit;font-size:13px;font-weight:600;padding:10px;
   border-radius:11px;border:1px solid var(--line);background:var(--surface);
@@ -477,7 +493,9 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 /* stats: streak tiles, daily bar chart, contribution heatmap */
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 2px 18px}
 .stat-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
-.stat-tile .sv{font-family:Georgia,serif;font-size:27px;font-weight:600;color:var(--ink-strong);line-height:1.15}
+.stat-tile .sv{font-family:Georgia,serif;font-size:27px;font-weight:600;color:var(--ink-strong);line-height:1.15;
+  display:flex;align-items:center;justify-content:center;gap:6px}
+.stat-tile .sv svg{width:20px;height:20px;flex:none;color:var(--accent)}
 .stat-tile .sl{font-size:12px;color:var(--muted);margin-top:4px}
 .chart-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
   padding:16px 14px;box-shadow:var(--shadow);margin:0 2px 18px}
@@ -556,7 +574,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .source-bar{width:100%;display:flex;align-items:center;gap:9px;background:var(--surface);border:1.5px solid var(--line);
   border-radius:12px;padding:11px 14px;margin:2px 2px 12px;font-family:inherit;font-size:14.5px;
   font-weight:600;color:var(--ink-strong);cursor:pointer;box-shadow:var(--shadow)}
-.source-bar .src-ic{font-size:17px}
+.source-bar .src-ic{display:flex;align-items:center;line-height:0;color:var(--ink-2)}
+.source-bar .src-ic svg{width:18px;height:18px}
 .source-bar .src-name{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .source-bar .src-caret{color:var(--muted);font-size:12px}
 .deck-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
@@ -606,7 +625,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <div class="brand"><h1>Wordkeep</h1></div>
       <button class="hamburger" id="btnMenu" type="button" aria-label="menu"><span></span><span></span><span></span></button>
     </div>
-    <div class="count" id="hdrCount"></div>
+
   </div>
 </header>
 
@@ -656,7 +675,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <section id="v-list" class="view">
     <div id="src-list"></div>
     <div id="listModes"></div>
-    <div id="listFilter"></div>
     <div class="list-head">
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
@@ -929,15 +947,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.13.0';
+const APP_VERSION='5.14.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.13.0',date:'2026-08-24',keys:['wn1']},
+  {version:'5.14.0',date:'2026-08-24',keys:['wn1','wn2','wn3']},
+  {version:'5.13.0',date:'2026-08-24',keys:['v5130_1']},
   {version:'5.12.0',date:'2026-08-24',keys:['v5120_1','v5120_2']},
-  {version:'5.11.2',date:'2026-08-24',keys:['v5112_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1032,10 +1050,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語パッケージ「ワーホリで使える英単語 Part1」（106語）を追加しました。仕事探し・住まい・お金・手続きまわりの単語です',en:'Added a word package: Working Holiday English Words Part 1 (106 words) — vocabulary for job hunting, housing, money and paperwork',zh:'新增单词包「打工度假英语单词 Part1」（106 词），涵盖找工作、住宿、金钱与各类手续',fr:'Nouveau pack : anglais pour un visa vacances-travail, partie 1 (106 mots) — recherche d’emploi, logement, argent et démarches',ar:'أُضيفت حزمة «مفردات إنجليزية لعطلة العمل - الجزء 1» (106 كلمات): البحث عن عمل والسكن والمال والمعاملات',ko:'단어 패키지 «워킹홀리데이 영단어 Part1»(106단어)을 추가했습니다. 일자리·주거·돈·각종 수속에 관한 단어입니다',ru:'Добавлен набор «Английские слова для рабочей поездки, часть 1» (106 слов): работа, жильё, деньги и оформление документов'},
+  wn1:{ja:'画面上部の紺色の帯を小さくしました。語数・今日の復習・連続日数はホーム画面と下のタブに同じものが出ているので、帯からは外しています。単語リストの絞り込みボタンも、使われていなかったので外しました',en:'The navy bar at the top is now much shorter. The word count, today’s reviews and the streak all appear again on Home and in the tab bar, so they no longer sit up there. The word list’s filter chips are gone too — nobody was using them',zh:'顶部深蓝色栏已大幅缩小。词数、今日复习与连续天数在首页和底部标签栏中同样可见，故不再重复显示。单词列表的筛选按钮也已移除，因为几乎无人使用',fr:'Le bandeau bleu marine en haut est nettement plus court. Le nombre de mots, les révisions du jour et la série figurent déjà sur l’accueil et dans la barre d’onglets. Les filtres de la liste ont aussi été retirés, faute d’usage',ar:'صار الشريط الكحلي أعلى الشاشة أقصر بكثير. فعدد الكلمات ومراجعات اليوم والأيام المتتالية تظهر جميعها في الصفحة الرئيسية وشريط التبويب. كما أُزيلت أزرار التصفية من قائمة الكلمات لعدم استخدامها',ko:'화면 위쪽의 남색 띠를 크게 줄였습니다. 단어 수·오늘의 복습·연속 일수는 홈 화면과 하단 탭에 그대로 나오므로 띠에서는 뺐습니다. 단어 목록의 필터 버튼도 쓰이지 않아 없앴습니다',ru:'Тёмно-синяя полоса вверху стала заметно ниже. Число слов, повторы за сегодня и серия и так видны на главной и в панели вкладок. Фильтры в списке слов тоже убраны — ими не пользовались'},
+  wn2:{ja:'スペル入力で、問題文が長いと入力欄やヒントが画面の外に出てしまう問題を直しました。文の長さに合わせて文字を小さくし、3行以内に収めます。答えのマス目も単語の長さに合わせて縮み、長い単語でも1行に並びます',en:'Fixed long prompts pushing the typing area and the hint button off-screen in spelling mode. The text now scales to its length and is capped at three lines, and the answer slots shrink so even a long word stays on one row',zh:'修复了拼写模式下题干过长时输入区与提示按钮被挤出屏幕的问题。文字会随长度缩放并限制在三行内，答案格也会缩小，长单词也能排在一行',fr:'Correction : en mode orthographe, un énoncé long repoussait la zone de saisie et le bouton d’indice hors écran. Le texte s’adapte à sa longueur, se limite à trois lignes, et les cases de réponse rétrécissent pour tenir sur une seule ligne',ar:'أُصلحت مشكلة دفع النص الطويل لمنطقة الكتابة وزر التلميح خارج الشاشة في وضع الإملاء. صار حجم النص يتناسب مع طوله ولا يتجاوز ثلاثة أسطر، وتتقلّص خانات الإجابة لتبقى في سطر واحد',ko:'스펠링 입력에서 문제문이 길면 입력란과 힌트가 화면 밖으로 밀려나던 문제를 고쳤습니다. 길이에 맞춰 글자가 작아지고 3줄 이내로 들어가며, 정답 칸도 줄어들어 긴 단어도 한 줄에 놓입니다',ru:'Исправлено: в режиме написания длинный вопрос выталкивал поле ввода и кнопку подсказки за экран. Текст масштабируется по длине и не превышает трёх строк, а ячейки ответа сжимаются, чтобы длинное слово помещалось в одну строку'},
+  wn3:{ja:'ヒントを押したときに、それまで入力していた文字を消すようにしました。文字数がわかった状態で書きかけの綴りが残っていると、かえって考えにくかったためです。あわせて画面のアイコンを絵文字から描き起こしのものに揃えました',en:'Asking for a hint now clears what you had typed: leaving a half-finished guess in slots that have just told you the real length only got in the way. The remaining emoji around the app were also replaced with drawn icons',zh:'点击提示时会清空已输入的字母——在得知正确长度后，残留的半截拼写反而碍事。同时将界面上剩余的表情符号替换为统一的图标',fr:'Demander un indice efface désormais ce que vous aviez tapé : garder une tentative inachevée dans des cases qui viennent de révéler la vraie longueur ne faisait que gêner. Les émojis restants ont aussi été remplacés par des icônes dessinées',ar:'صار طلب التلميح يمسح ما كتبته: فبقاء محاولة ناقصة في خانات كشفت لتوّها الطول الحقيقي كان يعيق أكثر مما يساعد. كما استُبدلت بقية الإيموجي في الواجهة بأيقونات مرسومة',ko:'힌트를 누르면 그때까지 입력한 글자를 지웁니다. 글자 수를 안 상태에서 쓰다 만 철자가 남아 있으면 오히려 방해가 되기 때문입니다. 화면에 남아 있던 이모지도 그린 아이콘으로 통일했습니다',ru:'Запрос подсказки теперь стирает набранное: незаконченная догадка в ячейках, которые только что показали настоящую длину, лишь мешала. Оставшиеся эмодзи в интерфейсе заменены нарисованными значками'},
+  v5130_1:{ja:'単語パッケージ「ワーホリで使える英単語 Part1」（106語）を追加しました。仕事探し・住まい・お金・手続きまわりの単語です',en:'Added a word package: Working Holiday English Words Part 1 (106 words) — vocabulary for job hunting, housing, money and paperwork',zh:'新增单词包「打工度假英语单词 Part1」（106 词），涵盖找工作、住宿、金钱与各类手续',fr:'Nouveau pack : anglais pour un visa vacances-travail, partie 1 (106 mots) — recherche d’emploi, logement, argent et démarches',ar:'أُضيفت حزمة «مفردات إنجليزية لعطلة العمل - الجزء 1» (106 كلمات): البحث عن عمل والسكن والمال والمعاملات',ko:'단어 패키지 «워킹홀리데이 영단어 Part1»(106단어)을 추가했습니다. 일자리·주거·돈·각종 수속에 관한 단어입니다',ru:'Добавлен набор «Английские слова для рабочей поездки, часть 1» (106 слов): работа, жильё, деньги и оформление документов'},
   v5120_1:{ja:'単語パッケージは、開いたときにその場で取得する方式になりました。使わないパッケージの単語まで毎回読み込むことがなくなり、アプリの起動が軽くなっています。取得済みのパッケージはオフラインでもそのまま使えます',en:'Word packages are now downloaded when you open one, instead of every package loading with the app. Startup is lighter, and a package you have already downloaded still works offline',zh:'单词包改为在打开时才下载，不再随应用一次性加载全部内容，启动更轻快。已下载的单词包仍可离线使用',fr:'Les packs de vocabulaire se téléchargent maintenant à l’ouverture, au lieu d’être tous chargés avec l’application. Le démarrage est plus léger, et un pack déjà téléchargé fonctionne hors ligne',ar:'صارت حزم المفردات تُنزَّل عند فتحها بدل تحميلها كلها مع التطبيق، فصار بدء التشغيل أخف. والحزمة التي نزّلتها تعمل دون اتصال كما هي',ko:'단어 패키지는 열었을 때 그 자리에서 받는 방식이 되었습니다. 쓰지 않는 패키지의 단어까지 매번 불러오지 않게 되어 앱 실행이 가벼워졌습니다. 이미 받은 패키지는 오프라인에서도 그대로 쓸 수 있습니다',ru:'Наборы слов теперь загружаются в момент открытия, а не все сразу вместе с приложением. Запуск стал легче, а уже загруженный набор работает и без интернета'},
   v5120_2:{ja:'単語パッケージ「IT・テックの英単語」（50語）を追加しました',en:'Added a new word package: IT and Tech English Words (50 words)',zh:'新增单词包「IT・科技英语单词」（50 词）',fr:'Nouveau pack de vocabulaire : anglais de l’informatique (50 mots)',ar:'أُضيفت حزمة مفردات جديدة: مفردات إنجليزية في تقنية المعلومات (50 كلمة)',ko:'단어 패키지 «IT·테크 영단어»(50단어)를 추가했습니다',ru:'Добавлен новый набор слов: английские слова из сферы IT (50 слов)'},
-  v5112_1:{ja:'メモがある単語につく印も、絵文字から他と揃いのアイコンに差し替えました',en:'The mark on a word that has a note is now the same drawn icon as the rest, instead of an emoji',zh:'带有备注的单词所显示的标记也由表情符号改为与其他统一的图标',fr:'La marque signalant qu’un mot a une note utilise elle aussi l’icône dessinée au lieu d’un émoji',ar:'صارت علامة الكلمة التي لها ملاحظة أيقونة مرسومة مثل البقية بدل الإيموجي',ko:'메모가 있는 단어에 붙는 표시도 이모지에서 다른 것과 같은 아이콘으로 교체했습니다',ru:'Отметка у слова с заметкой теперь тоже нарисованный значок, как и остальные, а не эмодзи'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1044,11 +1064,6 @@ const T={
   leech_save:{ja:'メモを保存',en:'Save the note',zh:'保存备注',fr:'Enregistrer la note',ar:'حفظ الملاحظة',ko:'메모 저장',ru:'Сохранить заметку'},
   leech_saved:{ja:'保存しました',en:'Saved',zh:'已保存',fr:'Enregistré',ar:'تم الحفظ',ko:'저장했습니다',ru:'Сохранено'},
   quiz_no_leech:{ja:'苦手な単語はありません。',en:'No trouble words right now.',zh:'目前没有易错单词。',fr:'Aucun mot difficile pour l’instant.',ar:'لا توجد كلمات صعبة حاليًا.',ko:'지금은 취약한 단어가 없습니다.',ru:'Сейчас трудных слов нет.'},
-  flt_all:{ja:'すべて',en:'All',zh:'全部',fr:'Tous',ar:'الكل',ko:'전체',ru:'Все'},
-  flt_due:{ja:'今日の復習',en:'Due',zh:'待复习',fr:'À revoir',ar:'للمراجعة',ko:'복습 대상',ru:'К повтору'},
-  flt_new:{ja:'未学習',en:'Not started',zh:'未学习',fr:'Non commencés',ar:'لم تبدأ',ko:'미학습',ru:'Не начаты'},
-  flt_learned:{ja:'学習済み',en:'Learned',zh:'已学习',fr:'Appris',ar:'مُتعلَّمة',ko:'학습 완료',ru:'Изучены'},
-  flt_none:{ja:'この条件に当てはまる単語はありません',en:'No words match this filter',zh:'没有符合此筛选的单词',fr:'Aucun mot ne correspond à ce filtre',ar:'لا توجد كلمات تطابق هذا الفلتر',ko:'이 조건에 맞는 단어가 없습니다',ru:'Нет слов по этому фильтру'},
   mode_list:{ja:'リスト',en:'List',zh:'列表',fr:'Liste',ar:'قائمة',ko:'목록',ru:'Список'},
   mode_cards:{ja:'カード',en:'Cards',zh:'卡片',fr:'Cartes',ar:'بطاقات',ko:'카드',ru:'Карточки'},
   nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
@@ -1759,6 +1774,19 @@ function speak(text){
   }catch(e){}
 }
 function speakAuto(text){if(S().autoSpeak)speak(text);}
+const LIST_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5h2M4 12h2M4 17.5h2"/><path d="M9.5 6.5H20M9.5 12H20M9.5 17.5H20"/></svg>';
+const CARDS_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 8.2h11A1.5 1.5 0 0 1 20 9.7v8.8a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 6 18.5V9.7a1.5 1.5 0 0 1 1.5-1.5Z"/><path d="M9 5.2h9.5A2.5 2.5 0 0 1 21 7.7v8"/></svg>';
+const PLUS_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>';
+const BOOKS_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.2 5.4h4.1v13.2H4.2zM9.9 5.4H14v13.2H9.9z"/><path d="m15.6 6.2 3.6.9-3 12.1-3.6-.9"/></svg>';
+const CHART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5h16"/><path d="M6.5 19.5v-5M11 19.5V9M15.5 19.5v-7M20 19.5V6"/></svg>';
+const BOOKOPEN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.6C10 5.2 7.4 4.3 4.7 4.1A1.2 1.2 0 0 0 3.4 5.3v11.2a1.2 1.2 0 0 0 1.2 1.2c2.7.2 5.3 1.1 7.4 2.5 2.1-1.4 4.7-2.3 7.4-2.5a1.2 1.2 0 0 0 1.2-1.2V5.3a1.2 1.2 0 0 0-1.3-1.2C16.6 4.3 14 5.2 12 6.6Z"/><path d="M12 6.6v13.6"/></svg>';
+const TROPHY_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4h9v5.2a4.5 4.5 0 0 1-9 0Z"/><path d="M7.5 5.6H5.2a2.4 2.4 0 0 0 2.4 4.2M16.5 5.6h2.3a2.4 2.4 0 0 1-2.4 4.2"/><path d="M12 13.7v3.1M9 20.2h6M9.8 16.8h4.4l.5 3.4H9.3Z"/></svg>';
+const FLAME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2s5.2 3.7 5.2 8.6a5.2 5.2 0 0 1-10.4 0c0-1.6.6-2.9 1.3-3.9.3 1.1 1 1.9 1.8 1.9 1.4 0 1.3-2.6 2.1-6.6Z"/></svg>';
+const PIN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.2S5.8 15.5 5.8 10.5a6.2 6.2 0 1 1 12.4 0c0 5-6.2 10.7-6.2 10.7Z"/><circle cx="12" cy="10.4" r="2.3"/></svg>';
+const THUMB_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.4 20.3V10.6l4.1-6.4a1.6 1.6 0 0 1 2.9 1v4.2h4.4a1.8 1.8 0 0 1 1.8 2.1l-1.2 6.8a1.8 1.8 0 0 1-1.8 1.5Z"/><path d="M7.4 10.9H4.6a1.2 1.2 0 0 0-1.2 1.2v6.9a1.2 1.2 0 0 0 1.2 1.2h2.8"/></svg>';
+const PENCIL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="m14.5 6.5 3 3"/></svg>';
+const BOX_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 8.1 12 4.2l8.4 3.9v7.8L12 19.8 3.6 15.9Z"/><path d="M3.6 8.1 12 12l8.4-3.9M12 12v7.8"/></svg>';
+const FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 7.3a1.6 1.6 0 0 1 1.6-1.6h4l2 2.4h7.2a1.6 1.6 0 0 1 1.6 1.6v7.6a1.6 1.6 0 0 1-1.6 1.6H5.2a1.6 1.6 0 0 1-1.6-1.6Z"/></svg>';
 const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
 const SPEAKER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>';
@@ -2117,7 +2145,7 @@ function sourceBarHTML(){
   const name=CTX.type==='pkg'?esc(pkgTitle(pkgById(CTX.id)))
             :CTX.type==='deck'?esc(deckName(CTX.id))
             :esc(t('deck_own'));
-  const icon=CTX.type==='pkg'?'📦':CTX.type==='deck'?'🗂️':'📗';
+  const icon=CTX.type==='pkg'?BOX_SVG:CTX.type==='deck'?FOLDER_SVG:BOOKOPEN_SVG;
   // No id here: this bar is rendered into three containers (list/study/quiz),
   // so a shared id would make only the first one clickable. Bind on the
   // element inside its own container instead.
@@ -2955,17 +2983,17 @@ function todayState(){
   const streak=(S().streak||{}).current||0;
   const done=studiedToday();
   if(!curWords().length)return {kind:'empty'};
-  if(due>0&&!done)return {kind:'due',urgent:true,mode:'due',icon:streak>0?'🔥':'📌',
+  if(due>0&&!done)return {kind:'due',urgent:true,mode:'due',icon:streak>0?FLAME_SVG:PIN_SVG,
     title:streak>0?t('today_streak_live',streak):t('today_due_title',due),
     sub:streak>0?t('today_streak_risk',due):t('today_due_sub'),btn:t('today_start',due)};
-  if(due>0&&done)return {kind:'more',mode:'due',icon:'👍',
+  if(due>0&&done)return {kind:'more',mode:'due',icon:THUMB_SVG,
     title:t('today_done_more',due),sub:t('today_done_more_sub'),btn:t('today_continue')};
-  if(streak>0&&!done)return {kind:'streak',urgent:true,mode:'all',icon:'🔥',
+  if(streak>0&&!done)return {kind:'streak',urgent:true,mode:'all',icon:FLAME_SVG,
     title:t('today_streak_live',streak),sub:t('today_nodue_risk'),btn:t('today_free')};
   if(done)return {kind:'done',icon:'🎉',title:t('today_complete'),sub:t('today_complete_sub'),
     mode:'all',btn:t('today_free')};
   // nothing due, no streak, but words exist -- free study is still offered
-  return {kind:'idle',icon:'📖',title:t('home_nothing_due'),sub:t('home_nothing_due_sub'),
+  return {kind:'idle',icon:BOOKOPEN_SVG,title:t('home_nothing_due'),sub:t('home_nothing_due_sub'),
     mode:'all',btn:t('today_free')};
 }
 // `report` is passed only when the user actually navigated here. A background
@@ -3040,16 +3068,16 @@ function renderHome(report){
   h+='<div id="src-home"></div>';
 
   h+='<div class="home-sec">'+esc(t('home_more'))+'</div><div class="home-acts">'+
-    '<button class="home-act" id="hmCards"><span class="ic">🗂️</span>'+
+    '<button class="home-act" id="hmCards"><span class="ic">'+CARDS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_cards'))+'</span>'+
       '<span class="s">'+esc(t('home_act_cards_s'))+'</span></button>'+
-    '<button class="home-act" id="hmAdd"><span class="ic">➕</span>'+
+    '<button class="home-act" id="hmAdd"><span class="ic">'+PLUS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_add'))+'</span>'+
       '<span class="s">'+esc(t('home_act_add_s'))+'</span></button>'+
-    '<button class="home-act" id="hmWords"><span class="ic">📚</span>'+
+    '<button class="home-act" id="hmWords"><span class="ic">'+BOOKS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_words'))+'</span>'+
       '<span class="s">'+esc(t('n_words',total))+'</span></button>'+
-    '<button class="home-act" id="hmStats"><span class="ic">📈</span>'+
+    '<button class="home-act" id="hmStats"><span class="ic">'+CHART_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_stats'))+'</span>'+
       '<span class="s">'+esc(t('home_act_stats_s'))+'</span></button>'+
   '</div>';
@@ -3073,8 +3101,8 @@ function renderHome(report){
 // the card view no longer needs a separate back button.
 function wordModesHTML(mode){
   return '<div class="word-modes">'+
-    '<button data-wm="list" class="'+(mode==='list'?'on':'')+'">📋 '+esc(t('mode_list'))+'</button>'+
-    '<button data-wm="cards" class="'+(mode==='cards'?'on':'')+'">🗂️ '+esc(t('mode_cards'))+'</button>'+
+    '<button data-wm="list" class="'+(mode==='list'?'on':'')+'">'+LIST_SVG+esc(t('mode_list'))+'</button>'+
+    '<button data-wm="cards" class="'+(mode==='cards'?'on':'')+'">'+CARDS_SVG+esc(t('mode_cards'))+'</button>'+
   '</div>';
 }
 function bindWordModes(root){
@@ -3111,60 +3139,24 @@ function renderListModes(){
 // plus custom notebooks exist precisely to make it large. Filtering by state
 // answers the questions actually being asked: what have I not started, what is
 // waiting for me today, what have I got through.
-let listFilter='all';
-function filterCounts(){
-  const arr=curWords();
-  return {
-    all:arr.length,
-    new:arr.filter(w=>w.box===-1&&!w.seen).length,
-    due:arr.filter(isDue).length,
-    learned:arr.filter(w=>w.box>=0).length,
-    leech:arr.filter(isLeech).length
-  };
-}
-function applyFilter(arr){
-  if(listFilter==='new')return arr.filter(w=>w.box===-1&&!w.seen);
-  if(listFilter==='due')return arr.filter(isDue);
-  if(listFilter==='learned')return arr.filter(w=>w.box>=0);
-  if(listFilter==='leech')return arr.filter(isLeech);
-  return arr;
-}
-function renderListFilter(){
-  const el=$('#listFilter');
-  if(!el)return;
-  const c=filterCounts();
-  if(!c.all){el.innerHTML='';return;}
-  const chip=(k,label,n)=>'<button class="lf'+(listFilter===k?' on':'')+'" data-f="'+k+'"'+
-    (n===0&&k!=='all'?' disabled':'')+'>'+esc(label)+'<span class="lf-n">'+n+'</span></button>';
-  el.innerHTML='<div class="list-filter">'+
-    chip('all',t('flt_all'),c.all)+chip('due',t('flt_due'),c.due)+
-    chip('new',t('flt_new'),c.new)+chip('learned',t('flt_learned'),c.learned)+
-    // Only offered once there is something to see -- an always-visible zero
-    // would just be a standing reminder of a problem nobody has yet.
-    (c.leech?chip('leech','⚠️ '+t('flt_leech'),c.leech):'')+'</div>';
-  $$('#listFilter .lf').forEach(b=>b.onclick=()=>{
-    listFilter=b.dataset.f;
-    gaEvent('list_filter',{filter:listFilter});
-    renderList();
-  });
-}
+// The list had five filter chips (all / due / new / learned / trouble). The
+// analytics say nobody used them, and they cost two rows above every list.
+// Search stays, and the trouble words are still reachable where they matter --
+// the review setup screen offers them as a round.
 function renderList(){
   renderSourceBar('#src-list');
   renderListModes();
-  renderListFilter();
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
-  let arr=applyFilter(curWords());
+  let arr=curWords();
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   if(!arr.length){
-    const why=!curWords().length?t('empty_list')
-              :listFilter!=='all'?t('flt_none')
-              :t('no_match');
+    const why=!curWords().length?t('empty_list'):t('no_match');
     // Not escaped: these are developer-authored strings and empty_list
     // carries a <br>. Escaping it printed the tag as text.
-    p.innerHTML='<div class="empty"><div class="big">📖</div>'+why+'</div>';
+    p.innerHTML='<div class="empty"><div class="big">'+BOOKOPEN_SVG+'</div>'+why+'</div>';
     return;
   }
   p.innerHTML=arr.map(w=>{
@@ -3260,7 +3252,7 @@ function renderStudy(){
   $('#studyModes').innerHTML=wordModesHTML('cards');
   bindWordModes('#studyModes');
   const body=$('#studyBody');
-  if(!curWords().length){body.innerHTML='<div class="empty"><div class="big">🗂️</div>'+t('study_empty')+'</div>';return;}
+  if(!curWords().length){body.innerHTML='<div class="empty"><div class="big">'+CARDS_SVG+'</div>'+t('study_empty')+'</div>';return;}
   deck=shuffle(curWords());di=0;
   body.innerHTML=
     '<div class="deck"><div class="flip" id="flip">'+
@@ -3435,7 +3427,7 @@ function renderQuizSetup(){
   const due=curDueCount(), lc=leechCount();
   const total=curWords().filter(w=>primaryMeaning(w)).length;
   if(!total){
-    body.innerHTML='<div class="empty"><div class="big">✏️</div>'+t('quiz_need_add')+'</div>';
+    body.innerHTML='<div class="empty"><div class="big">'+PENCIL_SVG+'</div>'+t('quiz_need_add')+'</div>';
     return;
   }
   const modes=[{v:'due',n:t('quiz_due',due),on:due>0}];
@@ -3600,10 +3592,14 @@ function spellHint(){
   const w=quiz.items[quiz.i];
   if(spell.hint===0){
     spell.hint=1;
+    // Asking for the letter count means the attempt so far was a guess. Wiping
+    // it puts the slots in front of an empty line instead of leaving a wrong
+    // word sitting in boxes that now say how long the answer really is.
+    spell.buf='';
     gaEvent('spell_hint',{level:1});
   }else if(spell.hint===1){
     spell.hint=2;
-    if(!spell.buf)spell.buf=spell.target[0];
+    spell.buf=spell.target[0];
     gaEvent('spell_hint',{level:2});
   }else{
     // Giving up. Marked wrong, because it was not recalled.
@@ -3684,6 +3680,41 @@ function spellKeyHandler(e){
 }
 document.addEventListener('keydown',spellKeyHandler);
 
+// Fit the question and the answer slots to the space above the keyboard.
+//
+// Both used to be a fixed size, which is fine for "noun" and wrong for "the
+// person or thing a sentence is about". On a phone the long ones pushed the
+// hint button and the typing area below the fold, so a round opened with a
+// scroll -- and the whole point of this mode is that you never take your hands
+// off the keys.
+//
+// Chosen by length rather than measured, because measuring means rendering at
+// the wrong size first and the reflow is visible. The floors are the readable
+// limit, not a guess at one: below them the answer is a squint.
+function fitQuestion(text,target){
+  const body=$('#quizBody');
+  if(!body)return;
+  const n=Array.from(String(text||'')).length;
+  // A CJK character is roughly twice as wide as a latin one at the same size,
+  // so the same count needs a smaller face.
+  const wide=/[぀-ヿ㐀-鿿가-힯]/.test(text||'');
+  const steps=wide?[[6,34],[12,28],[20,23],[34,19],[Infinity,17]]
+                  :[[10,36],[20,30],[36,24],[60,19],[Infinity,17]];
+  body.style.setProperty('--qw',(steps.find(x=>n<=x[0])[1])+'px');
+
+  if(target!=null){
+    const len=Array.from(String(target)).length;
+    // Worked out from the width actually available rather than a table tuned
+    // against one phone: the answer should sit on a single row wherever it
+    // can, and a wider screen should get bigger slots, not the same ones.
+    const GAP=5, MAX=34, MIN=20;
+    const avail=(body.clientWidth||340)-2;
+    const fit=Math.floor((avail-GAP*(len-1))/len);
+    // Past MIN it would be a squint, so let it wrap onto a second row instead
+    // -- two rows of legible letters beat one row of unreadable ones.
+    body.style.setProperty('--sl',Math.max(MIN,Math.min(MAX,fit))+'px');
+  }
+}
 function renderQ(){
   clearTimeout(answerSpeakTimer);
   clearKeyboardSpace();
@@ -3713,6 +3744,7 @@ function renderQ(){
       '<div id="spKb"></div>'+
       '<div id="qfb"></div>';
     body.innerHTML=inner;
+    fitQuestion(face,spell.target);
     renderSpellDisplay();
     $('#spHint').onclick=spellHint;
     // Only where there is no other way to type: a system keyboard would show
@@ -3725,6 +3757,7 @@ function renderQ(){
     const opts=shuffle([correct,...others]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
+    fitQuestion(face,null);
     $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
       const ok=btn.textContent===correct;
       $$('#opts .opt').forEach(b=>{b.disabled=true;
@@ -4332,8 +4365,8 @@ function renderStats(){
 
   const tile=(v,label)=>'<div class="stat-tile"><div class="sv">'+v+'</div><div class="sl">'+esc(label)+'</div></div>';
   let html='<div class="stat-grid">'+
-    tile('🔥 '+esc(t('n_days',st.current||0)),t('stat_current'))+
-    tile('🏆 '+esc(t('n_days',st.longest||0)),t('stat_longest'))+
+    tile(FLAME_SVG+esc(t('n_days',st.current||0)),t('stat_current'))+
+    tile(TROPHY_SVG+esc(t('n_days',st.longest||0)),t('stat_longest'))+
     tile(esc(t('n_days',activeDays)),t('stat_days'))+
     tile(totalN?acc+'%':'—',t('stat_accuracy'))+
     '</div>';
@@ -4560,12 +4593,11 @@ function renderCount(){
   // package left the header and the Review badge advertising a completely
   // different number from what tapping Review would actually serve -- the
   // quiz draws from the selected deck, not from DB.words.
-  const n=curWords().length;
   const due=curDueCount();
-  const streakN=(S().streak||{}).current||0;
-  $('#hdrCount').innerHTML='<span><b>'+n+'</b> '+t('unit_words')+'</span>'+(due?'<span class="due-chip">'+t('due_chip',due)+'</span>':'')+(streakN>0?'<button class="streak-chip" id="streakChip" type="button">🔥 '+esc(t('streak_chip',streakN))+'</button>':'');
-  const chip=$('#streakChip');
-  if(chip)chip.onclick=()=>go('v-stats'); // the streak is the natural door into the record
+  // The header used to carry the word count, the due chip and the streak. All
+  // three are shown again a few pixels below -- the count and streak as tiles
+  // on Home, the due number as the Review tab's badge -- so the row was paying
+  // for itself twice and cost about a third of the bar's height.
   // a left-open tab still shows what's waiting
   document.title=due>0?'('+due+') Wordkeep':'Wordkeep';
   const badge=$('#dueBadge');
