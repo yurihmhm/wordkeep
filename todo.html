@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.14.1 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.15.0 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮426KB、gzip配信で<b>実転送量は144KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮446KB、gzip配信で<b>実転送量は151KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,10 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">たまった復習を「今日の分」に切り替えた</div><div class="d">1週間空けた状態を再現したら、<b>210 / 210 / 99+ が3箇所から同時に出た</b>。しかも本文は「今日はもう学習しました」——埋まっている人への言葉になっていない。<b>SRSで人が辞める理由は作業量ではなくこの数字。</b>見せる数を今日の目標で頭打ちにし、残りは1回だけ静かに文章で出す。<b>隠してはいない</b>——予定は一切変えておらず、真の総数は記録画面にある。出題側も同じ上限で切らないと「20語」と言いながら210語walkさせることになる。既定20、設定で変更可。</div><div class="ver">v5.15.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">連続記録ページを追加</div><div class="d">アプリ名の横の炎か、記録タブの「現在の連続」から開く。カレンダー（月送り可・未来には進めない）、節目7〜365の10段階、最長・今月の学習日数・フリーズ残数。<b>節目は<code>STREAK_MILESTONES</code>が唯一の定義</b>で、GA送信もバッジ表示もそこを見る。以前は<code>[7,30,100,365]</code>が<code>updateStreak</code>にべた書きされ、<b>検知はしているのに画面では何も起きなかった</b>。</div><div class="ver">v5.15.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">ストリークフリーズをやっと表示した</div><div class="d">月1つ・最大2つ貯まり、1日の空白を自動で埋める仕組みは<b>前から動いていた</b>が、記録タブの隅に文字が1行あるだけで、<b>持っていることにも、守られたことにも気づけなかった</b>。</div><div class="ver">v5.15.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">カレンダーが横にはみ出した（グリッドの罠2つ）</div><div class="d"><code>aspect-ratio:1</code>と<code>1fr</code>の組み合わせで、<b>トラック幅と項目の高さが互いを参照して発散</b>し、287pxの中で1列120pxに解決された。<code>minmax(0,1fr)</code>＋高さ固定で解消。さらに先頭の空白セルに<code>empty</code>というクラス名を使ったせいで、<b>アプリの空状態ブロック（padding 60px）のスタイルが漏れて1行目だけ120pxになった</b>。<code>blank</code>に改名。</div><div class="ver">v5.15.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">連続日数をワードマークの横に</div><div class="d">v5.14.0で語数・今日の復習と一緒に外したが、<b>連続日数だけは性質が違う</b>——他の2つは「今どうなっているか」だが、これは<b>何もしないと壊れる</b>唯一の数字なので、どの画面にいても見えている価値がある。独立した行ではなく<b>ワードマークの横</b>に置いたので高さは63pxのまま。タップで学習の記録へ。</div><div class="ver">v5.14.1</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">ヘッダーを54%に縮小</div><div class="d">語数・今日の復習・連続日数を並べていたが、<b>その3つはホームのタイルと復習タブのバッジに同じものが出ている</b>。二重に払っていた分をやめて<b>116px → 63px</b>。情報は何も失っていない。</div><div class="ver">v5.14.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">単語リストの絞り込みを撤去</div><div class="d">使われていなかったうえ、リストの上に<b>常時2行</b>を占めていた。検索は残す。苦手な単語は復習の設定画面から出題できるので、導線自体は消えていない。</div><div class="ver">v5.14.0</div></div></li>

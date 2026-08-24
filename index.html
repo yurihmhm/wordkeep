@@ -297,6 +297,51 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-quit:active{background:var(--line)}
 /* Post-answer actions. Three equal tiles rather than one wide button: hearing
    the word and opening its details are worth as much as moving on. */
+/* ---- streak page ---- */
+.stk-head{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 4px}
+.stk-head svg{width:44px;height:44px;color:var(--accent)}
+.stk-n{font-family:Georgia,serif;font-size:54px;font-weight:600;color:var(--ink-strong);line-height:1.05}
+.stk-u{font-size:13px;color:var(--muted)}
+.stk-next{text-align:center;font-size:13px;color:var(--muted);margin:10px 2px 18px}
+.stk-bar{height:7px;border-radius:99px;background:var(--track);overflow:hidden;margin-top:9px}
+.stk-bar i{display:block;height:100%;background:var(--accent);transition:width .4s}
+.stk-cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  font-size:14px;font-weight:700;color:var(--ink-strong);margin:0 2px 8px}
+.stk-nav{width:30px;height:30px;border-radius:9px;border:none;background:var(--ghost-bg);
+  color:var(--ink-2);font-size:17px;line-height:1;cursor:pointer;font-family:inherit}
+.stk-nav:disabled{opacity:.3;cursor:default}
+/* minmax(0,...) rather than 1fr: a grid item's automatic minimum comes from
+   its content, and with aspect-ratio:1 on the cells that minimum is derived
+   from their height -- which is derived from their width. The circle resolved
+   at 120px per column inside a 287px sheet and the calendar ran off the side. */
+.stk-dow,.stk-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.stk-dow{margin:0 2px 5px}
+.stk-dow span{text-align:center;font-size:10.5px;color:var(--muted);font-weight:700}
+.stk-cal{margin:0 2px}
+/* A fixed height rather than aspect-ratio. With aspect-ratio the row's height
+   and the item's width each depend on the other, and the leading blank cells
+   resolved to 120px and pushed the calendar off the sheet. A square-ish cell is
+   the goal, not a mathematically square one. */
+.stk-c{height:36px;display:flex;align-items:center;justify-content:center;
+  border-radius:9px;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface-2)}
+/* Named `blank`, not `empty`: .empty is the app's empty-state block and its
+   padding leaked in, making the first calendar row 120px tall. */
+.stk-c.blank{background:none}
+.stk-c.future{opacity:.35}
+/* A filled day is the point of the whole screen, so it gets the accent. */
+.stk-c.on{background:var(--accent);color:var(--navy);font-weight:800}
+.stk-c.today{outline:2px solid var(--ink-strong);outline-offset:-2px}
+.stk-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:18px 0 0}
+.stk-stats div{background:var(--surface-2);border-radius:12px;padding:11px 6px;text-align:center}
+.stk-stats b{display:block;font-family:Georgia,serif;font-size:22px;color:var(--ink-strong)}
+.stk-stats span{font-size:11px;color:var(--muted)}
+.stk-note{font-size:11.5px;color:var(--muted);line-height:1.6;margin:10px 2px 0}
+.stk-sec{font-size:11.5px;font-weight:700;letter-spacing:.6px;color:var(--muted);margin:18px 2px 9px}
+.stk-badges{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.stk-b{background:var(--surface-2);border-radius:11px;padding:9px 2px;text-align:center;opacity:.45}
+.stk-b .v{display:block;font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--ink-strong)}
+.stk-b .d{font-size:9.5px;color:var(--muted)}
+.stk-b.on{opacity:1;background:rgba(240,180,41,.16);outline:1px solid rgba(240,180,41,.45)}
 /* ---- leaderboard ---- */
 .rk-switch{display:flex;gap:6px;background:var(--ghost-bg);border-radius:12px;padding:4px;margin-bottom:16px}
 .rk-switch button{flex:1;border:none;background:none;border-radius:9px;padding:9px 4px;cursor:pointer;
@@ -501,6 +546,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 /* stats: streak tiles, daily bar chart, contribution heatmap */
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 2px 18px}
 .stat-tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.stat-tile.as-btn{border:none;font-family:inherit;cursor:pointer;text-align:center;
+  display:block;width:100%;position:relative}
+.stat-tile.as-btn::after{content:"›";position:absolute;top:7px;right:9px;
+  color:var(--muted);font-size:14px;line-height:1}
+.stat-tile.as-btn:active{transform:scale(.98)}
 .stat-tile .sv{font-family:Georgia,serif;font-size:27px;font-weight:600;color:var(--ink-strong);line-height:1.15;
   display:flex;align-items:center;justify-content:center;gap:6px}
 .stat-tile .sv svg{width:20px;height:20px;flex:none;color:var(--accent)}
@@ -754,6 +804,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 </div></div>
 <div class="overlay gate" id="overlayGate"><div class="sheet"><div id="gateBody"></div></div></div>
 <div class="overlay gate" id="overlayNick"><div class="sheet"><div id="nickBody"></div></div></div>
+<div class="overlay" id="overlayStreak"><div class="sheet sheet-wide">
+  <div class="sheet-head"><h3 data-i18n="streak_title">連続記録</h3><button class="sheet-x" id="stkClose" type="button" aria-label="close">×</button></div>
+  <div id="stkBody"></div>
+</div></div>
 <div class="overlay" id="overlayWordDetail"><div class="sheet">
   <div class="sheet-head"><h3 id="wdWord" style="font-family:Georgia,'Times New Roman',serif"></h3><button class="sheet-x" id="wdClose" type="button" aria-label="close">×</button></div>
   <div id="wdBody"></div>
@@ -897,6 +951,19 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="set-section-t" data-i18n="sec_review">復習（間隔反復）</div>
     <div class="panel">
       <div class="set-row">
+        <div><div class="st" data-i18n="st_goal">1日に出す上限</div><div class="sd" data-i18n="desc_goal"></div></div>
+        <div class="seg" id="segGoal">
+          <button data-v="10">10</button>
+          <button data-v="20">20</button>
+          <button data-v="30">30</button>
+          <button data-v="50">50</button>
+          <button data-v="0" data-i18n="goal_off">上限なし</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="set-row">
         <div><div class="st" data-i18n="st_schedule">復習スケジュール</div><div class="sd" data-i18n="desc_schedule">正解すると 1→3→5→7→14→20→30→60→90日後に再出題。間違えると最初からやり直しです。</div></div>
       </div>
       <div class="set-row">
@@ -955,15 +1022,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.14.1';
+const APP_VERSION='5.15.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.14.1',date:'2026-08-24',keys:['wn1']},
+  {version:'5.15.0',date:'2026-08-24',keys:['wn1','wn2','wn3']},
+  {version:'5.14.1',date:'2026-08-24',keys:['v5141_1']},
   {version:'5.14.0',date:'2026-08-24',keys:['v5140_1','v5140_2','v5140_3']},
-  {version:'5.13.0',date:'2026-08-24',keys:['v5130_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1058,11 +1125,13 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'連続日数をアプリ名の横に戻しました。タップすると学習の記録が開きます',en:'The streak is back, beside the app name. Tap it to open your record',zh:'连续天数已回到应用名称旁边，点击可打开学习记录',fr:'La série est de retour, à côté du nom de l’application. Touchez-la pour ouvrir votre suivi',ar:'عادت الأيام المتتالية بجانب اسم التطبيق. المسه لفتح سجل تعلّمك',ko:'연속 일수를 앱 이름 옆에 되돌렸습니다. 누르면 학습 기록이 열립니다',ru:'Серия вернулась — рядом с названием приложения. Нажмите, чтобы открыть свой прогресс'},
+  wn1:{ja:'復習がたまっても、1日に出す数に上限を設けました。しばらく空けて戻ってきても「210語」ではなく「今日は20語」と表示されます。残りは翌日以降に回るだけで、復習の予定そのものは変わりません。上限は設定から変えられます',en:'Reviews are now capped per day. Come back after a break and you see “20 today”, not “210 due”. The rest simply rolls over — the schedule itself is unchanged. You can change the cap in Settings',zh:'每日复习量现已设上限。久未打开后回来看到的是「今天 20 个」而非「待复习 210 个」，其余顺延，复习计划本身不变。上限可在设置中调整',fr:'Les révisions sont désormais plafonnées par jour. Après une pause, vous voyez « 20 aujourd’hui » et non « 210 en retard ». Le reste est simplement reporté, le planning ne change pas. Le plafond se règle dans les réglages',ar:'صار للمراجعات حد يومي. فإذا عدت بعد انقطاع ترى «20 اليوم» بدل «210 مستحقة»، ويُرحّل الباقي دون أن يتغير الجدول نفسه. ويمكنك تعديل الحد من الإعدادات',ko:'복습이 밀려도 하루에 내보내는 수에 상한을 두었습니다. 오래 쉬었다 돌아와도 «210개»가 아니라 «오늘 20개»로 표시됩니다. 나머지는 다음 날로 넘어갈 뿐이고 일정 자체는 그대로입니다. 상한은 설정에서 바꿀 수 있습니다',ru:'Повторы теперь ограничены в день. Вернувшись после перерыва, вы увидите «20 на сегодня», а не «210 к повтору». Остальное просто переносится, само расписание не меняется. Лимит настраивается'},
+  wn2:{ja:'連続記録のページを追加しました。アプリ名の横の炎か、記録タブの「現在の連続」から開けます。カレンダーで学習した日が見え、7日から365日までの節目も並びます',en:'Added a streak page. Open it from the flame beside the app name, or from “Current streak” on the Record tab. It shows a calendar of the days you studied and the milestones from 7 up to 365',zh:'新增连续记录页面。可从应用名旁的火焰图标或「记录」标签页的「当前连续」打开，内含学习日历与 7 天至 365 天的里程碑',fr:'Nouvelle page de série. Ouvrez-la depuis la flamme à côté du nom de l’application ou depuis « Série actuelle » dans l’onglet Suivi. Elle montre un calendrier des jours étudiés et les paliers de 7 à 365 jours',ar:'أُضيفت صفحة للتتابع. افتحها من رمز اللهب بجانب اسم التطبيق أو من «التتابع الحالي» في تبويب السجل. تعرض تقويمًا بأيام دراستك والمراحل من 7 إلى 365 يومًا',ko:'연속 기록 페이지를 추가했습니다. 앱 이름 옆의 불꽃이나 기록 탭의 «현재 연속»에서 열 수 있습니다. 학습한 날이 달력으로 보이고 7일부터 365일까지의 이정표가 나옵니다',ru:'Добавлена страница серии. Откройте её по значку пламени рядом с названием приложения или из «Текущая серия» на вкладке «Прогресс». Там календарь ваших занятий и рубежи от 7 до 365 дней'},
+  wn3:{ja:'ストリークフリーズの残数が見えるようになりました。月に1つ、最大2つまで貯まり、1日休んでも自動で使われて記録がつながる仕組みです。これまでも動いていましたが、どこにも表示されていませんでした',en:'Your streak freezes are now visible. You earn one a month, up to two, and one is spent automatically if you miss a single day so the streak holds. This always worked — it was just never shown anywhere',zh:'现在可以看到剩余的连续冻结数量。每月获得 1 个、最多 2 个，漏掉一天会自动使用以保住连续记录。该机制一直有效，只是此前从未显示',fr:'Vos gels de série sont désormais visibles. Vous en gagnez un par mois, jusqu’à deux, et l’un est utilisé automatiquement si vous manquez une journée. Cela fonctionnait déjà, mais n’était affiché nulle part',ar:'صار رصيد تجميدات التتابع ظاهرًا. تحصل على واحدة شهريًا وبحد أقصى اثنتان، وتُستخدم واحدة تلقائيًا إذا فاتك يوم فيبقى تتابعك. كانت تعمل دائمًا لكنها لم تكن معروضة في أي مكان',ko:'스트릭 프리즈의 남은 개수가 보이게 되었습니다. 매달 1개씩 최대 2개까지 쌓이고, 하루 쉬면 자동으로 사용되어 기록이 이어집니다. 지금까지도 동작하고 있었지만 어디에도 표시되지 않았습니다',ru:'Теперь видно, сколько у вас заморозок серии. Одна в месяц, максимум две, и одна тратится автоматически при пропуске дня. Механизм работал и раньше — просто нигде не показывался'},
+  v5141_1:{ja:'連続日数をアプリ名の横に戻しました。タップすると学習の記録が開きます',en:'The streak is back, beside the app name. Tap it to open your record',zh:'连续天数已回到应用名称旁边，点击可打开学习记录',fr:'La série est de retour, à côté du nom de l’application. Touchez-la pour ouvrir votre suivi',ar:'عادت الأيام المتتالية بجانب اسم التطبيق. المسه لفتح سجل تعلّمك',ko:'연속 일수를 앱 이름 옆에 되돌렸습니다. 누르면 학습 기록이 열립니다',ru:'Серия вернулась — рядом с названием приложения. Нажмите, чтобы открыть свой прогресс'},
   v5140_1:{ja:'画面上部の紺色の帯を小さくしました。語数・今日の復習・連続日数はホーム画面と下のタブに同じものが出ているので、帯からは外しています。単語リストの絞り込みボタンも、使われていなかったので外しました',en:'The navy bar at the top is now much shorter. The word count, today’s reviews and the streak all appear again on Home and in the tab bar, so they no longer sit up there. The word list’s filter chips are gone too — nobody was using them',zh:'顶部深蓝色栏已大幅缩小。词数、今日复习与连续天数在首页和底部标签栏中同样可见，故不再重复显示。单词列表的筛选按钮也已移除，因为几乎无人使用',fr:'Le bandeau bleu marine en haut est nettement plus court. Le nombre de mots, les révisions du jour et la série figurent déjà sur l’accueil et dans la barre d’onglets. Les filtres de la liste ont aussi été retirés, faute d’usage',ar:'صار الشريط الكحلي أعلى الشاشة أقصر بكثير. فعدد الكلمات ومراجعات اليوم والأيام المتتالية تظهر جميعها في الصفحة الرئيسية وشريط التبويب. كما أُزيلت أزرار التصفية من قائمة الكلمات لعدم استخدامها',ko:'화면 위쪽의 남색 띠를 크게 줄였습니다. 단어 수·오늘의 복습·연속 일수는 홈 화면과 하단 탭에 그대로 나오므로 띠에서는 뺐습니다. 단어 목록의 필터 버튼도 쓰이지 않아 없앴습니다',ru:'Тёмно-синяя полоса вверху стала заметно ниже. Число слов, повторы за сегодня и серия и так видны на главной и в панели вкладок. Фильтры в списке слов тоже убраны — ими не пользовались'},
   v5140_2:{ja:'スペル入力で、問題文が長いと入力欄やヒントが画面の外に出てしまう問題を直しました。文の長さに合わせて文字を小さくし、3行以内に収めます。答えのマス目も単語の長さに合わせて縮み、長い単語でも1行に並びます',en:'Fixed long prompts pushing the typing area and the hint button off-screen in spelling mode. The text now scales to its length and is capped at three lines, and the answer slots shrink so even a long word stays on one row',zh:'修复了拼写模式下题干过长时输入区与提示按钮被挤出屏幕的问题。文字会随长度缩放并限制在三行内，答案格也会缩小，长单词也能排在一行',fr:'Correction : en mode orthographe, un énoncé long repoussait la zone de saisie et le bouton d’indice hors écran. Le texte s’adapte à sa longueur, se limite à trois lignes, et les cases de réponse rétrécissent pour tenir sur une seule ligne',ar:'أُصلحت مشكلة دفع النص الطويل لمنطقة الكتابة وزر التلميح خارج الشاشة في وضع الإملاء. صار حجم النص يتناسب مع طوله ولا يتجاوز ثلاثة أسطر، وتتقلّص خانات الإجابة لتبقى في سطر واحد',ko:'스펠링 입력에서 문제문이 길면 입력란과 힌트가 화면 밖으로 밀려나던 문제를 고쳤습니다. 길이에 맞춰 글자가 작아지고 3줄 이내로 들어가며, 정답 칸도 줄어들어 긴 단어도 한 줄에 놓입니다',ru:'Исправлено: в режиме написания длинный вопрос выталкивал поле ввода и кнопку подсказки за экран. Текст масштабируется по длине и не превышает трёх строк, а ячейки ответа сжимаются, чтобы длинное слово помещалось в одну строку'},
   v5140_3:{ja:'ヒントを押したときに、それまで入力していた文字を消すようにしました。文字数がわかった状態で書きかけの綴りが残っていると、かえって考えにくかったためです。あわせて画面のアイコンを絵文字から描き起こしのものに揃えました',en:'Asking for a hint now clears what you had typed: leaving a half-finished guess in slots that have just told you the real length only got in the way. The remaining emoji around the app were also replaced with drawn icons',zh:'点击提示时会清空已输入的字母——在得知正确长度后，残留的半截拼写反而碍事。同时将界面上剩余的表情符号替换为统一的图标',fr:'Demander un indice efface désormais ce que vous aviez tapé : garder une tentative inachevée dans des cases qui viennent de révéler la vraie longueur ne faisait que gêner. Les émojis restants ont aussi été remplacés par des icônes dessinées',ar:'صار طلب التلميح يمسح ما كتبته: فبقاء محاولة ناقصة في خانات كشفت لتوّها الطول الحقيقي كان يعيق أكثر مما يساعد. كما استُبدلت بقية الإيموجي في الواجهة بأيقونات مرسومة',ko:'힌트를 누르면 그때까지 입력한 글자를 지웁니다. 글자 수를 안 상태에서 쓰다 만 철자가 남아 있으면 오히려 방해가 되기 때문입니다. 화면에 남아 있던 이모지도 그린 아이콘으로 통일했습니다',ru:'Запрос подсказки теперь стирает набранное: незаконченная догадка в ячейках, которые только что показали настоящую длину, лишь мешала. Оставшиеся эмодзи в интерфейсе заменены нарисованными значками'},
-  v5130_1:{ja:'単語パッケージ「ワーホリで使える英単語 Part1」（106語）を追加しました。仕事探し・住まい・お金・手続きまわりの単語です',en:'Added a word package: Working Holiday English Words Part 1 (106 words) — vocabulary for job hunting, housing, money and paperwork',zh:'新增单词包「打工度假英语单词 Part1」（106 词），涵盖找工作、住宿、金钱与各类手续',fr:'Nouveau pack : anglais pour un visa vacances-travail, partie 1 (106 mots) — recherche d’emploi, logement, argent et démarches',ar:'أُضيفت حزمة «مفردات إنجليزية لعطلة العمل - الجزء 1» (106 كلمات): البحث عن عمل والسكن والمال والمعاملات',ko:'단어 패키지 «워킹홀리데이 영단어 Part1»(106단어)을 추가했습니다. 일자리·주거·돈·각종 수속에 관한 단어입니다',ru:'Добавлен набор «Английские слова для рабочей поездки, часть 1» (106 слов): работа, жильё, деньги и оформление документов'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1090,6 +1159,23 @@ const T={
   home_you:{ja:'あなた',en:'there',zh:'你',fr:'vous',ar:'بك',ko:'여러분',ru:'друг'},
   home_sub:{ja:'今日の1回が、いちばん効きます。',en:'One session today does more than a long one next week.',zh:'今天练一次，胜过下周补一大段。',fr:'Une session aujourd’hui vaut mieux qu’une longue la semaine prochaine.',ar:'جلسة واحدة اليوم أفضل من جلسة طويلة الأسبوع القادم.',ko:'오늘의 한 번이 가장 효과적입니다.',ru:'Одно занятие сегодня полезнее долгого на следующей неделе.'},
   home_m_streak:{ja:'連続',en:'STREAK',zh:'连续',fr:'SÉRIE',ar:'التتابع',ko:'연속',ru:'СЕРИЯ'},
+  today_backlog:{ja:'たまっている分が{0}語あります。今日は上の数だけで大丈夫です',en:'{0} more have piled up. Today’s number above is enough',zh:'另有 {0} 个积压。今天完成上面的数量就够了',fr:'{0} en retard se sont accumulés. Le nombre ci-dessus suffit pour aujourd’hui',ar:'تراكمت {0} كلمة أخرى. يكفيك اليوم العدد المذكور أعلاه',ko:'밀린 단어가 {0}개 있습니다. 오늘은 위의 개수만으로 충분합니다',ru:'Накопилось ещё {0}. На сегодня хватит числа выше'},
+  today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
+  st_goal:{ja:'1日に出す上限',en:'Daily limit',zh:'每日上限',fr:'Limite quotidienne',ar:'الحد اليومي',ko:'하루 상한',ru:'Дневной лимит'},
+  desc_goal:{ja:'復習が何百語たまっても、1日に出すのはこの数までにします。残りは翌日以降に回ります。予定そのものは変わりません',en:'However many reviews pile up, only this many are offered in a day. The rest roll over. The schedule itself is unchanged',zh:'无论积压多少复习，每天最多只出这么多，其余顺延。复习计划本身不受影响',fr:'Quel que soit le retard accumulé, seul ce nombre est proposé par jour ; le reste est reporté. Le planning lui-même ne change pas',ar:'مهما تراكمت المراجعات، لا يُعرض في اليوم سوى هذا العدد ويُرحّل الباقي. أما الجدول نفسه فلا يتغير',ko:'복습이 수백 개 밀려도 하루에 내보내는 것은 이 개수까지입니다. 나머지는 다음 날 이후로 넘어갑니다. 일정 자체는 바뀌지 않습니다',ru:'Сколько бы повторов ни накопилось, за день предлагается не больше этого числа, остальное переносится. Само расписание не меняется'},
+  goal_off:{ja:'上限なし',en:'No limit',zh:'不限',fr:'Sans limite',ar:'بلا حد',ko:'제한 없음',ru:'Без лимита'},
+  streak_title:{ja:'連続記録',en:'Streak',zh:'连续记录',fr:'Série',ar:'سجل التتابع',ko:'연속 기록',ru:'Серия'},
+  streak_days_unit:{ja:'日',en:'days',zh:'天',fr:'jours',ar:'يوم',ko:'일',ru:'дн.'},
+  streak_to_next:{ja:'{1}日まであと{0}日',en:'{0} more to reach {1}',zh:'距离 {1} 天还差 {0} 天',fr:'Encore {0} jours pour atteindre {1}',ar:'بقي {0} يوم للوصول إلى {1}',ko:'{1}일까지 {0}일 남음',ru:'Ещё {0} дн. до {1}'},
+  streak_all_done:{ja:'すべての節目を達成しました',en:'Every milestone reached',zh:'已达成全部里程碑',fr:'Tous les paliers atteints',ar:'بلغت كل المراحل',ko:'모든 이정표를 달성했습니다',ru:'Все рубежи достигнуты'},
+  streak_best:{ja:'最長',en:'Best',zh:'最长',fr:'Record',ar:'الأطول',ko:'최장',ru:'Рекорд'},
+  streak_month_days:{ja:'今月の学習',en:'This month',zh:'本月学习',fr:'Ce mois-ci',ar:'هذا الشهر',ko:'이번 달',ru:'В этом месяце'},
+  streak_freeze:{ja:'フリーズ',en:'Freezes',zh:'冻结',fr:'Gels',ar:'تجميد',ko:'프리즈',ru:'Заморозки'},
+  streak_freeze_help:{ja:'フリーズは月に1つ、最大2つまで貯まります。1日休んでも自動で使われて記録がつながります',en:'You earn one freeze a month, up to two. Miss a single day and one is spent automatically so the streak holds',zh:'每月获得 1 个冻结，最多存 2 个。漏掉一天会自动使用，连续记录不会中断',fr:'Vous gagnez un gel par mois, jusqu’à deux. Si vous manquez une journée, un gel est utilisé automatiquement et la série tient',ar:'تحصل على تجميدة واحدة شهريًا وبحد أقصى اثنتان. وإذا فاتك يوم واحد تُستخدم واحدة تلقائيًا فيبقى تتابعك',ko:'프리즈는 매달 1개씩, 최대 2개까지 쌓입니다. 하루 쉬어도 자동으로 사용되어 기록이 이어집니다',ru:'Раз в месяц вы получаете заморозку, максимум две. Пропустив один день, вы тратите её автоматически, и серия сохраняется'},
+  streak_badges:{ja:'達成した節目',en:'Milestones',zh:'已达成里程碑',fr:'Paliers atteints',ar:'المراحل المحققة',ko:'달성한 이정표',ru:'Достигнутые рубежи'},
+  streak_month:{ja:'{0}年{1}',en:'{1} {0}',zh:'{0}年{1}',fr:'{1} {0}',ar:'{1} {0}',ko:'{0}년 {1}',ru:'{1} {0}'},
+  month_names:{ja:'1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月',en:'January,February,March,April,May,June,July,August,September,October,November,December',zh:'1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月',fr:'janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre',ar:'يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر',ko:'1월,2월,3월,4월,5월,6월,7월,8월,9월,10월,11월,12월',ru:'январь,февраль,март,апрель,май,июнь,июль,август,сентябрь,октябрь,ноябрь,декабрь'},
+  dow_names:{ja:'日,月,火,水,木,金,土',en:'S,M,T,W,T,F,S',zh:'日,一,二,三,四,五,六',fr:'D,L,M,M,J,V,S',ar:'ح,ن,ث,ر,خ,ج,س',ko:'일,월,화,수,목,금,토',ru:'вс,пн,вт,ср,чт,пт,сб'},
   home_m_due:{ja:'今日の復習',en:'DUE',zh:'待复习',fr:'À REVOIR',ar:'للمراجعة',ko:'복습 대상',ru:'К ПОВТОРУ'},
   home_m_learned:{ja:'学習済み',en:'LEARNED',zh:'已学',fr:'APPRIS',ar:'مُتعلَّم',ko:'학습 완료',ru:'ИЗУЧЕНО'},
   home_more:{ja:'ほかにできること',en:'More',zh:'其他功能',fr:'Autres',ar:'المزيد',ko:'그 밖에',ru:'Ещё'},
@@ -1553,7 +1639,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -2331,7 +2417,7 @@ function updateStreak(){
     }
     st.lastActiveDate=Date.now();
     if(st.current>st.longest)st.longest=st.current;
-    if([7,30,100,365].includes(st.current))gaEvent('streak_milestone',{days:st.current});
+    if(STREAK_MILESTONES.includes(st.current))gaEvent('streak_milestone',{days:st.current});
   }
   save();
 }
@@ -2982,19 +3068,53 @@ function studiedToday(){
   const la=(S().streak||{}).lastActiveDate;
   return la!=null&&localDayIndex(la)===localDayIndex(Date.now());
 }
+// How many reviews to put in front of someone today.
+//
+// The schedule can hand back any number -- miss a week and it is several
+// hundred. Showing that number is what makes people quit: the work is fine, the
+// number is not, and it appears in three places at once (Home, the tiles, the
+// tab badge). So every count the user sees is capped at a goal they can finish,
+// and the rest is stated once, quietly, as a backlog rather than as a demand.
+//
+// This hides nothing that matters: the words are still due, the schedule is
+// unchanged, and the true total is on the record screen. It is the difference
+// between "you owe 210" and "do 20 today".
+const GOAL_CHOICES=[10,20,30,50,0];   // 0 = no cap, show everything
+function dailyGoal(){
+  const g=S().dailyGoal;
+  return GOAL_CHOICES.includes(g)?g:20;
+}
+// What to show as today's job.
+function todayTarget(){
+  const due=curDueCount(), g=dailyGoal();
+  return g===0?due:Math.min(due,g);
+}
+// Everything due beyond today's goal. Zero when the goal is off or nothing has
+// piled up, which is the normal case -- the backlog language only appears for
+// someone who actually has one.
+function backlogCount(){
+  const due=curDueCount();
+  return Math.max(0,due-todayTarget());
+}
 // The state of "what should I do right now", shared by the home screen. Kept
 // as data rather than markup so the home CTA and anything else that needs the
 // same judgement can't drift apart.
 function todayState(){
   const due=curDueCount();
+  const goal=todayTarget();
+  const back=backlogCount();
   const streak=(S().streak||{}).current||0;
   const done=studiedToday();
   if(!curWords().length)return {kind:'empty'};
   if(due>0&&!done)return {kind:'due',urgent:true,mode:'due',icon:streak>0?FLAME_SVG:PIN_SVG,
-    title:streak>0?t('today_streak_live',streak):t('today_due_title',due),
-    sub:streak>0?t('today_streak_risk',due):t('today_due_sub'),btn:t('today_start',due)};
+    title:streak>0?t('today_streak_live',streak):t('today_due_title',goal),
+    // The backlog gets its own calm sentence rather than being folded into the
+    // headline, so the thing to do today stays the biggest thing on screen.
+    sub:back?t('today_backlog',back):(streak>0?t('today_streak_risk',goal):t('today_due_sub')),
+    btn:t('today_start',goal),back:back};
   if(due>0&&done)return {kind:'more',mode:'due',icon:THUMB_SVG,
-    title:t('today_done_more',due),sub:t('today_done_more_sub'),btn:t('today_continue')};
+    title:t('today_done_more',goal),sub:back?t('today_backlog_done',back):t('today_done_more_sub'),
+    btn:t('today_continue'),back:back};
   if(streak>0&&!done)return {kind:'streak',urgent:true,mode:'all',icon:FLAME_SVG,
     title:t('today_streak_live',streak),sub:t('today_nodue_risk'),btn:t('today_free')};
   if(done)return {kind:'done',icon:'🎉',title:t('today_complete'),sub:t('today_complete_sub'),
@@ -3055,7 +3175,7 @@ function renderHome(report){
   h+='<div class="home-metrics">'+
     '<div class="hm'+((st.current||0)>0?' live':'')+'"><div class="v">'+(st.current||0)+'</div>'+
       '<div class="l">'+esc(t('home_m_streak'))+'</div></div>'+
-    '<div class="hm"><div class="v">'+due+'</div><div class="l">'+esc(t('home_m_due'))+'</div></div>'+
+    '<div class="hm"><div class="v">'+todayTarget()+'</div><div class="l">'+esc(t('home_m_due'))+'</div></div>'+
     '<div class="hm"><div class="v">'+learned+'<span style="font-size:13px;color:var(--muted)">/'+total+'</span></div>'+
       '<div class="l">'+esc(t('home_m_learned'))+'</div></div>'+
   '</div>';
@@ -3329,6 +3449,91 @@ function wordDetailHTML(w){
   return back;
 }
 function renderBack(w){$('#fBack').innerHTML=wordDetailHTML(w);}
+/* ---- streak page ----------------------------------------------------------
+   The streak was a number in the corner and a line of text on the record tab.
+   Everything that makes it worth keeping -- what the next milestone is, which
+   days are actually filled in, that freezes exist at all -- was either only in
+   analytics or buried. This is that machinery made visible.
+   -------------------------------------------------------------------------- */
+const STREAK_MILESTONES=[7,30,50,100,150,200,250,300,350,365];
+function nextMilestone(n){return STREAK_MILESTONES.find(m=>m>n)||null;}
+function earnedMilestones(best){return STREAK_MILESTONES.filter(m=>m<=best);}
+let stkMonth=null;                 // {y,m} being viewed; null = this month
+
+function openStreak(){
+  stkMonth=null;
+  renderStreakPage();
+  $('#overlayStreak').classList.add('show');
+  gaScreen('streak');
+}
+function closeStreak(){$('#overlayStreak').classList.remove('show');}
+
+function renderStreakPage(){
+  const body=$('#stkBody'); if(!body)return;
+  const st=S().streak||{};
+  const cur=st.current||0, best=st.longest||0;
+  const counts=dailyCounts();
+  const today=localDayIndex(Date.now());
+  const now=stkMonth?new Date(stkMonth.y,stkMonth.m,1):new Date();
+  const y=now.getFullYear(), m=now.getMonth();
+
+  // --- headline ---
+  const next=nextMilestone(cur);
+  const prev=[0,...STREAK_MILESTONES].filter(x=>x<=cur).pop()||0;
+  const pct=next?Math.round((cur-prev)/(next-prev)*100):100;
+  let h='<div class="stk-head">'+FLAME_SVG+'<div class="stk-n">'+cur+'</div>'+
+        '<div class="stk-u">'+esc(t('streak_days_unit'))+'</div></div>';
+  h+= next
+    ? '<div class="stk-next">'+esc(t('streak_to_next',next-cur,next))+
+      '<div class="stk-bar"><i style="width:'+pct+'%"></i></div></div>'
+    : '<div class="stk-next">'+esc(t('streak_all_done'))+'</div>';
+
+  // --- this month's calendar ---
+  const first=new Date(y,m,1), lead=first.getDay();
+  const days=new Date(y,m+1,0).getDate();
+  let cells='';
+  for(let i=0;i<lead;i++)cells+='<div class="stk-c blank"></div>';
+  let monthDone=0;
+  for(let d=1;d<=days;d++){
+    const idx=localDayIndex(new Date(y,m,d).getTime());
+    const n=(counts.get(idx)||{}).n||0;
+    if(n>0)monthDone++;
+    const isToday=idx===today;
+    const future=idx>today;
+    cells+='<div class="stk-c'+(n>0?' on':'')+(isToday?' today':'')+(future?' future':'')+'">'+d+'</div>';
+  }
+  const MONTHS=t('month_names').split(',');
+  h+='<div class="stk-cal-head">'+
+       '<button class="stk-nav" id="stkPrev" type="button" aria-label="prev">‹</button>'+
+       '<span>'+esc(t('streak_month',y,MONTHS[m]))+'</span>'+
+       '<button class="stk-nav" id="stkNext" type="button" aria-label="next"'+
+         ((y===new Date().getFullYear()&&m===new Date().getMonth())?' disabled':'')+'>›</button></div>'+
+     '<div class="stk-dow">'+t('dow_names').split(',').map(d=>'<span>'+esc(d)+'</span>').join('')+'</div>'+
+     '<div class="stk-cal">'+cells+'</div>';
+
+  // --- the three numbers, including the one nobody knew they had ---
+  h+='<div class="stk-stats">'+
+      '<div><b>'+best+'</b><span>'+esc(t('streak_best'))+'</span></div>'+
+      '<div><b>'+monthDone+'</b><span>'+esc(t('streak_month_days'))+'</span></div>'+
+      '<div><b>'+(st.freezesAvailable||0)+'</b><span>'+esc(t('streak_freeze'))+'</span></div>'+
+    '</div>'+
+    '<p class="stk-note">'+esc(t('streak_freeze_help'))+'</p>';
+
+  // --- badges ---
+  const got=earnedMilestones(best);
+  h+='<div class="stk-sec">'+esc(t('streak_badges'))+'</div><div class="stk-badges">'+
+      STREAK_MILESTONES.map(mm=>'<div class="stk-b'+(got.includes(mm)?' on':'')+'">'+
+        '<span class="v">'+mm+'</span><span class="d">'+esc(t('streak_days_unit'))+'</span></div>').join('')+
+    '</div>';
+
+  body.innerHTML=h;
+  const pv=$('#stkPrev'), nx=$('#stkNext');
+  if(pv)pv.onclick=()=>{const d=new Date(y,m-1,1);stkMonth={y:d.getFullYear(),m:d.getMonth()};renderStreakPage();};
+  if(nx)nx.onclick=()=>{const d=new Date(y,m+1,1);
+    const n2=new Date();
+    if(d>new Date(n2.getFullYear(),n2.getMonth(),1))return;
+    stkMonth={y:d.getFullYear(),m:d.getMonth()};renderStreakPage();};
+}
 function openWordDetail(w){
   $('#wdWord').textContent=w.word;
   $('#wdBody').innerHTML=wordDetailHTML(w);
@@ -3337,6 +3542,7 @@ function openWordDetail(w){
 }
 function closeWordDetail(){$('#overlayWordDetail').classList.remove('show');}
 $('#wdClose').onclick=closeWordDetail;
+$('#stkClose').onclick=closeStreak;
 $('#overlayWordDetail').addEventListener('click',e=>{if(e.target===$('#overlayWordDetail'))closeWordDetail();});
 
 /* ---------- QUIZ / REVIEW (SRS) ---------- */
@@ -3359,6 +3565,10 @@ function pickWords(mode){
   }else{
     pool=[...pool].sort((a,b)=>a.nextDue-b.nextDue);
   }
+  // Two caps, and both matter: `len` is how many questions are in one round,
+  // and the daily goal is how many the schedule should hand over at all today.
+  // Without the second one, "20 today" would still walk the user through 210.
+  if(mode==='due'){const g=todayTarget();if(g>0)pool=pool.slice(0,g);}
   const n=S().len===0?pool.length:Math.min(S().len,pool.length);
   return pool.slice(0,n);
 }
@@ -3437,7 +3647,7 @@ function renderQuizSetup(){
     body.innerHTML='<div class="empty"><div class="big">'+PENCIL_SVG+'</div>'+t('quiz_need_add')+'</div>';
     return;
   }
-  const modes=[{v:'due',n:t('quiz_due',due),on:due>0}];
+  const modes=[{v:'due',n:t('quiz_due',todayTarget()),on:due>0}];
   if(lc)modes.push({v:'leech',n:t('flt_leech')+' '+lc,on:true});
   modes.push({v:'all',n:t('quiz_free'),on:true});
   if(!quizSetup.mode||!modes.some(m=>m.v===quizSetup.mode&&m.on))
@@ -3911,6 +4121,7 @@ function renderSettings(){
   seg('#segQuizType','quizType');
   seg('#segDir','dir');
   seg('#segLen','len',true);
+  seg('#segGoal','dailyGoal',true);
   $('#swWeak').classList.toggle('on',S().weak);
   $('#swSound').classList.toggle('on',!!S().sound);
   renderVolumeRow();
@@ -4372,7 +4583,8 @@ function renderStats(){
 
   const tile=(v,label)=>'<div class="stat-tile"><div class="sv">'+v+'</div><div class="sl">'+esc(label)+'</div></div>';
   let html='<div class="stat-grid">'+
-    tile(FLAME_SVG+esc(t('n_days',st.current||0)),t('stat_current'))+
+    '<button class="stat-tile as-btn" id="stkOpen"><div class="sv">'+FLAME_SVG+esc(t('n_days',st.current||0))+
+      '</div><div class="sl">'+esc(t('stat_current'))+'</div></button>'+
     tile(TROPHY_SVG+esc(t('n_days',st.longest||0)),t('stat_longest'))+
     tile(esc(t('n_days',activeDays)),t('stat_days'))+
     tile(totalN?acc+'%':'—',t('stat_accuracy'))+
@@ -4447,6 +4659,7 @@ function renderStats(){
 
   html+='<p class="stats-note">'+esc(t('freeze_left',st.freezesAvailable||0))+'</p>';
   $('#statsBody').innerHTML=html;
+  const so=$('#stkOpen'); if(so)so.onclick=openStreak;
 }
 
 /* ---------- feedback ---------- */
@@ -4611,12 +4824,15 @@ function renderCount(){
     const n=(S().streak||{}).current||0;
     st.hidden=n<=0;
     if(n>0)st.innerHTML=FLAME_SVG+'<span>'+n+'</span>';
-    st.onclick=()=>go('v-stats');
+    st.onclick=openStreak;
   }
   // a left-open tab still shows what's waiting
-  document.title=due>0?'('+due+') Wordkeep':'Wordkeep';
+  document.title=todayTarget()>0?'('+todayTarget()+') Wordkeep':'Wordkeep';
   const badge=$('#dueBadge');
-  if(due>0){badge.style.display='flex';badge.textContent=due>99?'99+':due;}
+  // Today's goal, not the backlog. A badge reading 99+ is a standing accusation
+  // and it never went down fast enough to feel like progress.
+  const shown=todayTarget();
+  if(shown>0){badge.style.display='flex';badge.textContent=shown>99?'99+':shown;}
   else badge.style.display='none';
 }
 
