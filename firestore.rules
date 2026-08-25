@@ -144,6 +144,26 @@ service cloud.firestore {
                    && request.resource.data.at is int;
     }
 
+    // ---- Error reports ----------------------------------------------------
+    // Anyone may file one, including signed-out visitors -- an error that stops
+    // sign-in is exactly the kind worth hearing about. Only the admin reads
+    // them back.
+    //
+    // The size caps are the collection's only defence against being used as
+    // free storage; the client rate-limits itself, but a client is not a
+    // control.
+    match /errors/{id} {
+      allow create: if request.resource.data.msg is string
+                    && request.resource.data.msg.size() > 0
+                    && request.resource.data.msg.size() <= 300
+                    && request.resource.data.keys().hasOnly(
+                         ['msg','stack','src','line','col','v','ua','lang','uid','at'])
+                    && (!('stack' in request.resource.data)
+                        || request.resource.data.stack.size() <= 1200)
+                    && request.resource.data.at is int;
+      allow read, delete: if isAdmin();
+    }
+
     match /feedback/{id} {
       // Anyone can send feedback, including signed-out users, but the payload
       // is capped so the collection can't be used as free storage.

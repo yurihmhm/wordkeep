@@ -1056,15 +1056,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.19.0';
+const APP_VERSION='5.20.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.19.0',date:'2026-08-25',keys:['wn1','wn2']},
+  {version:'5.20.0',date:'2026-08-25',keys:['wn1']},
+  {version:'5.19.0',date:'2026-08-25',keys:['v5190_1','v5190_2']},
   {version:'5.18.0',date:'2026-08-25',keys:['v5180_1','v5180_2']},
-  {version:'5.17.0',date:'2026-08-24',keys:['v5170_1','v5170_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1159,12 +1159,11 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'プロフィール画面から自分でアカウントを削除できるようにしました。単語・学習の記録・ランキングの記録がすべて消えます。実行にはPINの再入力が必要です',en:'You can now delete your own account from the Profile screen. Your words, study history and leaderboard entry are all erased. Re-entering your PIN is required',zh:'现在可在个人资料页面自行删除账户，单词、学习记录与排行榜记录都会被清除。执行时需要重新输入 PIN',fr:'Vous pouvez désormais supprimer vous-même votre compte depuis le profil. Vos mots, votre historique et votre entrée au classement sont effacés. La saisie du PIN est requise',ar:'صار بإمكانك حذف حسابك بنفسك من صفحة الملف الشخصي، فتُمحى كلماتك وسجل تعلّمك وحضورك في الترتيب. ويلزم إدخال رمز PIN من جديد',ko:'프로필 화면에서 직접 계정을 삭제할 수 있게 했습니다. 단어·학습 기록·랭킹 기록이 모두 사라집니다. 실행하려면 PIN을 다시 입력해야 합니다',ru:'Теперь вы можете удалить свой аккаунт со страницы профиля. Слова, история занятий и запись в рейтинге будут стёрты. Потребуется заново ввести PIN'},
-  wn2:{ja:'通知のご案内から「今はしない」を外しました。端末側で許可・拒否を選べるので、二重にお聞きするのをやめています',en:'Removed the “Not now” button from the notification prompt. Your device already asks allow or deny, so being asked twice was redundant',zh:'移除了通知引导中的「暂不需要」按钮。设备本身已会询问允许或拒绝，无需重复确认',fr:'Le bouton « Pas maintenant » a été retiré de l’invite de notification : votre appareil demande déjà d’autoriser ou de refuser',ar:'أُزيل زر «ليس الآن» من نافذة الإشعارات، فجهازك يسأل أصلًا عن السماح أو الرفض ولا داعي للسؤال مرتين',ko:'알림 안내에서 «지금은 안 할게요» 버튼을 뺐습니다. 기기에서 허용·거부를 고를 수 있으므로 두 번 묻지 않도록 했습니다',ru:'Кнопка «Не сейчас» убрана из запроса на уведомления: устройство и так спрашивает разрешить или запретить'},
+  wn1:{ja:'不具合が起きたときに、その内容が開発者へ自動で届くようにしました。送られるのはエラーの文言と発生箇所だけで、あなたの単語や学習の記録は含まれません',en:'When something breaks, the details now reach the developer automatically. Only the error message and where it happened are sent — never your words or study history',zh:'出现故障时，相关信息会自动发送给开发者。仅发送错误信息与发生位置，不包含你的单词与学习记录',fr:'En cas de problème, les détails parviennent désormais automatiquement au développeur. Seuls le message d’erreur et son emplacement sont envoyés, jamais vos mots ni votre historique',ar:'عند حدوث خلل، تصل تفاصيله الآن إلى المطوّر تلقائيًا. ولا يُرسل سوى نص الخطأ وموضع حدوثه، دون كلماتك أو سجل تعلّمك',ko:'문제가 생겼을 때 그 내용이 개발자에게 자동으로 전달됩니다. 보내지는 것은 오류 문구와 발생 위치뿐이며, 단어나 학습 기록은 포함되지 않습니다',ru:'Если что-то ломается, подробности теперь автоматически доходят до разработчика. Отправляются только текст ошибки и место, где она произошла, — но не ваши слова и не история занятий'},
+  v5190_1:{ja:'プロフィール画面から自分でアカウントを削除できるようにしました。単語・学習の記録・ランキングの記録がすべて消えます。実行にはPINの再入力が必要です',en:'You can now delete your own account from the Profile screen. Your words, study history and leaderboard entry are all erased. Re-entering your PIN is required',zh:'现在可在个人资料页面自行删除账户，单词、学习记录与排行榜记录都会被清除。执行时需要重新输入 PIN',fr:'Vous pouvez désormais supprimer vous-même votre compte depuis le profil. Vos mots, votre historique et votre entrée au classement sont effacés. La saisie du PIN est requise',ar:'صار بإمكانك حذف حسابك بنفسك من صفحة الملف الشخصي، فتُمحى كلماتك وسجل تعلّمك وحضورك في الترتيب. ويلزم إدخال رمز PIN من جديد',ko:'프로필 화면에서 직접 계정을 삭제할 수 있게 했습니다. 단어·학습 기록·랭킹 기록이 모두 사라집니다. 실행하려면 PIN을 다시 입력해야 합니다',ru:'Теперь вы можете удалить свой аккаунт со страницы профиля. Слова, история занятий и запись в рейтинге будут стёрты. Потребуется заново ввести PIN'},
+  v5190_2:{ja:'通知のご案内から「今はしない」を外しました。端末側で許可・拒否を選べるので、二重にお聞きするのをやめています',en:'Removed the “Not now” button from the notification prompt. Your device already asks allow or deny, so being asked twice was redundant',zh:'移除了通知引导中的「暂不需要」按钮。设备本身已会询问允许或拒绝，无需重复确认',fr:'Le bouton « Pas maintenant » a été retiré de l’invite de notification : votre appareil demande déjà d’autoriser ou de refuser',ar:'أُزيل زر «ليس الآن» من نافذة الإشعارات، فجهازك يسأل أصلًا عن السماح أو الرفض ولا داعي للسؤال مرتين',ko:'알림 안내에서 «지금은 안 할게요» 버튼을 뺐습니다. 기기에서 허용·거부를 고를 수 있으므로 두 번 묻지 않도록 했습니다',ru:'Кнопка «Не сейчас» убрана из запроса на уведомления: устройство и так спрашивает разрешить или запретить'},
   v5180_1:{ja:'設定画面のレイアウトを直しました。選択ボタンのある行で説明文が縦一列に潰れていたのを、説明を上・ボタンを下に並べる形に変えています',en:'Fixed the settings layout. On rows with option buttons the description was being squeezed into a single column of characters; the text now sits above the buttons',zh:'修复了设置页面的排版。带选项按钮的行中说明文字被挤成竖排一列，现改为说明在上、按钮在下',fr:'Correction de la mise en page des réglages. Sur les lignes à boutons, le texte était comprimé en une colonne d’un caractère ; il s’affiche désormais au-dessus des boutons',ar:'أُصلح تخطيط شاشة الإعدادات. ففي الصفوف ذات أزرار الاختيار كان النص ينضغط في عمود بحرف واحد، وصار الآن فوق الأزرار',ko:'설정 화면의 레이아웃을 고쳤습니다. 선택 버튼이 있는 행에서 설명이 세로 한 줄로 찌그러지던 것을, 설명을 위·버튼을 아래로 배치하도록 바꿨습니다',ru:'Исправлена вёрстка настроек. В строках с кнопками выбора описание сжималось в столбец по одному символу; теперь текст стоит над кнопками'},
   v5180_2:{ja:'通知をまだ設定していない方に、アプリを開いたときに一度だけご案内を表示するようにしました。「今はしない」を選んでも、あとから設定でいつでもオンにできます',en:'If you haven’t set up reminders yet, the app now offers them once when you open it. Choosing “Not now” is final — you can still turn them on later in Settings',zh:'若尚未设置提醒，打开应用时会显示一次引导。即使选择「暂不需要」，之后仍可在设置中开启',fr:'Si vous n’avez pas encore activé les rappels, l’application vous les propose une fois à l’ouverture. « Pas maintenant » est définitif — vous pourrez toujours les activer dans les réglages',ar:'إن لم تكن قد فعّلت التذكيرات بعد، يعرضها التطبيق مرة واحدة عند فتحه. واختيار «ليس الآن» نهائي، ويظل بإمكانك تفعيلها لاحقًا من الإعدادات',ko:'알림을 아직 설정하지 않은 분께, 앱을 열었을 때 한 번만 안내를 표시합니다. «지금은 안 할게요»를 골라도 나중에 설정에서 언제든 켤 수 있습니다',ru:'Если напоминания ещё не настроены, приложение предложит их один раз при открытии. «Не сейчас» — окончательный ответ, но включить их можно позже в настройках'},
-  v5170_1:{ja:'学習のリマインド通知を追加しました。設定の「通知」からオンにすると、1日2回（朝と夜）お知らせします。連続が途切れそうな日はその案内を、それ以外は覚えた単語の意味を聞く形で届きます',en:'Added study reminders. Turn them on under Settings → Notifications and you’ll get two a day, morning and evening. On a day your streak is at risk it says so; otherwise it asks you what one of your words means',zh:'新增学习提醒通知。在「设置 → 通知」中开启后，每天早晚各提醒一次。连续记录可能中断的当天会提示，其他时候则会考你某个单词的意思',fr:'Ajout des rappels d’étude. Activez-les dans Réglages → Notifications pour en recevoir deux par jour, matin et soir. Le jour où votre série est menacée, le rappel le dit ; sinon il vous demande le sens d’un de vos mots',ar:'أُضيفت تذكيرات الدراسة. فعّلها من «الإعدادات ← الإشعارات» لتصلك مرتين يوميًا صباحًا ومساءً. في اليوم الذي تكون فيه سلسلتك مهددة ينبهك، وفي غيره يسألك عن معنى إحدى كلماتك',ko:'학습 리마인드 알림을 추가했습니다. 설정의 «알림»에서 켜면 하루 두 번(아침과 저녁) 알려 드립니다. 연속 기록이 끊길 것 같은 날에는 그 안내를, 그 외에는 외운 단어의 뜻을 묻는 형태로 옵니다',ru:'Добавлены напоминания о занятиях. Включите их в «Настройки → Уведомления» — придут дважды в день, утром и вечером. В день, когда серия под угрозой, об этом и сообщат; в остальные — спросят значение одного из ваших слов'},
-  v5170_2:{ja:'通知の文面はあなたの端末の中で作られます。サーバーから送るのは「合図」だけで、どの単語を勉強しているかがサーバーに渡ることはありません',en:'The notification text is written on your own device. The server sends only a signal — which words you study never reaches it',zh:'通知文案在你的设备上生成。服务器只发送一个信号，你学习了哪些单词不会传到服务器',fr:'Le texte de la notification est composé sur votre appareil. Le serveur n’envoie qu’un signal : les mots que vous étudiez ne lui parviennent jamais',ar:'يُكتب نص الإشعار على جهازك أنت. أما الخادم فلا يرسل سوى إشارة، ولا تصله أبدًا الكلمات التي تدرسها',ko:'알림 문구는 기기 안에서 만들어집니다. 서버가 보내는 것은 «신호»뿐이며, 어떤 단어를 공부하는지는 서버에 전달되지 않습니다',ru:'Текст уведомления составляется на вашем устройстве. Сервер отправляет только сигнал — изучаемые вами слова до него не доходят'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -4731,6 +4730,79 @@ function renderStats(){
   $('#statsBody').innerHTML=html;
   const so=$('#stkOpen'); if(so)so.onclick=openStreak;
 }
+
+/* ---- error reporting ------------------------------------------------------
+   Until now a JavaScript error on somebody else's phone was invisible here --
+   the only signal was that person deciding to say "it doesn't work".
+   Errors go to Firestore rather than to a third party: Firebase is already
+   loaded, nothing new has to be trusted with anybody's data, and it costs no
+   page weight. What it gives up is real error tooling (no source maps, no
+   grouping, no alerts) -- this answers "did anything break out there", not
+   "give me a debugger".
+   -------------------------------------------------------------------------- */
+const ERRKEY='wordkeep.err.v1';
+// An error inside a render loop fires as fast as the loop runs. Without a hard
+// cap the first such bug would spend the day's entire Firestore write budget in
+// seconds and take the app's sync down with it -- a reporting system that
+// breaks the app is worse than none.
+const ERR_MAX_SESSION=5, ERR_MAX_DAY=20;
+let errSentThisSession=0;
+const errSeen=new Set();
+
+function errBudget(){
+  let st;
+  try{ st=JSON.parse(localStorage.getItem(ERRKEY)||'{}'); }catch(e){ st={}; }
+  const today=localDayIndex(Date.now());
+  if(st.day!==today){st={day:today,n:0};}
+  return st;
+}
+function errSpend(st){
+  st.n=(st.n||0)+1;
+  try{ localStorage.setItem(ERRKEY,JSON.stringify(st)); }catch(e){}
+}
+// Same bug, same place: report it once and stop. What matters is that it
+// happened, not how many times it repeated.
+function errSignature(msg,src,line,col){
+  return [String(msg).slice(0,120),src||'',line||0,col||0].join('|');
+}
+async function reportError(msg,src,line,col,stack){
+  try{
+    if(errSentThisSession>=ERR_MAX_SESSION)return;
+    const sig=errSignature(msg,src,line,col);
+    if(errSeen.has(sig))return;
+    const st=errBudget();
+    if((st.n||0)>=ERR_MAX_DAY)return;
+    errSeen.add(sig);
+    errSentThisSession++;
+    errSpend(st);
+    if(!fbDb)return;                      // before Firebase loads, drop it
+    await fbDb.collection('errors').add({
+      msg:String(msg||'').slice(0,300),
+      // Trimmed hard: a stack is the useful part but it is also the part that
+      // can run to kilobytes.
+      stack:String(stack||'').slice(0,1200),
+      src:String(src||'').slice(0,200),
+      line:line|0, col:col|0,
+      v:APP_VERSION,
+      ua:String(navigator.userAgent||'').slice(0,200),
+      lang:S().lang||'',
+      // Which account, so a report can be matched to a person who wrote in --
+      // never what they are studying.
+      uid:(cloudUser&&cloudUser.uid)||null,
+      at:Date.now()
+    });
+  }catch(e){
+    // Reporting must never be the thing that breaks the page.
+  }
+}
+window.addEventListener('error',e=>{
+  if(!e)return;
+  reportError(e.message,e.filename,e.lineno,e.colno,e.error&&e.error.stack);
+});
+window.addEventListener('unhandledrejection',e=>{
+  const r=e&&e.reason;
+  reportError((r&&r.message)||String(r||'unhandled rejection'),'',0,0,r&&r.stack);
+});
 
 /* ---------- feedback ---------- */
 // Deliberately usable without an account: the people most likely to hit a

@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.19.0 時点 &middot; 最終更新 2026-08-25</div>
+    <div class="sub">v5.20.0 時点 &middot; 最終更新 2026-08-25</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -179,13 +179,13 @@ footer a{color:var(--ink-2)}
           <div class="d"><code>doExport</code>は<code>DB</code>だけを書き出しており、パッケージ進捗（<code>wordkeep.packages.v1</code>）が含まれていない。書き出したJSONから復元しても<b>パッケージの学習記録だけ失われる</b>。読み込み側の対応もセットで必要。 <b>→ v5.10.0で対応：</b><code>doExport()</code>に<code>packages</code>を追加し、読み込みはパッケージ単位でマージするようにした。</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">利用者が自分でアカウントを削除できない</div>
-          <div class="d">現在は管理者しか消せない。全世界で使ってもらう前提なら、<b>本人が自分のデータを消せる導線は用意しておくべき</b>（EUではGDPRで求められる項目でもある）。プロフィール画面に「アカウントを削除」を置き、単語ドキュメント→要約ドキュメント→認証ユーザーの順に消す。<b>PIN再入力での本人確認は必須。</b></div>
+          <div class="d">現在は管理者しか消せない。全世界で使ってもらう前提なら、<b>本人が自分のデータを消せる導線は用意しておくべき</b>（EUではGDPRで求められる項目でもある）。プロフィール画面に「アカウントを削除」を置き、単語ドキュメント→要約ドキュメント→認証ユーザーの順に消す。<b>PIN再入力での本人確認は必須。</b> <b>→ v5.19.0で対応：</b>プロフィール画面に導線を追加。PIN再入力を必須にし、単語→board/push→要約文書→認証ユーザーの順で削除する。</div>
         </div>
-      </li>
+      <div class="ver">v5.19.0</div></li>
       
     </ul>
   </section>
@@ -195,13 +195,13 @@ footer a{color:var(--ink-2)}
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
       
-      <li class="next" data-s="open">
-        <span class="chip open">未完了</span>
+      <li class="next" data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">単語パッケージの中身を増やす</div>
-          <div class="d">切替UI・進捗率・7言語対応まで作り込んだのに、中身が「語学留学」3本×50語だけ。刺さる相手を増やすなら中身がいちばん効く。単語リストがあれば同じ形式で組み込める。</div>
+          <div class="d">切替UI・進捗率・7言語対応まで作り込んだのに、中身が「語学留学」3本×50語だけ。刺さる相手を増やすなら中身がいちばん効く。単語リストがあれば同じ形式で組み込める。 <b>→ v5.13.0で対応：</b>外部化して追加コストをほぼゼロにしたうえで、IT・テック(50語)とワーホリ(106語)を追加。3本150語 → 5本362語。</div>
         </div>
-      </li>
+      <div class="ver">v5.13.0</div></li>
     </ul>
   </section>
 
@@ -237,13 +237,13 @@ footer a{color:var(--ink-2)}
           <div class="d">辞書・翻訳APIに依存しているため、電波の弱い場所では追加できない。留学先という利用状況を考えると痛い。意味を手入力する経路は用意されているので、その導線を明確にするだけでも改善する。</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">プッシュ通知</div>
-          <div class="d">Firebaseを入れたのでFCMは使いやすくなった。ただしiOSはホーム画面追加が前提。現状は「今日」カードで代替している。</div>
+          <div class="d">Firebaseを入れたのでFCMは使いやすくなった。ただしiOSはホーム画面追加が前提。現状は「今日」カードで代替している。 <b>→ v5.17.0で対応：</b>1日2回のリマインドを実装。GitHub Actionsの毎時cronから送り、文面は端末のService Workerが組み立てるのでサーバーは単語を知らない。</div>
         </div>
-      </li>
+      <div class="ver">v5.17.0</div></li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -269,20 +269,20 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮472KB、gzip配信で<b>実転送量は159KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮473KB、gzip配信で<b>実転送量は160KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
           <div class="ver">再実測 2026-08-23</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">Service Worker のキャッシュ戦略</div>
-          <div class="d">開発中に古いHTMLが配信されて混乱した。更新時に確実に新しくなる仕組みを詰めたい。</div>
+          <div class="d">開発中に古いHTMLが配信されて混乱した。更新時に確実に新しくなる仕組みを詰めたい。 <b>→ v5.10.0で対応：</b>index.htmlはネットワーク優先＋no-cacheで再検証するので古いHTMLは配信されない。取得したものは保持しつつ、更新されるファイルはURLに?v=を付けて別物として扱う。</div>
         </div>
-      </li>
+      <div class="ver">v5.10.0</div></li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -297,13 +297,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>開発の足回り</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">「作る」側は足りているが、「壊れたことに気づく」側が手薄。友達に配って使ってもらう段階で効いてくる。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">エラー監視を入れる（Sentry など）</div>
-          <div class="d">いま友達の端末でJavaScriptエラーが起きても、こちらには一切届かない。本人が「なんか動かない」と知らせてくれない限り気づけない。無料枠で、エラー内容と発生箇所が自動で通知される。<b>コストの割に効果が大きい。</b></div>
+          <div class="d">いま友達の端末でJavaScriptエラーが起きても、こちらには一切届かない。本人が「なんか動かない」と知らせてくれない限り気づけない。無料枠で、エラー内容と発生箇所が自動で通知される。<b>コストの割に効果が大きい。</b> <b>→ v5.20.0で対応：</b>Firestoreの<code>errors</code>コレクションに送り、管理ページの「エラー」タブで見る。同じ文言・同じ行はまとめて表示。端末側で1セッション5件・1日20件に制限。</div>
         </div>
-      </li>
+      <div class="ver">v5.20.0</div></li>
       
     </ul>
   </section>
@@ -339,6 +339,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">エラー監視をFirestoreで（Sentryを使わなかった理由）</div><div class="d"><b>Firebaseは既に読み込んでいるので、新しく何かを信頼させる必要がない</b>。SDKの30KBを全員に配らずに済み、利用者のデータが第三者に渡らない。諦めたのはソースマップ・グルーピング・アラートで、これは「外で何か壊れたか」に答えるものであってデバッガの代わりではない。<b>送るのは文言・スタック・発生箇所・バージョン・UA・言語・uidだけで、単語も学習記録も入らない</b>（実際のペイロードで確認済み）。</div><div class="ver">v5.20.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">エラー監視の上限（アプリを壊す監視は無いほうがマシ）</div><div class="d">レンダリングのループ内のエラーは<b>ループの速度で発火</b>するので、上限が無いと最初のそういうバグが数秒で1日分の書き込み枠を使い切り、同期ごと道連れにする。<b>1セッション5件・1日20件</b>に制限し、同じ文言・同じ行は1回だけ送る。検証：<b>同一エラーを500回発火させて書き込み1件</b>、30種類でも5件で打ち止め、日次予算はセッションを跨いで持ち越し。管理ページでは同じ種類をまとめて「何種類/何人」で表示する——<b>1つのバグが20人に当たっているのは、直すもの1つであって20行ではない</b>。</div><div class="ver">v5.20.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">【ボード】完了したのに未完了のまま残っていた項目</div><div class="d">利用者からの指摘。<b>置換に使った正規表現が<code>&lt;li&gt;</code>の形を決め打ちしていた</b>ため、<code>class="next"</code>が付いた1件が一致せず、数日「未完了」のままだった。全18件を照合してプッシュ通知・アカウント削除・パッケージ増量・SWキャッシュ戦略の4件を閉じた。<b>同じ失敗を繰り返さないよう<code>tools/close-todo.mjs</code>を作った</b>——タイトルだけで一致させ、行が実際に変わったことを検証し、変わらなければ書き込まない。</div><div class="ver">v5.20.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">利用者が自分でアカウントを削除できるように</div><div class="d">プロフィール画面の一番下。<b>PINの再入力を必須</b>——Firebaseが古いセッションでの削除を拒むからでもあり、端末を持っている人が本人だという唯一の証明でもある。<b>順序は飾りではない</b>：再認証 → 単語（サブコレクションなので親を消しても消えない）→ board/push → 要約文書 → 認証ユーザー。認証ユーザーを先に消すとルールが呼び出し元を認識しなくなり、<b>本人にも管理者にも二度と届かないデータが残る</b>。ルール変更は不要だった。</div><div class="ver">v5.19.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">【バグ】アカウント削除で端末データが1つも消えていなかった</div><div class="d">検証で発見。サーバー側は全部消えたのに<b>端末には12語がそのまま残り、リロードもされなかった</b>——最悪の中途半端な状態。原因は<code>navigator.serviceWorker.ready</code>で、<b>コントローラが無いとき解決も拒否もしない</b>。<code>try/catch</code>で囲んでも意味がない（<b>保留のPromiseは例外を投げない</b>）ので、そこで永久に止まっていた。<code>localStorage</code>の削除を先に行い、Service Workerの後始末は2秒で打ち切るようにした。</div><div class="ver">v5.19.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">通知の案内から「今はしない」を外した</div><div class="d">端末側で許可・拒否を選べるのに並べると、<b>二度断る機会を与える</b>ことになる。利用者からの指摘。閉じる×は残した——<b>1つの道を示すことと、閉じ込めることは違う</b>。</div><div class="ver">v5.19.0</div></div></li>

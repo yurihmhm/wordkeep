@@ -94,7 +94,7 @@ const auth=firebase.auth(), db=firebase.firestore();
 const $=s=>document.querySelector(s);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const app=$('#app');
-let tab='feedback', feedback=[], users=[], onlyOpen=false;
+let tab='feedback', feedback=[], users=[], errors=[], onlyOpen=false;
 
 function fmt(ts){
   if(!ts)return '—';
@@ -149,14 +149,72 @@ $('#out').onclick=()=>auth.signOut();
 
 /* ---------- data ---------- */
 async function loadAll(){
-  const [fb,us]=await Promise.all([
+  const [fb,us,er]=await Promise.all([
     db.collection('feedback').orderBy('createdAt','desc').limit(300).get().catch(e=>e),
-    db.collection('users').get().catch(e=>e)
+    db.collection('users').get().catch(e=>e),
+    db.collection('errors').orderBy('at','desc').limit(300).get().catch(e=>e)
   ]);
-  feedback = fb.forEach ? (()=>{const a=[];fb.forEach(d=>a.push({id:d.id,...d.data()}));return a;})() : [];
-  users    = us.forEach ? (()=>{const a=[];us.forEach(d=>a.push({id:d.id,...d.data()}));return a;})() : [];
+  const rows=s=>s.forEach?(()=>{const a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));return a;})():[];
+  feedback=rows(fb); users=rows(us); errors=rows(er);
   users.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  // Errors are the newest collection, so a stale ruleset shows up here first.
+  // Reported separately rather than folded in, so a missing errors rule does
+  // not look like the whole page failing.
   window.__loadErr = (fb.forEach?null:fb) || (us.forEach?null:us);
+  window.__errLoadErr = er.forEach?null:er;
+}
+// Same message and place, counted rather than repeated: one bug hitting twenty
+// people is one thing to fix, not twenty rows to scroll past.
+function groupErrors(list){
+  const by=new Map();
+  list.forEach(e=>{
+    const k=(e.msg||'')+'|'+(e.src||'')+'|'+(e.line||0);
+    const g=by.get(k);
+    if(g){ g.n++; g.uids.add(e.uid||'?'); if((e.at||0)>g.at){g.at=e.at;g.sample=e;} }
+    else by.set(k,{n:1,uids:new Set([e.uid||'?']),at:e.at||0,sample:e});
+  });
+  return [...by.values()].sort((a,b)=>b.at-a.at);
+}
+
+function renderErrors(){
+  if(window.__errLoadErr){
+    return '<div class="card"><div class="err">エラー一覧を読み込めませんでした: '+
+      esc(window.__errLoadErr.code||window.__errLoadErr.message)+
+      '<br>firestore.rules に <code>errors</code> の権限を入れて公開してください。</div></div>';
+  }
+  if(!errors.length)return '<div class="empty">報告されたエラーはありません。</div>';
+  const groups=groupErrors(errors);
+  return '<div style="font-size:12px;color:var(--muted);margin:0 2px 12px;line-height:1.7">'+
+      '同じ文言・同じ行のものはまとめています。<b>'+groups.length+'種類 / '+errors.length+'件</b>。'+
+      '端末側で「1セッション5件・1日20件」に制限しているので、これは実際の発生回数ではありません。</div>'+
+    groups.map(g=>{
+      const e=g.sample;
+      const where=(e.src||'').replace(/^https?:\/\/[^/]+/,'')+(e.line?':'+e.line:'');
+      return '<div class="card" style="padding:12px 14px">'+
+        '<div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">'+
+          '<span class="tag">'+g.n+'件</span>'+
+          '<span class="tag">'+g.uids.size+'人</span>'+
+          '<span class="tag">v'+esc(e.v||'?')+'</span>'+
+          '<span style="font-size:12px;color:var(--muted)">'+ago(e.at)+'</span>'+
+        '</div>'+
+        '<div style="font-weight:700;margin-top:8px;word-break:break-word">'+esc(e.msg||'')+'</div>'+
+        (where?'<div style="font-size:12px;color:var(--muted);margin-top:3px">'+esc(where)+'</div>':'')+
+        (e.stack?'<details style="margin-top:8px"><summary style="font-size:12px;cursor:pointer;color:var(--muted)">スタック</summary>'+
+          '<pre style="font-size:11px;white-space:pre-wrap;word-break:break-word;margin:6px 0 0;color:var(--muted)">'+esc(e.stack)+'</pre></details>':'')+
+        '<div style="font-size:11px;color:var(--muted);margin-top:8px;word-break:break-all">'+esc(e.ua||'')+'</div>'+
+        '<button class="btn btn-ghost btn-sm" style="margin-top:10px" data-errdel="'+esc(e.msg||'')+'">この種類を消す</button>'+
+      '</div>';
+    }).join('');
+}
+// Deleting by message clears the whole group -- once a bug is fixed, every copy
+// of it is noise.
+async function removeErrors(msg){
+  const hit=errors.filter(e=>(e.msg||'')===msg);
+  if(!hit.length)return;
+  if(!confirm('この種類のエラー '+hit.length+'件を削除します。よろしいですか？'))return;
+  for(const e of hit){ try{ await db.collection('errors').doc(e.id).delete(); }catch(x){ console.warn(x); } }
+  errors=errors.filter(e=>(e.msg||'')!==msg);
+  render();
 }
 
 /* ---------- render ---------- */
@@ -165,17 +223,19 @@ function render(){
   let html='<div class="tabs">'+
     '<button data-t="feedback" class="'+(tab==='feedback'?'on':'')+'">フィードバック'+(openCount?'（'+openCount+'）':'')+'</button>'+
     '<button data-t="users" class="'+(tab==='users'?'on':'')+'">ユーザー（'+users.length+'）</button>'+
+    '<button data-t="errors" class="'+(tab==='errors'?'on':'')+'">エラー（'+errors.length+'）</button>'+
   '</div>';
   if(window.__loadErr){
     html+='<div class="card"><div class="err">読み込みに失敗しました: '+esc(window.__loadErr.code||window.__loadErr.message)+
       '<br>Firestoreのルールに管理者の読み取り権限が入っているか確認してください。</div></div>';
   }
-  html+= tab==='feedback' ? renderFeedback() : renderUsers();
+  html+= tab==='feedback' ? renderFeedback() : tab==='errors' ? renderErrors() : renderUsers();
   app.innerHTML=html;
   document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();});
   const c=$('#onlyOpen'); if(c)c.onchange=()=>{onlyOpen=c.checked;render();};
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markHandled(b.dataset.done,b.dataset.to==='1'));
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>removeFeedback(b.dataset.del));
+  document.querySelectorAll('[data-errdel]').forEach(b=>b.onclick=()=>removeErrors(b.dataset.errdel));
 }
 
 function renderFeedback(){
