@@ -114,6 +114,36 @@ service cloud.firestore {
                    && boardNum('at', 99999999999999);
     }
 
+    // ---- Push subscriptions -----------------------------------------------
+    // One document per account, holding only what is needed to deliver a push:
+    // the address the browser's push service handed out, its two keys, the
+    // local hours to fire at, and the timezone. Deliberately NOT the words --
+    // the push is sent empty and the service worker writes the text on the
+    // device, so the sender never learns what anybody is studying.
+    //
+    // Nobody can read these back from the client. The scheduled sender uses the
+    // Admin SDK, which bypasses rules; leaving read closed means a subscription
+    // endpoint cannot be harvested by another signed-in user and used to spam
+    // that person's browser.
+    match /push/{userId} {
+      allow read: if false;
+      allow delete: if (request.auth != null && request.auth.uid == userId) || isAdmin();
+      allow write: if request.auth != null && request.auth.uid == userId
+                   && request.resource.data.keys().hasOnly(
+                        ['endpoint','p256dh','auth','hours','tzOffset','at'])
+                   && request.resource.data.endpoint is string
+                   && request.resource.data.endpoint.size() > 0
+                   && request.resource.data.endpoint.size() < 1000
+                   && request.resource.data.p256dh is string
+                   && request.resource.data.auth is string
+                   && request.resource.data.hours is list
+                   && request.resource.data.hours.size() <= 6
+                   && request.resource.data.tzOffset is int
+                   && request.resource.data.tzOffset >= -840
+                   && request.resource.data.tzOffset <= 840
+                   && request.resource.data.at is int;
+    }
+
     match /feedback/{id} {
       // Anyone can send feedback, including signed-out users, but the payload
       // is capped so the collection can't be used as free storage.

@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.16.0 時点 &middot; 最終更新 2026-08-24</div>
+    <div class="sub">v5.17.0 時点 &middot; 最終更新 2026-08-24</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮445KB、gzip配信で<b>実転送量は150KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮459KB、gzip配信で<b>実転送量は155KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,8 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">学習のリマインド通知を追加</div><div class="d">1日2回（朝と夜）。<b>連続が生きていて今日まだなら その案内</b>——何もしないと失われる唯一のものなので最優先。それ以外は<b>覚えた単語の意味を聞く</b>形（「adorableの意味は覚えていますか？」）。5つの状態すべてで文面を検証済み。送信は<b>GitHub Actionsの毎時cron</b>で、購読ごとに希望ローカル時刻を持たせて突き合わせるので<b>cron 1本で全タイムゾーンをカバー</b>する。</div><div class="ver">v5.17.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">通知でも「単語は渡さない」を守った</div><div class="d"><b>サーバーが送るのは中身のない合図だけ</b>で、文面は端末のService Workerが組み立てる。つまり<b>送信側は誰がどの単語を持っているか一切知らない</b>。管理ページですら単語を読めない設計なので、通知のためにそこを崩したくなかった。Service Workerは<code>localStorage</code>を読めないため、必要最小限（387バイト・単語IDも日程も含まない）を<b>IndexedDBにミラー</b>する。<code>push/{uid}</code>は<b>読み取り禁止</b>——読めると他人の購読エンドポイントを取得してそのブラウザに通知を送りつけられる。</div><div class="ver">v5.17.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">同期を差分化した（唯一の構造的な壁）</div><div class="d">毎回<code>wcol.get()</code>で全件読み直しており、<b>コストが「語数×利用者数×同期回数」で増えていた</b>。実測で300語の利用者は1同期301読み取り、無料枠5万/日は<b>50人前後で尽きる</b>計算。しかも<b>熱心に使う人ほど早く尽きる</b>という逆向きの性質だった。スタブで検証して<b>301読み取り → 1読み取り</b>（変更なし時）。編集・削除・2端末間の反映・アカウント切替時の全件読みも確認済み。</div><div class="ver">v5.16.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">差分化で踏みかけた罠3つ</div><div class="d"><b>①送信側</b>：応答に無い単語を「リモートに無い」と解釈すると<b>毎回全語を再アップロード</b>する。<b>②削除</b>：今日消した単語が数か月前に書かれていれば差分に現れず、<b>削除が握り潰されて他端末から復活</b>する。tombstone自身の時刻で判定。<b>③アカウント切替</b>：前のアカウントの基準時刻を使うと、見たことのないコレクションの差分を取って「完了」と判断する。uidで守る。いずれもテストで固定（71→85件）。</div><div class="ver">v5.16.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">たまった復習を「今日の分」に切り替えた</div><div class="d">1週間空けた状態を再現したら、<b>210 / 210 / 99+ が3箇所から同時に出た</b>。しかも本文は「今日はもう学習しました」——埋まっている人への言葉になっていない。<b>SRSで人が辞める理由は作業量ではなくこの数字。</b>見せる数を今日の目標で頭打ちにし、残りは1回だけ静かに文章で出す。<b>隠してはいない</b>——予定は一切変えておらず、真の総数は記録画面にある。出題側も同じ上限で切らないと「20語」と言いながら210語walkさせることになる。既定20、設定で変更可。</div><div class="ver">v5.15.0</div></div></li>

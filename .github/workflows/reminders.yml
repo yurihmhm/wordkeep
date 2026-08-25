@@ -1,0 +1,29 @@
+name: reminders
+
+# Hourly, because each subscription stores the LOCAL hours it wants and the
+# script matches against them -- one cron job covers every timezone.
+#
+# GitHub's scheduled runs are best-effort and can be minutes late. For a study
+# reminder that is fine; do not use this pattern for anything time-critical.
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:        # so it can be fired by hand to test
+
+# Nothing here writes to the repository.
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install web-push firebase-admin --no-save
+      - run: node tools/send-reminders.mjs
+        env:
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}

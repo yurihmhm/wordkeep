@@ -940,6 +940,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
     </div>
 
+    <div class="set-section-t" data-i18n="sec_notify">通知</div>
+    <div class="panel">
+      <div class="set-row">
+        <div><div class="st" data-i18n="st_notify">学習のリマインド</div><div class="sd" data-i18n="desc_notify"></div></div>
+        <button class="switch" id="swNotify"><i></i></button>
+      </div>
+    </div>
+
     <div class="set-section-t" data-i18n="rank_tab_board">ランキング</div>
     <div class="panel">
       <div class="set-row">
@@ -1022,15 +1030,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.16.0';
+const APP_VERSION='5.17.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.16.0',date:'2026-08-24',keys:['wn1']},
+  {version:'5.17.0',date:'2026-08-24',keys:['wn1','wn2']},
+  {version:'5.16.0',date:'2026-08-24',keys:['v5160_1']},
   {version:'5.15.0',date:'2026-08-24',keys:['v5150_1','v5150_2','v5150_3']},
-  {version:'5.14.1',date:'2026-08-24',keys:['v5141_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1125,11 +1133,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'同期の仕組みを作り直しました。これまでは同期のたびに単語を全件読み直していましたが、変更があった分だけを読むようになり、通信量が大幅に減りました。使い方は何も変わりません',en:'Rebuilt how syncing works. It used to re-read every word each time; now it reads only what changed, which cuts the data it moves dramatically. Nothing changes in how you use the app',zh:'重写了同步机制。此前每次同步都会重新读取全部单词，现在只读取有变化的部分，传输量大幅降低。使用方式没有任何变化',fr:'La synchronisation a été refaite. Elle relisait tous les mots à chaque fois ; elle ne lit désormais que ce qui a changé, ce qui réduit fortement les données échangées. Rien ne change à l’usage',ar:'أُعيد بناء آلية المزامنة. كانت تعيد قراءة كل الكلمات في كل مرة، وصارت تقرأ ما تغيّر فقط، فانخفض حجم البيانات كثيرًا. ولا شيء يتغير في طريقة استخدامك للتطبيق',ko:'동기화 방식을 다시 만들었습니다. 지금까지는 동기화할 때마다 단어를 전부 다시 읽었지만, 이제는 변경된 만큼만 읽어 통신량이 크게 줄었습니다. 사용 방법은 달라지지 않습니다',ru:'Синхронизация переработана. Раньше каждый раз перечитывались все слова, теперь читается только изменившееся — объём передаваемых данных резко снизился. В использовании ничего не меняется'},
+  wn1:{ja:'学習のリマインド通知を追加しました。設定の「通知」からオンにすると、1日2回（朝と夜）お知らせします。連続が途切れそうな日はその案内を、それ以外は覚えた単語の意味を聞く形で届きます',en:'Added study reminders. Turn them on under Settings → Notifications and you’ll get two a day, morning and evening. On a day your streak is at risk it says so; otherwise it asks you what one of your words means',zh:'新增学习提醒通知。在「设置 → 通知」中开启后，每天早晚各提醒一次。连续记录可能中断的当天会提示，其他时候则会考你某个单词的意思',fr:'Ajout des rappels d’étude. Activez-les dans Réglages → Notifications pour en recevoir deux par jour, matin et soir. Le jour où votre série est menacée, le rappel le dit ; sinon il vous demande le sens d’un de vos mots',ar:'أُضيفت تذكيرات الدراسة. فعّلها من «الإعدادات ← الإشعارات» لتصلك مرتين يوميًا صباحًا ومساءً. في اليوم الذي تكون فيه سلسلتك مهددة ينبهك، وفي غيره يسألك عن معنى إحدى كلماتك',ko:'학습 리마인드 알림을 추가했습니다. 설정의 «알림»에서 켜면 하루 두 번(아침과 저녁) 알려 드립니다. 연속 기록이 끊길 것 같은 날에는 그 안내를, 그 외에는 외운 단어의 뜻을 묻는 형태로 옵니다',ru:'Добавлены напоминания о занятиях. Включите их в «Настройки → Уведомления» — придут дважды в день, утром и вечером. В день, когда серия под угрозой, об этом и сообщат; в остальные — спросят значение одного из ваших слов'},
+  wn2:{ja:'通知の文面はあなたの端末の中で作られます。サーバーから送るのは「合図」だけで、どの単語を勉強しているかがサーバーに渡ることはありません',en:'The notification text is written on your own device. The server sends only a signal — which words you study never reaches it',zh:'通知文案在你的设备上生成。服务器只发送一个信号，你学习了哪些单词不会传到服务器',fr:'Le texte de la notification est composé sur votre appareil. Le serveur n’envoie qu’un signal : les mots que vous étudiez ne lui parviennent jamais',ar:'يُكتب نص الإشعار على جهازك أنت. أما الخادم فلا يرسل سوى إشارة، ولا تصله أبدًا الكلمات التي تدرسها',ko:'알림 문구는 기기 안에서 만들어집니다. 서버가 보내는 것은 «신호»뿐이며, 어떤 단어를 공부하는지는 서버에 전달되지 않습니다',ru:'Текст уведомления составляется на вашем устройстве. Сервер отправляет только сигнал — изучаемые вами слова до него не доходят'},
+  v5160_1:{ja:'同期の仕組みを作り直しました。これまでは同期のたびに単語を全件読み直していましたが、変更があった分だけを読むようになり、通信量が大幅に減りました。使い方は何も変わりません',en:'Rebuilt how syncing works. It used to re-read every word each time; now it reads only what changed, which cuts the data it moves dramatically. Nothing changes in how you use the app',zh:'重写了同步机制。此前每次同步都会重新读取全部单词，现在只读取有变化的部分，传输量大幅降低。使用方式没有任何变化',fr:'La synchronisation a été refaite. Elle relisait tous les mots à chaque fois ; elle ne lit désormais que ce qui a changé, ce qui réduit fortement les données échangées. Rien ne change à l’usage',ar:'أُعيد بناء آلية المزامنة. كانت تعيد قراءة كل الكلمات في كل مرة، وصارت تقرأ ما تغيّر فقط، فانخفض حجم البيانات كثيرًا. ولا شيء يتغير في طريقة استخدامك للتطبيق',ko:'동기화 방식을 다시 만들었습니다. 지금까지는 동기화할 때마다 단어를 전부 다시 읽었지만, 이제는 변경된 만큼만 읽어 통신량이 크게 줄었습니다. 사용 방법은 달라지지 않습니다',ru:'Синхронизация переработана. Раньше каждый раз перечитывались все слова, теперь читается только изменившееся — объём передаваемых данных резко снизился. В использовании ничего не меняется'},
   v5150_1:{ja:'復習がたまっても、1日に出す数に上限を設けました。しばらく空けて戻ってきても「210語」ではなく「今日は20語」と表示されます。残りは翌日以降に回るだけで、復習の予定そのものは変わりません。上限は設定から変えられます',en:'Reviews are now capped per day. Come back after a break and you see “20 today”, not “210 due”. The rest simply rolls over — the schedule itself is unchanged. You can change the cap in Settings',zh:'每日复习量现已设上限。久未打开后回来看到的是「今天 20 个」而非「待复习 210 个」，其余顺延，复习计划本身不变。上限可在设置中调整',fr:'Les révisions sont désormais plafonnées par jour. Après une pause, vous voyez « 20 aujourd’hui » et non « 210 en retard ». Le reste est simplement reporté, le planning ne change pas. Le plafond se règle dans les réglages',ar:'صار للمراجعات حد يومي. فإذا عدت بعد انقطاع ترى «20 اليوم» بدل «210 مستحقة»، ويُرحّل الباقي دون أن يتغير الجدول نفسه. ويمكنك تعديل الحد من الإعدادات',ko:'복습이 밀려도 하루에 내보내는 수에 상한을 두었습니다. 오래 쉬었다 돌아와도 «210개»가 아니라 «오늘 20개»로 표시됩니다. 나머지는 다음 날로 넘어갈 뿐이고 일정 자체는 그대로입니다. 상한은 설정에서 바꿀 수 있습니다',ru:'Повторы теперь ограничены в день. Вернувшись после перерыва, вы увидите «20 на сегодня», а не «210 к повтору». Остальное просто переносится, само расписание не меняется. Лимит настраивается'},
   v5150_2:{ja:'連続記録のページを追加しました。アプリ名の横の炎か、記録タブの「現在の連続」から開けます。カレンダーで学習した日が見え、7日から365日までの節目も並びます',en:'Added a streak page. Open it from the flame beside the app name, or from “Current streak” on the Record tab. It shows a calendar of the days you studied and the milestones from 7 up to 365',zh:'新增连续记录页面。可从应用名旁的火焰图标或「记录」标签页的「当前连续」打开，内含学习日历与 7 天至 365 天的里程碑',fr:'Nouvelle page de série. Ouvrez-la depuis la flamme à côté du nom de l’application ou depuis « Série actuelle » dans l’onglet Suivi. Elle montre un calendrier des jours étudiés et les paliers de 7 à 365 jours',ar:'أُضيفت صفحة للتتابع. افتحها من رمز اللهب بجانب اسم التطبيق أو من «التتابع الحالي» في تبويب السجل. تعرض تقويمًا بأيام دراستك والمراحل من 7 إلى 365 يومًا',ko:'연속 기록 페이지를 추가했습니다. 앱 이름 옆의 불꽃이나 기록 탭의 «현재 연속»에서 열 수 있습니다. 학습한 날이 달력으로 보이고 7일부터 365일까지의 이정표가 나옵니다',ru:'Добавлена страница серии. Откройте её по значку пламени рядом с названием приложения или из «Текущая серия» на вкладке «Прогресс». Там календарь ваших занятий и рубежи от 7 до 365 дней'},
   v5150_3:{ja:'ストリークフリーズの残数が見えるようになりました。月に1つ、最大2つまで貯まり、1日休んでも自動で使われて記録がつながる仕組みです。これまでも動いていましたが、どこにも表示されていませんでした',en:'Your streak freezes are now visible. You earn one a month, up to two, and one is spent automatically if you miss a single day so the streak holds. This always worked — it was just never shown anywhere',zh:'现在可以看到剩余的连续冻结数量。每月获得 1 个、最多 2 个，漏掉一天会自动使用以保住连续记录。该机制一直有效，只是此前从未显示',fr:'Vos gels de série sont désormais visibles. Vous en gagnez un par mois, jusqu’à deux, et l’un est utilisé automatiquement si vous manquez une journée. Cela fonctionnait déjà, mais n’était affiché nulle part',ar:'صار رصيد تجميدات التتابع ظاهرًا. تحصل على واحدة شهريًا وبحد أقصى اثنتان، وتُستخدم واحدة تلقائيًا إذا فاتك يوم فيبقى تتابعك. كانت تعمل دائمًا لكنها لم تكن معروضة في أي مكان',ko:'스트릭 프리즈의 남은 개수가 보이게 되었습니다. 매달 1개씩 최대 2개까지 쌓이고, 하루 쉬면 자동으로 사용되어 기록이 이어집니다. 지금까지도 동작하고 있었지만 어디에도 표시되지 않았습니다',ru:'Теперь видно, сколько у вас заморозок серии. Одна в месяц, максимум две, и одна тратится автоматически при пропуске дня. Механизм работал и раньше — просто нигде не показывался'},
-  v5141_1:{ja:'連続日数をアプリ名の横に戻しました。タップすると学習の記録が開きます',en:'The streak is back, beside the app name. Tap it to open your record',zh:'连续天数已回到应用名称旁边，点击可打开学习记录',fr:'La série est de retour, à côté du nom de l’application. Touchez-la pour ouvrir votre suivi',ar:'عادت الأيام المتتالية بجانب اسم التطبيق. المسه لفتح سجل تعلّمك',ko:'연속 일수를 앱 이름 옆에 되돌렸습니다. 누르면 학습 기록이 열립니다',ru:'Серия вернулась — рядом с названием приложения. Нажмите, чтобы открыть свой прогресс'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1159,6 +1168,20 @@ const T={
   home_m_streak:{ja:'連続',en:'STREAK',zh:'连续',fr:'SÉRIE',ar:'التتابع',ko:'연속',ru:'СЕРИЯ'},
   today_backlog:{ja:'たまっている分が{0}語あります。今日は上の数だけで大丈夫です',en:'{0} more have piled up. Today’s number above is enough',zh:'另有 {0} 个积压。今天完成上面的数量就够了',fr:'{0} en retard se sont accumulés. Le nombre ci-dessus suffit pour aujourd’hui',ar:'تراكمت {0} كلمة أخرى. يكفيك اليوم العدد المذكور أعلاه',ko:'밀린 단어가 {0}개 있습니다. 오늘은 위의 개수만으로 충분합니다',ru:'Накопилось ещё {0}. На сегодня хватит числа выше'},
   today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
+  sec_notify:{ja:'通知',en:'Notifications',zh:'通知',fr:'Notifications',ar:'الإشعارات',ko:'알림',ru:'Уведомления'},
+  st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
+  desc_notify:{ja:'1日2回（朝と夜）、復習の合図をお送りします。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'Two nudges a day, morning and evening. The text is written on your own device, so which words you study is never sent to the server',zh:'每天两次（早晚）提醒复习。通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Deux rappels par jour, matin et soir. Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'تذكيران يوميًا، صباحًا ومساءً. يُكتب نص الإشعار على جهازك، فلا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'하루 두 번(아침과 저녁) 복습 알림을 보냅니다. 알림 문구는 기기 안에서 만들어지므로 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Два напоминания в день, утром и вечером. Текст составляется на вашем устройстве, поэтому изучаемые слова никогда не отправляются на сервер'},
+  ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
+  ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
+  ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
+  ntf_streak_t:{ja:'{0}日の連続が今日で途切れます',en:'Your {0}-day streak ends today',zh:'你的 {0} 天连续记录今天将中断',fr:'Votre série de {0} jours prend fin aujourd’hui',ar:'سلسلتك البالغة {0} يومًا تنتهي اليوم',ko:'{0}일 연속 기록이 오늘 끊깁니다',ru:'Ваша серия из {0} дн. прервётся сегодня'},
+  ntf_streak_b:{ja:'1問でも解けばつながります',en:'A single question keeps it alive',zh:'只要答一题就能延续',fr:'Une seule question suffit à la préserver',ar:'سؤال واحد يكفي للحفاظ عليها',ko:'한 문제만 풀어도 이어집니다',ru:'Достаточно одного вопроса, чтобы её сохранить'},
+  ntf_word_t:{ja:'「{0}」の意味は覚えていますか？',en:'Do you remember what “{0}” means?',zh:'还记得「{0}」的意思吗？',fr:'Vous souvenez-vous du sens de « {0} » ?',ar:'هل تتذكر معنى «{0}»؟',ko:'«{0}»의 뜻을 기억하고 있나요?',ru:'Помните, что значит «{0}»?'},
+  ntf_word_b:{ja:'タップして確かめる',en:'Tap to check',zh:'点击查看',fr:'Touchez pour vérifier',ar:'المس للتحقق',ko:'눌러서 확인하기',ru:'Нажмите, чтобы проверить'},
+  ntf_due_t:{ja:'今日の復習が{0}語あります',en:'{0} reviews waiting today',zh:'今天有 {0} 个待复习',fr:'{0} révisions vous attendent',ar:'لديك {0} مراجعة اليوم',ko:'오늘 복습할 단어가 {0}개 있습니다',ru:'Сегодня ждут {0} повторов'},
+  ntf_due_b:{ja:'5分あれば終わります',en:'Five minutes is enough',zh:'五分钟就能完成',fr:'Cinq minutes suffisent',ar:'خمس دقائق تكفي',ko:'5분이면 끝납니다',ru:'Хватит пяти минут'},
+  ntf_idle_t:{ja:'今日はどんな単語を覚えますか？',en:'What will you learn today?',zh:'今天想学哪些单词？',fr:'Quel mot apprendrez-vous aujourd’hui ?',ar:'أي كلمة ستتعلم اليوم؟',ko:'오늘은 어떤 단어를 외울까요?',ru:'Какое слово выучите сегодня?'},
+  ntf_idle_b:{ja:'Wordkeepを開く',en:'Open Wordkeep',zh:'打开 Wordkeep',fr:'Ouvrir Wordkeep',ar:'افتح Wordkeep',ko:'Wordkeep 열기',ru:'Открыть Wordkeep'},
   st_goal:{ja:'1日に出す上限',en:'Daily limit',zh:'每日上限',fr:'Limite quotidienne',ar:'الحد اليومي',ko:'하루 상한',ru:'Дневной лимит'},
   desc_goal:{ja:'復習が何百語たまっても、1日に出すのはこの数までにします。残りは翌日以降に回ります。予定そのものは変わりません',en:'However many reviews pile up, only this many are offered in a day. The rest roll over. The schedule itself is unchanged',zh:'无论积压多少复习，每天最多只出这么多，其余顺延。复习计划本身不受影响',fr:'Quel que soit le retard accumulé, seul ce nombre est proposé par jour ; le reste est reporté. Le planning lui-même ne change pas',ar:'مهما تراكمت المراجعات، لا يُعرض في اليوم سوى هذا العدد ويُرحّل الباقي. أما الجدول نفسه فلا يتغير',ko:'복습이 수백 개 밀려도 하루에 내보내는 것은 이 개수까지입니다. 나머지는 다음 날 이후로 넘어갑니다. 일정 자체는 바뀌지 않습니다',ru:'Сколько бы повторов ни накопилось, за день предлагается не больше этого числа, остальное переносится. Само расписание не меняется'},
   goal_off:{ja:'上限なし',en:'No limit',zh:'不限',fr:'Sans limite',ar:'بلا حد',ko:'제한 없음',ru:'Без лимита'},
@@ -1637,7 +1660,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,notify:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -4042,6 +4065,7 @@ function grade(w,ok,correctText,isInput){
   persistProgress();
   updateStreak();
   cloudTouched();
+  refreshHint();
   const fbHtml='<div class="q-feedback '+(ok?'ok':'ng')+'">'+
     (ok?t('fb_ok'):t('fb_ng'))+
     '<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(correctText)+'</span></div>'+
@@ -4217,10 +4241,18 @@ function renderSpeechRows(){
   if(!TTS_OK)return;
   $('#swAutoSpeak').classList.toggle('on',!!S().autoSpeak);
   $('#swRank').classList.toggle('on',rankOptIn());
+  $('#swNotify').classList.toggle('on',notifyOn());
   // sample the change so the difference is audible right away
   seg('#segAccent','accent',false,()=>speak('Wordkeep'));
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
 }
+$('#swNotify').onclick=async()=>{
+  const el=$('#swNotify');
+  if(notifyOn()){await disableNotify();el.classList.remove('on');return;}
+  el.classList.add('on');
+  const r=await enableNotify();
+  if(!r.ok){el.classList.remove('on');toast(r.msg);}
+};
 $('#swRank').onclick=()=>{
   const on=!rankOptIn();
   S().rankOptIn=on;save();
@@ -5194,6 +5226,126 @@ async function cloudAuth(mode,who,pin){
     await cloudSync('auth');
     return {ok:true};
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
+}
+/* ---- push notifications ---------------------------------------------------
+   The sender (a scheduled GitHub Action) posts an EMPTY push. The service
+   worker composes the text from a mirror of local state, so the server learns
+   only that an account wants reminders and at what local hour -- never which
+   words anyone is studying. That keeps the same promise the admin page makes.
+
+   The mirror exists because a service worker cannot read localStorage.
+   -------------------------------------------------------------------------- */
+const VAPID_PUBLIC='BLxhLPDHN5C9896npEynjWCnGpKkTuEUJZ7iN_dQjzCxj34jLCBmFrO5bXjQhUeggedU8rHwgNZm78xH1HVMYsI';
+const HINT_DB='wordkeep-notify', HINT_STORE='hint';
+const NOTIFY_HOURS=[9,20];     // local, morning and evening
+
+function pushSupported(){
+  return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+}
+function notifyOn(){return S().notify===true;}
+
+function idbPut(val){
+  return new Promise(res=>{
+    let req; try{req=indexedDB.open(HINT_DB,1);}catch(e){return res(false);}
+    req.onupgradeneeded=()=>{const db=req.result;
+      if(!db.objectStoreNames.contains(HINT_STORE))db.createObjectStore(HINT_STORE);};
+    req.onerror=()=>res(false);
+    req.onsuccess=()=>{const db=req.result;
+      if(!db.objectStoreNames.contains(HINT_STORE)){db.close();return res(false);}
+      const tx=db.transaction(HINT_STORE,'readwrite');
+      tx.objectStore(HINT_STORE).put(val,'v1');
+      tx.oncomplete=()=>{db.close();res(true);};
+      tx.onerror=()=>{db.close();res(false);};};
+  });
+}
+
+// Everything the worker needs to write a sentence, and nothing else.
+// Deliberately small: it is a cache for one notification, not a second copy of
+// the database.
+function buildHint(){
+  const st=S().streak||{};
+  const words=curWords().filter(w=>w.word&&primaryMeaning(w));
+  // Weighted toward what the user actually struggles with, then recent, so the
+  // question is worth asking.
+  const ranked=[...words].sort((a,b)=>
+    ((b.wrong||0)-(b.correct||0))-((a.wrong||0)-(a.correct||0))
+    ||(b.added||0)-(a.added||0)).slice(0,25);
+  return {
+    v:1, at:Date.now(),
+    streak:st.current||0,
+    lastStudied:st.lastActiveDate?localDayIndex(st.lastActiveDate):null,
+    due:curDueCount(),
+    words:ranked.map(w=>({w:w.word,m:primaryMeaning(w).slice(0,40)})),
+    // The worker has no access to the app's i18n table, so the strings it might
+    // need travel with the data in whatever language the user reads.
+    t:{
+      streak_t:t('ntf_streak_t'), streak_b:t('ntf_streak_b'),
+      word_t:t('ntf_word_t'),     word_b:t('ntf_word_b'),
+      due_t:t('ntf_due_t'),       due_b:t('ntf_due_b'),
+      idle_t:t('ntf_idle_t'),     idle_b:t('ntf_idle_b'),
+      generic_t:'Wordkeep',       generic_b:t('ntf_idle_b')
+    }
+  };
+}
+let hintTimer=null;
+function refreshHint(){
+  if(!notifyOn())return;
+  clearTimeout(hintTimer);
+  hintTimer=setTimeout(()=>{idbPut(buildHint());},1500);
+}
+
+function urlB64ToU8(s){
+  const pad='='.repeat((4-s.length%4)%4);
+  const raw=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+
+async function enableNotify(){
+  if(!pushSupported())return {ok:false,msg:t('ntf_unsupported')};
+  let perm=Notification.permission;
+  if(perm==='default')perm=await Notification.requestPermission();
+  if(perm!=='granted')return {ok:false,msg:t('ntf_denied')};
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,
+      applicationServerKey:urlB64ToU8(VAPID_PUBLIC)});
+    await saveSubscription(sub);
+    S().notify=true;save();
+    await idbPut(buildHint());
+    gaEvent('notify_on',{});
+    return {ok:true};
+  }catch(e){
+    console.warn('push subscribe failed',e);
+    return {ok:false,msg:t('ntf_fail')};
+  }
+}
+
+async function disableNotify(){
+  S().notify=false;save();
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.getSubscription();
+    if(sub){await sub.unsubscribe();}
+    if(cloudUser&&fbDb)await fbDb.collection('push').doc(cloudUser.uid).delete();
+  }catch(e){ console.warn('push unsubscribe failed',e); }
+  gaEvent('notify_off',{});
+}
+
+// One document per account. The endpoint is the address the push service gave
+// this browser; the hours and offset are what the sender needs to fire at a
+// sensible local time. No study data of any kind.
+async function saveSubscription(sub){
+  if(!cloudUser||!fbDb)throw new Error('not signed in');
+  const j=sub.toJSON();
+  await fbDb.collection('push').doc(cloudUser.uid).set({
+    endpoint:j.endpoint,
+    p256dh:(j.keys||{}).p256dh||'',
+    auth:(j.keys||{}).auth||'',
+    hours:NOTIFY_HOURS,
+    // Minutes to ADD to UTC to get the user's local time.
+    tzOffset:-new Date().getTimezoneOffset(),
+    at:Date.now()
+  });
 }
 /* ---- nickname screening ---------------------------------------------------
    Nicknames used to be near-private. Since v5.9.0 they are broadcast to every
