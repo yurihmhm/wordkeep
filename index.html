@@ -384,6 +384,34 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .rk-state{text-align:center;padding:34px 16px;color:var(--muted);font-size:13.5px;line-height:1.7}
 .rk-state svg{width:38px;height:38px;fill:var(--line);margin-bottom:10px}
 .q-acts{display:flex;gap:10px;margin-top:16px}
+/* ---- a round in progress --------------------------------------------------
+   The tab bar is hidden for the whole round, not just while the keyboard is up.
+   It used to reappear the moment an answer was graded, which meant the way out
+   of the round arrived at exactly the moment attention should be on the word --
+   and it was inconsistent with the typing half, where the keyboard covered it. */
+body.in-round nav.tabbar{display:none}
+body.in-round{--tabbar-h:0px}
+
+/* Questions arrive from the right and leave to the left, in the direction the
+   "next" chevron points. Answering and the next question then read as one
+   movement instead of a hard cut. */
+@keyframes q-in{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
+@keyframes q-out{from{opacity:1;transform:none}to{opacity:0;transform:translateX(-22px)}}
+.q-slide{animation:q-in .22s cubic-bezier(.22,.61,.36,1)}
+.q-slide.leaving{animation:q-out .16s cubic-bezier(.55,.06,.68,.19) forwards}
+@media (prefers-reduced-motion:reduce){
+  .q-slide,.q-slide.leaving{animation:none}
+}
+
+/* After an answer the three actions take the space the keyboard just left, so
+   the thumb does not travel: the last key pressed and the next thing to press
+   are in the same place. */
+.q-acts.pinned{position:fixed;left:0;right:0;bottom:0;z-index:60;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+  margin:0;padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  background:var(--surface);border-top:1px solid var(--line)}
+.q-acts.pinned .q-act{border-radius:18px;padding:16px 6px 14px;gap:8px;font-size:12px}
+.q-acts.pinned .q-act svg{width:26px;height:26px}
 .q-act{flex:1;min-width:0}
 .q-act{border:none;border-radius:16px;padding:13px 4px 11px;cursor:pointer;
   background:var(--navy);color:#fff;font-family:inherit;
@@ -1056,15 +1084,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.20.0';
+const APP_VERSION='5.21.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.20.0',date:'2026-08-25',keys:['wn1']},
+  {version:'5.21.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.20.0',date:'2026-08-25',keys:['v5200_1']},
   {version:'5.19.0',date:'2026-08-25',keys:['v5190_1','v5190_2']},
-  {version:'5.18.0',date:'2026-08-25',keys:['v5180_1','v5180_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1159,11 +1187,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'不具合が起きたときに、その内容が開発者へ自動で届くようにしました。送られるのはエラーの文言と発生箇所だけで、あなたの単語や学習の記録は含まれません',en:'When something breaks, the details now reach the developer automatically. Only the error message and where it happened are sent — never your words or study history',zh:'出现故障时，相关信息会自动发送给开发者。仅发送错误信息与发生位置，不包含你的单词与学习记录',fr:'En cas de problème, les détails parviennent désormais automatiquement au développeur. Seuls le message d’erreur et son emplacement sont envoyés, jamais vos mots ni votre historique',ar:'عند حدوث خلل، تصل تفاصيله الآن إلى المطوّر تلقائيًا. ولا يُرسل سوى نص الخطأ وموضع حدوثه، دون كلماتك أو سجل تعلّمك',ko:'문제가 생겼을 때 그 내용이 개발자에게 자동으로 전달됩니다. 보내지는 것은 오류 문구와 발생 위치뿐이며, 단어나 학습 기록은 포함되지 않습니다',ru:'Если что-то ломается, подробности теперь автоматически доходят до разработчика. Отправляются только текст ошибки и место, где она произошла, — но не ваши слова и не история занятий'},
+  wn1:{ja:'問題の切り替わりに動きをつけました。答えた問題が左へ流れ、次の問題が右から入ってきます',en:'Questions now move. The one you answered slides out to the left and the next arrives from the right',zh:'题目切换现在有了动效：作答完的题目向左滑出，下一题从右侧滑入',fr:'Les questions bougent désormais : celle à laquelle vous avez répondu glisse vers la gauche et la suivante arrive par la droite',ar:'صار انتقال الأسئلة متحركًا: ينزلق السؤال الذي أجبت عنه إلى اليسار ويدخل التالي من اليمين',ko:'문제 전환에 움직임을 넣었습니다. 답한 문제가 왼쪽으로 흘러가고 다음 문제가 오른쪽에서 들어옵니다',ru:'Переход между вопросами теперь анимирован: отвеченный уезжает влево, следующий приходит справа'},
+  wn2:{ja:'答え合わせのあとのボタンを、キーボードがあった位置に移しました。指を動かす距離が短くなります。また、問題を解いている間は下のタブを隠して、解くことに集中できるようにしています',en:'The buttons after an answer now sit where the keyboard was, so your thumb barely moves. The tab bar is also hidden for the whole round, to keep the round about the round',zh:'作答后的按钮已移到键盘原来的位置，手指移动距离更短。答题过程中还会隐藏底部标签栏，让你专注作答',fr:'Les boutons qui suivent une réponse occupent maintenant la place du clavier : le pouce bouge à peine. La barre d’onglets reste masquée pendant toute la série, pour ne pas distraire',ar:'صارت أزرار ما بعد الإجابة في موضع لوحة المفاتيح نفسه، فلا يكاد إبهامك يتحرك. كما يبقى شريط التبويب مخفيًا طوال الجولة لتبقى الجولة موضع تركيزك',ko:'답을 맞춘 뒤의 버튼을 키보드가 있던 자리로 옮겼습니다. 손가락이 움직이는 거리가 짧아집니다. 또 문제를 푸는 동안에는 하단 탭을 숨겨 집중할 수 있도록 했습니다',ru:'Кнопки после ответа теперь там, где была клавиатура, — большой палец почти не двигается. Панель вкладок скрыта на всю серию, чтобы ничто не отвлекало'},
+  wn3:{ja:'タブを切り替えて戻ったとき、スクロール位置が保たれるようにしました。あわせて、開いている画面は背景をタップしても閉じられます',en:'Switching tabs and coming back keeps your place in the list. Sheets can also be dismissed by tapping the background',zh:'切换标签页后返回时会保留滚动位置。弹出面板也可点击背景关闭',fr:'Changer d’onglet et revenir conserve votre position dans la liste. Les panneaux se ferment aussi en touchant l’arrière-plan',ar:'صار التنقل بين التبويبات والعودة يحفظ موضعك في القائمة. كما يمكن إغلاق النوافذ بلمس الخلفية',ko:'탭을 바꿨다가 돌아와도 스크롤 위치가 유지됩니다. 열려 있는 화면은 배경을 눌러도 닫을 수 있습니다',ru:'Переключение вкладок и возврат сохраняют место в списке. Панели теперь закрываются и по нажатию на фон'},
+  v5200_1:{ja:'不具合が起きたときに、その内容が開発者へ自動で届くようにしました。送られるのはエラーの文言と発生箇所だけで、あなたの単語や学習の記録は含まれません',en:'When something breaks, the details now reach the developer automatically. Only the error message and where it happened are sent — never your words or study history',zh:'出现故障时，相关信息会自动发送给开发者。仅发送错误信息与发生位置，不包含你的单词与学习记录',fr:'En cas de problème, les détails parviennent désormais automatiquement au développeur. Seuls le message d’erreur et son emplacement sont envoyés, jamais vos mots ni votre historique',ar:'عند حدوث خلل، تصل تفاصيله الآن إلى المطوّر تلقائيًا. ولا يُرسل سوى نص الخطأ وموضع حدوثه، دون كلماتك أو سجل تعلّمك',ko:'문제가 생겼을 때 그 내용이 개발자에게 자동으로 전달됩니다. 보내지는 것은 오류 문구와 발생 위치뿐이며, 단어나 학습 기록은 포함되지 않습니다',ru:'Если что-то ломается, подробности теперь автоматически доходят до разработчика. Отправляются только текст ошибки и место, где она произошла, — но не ваши слова и не история занятий'},
   v5190_1:{ja:'プロフィール画面から自分でアカウントを削除できるようにしました。単語・学習の記録・ランキングの記録がすべて消えます。実行にはPINの再入力が必要です',en:'You can now delete your own account from the Profile screen. Your words, study history and leaderboard entry are all erased. Re-entering your PIN is required',zh:'现在可在个人资料页面自行删除账户，单词、学习记录与排行榜记录都会被清除。执行时需要重新输入 PIN',fr:'Vous pouvez désormais supprimer vous-même votre compte depuis le profil. Vos mots, votre historique et votre entrée au classement sont effacés. La saisie du PIN est requise',ar:'صار بإمكانك حذف حسابك بنفسك من صفحة الملف الشخصي، فتُمحى كلماتك وسجل تعلّمك وحضورك في الترتيب. ويلزم إدخال رمز PIN من جديد',ko:'프로필 화면에서 직접 계정을 삭제할 수 있게 했습니다. 단어·학습 기록·랭킹 기록이 모두 사라집니다. 실행하려면 PIN을 다시 입력해야 합니다',ru:'Теперь вы можете удалить свой аккаунт со страницы профиля. Слова, история занятий и запись в рейтинге будут стёрты. Потребуется заново ввести PIN'},
   v5190_2:{ja:'通知のご案内から「今はしない」を外しました。端末側で許可・拒否を選べるので、二重にお聞きするのをやめています',en:'Removed the “Not now” button from the notification prompt. Your device already asks allow or deny, so being asked twice was redundant',zh:'移除了通知引导中的「暂不需要」按钮。设备本身已会询问允许或拒绝，无需重复确认',fr:'Le bouton « Pas maintenant » a été retiré de l’invite de notification : votre appareil demande déjà d’autoriser ou de refuser',ar:'أُزيل زر «ليس الآن» من نافذة الإشعارات، فجهازك يسأل أصلًا عن السماح أو الرفض ولا داعي للسؤال مرتين',ko:'알림 안내에서 «지금은 안 할게요» 버튼을 뺐습니다. 기기에서 허용·거부를 고를 수 있으므로 두 번 묻지 않도록 했습니다',ru:'Кнопка «Не сейчас» убрана из запроса на уведомления: устройство и так спрашивает разрешить или запретить'},
-  v5180_1:{ja:'設定画面のレイアウトを直しました。選択ボタンのある行で説明文が縦一列に潰れていたのを、説明を上・ボタンを下に並べる形に変えています',en:'Fixed the settings layout. On rows with option buttons the description was being squeezed into a single column of characters; the text now sits above the buttons',zh:'修复了设置页面的排版。带选项按钮的行中说明文字被挤成竖排一列，现改为说明在上、按钮在下',fr:'Correction de la mise en page des réglages. Sur les lignes à boutons, le texte était comprimé en une colonne d’un caractère ; il s’affiche désormais au-dessus des boutons',ar:'أُصلح تخطيط شاشة الإعدادات. ففي الصفوف ذات أزرار الاختيار كان النص ينضغط في عمود بحرف واحد، وصار الآن فوق الأزرار',ko:'설정 화면의 레이아웃을 고쳤습니다. 선택 버튼이 있는 행에서 설명이 세로 한 줄로 찌그러지던 것을, 설명을 위·버튼을 아래로 배치하도록 바꿨습니다',ru:'Исправлена вёрстка настроек. В строках с кнопками выбора описание сжималось в столбец по одному символу; теперь текст стоит над кнопками'},
-  v5180_2:{ja:'通知をまだ設定していない方に、アプリを開いたときに一度だけご案内を表示するようにしました。「今はしない」を選んでも、あとから設定でいつでもオンにできます',en:'If you haven’t set up reminders yet, the app now offers them once when you open it. Choosing “Not now” is final — you can still turn them on later in Settings',zh:'若尚未设置提醒，打开应用时会显示一次引导。即使选择「暂不需要」，之后仍可在设置中开启',fr:'Si vous n’avez pas encore activé les rappels, l’application vous les propose une fois à l’ouverture. « Pas maintenant » est définitif — vous pourrez toujours les activer dans les réglages',ar:'إن لم تكن قد فعّلت التذكيرات بعد، يعرضها التطبيق مرة واحدة عند فتحه. واختيار «ليس الآن» نهائي، ويظل بإمكانك تفعيلها لاحقًا من الإعدادات',ko:'알림을 아직 설정하지 않은 분께, 앱을 열었을 때 한 번만 안내를 표시합니다. «지금은 안 할게요»를 골라도 나중에 설정에서 언제든 켤 수 있습니다',ru:'Если напоминания ещё не настроены, приложение предложит их один раз при открытии. «Не сейчас» — окончательный ответ, но включить их можно позже в настройках'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -2555,7 +2584,13 @@ function showQuiz(redraw){
   if(!quizInProgress()){renderQuizSetup();return;}
   if(redraw&&!$('#qNext'))renderQ();
 }
+// Where each view was last left. Sending someone back to the top of a list
+// they were halfway down is the difference between switching tabs and losing
+// your place -- and the list is exactly the screen people scroll furthest in.
+const viewScroll={};
 function go(id){
+  const leaving=$$('.view').find(v=>v.classList.contains('active'));
+  if(leaving)viewScroll[leaving.id]=window.scrollY;
   $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   const tab=TAB_FOR[id]||id;
   $$('nav.tabbar button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
@@ -2565,7 +2600,9 @@ function go(id){
   if(id==='v-study')renderStudy();
   if(id==='v-quiz')showQuiz(false);
   if(id==='v-stats')renderStats();
-  window.scrollTo(0,0);
+  // After the render, or the page is not tall enough yet to scroll to.
+  const y=viewScroll[id]||0;
+  requestAnimationFrame(()=>window.scrollTo(0,y));
   gaScreen(id);
 }
 
@@ -3699,6 +3736,9 @@ function pickDistractors(w,correct,showEng,n){
 function renderQuizSetup(){
   const body=$('#quizBody');
   if(!body)return;
+  // Also cleared here: leaving the quiz tab mid-round and coming back lands on
+  // the setup screen, and the tab bar must be there again by then.
+  document.body.classList.remove('in-round');
   clearKeyboardSpace();
   renderSourceBar('#src-quiz');
   const due=curDueCount(), lc=leechCount();
@@ -3741,6 +3781,7 @@ function renderQuizSetup(){
 }
 function startQuiz(mode){
   $('#src-quiz').innerHTML='';   // nothing but the question while a round runs
+  document.body.classList.add('in-round');
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
   const pkgId=CTX.type==='pkg'?CTX.id:null;
@@ -3911,6 +3952,13 @@ function clearKeyboardSpace(){
   body.style.paddingBottom='';
   body.classList.remove('q-kbpad');
 }
+function padForActions(){
+  const bar=$('.q-acts.pinned'),body=$('#quizBody');
+  if(!bar||!body)return;
+  body.classList.add('q-kbpad');
+  const h=bar.offsetHeight;
+  if(h>0)body.style.paddingBottom=(h+20)+'px';
+}
 function padForKeyboard(){
   const kb=$('.sp-kb'),body=$('#quizBody');
   if(!kb||!body)return;
@@ -3992,6 +4040,16 @@ function fitQuestion(text,target){
     body.style.setProperty('--sl',Math.max(MIN,Math.min(MAX,fit))+'px');
   }
 }
+// Slide the current question out, then draw the next. Split in two so the
+// exit is real motion rather than the new question simply appearing on top --
+// and skipped when there is nothing on screen yet, so the first question of a
+// round does not wait on an animation of nothing.
+function nextQuestion(){
+  const cur=$('#quizBody .q-slide');
+  if(!cur||window.matchMedia('(prefers-reduced-motion: reduce)').matches){renderQ();return;}
+  cur.classList.add('leaving');
+  setTimeout(renderQ,150);
+}
 function renderQ(){
   clearTimeout(answerSpeakTimer);
   clearKeyboardSpace();
@@ -4007,7 +4065,7 @@ function renderQ(){
   const face=showEng?w.word:primaryMeaning(w);
   const kata=showEng?(w.kata||''):'';
 
-  let inner='<div class="q-top"><div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
+  let inner='<div class="q-slide"><div class="q-top"><div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
     '<button class="q-quit" id="qQuit" type="button" aria-label="'+esc(t('btn_quit_round'))+'" title="'+esc(t('btn_quit_round'))+'">✕</button></div>'+
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
     // Only offer audio when the prompt IS the English word -- otherwise it
@@ -4019,7 +4077,7 @@ function renderQ(){
     inner+='<div id="spDisp" class="sp-disp"></div>'+
       '<button class="btn btn-ghost" id="spHint" style="width:100%;margin-top:12px">'+esc(spellHintLabel())+'</button>'+
       '<div id="spKb"></div>'+
-      '<div id="qfb"></div>';
+      '<div id="qfb"></div></div>';
     body.innerHTML=inner;
     fitQuestion(face,spell.target);
     renderSpellDisplay();
@@ -4032,7 +4090,7 @@ function renderQ(){
     const correct=showEng?primaryMeaning(w):w.word;
     const others=pickDistractors(w,correct,showEng,3);
     const opts=shuffle([correct,...others]);
-    inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
+    inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div></div>';
     body.innerHTML=inner;
     fitQuestion(face,null);
     $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
@@ -4051,6 +4109,7 @@ function renderQ(){
 // Leaving mid-round. Every answer already updated the schedule and the streak,
 // so this just drops what is left of the queue and goes back to the setup card.
 function quitRound(){
+  document.body.classList.remove('in-round');
   clearTimeout(answerSpeakTimer);
   if(TTS_OK)try{speechSynthesis.cancel();}catch(e){}
   closeSpellKeyboard();
@@ -4061,10 +4120,14 @@ function quitRound(){
 // The keyboard is gone by now, so the space it freed goes to these. The two
 // extra tiles are the things worth doing while a word is still fresh: read
 // what you wrote about it, or hear it said properly.
+// Pinned only when the keyboard was there to begin with -- on a desktop, or in
+// four-choice mode, nothing was covering the bottom and a bar stuck to it would
+// be a bar for its own sake.
+function actionsPinned(){return S().quizType==='spell'&&touchDevice();}
 function quizActionsHTML(){
   const I={d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5h6a2.5 2.5 0 0 1 2 2.4V20a2 2 0 0 0-1.7-1H4z"/><path d="M20 4.5h-6a2.5 2.5 0 0 0-2 2.4V20a2 2 0 0 1 1.7-1H20z"/></svg>',s:SPEAKER_SVG,n:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5.5 15.5 12 9 18.5"/></svg>'};
   const last=quiz.i+1>=quiz.items.length;
-  return '<div class="q-acts">'+
+  return '<div class="q-acts'+(actionsPinned()?' pinned':'')+'">'+
     '<button class="q-act" id="qDetail" type="button">'+I.d+'<span>'+esc(t('act_detail'))+'</span></button>'+
     (TTS_OK?'<button class="q-act" id="qSay" type="button">'+I.s+'<span>'+esc(t('act_listen'))+'</span></button>':'')+
     '<button class="q-act main" id="qNext" type="button">'+I.n+'<span>'+
@@ -4124,7 +4187,12 @@ function grade(w,ok,correctText,isInput){
         '<button class="btn btn-ghost" id="leechSave" style="width:100%;margin-top:9px">'+esc(t('leech_save'))+'</button>'+
       '</div>':'')+
     quizActionsHTML();
-  if(isInput){$('#qfb').innerHTML=fbHtml;}
+  if(isInput){
+    $('#qfb').innerHTML=fbHtml;
+    // The keyboard released its reservation on the way out; the action bar that
+    // replaced it needs its own, or the verdict sits underneath.
+    if(actionsPinned())padForActions();
+  }
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
   const det=$('#qDetail');
   if(det)det.onclick=()=>{const r=curWords().find(x=>x.id===w.id)||w;openWordDetail(r);};
@@ -4156,11 +4224,12 @@ function grade(w,ok,correctText,isInput){
   if(isInput&&next&&next.focus)next.focus();
   next.onclick=()=>{
     quiz.i++;
-    if(quiz.i<quiz.items.length)renderQ();
+    if(quiz.i<quiz.items.length)nextQuestion();
     else showScore();
   };
 }
 function showScore(){
+  document.body.classList.remove('in-round');
   clearKeyboardSpace();
   const pct=Math.round(quiz.score/quiz.items.length*100);
   const pkgId=CTX.type==='pkg'?CTX.id:null;
@@ -6277,6 +6346,45 @@ if(cloudSaved()){
   authKnown=true;
   hideSplash();
 }
+
+/* ---- dismissing sheets ----------------------------------------------------
+   A sheet that only closes through its own × is a sheet people get stuck in
+   for a moment: reaching for the backdrop is reflex, and on a keyboard so is
+   Escape. Opening had an affordance and closing had one fewer.
+
+   Which sheets may be dismissed is not a list to maintain -- it is whether the
+   sheet offers a way out at all. The gate and the first-run welcome screen
+   deliberately have no close control, and they stay un-dismissable for the same
+   reason they were built that way. -------------------------------------------- */
+function sheetDismissible(ov){
+  return !!ov && !!ov.querySelector('.sheet-x,.ntf-x');
+}
+function topOverlay(){
+  const open=$$('.overlay.show');
+  return open.length?open[open.length-1]:null;
+}
+function dismissSheet(ov){
+  if(!sheetDismissible(ov))return false;
+  // Route through the sheet's own close button so whatever it cleans up still
+  // happens -- the notification prompt records that it was answered, the deck
+  // picker resets its editing state.
+  const x=ov.querySelector('.sheet-x,.ntf-x');
+  if(x){x.click();return true;}
+  ov.classList.remove('show');
+  return true;
+}
+$$('.overlay').forEach(ov=>{
+  ov.addEventListener('click',e=>{
+    // Only the backdrop itself. A click that started inside the sheet still
+    // bubbles up here, and closing on that would fire on every button press.
+    if(e.target===ov)dismissSheet(ov);
+  });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  const ov=topOverlay();
+  if(ov&&dismissSheet(ov))e.preventDefault();
+});
 
 /* ---------- boot ---------- */
 applyStaticI18n();
