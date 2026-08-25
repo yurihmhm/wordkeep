@@ -168,6 +168,41 @@ footer a{color:var(--ink-2)}
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
+          <div class="t">打鍵速度の記録</div>
+          <div class="d">スペル入力は既に1文字ずつ取れているので、<b>1語あたりの入力時間を測るのは実質ただ</b>。同じ単語が速くなっていくのは上達の実感として強い。時間制限モードとも繋がる。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">この先の復習量の予測</div>
+          <div class="d"><code>nextDue</code>から「来週どれだけ来るか」を出せる。既にあるデータだけで作れて、<b>今日の上限(v5.15.0)と噛み合う</b>——「明日は40語来る」と分かれば今日多めにやる判断ができる。溜まってから気づくのが一番つらい。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">自分の単語帳を他人に共有する</div>
+          <div class="d">単語帳の自作(v5.0.0)とパッケージの外部化(v5.12.0)を作ったので、<b>その2つを繋ぐだけ</b>で成立する。「My単語帳(IT編)」をリンクで渡せると、友達同士で配れる。パッケージと同じJSON形式にすれば取り込み側は既存コードで動く。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">リスニングモード</div>
+          <div class="d">音声を聞いて意味を選ぶ／綴りを打つ。TTSは既にあるので追加コストが小さい。<b>読んで分かると聞いて分かるは別</b>で、今の出題は全部「文字を見る」からの出発。留学先で効くのは後者。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">時間制限モード（早押し）</div>
+          <div class="d">利用者の案。制限時間内に答える形式。「思い出せる」と「すぐ出てくる」は別の能力で、会話で使えるかは後者。ゆっくりなら分かる状態から反射で出る状態への訓練は今のアプリに無い軸。<b>ただし復習予定には絶対に影響させないこと</b>——間違えるとbox -1に戻る厳しい設計なので、焦って押し間違えただけで覚えていた単語の予定が吹き飛ぶ。置き場所は「予定に影響しない」枠である自由学習の中。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
           <div class="t">追加時に「もう知っている」を選べるようにする</div>
           <div class="d">現在はすべて未学習（box -1）から始まる。すでに half 知っている単語まで最初から総ざらいさせられるのは、<b>語数を増やすほど苦痛になる</b>。追加時に「知っている」を選べば少し先の箱から始められるようにする。<br><b>ただし過大評価のリスクがある</b>ので、飛ばしすぎない（最大でも中間の箱まで）方が安全だと思う。</div>
         </div>
@@ -194,6 +229,27 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">出題の切り替わりに動きがない</div>
+          <div class="d">実測：次の問題へ進むとき<code>.q-word</code>に遷移もアニメーションも無く、内容が<b>瞬間的に差し替わる</b>。答えた手応えと次の問題の登場が地続きにならないので、連続して解いているというより毎回別画面に飛ばされる感じになる。ビュー切替には既に<code>fade</code>があるので、同じ考え方を問題にも当てるだけ。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">シートが背景タップ・Escで閉じない</div>
+          <div class="d">実測：連続記録などのシートは<b>×を押す以外に閉じる方法がない</b>。背景タップで閉じるのは今どきのアプリでは反射的な動作なので、効かないと一瞬詰まる。PCではEscも同様。開く動きはあるのに閉じる動きが1つしかないのは非対称。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">タブを戻るとスクロール位置が先頭に飛ぶ</div>
+          <div class="d">実測：単語リストで400pxまでスクロール → ホーム → 単語リストで<b>0に戻る</b>。長いリストを見ている最中に他のタブを覗くと、毎回探し直しになる。ビューごとにスクロール位置を覚えて復元するだけで直る。<b>「シームレスでない」と感じる原因のうち、これが一番大きい</b>と思う。</div>
+        </div>
+      </li>
       
       <li class="next" data-s="done">
         <span class="chip done">完了</span>
