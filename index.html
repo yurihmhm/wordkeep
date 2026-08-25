@@ -169,6 +169,31 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .tag-due{background:var(--bad-bg);color:var(--bad-ink)}
 .tag-next{background:var(--ghost-bg);color:var(--muted)}
 .tag-new{background:var(--good-bg);color:var(--good-ink)}
+.mk-chips{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
+.mk-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);border-radius:99px;padding:5px 11px;
+  font-size:12.5px;font-weight:600;cursor:pointer}
+.mk-chip svg{width:13px;height:13px}
+.mk-chip.on.m-star{color:var(--tab-on);border-color:var(--accent)}
+.mk-chip.on.m-hard{color:var(--bad-ink);border-color:var(--bad-ink);background:var(--bad-bg)}
+.tag-mark{display:inline-flex;align-items:center;gap:3px;background:var(--ghost-bg);color:var(--muted)}
+.tag-mark svg{width:11px;height:11px}
+.tag-mark.m-star{color:var(--tab-on)}
+.tag-mark.m-hard{background:var(--bad-bg);color:var(--bad-ink)}
+/* The two mark buttons sit under the verdict, so they are deliberately quiet
+   until pressed -- they are an aside to the answer, not a second question. */
+.mark-row{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.mark-btn{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--muted);cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .12s ease,border-color .15s ease,color .15s ease,background .15s ease}
+.mark-btn svg{width:20px;height:20px}
+.mark-btn:active{transform:scale(.92)}
+.mark-btn.m-star.on{color:var(--tab-on);border-color:var(--accent);background:var(--ghost-bg)}
+.mark-btn.m-hard.on{color:var(--bad-ink);border-color:var(--bad-ink);background:var(--bad-bg)}
+.mark-row.sm{justify-content:flex-start;margin:0 0 12px;gap:6px}
+.mark-row.sm .mark-btn{width:34px;height:34px;border-radius:10px}
+.mark-row.sm .mark-btn svg{width:17px;height:17px}
 .del{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
 .empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14.5px;line-height:1.7}
 /* These slots used to hold an emoji, so they were sized with font-size. The
@@ -802,7 +827,8 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
     </div>
-    <div id="listSel"></div>
+    <div id="listMarks"></div>
+      <div id="listSel"></div>
     <div class="panel" id="listPanel"></div>
   </section>
 
@@ -1004,6 +1030,10 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         </div>
       </div>
       <div class="set-row">
+        <div><div class="st" data-i18n="st_shuffle">出題順をシャッフル</div><div class="sd" data-i18n="desc_shuffle"></div></div>
+        <button class="switch" id="swShuffle"><i></i></button>
+      </div>
+      <div class="set-row">
         <div><div class="st" data-i18n="st_len">1回の問題数</div><div class="sd" data-i18n="desc_len">まとめて何問出すか</div></div>
         <div class="seg" id="segLen">
           <button data-v="5">5</button>
@@ -1103,15 +1133,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.23.0';
+const APP_VERSION='5.24.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.23.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.24.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.23.0',date:'2026-08-26',keys:['v5230_1','v5230_2','v5230_3']},
   {version:'5.22.0',date:'2026-08-26',keys:['v5220_1','v5220_2']},
-  {version:'5.21.0',date:'2026-08-26',keys:['v5210_1','v5210_2','v5210_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1121,6 +1151,7 @@ const CHANGELOG=[
 // days land on 1/3/7/14/26/47/82/142/232. Same length as before, so existing
 // box indices stay valid and nothing needs migrating.
 const INTERVALS=[1,2,4,7,12,21,35,60,90]; // days
+const MARKS=['star','hard'];
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
@@ -1206,15 +1237,17 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'復習中に右へスワイプすると、答え終わった問題を見返せるようになりました。パソコンでは←キーです。採点はやり直せません（見るだけです）',en:'Swipe right during a review to look back at questions you have already answered — ← on a keyboard. They are read-only; nothing is re-graded',zh:'复习时向右滑动即可回看已作答的题目，电脑上按 ← 键。仅供查看，不会重新评分',fr:'Balayez vers la droite pendant une révision pour revoir les questions déjà répondues (touche ← au clavier). En lecture seule : rien n’est réévalué',ar:'اسحب لليمين أثناء المراجعة لتستعرض الأسئلة التي أجبت عنها، أو استخدم مفتاح ← على الحاسوب. وهي للعرض فقط ولا يُعاد تقييمها',ko:'복습 중에 오른쪽으로 스와이프하면 이미 답한 문제를 다시 볼 수 있습니다. PC에서는 ← 키입니다. 보기 전용이라 채점은 다시 하지 않습니다',ru:'Проведите вправо во время повторения, чтобы просмотреть отвеченные вопросы (или клавиша ← на компьютере). Только просмотр — оценка не меняется'},
-  wn2:{ja:'単語リストから、いらない単語をまとめて削除できるようになりました。「選択して削除」から複数選んで一度に消せます',en:'You can now delete several words at once from the list. Tap “Select to delete”, pick them, and remove them in one go',zh:'现在可从单词列表批量删除。点击「选择并删除」，勾选后一次性移除',fr:'Vous pouvez maintenant supprimer plusieurs mots d’un coup depuis la liste, via « Sélectionner pour supprimer »',ar:'صار بإمكانك حذف عدة كلمات دفعة واحدة من القائمة عبر «حدّد للحذف»',ko:'단어 목록에서 필요 없는 단어를 한꺼번에 삭제할 수 있게 되었습니다. «선택해서 삭제»에서 여러 개를 골라 한 번에 지웁니다',ru:'Теперь из списка можно удалить сразу несколько слов — «Выбрать для удаления»'},
-  wn3:{ja:'リマインドを、あなたがふだん学習している時間帯に合わせて送るようにしました。また、はじめたばかりの方には連続が途切れる話ではなく、習慣づくりのご案内をお送りします',en:'Reminders now arrive around the time you usually study. And if you have only just started, they talk about building the habit rather than about a streak you could lose',zh:'提醒现在会在你平常学习的时间段发送。刚开始使用的用户会收到关于养成习惯的提示，而非连续记录中断的警告',fr:'Les rappels arrivent désormais vers l’heure à laquelle vous étudiez d’habitude. Et si vous débutez, ils parlent d’installer l’habitude plutôt que d’une série à perdre',ar:'صارت التذكيرات تصل قرب الوقت الذي تدرس فيه عادة. وإن كنت بدأت للتو، فهي تتحدث عن بناء العادة لا عن سلسلة قد تفقدها',ko:'리마인드를 평소 학습하는 시간대에 맞춰 보내도록 했습니다. 또 막 시작한 분께는 연속이 끊긴다는 이야기가 아니라 습관 만들기를 안내합니다',ru:'Напоминания теперь приходят примерно в то время, когда вы обычно занимаетесь. А новичкам они говорят о формировании привычки, а не о серии, которую можно потерять'},
+  wn1:{ja:'出題順をシャッフルできるようになりました。設定の「学習」からオンにすると、毎回ちがう並びで出題されます。単語ではなく順番を覚えてしまうのを防げます',en:'You can now shuffle the question order. Turn it on under Settings → Study and each round comes in a different order, so you learn the words rather than the list',zh:'现在可以打乱出题顺序。在「设置 → 学习」中开启后，每轮顺序都不同，避免记住顺序而不是单词',fr:'Vous pouvez désormais mélanger l’ordre des questions. Activez-le dans Réglages → Apprentissage : chaque série arrive dans un ordre différent, pour apprendre les mots et non la liste',ar:'صار بإمكانك خلط ترتيب الأسئلة. فعّل الخيار من الإعدادات ← الدراسة، فيأتي كل دور بترتيب مختلف حتى تحفظ الكلمات لا الترتيب',ko:'출제 순서를 섞을 수 있게 되었습니다. 설정 → 학습에서 켜면 매번 다른 순서로 나와, 단어가 아니라 순서를 외우는 일을 막을 수 있습니다',ru:'Теперь порядок вопросов можно перемешивать. Включите его в «Настройки → Обучение», и каждый раунд будет идти в новом порядке — вы запоминаете слова, а не список'},
+  wn2:{ja:'単語に「お気に入り」と「苦手マーク」を付けられるようになりました。問題を解いているその場で付けられるので、あとから思い出す必要がありません',en:'Words can now be marked Favourite or Tricky. You can mark one right there while answering, so you never have to remember which it was later',zh:'现在可以给单词加「收藏」和「难记」标记。答题时即可直接标记，不必事后再回想',fr:'Vous pouvez maintenant marquer un mot comme Favori ou Délicat — directement pendant que vous répondez, sans avoir à vous en souvenir plus tard',ar:'صار بإمكانك وسم الكلمات بـ«مفضّلة» أو «صعبة عليّ»، ويمكنك ذلك أثناء الإجابة نفسها فلا تحتاج لتذكّرها لاحقًا',ko:'단어에 «즐겨찾기»와 «어려움» 표시를 붙일 수 있게 되었습니다. 문제를 푸는 그 자리에서 붙일 수 있어, 나중에 떠올릴 필요가 없습니다',ru:'Слова теперь можно помечать как «Избранное» или «Сложное» — прямо во время ответа, чтобы не вспоминать об этом потом'},
+  wn3:{ja:'マークを付けた単語だけを復習したり、一覧で絞り込んだりできます。また、アプリのキーボードに打鍵音を付けました（設定の効果音でオフにできます）',en:'You can review only the words you have marked, or filter the list down to them. The in-app keyboard also has a key sound now — you can turn it off under sound settings',zh:'可以只复习已标记的单词，也可在列表中筛选出它们。应用内键盘现在还带有按键音，可在音效设置中关闭',fr:'Vous pouvez réviser uniquement les mots marqués, ou filtrer la liste dessus. Le clavier de l’application a aussi un son de frappe, désactivable dans les réglages sonores',ar:'يمكنك مراجعة الكلمات الموسومة وحدها أو تصفية القائمة عليها. كما صار للوحة مفاتيح التطبيق صوت نقر يمكن إيقافه من إعدادات المؤثرات الصوتية',ko:'표시한 단어만 복습하거나 목록에서 그것만 골라 볼 수 있습니다. 또 앱 키보드에 타건음을 넣었습니다(설정의 효과음에서 끌 수 있습니다)',ru:'Можно повторять только помеченные слова или отфильтровать по ним список. А у клавиатуры приложения появился звук нажатия — его можно выключить в настройках звука'},
+  v5230_1:{ja:'復習中に右へスワイプすると、答え終わった問題を見返せるようになりました。パソコンでは←キーです。採点はやり直せません（見るだけです）',en:'Swipe right during a review to look back at questions you have already answered — ← on a keyboard. They are read-only; nothing is re-graded',zh:'复习时向右滑动即可回看已作答的题目，电脑上按 ← 键。仅供查看，不会重新评分',fr:'Balayez vers la droite pendant une révision pour revoir les questions déjà répondues (touche ← au clavier). En lecture seule : rien n’est réévalué',ar:'اسحب لليمين أثناء المراجعة لتستعرض الأسئلة التي أجبت عنها، أو استخدم مفتاح ← على الحاسوب. وهي للعرض فقط ولا يُعاد تقييمها',ko:'복습 중에 오른쪽으로 스와이프하면 이미 답한 문제를 다시 볼 수 있습니다. PC에서는 ← 키입니다. 보기 전용이라 채점은 다시 하지 않습니다',ru:'Проведите вправо во время повторения, чтобы просмотреть отвеченные вопросы (или клавиша ← на компьютере). Только просмотр — оценка не меняется'},
+  v5230_2:{ja:'単語リストから、いらない単語をまとめて削除できるようになりました。「選択して削除」から複数選んで一度に消せます',en:'You can now delete several words at once from the list. Tap “Select to delete”, pick them, and remove them in one go',zh:'现在可从单词列表批量删除。点击「选择并删除」，勾选后一次性移除',fr:'Vous pouvez maintenant supprimer plusieurs mots d’un coup depuis la liste, via « Sélectionner pour supprimer »',ar:'صار بإمكانك حذف عدة كلمات دفعة واحدة من القائمة عبر «حدّد للحذف»',ko:'단어 목록에서 필요 없는 단어를 한꺼번에 삭제할 수 있게 되었습니다. «선택해서 삭제»에서 여러 개를 골라 한 번에 지웁니다',ru:'Теперь из списка можно удалить сразу несколько слов — «Выбрать для удаления»'},
+  v5230_3:{ja:'リマインドを、あなたがふだん学習している時間帯に合わせて送るようにしました。また、はじめたばかりの方には連続が途切れる話ではなく、習慣づくりのご案内をお送りします',en:'Reminders now arrive around the time you usually study. And if you have only just started, they talk about building the habit rather than about a streak you could lose',zh:'提醒现在会在你平常学习的时间段发送。刚开始使用的用户会收到关于养成习惯的提示，而非连续记录中断的警告',fr:'Les rappels arrivent désormais vers l’heure à laquelle vous étudiez d’habitude. Et si vous débutez, ils parlent d’installer l’habitude plutôt que d’une série à perdre',ar:'صارت التذكيرات تصل قرب الوقت الذي تدرس فيه عادة. وإن كنت بدأت للتو، فهي تتحدث عن بناء العادة لا عن سلسلة قد تفقدها',ko:'리마인드를 평소 학습하는 시간대에 맞춰 보내도록 했습니다. 또 막 시작한 분께는 연속이 끊긴다는 이야기가 아니라 습관 만들기를 안내합니다',ru:'Напоминания теперь приходят примерно в то время, когда вы обычно занимаетесь. А новичкам они говорят о формировании привычки, а не о серии, которую можно потерять'},
   v5220_1:{ja:'次の問題へ進むときに、キーボードが一瞬だけ画面の上に現れてしまう不具合を直しました',en:'Fixed the keyboard flashing at the top of the screen for a moment when moving to the next question',zh:'修复了进入下一题时键盘会在屏幕上方一闪而过的问题',fr:'Correction du clavier qui apparaissait un instant en haut de l’écran au passage à la question suivante',ar:'أُصلح ظهور لوحة المفاتيح للحظة أعلى الشاشة عند الانتقال إلى السؤال التالي',ko:'다음 문제로 넘어갈 때 키보드가 잠깐 화면 위쪽에 나타나던 문제를 고쳤습니다',ru:'Исправлено: при переходе к следующему вопросу клавиатура на миг появлялась вверху экрана'},
   v5220_2:{ja:'数字や漢字を含む単語も、スペル入力で出題できるようになりました。キーボードで打てない文字は最初から表示され、英字の部分だけを入力します',en:'Words containing digits or other scripts now work in spelling mode. Characters the keyboard can’t produce are shown from the start, and you type only the letters',zh:'含数字或其他文字的单词现在也可用于拼写模式。键盘无法输入的字符会预先显示，你只需输入字母部分',fr:'Les mots contenant des chiffres ou d’autres écritures fonctionnent maintenant en mode orthographe. Les caractères que le clavier ne peut pas produire sont affichés d’emblée ; vous ne tapez que les lettres',ar:'صارت الكلمات التي تحتوي أرقامًا أو حروفًا من كتابات أخرى تعمل في وضع الإملاء. فالأحرف التي لا تنتجها لوحة المفاتيح تظهر من البداية، وتكتب أنت الحروف فقط',ko:'숫자나 한자가 들어간 단어도 스펠링 입력으로 낼 수 있게 되었습니다. 키보드로 칠 수 없는 문자는 처음부터 표시되고, 영문자 부분만 입력합니다',ru:'Слова с цифрами и другими письменностями теперь работают в режиме написания. Символы, которых нет на клавиатуре, показаны сразу — вы вводите только буквы'},
-  v5210_1:{ja:'問題の切り替わりに動きをつけました。答えた問題が左へ流れ、次の問題が右から入ってきます',en:'Questions now move. The one you answered slides out to the left and the next arrives from the right',zh:'题目切换现在有了动效：作答完的题目向左滑出，下一题从右侧滑入',fr:'Les questions bougent désormais : celle à laquelle vous avez répondu glisse vers la gauche et la suivante arrive par la droite',ar:'صار انتقال الأسئلة متحركًا: ينزلق السؤال الذي أجبت عنه إلى اليسار ويدخل التالي من اليمين',ko:'문제 전환에 움직임을 넣었습니다. 답한 문제가 왼쪽으로 흘러가고 다음 문제가 오른쪽에서 들어옵니다',ru:'Переход между вопросами теперь анимирован: отвеченный уезжает влево, следующий приходит справа'},
-  v5210_2:{ja:'答え合わせのあとのボタンを、キーボードがあった位置に移しました。指を動かす距離が短くなります。また、問題を解いている間は下のタブを隠して、解くことに集中できるようにしています',en:'The buttons after an answer now sit where the keyboard was, so your thumb barely moves. The tab bar is also hidden for the whole round, to keep the round about the round',zh:'作答后的按钮已移到键盘原来的位置，手指移动距离更短。答题过程中还会隐藏底部标签栏，让你专注作答',fr:'Les boutons qui suivent une réponse occupent maintenant la place du clavier : le pouce bouge à peine. La barre d’onglets reste masquée pendant toute la série, pour ne pas distraire',ar:'صارت أزرار ما بعد الإجابة في موضع لوحة المفاتيح نفسه، فلا يكاد إبهامك يتحرك. كما يبقى شريط التبويب مخفيًا طوال الجولة لتبقى الجولة موضع تركيزك',ko:'답을 맞춘 뒤의 버튼을 키보드가 있던 자리로 옮겼습니다. 손가락이 움직이는 거리가 짧아집니다. 또 문제를 푸는 동안에는 하단 탭을 숨겨 집중할 수 있도록 했습니다',ru:'Кнопки после ответа теперь там, где была клавиатура, — большой палец почти не двигается. Панель вкладок скрыта на всю серию, чтобы ничто не отвлекало'},
-  v5210_3:{ja:'タブを切り替えて戻ったとき、スクロール位置が保たれるようにしました。あわせて、開いている画面は背景をタップしても閉じられます',en:'Switching tabs and coming back keeps your place in the list. Sheets can also be dismissed by tapping the background',zh:'切换标签页后返回时会保留滚动位置。弹出面板也可点击背景关闭',fr:'Changer d’onglet et revenir conserve votre position dans la liste. Les panneaux se ferment aussi en touchant l’arrière-plan',ar:'صار التنقل بين التبويبات والعودة يحفظ موضعك في القائمة. كما يمكن إغلاق النوافذ بلمس الخلفية',ko:'탭을 바꿨다가 돌아와도 스크롤 위치가 유지됩니다. 열려 있는 화면은 배경을 눌러도 닫을 수 있습니다',ru:'Переключение вкладок и возврат сохраняют место в списке. Панели теперь закрываются и по нажатию на фон'},
 
+  mark_star:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
+  mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
   leech_body:{ja:'同じやり方では入りにくい単語です。語呂合わせでも、使った場面でも、自分の言葉でメモを残すと定着しやすくなります。',en:'This one isn’t going in by repetition alone. A hook of your own — a pun, a scene where you heard it, anything — makes it stick far better.',zh:'仅靠重复很难记住这个词。用自己的话写个记忆点吧——谐音、听到它的场景，什么都行。',fr:'La répétition seule ne suffit pas ici. Un repère à vous — un jeu de mots, une scène où vous l’avez entendu — le fixera bien mieux.',ar:'التكرار وحده لا يثبّت هذه الكلمة. اكتب رابطًا خاصًا بك — تشبيهًا أو موقفًا سمعتها فيه — وسيثبت المعنى أفضل بكثير.',ko:'반복만으로는 잘 들어오지 않는 단어입니다. 말장난이든 들었던 상황이든, 자기 말로 메모를 남기면 훨씬 잘 붙습니다.',ru:'Одним повторением это слово не берётся. Свой собственный крючок — созвучие, ситуация, где вы его слышали — закрепит его гораздо лучше.'},
@@ -1625,6 +1658,8 @@ const T={
   desc_dir:{ja:'単語→意味 か、意味→単語 か',en:'Word→meaning or meaning→word',zh:'单词→意思 或 意思→单词',fr:'Mot→sens ou sens→mot',ar:'كلمة→معنى أو معنى→كلمة',ko:'단어→뜻 또는 뜻→단어',ru:'Слово→значение или значение→слово'},
   dir_e2j:{ja:'単語→意',en:'W→M',zh:'词→义',fr:'M→S',ar:'ك→م',ko:'단→뜻',ru:'Сл→Зн'},
   dir_j2e:{ja:'意→単語',en:'M→W',zh:'义→词',fr:'S→M',ar:'م→ك',ko:'뜻→단',ru:'Зн→Сл'},
+  st_shuffle:{ja:'出題順をシャッフル',en:'Shuffle order',zh:'打乱顺序',fr:'Ordre aléatoire',ar:'ترتيب عشوائي',ko:'출제 순서 섞기',ru:'Перемешать порядок'},
+  desc_shuffle:{ja:'同じ順番で覚えてしまうのを防ぎます',en:'Stops you memorising the list instead of the words',zh:'避免记住顺序而不是单词',fr:'Évite de mémoriser l\u2019ordre plutôt que les mots',ar:'يمنع حفظ الترتيب بدل الكلمات',ko:'단어가 아니라 순서를 외우는 것을 막습니다',ru:'Чтобы не запоминать порядок вместо слов'},
   st_len:{ja:'1回の問題数',en:'Questions per round',zh:'每轮题数',fr:'Questions par tour',ar:'أسئلة لكل جولة',ko:'한 번에 문제 수',ru:'Вопросов за раунд'},
   desc_len:{ja:'まとめて何問出すか',en:'How many at a time',zh:'一次出多少题',fr:'Combien à la fois',ar:'كم سؤالًا في المرة',ko:'한 번에 몇 문제',ru:'Сколько вопросов подряд'},
   len_all:{ja:'全部',en:'All',zh:'全部',fr:'Tout',ar:'الكل',ko:'전체',ru:'Все'},
@@ -1758,7 +1793,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,shuffle:false,notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -2000,6 +2035,8 @@ const PENCIL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const BOX_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 8.1 12 4.2l8.4 3.9v7.8L12 19.8 3.6 15.9Z"/><path d="M3.6 8.1 12 12l8.4-3.9M12 12v7.8"/></svg>';
 const FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 7.3a1.6 1.6 0 0 1 1.6-1.6h4l2 2.4h7.2a1.6 1.6 0 0 1 1.6 1.6v7.6a1.6 1.6 0 0 1-1.6 1.6H5.2a1.6 1.6 0 0 1-1.6-1.6Z"/></svg>';
 const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
+const STAR_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.85-4.2 4.1 1 5.75L12 16.9l-5.2 2.7 1-5.75-4.2-4.1 5.8-.85z"/></svg>';
+const HARD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 21.5 20H2.5z"/><path d="M12 9.5v4.4"/><circle cx="12" cy="16.9" r=".9" fill="currentColor"/></svg>';
 const BELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.2 15.2V10.4a6.2 6.2 0 1 0-12.4 0v4.8L3.9 18.1h16.2z"/><path d="M9.9 21a2.3 2.3 0 0 0 4.2 0"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
 const SPEAKER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>';
@@ -2072,17 +2109,42 @@ function playKeyTap(kind){
   if(!ctx)return;
   if(ctx.state==='suspended')ctx.resume().catch(()=>{});
   try{
-    const src=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),gn=ctx.createGain();
+    const t=ctx.currentTime;
+    const out=ctx.createGain();
+    out.gain.value=g;
+    out.connect(ctx.destination);
+
+    // Two layers. The noise burst is the click of the key itself; the short
+    // pitched body underneath is what makes it land instead of just ticking --
+    // a filtered noise burst alone reads as static, which is why the old sound
+    // was accurate and unsatisfying at the same time.
+    const src=ctx.createBufferSource(),bp=ctx.createBiquadFilter(),ng=ctx.createGain();
     src.buffer=keyTapBuffer(ctx);
     bp.type='bandpass';
-    // Backspace sits lower so it reads as "undo" without a separate sound.
-    bp.frequency.value=kind==='del'?900:2100;
-    bp.Q.value=0.9;
-    gn.gain.value=g*(kind==='del'?0.34:0.28);
-    src.connect(bp);bp.connect(gn);gn.connect(ctx.destination);
-    src.start();
+    bp.frequency.value=kind==='del'?1100:2600;
+    bp.Q.value=1.1;
+    ng.gain.value=kind==='del'?0.30:0.24;
+    src.connect(bp);bp.connect(ng);ng.connect(out);
+    src.start(t);
+
+    const osc=ctx.createOscillator(),og=ctx.createGain();
+    osc.type='triangle';
+    // A little random detune per press. Struck identically every time it turns
+    // into a machine gun over a long word; a few percent of drift is the
+    // difference between typing and a metronome.
+    const base=kind==='del'?190:410;
+    osc.frequency.setValueAtTime(base*(1+(Math.random()-0.5)*0.06),t);
+    // Pitch falls away instantly -- that drop is most of the "thock".
+    osc.frequency.exponentialRampToValueAtTime(base*0.62,t+0.045);
+    og.gain.setValueAtTime(0.0001,t);
+    og.gain.exponentialRampToValueAtTime(kind==='del'?0.34:0.30,t+0.004);
+    og.gain.exponentialRampToValueAtTime(0.0001,t+(kind==='del'?0.085:0.06));
+    osc.connect(og);og.connect(out);
+    osc.start(t);
+    osc.stop(t+0.12);
   }catch(e){}
 }
+
 function playAnswerSound(ok){
   if(!S().sound)return;
   const g=TONE_LEVEL*masterVol();
@@ -2234,13 +2296,14 @@ function buildPkgLive(id){
       // Keep every language's meaning so search matches regardless of the
       // currently displayed language (the visible one is in meanings[]).
       _allMeanings:Object.values(pw.meaning).join(' '),
+      mark:MARKS.includes(p.mark)?p.mark:null,
       _pkg:id,_pkgKey:pw.word};
   });
 }
 function savePkgProgress(){
   if(CTX.type!=='pkg'||!pkgLive)return;
   const store={};
-  pkgLive.forEach(w=>{store[w._pkgKey]={box:w.box,nextDue:w.nextDue,hist:w.hist,seen:w.seen,correct:w.correct,wrong:w.wrong};});
+  pkgLive.forEach(w=>{store[w._pkgKey]={box:w.box,nextDue:w.nextDue,hist:w.hist,seen:w.seen,correct:w.correct,wrong:w.wrong,mark:w.mark||null};});
   PKGDB[CTX.id]=store;savePkg();
 }
 // % complete: average per-word achievement, box normalized over INTERVALS
@@ -3392,6 +3455,25 @@ function renderListModes(){
   el.innerHTML=wordModesHTML('list');
   bindWordModes('#listModes');
 }
+// The old five-chip filter row was removed because nobody used it. These chips
+// are not that row coming back: they appear only once the user has marked
+// something themselves, so they are never noise on a list that has no marks.
+let listMark=null;
+function markChipsHTML(){
+  const avail=MARKS.filter(m=>markCount(m));
+  if(!avail.length){listMark=null;return '';}
+  if(listMark&&!avail.includes(listMark))listMark=null;
+  return '<div class="mk-chips">'+avail.map(m=>
+    '<button class="mk-chip m-'+m+(listMark===m?' on':'')+'" data-mk="'+m+'">'+
+      (m==='star'?STAR_SVG:HARD_SVG)+esc(t('mark_'+m))+' '+markCount(m)+'</button>').join('')+
+  '</div>';
+}
+function bindMarkChips(){
+  $$('#listMarks .mk-chip').forEach(b=>b.onclick=()=>{
+    listMark=listMark===b.dataset.mk?null:b.dataset.mk;
+    renderList();
+  });
+}
 // Search alone stops being enough once a vocabulary is large -- and bulk paste
 // plus custom notebooks exist precisely to make it large. Filtering by state
 // answers the questions actually being asked: what have I not started, what is
@@ -3451,7 +3533,10 @@ function renderList(){
   const isPkg=CTX.type==='pkg';
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
+  const mk=$('#listMarks');
+  if(mk){mk.innerHTML=markChipsHTML();bindMarkChips();}
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
+  if(listMark)arr=arr.filter(w=>markOf(w)===listMark);
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   const sel=$('#listSel');
@@ -3508,6 +3593,7 @@ function renderList(){
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       (isLeech(w)?'<span class="tag-sm tag-leech">⚠️ '+esc(t('flt_leech'))+'</span>':'')+
+      (markOf(w)?'<span class="tag-sm tag-mark m-'+markOf(w)+'">'+(markOf(w)==='star'?STAR_SVG:HARD_SVG)+esc(t('mark_'+markOf(w)))+'</span>':'')+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
       (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
@@ -3734,7 +3820,16 @@ function renderStreakPage(){
 }
 function openWordDetail(w){
   $('#wdWord').textContent=w.word;
-  $('#wdBody').innerHTML=wordDetailHTML(w);
+  $('#wdBody').innerHTML=markBtnHTML(w,'sm')+wordDetailHTML(w);
+  const paint=()=>bindMarks('#wdBody',()=>{
+    const row=$('#wdBody .mark-row');
+    if(row)row.outerHTML=markBtnHTML(curWords().find(x=>x.id===w.id)||w,'sm');
+    paint();
+    // The list behind the modal shows the mark too, and a chip count that
+    // disagrees with the button you just pressed reads as a bug.
+    if($('#v-list').classList.contains('active'))renderList();
+  });
+  paint();
   $('#overlayWordDetail').classList.add('show');
   gaScreen('word_detail');
 }
@@ -3753,6 +3848,7 @@ let quizSetup={mode:null};
 function pickWords(mode){
   let pool = mode==='due' ? curWords().filter(w=>isDue(w)&&primaryMeaning(w))
            : mode==='leech' ? curWords().filter(w=>isLeech(w)&&primaryMeaning(w))
+           : /^mark:/.test(mode) ? curWords().filter(w=>markOf(w)===mode.slice(5)&&primaryMeaning(w))
            : curWords().filter(w=>primaryMeaning(w));
   if(S().weak){
     pool=[...pool].sort((a,b)=>{
@@ -3763,12 +3859,17 @@ function pickWords(mode){
   }else{
     pool=[...pool].sort((a,b)=>a.nextDue-b.nextDue);
   }
+  // Shuffled AFTER the cap, never before: the cap decides which words are due
+  // enough to be asked today, and shuffling first would swap that judgement for
+  // a coin toss. Order is a hint the schedule never meant to give -- the same
+  // list every day is remembered as a list.
   // Two caps, and both matter: `len` is how many questions are in one round,
   // and the daily goal is how many the schedule should hand over at all today.
   // Without the second one, "20 today" would still walk the user through 210.
   if(mode==='due'){const g=todayTarget();if(g>0)pool=pool.slice(0,g);}
   const n=S().len===0?pool.length:Math.min(S().len,pool.length);
-  return pool.slice(0,n);
+  const picked=pool.slice(0,n);
+  return S().shuffle?shuffle(picked):picked;
 }
 function levenshtein(a,b){
   a=a||'';b=b||'';
@@ -3850,6 +3951,9 @@ function renderQuizSetup(){
   }
   const modes=[{v:'due',n:t('quiz_due',todayTarget()),on:due>0}];
   if(lc)modes.push({v:'leech',n:t('flt_leech')+' '+lc,on:true});
+  // Only offered once something carries the mark -- an empty option is a
+  // standing reminder of a feature nobody asked for yet.
+  MARKS.forEach(m=>{const n=markCount(m);if(n)modes.push({v:'mark:'+m,n:t('mark_'+m)+' '+n,on:true});});
   modes.push({v:'all',n:t('quiz_free'),on:true});
   if(!quizSetup.mode||!modes.some(m=>m.v===quizSetup.mode&&m.on))
     quizSetup.mode=due>0?'due':'all';
@@ -3893,6 +3997,9 @@ function startQuiz(mode){
 
   const eligibleTotal=curWords().filter(w=>primaryMeaning(w)).length;
   if(mode==='leech'&&!leechCount()){
+    renderQuizSetup();return;
+  }
+  if(/^mark:/.test(mode)&&!markCount(mode.slice(5))){
     renderQuizSetup();return;
   }
   if(mode==='due'&&due===0){
@@ -4184,6 +4291,46 @@ function nextQuestion(){
   cur.classList.add('leaving');
   setTimeout(renderQ,150);
 }
+/* ---- marks the user puts on a word ---------------------------------------
+   Separate from the automatic trouble detection, and deliberately so: that one
+   measures misses, this one records a judgement. "I keep confusing this with
+   the other one" is not visible in a hit rate, and the moment it is truest is
+   while the word is on screen -- not later, from memory, which nobody does.
+   -------------------------------------------------------------------------- */
+function markOf(w){return MARKS.includes(w&&w.mark)?w.mark:null;}
+function toggleMark(id,mark){
+  const w=curWords().find(x=>x.id===id);
+  if(!w)return null;
+  w.mark=w.mark===mark?null:mark;
+  // Package words live in their own store and are rebuilt from the file, so the
+  // mark has to travel with the progress rather than with the word.
+  if(CTX.type==='pkg'){
+    savePkgProgress();
+  }else{
+    touchWord(w);save();cloudTouched();
+  }
+  gaEvent('word_mark',{mark:w.mark||'none'});
+  return w.mark;
+}
+function markCount(mark){return curWords().filter(w=>markOf(w)===mark).length;}
+function markBtnHTML(w,size){
+  const cur=markOf(w);
+  return '<div class="mark-row'+(size==='sm'?' sm':'')+'" data-mark-for="'+esc(w.id)+'">'+
+    MARKS.map(m=>'<button class="mark-btn m-'+m+(cur===m?' on':'')+'" data-mark="'+m+'" type="button" '+
+      'aria-pressed="'+(cur===m)+'" title="'+esc(t('mark_'+m))+'">'+
+      (m==='star'?STAR_SVG:HARD_SVG)+'</button>').join('')+
+  '</div>';
+}
+function bindMarks(root,after){
+  $$((root||'')+' .mark-row').forEach(row=>{
+    row.querySelectorAll('.mark-btn').forEach(b=>b.onclick=e=>{
+      e.stopPropagation();
+      toggleMark(row.dataset.markFor,b.dataset.mark);
+      if(after)after();
+    });
+  });
+}
+
 /* ---- looking back at an answered question --------------------------------
    Read-only, deliberately. The previous question was already graded: its box
    moved, its next date was set, the streak counted it. Letting somebody answer
@@ -4409,6 +4556,9 @@ function grade(w,ok,correctText,isInput){
         '<textarea id="leechNote" class="field" rows="2" style="resize:vertical;line-height:1.6;margin-top:9px" placeholder="'+esc(t('leech_ph'))+'">'+esc(rec.note||'')+'</textarea>'+
         '<button class="btn btn-ghost" id="leechSave" style="width:100%;margin-top:9px">'+esc(t('leech_save'))+'</button>'+
       '</div>':'')+
+    // Right where the verdict is, because that is the instant somebody knows
+    // whether this word is giving them trouble.
+    markBtnHTML(w)+
     quizActionsHTML();
   if(isInput){
     $('#qfb').innerHTML=fbHtml;
@@ -4417,6 +4567,15 @@ function grade(w,ok,correctText,isInput){
     if(actionsPinned())padForActions();
   }
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
+  // Typed answers put the verdict in the pinned bar, tapped ones append it to
+  // the card, so the marks are in whichever of the two just got written.
+  const fbRoot=isInput?'#qfb':'#quizBody';
+  const paintMarks=()=>bindMarks(fbRoot,()=>{
+    const row=$(fbRoot+' .mark-row');
+    if(row)row.outerHTML=markBtnHTML(curWords().find(x=>x.id===w.id)||w);
+    paintMarks();
+  });
+  paintMarks();
   const det=$('#qDetail');
   if(det)det.onclick=()=>{const r=curWords().find(x=>x.id===w.id)||w;openWordDetail(r);};
   const say=$('#qSay');
@@ -4476,6 +4635,7 @@ function renderSettings(){
   seg('#segLen','len',true);
   seg('#segGoal','dailyGoal',true);
   $('#swWeak').classList.toggle('on',S().weak);
+  $('#swShuffle').classList.toggle('on',!!S().shuffle);
   $('#swSound').classList.toggle('on',!!S().sound);
   renderVolumeRow();
   $('#quizTypeDesc').textContent=S().quizType==='spell'?t('desc_quiztype_spell'):t('desc_quiztype_choice');
@@ -4577,6 +4737,11 @@ function renderSpeechRows(){
   seg('#segAccent','accent',false,()=>speak('Wordkeep'));
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
 }
+$('#swShuffle').onclick=()=>{
+  S().shuffle=!S().shuffle;save();
+  $('#swShuffle').classList.toggle('on',!!S().shuffle);
+  applySettingsNow('shuffle');
+};
 $('#swNotify').onclick=async()=>{
   const el=$('#swNotify');
   if(notifyOn()){await disableNotify();el.classList.remove('on');return;}

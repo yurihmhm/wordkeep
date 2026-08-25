@@ -309,5 +309,32 @@ console.log('\nwordsToPush / tombsToPush (incremental sync)');
   t('no tombstones does not throw',()=>M.tombsToPush(null,map([]),500).length===0||'no');
 }
 
+console.log('\nshuffle / marks');
+t('shuffle keeps every element exactly once',()=>{
+  const src=[1,2,3,4,5,6,7,8,9,10];
+  for(let i=0;i<40;i++){
+    const r=M.shuffle(src);
+    if(r.length!==src.length)return 'length '+r.length;
+    if(r.slice().sort((a,b)=>a-b).join()!==src.join())return 'contents '+r.join();
+  }
+  return true;
+});
+t('shuffle does not mutate its input',()=>{
+  const src=[1,2,3,4,5,6,7,8];
+  for(let i=0;i<20;i++)M.shuffle(src);
+  return src.join()==='1,2,3,4,5,6,7,8'||src.join();
+});
+t('shuffle actually reorders over repeated runs',()=>{
+  const src=[1,2,3,4,5,6,7,8,9,10];
+  // Vanishingly unlikely to be identical 30 times running; if it is, the
+  // shuffle is not shuffling.
+  for(let i=0;i<30;i++)if(M.shuffle(src).join()!==src.join())return true;
+  return 'never reordered';
+});
+t('markOf only accepts a known mark',()=>
+  M.markOf({mark:'star'})==='star'&&M.markOf({mark:'hard'})==='hard'&&
+  M.markOf({mark:'banana'})===null&&M.markOf({})===null||'wrong');
+t('markOf survives a missing word',()=>M.markOf(null)===null&&M.markOf(undefined)===null||'threw or wrong');
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

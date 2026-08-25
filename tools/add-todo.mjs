@@ -30,10 +30,15 @@ if (process.argv.includes('--sections')) {
 const [section, title, body] = process.argv.slice(2);
 if (!section || !title) { console.error('usage: add-todo.mjs "<section>" "<title>" ["<body>"]'); process.exit(1); }
 
-const hits = sections().filter(x => x.name.includes(section));
+// Exact first: a short section name is a substring of longer ones ("機能" is
+// inside three of them), and refusing to place it is unhelpful when the user
+// named one of them precisely.
+const all = sections();
+const exact = all.filter(x => x.name === section);
+const hits = exact.length === 1 ? exact : all.filter(x => x.name.includes(section));
 if (hits.length !== 1) {
   console.error((hits.length ? 'ambiguous' : 'no section matching') + ': ' + section +
-    '\nsections:\n' + sections().map(x => '  - ' + x.name).join('\n'));
+    '\nsections:\n' + all.map(x => '  - ' + x.name).join('\n'));
   process.exit(1);
 }
 
