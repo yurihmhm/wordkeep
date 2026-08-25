@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.18.0 時点 &middot; 最終更新 2026-08-25</div>
+    <div class="sub">v5.19.0 時点 &middot; 最終更新 2026-08-25</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -269,7 +269,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮463KB、gzip配信で<b>実転送量は156KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮472KB、gzip配信で<b>実転送量は159KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -339,6 +339,9 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">利用者が自分でアカウントを削除できるように</div><div class="d">プロフィール画面の一番下。<b>PINの再入力を必須</b>——Firebaseが古いセッションでの削除を拒むからでもあり、端末を持っている人が本人だという唯一の証明でもある。<b>順序は飾りではない</b>：再認証 → 単語（サブコレクションなので親を消しても消えない）→ board/push → 要約文書 → 認証ユーザー。認証ユーザーを先に消すとルールが呼び出し元を認識しなくなり、<b>本人にも管理者にも二度と届かないデータが残る</b>。ルール変更は不要だった。</div><div class="ver">v5.19.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">【バグ】アカウント削除で端末データが1つも消えていなかった</div><div class="d">検証で発見。サーバー側は全部消えたのに<b>端末には12語がそのまま残り、リロードもされなかった</b>——最悪の中途半端な状態。原因は<code>navigator.serviceWorker.ready</code>で、<b>コントローラが無いとき解決も拒否もしない</b>。<code>try/catch</code>で囲んでも意味がない（<b>保留のPromiseは例外を投げない</b>）ので、そこで永久に止まっていた。<code>localStorage</code>の削除を先に行い、Service Workerの後始末は2秒で打ち切るようにした。</div><div class="ver">v5.19.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">通知の案内から「今はしない」を外した</div><div class="d">端末側で許可・拒否を選べるのに並べると、<b>二度断る機会を与える</b>ことになる。利用者からの指摘。閉じる×は残した——<b>1つの道を示すことと、閉じ込めることは違う</b>。</div><div class="ver">v5.19.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">設定画面で行が潰れていた（報告された1行＋見つけた6行）</div><div class="d">選択ボタンが自分の最小幅を取り切り、残りが説明文に回っていた。<b>「1日に出す上限」は幅25px・高さ695px</b>で、説明が1文字ずつ縦に並んでいた。測ったら<b>同じ潰れ方が他に6行</b>（テーマ・出題の向き・言語など）。幅の広いコントロールを持つ行は<b>テキストを上・ボタンを下に積む</b>ように変更。クラスは起動時にJSで付ける——判定はDOMに聞けばマークアップと食い違わない。</div><div class="ver">v5.18.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">通知の案内を更新のお知らせの後に表示</div><div class="d"><b>ほとんどの人は設定を開かない</b>ので、設定に置くだけでは存在しないのと同じ。ただし<b>答えたら二度と聞かない</b>——繰り返し出る許可ダイアログは断り方を教えるだけ。出す条件は「実際に機能する状況」に限る：push対応・ログイン済み・OSがまだ拒否していない・<b>単語が5語以上</b>（リマインドする中身が無い人に聞かない）。</div><div class="ver">v5.18.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">管理ページから通知のテスト送信</div><div class="d">ユーザー行の「通知テスト」で、<code>test_uid</code>を渡してActionsを1件だけ走らせる。<b>送信自体はGitHub側</b>で、VAPID秘密鍵はそこにしか無い。管理ページが使うGitHubトークンは<b>そのブラウザのlocalStorageにのみ</b>保存し、Firestoreには置かない。</div><div class="ver">v5.18.0</div></div></li>

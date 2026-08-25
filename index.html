@@ -300,6 +300,13 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 /* ---- streak page ---- */
 .stk-head{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 4px}
 .stk-head svg{width:44px;height:44px;color:var(--accent)}
+.acct-danger{margin-top:26px;padding-top:16px;border-top:1px solid var(--line)}
+.acct-danger .btn{width:100%;color:var(--bad)}
+.btn-danger{background:var(--bad);color:#fff}
+.del-warn{background:var(--bad-bg);border:1px solid var(--bad-line);border-radius:14px;padding:14px}
+.del-warn .dw-t{font-size:15px;font-weight:700;color:var(--bad-ink)}
+.del-warn .dw-b{font-size:13px;color:var(--bad-ink);line-height:1.65;margin-top:6px}
+.ntf-x{position:absolute;top:12px;right:12px}
 .ntf-hero{display:flex;justify-content:center;margin:6px 0 14px;color:var(--accent)}
 .ntf-hero svg{width:46px;height:46px}
 .stk-n{font-family:Georgia,serif;font-size:54px;font-weight:600;color:var(--ink-strong);line-height:1.05}
@@ -485,7 +492,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .gate-lead{text-align:center;margin:0 0 20px}
 .gate-alt{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center}
 .gate-alt .hint{margin:0 0 8px}
-.sheet{background:var(--surface);border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
+.sheet{position:relative;background:var(--surface);border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
   box-shadow:var(--shadow);max-height:86vh;overflow:auto}
 .sheet.sheet-wide{max-width:520px;padding:20px 18px 24px}
 .sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
@@ -789,11 +796,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 <div class="overlay" id="overlayDeck"><div class="sheet"><div id="deckBody"></div></div></div>
 <div class="overlay" id="overlayTut"><div class="sheet"><div id="tutBody"></div></div></div>
 <div class="overlay" id="overlayNtf"><div class="sheet">
+  <button class="sheet-x ntf-x" id="ntfNo" type="button" aria-label="close">×</button>
   <div class="ntf-hero" id="ntfHero"></div>
   <h3 id="ntfTitle" style="text-align:center"></h3>
   <div id="ntfBody" style="text-align:center;margin-top:8px"></div>
   <button class="btn btn-primary" id="ntfYes" style="margin-top:18px;width:100%"></button>
-  <button class="btn btn-ghost" id="ntfNo" style="margin-top:10px;width:100%"></button>
   <p class="hint" id="ntfFine" style="text-align:center;margin-top:12px"></p>
 </div></div>
 <div class="overlay" id="overlayWn"><div class="sheet">
@@ -1049,15 +1056,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.18.0';
+const APP_VERSION='5.19.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.18.0',date:'2026-08-25',keys:['wn1','wn2']},
+  {version:'5.19.0',date:'2026-08-25',keys:['wn1','wn2']},
+  {version:'5.18.0',date:'2026-08-25',keys:['v5180_1','v5180_2']},
   {version:'5.17.0',date:'2026-08-24',keys:['v5170_1','v5170_2']},
-  {version:'5.16.0',date:'2026-08-24',keys:['v5160_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1152,11 +1159,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'設定画面のレイアウトを直しました。選択ボタンのある行で説明文が縦一列に潰れていたのを、説明を上・ボタンを下に並べる形に変えています',en:'Fixed the settings layout. On rows with option buttons the description was being squeezed into a single column of characters; the text now sits above the buttons',zh:'修复了设置页面的排版。带选项按钮的行中说明文字被挤成竖排一列，现改为说明在上、按钮在下',fr:'Correction de la mise en page des réglages. Sur les lignes à boutons, le texte était comprimé en une colonne d’un caractère ; il s’affiche désormais au-dessus des boutons',ar:'أُصلح تخطيط شاشة الإعدادات. ففي الصفوف ذات أزرار الاختيار كان النص ينضغط في عمود بحرف واحد، وصار الآن فوق الأزرار',ko:'설정 화면의 레이아웃을 고쳤습니다. 선택 버튼이 있는 행에서 설명이 세로 한 줄로 찌그러지던 것을, 설명을 위·버튼을 아래로 배치하도록 바꿨습니다',ru:'Исправлена вёрстка настроек. В строках с кнопками выбора описание сжималось в столбец по одному символу; теперь текст стоит над кнопками'},
-  wn2:{ja:'通知をまだ設定していない方に、アプリを開いたときに一度だけご案内を表示するようにしました。「今はしない」を選んでも、あとから設定でいつでもオンにできます',en:'If you haven’t set up reminders yet, the app now offers them once when you open it. Choosing “Not now” is final — you can still turn them on later in Settings',zh:'若尚未设置提醒，打开应用时会显示一次引导。即使选择「暂不需要」，之后仍可在设置中开启',fr:'Si vous n’avez pas encore activé les rappels, l’application vous les propose une fois à l’ouverture. « Pas maintenant » est définitif — vous pourrez toujours les activer dans les réglages',ar:'إن لم تكن قد فعّلت التذكيرات بعد، يعرضها التطبيق مرة واحدة عند فتحه. واختيار «ليس الآن» نهائي، ويظل بإمكانك تفعيلها لاحقًا من الإعدادات',ko:'알림을 아직 설정하지 않은 분께, 앱을 열었을 때 한 번만 안내를 표시합니다. «지금은 안 할게요»를 골라도 나중에 설정에서 언제든 켤 수 있습니다',ru:'Если напоминания ещё не настроены, приложение предложит их один раз при открытии. «Не сейчас» — окончательный ответ, но включить их можно позже в настройках'},
+  wn1:{ja:'プロフィール画面から自分でアカウントを削除できるようにしました。単語・学習の記録・ランキングの記録がすべて消えます。実行にはPINの再入力が必要です',en:'You can now delete your own account from the Profile screen. Your words, study history and leaderboard entry are all erased. Re-entering your PIN is required',zh:'现在可在个人资料页面自行删除账户，单词、学习记录与排行榜记录都会被清除。执行时需要重新输入 PIN',fr:'Vous pouvez désormais supprimer vous-même votre compte depuis le profil. Vos mots, votre historique et votre entrée au classement sont effacés. La saisie du PIN est requise',ar:'صار بإمكانك حذف حسابك بنفسك من صفحة الملف الشخصي، فتُمحى كلماتك وسجل تعلّمك وحضورك في الترتيب. ويلزم إدخال رمز PIN من جديد',ko:'프로필 화면에서 직접 계정을 삭제할 수 있게 했습니다. 단어·학습 기록·랭킹 기록이 모두 사라집니다. 실행하려면 PIN을 다시 입력해야 합니다',ru:'Теперь вы можете удалить свой аккаунт со страницы профиля. Слова, история занятий и запись в рейтинге будут стёрты. Потребуется заново ввести PIN'},
+  wn2:{ja:'通知のご案内から「今はしない」を外しました。端末側で許可・拒否を選べるので、二重にお聞きするのをやめています',en:'Removed the “Not now” button from the notification prompt. Your device already asks allow or deny, so being asked twice was redundant',zh:'移除了通知引导中的「暂不需要」按钮。设备本身已会询问允许或拒绝，无需重复确认',fr:'Le bouton « Pas maintenant » a été retiré de l’invite de notification : votre appareil demande déjà d’autoriser ou de refuser',ar:'أُزيل زر «ليس الآن» من نافذة الإشعارات، فجهازك يسأل أصلًا عن السماح أو الرفض ولا داعي للسؤال مرتين',ko:'알림 안내에서 «지금은 안 할게요» 버튼을 뺐습니다. 기기에서 허용·거부를 고를 수 있으므로 두 번 묻지 않도록 했습니다',ru:'Кнопка «Не сейчас» убрана из запроса на уведомления: устройство и так спрашивает разрешить или запретить'},
+  v5180_1:{ja:'設定画面のレイアウトを直しました。選択ボタンのある行で説明文が縦一列に潰れていたのを、説明を上・ボタンを下に並べる形に変えています',en:'Fixed the settings layout. On rows with option buttons the description was being squeezed into a single column of characters; the text now sits above the buttons',zh:'修复了设置页面的排版。带选项按钮的行中说明文字被挤成竖排一列，现改为说明在上、按钮在下',fr:'Correction de la mise en page des réglages. Sur les lignes à boutons, le texte était comprimé en une colonne d’un caractère ; il s’affiche désormais au-dessus des boutons',ar:'أُصلح تخطيط شاشة الإعدادات. ففي الصفوف ذات أزرار الاختيار كان النص ينضغط في عمود بحرف واحد، وصار الآن فوق الأزرار',ko:'설정 화면의 레이아웃을 고쳤습니다. 선택 버튼이 있는 행에서 설명이 세로 한 줄로 찌그러지던 것을, 설명을 위·버튼을 아래로 배치하도록 바꿨습니다',ru:'Исправлена вёрстка настроек. В строках с кнопками выбора описание сжималось в столбец по одному символу; теперь текст стоит над кнопками'},
+  v5180_2:{ja:'通知をまだ設定していない方に、アプリを開いたときに一度だけご案内を表示するようにしました。「今はしない」を選んでも、あとから設定でいつでもオンにできます',en:'If you haven’t set up reminders yet, the app now offers them once when you open it. Choosing “Not now” is final — you can still turn them on later in Settings',zh:'若尚未设置提醒，打开应用时会显示一次引导。即使选择「暂不需要」，之后仍可在设置中开启',fr:'Si vous n’avez pas encore activé les rappels, l’application vous les propose une fois à l’ouverture. « Pas maintenant » est définitif — vous pourrez toujours les activer dans les réglages',ar:'إن لم تكن قد فعّلت التذكيرات بعد، يعرضها التطبيق مرة واحدة عند فتحه. واختيار «ليس الآن» نهائي، ويظل بإمكانك تفعيلها لاحقًا من الإعدادات',ko:'알림을 아직 설정하지 않은 분께, 앱을 열었을 때 한 번만 안내를 표시합니다. «지금은 안 할게요»를 골라도 나중에 설정에서 언제든 켤 수 있습니다',ru:'Если напоминания ещё не настроены, приложение предложит их один раз при открытии. «Не сейчас» — окончательный ответ, но включить их можно позже в настройках'},
   v5170_1:{ja:'学習のリマインド通知を追加しました。設定の「通知」からオンにすると、1日2回（朝と夜）お知らせします。連続が途切れそうな日はその案内を、それ以外は覚えた単語の意味を聞く形で届きます',en:'Added study reminders. Turn them on under Settings → Notifications and you’ll get two a day, morning and evening. On a day your streak is at risk it says so; otherwise it asks you what one of your words means',zh:'新增学习提醒通知。在「设置 → 通知」中开启后，每天早晚各提醒一次。连续记录可能中断的当天会提示，其他时候则会考你某个单词的意思',fr:'Ajout des rappels d’étude. Activez-les dans Réglages → Notifications pour en recevoir deux par jour, matin et soir. Le jour où votre série est menacée, le rappel le dit ; sinon il vous demande le sens d’un de vos mots',ar:'أُضيفت تذكيرات الدراسة. فعّلها من «الإعدادات ← الإشعارات» لتصلك مرتين يوميًا صباحًا ومساءً. في اليوم الذي تكون فيه سلسلتك مهددة ينبهك، وفي غيره يسألك عن معنى إحدى كلماتك',ko:'학습 리마인드 알림을 추가했습니다. 설정의 «알림»에서 켜면 하루 두 번(아침과 저녁) 알려 드립니다. 연속 기록이 끊길 것 같은 날에는 그 안내를, 그 외에는 외운 단어의 뜻을 묻는 형태로 옵니다',ru:'Добавлены напоминания о занятиях. Включите их в «Настройки → Уведомления» — придут дважды в день, утром и вечером. В день, когда серия под угрозой, об этом и сообщат; в остальные — спросят значение одного из ваших слов'},
   v5170_2:{ja:'通知の文面はあなたの端末の中で作られます。サーバーから送るのは「合図」だけで、どの単語を勉強しているかがサーバーに渡ることはありません',en:'The notification text is written on your own device. The server sends only a signal — which words you study never reaches it',zh:'通知文案在你的设备上生成。服务器只发送一个信号，你学习了哪些单词不会传到服务器',fr:'Le texte de la notification est composé sur votre appareil. Le serveur n’envoie qu’un signal : les mots que vous étudiez ne lui parviennent jamais',ar:'يُكتب نص الإشعار على جهازك أنت. أما الخادم فلا يرسل سوى إشارة، ولا تصله أبدًا الكلمات التي تدرسها',ko:'알림 문구는 기기 안에서 만들어집니다. 서버가 보내는 것은 «신호»뿐이며, 어떤 단어를 공부하는지는 서버에 전달되지 않습니다',ru:'Текст уведомления составляется на вашем устройстве. Сервер отправляет только сигнал — изучаемые вами слова до него не доходят'},
-  v5160_1:{ja:'同期の仕組みを作り直しました。これまでは同期のたびに単語を全件読み直していましたが、変更があった分だけを読むようになり、通信量が大幅に減りました。使い方は何も変わりません',en:'Rebuilt how syncing works. It used to re-read every word each time; now it reads only what changed, which cuts the data it moves dramatically. Nothing changes in how you use the app',zh:'重写了同步机制。此前每次同步都会重新读取全部单词，现在只读取有变化的部分，传输量大幅降低。使用方式没有任何变化',fr:'La synchronisation a été refaite. Elle relisait tous les mots à chaque fois ; elle ne lit désormais que ce qui a changé, ce qui réduit fortement les données échangées. Rien ne change à l’usage',ar:'أُعيد بناء آلية المزامنة. كانت تعيد قراءة كل الكلمات في كل مرة، وصارت تقرأ ما تغيّر فقط، فانخفض حجم البيانات كثيرًا. ولا شيء يتغير في طريقة استخدامك للتطبيق',ko:'동기화 방식을 다시 만들었습니다. 지금까지는 동기화할 때마다 단어를 전부 다시 읽었지만, 이제는 변경된 만큼만 읽어 통신량이 크게 줄었습니다. 사용 방법은 달라지지 않습니다',ru:'Синхронизация переработана. Раньше каждый раз перечитывались все слова, теперь читается только изменившееся — объём передаваемых данных резко снизился. В использовании ничего не меняется'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1247,6 +1255,12 @@ const T={
   acct_logout_confirm:{ja:'ログアウトすると、この端末に入っている単語はすべて消去されます。単語はアカウントに保存されているので、次にログインすれば元どおりです。よろしいですか？',en:'Logging out removes every word from this device. They stay in your account, so signing back in restores them. Continue?',zh:'退出登录会清除本设备上的所有单词。它们仍保存在你的账号中，重新登录即可恢复。是否继续？',fr:'La déconnexion supprime tous les mots de cet appareil. Ils restent dans votre compte et reviendront à la prochaine connexion. Continuer ?',ar:'تسجيل الخروج يحذف كل الكلمات من هذا الجهاز. تبقى محفوظة في حسابك وتعود عند تسجيل الدخول مجددًا. هل تريد المتابعة؟',ko:'로그아웃하면 이 기기의 단어가 모두 삭제됩니다. 단어는 계정에 저장되어 있으므로 다시 로그인하면 복원됩니다. 계속할까요?',ru:'При выходе все слова удаляются с этого устройства. Они остаются в аккаунте и вернутся при следующем входе. Продолжить?'},
   acct_logout_unsynced:{ja:'まだサーバーに保存できていない変更があります。いまログアウトすると、その分は失われます。それでもログアウトしますか？',en:'Some changes haven’t reached the server yet. Logging out now loses them. Log out anyway?',zh:'仍有变更尚未保存到服务器。现在退出登录会丢失这些内容。仍要退出吗？',fr:'Certaines modifications ne sont pas encore enregistrées sur le serveur. Se déconnecter maintenant les perdra. Continuer quand même ?',ar:'هناك تغييرات لم تصل إلى الخادم بعد. تسجيل الخروج الآن سيفقدها. هل تريد تسجيل الخروج على أي حال؟',ko:'아직 서버에 저장되지 않은 변경이 있습니다. 지금 로그아웃하면 그 부분은 사라집니다. 그래도 로그아웃할까요?',ru:'Часть изменений ещё не сохранена на сервере. Выход сейчас их потеряет. Всё равно выйти?'},
   acct_logout_done:{ja:'ログアウトしました。この端末の単語は消去されています',en:'Logged out — this device has been cleared',zh:'已退出登录，本设备已清空',fr:'Déconnecté — cet appareil a été vidé',ar:'تم تسجيل الخروج — تم مسح هذا الجهاز',ko:'로그아웃했습니다. 이 기기의 단어는 삭제되었습니다',ru:'Вы вышли — устройство очищено'},
+  acct_delete:{ja:'アカウントを削除',en:'Delete account',zh:'删除账户',fr:'Supprimer le compte',ar:'حذف الحساب',ko:'계정 삭제',ru:'Удалить аккаунт'},
+  acct_del_t:{ja:'この操作は取り消せません',en:'This cannot be undone',zh:'此操作无法撤销',fr:'Cette action est irréversible',ar:'لا يمكن التراجع عن هذا',ko:'이 작업은 되돌릴 수 없습니다',ru:'Это действие необратимо'},
+  acct_del_b:{ja:'単語{0}語、学習の記録、連続日数、ランキングの記録がすべて消えます。開発者を含め、誰も元に戻せません。端末に保存されているデータも消えます',en:'All {0} words, your study history, streak and leaderboard entry are erased. Nobody can restore them, including the developer. The data on this device is removed too',zh:'将删除全部 {0} 个单词、学习记录、连续天数与排行榜记录。包括开发者在内，任何人都无法恢复。本机数据也会一并清除',fr:'Vos {0} mots, votre historique, votre série et votre entrée au classement seront effacés. Personne ne peut les restaurer, pas même le développeur. Les données de cet appareil sont également supprimées',ar:'ستُمحى كل الكلمات البالغة {0}، وسجل تعلّمك، وأيامك المتتالية، وحضورك في الترتيب. ولا يمكن لأحد استعادتها، ولا حتى المطوّر. كما تُحذف بيانات هذا الجهاز',ko:'단어 {0}개, 학습 기록, 연속 일수, 랭킹 기록이 모두 사라집니다. 개발자를 포함해 누구도 되돌릴 수 없습니다. 기기에 저장된 데이터도 지워집니다',ru:'Все {0} слов, история занятий, серия и запись в рейтинге будут стёрты. Восстановить их не сможет никто, включая разработчика. Данные на этом устройстве тоже удаляются'},
+  acct_del_confirm_pin:{ja:'本人確認のため、PINを入力してください',en:'Enter your PIN to confirm it’s you',zh:'请输入 PIN 以确认身份',fr:'Saisissez votre PIN pour confirmer votre identité',ar:'أدخل رمز PIN للتأكد من هويتك',ko:'본인 확인을 위해 PIN을 입력해 주세요',ru:'Введите PIN, чтобы подтвердить, что это вы'},
+  acct_del_do:{ja:'アカウントを完全に削除する',en:'Permanently delete my account',zh:'永久删除我的账户',fr:'Supprimer définitivement mon compte',ar:'احذف حسابي نهائيًا',ko:'계정을 완전히 삭제',ru:'Удалить аккаунт навсегда'},
+  acct_del_final:{ja:'本当に削除しますか？\n\n単語{0}語とすべての記録が失われ、元には戻せません。',en:'Delete your account?\n\n{0} words and all your records will be lost, permanently.',zh:'确定删除账户吗？\n\n{0} 个单词与全部记录将永久丢失。',fr:'Supprimer votre compte ?\n\n{0} mots et tous vos enregistrements seront perdus définitivement.',ar:'هل تريد حذف حسابك فعلًا؟\n\nستفقد {0} كلمة وكل سجلاتك نهائيًا.',ko:'정말 삭제하시겠습니까?\n\n단어 {0}개와 모든 기록이 영구히 사라집니다.',ru:'Удалить аккаунт?\n\n{0} слов и все ваши записи будут потеряны навсегда.'},
   acct_logout:{ja:'ログアウト',en:'Log out',zh:'退出登录',fr:'Se déconnecter',ar:'تسجيل الخروج',ko:'로그아웃',ru:'Выйти'},
   acct_working:{ja:'処理中…',en:'Working…',zh:'处理中…',fr:'En cours…',ar:'جارٍ…',ko:'처리 중…',ru:'Выполняется…'},
   acct_done:{ja:'ログインしました',en:'Signed in',zh:'已登录',fr:'Connecté',ar:'تم تسجيل الدخول',ko:'로그인했습니다',ru:'Вы вошли'},
@@ -5066,7 +5080,6 @@ function openNotifyAsk(){
   $('#ntfTitle').textContent=t('ntf_ask_t');
   $('#ntfBody').textContent=t('ntf_ask_b');
   $('#ntfYes').textContent=t('ntf_ask_yes');
-  $('#ntfNo').textContent=t('ntf_ask_no');
   $('#ntfFine').textContent=t('ntf_ask_fine');
   $('#overlayNtf').classList.add('show');
   gaScreen('notify_ask');
@@ -5881,6 +5894,29 @@ function renderAccountUI(){
     };
     return;
   }
+  if(acctView==='delete'){
+    const n=DB.words.length;
+    body.innerHTML=
+      '<div class="del-warn">'+
+        '<div class="dw-t">'+esc(t('acct_del_t'))+'</div>'+
+        '<div class="dw-b">'+esc(t('acct_del_b',n))+'</div>'+
+      '</div>'+
+      '<p class="hint" style="margin:14px 2px 10px">'+esc(t('acct_del_confirm_pin'))+'</p>'+
+      acctField('acctDelPin',t('acct_pin_current'),{pin:true,ph:'123456'})+
+      '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
+      '<button class="btn btn-danger" id="acctGo" style="margin-top:16px;width:100%">'+esc(t('acct_del_do'))+'</button>'+
+      back;
+    $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
+    $('#acctGo').onclick=async()=>{
+      // Typed confirmation on top of the PIN: this is the one action in the app
+      // that cannot be undone by anybody, including the developer.
+      if(!confirm(t('acct_del_final',DB.words.length)))return;
+      acctErr('');acctBusy(true);
+      const r=await deleteAccount($('#acctDelPin').value);
+      if(!r.ok){acctErr(r.msg);acctBusy(false,t('acct_del_do'));}
+    };
+    return;
+  }
   const recovered=hasRecoveryEmail();
   const left=nickDaysLeft();
   body.innerHTML=
@@ -5903,12 +5939,87 @@ function renderAccountUI(){
     '<button class="btn btn-ghost" id="acctEmailBtn" style="width:100%;margin-top:10px">'+
       esc(recovered?t('acct_email_change'):t('acct_email_set'))+'</button>'+
     '<button class="btn btn-ghost" id="acctPinBtn" style="width:100%;margin-top:10px">'+esc(t('acct_pin_change'))+'</button>'+
-    '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>';
+    '<button class="btn btn-ghost" id="acctOut" style="width:100%;margin-top:10px">'+esc(t('acct_logout'))+'</button>'+
+    '<div class="acct-danger">'+
+      '<button class="btn btn-ghost" id="acctDel">'+esc(t('acct_delete'))+'</button>'+
+    '</div>';
   $('#acctSync').onclick=()=>cloudSync('manual');
   $('#acctNickBtn').onclick=openNickEdit;
   $('#acctEmailBtn').onclick=()=>{acctView='email';renderAccountUI();};
   $('#acctPinBtn').onclick=()=>{acctView='pin';renderAccountUI();};
   $('#acctOut').onclick=cloudLogout;
+  $('#acctDel').onclick=()=>{acctView='delete';renderAccountUI();};
+}
+// Deleting your own account.
+//
+// Until now only the admin could remove somebody, which is the wrong way round
+// for an app people are asked to sign in to -- and in the EU, being able to
+// erase your own data is a legal expectation, not a courtesy.
+//
+// Order matters and is not cosmetic: every Firestore document has to go while
+// the account can still authenticate. Delete the auth user first and the rules
+// stop recognising the caller, stranding the data forever with no way for the
+// person -- or anyone else -- to reach it.
+async function deleteAccount(pin){
+  if(!cloudUser)return {ok:false,msg:t('acct_e_net')};
+  if(!validPin(pin))return {ok:false,msg:t('acct_e_pin')};
+  try{
+    await loadFirebase();
+    const u=fbAuth.currentUser;
+    if(!u)return {ok:false,msg:t('acct_e_net')};
+    // Firebase refuses a delete on a stale session, and re-entering the PIN is
+    // also the only proof that whoever is holding the phone is the owner.
+    const cred=firebase.auth.EmailAuthProvider.credential(u.email,pin);
+    try{ await u.reauthenticateWithCredential(cred); }
+    catch(e){ return {ok:false,msg:authErrMsg(e)}; }
+
+    const uid=u.uid;
+    const uref=fbDb.collection('users').doc(uid);
+    // Words are a subcollection: deleting the parent does not touch them, so
+    // they have to be removed explicitly or they linger unreachable.
+    const wsnap=await uref.collection('words').get();
+    const ops=[];
+    wsnap.forEach(d=>ops.push({ref:d.ref,del:true}));
+    await commitBatched(ops);
+    // Best-effort: these are separate collections and a failure here must not
+    // leave the account half-deleted with its words already gone.
+    for(const ref of [fbDb.collection('board').doc(uid),fbDb.collection('push').doc(uid)]){
+      try{ await ref.delete(); }catch(e){ console.warn('cleanup failed',e); }
+    }
+    await uref.delete();
+    await u.delete();
+
+    gaEvent('account_deleted',{words:wsnap.size});
+
+    // Local data goes too -- leaving it would rebuild the whole account on the
+    // next sign-up, which is the opposite of what was asked for.
+    //
+    // Storage is cleared FIRST and nothing above it may await anything that can
+    // hang. `navigator.serviceWorker.ready` neither resolves nor rejects when
+    // there is no controller, so awaiting it here once left the account deleted
+    // on the server while the device silently kept every word -- the worst
+    // possible half-state, and a try/catch does not help because a pending
+    // promise never throws.
+    localStorage.removeItem(KEY);
+    localStorage.removeItem(PKGKEY);
+    localStorage.removeItem(PKGWKEY);
+    localStorage.removeItem(CLOUDKEY);
+    try{ indexedDB.deleteDatabase(HINT_DB); }catch(e){}
+    // Tidy-up only: the push document is already gone, so this subscription can
+    // no longer be delivered to either way. Capped so it cannot stall the exit.
+    try{
+      const reg=await Promise.race([
+        navigator.serviceWorker.ready,
+        new Promise(r=>setTimeout(()=>r(null),2000))
+      ]);
+      if(reg){const sub=await reg.pushManager.getSubscription();if(sub)await sub.unsubscribe();}
+    }catch(e){}
+    location.reload();
+    return {ok:true};
+  }catch(e){
+    console.warn('account delete failed',e);
+    return {ok:false,msg:authErrMsg(e)};
+  }
 }
 /* ---------- sign-in gate + nickname ------------------------------------- */
 // Wordkeep requires an account, so the gate is the first thing an unsigned
