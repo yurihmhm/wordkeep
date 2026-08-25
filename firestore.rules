@@ -130,17 +130,30 @@ service cloud.firestore {
       allow delete: if (request.auth != null && request.auth.uid == userId) || isAdmin();
       allow write: if request.auth != null && request.auth.uid == userId
                    && request.resource.data.keys().hasOnly(
-                        ['endpoint','p256dh','auth','hours','tzOffset','at'])
-                   && request.resource.data.endpoint is string
-                   && request.resource.data.endpoint.size() > 0
-                   && request.resource.data.endpoint.size() < 1000
-                   && request.resource.data.p256dh is string
-                   && request.resource.data.auth is string
-                   && request.resource.data.hours is list
-                   && request.resource.data.hours.size() <= 6
-                   && request.resource.data.tzOffset is int
-                   && request.resource.data.tzOffset >= -840
-                   && request.resource.data.tzOffset <= 840
+                        ['endpoint','p256dh','auth','hours','studyMin','eveningHour','tzOffset','at'])
+                   // A refresh of just the study time is a merge, so the
+                   // endpoint and keys are absent from that write.
+                   && (!('endpoint' in request.resource.data)
+                       || (request.resource.data.endpoint is string
+                           && request.resource.data.endpoint.size() > 0
+                           && request.resource.data.endpoint.size() < 1000))
+                   && (!('p256dh' in request.resource.data) || request.resource.data.p256dh is string)
+                   && (!('auth' in request.resource.data) || request.resource.data.auth is string)
+                   && (!('hours' in request.resource.data)
+                       || (request.resource.data.hours is list
+                           && request.resource.data.hours.size() <= 6))
+                   && (!('studyMin' in request.resource.data)
+                       || (request.resource.data.studyMin is int
+                           && request.resource.data.studyMin >= 0
+                           && request.resource.data.studyMin <= 1439))
+                   && (!('eveningHour' in request.resource.data)
+                       || (request.resource.data.eveningHour is int
+                           && request.resource.data.eveningHour >= 0
+                           && request.resource.data.eveningHour <= 23))
+                   && (!('tzOffset' in request.resource.data)
+                       || (request.resource.data.tzOffset is int
+                           && request.resource.data.tzOffset >= -840
+                           && request.resource.data.tzOffset <= 840))
                    && request.resource.data.at is int;
     }
 

@@ -33,6 +33,8 @@ const FORCE = (process.env.FORCE || '').trim() === 'true';
 // The workflow fires hourly in UTC; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
 const nowUtcMin = new Date().getUTCHours() * 60 + new Date().getUTCMinutes();
+const clamp = (v, lo, hi, dflt) =>
+  Number.isFinite(v) && v >= lo && v <= hi ? v : dflt;
 
 const snap = TEST_UID
   ? { docs: [await db.collection('push').doc(TEST_UID).get()].filter(d => d.exists), size: 1 }
@@ -44,9 +46,21 @@ for (const doc of snap.docs) {
   const d = doc.data();
   if (!TEST_UID && !FORCE) {
     const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
-    const localHour = Math.floor(localMin / 60);
-    const hours = Array.isArray(d.hours) ? d.hours : [];
-    if (!hours.includes(localHour)) { skipped++; continue; }
+    // Two sends, with different jobs. The first is aimed at the hour this
+    // person actually studies -- a reminder that lands when they are already in
+    // the habit of opening the app beats one that lands when the schedule says
+    // so. The second is the last call before the day ends, and that one is
+    // fixed because its timing is about the deadline, not about them.
+    //
+    // Matched to the hour: the workflow only runs hourly, so aiming finer than
+    // that would just mean missing.
+    const studyHour   = Math.floor(clamp(d.studyMin, 0, 1439, 9 * 60) / 60);
+    const eveningHour = clamp(d.eveningHour, 0, 23, 20);
+    // Legacy subscriptions still carry `hours`; honour them until they refresh.
+    const wanted = Array.isArray(d.hours) && d.hours.length
+      ? d.hours
+      : [studyHour, eveningHour];
+    if (!wanted.includes(Math.floor(localMin / 60))) { skipped++; continue; }
   }
 
   try {

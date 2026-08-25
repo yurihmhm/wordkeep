@@ -103,11 +103,18 @@ function compose(hint) {
 
   const doneToday = hint.lastStudied != null && dayIndex(Date.now()) === hint.lastStudied;
 
-  // A live streak that has not been fed today is the one thing that is actually
-  // urgent -- it is the only state the user can lose by doing nothing.
-  if (hint.streak > 0 && !doneToday)
+  // What is at stake depends on how much there is to lose, so the framing does
+  // too. Telling somebody on day 2 that their streak is about to break is not
+  // motivating -- there is nothing there yet. Early on the goal is to build the
+  // habit; once a run is long enough to matter, losing it is the stronger pull.
+  const HABIT_UNTIL = 7;
+  if (hint.streak > 0 && !doneToday) {
+    if (hint.streak < HABIT_UNTIL)
+      return { title: say('habit_t', '').replace('{0}', hint.streak).replace('{1}', HABIT_UNTIL),
+               body:  say('habit_b', '') };
     return { title: say('streak_t', '').replace('{0}', hint.streak),
              body:  say('streak_b', '') };
+  }
 
   // Otherwise ask about a word. Being asked something specific beats being told
   // there is work waiting.

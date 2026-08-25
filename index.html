@@ -386,6 +386,22 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .rk-note{font-size:12px;color:var(--muted);text-align:center;margin:14px 2px 0;line-height:1.6}
 .rk-state{text-align:center;padding:34px 16px;color:var(--muted);font-size:13.5px;line-height:1.7}
 .rk-state svg{width:38px;height:38px;fill:var(--line);margin-bottom:10px}
+#listSel{margin:0 2px 10px}
+.sel-start{width:100%;font-size:13.5px;padding:11px}
+.sel-bar{display:flex;gap:8px}
+.sel-bar .btn{flex:1;font-size:13px;padding:11px 8px}
+.sel-bar .btn:disabled{opacity:.45}
+/* The row is the control in selection mode, so the box only has to report the
+   state -- it is never the thing you have to hit. */
+.sel-box{flex:none;width:22px;height:22px;border-radius:7px;align-self:center;
+  border:2px solid var(--line);background:var(--surface-2)}
+.sel-box.on{background:var(--accent);border-color:var(--accent);
+  box-shadow:inset 0 0 0 3px var(--surface)}
+.card.picked{background:var(--surface-2);outline:1.5px solid var(--accent);outline-offset:-1.5px}
+.past-tag{text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.5px;
+  color:var(--muted);margin:2px 0 10px}
+.past-nav{display:flex;gap:10px;margin-top:18px}
+.past-nav .btn{flex:1}
 .q-acts{display:flex;gap:10px;margin-top:16px}
 /* ---- a round in progress --------------------------------------------------
    The tab bar is hidden for the whole round, not just while the keyboard is up.
@@ -786,6 +802,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <input id="search" class="field search" data-i18n-ph="ph_search" placeholder="検索…">
       <span class="hint" id="listCount" style="white-space:nowrap"></span>
     </div>
+    <div id="listSel"></div>
     <div class="panel" id="listPanel"></div>
   </section>
 
@@ -1086,15 +1103,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.22.0';
+const APP_VERSION='5.23.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.22.0',date:'2026-08-26',keys:['wn1','wn2']},
+  {version:'5.23.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.22.0',date:'2026-08-26',keys:['v5220_1','v5220_2']},
   {version:'5.21.0',date:'2026-08-26',keys:['v5210_1','v5210_2','v5210_3']},
-  {version:'5.20.0',date:'2026-08-25',keys:['v5200_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1189,12 +1206,14 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'次の問題へ進むときに、キーボードが一瞬だけ画面の上に現れてしまう不具合を直しました',en:'Fixed the keyboard flashing at the top of the screen for a moment when moving to the next question',zh:'修复了进入下一题时键盘会在屏幕上方一闪而过的问题',fr:'Correction du clavier qui apparaissait un instant en haut de l’écran au passage à la question suivante',ar:'أُصلح ظهور لوحة المفاتيح للحظة أعلى الشاشة عند الانتقال إلى السؤال التالي',ko:'다음 문제로 넘어갈 때 키보드가 잠깐 화면 위쪽에 나타나던 문제를 고쳤습니다',ru:'Исправлено: при переходе к следующему вопросу клавиатура на миг появлялась вверху экрана'},
-  wn2:{ja:'数字や漢字を含む単語も、スペル入力で出題できるようになりました。キーボードで打てない文字は最初から表示され、英字の部分だけを入力します',en:'Words containing digits or other scripts now work in spelling mode. Characters the keyboard can’t produce are shown from the start, and you type only the letters',zh:'含数字或其他文字的单词现在也可用于拼写模式。键盘无法输入的字符会预先显示，你只需输入字母部分',fr:'Les mots contenant des chiffres ou d’autres écritures fonctionnent maintenant en mode orthographe. Les caractères que le clavier ne peut pas produire sont affichés d’emblée ; vous ne tapez que les lettres',ar:'صارت الكلمات التي تحتوي أرقامًا أو حروفًا من كتابات أخرى تعمل في وضع الإملاء. فالأحرف التي لا تنتجها لوحة المفاتيح تظهر من البداية، وتكتب أنت الحروف فقط',ko:'숫자나 한자가 들어간 단어도 스펠링 입력으로 낼 수 있게 되었습니다. 키보드로 칠 수 없는 문자는 처음부터 표시되고, 영문자 부분만 입력합니다',ru:'Слова с цифрами и другими письменностями теперь работают в режиме написания. Символы, которых нет на клавиатуре, показаны сразу — вы вводите только буквы'},
+  wn1:{ja:'復習中に右へスワイプすると、答え終わった問題を見返せるようになりました。パソコンでは←キーです。採点はやり直せません（見るだけです）',en:'Swipe right during a review to look back at questions you have already answered — ← on a keyboard. They are read-only; nothing is re-graded',zh:'复习时向右滑动即可回看已作答的题目，电脑上按 ← 键。仅供查看，不会重新评分',fr:'Balayez vers la droite pendant une révision pour revoir les questions déjà répondues (touche ← au clavier). En lecture seule : rien n’est réévalué',ar:'اسحب لليمين أثناء المراجعة لتستعرض الأسئلة التي أجبت عنها، أو استخدم مفتاح ← على الحاسوب. وهي للعرض فقط ولا يُعاد تقييمها',ko:'복습 중에 오른쪽으로 스와이프하면 이미 답한 문제를 다시 볼 수 있습니다. PC에서는 ← 키입니다. 보기 전용이라 채점은 다시 하지 않습니다',ru:'Проведите вправо во время повторения, чтобы просмотреть отвеченные вопросы (или клавиша ← на компьютере). Только просмотр — оценка не меняется'},
+  wn2:{ja:'単語リストから、いらない単語をまとめて削除できるようになりました。「選択して削除」から複数選んで一度に消せます',en:'You can now delete several words at once from the list. Tap “Select to delete”, pick them, and remove them in one go',zh:'现在可从单词列表批量删除。点击「选择并删除」，勾选后一次性移除',fr:'Vous pouvez maintenant supprimer plusieurs mots d’un coup depuis la liste, via « Sélectionner pour supprimer »',ar:'صار بإمكانك حذف عدة كلمات دفعة واحدة من القائمة عبر «حدّد للحذف»',ko:'단어 목록에서 필요 없는 단어를 한꺼번에 삭제할 수 있게 되었습니다. «선택해서 삭제»에서 여러 개를 골라 한 번에 지웁니다',ru:'Теперь из списка можно удалить сразу несколько слов — «Выбрать для удаления»'},
+  wn3:{ja:'リマインドを、あなたがふだん学習している時間帯に合わせて送るようにしました。また、はじめたばかりの方には連続が途切れる話ではなく、習慣づくりのご案内をお送りします',en:'Reminders now arrive around the time you usually study. And if you have only just started, they talk about building the habit rather than about a streak you could lose',zh:'提醒现在会在你平常学习的时间段发送。刚开始使用的用户会收到关于养成习惯的提示，而非连续记录中断的警告',fr:'Les rappels arrivent désormais vers l’heure à laquelle vous étudiez d’habitude. Et si vous débutez, ils parlent d’installer l’habitude plutôt que d’une série à perdre',ar:'صارت التذكيرات تصل قرب الوقت الذي تدرس فيه عادة. وإن كنت بدأت للتو، فهي تتحدث عن بناء العادة لا عن سلسلة قد تفقدها',ko:'리마인드를 평소 학습하는 시간대에 맞춰 보내도록 했습니다. 또 막 시작한 분께는 연속이 끊긴다는 이야기가 아니라 습관 만들기를 안내합니다',ru:'Напоминания теперь приходят примерно в то время, когда вы обычно занимаетесь. А новичкам они говорят о формировании привычки, а не о серии, которую можно потерять'},
+  v5220_1:{ja:'次の問題へ進むときに、キーボードが一瞬だけ画面の上に現れてしまう不具合を直しました',en:'Fixed the keyboard flashing at the top of the screen for a moment when moving to the next question',zh:'修复了进入下一题时键盘会在屏幕上方一闪而过的问题',fr:'Correction du clavier qui apparaissait un instant en haut de l’écran au passage à la question suivante',ar:'أُصلح ظهور لوحة المفاتيح للحظة أعلى الشاشة عند الانتقال إلى السؤال التالي',ko:'다음 문제로 넘어갈 때 키보드가 잠깐 화면 위쪽에 나타나던 문제를 고쳤습니다',ru:'Исправлено: при переходе к следующему вопросу клавиатура на миг появлялась вверху экрана'},
+  v5220_2:{ja:'数字や漢字を含む単語も、スペル入力で出題できるようになりました。キーボードで打てない文字は最初から表示され、英字の部分だけを入力します',en:'Words containing digits or other scripts now work in spelling mode. Characters the keyboard can’t produce are shown from the start, and you type only the letters',zh:'含数字或其他文字的单词现在也可用于拼写模式。键盘无法输入的字符会预先显示，你只需输入字母部分',fr:'Les mots contenant des chiffres ou d’autres écritures fonctionnent maintenant en mode orthographe. Les caractères que le clavier ne peut pas produire sont affichés d’emblée ; vous ne tapez que les lettres',ar:'صارت الكلمات التي تحتوي أرقامًا أو حروفًا من كتابات أخرى تعمل في وضع الإملاء. فالأحرف التي لا تنتجها لوحة المفاتيح تظهر من البداية، وتكتب أنت الحروف فقط',ko:'숫자나 한자가 들어간 단어도 스펠링 입력으로 낼 수 있게 되었습니다. 키보드로 칠 수 없는 문자는 처음부터 표시되고, 영문자 부분만 입력합니다',ru:'Слова с цифрами и другими письменностями теперь работают в режиме написания. Символы, которых нет на клавиатуре, показаны сразу — вы вводите только буквы'},
   v5210_1:{ja:'問題の切り替わりに動きをつけました。答えた問題が左へ流れ、次の問題が右から入ってきます',en:'Questions now move. The one you answered slides out to the left and the next arrives from the right',zh:'题目切换现在有了动效：作答完的题目向左滑出，下一题从右侧滑入',fr:'Les questions bougent désormais : celle à laquelle vous avez répondu glisse vers la gauche et la suivante arrive par la droite',ar:'صار انتقال الأسئلة متحركًا: ينزلق السؤال الذي أجبت عنه إلى اليسار ويدخل التالي من اليمين',ko:'문제 전환에 움직임을 넣었습니다. 답한 문제가 왼쪽으로 흘러가고 다음 문제가 오른쪽에서 들어옵니다',ru:'Переход между вопросами теперь анимирован: отвеченный уезжает влево, следующий приходит справа'},
   v5210_2:{ja:'答え合わせのあとのボタンを、キーボードがあった位置に移しました。指を動かす距離が短くなります。また、問題を解いている間は下のタブを隠して、解くことに集中できるようにしています',en:'The buttons after an answer now sit where the keyboard was, so your thumb barely moves. The tab bar is also hidden for the whole round, to keep the round about the round',zh:'作答后的按钮已移到键盘原来的位置，手指移动距离更短。答题过程中还会隐藏底部标签栏，让你专注作答',fr:'Les boutons qui suivent une réponse occupent maintenant la place du clavier : le pouce bouge à peine. La barre d’onglets reste masquée pendant toute la série, pour ne pas distraire',ar:'صارت أزرار ما بعد الإجابة في موضع لوحة المفاتيح نفسه، فلا يكاد إبهامك يتحرك. كما يبقى شريط التبويب مخفيًا طوال الجولة لتبقى الجولة موضع تركيزك',ko:'답을 맞춘 뒤의 버튼을 키보드가 있던 자리로 옮겼습니다. 손가락이 움직이는 거리가 짧아집니다. 또 문제를 푸는 동안에는 하단 탭을 숨겨 집중할 수 있도록 했습니다',ru:'Кнопки после ответа теперь там, где была клавиатура, — большой палец почти не двигается. Панель вкладок скрыта на всю серию, чтобы ничто не отвлекало'},
   v5210_3:{ja:'タブを切り替えて戻ったとき、スクロール位置が保たれるようにしました。あわせて、開いている画面は背景をタップしても閉じられます',en:'Switching tabs and coming back keeps your place in the list. Sheets can also be dismissed by tapping the background',zh:'切换标签页后返回时会保留滚动位置。弹出面板也可点击背景关闭',fr:'Changer d’onglet et revenir conserve votre position dans la liste. Les panneaux se ferment aussi en touchant l’arrière-plan',ar:'صار التنقل بين التبويبات والعودة يحفظ موضعك في القائمة. كما يمكن إغلاق النوافذ بلمس الخلفية',ko:'탭을 바꿨다가 돌아와도 스크롤 위치가 유지됩니다. 열려 있는 화면은 배경을 눌러도 닫을 수 있습니다',ru:'Переключение вкладок и возврат сохраняют место в списке. Панели теперь закрываются и по нажатию на фон'},
-  v5200_1:{ja:'不具合が起きたときに、その内容が開発者へ自動で届くようにしました。送られるのはエラーの文言と発生箇所だけで、あなたの単語や学習の記録は含まれません',en:'When something breaks, the details now reach the developer automatically. Only the error message and where it happened are sent — never your words or study history',zh:'出现故障时，相关信息会自动发送给开发者。仅发送错误信息与发生位置，不包含你的单词与学习记录',fr:'En cas de problème, les détails parviennent désormais automatiquement au développeur. Seuls le message d’erreur et son emplacement sont envoyés, jamais vos mots ni votre historique',ar:'عند حدوث خلل، تصل تفاصيله الآن إلى المطوّر تلقائيًا. ولا يُرسل سوى نص الخطأ وموضع حدوثه، دون كلماتك أو سجل تعلّمك',ko:'문제가 생겼을 때 그 내용이 개발자에게 자동으로 전달됩니다. 보내지는 것은 오류 문구와 발생 위치뿐이며, 단어나 학습 기록은 포함되지 않습니다',ru:'Если что-то ломается, подробности теперь автоматически доходят до разработчика. Отправляются только текст ошибки и место, где она произошла, — но не ваши слова и не история занятий'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1228,13 +1247,15 @@ const T={
   st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
   desc_notify:{ja:'1日2回（朝と夜）、復習の合図をお送りします。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'Two nudges a day, morning and evening. The text is written on your own device, so which words you study is never sent to the server',zh:'每天两次（早晚）提醒复习。通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Deux rappels par jour, matin et soir. Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'تذكيران يوميًا، صباحًا ومساءً. يُكتب نص الإشعار على جهازك، فلا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'하루 두 번(아침과 저녁) 복습 알림을 보냅니다. 알림 문구는 기기 안에서 만들어지므로 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Два напоминания в день, утром и вечером. Текст составляется на вашем устройстве, поэтому изучаемые слова никогда не отправляются на сервер'},
   ntf_ask_t:{ja:'忘れないように、お知らせしましょうか？',en:'Shall we remind you?',zh:'要提醒你复习吗？',fr:'Voulez-vous des rappels ?',ar:'هل نُذكّرك؟',ko:'잊지 않도록 알려 드릴까요?',ru:'Напоминать вам о занятиях?'},
-  ntf_ask_b:{ja:'1日2回（朝と夜）だけ、そっとお知らせします。連続が途切れそうな日と、覚えた単語の復習に。あとから設定でいつでも止められます',en:'Just twice a day, morning and evening. On days your streak is at risk, and to keep your words fresh. You can turn it off any time in Settings',zh:'每天仅两次，早晚各一次。在连续记录可能中断时提醒你，也帮你温习已学单词。随时可在设置中关闭',fr:'Deux fois par jour seulement, matin et soir : les jours où votre série est menacée, et pour garder vos mots frais. Désactivable à tout moment dans les réglages',ar:'مرتين فقط يوميًا، صباحًا ومساءً: في الأيام التي تكون فيها سلسلتك مهددة، ولتبقى كلماتك حاضرة. ويمكنك إيقافه متى شئت من الإعدادات',ko:'하루 두 번(아침과 저녁)만 조용히 알려 드립니다. 연속 기록이 끊길 것 같은 날과, 외운 단어의 복습을 위해. 나중에 설정에서 언제든 끌 수 있습니다',ru:'Всего дважды в день, утром и вечером: в дни, когда серия под угрозой, и чтобы слова не забывались. Отключить можно в любой момент в настройках'},
+  ntf_ask_b:{ja:'1日2回だけ、そっとお知らせします。7日続けば習慣になります。1問だけでも今日の分になりますし、あとから設定でいつでも止められます',en:'Just twice a day. Seven days in a row is what turns this into a habit — and a single question counts. You can turn it off any time in Settings',zh:'每天仅两次。坚持 7 天就会成为习惯，哪怕只答一题也算数。随时可在设置中关闭',fr:'Deux fois par jour seulement. Sept jours d’affilée suffisent à en faire une habitude, et une seule question compte. Désactivable à tout moment dans les réglages',ar:'مرتين فقط يوميًا. سبعة أيام متتالية تكفي لتصير عادة، وحتى سؤال واحد يُحتسب. ويمكنك إيقافه متى شئت من الإعدادات',ko:'하루 두 번만 조용히 알려 드립니다. 7일 이어지면 습관이 되고, 한 문제만 풀어도 오늘 몫이 됩니다. 나중에 설정에서 언제든 끌 수 있습니다',ru:'Всего дважды в день. Семь дней подряд превращают это в привычку, и даже один вопрос засчитывается. Отключить можно в любой момент в настройках'},
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
+  ntf_habit_t:{ja:'{0}日目です。7日続けば習慣になります',en:'Day {0}. Seven in a row makes it a habit',zh:'第 {0} 天。坚持 7 天就会成为习惯',fr:'Jour {0}. Sept jours d’affilée et c’est une habitude',ar:'اليوم {0}. سبعة أيام متتالية تصنع عادة',ko:'{0}일째입니다. 7일 이어지면 습관이 됩니다',ru:'День {0}. Семь дней подряд — и это привычка'},
+  ntf_habit_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Même une seule question compte pour aujourd’hui',ar:'حتى سؤال واحد يُحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
   ntf_streak_t:{ja:'{0}日の連続が今日で途切れます',en:'Your {0}-day streak ends today',zh:'你的 {0} 天连续记录今天将中断',fr:'Votre série de {0} jours prend fin aujourd’hui',ar:'سلسلتك البالغة {0} يومًا تنتهي اليوم',ko:'{0}일 연속 기록이 오늘 끊깁니다',ru:'Ваша серия из {0} дн. прервётся сегодня'},
   ntf_streak_b:{ja:'1問でも解けばつながります',en:'A single question keeps it alive',zh:'只要答一题就能延续',fr:'Une seule question suffit à la préserver',ar:'سؤال واحد يكفي للحفاظ عليها',ko:'한 문제만 풀어도 이어집니다',ru:'Достаточно одного вопроса, чтобы её сохранить'},
   ntf_word_t:{ja:'「{0}」の意味は覚えていますか？',en:'Do you remember what “{0}” means?',zh:'还记得「{0}」的意思吗？',fr:'Vous souvenez-vous du sens de « {0} » ?',ar:'هل تتذكر معنى «{0}»؟',ko:'«{0}»의 뜻을 기억하고 있나요?',ru:'Помните, что значит «{0}»?'},
@@ -1506,6 +1527,16 @@ const T={
   desc_rank:{ja:'ニックネームと学習の記録（復習数・単語数・連続日数）が他の利用者にも見えるようになります。単語そのものは公開されません。オフにするといつでも一覧から消えます。',en:'Your nickname and study counts (reviews, words, streak) become visible to other users. Your actual vocabulary is never shared. Turning it off removes you from the board at once.',zh:'你的昵称与学习数据（复习数・单词数・连续天数）将对其他用户可见。你的单词内容不会公开。关闭后会立即从榜单移除。',fr:'Votre pseudo et vos compteurs (révisions, mots, série) deviennent visibles par les autres. Votre vocabulaire lui-même n’est jamais partagé. En désactivant, vous disparaissez aussitôt du classement.',ar:'سيصبح اسمك المستعار وأرقام دراستك (المراجعات والكلمات والأيام المتتالية) مرئية للآخرين. أما كلماتك نفسها فلا تُنشر أبدًا. وإيقافه يزيلك من اللوحة فورًا.',ko:'닉네임과 학습 기록(복습 수·단어 수·연속 일수)이 다른 사용자에게 보이게 됩니다. 단어 자체는 공개되지 않습니다. 끄면 즉시 목록에서 사라집니다.',ru:'Ваш никнейм и счётчики (повторы, слова, серия) станут видны другим. Сами слова никогда не публикуются. При выключении вы сразу исчезаете из рейтинга.'},
   act_detail:{ja:'単語の詳細',en:'Details',zh:'单词详情',fr:'Détails',ar:'التفاصيل',ko:'단어 상세',ru:'Подробнее'},
   act_listen:{ja:'単語を聞く',en:'Listen',zh:'朗读单词',fr:'Écouter',ar:'استمع',ko:'단어 듣기',ru:'Прослушать'},
+  sel_start:{ja:'選択して削除',en:'Select to delete',zh:'选择并删除',fr:'Sélectionner pour supprimer',ar:'حدّد للحذف',ko:'선택해서 삭제',ru:'Выбрать для удаления'},
+  sel_cancel:{ja:'やめる',en:'Cancel',zh:'取消',fr:'Annuler',ar:'إلغاء',ko:'취소',ru:'Отмена'},
+  sel_all:{ja:'すべて',en:'All',zh:'全选',fr:'Tout',ar:'الكل',ko:'전체',ru:'Все'},
+  sel_none:{ja:'選択してください',en:'Nothing selected',zh:'未选择',fr:'Rien de sélectionné',ar:'لم تحدّد شيئًا',ko:'선택된 항목 없음',ru:'Ничего не выбрано'},
+  sel_delete:{ja:'{0}語を削除',en:'Delete {0}',zh:'删除 {0} 个',fr:'Supprimer {0}',ar:'حذف {0}',ko:'{0}개 삭제',ru:'Удалить {0}'},
+  sel_confirm:{ja:'{0}語を削除します。取り消せません。',en:'Delete {0} words? This cannot be undone.',zh:'将删除 {0} 个单词，且无法撤销。',fr:'Supprimer {0} mots ? Action irréversible.',ar:'سيتم حذف {0} كلمة نهائيًا. هل تريد المتابعة؟',ko:'{0}개를 삭제합니다. 되돌릴 수 없습니다.',ru:'Удалить {0} слов? Это необратимо.'},
+  sel_done:{ja:'{0}語を削除しました',en:'Deleted {0} words',zh:'已删除 {0} 个单词',fr:'{0} mots supprimés',ar:'حُذفت {0} كلمة',ko:'{0}개를 삭제했습니다',ru:'Удалено слов: {0}'},
+  past_tag:{ja:'{0}問目・回答済み',en:'Question {0} · answered',zh:'第 {0} 题・已作答',fr:'Question {0} · répondue',ar:'السؤال {0} · تمت الإجابة',ko:'{0}번째 · 답변함',ru:'Вопрос {0} · отвечен'},
+  past_prev:{ja:'← さらに前',en:'← Earlier',zh:'← 更早',fr:'← Précédent',ar:'← أسبق',ko:'← 더 앞으로',ru:'← Раньше'},
+  past_resume:{ja:'続きに戻る',en:'Back to the question',zh:'返回当前题',fr:'Revenir à la question',ar:'العودة إلى السؤال',ko:'이어서 풀기',ru:'Вернуться к вопросу'},
   btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
   sp_space:{ja:'space',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
   btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기',ru:'Показать результат'},
@@ -2239,6 +2270,7 @@ function persistProgress(){CTX.type==='pkg'?savePkgProgress():save();}
 // Identifies the deck a quiz round belongs to.
 function ctxKey(){return CTX.type==='own'?'own':(CTX.type+':'+CTX.id);}
 function setSource(src){
+  selReset();
   if(src==='own'){CTX={type:'own'};pkgLive=null;}
   else if(String(src).startsWith('deck:')){
     const id=String(src).slice(5);
@@ -3368,6 +3400,51 @@ function renderListModes(){
 // analytics say nobody used them, and they cost two rows above every list.
 // Search stays, and the trouble words are still reachable where they matter --
 // the review setup screen offers them as a round.
+/* ---- selecting several words at once --------------------------------------
+   Deleting one word at a time was fine for a mistake and hopeless for a
+   clear-out: a bulk paste that went wrong leaves dozens to remove, each behind
+   its own confirmation.
+
+   Only ever offered on the user's OWN words. Packages are shared content that
+   is re-fetched, so "deleting" one from the list would do nothing lasting, and
+   a deck is a label rather than a container. ------------------------------- */
+let selMode=false;
+const selected=new Set();
+function selReset(){selMode=false;selected.clear();}
+function selCanUse(){return CTX.type!=='pkg';}
+function selBarHTML(){
+  if(!selMode)return '';
+  const n=selected.size;
+  return '<div class="sel-bar">'+
+    '<button class="btn btn-ghost" id="selCancel">'+esc(t('sel_cancel'))+'</button>'+
+    '<button class="btn btn-ghost" id="selAll">'+esc(t('sel_all'))+'</button>'+
+    '<button class="btn btn-danger" id="selDel"'+(n?'':' disabled')+'>'+
+      esc(n?t('sel_delete',n):t('sel_none'))+'</button>'+
+  '</div>';
+}
+function bindSelBar(shown){
+  const c=$('#selCancel'); if(c)c.onclick=()=>{selReset();renderList();};
+  const a=$('#selAll');
+  if(a)a.onclick=()=>{
+    // "All" means all of what is on screen, which after a search is the search
+    // -- selecting words the user cannot see would be a trap.
+    const allShown=shown.every(w=>selected.has(w.id));
+    shown.forEach(w=>allShown?selected.delete(w.id):selected.add(w.id));
+    renderList();
+  };
+  const d=$('#selDel');
+  if(d)d.onclick=()=>{
+    const n=selected.size;
+    if(!n)return;
+    if(!confirm(t('sel_confirm',n)))return;
+    selected.forEach(id=>{tombstone(id);});
+    DB.words=DB.words.filter(x=>!selected.has(x.id));
+    save();cloudTouched();
+    gaEvent('words_bulk_deleted',{count:n});
+    selReset();renderList();renderCount();
+    toast(t('sel_done',n));
+  };
+}
 function renderList(){
   renderSourceBar('#src-list');
   renderListModes();
@@ -3377,6 +3454,15 @@ function renderList(){
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
+  const sel=$('#listSel');
+  if(sel){
+    sel.innerHTML = !selCanUse()||!arr.length ? ''
+      : selMode ? selBarHTML()
+      : '<button class="btn btn-ghost sel-start" id="selStart">'+esc(t('sel_start'))+'</button>';
+    const st=$('#selStart');
+    if(st)st.onclick=()=>{selMode=true;selected.clear();renderList();};
+    if(selMode)bindSelBar(arr);
+  }
   if(!arr.length){
     const why=!curWords().length?t('empty_list'):t('no_match');
     // Not escaped: these are developer-authored strings and empty_list
@@ -3416,7 +3502,7 @@ function renderList(){
     }
     const hasEx=(w.examples||[]).length>0;
     const posTxt=posLabel(w.meanings&&w.meanings[0]&&w.meanings[0].pos);
-    return '<div class="card" data-word-id="'+w.id+'"><div style="flex:1">'+
+    return '<div class="card'+(selMode&&selected.has(w.id)?' picked':'')+'" data-word-id="'+w.id+'"><div style="flex:1">'+
       '<div>'+(posTxt?'<span class="pos-badge">'+esc(posTxt)+'</span>':'')+'<span class="w">'+esc(w.word)+'</span>'+(w.kata?'<span class="kata">'+esc(w.kata)+'</span>':'')+
         (w.note?'<span class="note-dot" title="'+esc(t('note_heading'))+'" aria-label="'+esc(t('note_heading'))+'">'+NOTE_SVG+'</span>':'')+spkBtn(w.word)+'</div>'+
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
@@ -3425,7 +3511,9 @@ function renderList(){
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
       (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
-      '<button class="del" data-id="'+w.id+'">×</button></div>';
+      (selMode
+        ? '<span class="sel-box'+(selected.has(w.id)?' on':'')+'" aria-hidden="true"></span>'
+        : '<button class="del" data-id="'+w.id+'">×</button>')+'</div>';
   }).join('');
   $$('#listPanel .del').forEach(b=>b.onclick=()=>{
     if(confirm(t('confirm_del'))){tombstone(b.dataset.id);DB.words=DB.words.filter(x=>x.id!==b.dataset.id);save();cloudTouched();renderList();gaEvent('word_deleted',{package_id:null});}
@@ -3437,6 +3525,18 @@ function renderList(){
     body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
     body.style.display='block';
   });
+  if(selMode){
+    // In selection mode the whole row is the checkbox. Nothing else on it
+    // responds, so a stray tap picks a word rather than opening or deleting it.
+    $$('#listPanel .card[data-word-id]').forEach(card=>{
+      card.onclick=()=>{
+        const id=card.dataset.wordId;
+        selected.has(id)?selected.delete(id):selected.add(id);
+        renderList();
+      };
+    });
+    return;
+  }
   // Tapping the card (but not one of its interactive children) opens the full
   // detail popup. Delegated per-render rather than a single static listener
   // because the card's own click target check is simplest this way, and this
@@ -3783,6 +3883,7 @@ function renderQuizSetup(){
 function startQuiz(mode){
   $('#src-quiz').innerHTML='';   // nothing but the question while a round runs
   document.body.classList.add('in-round');
+  quizLog.length=0;quizPast=null;
   mode = mode || quiz.mode || 'due';
   quiz.mode=mode;
   const pkgId=CTX.type==='pkg'?CTX.id:null;
@@ -4083,6 +4184,87 @@ function nextQuestion(){
   cur.classList.add('leaving');
   setTimeout(renderQ,150);
 }
+/* ---- looking back at an answered question --------------------------------
+   Read-only, deliberately. The previous question was already graded: its box
+   moved, its next date was set, the streak counted it. Letting somebody answer
+   it again would mean unwinding all of that, and would turn a wrong answer into
+   something you can simply retry until it is right -- which is the one thing an
+   honest schedule cannot allow.
+
+   What people actually want here is "wait, what was that word?", and that is
+   what this shows. -------------------------------------------------------- */
+let quizPast=null;              // index being looked at, or null when live
+const quizLog=[];               // {id,word,meaning,ok,nextIn} per answered item
+
+function canLookBack(){return quizPast===null?quizLog.length>0:quizPast>0;}
+function canLookForward(){return quizPast!==null;}
+
+function renderPast(i){
+  const e=quizLog[i];
+  if(!e)return;
+  quizPast=i;
+  const body=$('#quizBody');
+  clearKeyboardSpace();
+  const kb=$('#spKb'); if(kb)kb.innerHTML='';
+  body.innerHTML='<div class="q-slide"><div class="q-top">'+
+      '<div class="q-progress"><i style="width:'+Math.round((i+1)/quiz.items.length*100)+'%"></i></div>'+
+      '<button class="q-quit" id="qBackOut" type="button" aria-label="'+esc(t('back'))+'">✕</button></div>'+
+    '<div class="past-tag">'+esc(t('past_tag',i+1))+'</div>'+
+    '<div class="q-word"><div class="qw">'+esc(e.word)+spkBtn(e.word)+'</div>'+
+      '<div class="qk">'+esc(e.meaning)+'</div></div>'+
+    '<div class="q-feedback '+(e.ok?'ok':'ng')+'" style="margin-top:18px">'+
+      (e.ok?t('fb_ok'):t('fb_ng'))+
+      '<div class="nextin">'+esc(e.nextIn||'')+'</div></div>'+
+    '<div class="past-nav">'+
+      '<button class="btn btn-ghost" id="pastPrev"'+(i>0?'':' disabled')+'>'+esc(t('past_prev'))+'</button>'+
+      '<button class="btn btn-gold" id="pastBack">'+esc(t('past_resume'))+'</button>'+
+    '</div></div>';
+  $('#pastPrev').onclick=()=>renderPast(i-1);
+  $('#pastBack').onclick=resumeQuiz;
+  $('#qBackOut').onclick=resumeQuiz;
+}
+// Back to the live question, redrawn from scratch. Anything half-typed is gone,
+// which is why looking back is only offered once the current one is answered.
+function resumeQuiz(){
+  quizPast=null;
+  renderQ();
+}
+function lookBack(){
+  if(quizPast===null){ if(quizLog.length)renderPast(quizLog.length-1); }
+  else if(quizPast>0)renderPast(quizPast-1);
+}
+function lookForward(){
+  if(quizPast===null)return;
+  if(quizPast<quizLog.length-1)renderPast(quizPast+1);
+  else resumeQuiz();
+}
+
+// Swipe, but only a deliberate one: mostly horizontal, far enough to be a
+// gesture rather than a slip, and never while the keyboard is up -- a finger
+// travelling across the keys is typing, not swiping.
+let swipeX=0,swipeY=0,swiping=false;
+function swipeAllowed(){
+  return $('#v-quiz').classList.contains('active')&&!$('.sp-kb');
+}
+document.addEventListener('touchstart',e=>{
+  if(!swipeAllowed()||e.touches.length!==1){swiping=false;return;}
+  swiping=true;swipeX=e.touches[0].clientX;swipeY=e.touches[0].clientY;
+},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!swiping)return;
+  swiping=false;
+  const t2=e.changedTouches&&e.changedTouches[0];
+  if(!t2)return;
+  const dx=t2.clientX-swipeX, dy=t2.clientY-swipeY;
+  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.6)return;
+  if(dx>0)lookBack(); else lookForward();
+},{passive:true});
+document.addEventListener('keydown',e=>{
+  if(!$('#v-quiz').classList.contains('active'))return;
+  if(e.target&&/^(INPUT|TEXTAREA)$/.test(e.target.tagName))return;
+  if(e.key==='ArrowLeft'){ if(canLookBack()){e.preventDefault();lookBack();} }
+  else if(e.key==='ArrowRight'){ if(canLookForward()){e.preventDefault();lookForward();} }
+});
 function renderQ(){
   clearTimeout(answerSpeakTimer);
   clearKeyboardSpace();
@@ -4204,6 +4386,7 @@ function grade(w,ok,correctText,isInput){
     touchWord(rec);
   }
   if(ok)quiz.score++;
+  quizLog[quiz.i]={id:w.id,word:w.word,meaning:primaryMeaning(w)||correctText,ok:ok,nextIn:nextInText};
   persistProgress();
   updateStreak();
   cloudTouched();
@@ -5502,7 +5685,16 @@ async function cloudAuth(mode,who,pin){
    -------------------------------------------------------------------------- */
 const VAPID_PUBLIC='BLxhLPDHN5C9896npEynjWCnGpKkTuEUJZ7iN_dQjzCxj34jLCBmFrO5bXjQhUeggedU8rHwgNZm78xH1HVMYsI';
 const HINT_DB='wordkeep-notify', HINT_STORE='hint';
-const NOTIFY_HOURS=[9,20];     // local, morning and evening
+// A fixed hour is the same message at the same time every day, which is the
+// fastest way to become invisible. The reminder is aimed at the time this
+// person has already shown they study, and the evening one stays fixed because
+// its job is different: it is the last chance before the day ends.
+//
+// This does tell the server roughly WHEN somebody studies. That is far less
+// than what they study, which still never leaves the device -- but it is not
+// nothing, and it is why the setting says so.
+const NOTIFY_EVENING=20;       // local hour for the last call of the day
+const NOTIFY_DEFAULT_MIN=9*60; // until there is a habit to aim at
 
 function pushSupported(){
   return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
@@ -5544,6 +5736,7 @@ function buildHint(){
     // The worker has no access to the app's i18n table, so the strings it might
     // need travel with the data in whatever language the user reads.
     t:{
+      habit_t:t('ntf_habit_t'),   habit_b:t('ntf_habit_b'),
       streak_t:t('ntf_streak_t'), streak_b:t('ntf_streak_b'),
       word_t:t('ntf_word_t'),     word_b:t('ntf_word_b'),
       due_t:t('ntf_due_t'),       due_b:t('ntf_due_b'),
@@ -5565,6 +5758,13 @@ function urlB64ToU8(s){
   return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
 }
 
+async function refreshPushTime(){
+  if(!notifyOn()||!cloudUser||!fbDb)return;
+  try{
+    await fbDb.collection('push').doc(cloudUser.uid)
+      .set({studyMin:lastStudyMinute(),at:Date.now()},{merge:true});
+  }catch(e){ /* the reminder still works on the old time */ }
+}
 async function enableNotify(){
   if(!pushSupported())return {ok:false,msg:t('ntf_unsupported')};
   let perm=Notification.permission;
@@ -5599,6 +5799,14 @@ async function disableNotify(){
 // One document per account. The endpoint is the address the push service gave
 // this browser; the hours and offset are what the sender needs to fire at a
 // sensible local time. No study data of any kind.
+// The local time of day this account last studied, which is the best available
+// guess at when they will want to again.
+function lastStudyMinute(){
+  const at=(S().streak||{}).lastActiveDate;
+  if(!at)return NOTIFY_DEFAULT_MIN;
+  const d=new Date(at);
+  return d.getHours()*60+d.getMinutes();
+}
 async function saveSubscription(sub){
   if(!cloudUser||!fbDb)throw new Error('not signed in');
   const j=sub.toJSON();
@@ -5606,7 +5814,10 @@ async function saveSubscription(sub){
     endpoint:j.endpoint,
     p256dh:(j.keys||{}).p256dh||'',
     auth:(j.keys||{}).auth||'',
-    hours:NOTIFY_HOURS,
+    // Local minute-of-day to aim the first reminder at, and the fixed evening
+    // hour for the second.
+    studyMin:lastStudyMinute(),
+    eveningHour:NOTIFY_EVENING,
     // Minutes to ADD to UTC to get the user's local time.
     tzOffset:-new Date().getTimezoneOffset(),
     at:Date.now()
@@ -5700,6 +5911,9 @@ async function saveNickname(nick){
     // one until the next sync -- which could be a long time, and is exactly
     // wrong for someone renaming themselves to get a bad name off the board.
     publishBoard();
+    // The time somebody studies drifts, so the subscription is refreshed with
+    // it -- a reminder aimed at last month's routine is a fixed hour again.
+    refreshPushTime();
     return {ok:true};
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
 }
