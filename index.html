@@ -259,6 +259,9 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   font-weight:600;color:var(--ink-strong);background:var(--surface-2);
   border-bottom:2.5px solid var(--line);text-transform:lowercase}
 .sp-slot.filled{background:var(--surface);border-bottom-color:var(--fill)}
+/* Given, not asked for: shown solid so it reads as part of the answer rather
+   than as something still to type. */
+.sp-slot.given{background:var(--ghost-bg);color:var(--ink-2);border-bottom-color:transparent}
 .sp-slot.gap{width:calc(var(--sl,34px) * .4);background:none;border-bottom-color:transparent}
 .sp-slot.cur{border-bottom-color:var(--accent);box-shadow:0 2px 0 -0.5px var(--accent)}
 .sp-disp.ok .sp-slot{background:var(--good-bg);border-bottom-color:var(--good);color:var(--good-ink)}
@@ -829,7 +832,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <h3 id="ntfTitle" style="text-align:center"></h3>
   <div id="ntfBody" style="text-align:center;margin-top:8px"></div>
   <button class="btn btn-primary" id="ntfYes" style="margin-top:18px;width:100%"></button>
-  <p class="hint" id="ntfFine" style="text-align:center;margin-top:12px"></p>
 </div></div>
 <div class="overlay" id="overlayWn"><div class="sheet">
   <div class="step-emoji">✨</div>
@@ -1084,15 +1086,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.21.0';
+const APP_VERSION='5.22.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.21.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.22.0',date:'2026-08-26',keys:['wn1','wn2']},
+  {version:'5.21.0',date:'2026-08-26',keys:['v5210_1','v5210_2','v5210_3']},
   {version:'5.20.0',date:'2026-08-25',keys:['v5200_1']},
-  {version:'5.19.0',date:'2026-08-25',keys:['v5190_1','v5190_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1187,12 +1189,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'問題の切り替わりに動きをつけました。答えた問題が左へ流れ、次の問題が右から入ってきます',en:'Questions now move. The one you answered slides out to the left and the next arrives from the right',zh:'题目切换现在有了动效：作答完的题目向左滑出，下一题从右侧滑入',fr:'Les questions bougent désormais : celle à laquelle vous avez répondu glisse vers la gauche et la suivante arrive par la droite',ar:'صار انتقال الأسئلة متحركًا: ينزلق السؤال الذي أجبت عنه إلى اليسار ويدخل التالي من اليمين',ko:'문제 전환에 움직임을 넣었습니다. 답한 문제가 왼쪽으로 흘러가고 다음 문제가 오른쪽에서 들어옵니다',ru:'Переход между вопросами теперь анимирован: отвеченный уезжает влево, следующий приходит справа'},
-  wn2:{ja:'答え合わせのあとのボタンを、キーボードがあった位置に移しました。指を動かす距離が短くなります。また、問題を解いている間は下のタブを隠して、解くことに集中できるようにしています',en:'The buttons after an answer now sit where the keyboard was, so your thumb barely moves. The tab bar is also hidden for the whole round, to keep the round about the round',zh:'作答后的按钮已移到键盘原来的位置，手指移动距离更短。答题过程中还会隐藏底部标签栏，让你专注作答',fr:'Les boutons qui suivent une réponse occupent maintenant la place du clavier : le pouce bouge à peine. La barre d’onglets reste masquée pendant toute la série, pour ne pas distraire',ar:'صارت أزرار ما بعد الإجابة في موضع لوحة المفاتيح نفسه، فلا يكاد إبهامك يتحرك. كما يبقى شريط التبويب مخفيًا طوال الجولة لتبقى الجولة موضع تركيزك',ko:'답을 맞춘 뒤의 버튼을 키보드가 있던 자리로 옮겼습니다. 손가락이 움직이는 거리가 짧아집니다. 또 문제를 푸는 동안에는 하단 탭을 숨겨 집중할 수 있도록 했습니다',ru:'Кнопки после ответа теперь там, где была клавиатура, — большой палец почти не двигается. Панель вкладок скрыта на всю серию, чтобы ничто не отвлекало'},
-  wn3:{ja:'タブを切り替えて戻ったとき、スクロール位置が保たれるようにしました。あわせて、開いている画面は背景をタップしても閉じられます',en:'Switching tabs and coming back keeps your place in the list. Sheets can also be dismissed by tapping the background',zh:'切换标签页后返回时会保留滚动位置。弹出面板也可点击背景关闭',fr:'Changer d’onglet et revenir conserve votre position dans la liste. Les panneaux se ferment aussi en touchant l’arrière-plan',ar:'صار التنقل بين التبويبات والعودة يحفظ موضعك في القائمة. كما يمكن إغلاق النوافذ بلمس الخلفية',ko:'탭을 바꿨다가 돌아와도 스크롤 위치가 유지됩니다. 열려 있는 화면은 배경을 눌러도 닫을 수 있습니다',ru:'Переключение вкладок и возврат сохраняют место в списке. Панели теперь закрываются и по нажатию на фон'},
+  wn1:{ja:'次の問題へ進むときに、キーボードが一瞬だけ画面の上に現れてしまう不具合を直しました',en:'Fixed the keyboard flashing at the top of the screen for a moment when moving to the next question',zh:'修复了进入下一题时键盘会在屏幕上方一闪而过的问题',fr:'Correction du clavier qui apparaissait un instant en haut de l’écran au passage à la question suivante',ar:'أُصلح ظهور لوحة المفاتيح للحظة أعلى الشاشة عند الانتقال إلى السؤال التالي',ko:'다음 문제로 넘어갈 때 키보드가 잠깐 화면 위쪽에 나타나던 문제를 고쳤습니다',ru:'Исправлено: при переходе к следующему вопросу клавиатура на миг появлялась вверху экрана'},
+  wn2:{ja:'数字や漢字を含む単語も、スペル入力で出題できるようになりました。キーボードで打てない文字は最初から表示され、英字の部分だけを入力します',en:'Words containing digits or other scripts now work in spelling mode. Characters the keyboard can’t produce are shown from the start, and you type only the letters',zh:'含数字或其他文字的单词现在也可用于拼写模式。键盘无法输入的字符会预先显示，你只需输入字母部分',fr:'Les mots contenant des chiffres ou d’autres écritures fonctionnent maintenant en mode orthographe. Les caractères que le clavier ne peut pas produire sont affichés d’emblée ; vous ne tapez que les lettres',ar:'صارت الكلمات التي تحتوي أرقامًا أو حروفًا من كتابات أخرى تعمل في وضع الإملاء. فالأحرف التي لا تنتجها لوحة المفاتيح تظهر من البداية، وتكتب أنت الحروف فقط',ko:'숫자나 한자가 들어간 단어도 스펠링 입력으로 낼 수 있게 되었습니다. 키보드로 칠 수 없는 문자는 처음부터 표시되고, 영문자 부분만 입력합니다',ru:'Слова с цифрами и другими письменностями теперь работают в режиме написания. Символы, которых нет на клавиатуре, показаны сразу — вы вводите только буквы'},
+  v5210_1:{ja:'問題の切り替わりに動きをつけました。答えた問題が左へ流れ、次の問題が右から入ってきます',en:'Questions now move. The one you answered slides out to the left and the next arrives from the right',zh:'题目切换现在有了动效：作答完的题目向左滑出，下一题从右侧滑入',fr:'Les questions bougent désormais : celle à laquelle vous avez répondu glisse vers la gauche et la suivante arrive par la droite',ar:'صار انتقال الأسئلة متحركًا: ينزلق السؤال الذي أجبت عنه إلى اليسار ويدخل التالي من اليمين',ko:'문제 전환에 움직임을 넣었습니다. 답한 문제가 왼쪽으로 흘러가고 다음 문제가 오른쪽에서 들어옵니다',ru:'Переход между вопросами теперь анимирован: отвеченный уезжает влево, следующий приходит справа'},
+  v5210_2:{ja:'答え合わせのあとのボタンを、キーボードがあった位置に移しました。指を動かす距離が短くなります。また、問題を解いている間は下のタブを隠して、解くことに集中できるようにしています',en:'The buttons after an answer now sit where the keyboard was, so your thumb barely moves. The tab bar is also hidden for the whole round, to keep the round about the round',zh:'作答后的按钮已移到键盘原来的位置，手指移动距离更短。答题过程中还会隐藏底部标签栏，让你专注作答',fr:'Les boutons qui suivent une réponse occupent maintenant la place du clavier : le pouce bouge à peine. La barre d’onglets reste masquée pendant toute la série, pour ne pas distraire',ar:'صارت أزرار ما بعد الإجابة في موضع لوحة المفاتيح نفسه، فلا يكاد إبهامك يتحرك. كما يبقى شريط التبويب مخفيًا طوال الجولة لتبقى الجولة موضع تركيزك',ko:'답을 맞춘 뒤의 버튼을 키보드가 있던 자리로 옮겼습니다. 손가락이 움직이는 거리가 짧아집니다. 또 문제를 푸는 동안에는 하단 탭을 숨겨 집중할 수 있도록 했습니다',ru:'Кнопки после ответа теперь там, где была клавиатура, — большой палец почти не двигается. Панель вкладок скрыта на всю серию, чтобы ничто не отвлекало'},
+  v5210_3:{ja:'タブを切り替えて戻ったとき、スクロール位置が保たれるようにしました。あわせて、開いている画面は背景をタップしても閉じられます',en:'Switching tabs and coming back keeps your place in the list. Sheets can also be dismissed by tapping the background',zh:'切换标签页后返回时会保留滚动位置。弹出面板也可点击背景关闭',fr:'Changer d’onglet et revenir conserve votre position dans la liste. Les panneaux se ferment aussi en touchant l’arrière-plan',ar:'صار التنقل بين التبويبات والعودة يحفظ موضعك في القائمة. كما يمكن إغلاق النوافذ بلمس الخلفية',ko:'탭을 바꿨다가 돌아와도 스크롤 위치가 유지됩니다. 열려 있는 화면은 배경을 눌러도 닫을 수 있습니다',ru:'Переключение вкладок и возврат сохраняют место в списке. Панели теперь закрываются и по нажатию на фон'},
   v5200_1:{ja:'不具合が起きたときに、その内容が開発者へ自動で届くようにしました。送られるのはエラーの文言と発生箇所だけで、あなたの単語や学習の記録は含まれません',en:'When something breaks, the details now reach the developer automatically. Only the error message and where it happened are sent — never your words or study history',zh:'出现故障时，相关信息会自动发送给开发者。仅发送错误信息与发生位置，不包含你的单词与学习记录',fr:'En cas de problème, les détails parviennent désormais automatiquement au développeur. Seuls le message d’erreur et son emplacement sont envoyés, jamais vos mots ni votre historique',ar:'عند حدوث خلل، تصل تفاصيله الآن إلى المطوّر تلقائيًا. ولا يُرسل سوى نص الخطأ وموضع حدوثه، دون كلماتك أو سجل تعلّمك',ko:'문제가 생겼을 때 그 내용이 개발자에게 자동으로 전달됩니다. 보내지는 것은 오류 문구와 발생 위치뿐이며, 단어나 학습 기록은 포함되지 않습니다',ru:'Если что-то ломается, подробности теперь автоматически доходят до разработчика. Отправляются только текст ошибки и место, где она произошла, — но не ваши слова и не история занятий'},
-  v5190_1:{ja:'プロフィール画面から自分でアカウントを削除できるようにしました。単語・学習の記録・ランキングの記録がすべて消えます。実行にはPINの再入力が必要です',en:'You can now delete your own account from the Profile screen. Your words, study history and leaderboard entry are all erased. Re-entering your PIN is required',zh:'现在可在个人资料页面自行删除账户，单词、学习记录与排行榜记录都会被清除。执行时需要重新输入 PIN',fr:'Vous pouvez désormais supprimer vous-même votre compte depuis le profil. Vos mots, votre historique et votre entrée au classement sont effacés. La saisie du PIN est requise',ar:'صار بإمكانك حذف حسابك بنفسك من صفحة الملف الشخصي، فتُمحى كلماتك وسجل تعلّمك وحضورك في الترتيب. ويلزم إدخال رمز PIN من جديد',ko:'프로필 화면에서 직접 계정을 삭제할 수 있게 했습니다. 단어·학습 기록·랭킹 기록이 모두 사라집니다. 실행하려면 PIN을 다시 입력해야 합니다',ru:'Теперь вы можете удалить свой аккаунт со страницы профиля. Слова, история занятий и запись в рейтинге будут стёрты. Потребуется заново ввести PIN'},
-  v5190_2:{ja:'通知のご案内から「今はしない」を外しました。端末側で許可・拒否を選べるので、二重にお聞きするのをやめています',en:'Removed the “Not now” button from the notification prompt. Your device already asks allow or deny, so being asked twice was redundant',zh:'移除了通知引导中的「暂不需要」按钮。设备本身已会询问允许或拒绝，无需重复确认',fr:'Le bouton « Pas maintenant » a été retiré de l’invite de notification : votre appareil demande déjà d’autoriser ou de refuser',ar:'أُزيل زر «ليس الآن» من نافذة الإشعارات، فجهازك يسأل أصلًا عن السماح أو الرفض ولا داعي للسؤال مرتين',ko:'알림 안내에서 «지금은 안 할게요» 버튼을 뺐습니다. 기기에서 허용·거부를 고를 수 있으므로 두 번 묻지 않도록 했습니다',ru:'Кнопка «Не сейчас» убрана из запроса на уведомления: устройство и так спрашивает разрешить или запретить'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1229,7 +1231,6 @@ const T={
   ntf_ask_b:{ja:'1日2回（朝と夜）だけ、そっとお知らせします。連続が途切れそうな日と、覚えた単語の復習に。あとから設定でいつでも止められます',en:'Just twice a day, morning and evening. On days your streak is at risk, and to keep your words fresh. You can turn it off any time in Settings',zh:'每天仅两次，早晚各一次。在连续记录可能中断时提醒你，也帮你温习已学单词。随时可在设置中关闭',fr:'Deux fois par jour seulement, matin et soir : les jours où votre série est menacée, et pour garder vos mots frais. Désactivable à tout moment dans les réglages',ar:'مرتين فقط يوميًا، صباحًا ومساءً: في الأيام التي تكون فيها سلسلتك مهددة، ولتبقى كلماتك حاضرة. ويمكنك إيقافه متى شئت من الإعدادات',ko:'하루 두 번(아침과 저녁)만 조용히 알려 드립니다. 연속 기록이 끊길 것 같은 날과, 외운 단어의 복습을 위해. 나중에 설정에서 언제든 끌 수 있습니다',ru:'Всего дважды в день, утром и вечером: в дни, когда серия под угрозой, и чтобы слова не забывались. Отключить можно в любой момент в настройках'},
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
-  ntf_ask_fine:{ja:'通知の文面はあなたの端末の中で作られます。どの単語を勉強しているかがサーバーに送られることはありません',en:'The text is written on your own device — which words you study is never sent to the server',zh:'通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'يُكتب النص على جهازك، ولا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'알림 문구는 기기 안에서 만들어집니다. 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Текст составляется на вашем устройстве — изучаемые слова не отправляются на сервер'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
@@ -3840,14 +3841,18 @@ function spellTargetOf(w){return (w.word||'').trim();}
 function spellDisplayHTML(){
   const tg=spell.target, n=tg.length;
   // Once the length is known, laying the answer out as slots says the same
-  // thing as "7 letters" but keeps the position obvious while typing.
-  if(spell.hint>=1){
+  // thing as "7 letters" but keeps the position obvious while typing. A word
+  // carrying given characters always uses this layout, hint or not -- they are
+  // meant to be visible from the start, which is the whole point of giving them.
+  if(spell.hint>=1||spellHasGiven(tg)){
     let out='';
     for(let i=0;i<n;i++){
       const ch=spell.buf[i]||'';
       const isSpace=tg[i]===' ';
+      const given=!spellTypeable(tg[i])&&tg[i]!==' ';
       const cur=i===spell.buf.length&&!spell.done;
-      out+='<span class="sp-slot'+(isSpace?' gap':'')+(cur?' cur':'')+(ch?' filled':'')+'">'+esc(ch||'')+'</span>';
+      out+='<span class="sp-slot'+(isSpace?' gap':'')+(given?' given':'')+(cur?' cur':'')+
+        (ch?' filled':'')+'">'+esc(given?tg[i]:(ch||''))+'</span>';
     }
     return out;
   }
@@ -3887,21 +3892,49 @@ function spellKeyboardHTML(){
 function spellHintLabel(){
   return spell.hint>=2?t('sp_reveal'):t('sp_hint');
 }
+// Which characters the custom keyboard can actually produce. Anything else --
+// a digit, a kanji, an accented letter -- is GIVEN to the user rather than
+// asked for: "stay 2months" is shown as "____ 2______" and only the blanks are
+// typed. Before this, such a word had no route to a correct answer at all, and
+// under the strict schedule that meant it returned to the start forever.
+function spellTypeable(ch){return /[a-zA-Z' -]/.test(ch);}
+function spellHasGiven(tg){return Array.from(tg||'').some(c=>!spellTypeable(c));}
+// Carry the buffer forward over any characters that were never the user's to
+// type, so the next keypress lands on the next real blank.
+function spellAutofill(){
+  const tg=spell.target;
+  while(spell.buf.length<tg.length&&!spellTypeable(tg[spell.buf.length]))
+    spell.buf+=tg[spell.buf.length];
+}
+// The shortest the buffer may get: any characters given at the very start, plus
+// the first letter once a hint has revealed it. Backspace must not eat either.
+function spellMin(){
+  const tg=spell.target;
+  let n=0;
+  while(n<tg.length&&!spellTypeable(tg[n]))n++;
+  return spell.hint>=2?n+1:n;
+}
 function spellPush(ch){
   if(spell.done)return;
   const max=spell.hint>=1?spell.target.length:spell.target.length+5;
   if(spell.buf.length>=max)return;
   spell.buf+=ch;
+  spellAutofill();
   playKeyTap();
   renderSpellDisplay();
   checkSpell();
 }
 function spellDel(){
   if(spell.done||!spell.buf.length)return;
-  // The first letter is given, not typed, so backspace must not eat it.
-  const floor=spell.hint>=2?1:0;
-  if(spell.buf.length<=floor)return;
-  spell.buf=spell.buf.slice(0,-1);
+  const tg=spell.target;
+  // Walk back over anything that was given rather than typed, then remove the
+  // one character behind it -- that is the last thing the user actually chose.
+  let i=spell.buf.length;
+  while(i>0&&!spellTypeable(tg[i-1]))i--;
+  if(i<=spellMin())return;
+  // No autofill afterwards: the position just cleared is a typeable one, so
+  // re-running it would be a no-op at best and would undo the delete at worst.
+  spell.buf=spell.buf.slice(0,i-1);
   playKeyTap('del');
   renderSpellDisplay();
 }
@@ -4070,14 +4103,21 @@ function renderQ(){
     '<div class="q-word"><div class="qprompt">'+promptTxt+' ('+(quiz.i+1)+'/'+quiz.items.length+')</div>'+
     // Only offer audio when the prompt IS the English word -- otherwise it
     // would read out the answer the user is being asked to produce.
-    '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div>';
+    // The wrapper closes HERE, before anything fixed-position is added. An
+    // element with a transform becomes the containing block for its fixed
+    // descendants, so while the slide animation ran the keyboard was being
+    // positioned against the question card instead of the viewport -- it
+    // appeared over the header for 0.2s and then snapped back when the
+    // transform cleared. Only the question card animates.
+    '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div></div>';
 
   if(spellMode){
     spell={buf:'',hint:0,done:false,target:spellTargetOf(w)};
+    spellAutofill();   // a leading given character is on screen before any key
     inner+='<div id="spDisp" class="sp-disp"></div>'+
       '<button class="btn btn-ghost" id="spHint" style="width:100%;margin-top:12px">'+esc(spellHintLabel())+'</button>'+
       '<div id="spKb"></div>'+
-      '<div id="qfb"></div></div>';
+      '<div id="qfb"></div>';
     body.innerHTML=inner;
     fitQuestion(face,spell.target);
     renderSpellDisplay();
@@ -4090,7 +4130,7 @@ function renderQ(){
     const correct=showEng?primaryMeaning(w):w.word;
     const others=pickDistractors(w,correct,showEng,3);
     const opts=shuffle([correct,...others]);
-    inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div></div>';
+    inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
     fitQuestion(face,null);
     $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
@@ -5221,7 +5261,6 @@ function openNotifyAsk(){
   $('#ntfTitle').textContent=t('ntf_ask_t');
   $('#ntfBody').textContent=t('ntf_ask_b');
   $('#ntfYes').textContent=t('ntf_ask_yes');
-  $('#ntfFine').textContent=t('ntf_ask_fine');
   $('#overlayNtf').classList.add('show');
   gaScreen('notify_ask');
 }

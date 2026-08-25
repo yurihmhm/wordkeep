@@ -102,7 +102,7 @@ footer a{color:var(--ink-2)}
 <header>
   <div class="head-in">
     <h1>Wordkeep 開発ボード</h1>
-    <div class="sub">v5.21.0 時点 &middot; 最終更新 2026-08-26</div>
+    <div class="sub">v5.22.0 時点 &middot; 最終更新 2026-08-26</div>
     <div class="counts">
       <div class="c-done"><b id="nDone">0</b><span>完了</span></div>
       <div class="c-open"><b id="nOpen">0</b><span>未完了</span></div>
@@ -168,6 +168,34 @@ footer a{color:var(--ink-2)}
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
+          <div class="t">友達からの nudge（社会的な通知）</div>
+          <div class="d">利用者の調査より。DuolingoのFriend Streak、Epopの Friends' League はどちらも<b>まだ学習していない友達に本人から通知を送れる</b>。送り主がアプリではなく友達になると、心理が「アプリが勉強しろと言っている」から<b>「友達を裏切ることになる」</b>に変わる。<br><br>ランキング(v5.9.0)と通知(v5.17.0)が既にあるので土台はある。ただし<b>フレンドの概念が無い</b>のと、<b>他人に通知を送れる仕組みは嫌がらせに転用できる</b>ので、送信回数の制限と拒否設定が前提。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">通知を「状態 × 時刻」で出し分ける（Duolingo型）</div>
+          <div class="d">利用者の調査より。今は<b>朝9時・夜20時の固定2回</b>で、文面も状態で2種類しか変わらない。<b>毎日同じ時刻に同じことを言う通知は、いちばん早く無視される</b>。<br><br><b>①時刻を行動に合わせる</b>：Duolingoは前日に学習した約23.5時間後に送る。「毎日19時」ではなく「昨日19:12にやった人には今日18:42」。<code>lastActiveDate</code>は既に持っているので、購読側に時刻を持たせる代わりに<b>直近の学習時刻</b>を使えばよい。<br><b>②緊急度を段階的に上げる</b>：通常「今日の単語を」→未学習「🔥12日連続です」→夜「あと数時間で途切れます」。同じ「やれ」でも役割が違う。<br><b>③利用者の状態で心理トリガーを変える</b>：新規は<b>習慣形成</b>（「7日続けて習慣にしよう」）、継続者は<b>損失回避</b>（積み上げを失う）。Duolingoは許可画面の文言をstreak訴求から習慣訴求に変えて<b>許可率が5%上がった</b>。<br><b>④行動の敷居を下げる</b>：Epopは「5問でストリーク継続」。通知を見て「20分やらなきゃ」と思わせない。<br><br>状態は new / active / streak / at_risk / inactive の5つで持つ。<b>何時に送るかより、この出し分けのほうが効く。</b></div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">出題順のシャッフル</div>
+          <div class="d">利用者からの意見。復習の設定画面に「順番をシャッフル」を置く。今は期限の古い順（苦手を優先がオンなら重み付き）で、<b>毎回だいたい同じ並びになる</b>ため、単語そのものではなく順番を覚えてしまう。並び順が手がかりになっている状態は、覚えているかの判定を甘くする。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">単語にマークを付けて、それだけ復習する</div>
+          <div class="d">利用者からの意見。お気に入り／苦手などのマークを単語に付けられるようにし、<b>マークの付いたものだけを復習・一覧表示</b>できる。<b>問題を解いている最中に付けられる</b>のが肝——「これ苦手だな」と感じた瞬間が一番正確で、後から思い出して付けるのは続かない。既にある苦手検出は自動判定なので、<b>本人の主観で付ける軸は別物</b>として両立する。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
           <div class="t">打鍵速度の記録</div>
           <div class="d">スペル入力は既に1文字ずつ取れているので、<b>1語あたりの入力時間を測るのは実質ただ</b>。同じ単語が速くなっていくのは上達の実感として強い。時間制限モードとも繋がる。</div>
         </div>
@@ -229,13 +257,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">数字を含む単語がスペル入力で打てない</div>
-          <div class="d">検証中に踏んだ。自作キーボードに数字キーが無いので、<code>COVID-19</code> <code>3D</code> <code>24/7</code> のような単語は<b>正解に到達する手段が無い</b>。ヒントで答えを見れば進めるが、必ず不正解扱いになり、厳しいSRSなので<b>box -1に戻り続ける</b>。数字行を足すか、数字を含む単語はスペル入力の出題から外すか。後者のほうが安い。</div>
+          <div class="d">検証中に踏んだ。自作キーボードに数字キーが無いので、<code>COVID-19</code> <code>3D</code> <code>24/7</code> のような単語は<b>正解に到達する手段が無い</b>。ヒントで答えを見れば進めるが、必ず不正解扱いになり、厳しいSRSなので<b>box -1に戻り続ける</b>。数字行を足すか、数字を含む単語はスペル入力の出題から外すか。後者のほうが安い。 <b>→ v5.22.0で対応：</b>打てない文字は最初から埋めて見せる方式にした。<code>stay 2months</code>は<code>____ 2______</code>と表示され、英字だけ打てば正解になる。</div>
         </div>
-      </li>
+      <div class="ver">v5.22.0</div></li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
@@ -332,7 +360,7 @@ footer a{color:var(--ink-2)}
         <span class="chip done">解消</span>
         <div>
           <div class="t">ファイル分割は当面しない — ただし目安を超えた</div>
-          <div class="d">非圧縮479KB、gzip配信で<b>実転送量は162KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
+          <div class="d">非圧縮480KB、gzip配信で<b>実転送量は163KB</b>。<b>「圧縮後200KBを超えたら再検討」と決めていた線を実際に超えている。</b>
           8/19に記録した「97KB」はその後ずっと更新しておらず、実際にはv5.6.0の時点で既に194KBだった——<b>目安を置いても測り直さなければ意味がない</b>という失敗。
           内訳の大半は単語パッケージ3本（150語）とi18n 7言語×50バージョン分のリリースノート。タブアイコンのdata URIはWebPにして11KB。
           <b>次に容量が増える変更の前に、パッケージの外部化かリリースノートの間引きを決める。</b>単一ファイルの手軽さ自体は今も価値がある。</div>
@@ -402,6 +430,8 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>完了</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">このセッションで対応したもの。</p>
     <ul>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">【バグ】次の問題でキーボードが一瞬上に出る</div><div class="d">利用者からの報告（スマホのみ再現）。前日に入れたスライドの副作用で、<b>transformの掛かった要素はその子孫の<code>position:fixed</code>の基準になる</b>ため、アニメーション中だけキーボードが問題カード基準で配置され、ヘッダーの上に0.2秒現れてから正位置へ跳んでいた。<code>.q-slide</code>は<b>問題カードだけ</b>を包み、キーボードと答え合わせ欄はその外に出す。アニメーション中18サンプルで位置が動かないことを確認。</div><div class="ver">v5.22.0</div></div></li>
+      <li data-s="done"><span class="chip done">完了</span><div><div class="t">打てない文字は最初から埋めて見せる</div><div class="d">利用者の案。<code>stay 2months</code>を<code>____ 2______</code>と表示し、英字だけ打てば正解になる。<code>spell.buf</code>を「与えられた文字を含む前置詞列」として持ち、打鍵のたびに次の打てない文字まで自動で進む。<b>実装中にバックスペースを完全に効かなくするミスをした</b>——下限を返す関数が現在長を返していて、「これ以上消せない」と常に判定していた。4ケースで検証して修正済み。</div><div class="ver">v5.22.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">周回中は下タブを隠し、3ボタンをキーボードの位置へ</div><div class="d">利用者の指摘。<b>採点した瞬間に下タブが戻ってきていた</b>——周回から出る導線が、いちばん単語に集中してほしい瞬間に現れていた。打鍵側ではキーボードが覆っていたので挙動も揃っていなかった。周回のあいだずっと隠す。あわせて3ボタンを<b>キーボードがあった場所に固定</b>——最後に押したキーと次に押すものが同じ位置にあるので指が動かない（epopと同じ考え方）。ただし固定するのは<b>キーボードが元々そこにあった場合だけ</b>で、PCや4択では固定しない。何も覆っていないのに下に貼り付くバーは、バーのためのバーになる。</div><div class="ver">v5.21.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">エラー監視をFirestoreで（Sentryを使わなかった理由）</div><div class="d"><b>Firebaseは既に読み込んでいるので、新しく何かを信頼させる必要がない</b>。SDKの30KBを全員に配らずに済み、利用者のデータが第三者に渡らない。諦めたのはソースマップ・グルーピング・アラートで、これは「外で何か壊れたか」に答えるものであってデバッガの代わりではない。<b>送るのは文言・スタック・発生箇所・バージョン・UA・言語・uidだけで、単語も学習記録も入らない</b>（実際のペイロードで確認済み）。</div><div class="ver">v5.20.0</div></div></li>
       <li data-s="done"><span class="chip done">完了</span><div><div class="t">エラー監視の上限（アプリを壊す監視は無いほうがマシ）</div><div class="d">レンダリングのループ内のエラーは<b>ループの速度で発火</b>するので、上限が無いと最初のそういうバグが数秒で1日分の書き込み枠を使い切り、同期ごと道連れにする。<b>1セッション5件・1日20件</b>に制限し、同じ文言・同じ行は1回だけ送る。検証：<b>同一エラーを500回発火させて書き込み1件</b>、30種類でも5件で打ち止め、日次予算はセッションを跨いで持ち越し。管理ページでは同じ種類をまとめて「何種類/何人」で表示する——<b>1つのバグが20人に当たっているのは、直すもの1つであって20行ではない</b>。</div><div class="ver">v5.20.0</div></div></li>
