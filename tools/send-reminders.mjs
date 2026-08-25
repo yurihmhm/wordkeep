@@ -25,6 +25,10 @@ const db = getFirestore();
 // TEST_UID sends to exactly one account and ignores the clock, so the admin
 // page can prove the whole chain works without waiting for a scheduled hour.
 const TEST_UID = (process.env.TEST_UID || '').trim();
+// FORCE ignores the clock for everyone. Only reachable from a hand-run of the
+// workflow -- the schedule never sets it, so a scheduled run can never fire at
+// the wrong hour because of this.
+const FORCE = (process.env.FORCE || '').trim() === 'true';
 
 // The workflow fires hourly in UTC; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
@@ -38,7 +42,7 @@ let sent = 0, skipped = 0, dropped = 0;
 
 for (const doc of snap.docs) {
   const d = doc.data();
-  if (!TEST_UID) {
+  if (!TEST_UID && !FORCE) {
     const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
     const localHour = Math.floor(localMin / 60);
     const hours = Array.isArray(d.hours) ? d.hours : [];

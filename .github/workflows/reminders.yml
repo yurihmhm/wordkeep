@@ -14,6 +14,11 @@ on:
         description: 'Send only to this uid, ignoring the schedule (leave blank for a normal run)'
         required: false
         default: ''
+      force:
+        description: 'Ignore the local-hour check and send to everyone now'
+        type: boolean
+        required: false
+        default: false
 
 # Nothing here writes to the repository.
 permissions:
@@ -33,3 +38,4 @@ jobs:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           TEST_UID: ${{ github.event.inputs.test_uid }}
+          FORCE: ${{ github.event.inputs.force }}
