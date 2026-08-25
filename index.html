@@ -300,6 +300,8 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 /* ---- streak page ---- */
 .stk-head{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 4px}
 .stk-head svg{width:44px;height:44px;color:var(--accent)}
+.ntf-hero{display:flex;justify-content:center;margin:6px 0 14px;color:var(--accent)}
+.ntf-hero svg{width:46px;height:46px}
 .stk-n{font-family:Georgia,serif;font-size:54px;font-weight:600;color:var(--ink-strong);line-height:1.05}
 .stk-u{font-size:13px;color:var(--muted)}
 .stk-next{text-align:center;font-size:13px;color:var(--muted);margin:10px 2px 18px}
@@ -406,6 +408,15 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .set-row:last-child{border-bottom:none}
 .set-row .st{font-weight:600;font-size:15px}
 .set-row .sd{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:230px;line-height:1.45}
+/* Text above, control below, for any row whose control is wider than a switch.
+   Side by side, the control takes its full min-content width and the label gets
+   whatever is left -- which is how "1日に出す上限" ended up 25px wide and 695px
+   tall, one character per line. Six other rows were squeezed the same way. */
+.set-row.stack{flex-direction:column;align-items:stretch;gap:11px}
+.set-row.stack .sd{max-width:none}
+.set-row.stack .seg{display:flex;width:100%}
+.set-row.stack .seg button{flex:1;min-width:0;padding:9px 4px;text-align:center}
+.set-row.stack select.sel{width:100%}
 .seg{display:inline-flex;background:var(--ghost-bg);border-radius:10px;padding:3px;flex-shrink:0}
 .seg button{border:none;background:none;padding:8px 14px;border-radius:8px;font-size:13px;
   font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;white-space:nowrap}
@@ -777,6 +788,14 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <div class="overlay" id="overlayDeck"><div class="sheet"><div id="deckBody"></div></div></div>
 <div class="overlay" id="overlayTut"><div class="sheet"><div id="tutBody"></div></div></div>
+<div class="overlay" id="overlayNtf"><div class="sheet">
+  <div class="ntf-hero" id="ntfHero"></div>
+  <h3 id="ntfTitle" style="text-align:center"></h3>
+  <div id="ntfBody" style="text-align:center;margin-top:8px"></div>
+  <button class="btn btn-primary" id="ntfYes" style="margin-top:18px;width:100%"></button>
+  <button class="btn btn-ghost" id="ntfNo" style="margin-top:10px;width:100%"></button>
+  <p class="hint" id="ntfFine" style="text-align:center;margin-top:12px"></p>
+</div></div>
 <div class="overlay" id="overlayWn"><div class="sheet">
   <div class="step-emoji">✨</div>
   <h3 id="wnTitle" style="text-align:center"></h3>
@@ -1030,15 +1049,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.17.0';
+const APP_VERSION='5.18.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.17.0',date:'2026-08-24',keys:['wn1','wn2']},
+  {version:'5.18.0',date:'2026-08-25',keys:['wn1','wn2']},
+  {version:'5.17.0',date:'2026-08-24',keys:['v5170_1','v5170_2']},
   {version:'5.16.0',date:'2026-08-24',keys:['v5160_1']},
-  {version:'5.15.0',date:'2026-08-24',keys:['v5150_1','v5150_2','v5150_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1133,12 +1152,11 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'学習のリマインド通知を追加しました。設定の「通知」からオンにすると、1日2回（朝と夜）お知らせします。連続が途切れそうな日はその案内を、それ以外は覚えた単語の意味を聞く形で届きます',en:'Added study reminders. Turn them on under Settings → Notifications and you’ll get two a day, morning and evening. On a day your streak is at risk it says so; otherwise it asks you what one of your words means',zh:'新增学习提醒通知。在「设置 → 通知」中开启后，每天早晚各提醒一次。连续记录可能中断的当天会提示，其他时候则会考你某个单词的意思',fr:'Ajout des rappels d’étude. Activez-les dans Réglages → Notifications pour en recevoir deux par jour, matin et soir. Le jour où votre série est menacée, le rappel le dit ; sinon il vous demande le sens d’un de vos mots',ar:'أُضيفت تذكيرات الدراسة. فعّلها من «الإعدادات ← الإشعارات» لتصلك مرتين يوميًا صباحًا ومساءً. في اليوم الذي تكون فيه سلسلتك مهددة ينبهك، وفي غيره يسألك عن معنى إحدى كلماتك',ko:'학습 리마인드 알림을 추가했습니다. 설정의 «알림»에서 켜면 하루 두 번(아침과 저녁) 알려 드립니다. 연속 기록이 끊길 것 같은 날에는 그 안내를, 그 외에는 외운 단어의 뜻을 묻는 형태로 옵니다',ru:'Добавлены напоминания о занятиях. Включите их в «Настройки → Уведомления» — придут дважды в день, утром и вечером. В день, когда серия под угрозой, об этом и сообщат; в остальные — спросят значение одного из ваших слов'},
-  wn2:{ja:'通知の文面はあなたの端末の中で作られます。サーバーから送るのは「合図」だけで、どの単語を勉強しているかがサーバーに渡ることはありません',en:'The notification text is written on your own device. The server sends only a signal — which words you study never reaches it',zh:'通知文案在你的设备上生成。服务器只发送一个信号，你学习了哪些单词不会传到服务器',fr:'Le texte de la notification est composé sur votre appareil. Le serveur n’envoie qu’un signal : les mots que vous étudiez ne lui parviennent jamais',ar:'يُكتب نص الإشعار على جهازك أنت. أما الخادم فلا يرسل سوى إشارة، ولا تصله أبدًا الكلمات التي تدرسها',ko:'알림 문구는 기기 안에서 만들어집니다. 서버가 보내는 것은 «신호»뿐이며, 어떤 단어를 공부하는지는 서버에 전달되지 않습니다',ru:'Текст уведомления составляется на вашем устройстве. Сервер отправляет только сигнал — изучаемые вами слова до него не доходят'},
+  wn1:{ja:'設定画面のレイアウトを直しました。選択ボタンのある行で説明文が縦一列に潰れていたのを、説明を上・ボタンを下に並べる形に変えています',en:'Fixed the settings layout. On rows with option buttons the description was being squeezed into a single column of characters; the text now sits above the buttons',zh:'修复了设置页面的排版。带选项按钮的行中说明文字被挤成竖排一列，现改为说明在上、按钮在下',fr:'Correction de la mise en page des réglages. Sur les lignes à boutons, le texte était comprimé en une colonne d’un caractère ; il s’affiche désormais au-dessus des boutons',ar:'أُصلح تخطيط شاشة الإعدادات. ففي الصفوف ذات أزرار الاختيار كان النص ينضغط في عمود بحرف واحد، وصار الآن فوق الأزرار',ko:'설정 화면의 레이아웃을 고쳤습니다. 선택 버튼이 있는 행에서 설명이 세로 한 줄로 찌그러지던 것을, 설명을 위·버튼을 아래로 배치하도록 바꿨습니다',ru:'Исправлена вёрстка настроек. В строках с кнопками выбора описание сжималось в столбец по одному символу; теперь текст стоит над кнопками'},
+  wn2:{ja:'通知をまだ設定していない方に、アプリを開いたときに一度だけご案内を表示するようにしました。「今はしない」を選んでも、あとから設定でいつでもオンにできます',en:'If you haven’t set up reminders yet, the app now offers them once when you open it. Choosing “Not now” is final — you can still turn them on later in Settings',zh:'若尚未设置提醒，打开应用时会显示一次引导。即使选择「暂不需要」，之后仍可在设置中开启',fr:'Si vous n’avez pas encore activé les rappels, l’application vous les propose une fois à l’ouverture. « Pas maintenant » est définitif — vous pourrez toujours les activer dans les réglages',ar:'إن لم تكن قد فعّلت التذكيرات بعد، يعرضها التطبيق مرة واحدة عند فتحه. واختيار «ليس الآن» نهائي، ويظل بإمكانك تفعيلها لاحقًا من الإعدادات',ko:'알림을 아직 설정하지 않은 분께, 앱을 열었을 때 한 번만 안내를 표시합니다. «지금은 안 할게요»를 골라도 나중에 설정에서 언제든 켤 수 있습니다',ru:'Если напоминания ещё не настроены, приложение предложит их один раз при открытии. «Не сейчас» — окончательный ответ, но включить их можно позже в настройках'},
+  v5170_1:{ja:'学習のリマインド通知を追加しました。設定の「通知」からオンにすると、1日2回（朝と夜）お知らせします。連続が途切れそうな日はその案内を、それ以外は覚えた単語の意味を聞く形で届きます',en:'Added study reminders. Turn them on under Settings → Notifications and you’ll get two a day, morning and evening. On a day your streak is at risk it says so; otherwise it asks you what one of your words means',zh:'新增学习提醒通知。在「设置 → 通知」中开启后，每天早晚各提醒一次。连续记录可能中断的当天会提示，其他时候则会考你某个单词的意思',fr:'Ajout des rappels d’étude. Activez-les dans Réglages → Notifications pour en recevoir deux par jour, matin et soir. Le jour où votre série est menacée, le rappel le dit ; sinon il vous demande le sens d’un de vos mots',ar:'أُضيفت تذكيرات الدراسة. فعّلها من «الإعدادات ← الإشعارات» لتصلك مرتين يوميًا صباحًا ومساءً. في اليوم الذي تكون فيه سلسلتك مهددة ينبهك، وفي غيره يسألك عن معنى إحدى كلماتك',ko:'학습 리마인드 알림을 추가했습니다. 설정의 «알림»에서 켜면 하루 두 번(아침과 저녁) 알려 드립니다. 연속 기록이 끊길 것 같은 날에는 그 안내를, 그 외에는 외운 단어의 뜻을 묻는 형태로 옵니다',ru:'Добавлены напоминания о занятиях. Включите их в «Настройки → Уведомления» — придут дважды в день, утром и вечером. В день, когда серия под угрозой, об этом и сообщат; в остальные — спросят значение одного из ваших слов'},
+  v5170_2:{ja:'通知の文面はあなたの端末の中で作られます。サーバーから送るのは「合図」だけで、どの単語を勉強しているかがサーバーに渡ることはありません',en:'The notification text is written on your own device. The server sends only a signal — which words you study never reaches it',zh:'通知文案在你的设备上生成。服务器只发送一个信号，你学习了哪些单词不会传到服务器',fr:'Le texte de la notification est composé sur votre appareil. Le serveur n’envoie qu’un signal : les mots que vous étudiez ne lui parviennent jamais',ar:'يُكتب نص الإشعار على جهازك أنت. أما الخادم فلا يرسل سوى إشارة، ولا تصله أبدًا الكلمات التي تدرسها',ko:'알림 문구는 기기 안에서 만들어집니다. 서버가 보내는 것은 «신호»뿐이며, 어떤 단어를 공부하는지는 서버에 전달되지 않습니다',ru:'Текст уведомления составляется на вашем устройстве. Сервер отправляет только сигнал — изучаемые вами слова до него не доходят'},
   v5160_1:{ja:'同期の仕組みを作り直しました。これまでは同期のたびに単語を全件読み直していましたが、変更があった分だけを読むようになり、通信量が大幅に減りました。使い方は何も変わりません',en:'Rebuilt how syncing works. It used to re-read every word each time; now it reads only what changed, which cuts the data it moves dramatically. Nothing changes in how you use the app',zh:'重写了同步机制。此前每次同步都会重新读取全部单词，现在只读取有变化的部分，传输量大幅降低。使用方式没有任何变化',fr:'La synchronisation a été refaite. Elle relisait tous les mots à chaque fois ; elle ne lit désormais que ce qui a changé, ce qui réduit fortement les données échangées. Rien ne change à l’usage',ar:'أُعيد بناء آلية المزامنة. كانت تعيد قراءة كل الكلمات في كل مرة، وصارت تقرأ ما تغيّر فقط، فانخفض حجم البيانات كثيرًا. ولا شيء يتغير في طريقة استخدامك للتطبيق',ko:'동기화 방식을 다시 만들었습니다. 지금까지는 동기화할 때마다 단어를 전부 다시 읽었지만, 이제는 변경된 만큼만 읽어 통신량이 크게 줄었습니다. 사용 방법은 달라지지 않습니다',ru:'Синхронизация переработана. Раньше каждый раз перечитывались все слова, теперь читается только изменившееся — объём передаваемых данных резко снизился. В использовании ничего не меняется'},
-  v5150_1:{ja:'復習がたまっても、1日に出す数に上限を設けました。しばらく空けて戻ってきても「210語」ではなく「今日は20語」と表示されます。残りは翌日以降に回るだけで、復習の予定そのものは変わりません。上限は設定から変えられます',en:'Reviews are now capped per day. Come back after a break and you see “20 today”, not “210 due”. The rest simply rolls over — the schedule itself is unchanged. You can change the cap in Settings',zh:'每日复习量现已设上限。久未打开后回来看到的是「今天 20 个」而非「待复习 210 个」，其余顺延，复习计划本身不变。上限可在设置中调整',fr:'Les révisions sont désormais plafonnées par jour. Après une pause, vous voyez « 20 aujourd’hui » et non « 210 en retard ». Le reste est simplement reporté, le planning ne change pas. Le plafond se règle dans les réglages',ar:'صار للمراجعات حد يومي. فإذا عدت بعد انقطاع ترى «20 اليوم» بدل «210 مستحقة»، ويُرحّل الباقي دون أن يتغير الجدول نفسه. ويمكنك تعديل الحد من الإعدادات',ko:'복습이 밀려도 하루에 내보내는 수에 상한을 두었습니다. 오래 쉬었다 돌아와도 «210개»가 아니라 «오늘 20개»로 표시됩니다. 나머지는 다음 날로 넘어갈 뿐이고 일정 자체는 그대로입니다. 상한은 설정에서 바꿀 수 있습니다',ru:'Повторы теперь ограничены в день. Вернувшись после перерыва, вы увидите «20 на сегодня», а не «210 к повтору». Остальное просто переносится, само расписание не меняется. Лимит настраивается'},
-  v5150_2:{ja:'連続記録のページを追加しました。アプリ名の横の炎か、記録タブの「現在の連続」から開けます。カレンダーで学習した日が見え、7日から365日までの節目も並びます',en:'Added a streak page. Open it from the flame beside the app name, or from “Current streak” on the Record tab. It shows a calendar of the days you studied and the milestones from 7 up to 365',zh:'新增连续记录页面。可从应用名旁的火焰图标或「记录」标签页的「当前连续」打开，内含学习日历与 7 天至 365 天的里程碑',fr:'Nouvelle page de série. Ouvrez-la depuis la flamme à côté du nom de l’application ou depuis « Série actuelle » dans l’onglet Suivi. Elle montre un calendrier des jours étudiés et les paliers de 7 à 365 jours',ar:'أُضيفت صفحة للتتابع. افتحها من رمز اللهب بجانب اسم التطبيق أو من «التتابع الحالي» في تبويب السجل. تعرض تقويمًا بأيام دراستك والمراحل من 7 إلى 365 يومًا',ko:'연속 기록 페이지를 추가했습니다. 앱 이름 옆의 불꽃이나 기록 탭의 «현재 연속»에서 열 수 있습니다. 학습한 날이 달력으로 보이고 7일부터 365일까지의 이정표가 나옵니다',ru:'Добавлена страница серии. Откройте её по значку пламени рядом с названием приложения или из «Текущая серия» на вкладке «Прогресс». Там календарь ваших занятий и рубежи от 7 до 365 дней'},
-  v5150_3:{ja:'ストリークフリーズの残数が見えるようになりました。月に1つ、最大2つまで貯まり、1日休んでも自動で使われて記録がつながる仕組みです。これまでも動いていましたが、どこにも表示されていませんでした',en:'Your streak freezes are now visible. You earn one a month, up to two, and one is spent automatically if you miss a single day so the streak holds. This always worked — it was just never shown anywhere',zh:'现在可以看到剩余的连续冻结数量。每月获得 1 个、最多 2 个，漏掉一天会自动使用以保住连续记录。该机制一直有效，只是此前从未显示',fr:'Vos gels de série sont désormais visibles. Vous en gagnez un par mois, jusqu’à deux, et l’un est utilisé automatiquement si vous manquez une journée. Cela fonctionnait déjà, mais n’était affiché nulle part',ar:'صار رصيد تجميدات التتابع ظاهرًا. تحصل على واحدة شهريًا وبحد أقصى اثنتان، وتُستخدم واحدة تلقائيًا إذا فاتك يوم فيبقى تتابعك. كانت تعمل دائمًا لكنها لم تكن معروضة في أي مكان',ko:'스트릭 프리즈의 남은 개수가 보이게 되었습니다. 매달 1개씩 최대 2개까지 쌓이고, 하루 쉬면 자동으로 사용되어 기록이 이어집니다. 지금까지도 동작하고 있었지만 어디에도 표시되지 않았습니다',ru:'Теперь видно, сколько у вас заморозок серии. Одна в месяц, максимум две, и одна тратится автоматически при пропуске дня. Механизм работал и раньше — просто нигде не показывался'},
 
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1171,6 +1189,12 @@ const T={
   sec_notify:{ja:'通知',en:'Notifications',zh:'通知',fr:'Notifications',ar:'الإشعارات',ko:'알림',ru:'Уведомления'},
   st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
   desc_notify:{ja:'1日2回（朝と夜）、復習の合図をお送りします。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'Two nudges a day, morning and evening. The text is written on your own device, so which words you study is never sent to the server',zh:'每天两次（早晚）提醒复习。通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Deux rappels par jour, matin et soir. Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'تذكيران يوميًا، صباحًا ومساءً. يُكتب نص الإشعار على جهازك، فلا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'하루 두 번(아침과 저녁) 복습 알림을 보냅니다. 알림 문구는 기기 안에서 만들어지므로 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Два напоминания в день, утром и вечером. Текст составляется на вашем устройстве, поэтому изучаемые слова никогда не отправляются на сервер'},
+  ntf_ask_t:{ja:'忘れないように、お知らせしましょうか？',en:'Shall we remind you?',zh:'要提醒你复习吗？',fr:'Voulez-vous des rappels ?',ar:'هل نُذكّرك؟',ko:'잊지 않도록 알려 드릴까요?',ru:'Напоминать вам о занятиях?'},
+  ntf_ask_b:{ja:'1日2回（朝と夜）だけ、そっとお知らせします。連続が途切れそうな日と、覚えた単語の復習に。あとから設定でいつでも止められます',en:'Just twice a day, morning and evening. On days your streak is at risk, and to keep your words fresh. You can turn it off any time in Settings',zh:'每天仅两次，早晚各一次。在连续记录可能中断时提醒你，也帮你温习已学单词。随时可在设置中关闭',fr:'Deux fois par jour seulement, matin et soir : les jours où votre série est menacée, et pour garder vos mots frais. Désactivable à tout moment dans les réglages',ar:'مرتين فقط يوميًا، صباحًا ومساءً: في الأيام التي تكون فيها سلسلتك مهددة، ولتبقى كلماتك حاضرة. ويمكنك إيقافه متى شئت من الإعدادات',ko:'하루 두 번(아침과 저녁)만 조용히 알려 드립니다. 연속 기록이 끊길 것 같은 날과, 외운 단어의 복습을 위해. 나중에 설정에서 언제든 끌 수 있습니다',ru:'Всего дважды в день, утром и вечером: в дни, когда серия под угрозой, и чтобы слова не забывались. Отключить можно в любой момент в настройках'},
+  ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
+  ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
+  ntf_ask_fine:{ja:'通知の文面はあなたの端末の中で作られます。どの単語を勉強しているかがサーバーに送られることはありません',en:'The text is written on your own device — which words you study is never sent to the server',zh:'通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'يُكتب النص على جهازك، ولا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'알림 문구는 기기 안에서 만들어집니다. 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Текст составляется на вашем устройстве — изучаемые слова не отправляются на сервер'},
+  ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
@@ -1660,7 +1684,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,notify:false,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -1902,6 +1926,7 @@ const PENCIL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const BOX_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 8.1 12 4.2l8.4 3.9v7.8L12 19.8 3.6 15.9Z"/><path d="M3.6 8.1 12 12l8.4-3.9M12 12v7.8"/></svg>';
 const FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 7.3a1.6 1.6 0 0 1 1.6-1.6h4l2 2.4h7.2a1.6 1.6 0 0 1 1.6 1.6v7.6a1.6 1.6 0 0 1-1.6 1.6H5.2a1.6 1.6 0 0 1-1.6-1.6Z"/></svg>';
 const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
+const BELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.2 15.2V10.4a6.2 6.2 0 1 0-12.4 0v4.8L3.9 18.1h16.2z"/><path d="M9.9 21a2.3 2.3 0 0 0 4.2 0"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
 const SPEAKER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8M18.4 5.8a8.5 8.5 0 0 1 0 12.4"/></svg>';
 function spkBtn(text){
@@ -2481,6 +2506,7 @@ async function fetchWithTimeout(url,ms,opts){
 /* ---------- tabs ---------- */
 $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 bindRankSwitch();
+$$('.set-row').forEach(r=>{ if(r.querySelector('.seg,select.sel'))r.classList.add('stack'); });
 // Static labels come from data-i18n, but most of the screen is built by
 // render functions -- without this a language change only took effect after
 // navigating somewhere else.
@@ -5020,6 +5046,51 @@ function renderTutorial(){
   $('#tutSkip').onclick=()=>{tutSkipped=true;finishTutorial();};
 }
 
+/* ---------- asking for notifications ----------
+   Offered once, after the update notice, because almost nobody opens Settings.
+   Asked only when it can actually work and only when the answer means
+   something: a signed-in account on a device that supports push, and never
+   again once the question has been answered either way -- a permission prompt
+   that keeps coming back is how an app teaches people to refuse it. */
+function ntfShouldAsk(){
+  if(S().notify)return false;                    // already on
+  if(S().notifyAsked)return false;               // already answered
+  if(!pushSupported())return false;
+  if(!cloudUser)return false;                    // subscription is per account
+  if(Notification.permission==='denied')return false;  // the OS already said no
+  // Only worth asking someone who has something to be reminded about.
+  return curWords().length>=5;
+}
+function openNotifyAsk(){
+  $('#ntfHero').innerHTML=BELL_SVG;
+  $('#ntfTitle').textContent=t('ntf_ask_t');
+  $('#ntfBody').textContent=t('ntf_ask_b');
+  $('#ntfYes').textContent=t('ntf_ask_yes');
+  $('#ntfNo').textContent=t('ntf_ask_no');
+  $('#ntfFine').textContent=t('ntf_ask_fine');
+  $('#overlayNtf').classList.add('show');
+  gaScreen('notify_ask');
+}
+function closeNotifyAsk(){
+  // Recorded whichever way it went, so the prompt is genuinely once.
+  S().notifyAsked=true;save();
+  $('#overlayNtf').classList.remove('show');
+}
+$('#ntfNo').onclick=()=>{gaEvent('notify_ask',{answer:'no'});closeNotifyAsk();};
+$('#ntfYes').onclick=async()=>{
+  const b=$('#ntfYes');
+  b.disabled=true;
+  const r=await enableNotify();
+  b.disabled=false;
+  gaEvent('notify_ask',{answer:r.ok?'yes':'failed'});
+  if(!r.ok)toast(r.msg);
+  else{
+    toast(t('ntf_ask_done'));
+    const sw=$('#swNotify'); if(sw)sw.classList.add('on');
+  }
+  closeNotifyAsk();
+};
+
 /* ---------- what's new (after an update) ---------- */
 function openWhatsNew(){
   $('#wnTitle').textContent=t('whatsnew_title');
@@ -5032,6 +5103,7 @@ $('#wnOk').onclick=()=>{
   S().seenVersion=APP_VERSION;save();
   $('#overlayWn').classList.remove('show');
   if(!S().seenStorageTip)openStorageTip();
+  else if(ntfShouldAsk())openNotifyAsk();
 };
 
 

@@ -229,6 +229,7 @@ function renderUsers(){
       '<td class="num">'+(s.longest||0)+'</td>'+
       '<td>'+ago(u.updatedAt)+'</td>'+
       '<td style="white-space:nowrap">'+
+        '<button class="btn btn-ghost btn-sm" onclick="testPush(\''+u.id+'\',this)">通知テスト</button> '+
         '<button class="btn btn-ghost btn-sm" onclick="renameUser(\''+u.id+'\',this)">改名</button> '+
         '<button class="btn btn-ghost btn-sm" onclick="removeUser(\''+u.id+'\',this)">データ削除</button></td></tr>';
   }).join('');
@@ -254,6 +255,52 @@ async function removeFeedback(id){
 }
 
 // Removes an account's Firestore data. The word documents are deleted by id
+// Fires the reminder workflow for one account. The send itself happens in
+// GitHub Actions, which is the only place the VAPID private key lives -- this
+// page just asks for it and then watches the run.
+//
+// Needs a GitHub token with `workflow` scope, entered once and kept in this
+// browser only. It is never written to Firestore or anywhere shared.
+const GH_REPO='yurihmhm/wordkeep';
+function ghToken(){
+  let t=localStorage.getItem('wk.admin.ghtoken')||'';
+  if(!t){
+    t=(prompt('GitHubのトークンを入力してください（workflow権限が必要）。\n\n'+
+      'github.com/settings/tokens で Fine-grained token を作り、\n'+
+      'このリポジトリの Actions に Read and write を与えてください。\n\n'+
+      'このブラウザにのみ保存され、どこにも送信されません。')||'').trim();
+    if(t)localStorage.setItem('wk.admin.ghtoken',t);
+  }
+  return t;
+}
+async function testPush(uid,btn){
+  const u=users.find(x=>x.id===uid);
+  const who=(u&&(u.nickname||u.username))||uid.slice(0,8);
+  if(!confirm(who+' に通知を1件送ります。\n\n相手が通知をオンにしていない場合は何も起きません。'))return;
+  const tok=ghToken();
+  if(!tok)return;
+  if(btn){btn.disabled=true;btn.textContent='送信中…';}
+  try{
+    const r=await fetch('https://api.github.com/repos/'+GH_REPO+'/actions/workflows/reminders.yml/dispatches',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json',
+               'X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},
+      body:JSON.stringify({ref:'main',inputs:{test_uid:uid}})
+    });
+    if(r.status===204){
+      alert('送信を開始しました。\n\n数十秒後に届きます。結果は Actions タブのログで確認できます:\n'+
+            'https://github.com/'+GH_REPO+'/actions/workflows/reminders.yml');
+    }else{
+      const body=await r.text();
+      if(r.status===401||r.status===403){
+        localStorage.removeItem('wk.admin.ghtoken');
+        alert('トークンが拒否されました（'+r.status+'）。保存済みのトークンを消したので、'+
+              'workflow権限のあるトークンでもう一度お試しください。');
+      }else alert('実行できませんでした（'+r.status+'）\n'+body.slice(0,200));
+    }
+  }catch(e){ alert('通信に失敗しました: '+(e&&e.message||e)); }
+  finally{ if(btn){btn.disabled=false;btn.textContent='通知テスト';} }
+}
 // Forcing a rename. The in-app word list is a blunt filter that a determined
 // person can edit out of their own copy, so this is the backstop -- and since
 // v5.9.0 a nickname is on a public leaderboard, where the 7-day cooldown would

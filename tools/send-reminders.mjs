@@ -22,19 +22,28 @@ webpush.setVapidDetails(CONTACT, VAPID_PUBLIC, priv);
 initializeApp({ credential: cert(JSON.parse(svc)) });
 const db = getFirestore();
 
+// TEST_UID sends to exactly one account and ignores the clock, so the admin
+// page can prove the whole chain works without waiting for a scheduled hour.
+const TEST_UID = (process.env.TEST_UID || '').trim();
+
 // The workflow fires hourly in UTC; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
 const nowUtcMin = new Date().getUTCHours() * 60 + new Date().getUTCMinutes();
 
-const snap = await db.collection('push').get();
+const snap = TEST_UID
+  ? { docs: [await db.collection('push').doc(TEST_UID).get()].filter(d => d.exists), size: 1 }
+  : await db.collection('push').get();
+if (TEST_UID && !snap.docs.length) { console.log('no subscription for ' + TEST_UID); process.exit(0); }
 let sent = 0, skipped = 0, dropped = 0;
 
 for (const doc of snap.docs) {
   const d = doc.data();
-  const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
-  const localHour = Math.floor(localMin / 60);
-  const hours = Array.isArray(d.hours) ? d.hours : [];
-  if (!hours.includes(localHour)) { skipped++; continue; }
+  if (!TEST_UID) {
+    const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
+    const localHour = Math.floor(localMin / 60);
+    const hours = Array.isArray(d.hours) ? d.hours : [];
+    if (!hours.includes(localHour)) { skipped++; continue; }
+  }
 
   try {
     await webpush.sendNotification(

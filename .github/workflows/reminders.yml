@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:        # so it can be fired by hand to test
+    inputs:
+      test_uid:
+        description: 'Send only to this uid, ignoring the schedule (leave blank for a normal run)'
+        required: false
+        default: ''
 
 # Nothing here writes to the repository.
 permissions:
@@ -27,3 +32,4 @@ jobs:
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TEST_UID: ${{ github.event.inputs.test_uid }}
