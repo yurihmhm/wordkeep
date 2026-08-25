@@ -5,7 +5,7 @@ const src = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const js = src.slice(src.lastIndexOf('<script>') + 8, src.lastIndexOf('</script>'));
 const names = ['wordStamp','mergeCloud','hasStreak','mergeStreak','localDayIndex','monthKey',
   'grantMonthlyFreeze','levenshtein','weightedSample','norm',
-  'nickLen','clean','migrateWord','rankRows','withRanks','boardNum','fmtNum','nickNorm','nickIssue','pkgById','pkgProgressPct'];
+  'nickLen','clean','migrateWord','rankRows','withRanks','boardNum','fmtNum','nickNorm','nickIssue','pkgById','pkgProgressPct','wordsToPush','tombsToPush'];
 const out = [];
 for (const n of names) {
   const m = new RegExp('\\nfunction ' + n + '\\(').exec(js);

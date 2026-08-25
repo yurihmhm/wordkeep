@@ -263,5 +263,51 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\nwordsToPush / tombsToPush (incremental sync)');
+{
+  const map=arr=>new Map((arr||[]).map(w=>[w.id,w]));
+  const ids=r=>r.map(w=>w.id).join(',');
+
+  // --- first sync on a device: no watermark, remote copy is complete ---
+  t('first sync uploads what the remote lacks',()=>
+    ids(M.wordsToPush([{id:'a',updatedAt:5},{id:'b',updatedAt:5}],map([{id:'a',updatedAt:5}]),null))==='b'||'no');
+  t('first sync uploads what is newer locally',()=>
+    ids(M.wordsToPush([{id:'a',updatedAt:9}],map([{id:'a',updatedAt:5}]),null))==='a'||'no');
+  t('first sync leaves an identical word alone',()=>
+    M.wordsToPush([{id:'a',updatedAt:5}],map([{id:'a',updatedAt:5}]),null).length===0||'no');
+
+  // --- incremental: the remote map holds only the delta ---
+  // This is the whole point. Under the old rule every word missing from the
+  // delta looked new, so a 1000-word account re-uploaded 1000 documents a sync.
+  t('an unchanged word missing from the delta is NOT re-uploaded',()=>
+    M.wordsToPush([{id:'a',updatedAt:100}],map([]),500).length===0||'re-uploaded');
+  t('a locally edited word is uploaded',()=>
+    ids(M.wordsToPush([{id:'a',updatedAt:900}],map([]),500))==='a'||'no');
+  t('a word edited on both sides uploads only if ours is newer',()=>{
+    const local=[{id:'a',updatedAt:900},{id:'b',updatedAt:900}];
+    const remote=map([{id:'a',updatedAt:950},{id:'b',updatedAt:800}]);
+    return ids(M.wordsToPush(local,remote,500))==='b'||ids(M.wordsToPush(local,remote,500));
+  });
+  t('exactly at the watermark counts as unchanged',()=>
+    M.wordsToPush([{id:'a',updatedAt:500}],map([]),500).length===0||'no');
+  t('falls back to `added` when updatedAt is missing',()=>
+    ids(M.wordsToPush([{id:'a',added:900}],map([]),500))==='a'||'no');
+  t('empty input does not throw',()=>M.wordsToPush(null,map([]),500).length===0||'no');
+
+  // --- tombstones ---
+  // A word deleted today may have been written months ago, so it is nowhere in
+  // the delta. Gating the delete on the remote map dropped it and the word came
+  // back from the other device.
+  t('a fresh delete is pushed even though the delta does not mention it',()=>
+    M.tombsToPush({x:900},map([]),500).join(',')==='x'||'delete was dropped');
+  t('an old delete already applied is not re-sent',()=>
+    M.tombsToPush({x:100},map([]),500).length===0||'no');
+  t('an old delete is still sent while the remote copy survives',()=>
+    M.tombsToPush({x:100},map([{id:'x'}]),500).join(',')==='x'||'no');
+  t('first sync only deletes what the remote actually has',()=>
+    M.tombsToPush({x:900,y:900},map([{id:'x'}]),null).join(',')==='x'||'no');
+  t('no tombstones does not throw',()=>M.tombsToPush(null,map([]),500).length===0||'no');
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);
