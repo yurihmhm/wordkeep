@@ -200,23 +200,6 @@ self.addEventListener('push', e => {
   }));
 });
 
-// The same composition a push triggers, asked for from the page. Without this
-// the only way to see a notification was to wait for a real send -- which meant
-// the wording could not be checked at all, let alone the 22:00 one.
-self.addEventListener('message', e => {
-  if (!e.data || e.data.type !== 'wk-preview') return;
-  e.waitUntil(readHint().then(hint => {
-    const m = compose(hint, new Date());
-    return self.registration.showNotification(m.title, {
-      body: m.body,
-      icon: './icon-192.png',
-      badge: './icon-192.png',
-      tag: 'wordkeep-preview',
-      data: { url: './' }
-    });
-  }));
-});
-
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   const url = (e.notification.data && e.notification.data.url) || './';

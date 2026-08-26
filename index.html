@@ -30,6 +30,7 @@
   --chip-bg:#e5edf8; --ghost-bg:#eef2f9; --track:#e8eef7;
   --dup-bg:#fff5da; --dup-ink:#8a5a00; --dup-line:#f0d98a;
   --hm0:#e8eef7; --hm1:#cfe0f7; --hm2:#8fb6e8; --hm3:#4f82c9; --hm4:#1e4d8f;
+  --sp-word-bg:#eef2fb;
   --mk-fav:#d92b4b; --mk-fav-bg:#fdecef; --mk-hard:#b5510a; --mk-hard-bg:#fdeee2;
   --switch-off:#cdd6e6; --knob:#fff; --tabbar-bg:rgba(255,255,255,.94); --tab-on:#a8730a; --tab-on-ic:var(--accent);
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
@@ -46,6 +47,7 @@
   --chip-bg:#233247; --ghost-bg:#222b3c; --track:#2b3446;
   --dup-bg:#33290e; --dup-ink:#e6b657; --dup-line:#5c4a1f;
   --hm0:#232c3c; --hm1:#22375d; --hm2:#3a5f9e; --hm3:#5b8ad4; --hm4:#8fb6f0;
+  --sp-word-bg:rgba(255,255,255,.05);
   --mk-fav:#ff7b8f; --mk-fav-bg:rgba(255,123,143,.14); --mk-hard:#ff9247; --mk-hard-bg:rgba(255,146,71,.15);
   --switch-off:#3a4658; --knob:#e9edf5; --tabbar-bg:rgba(15,20,30,.92); --tab-on:var(--accent); --tab-on-ic:var(--accent);
   --shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);
@@ -331,6 +333,21 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .sp-slot.gap{width:calc(var(--sl,34px) * .4);background:none;border-bottom-color:transparent}
 .sp-slot.cur{border-bottom-color:var(--accent);box-shadow:0 2px 0 -0.5px var(--accent)}
 .sp-disp.ok .sp-slot{background:var(--good-bg);border-bottom-color:var(--good);color:var(--good-ink)}
+/* Words, not just letters. The gap between words is now the gap between two
+   boxes rather than a blank slot, so "make sure" reads as two things. */
+.sp-word{display:inline-flex;gap:3px;padding:3px;border-radius:11px;
+  background:var(--sp-word-bg);transition:background .18s ease}
+.sp-word.ok{background:var(--good-bg)}
+.sp-word.bad{background:var(--bad-bg)}
+.sp-word.bad .sp-slot{border-bottom-color:var(--bad-ink)}
+.sp-word.ok .sp-slot{background:var(--good-bg);color:var(--good-ink);
+  border-bottom-color:var(--good)}
+.sp-near{margin:2px auto 0;max-width:min(100%,420px);
+  background:var(--dup-bg);color:var(--dup-ink);border:1px solid var(--dup-line);
+  border-radius:12px;padding:10px 14px;font-size:14px;text-align:center;
+  font-family:Georgia,'Times New Roman',serif}
+.sp-near b{color:var(--bad-ink);font-weight:700}
+
 
 /* Sized and spaced like a phone keyboard so the muscle memory transfers. */
 /* Bigger and further apart than a stock phone keyboard on purpose: this one
@@ -452,6 +469,13 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .rk-note{font-size:12px;color:var(--muted);text-align:center;margin:14px 2px 0;line-height:1.6}
 .rk-state{text-align:center;padding:34px 16px;color:var(--muted);font-size:13.5px;line-height:1.7}
 .rk-state svg{width:38px;height:38px;fill:var(--line);margin-bottom:10px}
+.qs-check{display:flex;gap:11px;align-items:flex-start;margin-top:18px;
+  padding:13px 14px;border:1px solid var(--line);border-radius:14px;
+  background:var(--surface);cursor:pointer}
+.qs-check input{width:21px;height:21px;flex:none;margin:1px 0 0;accent-color:var(--accent);cursor:pointer}
+.qs-check span{font-size:13px;color:var(--muted);line-height:1.55}
+.qs-check b{display:block;font-size:14.5px;color:var(--ink);margin-bottom:2px}
+#studyMark{margin:16px 2px 0}
 #listSel{margin:0 2px 10px}
 .sel-start{position:relative}
 .sel-start svg{width:15px;height:15px;margin-right:6px;vertical-align:-2px}
@@ -1094,10 +1118,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         </div>
       </div>
       <div class="set-row">
-        <div><div class="st" data-i18n="st_shuffle">出題順をシャッフル</div><div class="sd" data-i18n="desc_shuffle"></div></div>
-        <button class="switch" id="swShuffle"><i></i></button>
-      </div>
-      <div class="set-row">
         <div><div class="st" data-i18n="st_len">1回の問題数</div><div class="sd" data-i18n="desc_len">まとめて何問出すか</div></div>
         <div id="setLen"></div>
       </div>
@@ -1108,11 +1128,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       <div class="set-row">
         <div><div class="st" data-i18n="st_notify">学習のリマインド</div><div class="sd" data-i18n="desc_notify"></div></div>
         <button class="switch" id="swNotify"><i></i></button>
-      </div>
-      <div class="set-row stack" id="ntfPreviewRow" hidden>
-        <div><div class="st" data-i18n="ntf_prev">届く通知を見てみる</div>
-          <div class="sd" data-i18n="ntf_prev_d"></div></div>
-        <button class="btn btn-ghost" id="ntfPreview" data-i18n="ntf_prev_go">今の状態で表示</button>
       </div>
     </div>
 
@@ -1198,15 +1213,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.28.0';
+const APP_VERSION='5.29.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.28.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.29.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.28.0',date:'2026-08-27',keys:['v5280_1','v5280_2','v5280_3']},
   {version:'5.27.0',date:'2026-08-27',keys:['v5270_1','v5270_2','v5270_3']},
-  {version:'5.26.0',date:'2026-08-27',keys:['v5260_1','v5260_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1304,14 +1319,15 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語リストに「リストを編集」を追加し、その中に「選択して移動」ができました。選んだ単語をまとめて別の単語帳へ移せます。移動先はその場で新しく作ることもでき、学習の記録はそのまま引き継がれます',en:'The word list has an "Edit list" button, and inside it a new "Select to move". Move a batch of words to another notebook — you can create the destination on the spot, and review progress moves with them',zh:'单词列表新增「编辑列表」按钮，其中包含新的「选择并移动」。可将选中的单词批量移到其他单词本，目的地可当场新建，学习进度会一并保留',fr:'La liste de mots a un bouton « Modifier la liste », avec une nouvelle option « Sélectionner pour déplacer ». Déplacez un lot de mots vers un autre carnet — créable sur place — la progression suit',ar:'أُضيف زر «تحرير القائمة» إلى قائمة الكلمات، وفيه خيار جديد «حدّد للنقل». انقل مجموعة كلمات إلى دفتر آخر، ويمكنك إنشاء الوجهة في اللحظة نفسها، ويبقى تقدّم المراجعة معها',ko:'단어 목록에 «목록 편집»을 추가하고, 그 안에 «선택해서 이동»을 넣었습니다. 고른 단어를 한꺼번에 다른 단어장으로 옮길 수 있고, 옮길 곳은 그 자리에서 새로 만들 수도 있으며 학습 기록은 그대로 따라갑니다',ru:'В списке слов появилась кнопка «Редактировать список», а в ней — новое «Выбрать для переноса». Переносите слова пачкой в другой словарь; его можно создать тут же, а прогресс повторений переезжает вместе'},
-  wn2:{ja:'しばらく時間をあけてアプリを開いたとき、ホームから始まるようになりました。ホームは「今日は何をすればいいか」に答える画面なので。少し離れただけのときや、問題を解いている途中は、そのままの画面に戻ります',en:'Reopening the app after a while now starts on Home, because Home is the screen that answers "what should I do now". Step away only briefly, or leave mid-round, and you come back exactly where you were',zh:'隔一段时间再打开应用会从主页开始，因为主页回答的正是「现在该做什么」。若只是短暂离开，或正在答题中途，则会回到原来的画面',fr:'Rouvrir l’app après un moment démarre sur l’Accueil, car c’est l’écran qui répond à « que faire maintenant ». Une absence brève, ou une série en cours, vous ramène là où vous étiez',ar:'عند فتح التطبيق بعد فترة صار يبدأ من الصفحة الرئيسية، لأنها الشاشة التي تجيب عن «ماذا أفعل الآن». أما الغياب القصير أو الجولة الجارية فيعيدانك إلى حيث كنت',ko:'한동안 시간을 두고 앱을 열면 홈에서 시작합니다. 홈이 «오늘 무엇을 하면 되는지»에 답하는 화면이기 때문입니다. 잠깐 자리를 비웠을 때나 문제를 푸는 도중에는 원래 화면으로 돌아갑니다',ru:'Если открыть приложение спустя время, оно начинается с Главной — это экран, который отвечает на вопрос «что делать сейчас». После короткой отлучки или посреди раунда вы вернётесь туда, где были'},
-  wn3:{ja:'設定の通知に「届く通知を見てみる」を追加しました。いまのあなたの状態で実際に届くものを、その場で表示します。夜まで待たなくても、どんな文面が来るのか確かめられます',en:'Settings now has "See what a reminder looks like". It shows the real one for your state right now, so you can check the wording without waiting until evening',zh:'设置的通知中新增「看看提醒长什么样」。按你当前的状态立刻显示真实的通知，不必等到晚上就能确认文案',fr:'Les réglages proposent « Voir à quoi ressemble un rappel » : il affiche le vrai, pour votre état actuel, sans attendre le soir',ar:'أُضيف إلى الإعدادات «شاهد شكل التذكير»، فيعرض التذكير الحقيقي بحسب حالتك الآن دون انتظار المساء',ko:'설정의 알림에 «어떤 알림이 오는지 보기»를 추가했습니다. 지금 상태에서 실제로 오는 것을 그 자리에서 보여 주므로, 밤까지 기다리지 않아도 문구를 확인할 수 있습니다',ru:'В настройках появилось «Посмотреть, как выглядит напоминание» — оно показывает настоящее, для вашего текущего состояния, не дожидаясь вечера'},
+  wn1:{ja:'スペル入力が単語ごとの箱になりました。「make sure」なら、makeを打ち終わった時点でその単語が緑になります。スペースは自動で入るので打つ必要はありません',en:'Spelling is now one box per word. Type "make sure" and "make" turns green the moment it is complete. Spaces fill themselves in, so you never type one',zh:'拼写输入改为按单词分框。输入「make sure」时，打完 make 该词就会变绿。空格会自动填入，无需自己输入',fr:'La saisie se fait maintenant par mot. Pour « make sure », « make » passe au vert dès qu’il est complet. Les espaces se placent tout seuls',ar:'صار إدخال التهجئة في صندوق لكل كلمة. في «make sure» تتحول make إلى الأخضر لحظة اكتمالها. والمسافات تُدرج تلقائيًا فلا تحتاج لكتابتها',ko:'스펠 입력이 단어별 상자로 바뀌었습니다. «make sure»라면 make를 다 치는 순간 그 단어가 초록색이 됩니다. 띄어쓰기는 자동으로 들어가므로 칠 필요가 없습니다',ru:'Ввод по буквам теперь разбит на слова. В «make sure» слово «make» зеленеет, как только дописано. Пробелы подставляются сами'},
+  wn2:{ja:'スペルを外したとき、どれくらい惜しかったかが出るようになりました。「brint – 正解と1文字違います。」のように、違っている文字を赤で示します。これまでは何も起きず、近いのか全然違うのか分かりませんでした',en:'A wrong spelling now tells you how close it was: "brint – 1 letter off", with the offending letter in red. Before, nothing happened at all and you could not tell near from nowhere near',zh:'拼错时会告诉你差了多少：「brint – 与正确答案差 1 个字母」，并用红色标出错误字母。以前什么都不会发生，无法判断是接近还是完全不对',fr:'Une faute vous dit désormais de combien : « brint – 1 lettre d’écart », la lettre fautive en rouge. Avant, il ne se passait rien et on ne savait pas si on était proche',ar:'صار الخطأ الإملائي يخبرك كم ابتعدت: «brint – يختلف بحرف واحد»، مع تمييز الحرف الخاطئ بالأحمر. وقبل ذلك لم يكن يحدث شيء فلا تعرف أقريب أنت أم بعيد',ko:'스펠을 틀렸을 때 얼마나 아까웠는지 알려 줍니다. «brint – 정답과 1글자 다릅니다.»처럼 틀린 글자를 빨간색으로 표시합니다. 지금까지는 아무 일도 일어나지 않아, 가까운지 전혀 다른지 알 수 없었습니다',ru:'Ошибка в написании теперь показывает, насколько вы промахнулись: «brint — на 1 букву», с виноватой буквой красным. Раньше не происходило ничего'},
+  wn3:{ja:'単語帳（カード）でも、お気に入りと苦手マークを付けられるようになりました。カードをめくっていて「これ苦手だな」と思ったその場で付けられます。また、出題順のシャッフルは設定ではなく復習をはじめる画面に移しました',en:'The flashcards can be marked too — favourite and tricky — right at the moment you think "I keep getting this one wrong". And the shuffle option moved out of Settings onto the screen where you start a round',zh:'单词卡也可以添加收藏和难记标记了，翻卡时想到「这个我老记不住」就能当场标记。另外，打乱顺序的选项已从设置移到开始复习的界面',fr:'Les cartes peuvent aussi être marquées — favori et délicat — au moment précis où vous vous dites « celui-là, je le rate toujours ». Et l’option de mélange a quitté les réglages pour l’écran de lancement d’une série',ar:'صار بإمكانك وسم البطاقات أيضًا بـ«مفضّلة» و«صعبة عليّ» في اللحظة التي تشعر فيها بذلك. كما انتقل خيار خلط الترتيب من الإعدادات إلى شاشة بدء المراجعة',ko:'단어장(카드)에서도 즐겨찾기와 어려움 표시를 붙일 수 있게 되었습니다. 카드를 넘기다 «이건 어렵네» 싶은 그 자리에서 붙일 수 있습니다. 또 출제 순서 섞기는 설정이 아니라 복습을 시작하는 화면으로 옮겼습니다',ru:'Карточки тоже можно помечать — «избранное» и «сложное» — ровно в тот момент, когда думаешь «вот это я всё время путаю». А перемешивание переехало из настроек на экран запуска раунда'},
+  v5280_1:{ja:'単語リストに「リストを編集」を追加し、その中に「選択して移動」ができました。選んだ単語をまとめて別の単語帳へ移せます。移動先はその場で新しく作ることもでき、学習の記録はそのまま引き継がれます',en:'The word list has an "Edit list" button, and inside it a new "Select to move". Move a batch of words to another notebook — you can create the destination on the spot, and review progress moves with them',zh:'单词列表新增「编辑列表」按钮，其中包含新的「选择并移动」。可将选中的单词批量移到其他单词本，目的地可当场新建，学习进度会一并保留',fr:'La liste de mots a un bouton « Modifier la liste », avec une nouvelle option « Sélectionner pour déplacer ». Déplacez un lot de mots vers un autre carnet — créable sur place — la progression suit',ar:'أُضيف زر «تحرير القائمة» إلى قائمة الكلمات، وفيه خيار جديد «حدّد للنقل». انقل مجموعة كلمات إلى دفتر آخر، ويمكنك إنشاء الوجهة في اللحظة نفسها، ويبقى تقدّم المراجعة معها',ko:'단어 목록에 «목록 편집»을 추가하고, 그 안에 «선택해서 이동»을 넣었습니다. 고른 단어를 한꺼번에 다른 단어장으로 옮길 수 있고, 옮길 곳은 그 자리에서 새로 만들 수도 있으며 학습 기록은 그대로 따라갑니다',ru:'В списке слов появилась кнопка «Редактировать список», а в ней — новое «Выбрать для переноса». Переносите слова пачкой в другой словарь; его можно создать тут же, а прогресс повторений переезжает вместе'},
+  v5280_2:{ja:'しばらく時間をあけてアプリを開いたとき、ホームから始まるようになりました。ホームは「今日は何をすればいいか」に答える画面なので。少し離れただけのときや、問題を解いている途中は、そのままの画面に戻ります',en:'Reopening the app after a while now starts on Home, because Home is the screen that answers "what should I do now". Step away only briefly, or leave mid-round, and you come back exactly where you were',zh:'隔一段时间再打开应用会从主页开始，因为主页回答的正是「现在该做什么」。若只是短暂离开，或正在答题中途，则会回到原来的画面',fr:'Rouvrir l’app après un moment démarre sur l’Accueil, car c’est l’écran qui répond à « que faire maintenant ». Une absence brève, ou une série en cours, vous ramène là où vous étiez',ar:'عند فتح التطبيق بعد فترة صار يبدأ من الصفحة الرئيسية، لأنها الشاشة التي تجيب عن «ماذا أفعل الآن». أما الغياب القصير أو الجولة الجارية فيعيدانك إلى حيث كنت',ko:'한동안 시간을 두고 앱을 열면 홈에서 시작합니다. 홈이 «오늘 무엇을 하면 되는지»에 답하는 화면이기 때문입니다. 잠깐 자리를 비웠을 때나 문제를 푸는 도중에는 원래 화면으로 돌아갑니다',ru:'Если открыть приложение спустя время, оно начинается с Главной — это экран, который отвечает на вопрос «что делать сейчас». После короткой отлучки или посреди раунда вы вернётесь туда, где были'},
+  v5280_3:{ja:'設定の通知に「届く通知を見てみる」を追加しました。いまのあなたの状態で実際に届くものを、その場で表示します。夜まで待たなくても、どんな文面が来るのか確かめられます',en:'Settings now has "See what a reminder looks like". It shows the real one for your state right now, so you can check the wording without waiting until evening',zh:'设置的通知中新增「看看提醒长什么样」。按你当前的状态立刻显示真实的通知，不必等到晚上就能确认文案',fr:'Les réglages proposent « Voir à quoi ressemble un rappel » : il affiche le vrai, pour votre état actuel, sans attendre le soir',ar:'أُضيف إلى الإعدادات «شاهد شكل التذكير»، فيعرض التذكير الحقيقي بحسب حالتك الآن دون انتظار المساء',ko:'설정의 알림에 «어떤 알림이 오는지 보기»를 추가했습니다. 지금 상태에서 실제로 오는 것을 그 자리에서 보여 주므로, 밤까지 기다리지 않아도 문구를 확인할 수 있습니다',ru:'В настройках появилось «Посмотреть, как выглядит напоминание» — оно показывает настоящее, для вашего текущего состояния, не дожидаясь вечера'},
   v5270_1:{ja:'学習した日には、お知らせが届かなくなりました。これまでは終わっている日にも同じように送っていて、それが一番よくないところでした。忘れている日だけ、時間帯に応じて言うことを変えてお送りします',en:'On the days you study, no reminder arrives at all. Until now they went out whether or not the day was already done, which was the worst thing about them. They come only on the days you have forgotten, and say something different depending on the hour',zh:'你学习过的那天不会再收到提醒。此前无论当天是否已完成都会照发，这是最大的问题。现在只在你忘记的日子发送，并按时间段改变内容',fr:'Les jours où vous étudiez, aucun rappel n’arrive. Ils partaient jusqu’ici que la journée soit faite ou non, et c’était leur pire défaut. Ils ne viennent plus que les jours oubliés, et disent autre chose selon l’heure',ar:'في الأيام التي تدرس فيها لم يعد يصلك تذكير. كانت التذكيرات تُرسل سواء أنجزت يومك أم لا، وكان ذلك أسوأ ما فيها. صارت تأتي في الأيام المنسية فقط، وتقول شيئًا مختلفًا بحسب الساعة',ko:'학습한 날에는 알림이 오지 않게 되었습니다. 지금까지는 이미 끝낸 날에도 똑같이 보냈고, 그것이 가장 나쁜 점이었습니다. 잊은 날에만, 시간대에 따라 다른 말로 보냅니다',ru:'В дни, когда вы занимались, напоминания больше не приходят. Раньше они уходили независимо от того, сделан ли день, — и это было в них самым плохим. Теперь они приходят только в забытые дни и говорят разное в зависимости от времени'},
   v5270_2:{ja:'連続が途切れる日の夜22時に、最後のお知らせが届きます。これは本当に今夜で途切れる方にだけ送ります。フリーズが残っていて実際には途切れない場合は、そう書きます',en:'On the night a streak would end, a last call arrives at 22:00. It goes only to people whose streak really does end tonight — and if a freeze is in hand so that it does not, it says that instead',zh:'在连续记录将中断的那天晚上 22:00 会收到最后提醒。只发给今晚确实会中断的人；如果还有冻结、实际不会中断，就会照实说明',fr:'Le soir où une série va se terminer, un dernier rappel arrive à 22 h. Il ne part qu’aux personnes dont la série se termine vraiment ce soir — et s’il reste un gel qui l’empêche, il le dit',ar:'في الليلة التي تنتهي فيها السلسلة يصل تذكير أخير عند 22:00، ولا يُرسل إلا لمن تنتهي سلسلته فعلًا تلك الليلة. وإن كانت لديك تجميدة تمنع ذلك، يقول لك هذا بدل ذلك',ko:'연속이 끊기는 날 밤 22시에 마지막 알림이 옵니다. 정말로 오늘 밤 끊기는 분에게만 보냅니다. 프리즈가 남아 있어 실제로는 끊기지 않는 경우에는 그렇게 적습니다',ru:'В ночь, когда серия прервётся, в 22:00 приходит последнее напоминание. Оно уходит только тем, у кого серия действительно обрывается сегодня, — а если есть заморозка и она не оборвётся, так и будет сказано'},
   v5270_3:{ja:'連続日数の数え方を、上ではなく下に向けました。「3日目です」ではなく「あと4日で習慣になります」、6日目には「あと1日で7日連続です」。連続が切れたあとは、これまでの自己ベストをお伝えします',en:'Streak days now count down instead of up. Not "day 3" but "four more days and it is a habit"; on day six, "one more day to seven in a row". And after a streak breaks, it tells you your own best run',zh:'连续天数改为倒数而非累加。不再是「第 3 天」，而是「再 4 天就成习惯」；第 6 天则是「再 1 天就连续 7 天」。连续中断后会告诉你自己的最好记录',fr:'Les jours de série se comptent désormais à rebours. Non plus « jour 3 » mais « encore quatre jours et c’est une habitude » ; au sixième, « encore un jour pour sept d’affilée ». Après une rupture, il vous rappelle votre meilleure série',ar:'صار عدّ أيام السلسلة تنازليًا لا تصاعديًا: ليس «اليوم 3» بل «تبقّى أربعة أيام لتصير عادة»، وفي اليوم السادس «يوم واحد لتصل إلى سبعة متتالية». وبعد انقطاع السلسلة يذكّرك بأفضل سلسلة حقّقتها',ko:'연속 일수를 위가 아니라 아래로 세도록 바꿨습니다. «3일째»가 아니라 «4일 더면 습관이 됩니다», 6일째에는 «1일만 더 하면 7일 연속입니다». 연속이 끊긴 뒤에는 지금까지의 최고 기록을 알려 드립니다',ru:'Дни серии теперь считаются вниз, а не вверх: не «день 3», а «ещё четыре дня — и это привычка»; на шестой — «ещё один день до семи подряд». А после обрыва серии вам напомнят ваш собственный рекорд'},
-  v5260_1:{ja:'1回の問題数のスライダーが、指にそのままついてくるようになりました。これまでは目盛りごとに飛んでいたので、引っかかるような動きでした。見た目も作り直しています',en:'The round-size slider now follows your finger exactly. It used to jump from notch to notch, which is what made it feel like it was catching. It has been redrawn as well',zh:'每轮题数的滑块现在会跟随手指移动。以前是逐格跳动，所以显得卡顿。外观也重新设计了',fr:'Le curseur du nombre de questions suit désormais le doigt exactement. Il sautait d’un cran à l’autre, d’où cette impression d’accroc. Son apparence a aussi été refaite',ar:'صار شريط عدد أسئلة الجولة يتبع إصبعك تمامًا، بعد أن كان يقفز من علامة إلى أخرى فيبدو متعثرًا. وأُعيد تصميم شكله أيضًا',ko:'한 번의 문제 수 슬라이더가 손가락을 그대로 따라오게 되었습니다. 지금까지는 눈금마다 건너뛰어서 걸리는 듯한 움직임이었습니다. 모양도 새로 만들었습니다',ru:'Ползунок размера раунда теперь точно следует за пальцем — раньше он прыгал от деления к делению, отчего казался дёрганым. Внешний вид тоже переделан'},
-  v5260_2:{ja:'すでに持っている単語を追加しようとしたとき、どこにあるのかを言うようになりました。「すでに「IT編」にあります」のように、自分の単語帳・作った単語帳・ダウンロード済みのパッケージのどこにあっても名前が出ます',en:'When you try to add a word you already have, it now says where. "Already in IT" and so on — your own notebook, any notebook you made, or any package you have downloaded',zh:'当你尝试添加已有的单词时，现在会告诉你它在哪里。例如「已在「IT编」中」——你自己的单词本、你创建的单词本，或已下载的单词包',fr:'Quand vous ajoutez un mot que vous avez déjà, l’app dit maintenant où il se trouve : « déjà dans IT », que ce soit votre carnet, un carnet que vous avez créé ou un paquet téléchargé',ar:'عند محاولة إضافة كلمة تملكها بالفعل، صار التطبيق يخبرك بمكانها: «موجودة بالفعل في IT» — سواء في دفترك أو دفتر أنشأته أو حزمة نزّلتها',ko:'이미 가지고 있는 단어를 추가하려고 하면 어디에 있는지 알려줍니다. «이미 «IT편»에 있습니다»처럼, 내 단어장·직접 만든 단어장·내려받은 패키지 어디에 있든 이름이 나옵니다',ru:'Если вы добавляете слово, которое уже есть, приложение теперь говорит где: «уже в IT» — в вашем блокноте, в созданном вами блокноте или в скачанном пакете'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1351,10 +1367,6 @@ const T={
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
-  ntf_prev:{ja:'届く通知を見てみる',en:'See what a reminder looks like',zh:'看看提醒长什么样',fr:'Voir à quoi ressemble un rappel',ar:'شاهد شكل التذكير',ko:'어떤 알림이 오는지 보기',ru:'Посмотреть, как выглядит напоминание'},
-  ntf_prev_d:{ja:'いまのあなたの状態で、実際に届くものをそのまま表示します',en:'Shows the real one for your state right now',zh:'按你当前的状态显示真实的通知',fr:'Affiche le vrai rappel pour votre état actuel',ar:'يعرض التذكير الحقيقي بحسب حالتك الآن',ko:'지금 상태에서 실제로 오는 것을 그대로 보여 줍니다',ru:'Покажет настоящее — для вашего текущего состояния'},
-  ntf_prev_go:{ja:'今の状態で表示',en:'Show it',zh:'显示',fr:'Afficher',ar:'اعرضه',ko:'표시하기',ru:'Показать'},
-  ntf_prev_sent:{ja:'通知を表示しました',en:'Sent to your notifications',zh:'已显示通知',fr:'Envoyé dans vos notifications',ar:'أُرسل إلى إشعاراتك',ko:'알림을 표시했습니다',ru:'Отправлено в уведомления'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
@@ -1661,6 +1673,8 @@ const T={
   past_tag:{ja:'{0}問目・回答済み',en:'Question {0} · answered',zh:'第 {0} 题・已作答',fr:'Question {0} · répondue',ar:'السؤال {0} · تمت الإجابة',ko:'{0}번째 · 답변함',ru:'Вопрос {0} · отвечен'},
   past_resume:{ja:'続きに戻る',en:'Back to the question',zh:'返回当前题',fr:'Revenir à la question',ar:'العودة إلى السؤال',ko:'이어서 풀기',ru:'Вернуться к вопросу'},
   btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
+  sp_near:{ja:'正解と{0}文字違います。',en:'{0} letter off.',zh:'与正确答案差 {0} 个字母。',fr:'{0} lettre d’écart.',ar:'يختلف عن الإجابة بـ {0} حرف.',ko:'정답과 {0}글자 다릅니다.',ru:'Отличается на {0} букв.'},
+  sp_wrong:{ja:'ちがいます。もう一度どうぞ。',en:'Not quite. Try again.',zh:'不对，再试一次。',fr:'Pas tout à fait. Réessayez.',ar:'ليست صحيحة. حاول مرة أخرى.',ko:'아닙니다. 다시 해 보세요.',ru:'Не то. Попробуйте ещё раз.'},
   sp_space:{ja:'space',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
   btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기',ru:'Показать результат'},
   accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%',fr:'Précision {0}%',ar:'الدقة {0}%',ko:'정답률 {0}%',ru:'Точность {0}%'},
@@ -3861,6 +3875,9 @@ function renderStudy(){
         '<div id="fSpkWrap" style="margin-top:10px"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
       '<div class="face back" id="fBack"></div>'+
     '</div></div>'+
+    // Flipping through cards is the other moment somebody thinks "I keep
+    // getting this one wrong", so the marks belong here as well as in the quiz.
+    '<div id="studyMark"></div>'+
     '<div class="deck-nav">'+
       '<button class="btn btn-ghost" id="dPrev">'+t('btn_prev')+'</button>'+
       '<span class="pos-ind" id="dPos"></span>'+
@@ -3896,7 +3913,18 @@ function showCard(){
   // swapping in the new word/meaning.
   if(wasFlipped)setTimeout(applyContent,260);
   else applyContent();
+  paintStudyMark();
   $('#dPos').textContent=(di+1)+' / '+deck.length;
+}
+function paintStudyMark(){
+  const el=$('#studyMark');
+  if(!el)return;
+  const w=deck[di];
+  // Read back from curWords() rather than the shuffled copy: a mark set here
+  // has to survive walking away and coming back to the same card.
+  const cur=curWords().find(x=>x.id===w.id)||w;
+  el.innerHTML=markBtnHTML(cur,'wide');
+  bindMarks('#studyMark',paintStudyMark);
 }
 // Shared by the flashcard back and the list's tap-to-expand detail popup, so
 // the two never drift into showing different information for the same word.
@@ -4257,11 +4285,16 @@ function renderQuizSetup(){
     grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
     grp(t('st_quiztype'),pick('type',[{v:'choice',n:t('opt_choice')},{v:'spell',n:t('opt_spell')}],S().quizType))+
     grp(t('st_len'),stepSliderHTML('qsLen',LEN_STEPS(),S().len))+
+    // Belongs with the other choices about THIS round, not buried in settings:
+    // it is a decision you make while looking at what you are about to study.
+    '<label class="qs-check"><input type="checkbox" id="qsShuffle"'+(S().shuffle?' checked':'')+'>'+
+      '<span><b>'+esc(t('st_shuffle'))+'</b>'+esc(t('desc_shuffle'))+'</span></label>'+
     '<button class="btn btn-gold" id="qsStart" style="margin-top:20px;width:100%;font-size:16px;padding:16px">'+
       esc(t('qs_start'))+'</button>'+
     '<p class="hint" id="qsNote" style="text-align:center;margin-top:10px"></p>';
 
   bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();updateQsNote();});
+  $('#qsShuffle').onchange=e=>{S().shuffle=e.target.checked;save();};
   $$('#quizBody .qs-o').forEach(b=>b.onclick=()=>{
     const g=b.dataset.g, v=b.dataset.v;
     if(g==='mode')quizSetup.mode=v;
@@ -4327,7 +4360,7 @@ function startQuiz(mode){
 // Android show predictive candidates above the system keyboard, and for a
 // spelling test those candidates ARE the answer. There is no way to reliably
 // suppress them, so the system keyboard cannot be used here at all.
-let spell={buf:'',hint:0,done:false,target:''};
+let spell={buf:'',hint:0,done:false,target:'',near:null};
 const SPELL_ROWS=[
   'qwertyuiop',
   'asdfghjkl',
@@ -4343,6 +4376,33 @@ function touchDevice(){
 function spellNorm(s){return (s||'').toLowerCase().replace(/\s+/g,' ').trim();}
 function spellTargetOf(w){return (w.word||'').trim();}
 
+// Where each word of the answer starts and ends. Spaces are never typed --
+// spellAutofill() carries the buffer over them -- so a word boundary is purely
+// a rendering concern, which is exactly why it can be added without touching
+// the input model at all.
+function spellWords(tg){
+  const out=[];
+  let i=0;
+  while(i<tg.length){
+    if(tg[i]===' '){out.push({sp:true,a:i,b:i+1});i++;continue;}
+    let j=i;
+    while(j<tg.length&&tg[j]!==' ')j++;
+    out.push({sp:false,a:i,b:j});
+    i=j;
+  }
+  return out;
+}
+// A word is right once every one of its letters has been typed and they match.
+// Saying so the moment it happens is the whole point: "make" going green while
+// "sure" is still empty is the feedback that the old all-or-nothing display
+// could never give.
+function spellWordState(g){
+  if(g.sp)return '';
+  if(spell.buf.length<g.b)return '';
+  const typed=spell.buf.slice(g.a,g.b).toLowerCase();
+  const want=spell.target.slice(g.a,g.b).toLowerCase();
+  return typed===want?'ok':'bad';
+}
 function spellDisplayHTML(){
   const tg=spell.target, n=tg.length;
   // Once the length is known, laying the answer out as slots says the same
@@ -4350,20 +4410,79 @@ function spellDisplayHTML(){
   // carrying given characters always uses this layout, hint or not -- they are
   // meant to be visible from the start, which is the whole point of giving them.
   if(spell.hint>=1||spellHasGiven(tg)){
-    let out='';
-    for(let i=0;i<n;i++){
+    const slot=i=>{
       const ch=spell.buf[i]||'';
-      const isSpace=tg[i]===' ';
-      const given=!spellTypeable(tg[i])&&tg[i]!==' ';
+      const given=spellAuto(tg[i])&&tg[i]!==' ';
       const cur=i===spell.buf.length&&!spell.done;
-      out+='<span class="sp-slot'+(isSpace?' gap':'')+(given?' given':'')+(cur?' cur':'')+
+      return '<span class="sp-slot'+(given?' given':'')+(cur?' cur':'')+
         (ch?' filled':'')+'">'+esc(given?tg[i]:(ch||''))+'</span>';
-    }
-    return out;
+    };
+    return spellWords(tg).map(g=>{
+      if(g.sp)return '<span class="sp-slot gap"></span>';
+      let inner='';
+      for(let i=g.a;i<g.b;i++)inner+=slot(i);
+      const st=spellWordState(g);
+      return '<span class="sp-word'+(st?' '+st:'')+'">'+inner+'</span>';
+    }).join('');
   }
+  // No hint and nothing given: the length is not known to the user yet, so
+  // there is nothing to group by -- the typed letters are all there is.
   const typed=spell.buf.split('').map(c=>
     '<span class="sp-slot'+(c===' '?' gap':' filled')+'">'+esc(c)+'</span>').join('');
   return typed+(spell.done?'':'<span class="sp-slot cur"></span>');
+}
+/* ---- "you were one letter out" -------------------------------------------
+   Until now a wrong spelling did nothing at all: checkSpell() only fires on an
+   exact match, so somebody who typed `brint` for `bring` got silence and had to
+   guess whether they were close or nowhere near. Nothing is graded here -- the
+   answer is still only marked wrong by giving up -- this just says how far off
+   the attempt is, and which letter is the culprit.
+   ------------------------------------------------------------------------- */
+const SPELL_NEAR_MAX=3;   // beyond this, a count is discouraging rather than useful
+// Levenshtein again, but keeping the path so the typed string can be marked up.
+// Returns one flag per typed character: true where that character is the thing
+// that is wrong (a substitution, or an insertion that does not belong).
+function spellDiff(typed,target){
+  const a=typed, b=target, n=a.length, m=b.length;
+  const d=[];
+  for(let i=0;i<=n;i++){d.push(new Array(m+1).fill(0));d[i][0]=i;}
+  for(let j=0;j<=m;j++)d[0][j]=j;
+  for(let i=1;i<=n;i++)for(let j=1;j<=m;j++){
+    const c=a[i-1]===b[j-1]?0:1;
+    d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+  }
+  const bad=new Array(n).fill(false);
+  let i=n,j=m;
+  while(i>0||j>0){
+    if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)){
+      if(a[i-1]!==b[j-1])bad[i-1]=true;   // substituted
+      i--;j--;
+    }else if(i>0&&d[i][j]===d[i-1][j]+1){
+      bad[i-1]=true;                       // typed a letter that is not there
+      i--;
+    }else{ j--; }                          // missing a letter: nothing to mark
+  }
+  return {dist:d[n][m],bad:bad};
+}
+function spellClearNear(){
+  if(!spell.near)return;
+  spell.near=null;
+  const el=$('#spNear');
+  if(el)el.innerHTML='';
+}
+// Only once the attempt is as long as the answer: marking a word wrong halfway
+// through typing it would be telling somebody they are wrong for not having
+// finished.
+function spellCheckNear(){
+  const typed=spellNorm(spell.buf), want=spellNorm(spell.target);
+  if(!typed||typed.length<want.length||typed===want){spellClearNear();return;}
+  const r=spellDiff(typed,want);
+  spell.near=r.dist<=SPELL_NEAR_MAX
+    ? {html:Array.from(typed).map((c,i)=>
+        r.bad[i]?'<b>'+esc(c)+'</b>':esc(c)).join('')+' – '+esc(t('sp_near',r.dist))}
+    : {html:esc(t('sp_wrong'))};
+  const el=$('#spNear');
+  if(el)el.innerHTML='<div class="sp-near">'+spell.near.html+'</div>';
 }
 function renderSpellDisplay(){
   const el=$('#spDisp');
@@ -4404,11 +4523,17 @@ function spellHintLabel(){
 // under the strict schedule that meant it returned to the start forever.
 function spellTypeable(ch){return /[a-zA-Z' -]/.test(ch);}
 function spellHasGiven(tg){return Array.from(tg||'').some(c=>!spellTypeable(c));}
-// Carry the buffer forward over any characters that were never the user's to
-// type, so the next keypress lands on the next real blank.
+// Characters the app fills in rather than asking for: anything the keyboard
+// cannot produce, and word spaces. Spaces used to be the user's to type, which
+// made "make sure" a nine-key answer where the fifth key was a space nobody
+// thinks of as a letter -- and now that words are drawn as separate boxes, the
+// gap between them says where the break is far better than a keystroke could.
+function spellAuto(ch){return ch===' '||!spellTypeable(ch);}
+// Carry the buffer forward over anything that was never the user's to type, so
+// the next keypress lands on the next real blank.
 function spellAutofill(){
   const tg=spell.target;
-  while(spell.buf.length<tg.length&&!spellTypeable(tg[spell.buf.length]))
+  while(spell.buf.length<tg.length&&spellAuto(tg[spell.buf.length]))
     spell.buf+=tg[spell.buf.length];
 }
 // The shortest the buffer may get: any characters given at the very start, plus
@@ -4416,11 +4541,15 @@ function spellAutofill(){
 function spellMin(){
   const tg=spell.target;
   let n=0;
-  while(n<tg.length&&!spellTypeable(tg[n]))n++;
+  while(n<tg.length&&spellAuto(tg[n]))n++;
   return spell.hint>=2?n+1:n;
 }
 function spellPush(ch){
   if(spell.done)return;
+  // The space key stays on the keyboard -- a keyboard that changes shape
+  // between questions is harder to type on -- but spaces are filled in now, so
+  // pressing it must not shove a second one into the next letter's slot.
+  if(ch===' ')return;
   const max=spell.hint>=1?spell.target.length:spell.target.length+5;
   if(spell.buf.length>=max)return;
   spell.buf+=ch;
@@ -4428,6 +4557,7 @@ function spellPush(ch){
   playKeyTap();
   renderSpellDisplay();
   checkSpell();
+  if(!spell.done)spellCheckNear();
 }
 function spellDel(){
   if(spell.done||!spell.buf.length)return;
@@ -4435,13 +4565,16 @@ function spellDel(){
   // Walk back over anything that was given rather than typed, then remove the
   // one character behind it -- that is the last thing the user actually chose.
   let i=spell.buf.length;
-  while(i>0&&!spellTypeable(tg[i-1]))i--;
+  while(i>0&&spellAuto(tg[i-1]))i--;
   if(i<=spellMin())return;
   // No autofill afterwards: the position just cleared is a typeable one, so
   // re-running it would be a no-op at best and would undo the delete at worst.
   spell.buf=spell.buf.slice(0,i-1);
   playKeyTap('del');
   renderSpellDisplay();
+  // Backspacing is the start of a correction, so the old verdict goes now
+  // rather than sitting there contradicting what is on screen.
+  spellClearNear();
 }
 function spellHint(){
   if(spell.done)return;
@@ -4452,6 +4585,7 @@ function spellHint(){
     // it puts the slots in front of an empty line instead of leaving a wrong
     // word sitting in boxes that now say how long the answer really is.
     spell.buf='';
+    spellClearNear();
     gaEvent('spell_hint',{level:1});
   }else if(spell.hint===1){
     spell.hint=2;
@@ -4461,6 +4595,7 @@ function spellHint(){
     // Giving up. Marked wrong, because it was not recalled.
     spell.done=true;
     spell.buf=spell.target;
+    spellClearNear();
     renderSpellDisplay();
     gaEvent('spell_revealed',{});
     finishSpell(w,false);
@@ -4474,6 +4609,7 @@ function checkSpell(){
   if(spell.done)return;
   if(spellNorm(spell.buf)!==spellNorm(spell.target))return;
   spell.done=true;
+  spellClearNear();
   renderSpellDisplay();
   const d=$('#spDisp');
   if(d)d.classList.add('ok');
@@ -4778,9 +4914,9 @@ function renderQ(){
     '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div></div>';
 
   if(spellMode){
-    spell={buf:'',hint:0,done:false,target:spellTargetOf(w)};
+    spell={buf:'',hint:0,done:false,target:spellTargetOf(w),near:null};
     spellAutofill();   // a leading given character is on screen before any key
-    inner+='<div id="spDisp" class="sp-disp"></div>'+
+    inner+='<div id="spDisp" class="sp-disp"></div><div id="spNear"></div>'+
       '<button class="btn btn-ghost" id="spHint" style="width:100%;margin-top:12px">'+esc(spellHintLabel())+'</button>'+
       '<div id="spKb"></div>'+
       '<div id="qfb"></div>';
@@ -4983,7 +5119,6 @@ function renderSettings(){
   }
   seg('#segGoal','dailyGoal',true);
   $('#swWeak').classList.toggle('on',S().weak);
-  $('#swShuffle').classList.toggle('on',!!S().shuffle);
   $('#swSound').classList.toggle('on',!!S().sound);
   renderVolumeRow();
   $('#quizTypeDesc').textContent=S().quizType==='spell'?t('desc_quiztype_spell'):t('desc_quiztype_choice');
@@ -5081,35 +5216,10 @@ function renderSpeechRows(){
   $('#swAutoSpeak').classList.toggle('on',!!S().autoSpeak);
   $('#swRank').classList.toggle('on',rankOptIn());
   $('#swNotify').classList.toggle('on',notifyOn());
-  // Only worth offering once notifications are actually on -- otherwise the
-  // browser refuses to show one and the button looks broken.
-  const pr=$('#ntfPreviewRow');
-  if(pr)pr.hidden=!notifyOn();
   // sample the change so the difference is audible right away
   seg('#segAccent','accent',false,()=>speak('Wordkeep'));
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
 }
-$('#swShuffle').onclick=()=>{
-  S().shuffle=!S().shuffle;save();
-  $('#swShuffle').classList.toggle('on',!!S().shuffle);
-  applySettingsNow('shuffle');
-};
-/* Shows the notification the user would get right now, composed by the real
-   service worker from the real hint. Needs no server, no GitHub token and no
-   waiting until 22:00 -- which is what made this impossible to check before.
-   It is the same code path a push takes; only the trigger differs. */
-$('#ntfPreview').onclick=async()=>{
-  const b=$('#ntfPreview');
-  b.disabled=true;
-  try{
-    await idbPut(buildHint());     // so the worker reads today's state, not a stale mirror
-    const reg=await navigator.serviceWorker.ready;
-    reg.active.postMessage({type:'wk-preview'});
-    toast(t('ntf_prev_sent'));
-    gaEvent('notify_preview',{});
-  }catch(e){ toast(t('ntf_fail')); }
-  finally{ b.disabled=false; }
-};
 $('#swNotify').onclick=async()=>{
   const el=$('#swNotify');
   if(notifyOn()){await disableNotify();el.classList.remove('on');return;}

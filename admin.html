@@ -322,16 +322,49 @@ async function removeFeedback(id){
 // Needs a GitHub token with `workflow` scope, entered once and kept in this
 // browser only. It is never written to Firestore or anywhere shared.
 const GH_REPO='yurihmhm/wordkeep';
+// The token cannot be obtained automatically, and that is not a gap waiting to
+// be filled: GitHub's token-exchange endpoint sends no CORS headers, so a
+// static page cannot complete OAuth without a backend -- and the VAPID private
+// key lives only in GitHub Secrets, so Actions is the only thing that can
+// actually send. Hence a token, entered once. The least this page can do is
+// explain exactly how to make one instead of just demanding it.
+const GH_TOKEN_HELP=
+  'GitHubのトークンを貼り付けてください。\n'+
+  'このブラウザにのみ保存され、どこにも送信されません。\n'+
+  '\n'+
+  '── 作り方（1〜2分）────────────────\n'+
+  '1. https://github.com/settings/personal-access-tokens/new を開く\n'+
+  '   （GitHub → 右上のアイコン → Settings → Developer settings\n'+
+  '     → Personal access tokens → Fine-grained tokens → Generate new token）\n'+
+  '\n'+
+  '2. Token name … 何でもよい（例: wordkeep-admin）\n'+
+  '   Expiration … 90 days など\n'+
+  '\n'+
+  '3. Repository access →「Only select repositories」を選び、\n'+
+  '   ' + GH_REPO + ' を選ぶ\n'+
+  '\n'+
+  '4. Permissions → Repository permissions を開き、\n'+
+  '   「Actions」を Read and write にする（これだけでよい）\n'+
+  '\n'+
+  '5. 一番下の Generate token → 表示された github_pat_… をコピー\n'+
+  '   ※この画面を離れると二度と表示されません\n'+
+  '────────────────────────────────';
 function ghToken(){
   let t=localStorage.getItem('wk.admin.ghtoken')||'';
   if(!t){
-    t=(prompt('GitHubのトークンを入力してください（workflow権限が必要）。\n\n'+
-      'github.com/settings/tokens で Fine-grained token を作り、\n'+
-      'このリポジトリの Actions に Read and write を与えてください。\n\n'+
-      'このブラウザにのみ保存され、どこにも送信されません。')||'').trim();
+    t=(prompt(GH_TOKEN_HELP)||'').trim();
     if(t)localStorage.setItem('wk.admin.ghtoken',t);
   }
   return t;
+}
+// A token that is refused is nearly always the wrong permission rather than a
+// typo, so the retry has to show the instructions again, not just an error.
+function ghForget(why){
+  localStorage.removeItem('wk.admin.ghtoken');
+  alert(why+'\n\n保存済みのトークンを消しました。'+
+        'もう一度ボタンを押すと、作り方をご案内します。\n\n'+
+        'よくある原因: Permissions の「Actions」が Read and write に\n'+
+        'なっていない／リポジトリを選び忘れている／期限切れ。');
 }
 async function testPush(uid,btn){
   const u=users.find(x=>x.id===uid);
@@ -353,9 +386,7 @@ async function testPush(uid,btn){
     }else{
       const body=await r.text();
       if(r.status===401||r.status===403){
-        localStorage.removeItem('wk.admin.ghtoken');
-        alert('トークンが拒否されました（'+r.status+'）。保存済みのトークンを消したので、'+
-              'workflow権限のあるトークンでもう一度お試しください。');
+        ghForget('トークンが拒否されました（'+r.status+'）。');
       }else alert('実行できませんでした（'+r.status+'）\n'+body.slice(0,200));
     }
   }catch(e){ alert('通信に失敗しました: '+(e&&e.message||e)); }

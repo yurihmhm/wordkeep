@@ -338,5 +338,39 @@ t('the one-day-old star reads as a favourite',()=>
   M.markOf({mark:'star'})==='fav'||'wrong');
 t('markOf survives a missing word',()=>M.markOf(null)===null&&M.markOf(undefined)===null||'threw or wrong');
 
+console.log('\nspellDiff / spellWords');
+const marks=(a,b)=>{const r=M.spellDiff(a,b);return r.dist+':'+Array.from(a).map((c,i)=>r.bad[i]?c.toUpperCase():c).join('');};
+t('a substitution marks the wrong letter',()=>marks('brint','bring')==='1:brinT'||marks('brint','bring'));
+t('an inserted letter marks the intruder',()=>marks('tgo','to')==='1:tGo'||marks('tgo','to'));
+t('a missing letter has nothing to mark',()=>marks('brig','bring')==='1:brig'||marks('brig','bring'));
+t('an exact match marks nothing',()=>marks('bring','bring')==='0:bring'||marks('bring','bring'));
+t('distance counts every edit',()=>M.spellDiff('kat','cats').dist===2||M.spellDiff('kat','cats').dist);
+t('empty against a word is its length',()=>M.spellDiff('','make').dist===4||'wrong');
+t('a word against empty marks every letter',()=>marks('make','')==='4:MAKE'||marks('make',''));
+t('flags are one per typed character',()=>{
+  const r=M.spellDiff('abcdef','abXdef');
+  return r.bad.length===6||'got '+r.bad.length;
+});
+t('a phrase with a space diffs the same way',()=>
+  marks('make shre','make sure')==='1:make sHre'||marks('make shre','make sure'));
+t('spellWords splits on spaces and keeps the gaps',()=>{
+  const g=M.spellWords('make sure');
+  return JSON.stringify(g)===JSON.stringify([{sp:false,a:0,b:4},{sp:true,a:4,b:5},{sp:false,a:5,b:9}])||JSON.stringify(g);
+});
+t('a single word is one group',()=>{
+  const g=M.spellWords('apple');
+  return (g.length===1&&g[0].a===0&&g[0].b===5)||JSON.stringify(g);
+});
+t('spellWords covers the whole string with no holes',()=>{
+  for(const s of ['make sure','a b c','stay 2months','one']){
+    const g=M.spellWords(s);
+    let at=0;
+    for(const x of g){ if(x.a!==at)return s+' hole at '+x.a; at=x.b; }
+    if(at!==s.length)return s+' stops at '+at;
+  }
+  return true;
+});
+t('spellWords on an empty target is empty',()=>M.spellWords('').length===0||'not empty');
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);
