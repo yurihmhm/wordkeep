@@ -115,11 +115,17 @@ service cloud.firestore {
     }
 
     // ---- Push subscriptions -----------------------------------------------
-    // One document per account, holding only what is needed to deliver a push:
-    // the address the browser's push service handed out, its two keys, the
-    // local hours to fire at, and the timezone. Deliberately NOT the words --
-    // the push is sent empty and the service worker writes the text on the
-    // device, so the sender never learns what anybody is studying.
+    // One document per account, holding only what is needed to DECIDE whether
+    // to send and WHEN: the address the browser's push service handed out, its
+    // two keys, the timezone, the local hours to fire at, which local day the
+    // person last studied, and whether a streak exists at all.
+    //
+    // `lastDay` is what lets a reminder be skipped entirely on a day already
+    // done, and `lastDay` + `hasStreak` are what let the 22:00 last call go
+    // only to people whose streak really ends tonight. Neither the LENGTH of
+    // the streak nor anything about the words is here: the push is sent empty
+    // and the service worker writes the text on the device, so the sender never
+    // learns what anybody is studying.
     //
     // Nobody can read these back from the client. The scheduled sender uses the
     // Admin SDK, which bypasses rules; leaving read closed means a subscription
