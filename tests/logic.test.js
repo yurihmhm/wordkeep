@@ -372,5 +372,38 @@ t('spellWords covers the whole string with no holes',()=>{
 });
 t('spellWords on an empty target is empty',()=>M.spellWords('').length===0||'not empty');
 
+console.log('\nspellDiff: missing letters');
+const shape=(a,b)=>{const r=M.spellDiff(a,b);let o='';
+  for(let i=0;i<a.length;i++){if(r.miss[i])o+='_'.repeat(r.miss[i]);o+=r.bad[i]?a[i].toUpperCase():a[i];}
+  if(r.miss[a.length])o+='_'.repeat(r.miss[a.length]);
+  return r.dist+':'+o;};
+t('a dropped letter shows as a gap where it belongs',()=>shape('exaple','example')==='1:exa_ple'||shape('exaple','example'));
+t('a substitution still marks the letter, no gap',()=>shape('exampre','example')==='1:exampR e'.replace(' ','')||shape('exampre','example'));
+t('a letter missing off the end',()=>shape('brin','bring')==='1:brin_'||shape('brin','bring'));
+t('a letter missing at the very start',()=>shape('xample','example')==='1:_xample'||shape('xample','example'));
+// Where a gap lands inside a run of repeated letters is a genuine tie
+// (acc/omm), so this asserts what has to hold rather than one of the readings.
+t('two dropped letters: two gaps, and the typed string survives',()=>{
+  const r=M.spellDiff('acomodation','accommodation');
+  const gaps=r.miss.reduce((a,b)=>a+b,0);
+  return (r.dist===2&&gaps===2&&!r.bad.some(Boolean))||JSON.stringify({d:r.dist,gaps:gaps});
+});
+t('gaps never rewrite what was typed',()=>{
+  for(const [a,b] of [['exaple','example'],['acomodation','accommodation'],['brin','bring'],['','word']]){
+    const r=M.spellDiff(a,b);
+    let o='';
+    for(let i=0;i<a.length;i++)o+=a[i];
+    if(o!==a)return a+' -> '+o;
+    if(r.miss.length!==a.length+1)return a+' miss length '+r.miss.length;
+  }
+  return true;
+});
+t('miss has one more slot than the typed string',()=>M.spellDiff('abc','abcd').miss.length===4||'wrong length');
+t('an exact match has no gaps at all',()=>{
+  const r=M.spellDiff('example','example');
+  return (r.dist===0&&r.miss.every(x=>x===0)&&r.bad.every(x=>!x))||'not clean';
+});
+t('typed longer than the answer marks the extra, not a gap',()=>shape('examplee','example')==='1:examplE e'.replace(' ','')||shape('examplee','example'));
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

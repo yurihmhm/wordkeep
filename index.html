@@ -245,8 +245,8 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .empty .big{margin-bottom:12px;line-height:0}
 .empty .big svg{width:40px;height:40px;stroke:var(--line);stroke-width:1.6}
 
-.deck{perspective:1200px;margin:8px 0 18px}
-.flip{position:relative;width:100%;min-height:320px;transform-style:preserve-3d;
+.deck{perspective:1200px;margin:8px 0 14px}
+.flip{position:relative;width:100%;min-height:min(320px,38vh);transform-style:preserve-3d;
   transition:transform .5s;cursor:pointer}
 .flip.flipped{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;
@@ -271,8 +271,14 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .pos-badge{display:inline-block;font-size:10.5px;font-weight:700;color:var(--ink-strong);
   background:var(--chip-bg);border-radius:6px;padding:2px 7px;margin-right:7px;vertical-align:1px}
 .face.back .bja{font-size:22px;color:var(--ink-strong);font-weight:700;margin-top:2px}
-.deck-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.deck-nav .pos-ind{font-size:13px;color:var(--muted)}
+.deck-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.deck-nav .dk-arrow{flex:1;min-width:0}
+.pos-ind{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+/* The square pair: icons only, sized to sit on the same line as the arrows
+   without stretching them off the row. */
+.mark-row.sq{display:flex;gap:8px;flex:none;margin:0}
+.mark-row.sq .mark-btn{width:46px;height:46px;border-radius:13px}
+.mark-row.sq .mark-btn svg{width:21px;height:21px}
 
 .q-word{text-align:center;margin:10px 0 22px}
 /* The prompt is a meaning, which can be a whole sentence. At a fixed 36px a
@@ -350,6 +356,9 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   border-radius:12px;padding:10px 14px;font-size:14px;text-align:center;
   font-family:Georgia,'Times New Roman',serif}
 .sp-near b{color:var(--bad-ink);font-weight:700}
+/* A letter that is missing rather than wrong: there is no character to colour,
+   so the gap itself has to be the mark. */
+.sp-near .sp-gap{color:var(--bad-ink);font-style:normal;opacity:.8;letter-spacing:1px}
 
 
 /* Sized and spaced like a phone keyboard so the muscle memory transfers. */
@@ -921,7 +930,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div id="src-study"></div>
     <div id="studyModes"></div>
     <h2 style="font-size:20px;margin:6px 2px 4px" data-i18n="study_title">単語帳</h2>
-    <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）</p>
+    <p class="hint" id="studyHint" style="margin-bottom:12px" data-i18n="study_hint">復習の予定には影響しません。</p>
     <div id="studyBody"></div>
   </section>
 
@@ -1216,15 +1225,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.30.0';
+const APP_VERSION='5.31.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.30.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.31.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.30.0',date:'2026-08-27',keys:['v5300_1','v5300_2','v5300_3']},
   {version:'5.29.0',date:'2026-08-27',keys:['v5290_1','v5290_2','v5290_3']},
-  {version:'5.28.0',date:'2026-08-27',keys:['v5280_1','v5280_2','v5280_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1322,15 +1331,15 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'まとめて追加に「すべて選択」と「すべて解除」を付けました。あわせて、すでに持っているのが配布パッケージの中だけの場合はチェックを外さないようにしました。パッケージは共有の中身なので、自分の単語帳に入れたいこととは別のことです',en:'Bulk add has "Select all" and "Clear all". And a word that exists only inside a downloaded package no longer arrives unticked — a package is shared content, which is a different thing from having the word in your own notebook',zh:'批量添加新增「全选」和「全部取消」。另外，若单词仅存在于已下载的单词包中，不再自动取消勾选——单词包是共享内容，与你自己的单词本是两回事',fr:'L’ajout groupé a « Tout sélectionner » et « Tout désélectionner ». Et un mot présent seulement dans un paquet téléchargé n’arrive plus décoché : un paquet est du contenu partagé, ce n’est pas la même chose que l’avoir dans son carnet',ar:'أُضيف إلى الإضافة الجماعية «تحديد الكل» و«إلغاء التحديد». كما أن الكلمة الموجودة داخل حزمة منزّلة فقط لم تعد تصل بلا تحديد — فالحزمة محتوى مشترك، وهذا غير أن تكون الكلمة في دفترك',ko:'모아서 추가에 «전체 선택»과 «전체 해제»를 넣었습니다. 또 이미 가지고 있는 곳이 배포 패키지 안뿐이라면 체크를 해제하지 않습니다. 패키지는 공유 내용이라, 내 단어장에 넣고 싶은 것과는 다른 이야기입니다',ru:'В массовом добавлении появились «Выбрать все» и «Снять все». А слово, которое есть только в скачанном пакете, больше не приходит без галочки: пакет — это общий материал, а не ваш словарь'},
-  wn2:{ja:'スペル入力で、文字が足りないときも「正解と1文字違います」と出るようになりました。打っている途中では出さず、手が止まってから出ます。また、まったく違うときに出ていた「ちがいます。もう一度どうぞ」は消しました',en:'Spelling now also tells you when a letter is missing, not only when one is wrong. It waits until you stop typing rather than calling you out mid-word. And the "not quite, try again" line for a wholly wrong guess is gone',zh:'拼写输入在少打字母时也会提示「与正确答案差 1 个字母」。它会等你停下来再显示，不会打字中途就提醒。另外完全不对时出现的「不对，再试一次」已删除',fr:'La saisie signale aussi une lettre manquante, pas seulement une lettre fausse. Elle attend que vous vous arrêtiez plutôt que de vous reprendre en plein mot. Et le « pas tout à fait, réessayez » a disparu',ar:'صار إدخال التهجئة ينبّهك أيضًا حين ينقص حرف، لا حين يخطئ حرف فقط. وينتظر حتى تتوقف عن الكتابة بدل مقاطعتك في منتصف الكلمة. كما حُذفت عبارة «ليست صحيحة، حاول مرة أخرى»',ko:'스펠 입력에서 글자가 모자랄 때도 «정답과 1글자 다릅니다»가 나오게 되었습니다. 치는 도중에는 나오지 않고, 손이 멈춘 뒤에 나옵니다. 또 완전히 다를 때 나오던 «아닙니다. 다시 해 보세요»는 없앴습니다',ru:'Ввод по буквам теперь подсказывает и когда буквы не хватает, а не только когда она неверна. Он ждёт, пока вы остановитесь, а не перебивает посреди слова. А строка «не то, попробуйте ещё раз» убрана'},
-  wn3:{ja:'単語帳（カード）をキーボードで操作できるようになりました。←→で前後、Enterで裏返しです。また、スペースキーの右に見えないキーを足して、キーボードの下段でスペースがちょうど真ん中に来るようにしました',en:'The flashcards can be driven from the keyboard: ← → to move, Enter to turn the card over. And the space bar now sits exactly in the middle of the bottom row, balanced by an invisible key on its right',zh:'单词卡现在可用键盘操作：←→ 翻页，Enter 翻面。另外在空格键右侧加了一个隐形键，让底排的空格键正好居中',fr:'Les cartes se pilotent au clavier : ← → pour naviguer, Entrée pour retourner la carte. Et la barre d’espace est désormais parfaitement centrée, équilibrée par une touche invisible à sa droite',ar:'صار بإمكانك تصفّح البطاقات بلوحة المفاتيح: ← → للتنقل، وEnter لقلب البطاقة. كما أضيف مفتاح غير مرئي يمين المسافة ليستقر شريط المسافة في منتصف الصف السفلي تمامًا',ko:'단어장(카드)을 키보드로 조작할 수 있게 되었습니다. ←→로 앞뒤, Enter로 뒤집기입니다. 또 스페이스 오른쪽에 보이지 않는 키를 넣어, 아래 줄에서 스페이스가 정확히 가운데에 오도록 했습니다',ru:'Карточками теперь можно управлять с клавиатуры: ← → листают, Enter переворачивает. А пробел встал ровно по центру нижнего ряда — его уравновешивает невидимая клавиша справа'},
+  wn1:{ja:'「for example」のように2語以上の問題で、forを打ち終わった時点でforだけが緑になるようになりました。ヒントを見ていなくても単語ごとに判定します',en:'On a two-word answer like "for example", "for" turns green the moment it is finished — each word is judged on its own, whether or not you asked for a hint',zh:'像「for example」这样两个以上单词的题目，打完 for 时 for 就会变绿。即使没看提示，也会逐词判断',fr:'Sur une réponse en deux mots comme « for example », « for » passe au vert dès qu’il est fini : chaque mot est jugé séparément, avec ou sans indice',ar:'في إجابة من كلمتين مثل «for example» تتحول for إلى الأخضر لحظة اكتمالها، فكل كلمة تُقيَّم وحدها سواء طلبت تلميحًا أم لا',ko:'«for example»처럼 두 단어 이상인 문제에서, for를 다 친 시점에 for만 초록색이 됩니다. 힌트를 보지 않아도 단어별로 판정합니다',ru:'В ответе из двух слов вроде «for example» слово «for» зеленеет, как только дописано: каждое слово оценивается отдельно, с подсказкой или без'},
+  wn2:{ja:'惜しかったときの表示が、文字を消した瞬間に出るようになりました。消す＝違うと思った瞬間なので、そこで直前の入力について答えます。足りない文字は exa_ple のように空きで示します',en:'The "how close were you" line now appears the instant you delete a letter — deleting is the moment you decide it was wrong, so that is when it answers, about the word you had a moment ago. A missing letter shows as a gap: exa_ple',zh:'「差多少」的提示改为在你删除字符的瞬间显示——删除正是你认为写错了的时刻。缺少的字母会以空位显示，如 exa_ple',fr:'L’indication « à combien vous étiez » apparaît dès que vous effacez une lettre : effacer, c’est le moment où l’on se dit qu’on s’est trompé. Une lettre manquante s’affiche comme un trou : exa_ple',ar:'صار بيان «كم اقتربت» يظهر لحظة حذفك حرفًا — فالحذف هو اللحظة التي تقرر فيها أنك أخطأت. والحرف الناقص يظهر فراغًا هكذا: exa_ple',ko:'아까웠을 때의 표시가 글자를 지운 순간에 나오게 되었습니다. 지우기는 «틀렸다»고 판단한 순간이므로, 그때 직전 입력에 대해 답합니다. 모자란 글자는 exa_ple처럼 빈칸으로 보여 줍니다',ru:'Подсказка «насколько близко» появляется, как только вы удаляете букву: удаление — это момент, когда вы решили, что ошиблись. Пропущенная буква показана пробелом: exa_ple'},
+  wn3:{ja:'単語帳の「前」「次」とマークを1行にまとめました。スマホで下までスクロールしないと次に進めなかったのを直しています。あわせて、読まなくてよかった説明文をいくつか削りました',en:'On the flashcards, "previous", "next" and the marks now share one row — on a phone the marks had pushed "next" below the fold, which made them cost the thing you came for. A few explanations nobody needed have been removed as well',zh:'单词卡的「上一个」「下一个」和标记合并到一行。此前在手机上必须滑到底才能翻页，现已修复。同时删除了几段没必要的说明文字',fr:'Sur les cartes, « précédent », « suivant » et les marques tiennent sur une seule ligne : sur téléphone, les marques repoussaient « suivant » hors de l’écran. Quelques explications inutiles ont aussi été supprimées',ar:'في البطاقات صار «السابق» و«التالي» والعلامات في سطر واحد، بعد أن كانت العلامات تدفع «التالي» خارج الشاشة على الهاتف. كما حُذفت بعض الشروح التي لا لزوم لها',ko:'단어장의 «이전» «다음»과 마크를 한 줄로 모았습니다. 휴대폰에서 아래까지 스크롤해야 다음으로 갈 수 있던 것을 고쳤습니다. 아울러 읽지 않아도 되는 설명문을 몇 개 지웠습니다',ru:'На карточках «назад», «вперёд» и метки теперь в одной строке — на телефоне метки выталкивали «вперёд» за экран. Заодно убрано несколько ненужных пояснений'},
+  v5300_1:{ja:'まとめて追加に「すべて選択」と「すべて解除」を付けました。あわせて、すでに持っているのが配布パッケージの中だけの場合はチェックを外さないようにしました。パッケージは共有の中身なので、自分の単語帳に入れたいこととは別のことです',en:'Bulk add has "Select all" and "Clear all". And a word that exists only inside a downloaded package no longer arrives unticked — a package is shared content, which is a different thing from having the word in your own notebook',zh:'批量添加新增「全选」和「全部取消」。另外，若单词仅存在于已下载的单词包中，不再自动取消勾选——单词包是共享内容，与你自己的单词本是两回事',fr:'L’ajout groupé a « Tout sélectionner » et « Tout désélectionner ». Et un mot présent seulement dans un paquet téléchargé n’arrive plus décoché : un paquet est du contenu partagé, ce n’est pas la même chose que l’avoir dans son carnet',ar:'أُضيف إلى الإضافة الجماعية «تحديد الكل» و«إلغاء التحديد». كما أن الكلمة الموجودة داخل حزمة منزّلة فقط لم تعد تصل بلا تحديد — فالحزمة محتوى مشترك، وهذا غير أن تكون الكلمة في دفترك',ko:'모아서 추가에 «전체 선택»과 «전체 해제»를 넣었습니다. 또 이미 가지고 있는 곳이 배포 패키지 안뿐이라면 체크를 해제하지 않습니다. 패키지는 공유 내용이라, 내 단어장에 넣고 싶은 것과는 다른 이야기입니다',ru:'В массовом добавлении появились «Выбрать все» и «Снять все». А слово, которое есть только в скачанном пакете, больше не приходит без галочки: пакет — это общий материал, а не ваш словарь'},
+  v5300_2:{ja:'スペル入力で、文字が足りないときも「正解と1文字違います」と出るようになりました。打っている途中では出さず、手が止まってから出ます。また、まったく違うときに出ていた「ちがいます。もう一度どうぞ」は消しました',en:'Spelling now also tells you when a letter is missing, not only when one is wrong. It waits until you stop typing rather than calling you out mid-word. And the "not quite, try again" line for a wholly wrong guess is gone',zh:'拼写输入在少打字母时也会提示「与正确答案差 1 个字母」。它会等你停下来再显示，不会打字中途就提醒。另外完全不对时出现的「不对，再试一次」已删除',fr:'La saisie signale aussi une lettre manquante, pas seulement une lettre fausse. Elle attend que vous vous arrêtiez plutôt que de vous reprendre en plein mot. Et le « pas tout à fait, réessayez » a disparu',ar:'صار إدخال التهجئة ينبّهك أيضًا حين ينقص حرف، لا حين يخطئ حرف فقط. وينتظر حتى تتوقف عن الكتابة بدل مقاطعتك في منتصف الكلمة. كما حُذفت عبارة «ليست صحيحة، حاول مرة أخرى»',ko:'스펠 입력에서 글자가 모자랄 때도 «정답과 1글자 다릅니다»가 나오게 되었습니다. 치는 도중에는 나오지 않고, 손이 멈춘 뒤에 나옵니다. 또 완전히 다를 때 나오던 «아닙니다. 다시 해 보세요»는 없앴습니다',ru:'Ввод по буквам теперь подсказывает и когда буквы не хватает, а не только когда она неверна. Он ждёт, пока вы остановитесь, а не перебивает посреди слова. А строка «не то, попробуйте ещё раз» убрана'},
+  v5300_3:{ja:'単語帳（カード）をキーボードで操作できるようになりました。←→で前後、Enterで裏返しです。また、スペースキーの右に見えないキーを足して、キーボードの下段でスペースがちょうど真ん中に来るようにしました',en:'The flashcards can be driven from the keyboard: ← → to move, Enter to turn the card over. And the space bar now sits exactly in the middle of the bottom row, balanced by an invisible key on its right',zh:'单词卡现在可用键盘操作：←→ 翻页，Enter 翻面。另外在空格键右侧加了一个隐形键，让底排的空格键正好居中',fr:'Les cartes se pilotent au clavier : ← → pour naviguer, Entrée pour retourner la carte. Et la barre d’espace est désormais parfaitement centrée, équilibrée par une touche invisible à sa droite',ar:'صار بإمكانك تصفّح البطاقات بلوحة المفاتيح: ← → للتنقل، وEnter لقلب البطاقة. كما أضيف مفتاح غير مرئي يمين المسافة ليستقر شريط المسافة في منتصف الصف السفلي تمامًا',ko:'단어장(카드)을 키보드로 조작할 수 있게 되었습니다. ←→로 앞뒤, Enter로 뒤집기입니다. 또 스페이스 오른쪽에 보이지 않는 키를 넣어, 아래 줄에서 스페이스가 정확히 가운데에 오도록 했습니다',ru:'Карточками теперь можно управлять с клавиатуры: ← → листают, Enter переворачивает. А пробел встал ровно по центру нижнего ряда — его уравновешивает невидимая клавиша справа'},
   v5290_1:{ja:'スペル入力が単語ごとの箱になりました。「make sure」なら、makeを打ち終わった時点でその単語が緑になります。スペースは自動で入るので打つ必要はありません',en:'Spelling is now one box per word. Type "make sure" and "make" turns green the moment it is complete. Spaces fill themselves in, so you never type one',zh:'拼写输入改为按单词分框。输入「make sure」时，打完 make 该词就会变绿。空格会自动填入，无需自己输入',fr:'La saisie se fait maintenant par mot. Pour « make sure », « make » passe au vert dès qu’il est complet. Les espaces se placent tout seuls',ar:'صار إدخال التهجئة في صندوق لكل كلمة. في «make sure» تتحول make إلى الأخضر لحظة اكتمالها. والمسافات تُدرج تلقائيًا فلا تحتاج لكتابتها',ko:'스펠 입력이 단어별 상자로 바뀌었습니다. «make sure»라면 make를 다 치는 순간 그 단어가 초록색이 됩니다. 띄어쓰기는 자동으로 들어가므로 칠 필요가 없습니다',ru:'Ввод по буквам теперь разбит на слова. В «make sure» слово «make» зеленеет, как только дописано. Пробелы подставляются сами'},
   v5290_2:{ja:'スペルを外したとき、どれくらい惜しかったかが出るようになりました。「brint – 正解と1文字違います。」のように、違っている文字を赤で示します。これまでは何も起きず、近いのか全然違うのか分かりませんでした',en:'A wrong spelling now tells you how close it was: "brint – 1 letter off", with the offending letter in red. Before, nothing happened at all and you could not tell near from nowhere near',zh:'拼错时会告诉你差了多少：「brint – 与正确答案差 1 个字母」，并用红色标出错误字母。以前什么都不会发生，无法判断是接近还是完全不对',fr:'Une faute vous dit désormais de combien : « brint – 1 lettre d’écart », la lettre fautive en rouge. Avant, il ne se passait rien et on ne savait pas si on était proche',ar:'صار الخطأ الإملائي يخبرك كم ابتعدت: «brint – يختلف بحرف واحد»، مع تمييز الحرف الخاطئ بالأحمر. وقبل ذلك لم يكن يحدث شيء فلا تعرف أقريب أنت أم بعيد',ko:'스펠을 틀렸을 때 얼마나 아까웠는지 알려 줍니다. «brint – 정답과 1글자 다릅니다.»처럼 틀린 글자를 빨간색으로 표시합니다. 지금까지는 아무 일도 일어나지 않아, 가까운지 전혀 다른지 알 수 없었습니다',ru:'Ошибка в написании теперь показывает, насколько вы промахнулись: «brint — на 1 букву», с виноватой буквой красным. Раньше не происходило ничего'},
   v5290_3:{ja:'単語帳（カード）でも、お気に入りと苦手マークを付けられるようになりました。カードをめくっていて「これ苦手だな」と思ったその場で付けられます。また、出題順のシャッフルは設定ではなく復習をはじめる画面に移しました',en:'The flashcards can be marked too — favourite and tricky — right at the moment you think "I keep getting this one wrong". And the shuffle option moved out of Settings onto the screen where you start a round',zh:'单词卡也可以添加收藏和难记标记了，翻卡时想到「这个我老记不住」就能当场标记。另外，打乱顺序的选项已从设置移到开始复习的界面',fr:'Les cartes peuvent aussi être marquées — favori et délicat — au moment précis où vous vous dites « celui-là, je le rate toujours ». Et l’option de mélange a quitté les réglages pour l’écran de lancement d’une série',ar:'صار بإمكانك وسم البطاقات أيضًا بـ«مفضّلة» و«صعبة عليّ» في اللحظة التي تشعر فيها بذلك. كما انتقل خيار خلط الترتيب من الإعدادات إلى شاشة بدء المراجعة',ko:'단어장(카드)에서도 즐겨찾기와 어려움 표시를 붙일 수 있게 되었습니다. 카드를 넘기다 «이건 어렵네» 싶은 그 자리에서 붙일 수 있습니다. 또 출제 순서 섞기는 설정이 아니라 복습을 시작하는 화면으로 옮겼습니다',ru:'Карточки тоже можно помечать — «избранное» и «сложное» — ровно в тот момент, когда думаешь «вот это я всё время путаю». А перемешивание переехало из настроек на экран запуска раунда'},
-  v5280_1:{ja:'単語リストに「リストを編集」を追加し、その中に「選択して移動」ができました。選んだ単語をまとめて別の単語帳へ移せます。移動先はその場で新しく作ることもでき、学習の記録はそのまま引き継がれます',en:'The word list has an "Edit list" button, and inside it a new "Select to move". Move a batch of words to another notebook — you can create the destination on the spot, and review progress moves with them',zh:'单词列表新增「编辑列表」按钮，其中包含新的「选择并移动」。可将选中的单词批量移到其他单词本，目的地可当场新建，学习进度会一并保留',fr:'La liste de mots a un bouton « Modifier la liste », avec une nouvelle option « Sélectionner pour déplacer ». Déplacez un lot de mots vers un autre carnet — créable sur place — la progression suit',ar:'أُضيف زر «تحرير القائمة» إلى قائمة الكلمات، وفيه خيار جديد «حدّد للنقل». انقل مجموعة كلمات إلى دفتر آخر، ويمكنك إنشاء الوجهة في اللحظة نفسها، ويبقى تقدّم المراجعة معها',ko:'단어 목록에 «목록 편집»을 추가하고, 그 안에 «선택해서 이동»을 넣었습니다. 고른 단어를 한꺼번에 다른 단어장으로 옮길 수 있고, 옮길 곳은 그 자리에서 새로 만들 수도 있으며 학습 기록은 그대로 따라갑니다',ru:'В списке слов появилась кнопка «Редактировать список», а в ней — новое «Выбрать для переноса». Переносите слова пачкой в другой словарь; его можно создать тут же, а прогресс повторений переезжает вместе'},
-  v5280_2:{ja:'しばらく時間をあけてアプリを開いたとき、ホームから始まるようになりました。ホームは「今日は何をすればいいか」に答える画面なので。少し離れただけのときや、問題を解いている途中は、そのままの画面に戻ります',en:'Reopening the app after a while now starts on Home, because Home is the screen that answers "what should I do now". Step away only briefly, or leave mid-round, and you come back exactly where you were',zh:'隔一段时间再打开应用会从主页开始，因为主页回答的正是「现在该做什么」。若只是短暂离开，或正在答题中途，则会回到原来的画面',fr:'Rouvrir l’app après un moment démarre sur l’Accueil, car c’est l’écran qui répond à « que faire maintenant ». Une absence brève, ou une série en cours, vous ramène là où vous étiez',ar:'عند فتح التطبيق بعد فترة صار يبدأ من الصفحة الرئيسية، لأنها الشاشة التي تجيب عن «ماذا أفعل الآن». أما الغياب القصير أو الجولة الجارية فيعيدانك إلى حيث كنت',ko:'한동안 시간을 두고 앱을 열면 홈에서 시작합니다. 홈이 «오늘 무엇을 하면 되는지»에 답하는 화면이기 때문입니다. 잠깐 자리를 비웠을 때나 문제를 푸는 도중에는 원래 화면으로 돌아갑니다',ru:'Если открыть приложение спустя время, оно начинается с Главной — это экран, который отвечает на вопрос «что делать сейчас». После короткой отлучки или посреди раунда вы вернётесь туда, где были'},
-  v5280_3:{ja:'設定の通知に「届く通知を見てみる」を追加しました。いまのあなたの状態で実際に届くものを、その場で表示します。夜まで待たなくても、どんな文面が来るのか確かめられます',en:'Settings now has "See what a reminder looks like". It shows the real one for your state right now, so you can check the wording without waiting until evening',zh:'设置的通知中新增「看看提醒长什么样」。按你当前的状态立刻显示真实的通知，不必等到晚上就能确认文案',fr:'Les réglages proposent « Voir à quoi ressemble un rappel » : il affiche le vrai, pour votre état actuel, sans attendre le soir',ar:'أُضيف إلى الإعدادات «شاهد شكل التذكير»، فيعرض التذكير الحقيقي بحسب حالتك الآن دون انتظار المساء',ko:'설정의 알림에 «어떤 알림이 오는지 보기»를 추가했습니다. 지금 상태에서 실제로 오는 것을 그 자리에서 보여 주므로, 밤까지 기다리지 않아도 문구를 확인할 수 있습니다',ru:'В настройках появилось «Посмотреть, как выглядит напоминание» — оно показывает настоящее, для вашего текущего состояния, не дожидаясь вечера'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1364,7 +1373,7 @@ const T={
   today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
   sec_notify:{ja:'通知',en:'Notifications',zh:'通知',fr:'Notifications',ar:'الإشعارات',ko:'알림',ru:'Уведомления'},
   st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
-  desc_notify:{ja:'学習を忘れている日だけ、そっとお知らせします。学習した日には届きません。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'A quiet nudge only on the days you have not studied — nothing on the days you have. The wording is composed on your device, so the server never learns which words you study',zh:'只在你当天还没学习时轻声提醒，学习过的日子不会打扰。通知文案在你的设备上生成，服务器不会知道你在学哪些单词',fr:'Un rappel discret uniquement les jours où vous n’avez pas étudié, rien les autres. Le texte est composé sur votre appareil : le serveur n’apprend jamais quels mots vous étudiez',ar:'تنبيه هادئ في الأيام التي لم تدرس فيها فقط، ولا شيء في غيرها. ويُكتب نص الإشعار داخل جهازك، فلا يعرف الخادم أي الكلمات تدرس',ko:'학습을 잊은 날에만 조용히 알려 드립니다. 학습한 날에는 오지 않습니다. 알림 문구는 기기 안에서 만들어지므로, 어떤 단어를 공부하는지 서버에 전달되지 않습니다',ru:'Тихое напоминание только в дни, когда вы не занимались, и ничего в остальные. Текст составляется на вашем устройстве, поэтому сервер не узнаёт, какие слова вы учите'},
+  desc_notify:{ja:'学習を忘れている日だけ、そっとお知らせします。学習した日には届きません。',en:'A quiet nudge only on the days you have not studied — nothing on the days you have.',zh:'只在你当天还没学习时轻声提醒，学习过的日子不会打扰。',fr:'Un rappel discret uniquement les jours où vous n’avez pas étudié, rien les autres.',ar:'تنبيه هادئ في الأيام التي لم تدرس فيها فقط، ولا شيء في غيرها.',ko:'학습을 잊은 날에만 조용히 알려 드립니다. 학습한 날에는 오지 않습니다.',ru:'Тихое напоминание только в дни, когда вы не занимались, и ничего в остальные.'},
   ntf_ask_t:{ja:'忘れないように、お知らせしましょうか？',en:'Shall we remind you?',zh:'要提醒你复习吗？',fr:'Voulez-vous des rappels ?',ar:'هل نُذكّرك؟',ko:'잊지 않도록 알려 드릴까요?',ru:'Напоминать вам о занятиях?'},
   ntf_ask_b:{ja:'7日続けば習慣になります。1問だけでも今日の分になります。学習した日にはお知らせは届きません。あとから設定でいつでも止められます',en:'Seven days in a row is what turns this into a habit, and a single question counts. On the days you study, nothing arrives at all. You can turn it off any time in Settings',zh:'坚持 7 天就会成为习惯，哪怕只答一题也算。你学习过的那天不会收到任何提醒。随时可在设置中关闭',fr:'Sept jours d’affilée en font une habitude, et une seule question suffit. Les jours où vous étudiez, rien n’arrive. Vous pouvez désactiver à tout moment dans les réglages',ar:'سبعة أيام متتالية تصنع عادة، وسؤال واحد يكفي لليوم. وفي الأيام التي تدرس فيها لا يصلك شيء. ويمكنك الإيقاف متى شئت من الإعدادات',ko:'7일 이어가면 습관이 됩니다. 한 문제만 풀어도 오늘 몫이 됩니다. 학습한 날에는 알림이 오지 않습니다. 설정에서 언제든 끌 수 있습니다',ru:'Семь дней подряд превращают это в привычку, и одного вопроса достаточно. В дни, когда вы занимаетесь, ничего не приходит. Отключить можно в настройках в любой момент'},
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
@@ -1608,7 +1617,7 @@ const T={
   toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词',fr:'{0} mots importés',ar:'تم استيراد {0} كلمة',ko:'{0} 단어를 가져왔습니다',ru:'Загружено слов: {0}'},
 
   study_title:{ja:'単語帳',en:'Flashcards',zh:'单词卡',fr:'Cartes',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
-  study_hint:{ja:'タップで裏返し。道中の暗記に。（復習スケジュールには影響しません）',en:'Tap to flip. Great for quick memorizing. (Does not affect the review schedule.)',zh:'点一下翻面，随时背诵。（不影响复习计划）',fr:'Touchez pour retourner. Idéal pour mémoriser vite. (N’affecte pas le planning de révision.)',ar:'انقر للقلب. مثالي للحفظ السريع. (لا يؤثر على جدول المراجعة.)',ko:'탭하면 뒤집힙니다. 빠른 암기에 좋아요. (복습 일정에는 영향 없음)',ru:'Нажмите, чтобы перевернуть. Отлично для быстрого запоминания. (Не влияет на график повторения.)'},
+  study_hint:{ja:'復習の予定には影響しません。',en:'Does not affect your review schedule.',zh:'不会影响你的复习计划。',fr:'N’affecte pas votre planning de révision.',ar:'لا يؤثر في جدول مراجعتك.',ko:'복습 예정에는 영향을 주지 않습니다.',ru:'Не влияет на график повторений.'},
   study_empty:{ja:'単語を追加すると<br>ここで暗記カードになります。',en:'Add words to turn them<br>into flashcards here.',zh:'添加单词后<br>会在这里变成单词卡。',fr:'Ajoutez des mots pour les<br>transformer en cartes ici.',ar:'أضف كلمات لتتحول<br>إلى بطاقات هنا.',ko:'단어를 추가하면<br>여기서 카드가 됩니다.',ru:'Добавьте слова, чтобы<br>они появились здесь как карточки.'},
   flip_hint:{ja:'タップで意味を見る',en:'Tap to see the meaning',zh:'点一下看意思',fr:'Touchez pour voir le sens',ar:'انقر لرؤية المعنى',ko:'탭하면 뜻이 보여요',ru:'Нажмите, чтобы увидеть значение'},
   btn_prev:{ja:'← 前',en:'← Prev',zh:'← 上一个',fr:'← Préc.',ar:'السابق',ko:'← 이전',ru:'← Назад'},
@@ -1731,7 +1740,6 @@ const T={
   heat_less:{ja:'少',en:'Less',zh:'少',fr:'Moins',ar:'أقل',ko:'적음',ru:'Меньше'},
   heat_more:{ja:'多',en:'More',zh:'多',fr:'Plus',ar:'أكثر',ko:'많음',ru:'Больше'},
   stats_none:{ja:'まだ復習の記録がありません。復習を1回でもすると、ここに記録が残っていきます。',en:'No reviews recorded yet. Do a single review and it starts filling in here.',zh:'还没有复习记录。只要完成一次复习，这里就会开始记录。',fr:'Aucune révision enregistrée. Faites-en une seule et le suivi commence ici.',ar:'لا توجد مراجعات مسجّلة بعد. أكمل مراجعة واحدة ليبدأ السجل هنا.',ko:'아직 복습 기록이 없습니다. 한 번만 복습해도 여기에 기록이 쌓이기 시작합니다.',ru:'Повторений пока нет. Сделайте хотя бы одно — и здесь начнёт заполняться история.'},
-  freeze_left:{ja:'ストリークのフリーズ（1日休んでも記録が途切れない救済）: 残り{0}回',en:'Streak freezes left (each one covers a single missed day): {0}',zh:'剩余连续冻结次数（每次可抵消一天未学习）：{0}',fr:'Gels de série restants (chacun couvre un jour manqué) : {0}',ar:'تجميدات السلسلة المتبقية (كل واحدة تغطي يومًا فائتًا): {0}',ko:'남은 스트릭 프리즈(하루 빠져도 기록이 유지됨): {0}회',ru:'Осталось заморозок серии (каждая покрывает один пропущенный день): {0}'},
   sec_speech:{ja:'発音',en:'Pronunciation',zh:'发音',fr:'Prononciation',ar:'النطق',ko:'발음',ru:'Произношение'},
   st_autospeak:{ja:'自動で再生',en:'Play automatically',zh:'自动播放',fr:'Lecture automatique',ar:'تشغيل تلقائي',ko:'자동 재생',ru:'Автовоспроизведение'},
   desc_autospeak:{ja:'単語帳やクイズで単語が出たとき、自動で発音する',en:'Speak the word automatically when it appears in flashcards or a quiz',zh:'在单词卡或测验中出现单词时自动朗读',fr:'Prononcer le mot automatiquement quand il apparaît dans les cartes ou le quiz',ar:'نطق الكلمة تلقائيًا عند ظهورها في البطاقات أو الاختبار',ko:'단어 카드나 퀴즈에 단어가 나올 때 자동으로 발음',ru:'Произносить слово автоматически при показе в карточках или тесте'},
@@ -3851,6 +3859,9 @@ function renderList(){
   });
   $$('#listPanel .ex-toggle').forEach(tg=>tg.onclick=()=>{
     const w=DB.words.find(x=>x.id===tg.dataset.id);
+    // A sync can remove the word while its row is still on screen, and this
+    // handler outlives the row it was bound to.
+    if(!w)return;
     const body=$('#ex-'+w.id);
     if(body.style.display==='block'){body.style.display='none';return;}
     body.innerHTML=w.examples.map(ex=>'<div class="ex" style="margin-bottom:6px">"'+esc(ex.en)+'"<br><span style="font-style:normal;color:var(--ink)">'+esc(ex.ja||'')+'</span></div>').join('');
@@ -3916,14 +3927,18 @@ function renderStudy(){
         '<div id="fSpkWrap" style="margin-top:10px"></div><div class="flip-hint">'+t('flip_hint')+'</div></div>'+
       '<div class="face back" id="fBack"></div>'+
     '</div></div>'+
-    // Flipping through cards is the other moment somebody thinks "I keep
-    // getting this one wrong", so the marks belong here as well as in the quiz.
-    '<div id="studyMark"></div>'+
+    // One row, not two. Flipping through cards is the other moment somebody
+    // thinks "I keep getting this one wrong", so the marks belong here -- but
+    // as a second full-width row they pushed "next" under the tab bar on a
+    // phone, which made the marks cost the thing people came to the screen for.
+    // Everything you can press now sits on the same line, and the counter
+    // moves under it where it takes 16px instead of 60.
     '<div class="deck-nav">'+
-      '<button class="btn btn-ghost" id="dPrev">'+t('btn_prev')+'</button>'+
-      '<span class="pos-ind" id="dPos"></span>'+
-      '<button class="btn btn-ghost" id="dNext">'+t('btn_next')+'</button>'+
+      '<button class="btn btn-ghost dk-arrow" id="dPrev">'+t('btn_prev')+'</button>'+
+      '<span id="studyMark"></span>'+
+      '<button class="btn btn-ghost dk-arrow" id="dNext">'+t('btn_next')+'</button>'+
     '</div>'+
+    '<div class="pos-ind" id="dPos"></div>'+
     '<button class="btn btn-primary" id="dShuffle" style="margin-top:14px">'+t('btn_reshuffle')+'</button>';
   // Revealing the back is the flashcard's "answer" moment, so it counts.
   $('#flip').onclick=studyFlip;
@@ -3981,7 +3996,7 @@ function paintStudyMark(){
   // Read back from curWords() rather than the shuffled copy: a mark set here
   // has to survive walking away and coming back to the same card.
   const cur=curWords().find(x=>x.id===w.id)||w;
-  el.innerHTML=markBtnHTML(cur,'wide');
+  el.innerHTML=markBtnHTML(cur,'sq');
   bindMarks('#studyMark',paintStudyMark);
 }
 // Shared by the flashcard back and the list's tap-to-expand detail popup, so
@@ -4450,44 +4465,58 @@ function spellWords(tg){
   }
   return out;
 }
-// A word is right once every one of its letters has been typed and they match.
-// Saying so the moment it happens is the whole point: "make" going green while
-// "sure" is still empty is the feedback that the old all-or-nothing display
-// could never give.
-function spellWordState(g){
-  if(g.sp)return '';
-  if(spell.buf.length<g.b)return '';
-  const typed=spell.buf.slice(g.a,g.b).toLowerCase();
-  const want=spell.target.slice(g.a,g.b).toLowerCase();
-  return typed===want?'ok':'bad';
+// ok / bad / '' for the word at index `wi`, judged only once the buffer has
+// moved past its end.
+function spellWordStateAt(wi){
+  const words=spell.target.split(' ');
+  if(wi>=words.length)return '';
+  const g=spellWords(spell.target).filter(x=>!x.sp)[wi];
+  if(!g||spell.buf.length<g.b)return '';
+  return spell.buf.slice(g.a,g.b).toLowerCase()===words[wi].toLowerCase()?'ok':'bad';
 }
 function spellDisplayHTML(){
-  const tg=spell.target, n=tg.length;
-  // Once the length is known, laying the answer out as slots says the same
-  // thing as "7 letters" but keeps the position obvious while typing. A word
-  // carrying given characters always uses this layout, hint or not -- they are
-  // meant to be visible from the start, which is the whole point of giving them.
-  if(spell.hint>=1||spellHasGiven(tg)){
+  const tg=spell.target;
+  const done=spell.done;
+  // Two layouts, one rule: whatever is on screen is grouped into words, and a
+  // word is judged the moment it is finished. The layouts differ only in
+  // whether the empty slots ahead are drawn -- that is the part that would give
+  // the length away, and it is withheld until a hint is asked for.
+  const showLen=spell.hint>=1||spellHasGiven(tg);
+  const wrap=(wi,inner)=>{
+    const st=spellWordStateAt(wi);
+    return '<span class="sp-word'+(st?' '+st:'')+'">'+inner+'</span>';
+  };
+  if(showLen){
     const slot=i=>{
       const ch=spell.buf[i]||'';
       const given=spellAuto(tg[i])&&tg[i]!==' ';
-      const cur=i===spell.buf.length&&!spell.done;
+      const cur=i===spell.buf.length&&!done;
       return '<span class="sp-slot'+(given?' given':'')+(cur?' cur':'')+
         (ch?' filled':'')+'">'+esc(given?tg[i]:(ch||''))+'</span>';
     };
+    let wi=-1;
     return spellWords(tg).map(g=>{
       if(g.sp)return '<span class="sp-slot gap"></span>';
+      wi++;
       let inner='';
       for(let i=g.a;i<g.b;i++)inner+=slot(i);
-      const st=spellWordState(g);
-      return '<span class="sp-word'+(st?' '+st:'')+'">'+inner+'</span>';
+      return wrap(wi,inner);
     }).join('');
   }
-  // No hint and nothing given: the length is not known to the user yet, so
-  // there is nothing to group by -- the typed letters are all there is.
-  const typed=spell.buf.split('').map(c=>
-    '<span class="sp-slot'+(c===' '?' gap':' filled')+'">'+esc(c)+'</span>').join('');
-  return typed+(spell.done?'':'<span class="sp-slot cur"></span>');
+  // Length withheld: only what has actually been typed is drawn, but it is
+  // still cut at the spaces, so "for" in "for example" goes green the moment it
+  // is right rather than waiting for the whole phrase.
+  const out=[];
+  let wi=0,inner='';
+  const flush=()=>{ if(inner){out.push(wrap(wi,inner));inner='';} };
+  for(let i=0;i<spell.buf.length;i++){
+    const c=spell.buf[i];
+    if(c===' '){flush();out.push('<span class="sp-slot gap"></span>');wi++;continue;}
+    inner+='<span class="sp-slot filled">'+esc(c)+'</span>';
+  }
+  flush();
+  if(!done)out.push('<span class="sp-slot cur"></span>');
+  return out.join('');
 }
 /* ---- "you were one letter out" -------------------------------------------
    Until now a wrong spelling did nothing at all: checkSpell() only fires on an
@@ -4510,6 +4539,10 @@ function spellDiff(typed,target){
     d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
   }
   const bad=new Array(n).fill(false);
+  // How many letters are missing immediately BEFORE each typed position, so a
+  // dropped letter can be shown as a gap (exa_ple) instead of vanishing. Length
+  // n+1: something can be missing off the end too.
+  const miss=new Array(n+1).fill(0);
   let i=n,j=m;
   while(i>0||j>0){
     if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)){
@@ -4518,13 +4551,11 @@ function spellDiff(typed,target){
     }else if(i>0&&d[i][j]===d[i-1][j]+1){
       bad[i-1]=true;                       // typed a letter that is not there
       i--;
-    }else{ j--; }                          // missing a letter: nothing to mark
+    }else{ miss[i]++; j--; }               // a letter of the answer is missing here
   }
-  return {dist:d[n][m],bad:bad};
+  return {dist:d[n][m],bad:bad,miss:miss};
 }
-let spellNearTimer=null;
 function spellClearNear(){
-  clearTimeout(spellNearTimer);
   if(!spell.near)return;
   spell.near=null;
   const el=$('#spNear');
@@ -4535,30 +4566,34 @@ function spellShowNear(typed,want){
   // Past three edits a count is not encouragement, it is a score. Say nothing
   // and let the empty slots do the talking.
   if(r.dist>SPELL_NEAR_MAX){spellClearNear();return;}
-  spell.near={html:Array.from(typed).map((c,i)=>
-    r.bad[i]?'<b>'+esc(c)+'</b>':esc(c)).join('')+' – '+esc(t('sp_near',r.dist))};
+  const gap=n=>'<i class="sp-gap">'+'_'.repeat(Math.min(n,3))+'</i>';
+  let html='';
+  for(let i=0;i<typed.length;i++){
+    if(r.miss[i])html+=gap(r.miss[i]);
+    html+=r.bad[i]?'<b>'+esc(typed[i])+'</b>':esc(typed[i]);
+  }
+  if(r.miss[typed.length])html+=gap(r.miss[typed.length]);
+  spell.near={html:html+' – '+esc(t('sp_near',r.dist))};
   const el=$('#spNear');
   if(el)el.innerHTML='<div class="sp-near">'+spell.near.html+'</div>';
 }
-// Two triggers, because "wrong" and "not finished yet" look identical while
-// somebody is still typing.
-//   - as long as the answer, or longer: they have committed, say it now
-//   - shorter: only after they stop. A missing letter is the commonest miss of
-//     all (accomodation), but calling it out at `brin` would be telling someone
-//     they are wrong for not having finished the word.
-const SPELL_PAUSE=1100;
+// Two triggers, and neither is a timer.
+//   - the attempt reaches the answer's length: they have committed, say it now
+//   - they delete something: deleting IS the moment somebody decides they were
+//     wrong, so it is the most honest signal there is -- better than guessing
+//     from a pause, and it reports the word as it stood BEFORE the delete,
+//     which is the word they are asking about.
 function spellCheckNear(){
-  clearTimeout(spellNearTimer);
   const typed=spellNorm(spell.buf), want=spellNorm(spell.target);
   if(!typed||typed===want){spellClearNear();return;}
-  if(typed.length>=want.length){spellShowNear(typed,want);return;}
-  spellClearNear();
-  spellNearTimer=setTimeout(()=>{
-    if(spell.done)return;
-    const now=spellNorm(spell.buf);
-    if(!now||now===spellNorm(spell.target))return;
-    spellShowNear(now,spellNorm(spell.target));
-  },SPELL_PAUSE);
+  if(typed.length>=want.length)spellShowNear(typed,want);
+  else spellClearNear();
+}
+// Called from spellDel with the buffer as it was a moment ago.
+function spellNearOnDelete(before){
+  const typed=spellNorm(before), want=spellNorm(spell.target);
+  if(!typed||typed===want){spellClearNear();return;}
+  spellShowNear(typed,want);
 }
 function renderSpellDisplay(){
   const el=$('#spDisp');
@@ -4650,12 +4685,13 @@ function spellDel(){
   if(i<=spellMin())return;
   // No autofill afterwards: the position just cleared is a typeable one, so
   // re-running it would be a no-op at best and would undo the delete at worst.
+  const before=spell.buf;
   spell.buf=spell.buf.slice(0,i-1);
   playKeyTap('del');
   renderSpellDisplay();
-  // Backspacing is the start of a correction, so the old verdict goes now
-  // rather than sitting there contradicting what is on screen.
-  spellClearNear();
+  // Deleting is somebody saying "that was wrong" -- so answer the question they
+  // just asked, about the word they had a moment ago.
+  spellNearOnDelete(before);
 }
 function spellHint(){
   if(spell.done)return;
@@ -5776,7 +5812,6 @@ function renderStats(){
       '<div class="heat-c l3"></div><div class="heat-c l4"></div>'+
       '<span>'+esc(t('heat_more'))+'</span></div></div>';
 
-  html+='<p class="stats-note">'+esc(t('freeze_left',st.freezesAvailable||0))+'</p>';
   $('#statsBody').innerHTML=html;
   const so=$('#stkOpen'); if(so)so.onclick=openStreak;
 }
