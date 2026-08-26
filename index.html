@@ -30,6 +30,7 @@
   --chip-bg:#e5edf8; --ghost-bg:#eef2f9; --track:#e8eef7;
   --dup-bg:#fff5da; --dup-ink:#8a5a00; --dup-line:#f0d98a;
   --hm0:#e8eef7; --hm1:#cfe0f7; --hm2:#8fb6e8; --hm3:#4f82c9; --hm4:#1e4d8f;
+  --mk-fav:#d92b4b; --mk-fav-bg:#fdecef; --mk-hard:#b5510a; --mk-hard-bg:#fdeee2;
   --switch-off:#cdd6e6; --knob:#fff; --tabbar-bg:rgba(255,255,255,.94); --tab-on:#a8730a; --tab-on-ic:var(--accent);
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
 }
@@ -45,6 +46,7 @@
   --chip-bg:#233247; --ghost-bg:#222b3c; --track:#2b3446;
   --dup-bg:#33290e; --dup-ink:#e6b657; --dup-line:#5c4a1f;
   --hm0:#232c3c; --hm1:#22375d; --hm2:#3a5f9e; --hm3:#5b8ad4; --hm4:#8fb6f0;
+  --mk-fav:#ff7b8f; --mk-fav-bg:rgba(255,123,143,.14); --mk-hard:#ff9247; --mk-hard-bg:rgba(255,146,71,.15);
   --switch-off:#3a4658; --knob:#e9edf5; --tabbar-bg:rgba(15,20,30,.92); --tab-on:var(--accent); --tab-on-ic:var(--accent);
   --shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);
 }
@@ -169,17 +171,45 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .tag-due{background:var(--bad-bg);color:var(--bad-ink)}
 .tag-next{background:var(--ghost-bg);color:var(--muted)}
 .tag-new{background:var(--good-bg);color:var(--good-ink)}
+/* The thumb is the only thing the browser draws; the track, fill and ticks are
+   ours so they can carry the theme and show where the stops are. */
+.stepper{padding:2px 0}
+.stp-val{text-align:center;font-size:19px;font-weight:800;margin-bottom:10px;letter-spacing:.01em}
+.stp-wrap{position:relative;height:34px}
+.stp-track{position:absolute;left:0;right:0;top:14px;height:6px;border-radius:99px;
+  background:var(--switch-off);overflow:hidden}
+.stp-track i{display:block;height:100%;background:var(--accent);border-radius:99px;
+  transition:width .12s ease}
+.stp-ticks{position:absolute;left:0;right:0;top:14px;height:6px;
+  display:flex;justify-content:space-between;align-items:center;padding:0 3px;pointer-events:none}
+.stp-ticks span{width:5px;height:5px;border-radius:99px;background:var(--surface);opacity:.55}
+.stp-ticks span.on{opacity:.85}
+.stepper input[type=range]{position:absolute;left:-6px;right:-6px;top:0;width:calc(100% + 12px);
+  height:34px;margin:0;background:none;-webkit-appearance:none;appearance:none;cursor:pointer}
+.stepper input[type=range]:focus{outline:none}
+.stepper input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:28px;height:28px;border-radius:99px;background:#fff;border:1px solid rgba(15,23,42,.12);
+  box-shadow:0 2px 6px rgba(15,23,42,.28)}
+.stepper input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:99px;
+  background:#fff;border:1px solid rgba(15,23,42,.12);box-shadow:0 2px 6px rgba(15,23,42,.28)}
+.stepper input[type=range]:focus-visible::-webkit-slider-thumb{border-color:var(--accent)}
+.stp-labs{display:flex;justify-content:space-between;margin-top:6px}
+.stp-labs span{font-size:12px;color:var(--muted);font-weight:600;flex:1;text-align:center}
+.stp-labs span:first-child{text-align:left}
+.stp-labs span:last-child{text-align:right}
+.stp-labs span.on{color:var(--tab-on)}
+.set-row.stack .stepper{width:100%}
 .mk-chips{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
 .mk-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
   background:var(--surface);color:var(--muted);border-radius:99px;padding:5px 11px;
   font-size:12.5px;font-weight:600;cursor:pointer}
 .mk-chip svg{width:13px;height:13px}
-.mk-chip.on.m-star{color:var(--tab-on);border-color:var(--accent)}
-.mk-chip.on.m-hard{color:var(--bad-ink);border-color:var(--bad-ink);background:var(--bad-bg)}
+.mk-chip.on.m-fav{color:var(--mk-fav);border-color:var(--mk-fav);background:var(--mk-fav-bg)}
+.mk-chip.on.m-hard{color:var(--mk-hard);border-color:var(--mk-hard);background:var(--mk-hard-bg)}
 .tag-mark{display:inline-flex;align-items:center;gap:3px;background:var(--ghost-bg);color:var(--muted)}
 .tag-mark svg{width:11px;height:11px}
-.tag-mark.m-star{color:var(--tab-on)}
-.tag-mark.m-hard{background:var(--bad-bg);color:var(--bad-ink)}
+.tag-mark.m-fav{color:var(--mk-fav);background:var(--mk-fav-bg)}
+.tag-mark.m-hard{color:var(--mk-hard);background:var(--mk-hard-bg)}
 /* The two mark buttons sit under the verdict, so they are deliberately quiet
    until pressed -- they are an aside to the answer, not a second question. */
 .mark-row{display:flex;gap:8px;justify-content:center;margin-top:12px}
@@ -189,8 +219,12 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   transition:transform .12s ease,border-color .15s ease,color .15s ease,background .15s ease}
 .mark-btn svg{width:20px;height:20px}
 .mark-btn:active{transform:scale(.92)}
-.mark-btn.m-star.on{color:var(--tab-on);border-color:var(--accent);background:var(--ghost-bg)}
-.mark-btn.m-hard.on{color:var(--bad-ink);border-color:var(--bad-ink);background:var(--bad-bg)}
+.mark-btn.m-fav.on{color:var(--mk-fav);border-color:var(--mk-fav);background:var(--mk-fav-bg)}
+.mark-btn.m-hard.on{color:var(--mk-hard);border-color:var(--mk-hard);background:var(--mk-hard-bg)}
+.mark-row.wide{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}
+.mark-row.wide .mark-btn{width:auto;height:44px;border-radius:13px;gap:7px;
+  font-size:13.5px;font-weight:700;letter-spacing:.01em}
+.mark-row.wide .mark-btn svg{width:18px;height:18px;flex:none}
 .mark-row.sm{justify-content:flex-start;margin:0 0 12px;gap:6px}
 .mark-row.sm .mark-btn{width:34px;height:34px;border-radius:10px}
 .mark-row.sm .mark-btn svg{width:17px;height:17px}
@@ -425,8 +459,6 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .card.picked{background:var(--surface-2);outline:1.5px solid var(--accent);outline-offset:-1.5px}
 .past-tag{text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.5px;
   color:var(--muted);margin:2px 0 10px}
-.past-nav{display:flex;gap:10px;margin-top:18px}
-.past-nav .btn{flex:1}
 .q-acts{display:flex;gap:10px;margin-top:16px}
 /* ---- a round in progress --------------------------------------------------
    The tab bar is hidden for the whole round, not just while the keyboard is up.
@@ -450,12 +482,14 @@ body.in-round{--tabbar-h:0px}
 /* After an answer the three actions take the space the keyboard just left, so
    the thumb does not travel: the last key pressed and the next thing to press
    are in the same place. */
-.q-acts.pinned{position:fixed;left:0;right:0;bottom:0;z-index:60;
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+.q-bottom{margin-top:16px}
+.q-bottom .q-acts{margin-top:0}
+.q-bottom.pinned{position:fixed;left:0;right:0;bottom:0;z-index:60;
   margin:0;padding:12px 12px calc(12px + env(safe-area-inset-bottom));
   background:var(--surface);border-top:1px solid var(--line)}
-.q-acts.pinned .q-act{border-radius:18px;padding:16px 6px 14px;gap:8px;font-size:12px}
-.q-acts.pinned .q-act svg{width:26px;height:26px}
+.q-bottom.pinned .q-acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.q-bottom.pinned .q-act{border-radius:18px;padding:16px 6px 14px;gap:8px;font-size:12px}
+.q-bottom.pinned .q-act svg{width:26px;height:26px}
 .q-act{flex:1;min-width:0}
 .q-act{border:none;border-radius:16px;padding:13px 4px 11px;cursor:pointer;
   background:var(--navy);color:#fff;font-family:inherit;
@@ -1035,11 +1069,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
       </div>
       <div class="set-row">
         <div><div class="st" data-i18n="st_len">1回の問題数</div><div class="sd" data-i18n="desc_len">まとめて何問出すか</div></div>
-        <div class="seg" id="segLen">
-          <button data-v="5">5</button>
-          <button data-v="10">10</button>
-          <button data-v="0" data-i18n="len_all">全部</button>
-        </div>
+        <div id="setLen"></div>
       </div>
     </div>
 
@@ -1133,15 +1163,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.24.0';
+const APP_VERSION='5.25.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.24.0',date:'2026-08-26',keys:['wn1','wn2','wn3']},
+  {version:'5.25.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.24.0',date:'2026-08-26',keys:['v5240_1','v5240_2','v5240_3']},
   {version:'5.23.0',date:'2026-08-26',keys:['v5230_1','v5230_2','v5230_3']},
-  {version:'5.22.0',date:'2026-08-26',keys:['v5220_1','v5220_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1151,7 +1181,9 @@ const CHANGELOG=[
 // days land on 1/3/7/14/26/47/82/142/232. Same length as before, so existing
 // box indices stay valid and nothing needs migrating.
 const INTERVALS=[1,2,4,7,12,21,35,60,90]; // days
-const MARKS=['star','hard'];
+const MARKS=['fav','hard'];
+// The stops on the round-size slider. 0 means "everything due".
+const LEN_STEPS=()=>[{v:5,n:'5'},{v:10,n:'10'},{v:20,n:'20'},{v:0,n:t('len_all')}];
 const DAY=86400000;
 const LANGS=['ja','en','zh','fr','ar','ko','ru'];
 
@@ -1237,16 +1269,17 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'出題順をシャッフルできるようになりました。設定の「学習」からオンにすると、毎回ちがう並びで出題されます。単語ではなく順番を覚えてしまうのを防げます',en:'You can now shuffle the question order. Turn it on under Settings → Study and each round comes in a different order, so you learn the words rather than the list',zh:'现在可以打乱出题顺序。在「设置 → 学习」中开启后，每轮顺序都不同，避免记住顺序而不是单词',fr:'Vous pouvez désormais mélanger l’ordre des questions. Activez-le dans Réglages → Apprentissage : chaque série arrive dans un ordre différent, pour apprendre les mots et non la liste',ar:'صار بإمكانك خلط ترتيب الأسئلة. فعّل الخيار من الإعدادات ← الدراسة، فيأتي كل دور بترتيب مختلف حتى تحفظ الكلمات لا الترتيب',ko:'출제 순서를 섞을 수 있게 되었습니다. 설정 → 학습에서 켜면 매번 다른 순서로 나와, 단어가 아니라 순서를 외우는 일을 막을 수 있습니다',ru:'Теперь порядок вопросов можно перемешивать. Включите его в «Настройки → Обучение», и каждый раунд будет идти в новом порядке — вы запоминаете слова, а не список'},
-  wn2:{ja:'単語に「お気に入り」と「苦手マーク」を付けられるようになりました。問題を解いているその場で付けられるので、あとから思い出す必要がありません',en:'Words can now be marked Favourite or Tricky. You can mark one right there while answering, so you never have to remember which it was later',zh:'现在可以给单词加「收藏」和「难记」标记。答题时即可直接标记，不必事后再回想',fr:'Vous pouvez maintenant marquer un mot comme Favori ou Délicat — directement pendant que vous répondez, sans avoir à vous en souvenir plus tard',ar:'صار بإمكانك وسم الكلمات بـ«مفضّلة» أو «صعبة عليّ»، ويمكنك ذلك أثناء الإجابة نفسها فلا تحتاج لتذكّرها لاحقًا',ko:'단어에 «즐겨찾기»와 «어려움» 표시를 붙일 수 있게 되었습니다. 문제를 푸는 그 자리에서 붙일 수 있어, 나중에 떠올릴 필요가 없습니다',ru:'Слова теперь можно помечать как «Избранное» или «Сложное» — прямо во время ответа, чтобы не вспоминать об этом потом'},
-  wn3:{ja:'マークを付けた単語だけを復習したり、一覧で絞り込んだりできます。また、アプリのキーボードに打鍵音を付けました（設定の効果音でオフにできます）',en:'You can review only the words you have marked, or filter the list down to them. The in-app keyboard also has a key sound now — you can turn it off under sound settings',zh:'可以只复习已标记的单词，也可在列表中筛选出它们。应用内键盘现在还带有按键音，可在音效设置中关闭',fr:'Vous pouvez réviser uniquement les mots marqués, ou filtrer la liste dessus. Le clavier de l’application a aussi un son de frappe, désactivable dans les réglages sonores',ar:'يمكنك مراجعة الكلمات الموسومة وحدها أو تصفية القائمة عليها. كما صار للوحة مفاتيح التطبيق صوت نقر يمكن إيقافه من إعدادات المؤثرات الصوتية',ko:'표시한 단어만 복습하거나 목록에서 그것만 골라 볼 수 있습니다. 또 앱 키보드에 타건음을 넣었습니다(설정의 효과음에서 끌 수 있습니다)',ru:'Можно повторять только помеченные слова или отфильтровать по ним список. А у клавиатуры приложения появился звук нажатия — его можно выключить в настройках звука'},
+  wn1:{ja:'自由学習が毎回ちがう単語を出すようになりました。これまでは期限の古い順に並べた先頭から取っていたので、何百語あっても同じ顔ぶれが出ていました。1回の問題数もスライダーで選べます',en:'Free study now picks different words each time. It used to take them off the top of a due-date list, so the same faces came round however many hundreds you had. The round size is a slider now, too',zh:'自由学习现在每次都会出不同的单词。以前是按到期日排序后取最前面的，所以无论有几百个词都是同一批。每轮题数也改成了滑块',fr:'L’étude libre propose maintenant des mots différents à chaque fois. Elle prenait le haut d’une liste triée par échéance, donc les mêmes revenaient sans cesse. La taille de la série se règle aussi au curseur',ar:'صارت الدراسة الحرة تختار كلمات مختلفة في كل مرة، بعد أن كانت تأخذ أوائل قائمة مرتّبة بالاستحقاق فتتكرر الكلمات نفسها. وعدد أسئلة الجولة صار شريط تمرير أيضًا',ko:'자유 학습이 매번 다른 단어를 내도록 바뀌었습니다. 지금까지는 기한이 오래된 순서의 앞에서부터 가져왔기 때문에 수백 개가 있어도 같은 얼굴만 나왔습니다. 한 번의 문제 수도 슬라이더로 고를 수 있습니다',ru:'Свободное изучение теперь каждый раз берёт другие слова — раньше оно брало начало списка по сроку, и повторялись одни и те же. Размер раунда тоже стал ползунком'},
+  wn2:{ja:'マークを ♡ と ⚠ に変えました。星と ⚠ ではどちらも黄色で見分けがつきにくかったためです。答えたあとの「単語の詳細」などのすぐ上に移したので、下までスクロールしなくても押せます',en:'The marks are now a heart and a warning. A star and a warning were both yellow and hard to tell apart. They have also moved directly above the tiles you get after answering, so they no longer need scrolling to',zh:'标记改为 ♡ 和 ⚠。原先的星形与 ⚠ 都是黄色，不易区分。位置也移到了答题后「单词详情」等按钮的正上方，无需下滑即可点击',fr:'Les marques sont désormais un cœur et un avertissement : l’étoile et l’avertissement étaient tous deux jaunes et se confondaient. Elles sont aussi passées juste au-dessus des tuiles d’après-réponse, sans avoir à faire défiler',ar:'صارت العلامتان قلبًا وعلامة تحذير، فالنجمة والتحذير كانا أصفرين يصعب التمييز بينهما. ونُقلتا إلى أعلى أزرار ما بعد الإجابة مباشرة فلا تحتاج للتمرير',ko:'마크를 ♡ 와 ⚠ 로 바꿨습니다. 별과 ⚠ 는 둘 다 노란색이라 구별하기 어려웠기 때문입니다. 답한 뒤의 «단어 상세» 등 바로 위로 옮겨서 아래로 스크롤하지 않아도 누를 수 있습니다',ru:'Метки теперь сердце и предупреждение — звезда и предупреждение были одинаково жёлтыми. Они переехали прямо над кнопками, которые появляются после ответа, так что прокручивать до них больше не нужно'},
+  wn3:{ja:'前の問題に戻る機能の不具合を直しました。2問前まで戻ってしまうことがあり、戻ってから進むと答え終わった問題をもう一度解けてしまっていました（間違いを取り消せてしまう状態でした）。戻れるのは1問だけ、解き直しはできません。ランキングは人の多い種目から並ぶようになりました',en:'Fixed looking back at the previous question. It could go back two, and coming forward again let you re-answer a question that had already been graded — which meant a miss could be undone. It now goes back exactly one, and nothing can be answered twice. The ranking also leads with the boards that have the most people on them',zh:'修复了回看上一题的问题。它可能回退两题，且返回后已作答的题目还能重答（等于可以撤销错误）。现在只回退一题，且不能重答。排行榜也改为按参与人数从多到少排列',fr:'Correction du retour à la question précédente : il pouvait reculer de deux, et en revenant on pouvait répondre à nouveau à une question déjà notée — une erreur devenait annulable. Il recule maintenant d’exactement une, sans possibilité de répondre deux fois. Le classement commence aussi par les tableaux les plus fournis',ar:'أُصلح الرجوع إلى السؤال السابق: كان يرجع سؤالين أحيانًا، وعند العودة كان يمكن الإجابة مجددًا عن سؤال مصحَّح — أي إلغاء الخطأ. صار الرجوع سؤالًا واحدًا فقط بلا إعادة إجابة. كما صار الترتيب يبدأ باللوحات الأكثر مشاركين',ko:'이전 문제로 돌아가는 기능의 버그를 고쳤습니다. 두 문제 앞까지 돌아가는 경우가 있었고, 돌아갔다가 나아가면 이미 채점된 문제를 다시 풀 수 있었습니다(틀린 것을 취소할 수 있는 상태였습니다). 이제 한 문제만 돌아가며 다시 풀 수는 없습니다. 랭킹은 사람이 많은 종목부터 표시됩니다',ru:'Исправлен возврат к предыдущему вопросу: он мог отступить на два, а на пути вперёд уже оценённый вопрос можно было ответить снова — то есть отменить ошибку. Теперь возврат ровно на один, и дважды ответить нельзя. Рейтинг также начинается с таблиц, где больше участников'},
+  v5240_1:{ja:'出題順をシャッフルできるようになりました。設定の「学習」からオンにすると、毎回ちがう並びで出題されます。単語ではなく順番を覚えてしまうのを防げます',en:'You can now shuffle the question order. Turn it on under Settings → Study and each round comes in a different order, so you learn the words rather than the list',zh:'现在可以打乱出题顺序。在「设置 → 学习」中开启后，每轮顺序都不同，避免记住顺序而不是单词',fr:'Vous pouvez désormais mélanger l’ordre des questions. Activez-le dans Réglages → Apprentissage : chaque série arrive dans un ordre différent, pour apprendre les mots et non la liste',ar:'صار بإمكانك خلط ترتيب الأسئلة. فعّل الخيار من الإعدادات ← الدراسة، فيأتي كل دور بترتيب مختلف حتى تحفظ الكلمات لا الترتيب',ko:'출제 순서를 섞을 수 있게 되었습니다. 설정 → 학습에서 켜면 매번 다른 순서로 나와, 단어가 아니라 순서를 외우는 일을 막을 수 있습니다',ru:'Теперь порядок вопросов можно перемешивать. Включите его в «Настройки → Обучение», и каждый раунд будет идти в новом порядке — вы запоминаете слова, а не список'},
+  v5240_2:{ja:'単語に「お気に入り」と「苦手マーク」を付けられるようになりました。問題を解いているその場で付けられるので、あとから思い出す必要がありません',en:'Words can now be marked Favourite or Tricky. You can mark one right there while answering, so you never have to remember which it was later',zh:'现在可以给单词加「收藏」和「难记」标记。答题时即可直接标记，不必事后再回想',fr:'Vous pouvez maintenant marquer un mot comme Favori ou Délicat — directement pendant que vous répondez, sans avoir à vous en souvenir plus tard',ar:'صار بإمكانك وسم الكلمات بـ«مفضّلة» أو «صعبة عليّ»، ويمكنك ذلك أثناء الإجابة نفسها فلا تحتاج لتذكّرها لاحقًا',ko:'단어에 «즐겨찾기»와 «어려움» 표시를 붙일 수 있게 되었습니다. 문제를 푸는 그 자리에서 붙일 수 있어, 나중에 떠올릴 필요가 없습니다',ru:'Слова теперь можно помечать как «Избранное» или «Сложное» — прямо во время ответа, чтобы не вспоминать об этом потом'},
+  v5240_3:{ja:'マークを付けた単語だけを復習したり、一覧で絞り込んだりできます。また、アプリのキーボードに打鍵音を付けました（設定の効果音でオフにできます）',en:'You can review only the words you have marked, or filter the list down to them. The in-app keyboard also has a key sound now — you can turn it off under sound settings',zh:'可以只复习已标记的单词，也可在列表中筛选出它们。应用内键盘现在还带有按键音，可在音效设置中关闭',fr:'Vous pouvez réviser uniquement les mots marqués, ou filtrer la liste dessus. Le clavier de l’application a aussi un son de frappe, désactivable dans les réglages sonores',ar:'يمكنك مراجعة الكلمات الموسومة وحدها أو تصفية القائمة عليها. كما صار للوحة مفاتيح التطبيق صوت نقر يمكن إيقافه من إعدادات المؤثرات الصوتية',ko:'표시한 단어만 복습하거나 목록에서 그것만 골라 볼 수 있습니다. 또 앱 키보드에 타건음을 넣었습니다(설정의 효과음에서 끌 수 있습니다)',ru:'Можно повторять только помеченные слова или отфильтровать по ним список. А у клавиатуры приложения появился звук нажатия — его можно выключить в настройках звука'},
   v5230_1:{ja:'復習中に右へスワイプすると、答え終わった問題を見返せるようになりました。パソコンでは←キーです。採点はやり直せません（見るだけです）',en:'Swipe right during a review to look back at questions you have already answered — ← on a keyboard. They are read-only; nothing is re-graded',zh:'复习时向右滑动即可回看已作答的题目，电脑上按 ← 键。仅供查看，不会重新评分',fr:'Balayez vers la droite pendant une révision pour revoir les questions déjà répondues (touche ← au clavier). En lecture seule : rien n’est réévalué',ar:'اسحب لليمين أثناء المراجعة لتستعرض الأسئلة التي أجبت عنها، أو استخدم مفتاح ← على الحاسوب. وهي للعرض فقط ولا يُعاد تقييمها',ko:'복습 중에 오른쪽으로 스와이프하면 이미 답한 문제를 다시 볼 수 있습니다. PC에서는 ← 키입니다. 보기 전용이라 채점은 다시 하지 않습니다',ru:'Проведите вправо во время повторения, чтобы просмотреть отвеченные вопросы (или клавиша ← на компьютере). Только просмотр — оценка не меняется'},
   v5230_2:{ja:'単語リストから、いらない単語をまとめて削除できるようになりました。「選択して削除」から複数選んで一度に消せます',en:'You can now delete several words at once from the list. Tap “Select to delete”, pick them, and remove them in one go',zh:'现在可从单词列表批量删除。点击「选择并删除」，勾选后一次性移除',fr:'Vous pouvez maintenant supprimer plusieurs mots d’un coup depuis la liste, via « Sélectionner pour supprimer »',ar:'صار بإمكانك حذف عدة كلمات دفعة واحدة من القائمة عبر «حدّد للحذف»',ko:'단어 목록에서 필요 없는 단어를 한꺼번에 삭제할 수 있게 되었습니다. «선택해서 삭제»에서 여러 개를 골라 한 번에 지웁니다',ru:'Теперь из списка можно удалить сразу несколько слов — «Выбрать для удаления»'},
   v5230_3:{ja:'リマインドを、あなたがふだん学習している時間帯に合わせて送るようにしました。また、はじめたばかりの方には連続が途切れる話ではなく、習慣づくりのご案内をお送りします',en:'Reminders now arrive around the time you usually study. And if you have only just started, they talk about building the habit rather than about a streak you could lose',zh:'提醒现在会在你平常学习的时间段发送。刚开始使用的用户会收到关于养成习惯的提示，而非连续记录中断的警告',fr:'Les rappels arrivent désormais vers l’heure à laquelle vous étudiez d’habitude. Et si vous débutez, ils parlent d’installer l’habitude plutôt que d’une série à perdre',ar:'صارت التذكيرات تصل قرب الوقت الذي تدرس فيه عادة. وإن كنت بدأت للتو، فهي تتحدث عن بناء العادة لا عن سلسلة قد تفقدها',ko:'리마인드를 평소 학습하는 시간대에 맞춰 보내도록 했습니다. 또 막 시작한 분께는 연속이 끊긴다는 이야기가 아니라 습관 만들기를 안내합니다',ru:'Напоминания теперь приходят примерно в то время, когда вы обычно занимаетесь. А новичкам они говорят о формировании привычки, а не о серии, которую можно потерять'},
-  v5220_1:{ja:'次の問題へ進むときに、キーボードが一瞬だけ画面の上に現れてしまう不具合を直しました',en:'Fixed the keyboard flashing at the top of the screen for a moment when moving to the next question',zh:'修复了进入下一题时键盘会在屏幕上方一闪而过的问题',fr:'Correction du clavier qui apparaissait un instant en haut de l’écran au passage à la question suivante',ar:'أُصلح ظهور لوحة المفاتيح للحظة أعلى الشاشة عند الانتقال إلى السؤال التالي',ko:'다음 문제로 넘어갈 때 키보드가 잠깐 화면 위쪽에 나타나던 문제를 고쳤습니다',ru:'Исправлено: при переходе к следующему вопросу клавиатура на миг появлялась вверху экрана'},
-  v5220_2:{ja:'数字や漢字を含む単語も、スペル入力で出題できるようになりました。キーボードで打てない文字は最初から表示され、英字の部分だけを入力します',en:'Words containing digits or other scripts now work in spelling mode. Characters the keyboard can’t produce are shown from the start, and you type only the letters',zh:'含数字或其他文字的单词现在也可用于拼写模式。键盘无法输入的字符会预先显示，你只需输入字母部分',fr:'Les mots contenant des chiffres ou d’autres écritures fonctionnent maintenant en mode orthographe. Les caractères que le clavier ne peut pas produire sont affichés d’emblée ; vous ne tapez que les lettres',ar:'صارت الكلمات التي تحتوي أرقامًا أو حروفًا من كتابات أخرى تعمل في وضع الإملاء. فالأحرف التي لا تنتجها لوحة المفاتيح تظهر من البداية، وتكتب أنت الحروف فقط',ko:'숫자나 한자가 들어간 단어도 스펠링 입력으로 낼 수 있게 되었습니다. 키보드로 칠 수 없는 문자는 처음부터 표시되고, 영문자 부분만 입력합니다',ru:'Слова с цифрами и другими письменностями теперь работают в режиме написания. Символы, которых нет на клавиатуре, показаны сразу — вы вводите только буквы'},
 
-  mark_star:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
+  mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
   flt_leech:{ja:'苦手',en:'Trouble',zh:'易错',fr:'Difficiles',ar:'صعبة',ko:'취약',ru:'Трудные'},
   leech_title:{ja:'この単語、{0}回間違えています',en:'You’ve missed this one {0} times',zh:'这个单词你已答错 {0} 次',fr:'Vous avez raté ce mot {0} fois',ar:'أخطأت في هذه الكلمة {0} مرات',ko:'이 단어를 {0}번 틀렸습니다',ru:'Вы ошиблись в этом слове {0} раз'},
@@ -1568,7 +1601,6 @@ const T={
   sel_confirm:{ja:'{0}語を削除します。取り消せません。',en:'Delete {0} words? This cannot be undone.',zh:'将删除 {0} 个单词，且无法撤销。',fr:'Supprimer {0} mots ? Action irréversible.',ar:'سيتم حذف {0} كلمة نهائيًا. هل تريد المتابعة؟',ko:'{0}개를 삭제합니다. 되돌릴 수 없습니다.',ru:'Удалить {0} слов? Это необратимо.'},
   sel_done:{ja:'{0}語を削除しました',en:'Deleted {0} words',zh:'已删除 {0} 个单词',fr:'{0} mots supprimés',ar:'حُذفت {0} كلمة',ko:'{0}개를 삭제했습니다',ru:'Удалено слов: {0}'},
   past_tag:{ja:'{0}問目・回答済み',en:'Question {0} · answered',zh:'第 {0} 题・已作答',fr:'Question {0} · répondue',ar:'السؤال {0} · تمت الإجابة',ko:'{0}번째 · 답변함',ru:'Вопрос {0} · отвечен'},
-  past_prev:{ja:'← さらに前',en:'← Earlier',zh:'← 更早',fr:'← Précédent',ar:'← أسبق',ko:'← 더 앞으로',ru:'← Раньше'},
   past_resume:{ja:'続きに戻る',en:'Back to the question',zh:'返回当前题',fr:'Revenir à la question',ar:'العودة إلى السؤال',ko:'이어서 풀기',ru:'Вернуться к вопросу'},
   btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
   sp_space:{ja:'space',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
@@ -2035,7 +2067,7 @@ const PENCIL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const BOX_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 8.1 12 4.2l8.4 3.9v7.8L12 19.8 3.6 15.9Z"/><path d="M3.6 8.1 12 12l8.4-3.9M12 12v7.8"/></svg>';
 const FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 7.3a1.6 1.6 0 0 1 1.6-1.6h4l2 2.4h7.2a1.6 1.6 0 0 1 1.6 1.6v7.6a1.6 1.6 0 0 1-1.6 1.6H5.2a1.6 1.6 0 0 1-1.6-1.6Z"/></svg>';
 const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
-const STAR_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.85-4.2 4.1 1 5.75L12 16.9l-5.2 2.7 1-5.75-4.2-4.1 5.8-.85z"/></svg>';
+const FAV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.3S3.6 15.2 3.6 9.4A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8.4 2.1c0 5.8-8.4 10.9-8.4 10.9z"/></svg>';
 const HARD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 21.5 20H2.5z"/><path d="M12 9.5v4.4"/><circle cx="12" cy="16.9" r=".9" fill="currentColor"/></svg>';
 const BELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.2 15.2V10.4a6.2 6.2 0 1 0-12.4 0v4.8L3.9 18.1h16.2z"/><path d="M9.9 21a2.3 2.3 0 0 0 4.2 0"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
@@ -2296,7 +2328,7 @@ function buildPkgLive(id){
       // Keep every language's meaning so search matches regardless of the
       // currently displayed language (the visible one is in meanings[]).
       _allMeanings:Object.values(pw.meaning).join(' '),
-      mark:MARKS.includes(p.mark)?p.mark:null,
+      mark:markOf(p),
       _pkg:id,_pkgKey:pw.word};
   });
 }
@@ -2644,7 +2676,7 @@ async function fetchWithTimeout(url,ms,opts){
 /* ---------- tabs ---------- */
 $$('nav.tabbar button[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 bindRankSwitch();
-$$('.set-row').forEach(r=>{ if(r.querySelector('.seg,select.sel'))r.classList.add('stack'); });
+$$('.set-row').forEach(r=>{ if(r.querySelector('.seg,select.sel,#setLen'))r.classList.add('stack'); });
 // Static labels come from data-i18n, but most of the screen is built by
 // render functions -- without this a language change only took effect after
 // navigating somewhere else.
@@ -3465,7 +3497,7 @@ function markChipsHTML(){
   if(listMark&&!avail.includes(listMark))listMark=null;
   return '<div class="mk-chips">'+avail.map(m=>
     '<button class="mk-chip m-'+m+(listMark===m?' on':'')+'" data-mk="'+m+'">'+
-      (m==='star'?STAR_SVG:HARD_SVG)+esc(t('mark_'+m))+' '+markCount(m)+'</button>').join('')+
+      (m==='fav'?FAV_SVG:HARD_SVG)+esc(t('mark_'+m))+' '+markCount(m)+'</button>').join('')+
   '</div>';
 }
 function bindMarkChips(){
@@ -3593,7 +3625,7 @@ function renderList(){
       (primaryMeaning(w)?'<div class="m">'+esc(primaryMeaning(w))+'</div>':'')+
       '<div class="meta">'+dueTag+
       (isLeech(w)?'<span class="tag-sm tag-leech">⚠️ '+esc(t('flt_leech'))+'</span>':'')+
-      (markOf(w)?'<span class="tag-sm tag-mark m-'+markOf(w)+'">'+(markOf(w)==='star'?STAR_SVG:HARD_SVG)+esc(t('mark_'+markOf(w)))+'</span>':'')+
+      (markOf(w)?'<span class="tag-sm tag-mark m-'+markOf(w)+'">'+(markOf(w)==='fav'?FAV_SVG:HARD_SVG)+esc(t('mark_'+markOf(w)))+'</span>':'')+
       '<span class="tag-sm edit-btn" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_edit')+'</span>'+
       (hasEx?'<span class="tag-sm ex-toggle" data-id="'+w.id+'" style="cursor:pointer;background:var(--surface-2);color:var(--ink-strong)">'+t('btn_show_ex')+'</span>':'')+
       '</div><div class="ex-body" id="ex-'+w.id+'" style="display:none;margin-top:8px"></div></div>'+
@@ -3859,16 +3891,22 @@ function pickWords(mode){
   }else{
     pool=[...pool].sort((a,b)=>a.nextDue-b.nextDue);
   }
-  // Shuffled AFTER the cap, never before: the cap decides which words are due
-  // enough to be asked today, and shuffling first would swap that judgement for
-  // a coin toss. Order is a hint the schedule never meant to give -- the same
-  // list every day is remembered as a list.
+  // Free study is the one mode with no schedule to respect, so the due-date
+  // sort means nothing here -- and taking the first 20 off it handed back the
+  // SAME twenty words every time, out of a vocabulary of hundreds. Randomised
+  // BEFORE the cap, because here it is the selection that has to vary, not just
+  // the order.
+  if(mode==='all')pool=shuffle(pool);
   // Two caps, and both matter: `len` is how many questions are in one round,
   // and the daily goal is how many the schedule should hand over at all today.
   // Without the second one, "20 today" would still walk the user through 210.
   if(mode==='due'){const g=todayTarget();if(g>0)pool=pool.slice(0,g);}
   const n=S().len===0?pool.length:Math.min(S().len,pool.length);
   const picked=pool.slice(0,n);
+  // Shuffled AFTER the cap everywhere else, never before: there the cap decides
+  // which words are due enough to be asked today, and shuffling first would
+  // swap that judgement for a coin toss. Order is still a hint the schedule
+  // never meant to give -- the same list every day is remembered as a list.
   return S().shuffle?shuffle(picked):picked;
 }
 function levenshtein(a,b){
@@ -3935,6 +3973,45 @@ function pickDistractors(w,correct,showEng,n){
 //
 // The Home button deliberately bypasses this and starts immediately: getting
 // from opening the app to answering in one tap is the whole point of that CTA.
+/* ---- a slider with fixed stops --------------------------------------------
+   Four values, so this is a range input with step=1 over the INDEX rather than
+   over the numbers themselves -- the stops are 5/10/20/all, which are not
+   evenly spaced and "all" is not a number at all. The native input keeps the
+   drag, the keyboard support and the accessibility for free; only the readout
+   and the tick marks are ours. -------------------------------------------- */
+function stepSliderHTML(id,opts,cur){
+  let i=opts.findIndex(o=>String(o.v)===String(cur));
+  if(i<0)i=0;
+  return '<div class="stepper" id="'+id+'">'+
+    '<div class="stp-val">'+esc(opts[i].n)+'</div>'+
+    '<div class="stp-wrap">'+
+      '<div class="stp-track"><i style="width:'+(opts.length>1?i/(opts.length-1)*100:0)+'%"></i></div>'+
+      '<div class="stp-ticks">'+opts.map((o,k)=>
+        '<span class="'+(k<=i?'on':'')+'"></span>').join('')+'</div>'+
+      '<input type="range" min="0" max="'+(opts.length-1)+'" step="1" value="'+i+'" '+
+        'aria-label="'+esc(t('st_len'))+'" aria-valuetext="'+esc(opts[i].n)+'">'+
+    '</div>'+
+    '<div class="stp-labs">'+opts.map((o,k)=>
+      '<span class="'+(k===i?'on':'')+'">'+esc(o.n)+'</span>').join('')+'</div>'+
+  '</div>';
+}
+function bindStepSlider(id,opts,onPick){
+  const root=$('#'+id);
+  if(!root)return;
+  const input=root.querySelector('input');
+  const paint=i=>{
+    root.querySelector('.stp-val').textContent=opts[i].n;
+    root.querySelector('.stp-track i').style.width=(opts.length>1?i/(opts.length-1)*100:0)+'%';
+    root.querySelectorAll('.stp-ticks span').forEach((el,k)=>el.classList.toggle('on',k<=i));
+    root.querySelectorAll('.stp-labs span').forEach((el,k)=>el.classList.toggle('on',k===i));
+    input.setAttribute('aria-valuetext',opts[i].n);
+  };
+  // Repaint on every movement but only commit on release: `input` fires for
+  // each step of a drag, and committing there would rebuild the screen under
+  // the finger doing the dragging.
+  input.oninput=()=>paint(parseInt(input.value,10));
+  input.onchange=()=>onPick(opts[parseInt(input.value,10)].v);
+}
 function renderQuizSetup(){
   const body=$('#quizBody');
   if(!body)return;
@@ -3966,16 +4043,16 @@ function renderQuizSetup(){
   body.innerHTML=
     grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
     grp(t('st_quiztype'),pick('type',[{v:'choice',n:t('opt_choice')},{v:'spell',n:t('opt_spell')}],S().quizType))+
-    grp(t('st_len'),pick('len',[{v:5,n:'5'},{v:10,n:'10'},{v:20,n:'20'},{v:0,n:t('len_all')}],S().len))+
+    grp(t('st_len'),stepSliderHTML('qsLen',LEN_STEPS(),S().len))+
     '<button class="btn btn-gold" id="qsStart" style="margin-top:20px;width:100%;font-size:16px;padding:16px">'+
       esc(t('qs_start'))+'</button>'+
     '<p class="hint" id="qsNote" style="text-align:center;margin-top:10px"></p>';
 
+  bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();renderQuizSetup();});
   $$('#quizBody .qs-o').forEach(b=>b.onclick=()=>{
     const g=b.dataset.g, v=b.dataset.v;
     if(g==='mode')quizSetup.mode=v;
     else if(g==='type'){S().quizType=v;save();}
-    else {S().len=parseInt(v);save();}
     renderQuizSetup();
   });
   const n=pickWords(quizSetup.mode).length;
@@ -4194,7 +4271,7 @@ function clearKeyboardSpace(){
   body.classList.remove('q-kbpad');
 }
 function padForActions(){
-  const bar=$('.q-acts.pinned'),body=$('#quizBody');
+  const bar=$('.q-bottom.pinned'),body=$('#quizBody');
   if(!bar||!body)return;
   body.classList.add('q-kbpad');
   const h=bar.offsetHeight;
@@ -4297,11 +4374,18 @@ function nextQuestion(){
    the other one" is not visible in a hit rate, and the moment it is truest is
    while the word is on screen -- not later, from memory, which nobody does.
    -------------------------------------------------------------------------- */
-function markOf(w){return MARKS.includes(w&&w.mark)?w.mark:null;}
+function markOf(w){
+  const m=w&&w.mark;
+  // 'star' shipped for a single day in v5.24.0 before the favourite became a
+  // heart. Normalising on read is the whole migration -- writes only ever use
+  // the current values, so the old one dies out on its own.
+  if(m==='star')return 'fav';
+  return MARKS.includes(m)?m:null;
+}
 function toggleMark(id,mark){
   const w=curWords().find(x=>x.id===id);
   if(!w)return null;
-  w.mark=w.mark===mark?null:mark;
+  w.mark=markOf(w)===mark?null:mark;
   // Package words live in their own store and are rebuilt from the file, so the
   // mark has to travel with the progress rather than with the word.
   if(CTX.type==='pkg'){
@@ -4315,10 +4399,13 @@ function toggleMark(id,mark){
 function markCount(mark){return curWords().filter(w=>markOf(w)===mark).length;}
 function markBtnHTML(w,size){
   const cur=markOf(w);
-  return '<div class="mark-row'+(size==='sm'?' sm':'')+'" data-mark-for="'+esc(w.id)+'">'+
+  return '<div class="mark-row'+(size?' '+size:'')+'" data-mark-for="'+esc(w.id)+'">'+
     MARKS.map(m=>'<button class="mark-btn m-'+m+(cur===m?' on':'')+'" data-mark="'+m+'" type="button" '+
       'aria-pressed="'+(cur===m)+'" title="'+esc(t('mark_'+m))+'">'+
-      (m==='star'?STAR_SVG:HARD_SVG)+'</button>').join('')+
+      (m==='fav'?FAV_SVG:HARD_SVG)+
+      // Only the wide pair is labelled. At 42px the icon alone is the button;
+      // a word would have to shrink to fit and would read as decoration.
+      (size==='wide'?'<span>'+esc(t('mark_'+m))+'</span>':'')+'</button>').join('')+
   '</div>';
 }
 function bindMarks(root,after){
@@ -4341,50 +4428,80 @@ function bindMarks(root,after){
    What people actually want here is "wait, what was that word?", and that is
    what this shows. -------------------------------------------------------- */
 let quizPast=null;              // index being looked at, or null when live
-const quizLog=[];               // {id,word,meaning,ok,nextIn} per answered item
+const quizLog=[];               // one entry per answered item, see grade()
 
-function canLookBack(){return quizPast===null?quizLog.length>0:quizPast>0;}
+// Exactly one step, and only from the live question. The first version walked
+// back through the whole round, and the first step landed on the question just
+// answered rather than the one before it -- so "go back one" visibly went back
+// two. It is also the only depth anyone asked for: the question is "wait, what
+// was that word?", which is always about the one immediately before.
+function canLookBack(){return quizPast===null&&quiz.i>0&&!!quizLog[quiz.i-1];}
 function canLookForward(){return quizPast!==null;}
 
-function renderPast(i){
+// Every answered question renders through here, whether it is the one just
+// answered, the one being looked back at, or the one being returned to. That
+// matters more than the saved lines: the bug that made this necessary was
+// resumeQuiz() calling renderQ(), which redrew the CURRENT question as a fresh
+// unanswered one. It had already been graded, so answering it again graded it
+// twice -- miss it, look back, come forward, answer correctly, and the miss was
+// undone. A question that has been answered now has no path back to an
+// answerable state.
+function renderAnswered(i,live){
   const e=quizLog[i];
   if(!e)return;
-  quizPast=i;
+  quizPast=live?null:i;
+  const rec=curWords().find(x=>x.id===e.id);
   const body=$('#quizBody');
   clearKeyboardSpace();
   const kb=$('#spKb'); if(kb)kb.innerHTML='';
   body.innerHTML='<div class="q-slide"><div class="q-top">'+
       '<div class="q-progress"><i style="width:'+Math.round((i+1)/quiz.items.length*100)+'%"></i></div>'+
-      '<button class="q-quit" id="qBackOut" type="button" aria-label="'+esc(t('back'))+'">✕</button></div>'+
-    '<div class="past-tag">'+esc(t('past_tag',i+1))+'</div>'+
+      '<button class="q-quit" id="qQuit" type="button" aria-label="'+esc(t('btn_quit_round'))+'">✕</button></div>'+
+    (live?'':'<div class="past-tag">'+esc(t('past_tag',i+1))+'</div>')+
     '<div class="q-word"><div class="qw">'+esc(e.word)+spkBtn(e.word)+'</div>'+
       '<div class="qk">'+esc(e.meaning)+'</div></div>'+
     '<div class="q-feedback '+(e.ok?'ok':'ng')+'" style="margin-top:18px">'+
       (e.ok?t('fb_ok'):t('fb_ng'))+
+      (e.correctText?'<div style="margin-top:8px">'+t('correct_label')+'<span class="ans">'+esc(e.correctText)+'</span></div>':'')+
       '<div class="nextin">'+esc(e.nextIn||'')+'</div></div>'+
-    '<div class="past-nav">'+
-      '<button class="btn btn-ghost" id="pastPrev"'+(i>0?'':' disabled')+'>'+esc(t('past_prev'))+'</button>'+
-      '<button class="btn btn-gold" id="pastBack">'+esc(t('past_resume'))+'</button>'+
-    '</div></div>';
-  $('#pastPrev').onclick=()=>renderPast(i-1);
-  $('#pastBack').onclick=resumeQuiz;
-  $('#qBackOut').onclick=resumeQuiz;
+    '</div>'+
+    // The marks and the two tiles belong on the look-back view too: hearing the
+    // word again, or reading what you wrote about it, is most of the reason to
+    // go back at all.
+    quizBottomHTML(rec||{id:e.id},live?null:{back:true});
+  const qq=$('#qQuit'); if(qq)qq.onclick=quitRound;
+  bindAnsweredActions(e,live);
 }
-// Back to the live question, redrawn from scratch. Anything half-typed is gone,
-// which is why looking back is only offered once the current one is answered.
+function bindAnsweredActions(e,live){
+  const paint=()=>bindMarks('#quizBody',()=>{
+    const row=$('#quizBody .mark-row');
+    if(row)row.outerHTML=markBtnHTML(curWords().find(x=>x.id===e.id)||{id:e.id},'wide');
+    paint();
+  });
+  paint();
+  const det=$('#qDetail');
+  if(det)det.onclick=()=>{const r=curWords().find(x=>x.id===e.id);if(r)openWordDetail(r);};
+  const say=$('#qSay');
+  if(say)say.onclick=()=>speak(e.word);
+  const next=$('#qNext');
+  if(!next)return;
+  if(live)next.onclick=advanceQuiz;
+  else next.onclick=resumeQuiz;
+}
+function advanceQuiz(){
+  quiz.i++;
+  if(quiz.i<quiz.items.length)nextQuestion();
+  else showScore();
+}
+// Back to the live question. If it was already answered -- which it always is
+// when you got here by looking back -- it comes back answered.
 function resumeQuiz(){
   quizPast=null;
-  renderQ();
+  if(quizLog[quiz.i])renderAnswered(quiz.i,true);
+  else renderQ();
 }
-function lookBack(){
-  if(quizPast===null){ if(quizLog.length)renderPast(quizLog.length-1); }
-  else if(quizPast>0)renderPast(quizPast-1);
-}
-function lookForward(){
-  if(quizPast===null)return;
-  if(quizPast<quizLog.length-1)renderPast(quizPast+1);
-  else resumeQuiz();
-}
+function lookBack(){ if(canLookBack())renderAnswered(quiz.i-1,false); }
+function lookForward(){ if(quizPast!==null)resumeQuiz(); }
 
 // Swipe, but only a deliberate one: mostly horizontal, far enough to be a
 // gesture rather than a slip, and never while the keyboard is up -- a finger
@@ -4493,14 +4610,21 @@ function quitRound(){
 // four-choice mode, nothing was covering the bottom and a bar stuck to it would
 // be a bar for its own sake.
 function actionsPinned(){return S().quizType==='spell'&&touchDevice();}
-function quizActionsHTML(){
+// The marks and the tiles are one block, because they are pinned together or
+// not at all.
+function quizBottomHTML(w,opt){
+  return '<div class="q-bottom'+(actionsPinned()?' pinned':'')+'">'+
+    markBtnHTML(w,'wide')+quizActionsHTML(opt)+'</div>';
+}
+function quizActionsHTML(opt){
   const I={d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5h6a2.5 2.5 0 0 1 2 2.4V20a2 2 0 0 0-1.7-1H4z"/><path d="M20 4.5h-6a2.5 2.5 0 0 0-2 2.4V20a2 2 0 0 1 1.7-1H20z"/></svg>',s:SPEAKER_SVG,n:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5.5 15.5 12 9 18.5"/></svg>'};
+  const back=!!(opt&&opt.back);
   const last=quiz.i+1>=quiz.items.length;
-  return '<div class="q-acts'+(actionsPinned()?' pinned':'')+'">'+
+  return '<div class="q-acts">'+
     '<button class="q-act" id="qDetail" type="button">'+I.d+'<span>'+esc(t('act_detail'))+'</span></button>'+
     (TTS_OK?'<button class="q-act" id="qSay" type="button">'+I.s+'<span>'+esc(t('act_listen'))+'</span></button>':'')+
     '<button class="q-act main" id="qNext" type="button">'+I.n+'<span>'+
-      esc(last?t('btn_see_result'):t('btn_next_q'))+'</span></button>'+
+      esc(back?t('past_resume'):last?t('btn_see_result'):t('btn_next_q'))+'</span></button>'+
   '</div>';
 }
 function grade(w,ok,correctText,isInput){
@@ -4533,7 +4657,8 @@ function grade(w,ok,correctText,isInput){
     touchWord(rec);
   }
   if(ok)quiz.score++;
-  quizLog[quiz.i]={id:w.id,word:w.word,meaning:primaryMeaning(w)||correctText,ok:ok,nextIn:nextInText};
+  quizLog[quiz.i]={id:w.id,word:w.word,meaning:primaryMeaning(w)||correctText,ok:ok,
+    nextIn:nextInText,correctText:correctText};
   persistProgress();
   updateStreak();
   cloudTouched();
@@ -4556,10 +4681,11 @@ function grade(w,ok,correctText,isInput){
         '<textarea id="leechNote" class="field" rows="2" style="resize:vertical;line-height:1.6;margin-top:9px" placeholder="'+esc(t('leech_ph'))+'">'+esc(rec.note||'')+'</textarea>'+
         '<button class="btn btn-ghost" id="leechSave" style="width:100%;margin-top:9px">'+esc(t('leech_save'))+'</button>'+
       '</div>':'')+
-    // Right where the verdict is, because that is the instant somebody knows
-    // whether this word is giving them trouble.
-    markBtnHTML(w)+
-    quizActionsHTML();
+    // Directly above the tiles rather than inside the verdict: in the verdict
+    // they sat below the fold and had to be scrolled to, which is no use for a
+    // control whose whole value is being pressable in the second after
+    // answering.
+    quizBottomHTML(w);
   if(isInput){
     $('#qfb').innerHTML=fbHtml;
     // The keyboard released its reservation on the way out; the action bar that
@@ -4572,7 +4698,7 @@ function grade(w,ok,correctText,isInput){
   const fbRoot=isInput?'#qfb':'#quizBody';
   const paintMarks=()=>bindMarks(fbRoot,()=>{
     const row=$(fbRoot+' .mark-row');
-    if(row)row.outerHTML=markBtnHTML(curWords().find(x=>x.id===w.id)||w);
+    if(row)row.outerHTML=markBtnHTML(curWords().find(x=>x.id===w.id)||w,'wide');
     paintMarks();
   });
   paintMarks();
@@ -4604,11 +4730,7 @@ function grade(w,ok,correctText,isInput){
   // reach for the mouse. Not done for tapped choices, where a focus ring on a
   // freshly appeared button just looks like a stray highlight.
   if(isInput&&next&&next.focus)next.focus();
-  next.onclick=()=>{
-    quiz.i++;
-    if(quiz.i<quiz.items.length)nextQuestion();
-    else showScore();
-  };
+  next.onclick=advanceQuiz;
 }
 function showScore(){
   document.body.classList.remove('in-round');
@@ -4632,7 +4754,11 @@ function renderSettings(){
   segTheme();
   seg('#segQuizType','quizType');
   seg('#segDir','dir');
-  seg('#segLen','len',true);
+  const lenEl=$('#setLen');
+  if(lenEl){
+    lenEl.innerHTML=stepSliderHTML('setLenS',LEN_STEPS(),S().len);
+    bindStepSlider('setLenS',LEN_STEPS(),v=>{S().len=v;save();renderSettings();applySettingsNow('len');});
+  }
   seg('#segGoal','dailyGoal',true);
   $('#swWeak').classList.toggle('on',S().weak);
   $('#swShuffle').classList.toggle('on',!!S().shuffle);
@@ -4916,9 +5042,11 @@ let rankMetric='todayN';
 // Keyed by metric rather than holding a single one: switching chips and coming
 // back used to refetch, and each fetch is RANK_FETCH document reads.
 let rankCache={};                          // metric -> {rows,at}
+let rankCounts=null;                       // metric -> how many people are on it
+let rankPicked=false;                      // the user chose a chip themselves
 let lastBoardSig='';                       // last row actually written
 const RANK_TTL=60000;                      // a board does not need to be live
-function clearRankCache(){rankCache={};}
+function clearRankCache(){rankCache={};rankCounts=null;}
 
 function rankOptIn(){return S().rankOptIn!==false;}   // on unless turned off
 
@@ -4970,9 +5098,34 @@ async function fetchBoard(metric){
   const snap=await fbDb.collection('board').orderBy(metric,'desc').limit(RANK_FETCH).get();
   const raw=[];
   snap.forEach(d=>raw.push({uid:d.id,...(d.data()||{})}));
-  const rows=rankRows(raw,metric,localDayIndex(Date.now()));
-  rankCache[metric]={rows,at:Date.now()};
+  const today=localDayIndex(Date.now());
+  const rows=rankRows(raw,metric,today);
+  const at=Date.now();
+  rankCache[metric]={rows,at};
+  // Every board is a different filter over the SAME documents, and each one
+  // carries all five fields -- so one fetch answers all five, and the counts
+  // that order the chips cost nothing extra. Only when the query came back
+  // under the limit, though: at the limit this is the top 200 by THIS metric,
+  // and another metric's top 200 could be a different 200 people.
+  if(snap.size<RANK_FETCH){
+    rankCounts={};
+    RANK_METRICS.forEach(m=>{
+      const r=m.k===metric?rows:rankRows(raw,m.k,today);
+      rankCounts[m.k]=r.length;
+      rankCache[m.k]={rows:r,at};
+    });
+  }
   return rows;
+}
+// Ordered by how many people are actually on each board, fullest first. The
+// declared order put "today" first, and a board with one name on it is a worse
+// thing to land on than no board at all -- it reads as "nobody is here", when
+// four of the five boards were full the whole time.
+function orderedMetrics(){
+  if(!rankCounts)return RANK_METRICS;
+  return RANK_METRICS.map((m,i)=>({m,i}))
+    .sort((a,b)=>(rankCounts[b.m.k]||0)-(rankCounts[a.m.k]||0)||a.i-b.i)
+    .map(x=>x.m);
 }
 // Kept apart from the fetch so it can be exercised without Firestore.
 // Firestore has already ordered by `metric`, but only within the page it
@@ -5036,7 +5189,7 @@ function rankStateHTML(msg,btn){
 function renderBoard(){
   const body=$('#statsBody');
   if(!body)return;
-  const chips='<div class="rk-metrics">'+RANK_METRICS.map(m=>
+  const chips='<div class="rk-metrics">'+orderedMetrics().map(m=>
     '<button data-m="'+m.k+'"'+(m.k===rankMetric?' class="on"':'')+'>'+esc(t(m.label))+'</button>').join('')+'</div>';
   const shell=b=>{body.innerHTML=chips+'<div id="rkBody">'+b+'</div>';bindRankChips();};
 
@@ -5051,6 +5204,13 @@ function renderBoard(){
     // connection -- tapped another chip, in which case this reply is for the
     // previous metric and would fill the new chip's list with the old numbers.
     if(rankView!=='board'||rankMetric!==m.k)return;
+    // The counts only exist once something has been fetched, so the first draw
+    // is the earliest this can be honoured. Never against a chip the user chose
+    // themselves -- moving someone off their own selection is not a default.
+    if(!rankPicked&&rankCounts){
+      const best=orderedMetrics()[0];
+      if(best&&best.k!==rankMetric){rankMetric=best.k;renderBoard();return;}
+    }
     const el=$('#rkBody'); if(!el)return;
     if(!rows.length){el.innerHTML=rankStateHTML(t('rank_empty'));return;}
     const ranked=withRanks(rows,m.k);
@@ -5085,7 +5245,7 @@ function renderBoard(){
 }
 function bindRankChips(){
   $$('.rk-metrics button').forEach(b=>b.onclick=()=>{
-    rankMetric=b.dataset.m;renderBoard();
+    rankMetric=b.dataset.m;rankPicked=true;renderBoard();
     gaEvent('rank_metric',{metric:rankMetric});
   });
 }

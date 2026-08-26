@@ -332,8 +332,10 @@ t('shuffle actually reorders over repeated runs',()=>{
   return 'never reordered';
 });
 t('markOf only accepts a known mark',()=>
-  M.markOf({mark:'star'})==='star'&&M.markOf({mark:'hard'})==='hard'&&
+  M.markOf({mark:'fav'})==='fav'&&M.markOf({mark:'hard'})==='hard'&&
   M.markOf({mark:'banana'})===null&&M.markOf({})===null||'wrong');
+t('the one-day-old star reads as a favourite',()=>
+  M.markOf({mark:'star'})==='fav'||'wrong');
 t('markOf survives a missing word',()=>M.markOf(null)===null&&M.markOf(undefined)===null||'threw or wrong');
 
 console.log('\n'+pass+' passed, '+fail+' failed');
