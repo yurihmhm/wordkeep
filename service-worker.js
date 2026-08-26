@@ -4,7 +4,7 @@
 // the app shell so it opens offline. Cache strategy is deliberately
 // simple: cache the shell on install, serve navigations from cache when the
 // network is unavailable.
-const CACHE = 'wordkeep-v5';
+const CACHE = 'wordkeep-v6';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -195,6 +195,23 @@ self.addEventListener('push', e => {
       // thing. renotify is what makes that replacement alert again, and only
       // the last call earns it.
       renotify: !!m.renotify,
+      data: { url: './' }
+    });
+  }));
+});
+
+// The same composition a push triggers, asked for from the page. Without this
+// the only way to see a notification was to wait for a real send -- which meant
+// the wording could not be checked at all, let alone the 22:00 one.
+self.addEventListener('message', e => {
+  if (!e.data || e.data.type !== 'wk-preview') return;
+  e.waitUntil(readHint().then(hint => {
+    const m = compose(hint, new Date());
+    return self.registration.showNotification(m.title, {
+      body: m.body,
+      icon: './icon-192.png',
+      badge: './icon-192.png',
+      tag: 'wordkeep-preview',
       data: { url: './' }
     });
   }));

@@ -7,7 +7,18 @@ const DAY = 86400000;
 const dayIdx = ts => Math.floor(Date.UTC(new Date(ts).getFullYear(), new Date(ts).getMonth(), new Date(ts).getDate()) / DAY);
 
 let pass = 0, fail = 0;
-const t = (n, f) => { try { const r = f(); if (r === true) { pass++; console.log('  PASS ' + n); } else { fail++; console.log('  FAIL ' + n + ' -> ' + r); } } catch (e) { fail++; console.log('  FAIL ' + n + ' -> threw ' + e.message); } };
+const pending = [];
+// A check may return a promise -- the preview handler resolves through
+// waitUntil -- so those are collected and settled before the summary.
+const record = (n, r) => { if (r === true) { pass++; console.log('  PASS ' + n); }
+                           else { fail++; console.log('  FAIL ' + n + ' -> ' + r); } };
+const t = (n, f) => {
+  try {
+    const r = f();
+    if (r && typeof r.then === 'function') pending.push(r.then(v => record(n, v), e => record(n, 'threw ' + e.message)));
+    else record(n, r);
+  } catch (e) { fail++; console.log('  FAIL ' + n + ' -> threw ' + e.message); }
+};
 
 // Templates carry their placeholders through so we can assert on substitution.
 const T = { build_t:'D{0}/{1}left', build_b:'b', near_t:'near{0}/{1}', near_b:'nb',
@@ -128,5 +139,50 @@ t('only the last call re-alerts', () => {
   return compose(hint({streak:9,nextMs:30,lastStudied:today()-1}), at(22)).renotify === true || 'last call did not';
 });
 
+console.log('\npreview handler');
+// The page asks the worker to show the notification it WOULD send. Exercised by
+// running the real listener against a stubbed worker global, because a service
+// worker cannot be registered from a test (nor, as it happens, from the local
+// preview -- which is exactly why this needs covering here).
+t('a preview message shows the composed notification', () => {
+  const listeners = {};
+  const shown = [];
+  const self_ = {
+    addEventListener: (k, f) => { (listeners[k] = listeners[k] || []).push(f); },
+    registration: { showNotification: (title, opts) => { shown.push({ title, opts }); return Promise.resolve(); } },
+    location: { origin: 'https://example.test' }
+  };
+  const hint = { t:T, streak:3, longest:3, nextMs:7, freezes:0,
+                 lastStudied: today() - 1, due:0, words:[] };
+  const region = src.slice(src.indexOf('// Local calendar day'), src.indexOf("self.addEventListener('notificationclick'"));
+  // Only the push/message listeners are wanted; the fetch/install ones live above.
+  new Function('self', 'indexedDB', 'readHint', 'caches', region.replace(
+    /function readHint\(\)[\s\S]*?\n\}\n/, '') )(self_, {}, () => Promise.resolve(hint), {});
+  const msg = (listeners['message'] || [])[0];
+  if (!msg) return 'no message listener registered';
+  let waited;
+  msg({ data: { type: 'wk-preview' }, waitUntil: p => { waited = p; } });
+  if (!waited) return 'did not waitUntil';
+  return waited.then(() => {
+    if (shown.length !== 1) return 'showed ' + shown.length;
+    if (shown[0].title !== 'D3/4left') return 'wrong title: ' + shown[0].title;
+    if (shown[0].opts.tag !== 'wordkeep-preview') return 'wrong tag: ' + shown[0].opts.tag;
+    return true;
+  });
+});
+t('an unrelated message shows nothing', () => {
+  const listeners = {}; const shown = [];
+  const self_ = { addEventListener: (k, f) => { (listeners[k] = listeners[k] || []).push(f); },
+                  registration: { showNotification: () => { shown.push(1); return Promise.resolve(); } },
+                  location: { origin: 'x' } };
+  const region = src.slice(src.indexOf('// Local calendar day'), src.indexOf("self.addEventListener('notificationclick'"));
+  new Function('self', 'indexedDB', 'readHint', 'caches',
+    region.replace(/function readHint\(\)[\s\S]*?\n\}\n/, ''))(self_, {}, () => Promise.resolve(null), {});
+  const msg = (listeners['message'] || [])[0];
+  msg({ data: { type: 'something-else' }, waitUntil: () => { shown.push('waited'); } });
+  return shown.length === 0 || 'reacted to a foreign message';
+});
+
+await Promise.all(pending);
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

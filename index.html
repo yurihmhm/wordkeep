@@ -453,6 +453,23 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .rk-state{text-align:center;padding:34px 16px;color:var(--muted);font-size:13.5px;line-height:1.7}
 .rk-state svg{width:38px;height:38px;fill:var(--line);margin-bottom:10px}
 #listSel{margin:0 2px 10px}
+.sel-start{position:relative}
+.sel-start svg{width:15px;height:15px;margin-right:6px;vertical-align:-2px}
+.sel-menu{display:flex;flex-direction:column;gap:6px;margin-top:8px;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:6px;box-shadow:var(--shadow)}
+.sel-menu[hidden]{display:none}
+.sel-menu button{width:100%;text-align:left;padding:12px 14px;border:none;border-radius:10px;
+  background:none;color:var(--ink);font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.sel-menu button:active{background:var(--ghost-bg)}
+.mv-opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:15px 16px;margin-top:8px;border:1px solid var(--line);border-radius:14px;
+  background:var(--surface-2);color:var(--ink);font-size:15px;font-weight:600;
+  cursor:pointer;font-family:inherit}
+.mv-opt svg{width:19px;height:19px;flex:none;color:var(--muted)}
+.mv-opt:active{transform:scale(.99)}
+.mv-opt.mv-new{background:none;border-style:dashed;color:var(--muted)}
+
 .sel-start{width:100%;font-size:13.5px;padding:11px}
 .sel-bar{display:flex;gap:8px}
 .sel-bar .btn{flex:1;font-size:13px;padding:11px 8px}
@@ -952,6 +969,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <div class="sheet-head"><h3 id="wdWord" style="font-family:Georgia,'Times New Roman',serif"></h3><button class="sheet-x" id="wdClose" type="button" aria-label="close">×</button></div>
   <div id="wdBody"></div>
 </div></div>
+<div class="overlay" id="overlayMove"><div class="sheet">
+  <button class="sheet-x" id="mvClose" aria-label="close">&times;</button>
+  <h3 id="mvTitle" style="margin-bottom:4px"></h3>
+  <p class="hint" id="mvHint" data-i18n="mv_hint" style="margin:0 2px 12px"></p>
+  <div id="mvBody"></div>
+</div></div>
 <div class="overlay" id="overlayBulk"><div class="sheet sheet-wide">
   <div class="sheet-head"><h3 data-i18n="bulk_title">まとめて追加</h3><button class="sheet-x" id="bulkClose" type="button" aria-label="close">×</button></div>
   <div id="bulkBody"></div>
@@ -1086,6 +1109,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
         <div><div class="st" data-i18n="st_notify">学習のリマインド</div><div class="sd" data-i18n="desc_notify"></div></div>
         <button class="switch" id="swNotify"><i></i></button>
       </div>
+      <div class="set-row stack" id="ntfPreviewRow" hidden>
+        <div><div class="st" data-i18n="ntf_prev">届く通知を見てみる</div>
+          <div class="sd" data-i18n="ntf_prev_d"></div></div>
+        <button class="btn btn-ghost" id="ntfPreview" data-i18n="ntf_prev_go">今の状態で表示</button>
+      </div>
     </div>
 
     <div class="set-section-t" data-i18n="rank_tab_board">ランキング</div>
@@ -1170,15 +1198,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.27.0';
+const APP_VERSION='5.28.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.27.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.28.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.27.0',date:'2026-08-27',keys:['v5270_1','v5270_2','v5270_3']},
   {version:'5.26.0',date:'2026-08-27',keys:['v5260_1','v5260_2']},
-  {version:'5.25.0',date:'2026-08-27',keys:['v5250_1','v5250_2','v5250_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1276,14 +1304,14 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'学習した日には、お知らせが届かなくなりました。これまでは終わっている日にも同じように送っていて、それが一番よくないところでした。忘れている日だけ、時間帯に応じて言うことを変えてお送りします',en:'On the days you study, no reminder arrives at all. Until now they went out whether or not the day was already done, which was the worst thing about them. They come only on the days you have forgotten, and say something different depending on the hour',zh:'你学习过的那天不会再收到提醒。此前无论当天是否已完成都会照发，这是最大的问题。现在只在你忘记的日子发送，并按时间段改变内容',fr:'Les jours où vous étudiez, aucun rappel n’arrive. Ils partaient jusqu’ici que la journée soit faite ou non, et c’était leur pire défaut. Ils ne viennent plus que les jours oubliés, et disent autre chose selon l’heure',ar:'في الأيام التي تدرس فيها لم يعد يصلك تذكير. كانت التذكيرات تُرسل سواء أنجزت يومك أم لا، وكان ذلك أسوأ ما فيها. صارت تأتي في الأيام المنسية فقط، وتقول شيئًا مختلفًا بحسب الساعة',ko:'학습한 날에는 알림이 오지 않게 되었습니다. 지금까지는 이미 끝낸 날에도 똑같이 보냈고, 그것이 가장 나쁜 점이었습니다. 잊은 날에만, 시간대에 따라 다른 말로 보냅니다',ru:'В дни, когда вы занимались, напоминания больше не приходят. Раньше они уходили независимо от того, сделан ли день, — и это было в них самым плохим. Теперь они приходят только в забытые дни и говорят разное в зависимости от времени'},
-  wn2:{ja:'連続が途切れる日の夜22時に、最後のお知らせが届きます。これは本当に今夜で途切れる方にだけ送ります。フリーズが残っていて実際には途切れない場合は、そう書きます',en:'On the night a streak would end, a last call arrives at 22:00. It goes only to people whose streak really does end tonight — and if a freeze is in hand so that it does not, it says that instead',zh:'在连续记录将中断的那天晚上 22:00 会收到最后提醒。只发给今晚确实会中断的人；如果还有冻结、实际不会中断，就会照实说明',fr:'Le soir où une série va se terminer, un dernier rappel arrive à 22 h. Il ne part qu’aux personnes dont la série se termine vraiment ce soir — et s’il reste un gel qui l’empêche, il le dit',ar:'في الليلة التي تنتهي فيها السلسلة يصل تذكير أخير عند 22:00، ولا يُرسل إلا لمن تنتهي سلسلته فعلًا تلك الليلة. وإن كانت لديك تجميدة تمنع ذلك، يقول لك هذا بدل ذلك',ko:'연속이 끊기는 날 밤 22시에 마지막 알림이 옵니다. 정말로 오늘 밤 끊기는 분에게만 보냅니다. 프리즈가 남아 있어 실제로는 끊기지 않는 경우에는 그렇게 적습니다',ru:'В ночь, когда серия прервётся, в 22:00 приходит последнее напоминание. Оно уходит только тем, у кого серия действительно обрывается сегодня, — а если есть заморозка и она не оборвётся, так и будет сказано'},
-  wn3:{ja:'連続日数の数え方を、上ではなく下に向けました。「3日目です」ではなく「あと4日で習慣になります」、6日目には「あと1日で7日連続です」。連続が切れたあとは、これまでの自己ベストをお伝えします',en:'Streak days now count down instead of up. Not "day 3" but "four more days and it is a habit"; on day six, "one more day to seven in a row". And after a streak breaks, it tells you your own best run',zh:'连续天数改为倒数而非累加。不再是「第 3 天」，而是「再 4 天就成习惯」；第 6 天则是「再 1 天就连续 7 天」。连续中断后会告诉你自己的最好记录',fr:'Les jours de série se comptent désormais à rebours. Non plus « jour 3 » mais « encore quatre jours et c’est une habitude » ; au sixième, « encore un jour pour sept d’affilée ». Après une rupture, il vous rappelle votre meilleure série',ar:'صار عدّ أيام السلسلة تنازليًا لا تصاعديًا: ليس «اليوم 3» بل «تبقّى أربعة أيام لتصير عادة»، وفي اليوم السادس «يوم واحد لتصل إلى سبعة متتالية». وبعد انقطاع السلسلة يذكّرك بأفضل سلسلة حقّقتها',ko:'연속 일수를 위가 아니라 아래로 세도록 바꿨습니다. «3일째»가 아니라 «4일 더면 습관이 됩니다», 6일째에는 «1일만 더 하면 7일 연속입니다». 연속이 끊긴 뒤에는 지금까지의 최고 기록을 알려 드립니다',ru:'Дни серии теперь считаются вниз, а не вверх: не «день 3», а «ещё четыре дня — и это привычка»; на шестой — «ещё один день до семи подряд». А после обрыва серии вам напомнят ваш собственный рекорд'},
+  wn1:{ja:'単語リストに「リストを編集」を追加し、その中に「選択して移動」ができました。選んだ単語をまとめて別の単語帳へ移せます。移動先はその場で新しく作ることもでき、学習の記録はそのまま引き継がれます',en:'The word list has an "Edit list" button, and inside it a new "Select to move". Move a batch of words to another notebook — you can create the destination on the spot, and review progress moves with them',zh:'单词列表新增「编辑列表」按钮，其中包含新的「选择并移动」。可将选中的单词批量移到其他单词本，目的地可当场新建，学习进度会一并保留',fr:'La liste de mots a un bouton « Modifier la liste », avec une nouvelle option « Sélectionner pour déplacer ». Déplacez un lot de mots vers un autre carnet — créable sur place — la progression suit',ar:'أُضيف زر «تحرير القائمة» إلى قائمة الكلمات، وفيه خيار جديد «حدّد للنقل». انقل مجموعة كلمات إلى دفتر آخر، ويمكنك إنشاء الوجهة في اللحظة نفسها، ويبقى تقدّم المراجعة معها',ko:'단어 목록에 «목록 편집»을 추가하고, 그 안에 «선택해서 이동»을 넣었습니다. 고른 단어를 한꺼번에 다른 단어장으로 옮길 수 있고, 옮길 곳은 그 자리에서 새로 만들 수도 있으며 학습 기록은 그대로 따라갑니다',ru:'В списке слов появилась кнопка «Редактировать список», а в ней — новое «Выбрать для переноса». Переносите слова пачкой в другой словарь; его можно создать тут же, а прогресс повторений переезжает вместе'},
+  wn2:{ja:'しばらく時間をあけてアプリを開いたとき、ホームから始まるようになりました。ホームは「今日は何をすればいいか」に答える画面なので。少し離れただけのときや、問題を解いている途中は、そのままの画面に戻ります',en:'Reopening the app after a while now starts on Home, because Home is the screen that answers "what should I do now". Step away only briefly, or leave mid-round, and you come back exactly where you were',zh:'隔一段时间再打开应用会从主页开始，因为主页回答的正是「现在该做什么」。若只是短暂离开，或正在答题中途，则会回到原来的画面',fr:'Rouvrir l’app après un moment démarre sur l’Accueil, car c’est l’écran qui répond à « que faire maintenant ». Une absence brève, ou une série en cours, vous ramène là où vous étiez',ar:'عند فتح التطبيق بعد فترة صار يبدأ من الصفحة الرئيسية، لأنها الشاشة التي تجيب عن «ماذا أفعل الآن». أما الغياب القصير أو الجولة الجارية فيعيدانك إلى حيث كنت',ko:'한동안 시간을 두고 앱을 열면 홈에서 시작합니다. 홈이 «오늘 무엇을 하면 되는지»에 답하는 화면이기 때문입니다. 잠깐 자리를 비웠을 때나 문제를 푸는 도중에는 원래 화면으로 돌아갑니다',ru:'Если открыть приложение спустя время, оно начинается с Главной — это экран, который отвечает на вопрос «что делать сейчас». После короткой отлучки или посреди раунда вы вернётесь туда, где были'},
+  wn3:{ja:'設定の通知に「届く通知を見てみる」を追加しました。いまのあなたの状態で実際に届くものを、その場で表示します。夜まで待たなくても、どんな文面が来るのか確かめられます',en:'Settings now has "See what a reminder looks like". It shows the real one for your state right now, so you can check the wording without waiting until evening',zh:'设置的通知中新增「看看提醒长什么样」。按你当前的状态立刻显示真实的通知，不必等到晚上就能确认文案',fr:'Les réglages proposent « Voir à quoi ressemble un rappel » : il affiche le vrai, pour votre état actuel, sans attendre le soir',ar:'أُضيف إلى الإعدادات «شاهد شكل التذكير»، فيعرض التذكير الحقيقي بحسب حالتك الآن دون انتظار المساء',ko:'설정의 알림에 «어떤 알림이 오는지 보기»를 추가했습니다. 지금 상태에서 실제로 오는 것을 그 자리에서 보여 주므로, 밤까지 기다리지 않아도 문구를 확인할 수 있습니다',ru:'В настройках появилось «Посмотреть, как выглядит напоминание» — оно показывает настоящее, для вашего текущего состояния, не дожидаясь вечера'},
+  v5270_1:{ja:'学習した日には、お知らせが届かなくなりました。これまでは終わっている日にも同じように送っていて、それが一番よくないところでした。忘れている日だけ、時間帯に応じて言うことを変えてお送りします',en:'On the days you study, no reminder arrives at all. Until now they went out whether or not the day was already done, which was the worst thing about them. They come only on the days you have forgotten, and say something different depending on the hour',zh:'你学习过的那天不会再收到提醒。此前无论当天是否已完成都会照发，这是最大的问题。现在只在你忘记的日子发送，并按时间段改变内容',fr:'Les jours où vous étudiez, aucun rappel n’arrive. Ils partaient jusqu’ici que la journée soit faite ou non, et c’était leur pire défaut. Ils ne viennent plus que les jours oubliés, et disent autre chose selon l’heure',ar:'في الأيام التي تدرس فيها لم يعد يصلك تذكير. كانت التذكيرات تُرسل سواء أنجزت يومك أم لا، وكان ذلك أسوأ ما فيها. صارت تأتي في الأيام المنسية فقط، وتقول شيئًا مختلفًا بحسب الساعة',ko:'학습한 날에는 알림이 오지 않게 되었습니다. 지금까지는 이미 끝낸 날에도 똑같이 보냈고, 그것이 가장 나쁜 점이었습니다. 잊은 날에만, 시간대에 따라 다른 말로 보냅니다',ru:'В дни, когда вы занимались, напоминания больше не приходят. Раньше они уходили независимо от того, сделан ли день, — и это было в них самым плохим. Теперь они приходят только в забытые дни и говорят разное в зависимости от времени'},
+  v5270_2:{ja:'連続が途切れる日の夜22時に、最後のお知らせが届きます。これは本当に今夜で途切れる方にだけ送ります。フリーズが残っていて実際には途切れない場合は、そう書きます',en:'On the night a streak would end, a last call arrives at 22:00. It goes only to people whose streak really does end tonight — and if a freeze is in hand so that it does not, it says that instead',zh:'在连续记录将中断的那天晚上 22:00 会收到最后提醒。只发给今晚确实会中断的人；如果还有冻结、实际不会中断，就会照实说明',fr:'Le soir où une série va se terminer, un dernier rappel arrive à 22 h. Il ne part qu’aux personnes dont la série se termine vraiment ce soir — et s’il reste un gel qui l’empêche, il le dit',ar:'في الليلة التي تنتهي فيها السلسلة يصل تذكير أخير عند 22:00، ولا يُرسل إلا لمن تنتهي سلسلته فعلًا تلك الليلة. وإن كانت لديك تجميدة تمنع ذلك، يقول لك هذا بدل ذلك',ko:'연속이 끊기는 날 밤 22시에 마지막 알림이 옵니다. 정말로 오늘 밤 끊기는 분에게만 보냅니다. 프리즈가 남아 있어 실제로는 끊기지 않는 경우에는 그렇게 적습니다',ru:'В ночь, когда серия прервётся, в 22:00 приходит последнее напоминание. Оно уходит только тем, у кого серия действительно обрывается сегодня, — а если есть заморозка и она не оборвётся, так и будет сказано'},
+  v5270_3:{ja:'連続日数の数え方を、上ではなく下に向けました。「3日目です」ではなく「あと4日で習慣になります」、6日目には「あと1日で7日連続です」。連続が切れたあとは、これまでの自己ベストをお伝えします',en:'Streak days now count down instead of up. Not "day 3" but "four more days and it is a habit"; on day six, "one more day to seven in a row". And after a streak breaks, it tells you your own best run',zh:'连续天数改为倒数而非累加。不再是「第 3 天」，而是「再 4 天就成习惯」；第 6 天则是「再 1 天就连续 7 天」。连续中断后会告诉你自己的最好记录',fr:'Les jours de série se comptent désormais à rebours. Non plus « jour 3 » mais « encore quatre jours et c’est une habitude » ; au sixième, « encore un jour pour sept d’affilée ». Après une rupture, il vous rappelle votre meilleure série',ar:'صار عدّ أيام السلسلة تنازليًا لا تصاعديًا: ليس «اليوم 3» بل «تبقّى أربعة أيام لتصير عادة»، وفي اليوم السادس «يوم واحد لتصل إلى سبعة متتالية». وبعد انقطاع السلسلة يذكّرك بأفضل سلسلة حقّقتها',ko:'연속 일수를 위가 아니라 아래로 세도록 바꿨습니다. «3일째»가 아니라 «4일 더면 습관이 됩니다», 6일째에는 «1일만 더 하면 7일 연속입니다». 연속이 끊긴 뒤에는 지금까지의 최고 기록을 알려 드립니다',ru:'Дни серии теперь считаются вниз, а не вверх: не «день 3», а «ещё четыре дня — и это привычка»; на шестой — «ещё один день до семи подряд». А после обрыва серии вам напомнят ваш собственный рекорд'},
   v5260_1:{ja:'1回の問題数のスライダーが、指にそのままついてくるようになりました。これまでは目盛りごとに飛んでいたので、引っかかるような動きでした。見た目も作り直しています',en:'The round-size slider now follows your finger exactly. It used to jump from notch to notch, which is what made it feel like it was catching. It has been redrawn as well',zh:'每轮题数的滑块现在会跟随手指移动。以前是逐格跳动，所以显得卡顿。外观也重新设计了',fr:'Le curseur du nombre de questions suit désormais le doigt exactement. Il sautait d’un cran à l’autre, d’où cette impression d’accroc. Son apparence a aussi été refaite',ar:'صار شريط عدد أسئلة الجولة يتبع إصبعك تمامًا، بعد أن كان يقفز من علامة إلى أخرى فيبدو متعثرًا. وأُعيد تصميم شكله أيضًا',ko:'한 번의 문제 수 슬라이더가 손가락을 그대로 따라오게 되었습니다. 지금까지는 눈금마다 건너뛰어서 걸리는 듯한 움직임이었습니다. 모양도 새로 만들었습니다',ru:'Ползунок размера раунда теперь точно следует за пальцем — раньше он прыгал от деления к делению, отчего казался дёрганым. Внешний вид тоже переделан'},
   v5260_2:{ja:'すでに持っている単語を追加しようとしたとき、どこにあるのかを言うようになりました。「すでに「IT編」にあります」のように、自分の単語帳・作った単語帳・ダウンロード済みのパッケージのどこにあっても名前が出ます',en:'When you try to add a word you already have, it now says where. "Already in IT" and so on — your own notebook, any notebook you made, or any package you have downloaded',zh:'当你尝试添加已有的单词时，现在会告诉你它在哪里。例如「已在「IT编」中」——你自己的单词本、你创建的单词本，或已下载的单词包',fr:'Quand vous ajoutez un mot que vous avez déjà, l’app dit maintenant où il se trouve : « déjà dans IT », que ce soit votre carnet, un carnet que vous avez créé ou un paquet téléchargé',ar:'عند محاولة إضافة كلمة تملكها بالفعل، صار التطبيق يخبرك بمكانها: «موجودة بالفعل في IT» — سواء في دفترك أو دفتر أنشأته أو حزمة نزّلتها',ko:'이미 가지고 있는 단어를 추가하려고 하면 어디에 있는지 알려줍니다. «이미 «IT편»에 있습니다»처럼, 내 단어장·직접 만든 단어장·내려받은 패키지 어디에 있든 이름이 나옵니다',ru:'Если вы добавляете слово, которое уже есть, приложение теперь говорит где: «уже в IT» — в вашем блокноте, в созданном вами блокноте или в скачанном пакете'},
-  v5250_1:{ja:'自由学習が毎回ちがう単語を出すようになりました。これまでは期限の古い順に並べた先頭から取っていたので、何百語あっても同じ顔ぶれが出ていました。1回の問題数もスライダーで選べます',en:'Free study now picks different words each time. It used to take them off the top of a due-date list, so the same faces came round however many hundreds you had. The round size is a slider now, too',zh:'自由学习现在每次都会出不同的单词。以前是按到期日排序后取最前面的，所以无论有几百个词都是同一批。每轮题数也改成了滑块',fr:'L’étude libre propose maintenant des mots différents à chaque fois. Elle prenait le haut d’une liste triée par échéance, donc les mêmes revenaient sans cesse. La taille de la série se règle aussi au curseur',ar:'صارت الدراسة الحرة تختار كلمات مختلفة في كل مرة، بعد أن كانت تأخذ أوائل قائمة مرتّبة بالاستحقاق فتتكرر الكلمات نفسها. وعدد أسئلة الجولة صار شريط تمرير أيضًا',ko:'자유 학습이 매번 다른 단어를 내도록 바뀌었습니다. 지금까지는 기한이 오래된 순서의 앞에서부터 가져왔기 때문에 수백 개가 있어도 같은 얼굴만 나왔습니다. 한 번의 문제 수도 슬라이더로 고를 수 있습니다',ru:'Свободное изучение теперь каждый раз берёт другие слова — раньше оно брало начало списка по сроку, и повторялись одни и те же. Размер раунда тоже стал ползунком'},
-  v5250_2:{ja:'マークを ♡ と ⚠ に変えました。星と ⚠ ではどちらも黄色で見分けがつきにくかったためです。答えたあとの「単語の詳細」などのすぐ上に移したので、下までスクロールしなくても押せます',en:'The marks are now a heart and a warning. A star and a warning were both yellow and hard to tell apart. They have also moved directly above the tiles you get after answering, so they no longer need scrolling to',zh:'标记改为 ♡ 和 ⚠。原先的星形与 ⚠ 都是黄色，不易区分。位置也移到了答题后「单词详情」等按钮的正上方，无需下滑即可点击',fr:'Les marques sont désormais un cœur et un avertissement : l’étoile et l’avertissement étaient tous deux jaunes et se confondaient. Elles sont aussi passées juste au-dessus des tuiles d’après-réponse, sans avoir à faire défiler',ar:'صارت العلامتان قلبًا وعلامة تحذير، فالنجمة والتحذير كانا أصفرين يصعب التمييز بينهما. ونُقلتا إلى أعلى أزرار ما بعد الإجابة مباشرة فلا تحتاج للتمرير',ko:'마크를 ♡ 와 ⚠ 로 바꿨습니다. 별과 ⚠ 는 둘 다 노란색이라 구별하기 어려웠기 때문입니다. 답한 뒤의 «단어 상세» 등 바로 위로 옮겨서 아래로 스크롤하지 않아도 누를 수 있습니다',ru:'Метки теперь сердце и предупреждение — звезда и предупреждение были одинаково жёлтыми. Они переехали прямо над кнопками, которые появляются после ответа, так что прокручивать до них больше не нужно'},
-  v5250_3:{ja:'前の問題に戻る機能の不具合を直しました。2問前まで戻ってしまうことがあり、戻ってから進むと答え終わった問題をもう一度解けてしまっていました（間違いを取り消せてしまう状態でした）。戻れるのは1問だけ、解き直しはできません。ランキングは人の多い種目から並ぶようになりました',en:'Fixed looking back at the previous question. It could go back two, and coming forward again let you re-answer a question that had already been graded — which meant a miss could be undone. It now goes back exactly one, and nothing can be answered twice. The ranking also leads with the boards that have the most people on them',zh:'修复了回看上一题的问题。它可能回退两题，且返回后已作答的题目还能重答（等于可以撤销错误）。现在只回退一题，且不能重答。排行榜也改为按参与人数从多到少排列',fr:'Correction du retour à la question précédente : il pouvait reculer de deux, et en revenant on pouvait répondre à nouveau à une question déjà notée — une erreur devenait annulable. Il recule maintenant d’exactement une, sans possibilité de répondre deux fois. Le classement commence aussi par les tableaux les plus fournis',ar:'أُصلح الرجوع إلى السؤال السابق: كان يرجع سؤالين أحيانًا، وعند العودة كان يمكن الإجابة مجددًا عن سؤال مصحَّح — أي إلغاء الخطأ. صار الرجوع سؤالًا واحدًا فقط بلا إعادة إجابة. كما صار الترتيب يبدأ باللوحات الأكثر مشاركين',ko:'이전 문제로 돌아가는 기능의 버그를 고쳤습니다. 두 문제 앞까지 돌아가는 경우가 있었고, 돌아갔다가 나아가면 이미 채점된 문제를 다시 풀 수 있었습니다(틀린 것을 취소할 수 있는 상태였습니다). 이제 한 문제만 돌아가며 다시 풀 수는 없습니다. 랭킹은 사람이 많은 종목부터 표시됩니다',ru:'Исправлен возврат к предыдущему вопросу: он мог отступить на два, а на пути вперёд уже оценённый вопрос можно было ответить снова — то есть отменить ошибку. Теперь возврат ровно на один, и дважды ответить нельзя. Рейтинг также начинается с таблиц, где больше участников'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1323,6 +1351,10 @@ const T={
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
+  ntf_prev:{ja:'届く通知を見てみる',en:'See what a reminder looks like',zh:'看看提醒长什么样',fr:'Voir à quoi ressemble un rappel',ar:'شاهد شكل التذكير',ko:'어떤 알림이 오는지 보기',ru:'Посмотреть, как выглядит напоминание'},
+  ntf_prev_d:{ja:'いまのあなたの状態で、実際に届くものをそのまま表示します',en:'Shows the real one for your state right now',zh:'按你当前的状态显示真实的通知',fr:'Affiche le vrai rappel pour votre état actuel',ar:'يعرض التذكير الحقيقي بحسب حالتك الآن',ko:'지금 상태에서 실제로 오는 것을 그대로 보여 줍니다',ru:'Покажет настоящее — для вашего текущего состояния'},
+  ntf_prev_go:{ja:'今の状態で表示',en:'Show it',zh:'显示',fr:'Afficher',ar:'اعرضه',ko:'표시하기',ru:'Показать'},
+  ntf_prev_sent:{ja:'通知を表示しました',en:'Sent to your notifications',zh:'已显示通知',fr:'Envoyé dans vos notifications',ar:'أُرسل إلى إشعاراتك',ko:'알림을 표시했습니다',ru:'Отправлено в уведомления'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
@@ -1612,6 +1644,13 @@ const T={
   desc_rank:{ja:'ニックネームと学習の記録（復習数・単語数・連続日数）が他の利用者にも見えるようになります。単語そのものは公開されません。オフにするといつでも一覧から消えます。',en:'Your nickname and study counts (reviews, words, streak) become visible to other users. Your actual vocabulary is never shared. Turning it off removes you from the board at once.',zh:'你的昵称与学习数据（复习数・单词数・连续天数）将对其他用户可见。你的单词内容不会公开。关闭后会立即从榜单移除。',fr:'Votre pseudo et vos compteurs (révisions, mots, série) deviennent visibles par les autres. Votre vocabulaire lui-même n’est jamais partagé. En désactivant, vous disparaissez aussitôt du classement.',ar:'سيصبح اسمك المستعار وأرقام دراستك (المراجعات والكلمات والأيام المتتالية) مرئية للآخرين. أما كلماتك نفسها فلا تُنشر أبدًا. وإيقافه يزيلك من اللوحة فورًا.',ko:'닉네임과 학습 기록(복습 수·단어 수·연속 일수)이 다른 사용자에게 보이게 됩니다. 단어 자체는 공개되지 않습니다. 끄면 즉시 목록에서 사라집니다.',ru:'Ваш никнейм и счётчики (повторы, слова, серия) станут видны другим. Сами слова никогда не публикуются. При выключении вы сразу исчезаете из рейтинга.'},
   act_detail:{ja:'単語の詳細',en:'Details',zh:'单词详情',fr:'Détails',ar:'التفاصيل',ko:'단어 상세',ru:'Подробнее'},
   act_listen:{ja:'単語を聞く',en:'Listen',zh:'朗读单词',fr:'Écouter',ar:'استمع',ko:'단어 듣기',ru:'Прослушать'},
+  sel_edit:{ja:'リストを編集',en:'Edit list',zh:'编辑列表',fr:'Modifier la liste',ar:'تحرير القائمة',ko:'목록 편집',ru:'Редактировать список'},
+  sel_start_move:{ja:'選択して移動',en:'Select to move',zh:'选择并移动',fr:'Sélectionner pour déplacer',ar:'حدّد للنقل',ko:'선택해서 이동',ru:'Выбрать для переноса'},
+  sel_move:{ja:'{0}語を移動',en:'Move {0}',zh:'移动 {0} 个',fr:'Déplacer {0}',ar:'نقل {0}',ko:'{0}개 이동',ru:'Перенести {0}'},
+  mv_hint:{ja:'移動先の単語帳を選んでください。学習の記録はそのまま引き継がれます。',en:'Pick where they go. Review progress moves with them.',zh:'选择要移动到的单词本。学习进度会一并保留。',fr:'Choisissez la destination. La progression suit les mots.',ar:'اختر الدفتر الوجهة. ويبقى تقدّم المراجعة مع الكلمات.',ko:'옮길 단어장을 선택하세요. 학습 기록은 그대로 따라갑니다.',ru:'Выберите, куда перенести. Прогресс повторений переедет вместе со словами.'},
+  mv_done:{ja:'{0}語を「{1}」に移動しました',en:'Moved {0} to {1}',zh:'已将 {0} 个单词移动到「{1}」',fr:'{0} mots déplacés vers « {1} »',ar:'نُقلت {0} كلمة إلى «{1}»',ko:'{0}개를 «{1}»(으)로 옮겼습니다',ru:'{0} слов перенесено в «{1}»'},
+  mv_nowhere:{ja:'移動できる単語帳がありません',en:'There is nowhere else to move them',zh:'没有其他可移动到的单词本',fr:'Aucun autre carnet où les déplacer',ar:'لا يوجد دفتر آخر للنقل إليه',ko:'옮길 수 있는 단어장이 없습니다',ru:'Переносить некуда'},
+  deck_name_invalid:{ja:'その名前は使えません',en:'That name cannot be used',zh:'该名称无法使用',fr:'Ce nom ne peut pas être utilisé',ar:'لا يمكن استخدام هذا الاسم',ko:'그 이름은 사용할 수 없습니다',ru:'Такое имя использовать нельзя'},
   sel_start:{ja:'選択して削除',en:'Select to delete',zh:'选择并删除',fr:'Sélectionner pour supprimer',ar:'حدّد للحذف',ko:'선택해서 삭제',ru:'Выбрать для удаления'},
   sel_cancel:{ja:'やめる',en:'Cancel',zh:'取消',fr:'Annuler',ar:'إلغاء',ko:'취소',ru:'Отмена'},
   sel_all:{ja:'すべて',en:'All',zh:'全选',fr:'Tout',ar:'الكل',ko:'전체',ru:'Все'},
@@ -3270,6 +3309,8 @@ function openBulk(){bulkRows=[];bulkDeck=targetDeck();$('#overlayBulk').classLis
 function closeBulk(){if(bulkBusy){bulkCancel=true;}$('#overlayBulk').classList.remove('show');}
 $('#btnBulk').onclick=openBulk;
 $('#bulkClose').onclick=closeBulk;
+$('#mvClose').onclick=closeMoveTo;
+$('#overlayMove').addEventListener('click',e=>{if(e.target===$('#overlayMove'))closeMoveTo();});
 $('#overlayBulk').addEventListener('click',e=>{if(e.target===$('#overlayBulk'))closeBulk();});
 
 /* ---------- LIST ---------- */
@@ -3567,17 +3608,33 @@ function bindMarkChips(){
    is re-fetched, so "deleting" one from the list would do nothing lasting, and
    a deck is a label rather than a container. ------------------------------- */
 let selMode=false;
+let selAction='del';            // what the selection is FOR: 'del' or 'move'
 const selected=new Set();
-function selReset(){selMode=false;selected.clear();}
+function selReset(){selMode=false;selAction='del';selected.clear();}
+// Only ever on the user's OWN words. A package is shared content that gets
+// re-fetched, so "deleting" from it would not last and moving out of it would
+// mean copying, which is a different feature.
 function selCanUse(){return CTX.type!=='pkg';}
+// Where a word could go that is not where it already is. A deck is a label on
+// the word rather than a container, so moving is just rewriting that label --
+// which is why this cannot offer packages: their words are not ours to relabel.
+function moveTargets(){
+  const here=CTX.type==='deck'?CTX.id:null;
+  return [{v:'',n:t('deck_own')}].concat(allDecks().map(d=>({v:d.id,n:d.name})))
+    .filter(o=>(o.v||null)!==here);
+}
 function selBarHTML(){
   if(!selMode)return '';
   const n=selected.size;
+  const main=selAction==='move'
+    ? '<button class="btn btn-primary" id="selMove"'+(n?'':' disabled')+'>'+
+        esc(n?t('sel_move',n):t('sel_none'))+'</button>'
+    : '<button class="btn btn-danger" id="selDel"'+(n?'':' disabled')+'>'+
+        esc(n?t('sel_delete',n):t('sel_none'))+'</button>';
   return '<div class="sel-bar">'+
     '<button class="btn btn-ghost" id="selCancel">'+esc(t('sel_cancel'))+'</button>'+
     '<button class="btn btn-ghost" id="selAll">'+esc(t('sel_all'))+'</button>'+
-    '<button class="btn btn-danger" id="selDel"'+(n?'':' disabled')+'>'+
-      esc(n?t('sel_delete',n):t('sel_none'))+'</button>'+
+    main+
   '</div>';
 }
 function bindSelBar(shown){
@@ -3602,6 +3659,49 @@ function bindSelBar(shown){
     selReset();renderList();renderCount();
     toast(t('sel_done',n));
   };
+  const m=$('#selMove');
+  if(m)m.onclick=openMoveTo;
+}
+// Moving asks WHERE, and the answer is a short list, so it is a sheet rather
+// than a prompt: the notebooks have names the user chose and should be read,
+// not retyped.
+function openMoveTo(){
+  const n=selected.size;
+  if(!n)return;
+  const targets=moveTargets();
+  if(!targets.length){toast(t('mv_nowhere'));return;}
+  $('#mvTitle').textContent=t('sel_move',n);
+  $('#mvBody').innerHTML=targets.map(o=>
+    '<button class="mv-opt" data-v="'+esc(o.v)+'">'+BOOKOPEN_SVG+'<span>'+esc(o.n)+'</span></button>').join('')+
+    '<button class="mv-opt mv-new" data-new="1">'+PLUS_SVG+'<span>'+esc(t('deck_new'))+'</span></button>';
+  $$('#mvBody .mv-opt').forEach(b=>b.onclick=()=>{
+    if(b.dataset.new){
+      const d=createDeck(prompt(t('deck_name_prompt'))||'');
+      if(!d){toast(t('deck_name_invalid'));return;}
+      moveSelected(d.id);
+    }else moveSelected(b.dataset.v||null);
+  });
+  $('#overlayMove').classList.add('show');
+}
+function closeMoveTo(){$('#overlayMove').classList.remove('show');}
+function moveSelected(deckId){
+  const n=selected.size;
+  if(!n)return;
+  let moved=0;
+  DB.words.forEach(w=>{
+    if(!selected.has(w.id))return;
+    // The deck is stored as a plain field, so a move is one assignment -- but
+    // it still has to be stamped, or the sync watermark treats the word as
+    // untouched and the move never leaves this device.
+    w.deck=deckId||undefined;
+    touchWord(w);
+    moved++;
+  });
+  save();cloudTouched();
+  gaEvent('words_bulk_moved',{count:moved});
+  closeMoveTo();
+  selReset();renderList();renderCount();
+  toast(t('mv_done',moved,deckName(deckId||null)));
 }
 function renderList(){
   renderSourceBar('#src-list');
@@ -3617,11 +3717,25 @@ function renderList(){
   const p=$('#listPanel');
   const sel=$('#listSel');
   if(sel){
+    // One button rather than one per action. There are two ways to edit a list
+    // now and there will be more; a row of verbs above every list is a toolbar,
+    // and a toolbar is what the filter chips were removed for being.
     sel.innerHTML = !selCanUse()||!arr.length ? ''
       : selMode ? selBarHTML()
-      : '<button class="btn btn-ghost sel-start" id="selStart">'+esc(t('sel_start'))+'</button>';
+      : '<button class="btn btn-ghost sel-start" id="selStart">'+PENCIL_SVG+esc(t('sel_edit'))+'</button>'+
+        '<div class="sel-menu" id="selMenu" hidden>'+
+          '<button data-act="del">'+esc(t('sel_start'))+'</button>'+
+          '<button data-act="move">'+esc(t('sel_start_move'))+'</button>'+
+        '</div>';
     const st=$('#selStart');
-    if(st)st.onclick=()=>{selMode=true;selected.clear();renderList();};
+    if(st)st.onclick=()=>{
+      const m=$('#selMenu');
+      m.hidden=!m.hidden;
+      st.classList.toggle('open',!m.hidden);
+    };
+    $$('#selMenu button').forEach(b=>b.onclick=()=>{
+      selAction=b.dataset.act;selMode=true;selected.clear();renderList();
+    });
     if(selMode)bindSelBar(arr);
   }
   if(!arr.length){
@@ -4967,6 +5081,10 @@ function renderSpeechRows(){
   $('#swAutoSpeak').classList.toggle('on',!!S().autoSpeak);
   $('#swRank').classList.toggle('on',rankOptIn());
   $('#swNotify').classList.toggle('on',notifyOn());
+  // Only worth offering once notifications are actually on -- otherwise the
+  // browser refuses to show one and the button looks broken.
+  const pr=$('#ntfPreviewRow');
+  if(pr)pr.hidden=!notifyOn();
   // sample the change so the difference is audible right away
   seg('#segAccent','accent',false,()=>speak('Wordkeep'));
   seg('#segRate','speechRate',false,()=>speak('Wordkeep'));
@@ -4975,6 +5093,22 @@ $('#swShuffle').onclick=()=>{
   S().shuffle=!S().shuffle;save();
   $('#swShuffle').classList.toggle('on',!!S().shuffle);
   applySettingsNow('shuffle');
+};
+/* Shows the notification the user would get right now, composed by the real
+   service worker from the real hint. Needs no server, no GitHub token and no
+   waiting until 22:00 -- which is what made this impossible to check before.
+   It is the same code path a push takes; only the trigger differs. */
+$('#ntfPreview').onclick=async()=>{
+  const b=$('#ntfPreview');
+  b.disabled=true;
+  try{
+    await idbPut(buildHint());     // so the worker reads today's state, not a stale mirror
+    const reg=await navigator.serviceWorker.ready;
+    reg.active.postMessage({type:'wk-preview'});
+    toast(t('ntf_prev_sent'));
+    gaEvent('notify_preview',{});
+  }catch(e){ toast(t('ntf_fail')); }
+  finally{ b.disabled=false; }
 };
 $('#swNotify').onclick=async()=>{
   const el=$('#swNotify');
@@ -6680,6 +6814,27 @@ function flushCloud(){
   clearTimeout(syncTimer);
   cloudSync('flush');
 }
+/* Coming back after being away. Boot already lands on Home, but an installed
+   PWA is not re-booted -- iOS keeps the page alive, so reopening it days later
+   showed whichever screen was left behind. Home is the screen that answers
+   "what should I do now", which is the question somebody opening the app has.
+
+   Not on every return, though: stepping out to a dictionary for ten seconds
+   while adding a word and coming back to Home would throw the entry away. Only
+   after long enough that this is a new visit rather than a glance elsewhere --
+   and never out of a round in progress or from under an open sheet. */
+const RESUME_HOME_AFTER=30*60000;
+let hiddenAt=0;
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){hiddenAt=Date.now();return;}
+  if(!hiddenAt||Date.now()-hiddenAt<RESUME_HOME_AFTER)return;
+  hiddenAt=0;
+  if(document.body.classList.contains('in-round'))return;
+  if(topOverlay())return;
+  if($('#v-home').classList.contains('active'))return;
+  go('v-home');
+});
+
 // Leaving the page: visibilitychange covers tab switches and app backgrounding,
 // pagehide covers navigating away and iOS discarding the page.
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushCloud();});
