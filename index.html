@@ -173,28 +173,35 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .tag-new{background:var(--good-bg);color:var(--good-ink)}
 /* The thumb is the only thing the browser draws; the track, fill and ticks are
    ours so they can carry the theme and show where the stops are. */
-.stepper{padding:2px 0}
-.stp-val{text-align:center;font-size:19px;font-weight:800;margin-bottom:10px;letter-spacing:.01em}
-.stp-wrap{position:relative;height:34px}
-.stp-track{position:absolute;left:0;right:0;top:14px;height:6px;border-radius:99px;
-  background:var(--switch-off);overflow:hidden}
-.stp-track i{display:block;height:100%;background:var(--accent);border-radius:99px;
-  transition:width .12s ease}
-.stp-ticks{position:absolute;left:0;right:0;top:14px;height:6px;
-  display:flex;justify-content:space-between;align-items:center;padding:0 3px;pointer-events:none}
-.stp-ticks span{width:5px;height:5px;border-radius:99px;background:var(--surface);opacity:.55}
-.stp-ticks span.on{opacity:.85}
-.stepper input[type=range]{position:absolute;left:-6px;right:-6px;top:0;width:calc(100% + 12px);
-  height:34px;margin:0;background:none;-webkit-appearance:none;appearance:none;cursor:pointer}
-.stepper input[type=range]:focus{outline:none}
-.stepper input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:28px;height:28px;border-radius:99px;background:#fff;border:1px solid rgba(15,23,42,.12);
-  box-shadow:0 2px 6px rgba(15,23,42,.28)}
-.stepper input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:99px;
-  background:#fff;border:1px solid rgba(15,23,42,.12);box-shadow:0 2px 6px rgba(15,23,42,.28)}
-.stepper input[type=range]:focus-visible::-webkit-slider-thumb{border-color:var(--accent)}
-.stp-labs{display:flex;justify-content:space-between;margin-top:6px}
-.stp-labs span{font-size:12px;color:var(--muted);font-weight:600;flex:1;text-align:center}
+.stepper{padding:2px 0;--stp-pad:5px;--stp-thumb:44px}
+.stp-val{text-align:center;font-size:20px;font-weight:800;margin-bottom:12px;letter-spacing:.01em}
+.stp-bar{position:relative;height:calc(var(--stp-thumb) + var(--stp-pad)*2);
+  border-radius:99px;background:var(--surface-2);border:1px solid var(--line);
+  box-shadow:inset 0 1px 3px rgba(15,23,42,.10);cursor:grab;
+  touch-action:none;   /* or the browser scrolls the page instead of tracking */
+  user-select:none;-webkit-user-select:none}
+.stp-bar:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.stepper.dragging .stp-bar{cursor:grabbing}
+.stp-fill{position:absolute;left:var(--stp-pad);top:var(--stp-pad);
+  height:var(--stp-thumb);border-radius:99px;
+  background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 86%,#8a5a00));
+  transition:width .22s cubic-bezier(.22,1,.36,1)}
+.stp-thumb{position:absolute;left:var(--stp-pad);top:var(--stp-pad);
+  width:var(--stp-thumb);height:var(--stp-thumb);border-radius:99px;background:#fff;
+  box-shadow:0 2px 8px rgba(15,23,42,.30),0 0 0 1px rgba(15,23,42,.06);
+  transition:left .22s cubic-bezier(.22,1,.36,1)}
+/* No transition while the finger is down: the handle has to BE where the
+   finger is, not ease toward where it was. */
+.stepper.dragging .stp-fill,.stepper.dragging .stp-thumb{transition:none}
+.stp-dots{position:absolute;left:0;right:0;top:var(--stp-pad);height:var(--stp-thumb);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 calc(var(--stp-pad) + var(--stp-thumb)/2);pointer-events:none}
+.stp-dots span{width:7px;height:7px;border-radius:99px;background:var(--muted);
+  opacity:.34;margin:0 -3.5px}
+.stp-labs{display:flex;justify-content:space-between;margin-top:9px;
+  padding:0 calc(var(--stp-pad) + 2px)}
+.stp-labs span{font-size:12.5px;color:var(--muted);font-weight:600;flex:1;text-align:center;
+  transition:color .18s ease}
 .stp-labs span:first-child{text-align:left}
 .stp-labs span:last-child{text-align:right}
 .stp-labs span.on{color:var(--tab-on)}
@@ -1163,15 +1170,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.25.0';
+const APP_VERSION='5.26.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.25.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.26.0',date:'2026-08-27',keys:['wn1','wn2']},
+  {version:'5.25.0',date:'2026-08-27',keys:['v5250_1','v5250_2','v5250_3']},
   {version:'5.24.0',date:'2026-08-26',keys:['v5240_1','v5240_2','v5240_3']},
-  {version:'5.23.0',date:'2026-08-26',keys:['v5230_1','v5230_2','v5230_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1269,15 +1276,14 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'自由学習が毎回ちがう単語を出すようになりました。これまでは期限の古い順に並べた先頭から取っていたので、何百語あっても同じ顔ぶれが出ていました。1回の問題数もスライダーで選べます',en:'Free study now picks different words each time. It used to take them off the top of a due-date list, so the same faces came round however many hundreds you had. The round size is a slider now, too',zh:'自由学习现在每次都会出不同的单词。以前是按到期日排序后取最前面的，所以无论有几百个词都是同一批。每轮题数也改成了滑块',fr:'L’étude libre propose maintenant des mots différents à chaque fois. Elle prenait le haut d’une liste triée par échéance, donc les mêmes revenaient sans cesse. La taille de la série se règle aussi au curseur',ar:'صارت الدراسة الحرة تختار كلمات مختلفة في كل مرة، بعد أن كانت تأخذ أوائل قائمة مرتّبة بالاستحقاق فتتكرر الكلمات نفسها. وعدد أسئلة الجولة صار شريط تمرير أيضًا',ko:'자유 학습이 매번 다른 단어를 내도록 바뀌었습니다. 지금까지는 기한이 오래된 순서의 앞에서부터 가져왔기 때문에 수백 개가 있어도 같은 얼굴만 나왔습니다. 한 번의 문제 수도 슬라이더로 고를 수 있습니다',ru:'Свободное изучение теперь каждый раз берёт другие слова — раньше оно брало начало списка по сроку, и повторялись одни и те же. Размер раунда тоже стал ползунком'},
-  wn2:{ja:'マークを ♡ と ⚠ に変えました。星と ⚠ ではどちらも黄色で見分けがつきにくかったためです。答えたあとの「単語の詳細」などのすぐ上に移したので、下までスクロールしなくても押せます',en:'The marks are now a heart and a warning. A star and a warning were both yellow and hard to tell apart. They have also moved directly above the tiles you get after answering, so they no longer need scrolling to',zh:'标记改为 ♡ 和 ⚠。原先的星形与 ⚠ 都是黄色，不易区分。位置也移到了答题后「单词详情」等按钮的正上方，无需下滑即可点击',fr:'Les marques sont désormais un cœur et un avertissement : l’étoile et l’avertissement étaient tous deux jaunes et se confondaient. Elles sont aussi passées juste au-dessus des tuiles d’après-réponse, sans avoir à faire défiler',ar:'صارت العلامتان قلبًا وعلامة تحذير، فالنجمة والتحذير كانا أصفرين يصعب التمييز بينهما. ونُقلتا إلى أعلى أزرار ما بعد الإجابة مباشرة فلا تحتاج للتمرير',ko:'마크를 ♡ 와 ⚠ 로 바꿨습니다. 별과 ⚠ 는 둘 다 노란색이라 구별하기 어려웠기 때문입니다. 답한 뒤의 «단어 상세» 등 바로 위로 옮겨서 아래로 스크롤하지 않아도 누를 수 있습니다',ru:'Метки теперь сердце и предупреждение — звезда и предупреждение были одинаково жёлтыми. Они переехали прямо над кнопками, которые появляются после ответа, так что прокручивать до них больше не нужно'},
-  wn3:{ja:'前の問題に戻る機能の不具合を直しました。2問前まで戻ってしまうことがあり、戻ってから進むと答え終わった問題をもう一度解けてしまっていました（間違いを取り消せてしまう状態でした）。戻れるのは1問だけ、解き直しはできません。ランキングは人の多い種目から並ぶようになりました',en:'Fixed looking back at the previous question. It could go back two, and coming forward again let you re-answer a question that had already been graded — which meant a miss could be undone. It now goes back exactly one, and nothing can be answered twice. The ranking also leads with the boards that have the most people on them',zh:'修复了回看上一题的问题。它可能回退两题，且返回后已作答的题目还能重答（等于可以撤销错误）。现在只回退一题，且不能重答。排行榜也改为按参与人数从多到少排列',fr:'Correction du retour à la question précédente : il pouvait reculer de deux, et en revenant on pouvait répondre à nouveau à une question déjà notée — une erreur devenait annulable. Il recule maintenant d’exactement une, sans possibilité de répondre deux fois. Le classement commence aussi par les tableaux les plus fournis',ar:'أُصلح الرجوع إلى السؤال السابق: كان يرجع سؤالين أحيانًا، وعند العودة كان يمكن الإجابة مجددًا عن سؤال مصحَّح — أي إلغاء الخطأ. صار الرجوع سؤالًا واحدًا فقط بلا إعادة إجابة. كما صار الترتيب يبدأ باللوحات الأكثر مشاركين',ko:'이전 문제로 돌아가는 기능의 버그를 고쳤습니다. 두 문제 앞까지 돌아가는 경우가 있었고, 돌아갔다가 나아가면 이미 채점된 문제를 다시 풀 수 있었습니다(틀린 것을 취소할 수 있는 상태였습니다). 이제 한 문제만 돌아가며 다시 풀 수는 없습니다. 랭킹은 사람이 많은 종목부터 표시됩니다',ru:'Исправлен возврат к предыдущему вопросу: он мог отступить на два, а на пути вперёд уже оценённый вопрос можно было ответить снова — то есть отменить ошибку. Теперь возврат ровно на один, и дважды ответить нельзя. Рейтинг также начинается с таблиц, где больше участников'},
+  wn1:{ja:'1回の問題数のスライダーが、指にそのままついてくるようになりました。これまでは目盛りごとに飛んでいたので、引っかかるような動きでした。見た目も作り直しています',en:'The round-size slider now follows your finger exactly. It used to jump from notch to notch, which is what made it feel like it was catching. It has been redrawn as well',zh:'每轮题数的滑块现在会跟随手指移动。以前是逐格跳动，所以显得卡顿。外观也重新设计了',fr:'Le curseur du nombre de questions suit désormais le doigt exactement. Il sautait d’un cran à l’autre, d’où cette impression d’accroc. Son apparence a aussi été refaite',ar:'صار شريط عدد أسئلة الجولة يتبع إصبعك تمامًا، بعد أن كان يقفز من علامة إلى أخرى فيبدو متعثرًا. وأُعيد تصميم شكله أيضًا',ko:'한 번의 문제 수 슬라이더가 손가락을 그대로 따라오게 되었습니다. 지금까지는 눈금마다 건너뛰어서 걸리는 듯한 움직임이었습니다. 모양도 새로 만들었습니다',ru:'Ползунок размера раунда теперь точно следует за пальцем — раньше он прыгал от деления к делению, отчего казался дёрганым. Внешний вид тоже переделан'},
+  wn2:{ja:'すでに持っている単語を追加しようとしたとき、どこにあるのかを言うようになりました。「すでに「IT編」にあります」のように、自分の単語帳・作った単語帳・ダウンロード済みのパッケージのどこにあっても名前が出ます',en:'When you try to add a word you already have, it now says where. "Already in IT" and so on — your own notebook, any notebook you made, or any package you have downloaded',zh:'当你尝试添加已有的单词时，现在会告诉你它在哪里。例如「已在「IT编」中」——你自己的单词本、你创建的单词本，或已下载的单词包',fr:'Quand vous ajoutez un mot que vous avez déjà, l’app dit maintenant où il se trouve : « déjà dans IT », que ce soit votre carnet, un carnet que vous avez créé ou un paquet téléchargé',ar:'عند محاولة إضافة كلمة تملكها بالفعل، صار التطبيق يخبرك بمكانها: «موجودة بالفعل في IT» — سواء في دفترك أو دفتر أنشأته أو حزمة نزّلتها',ko:'이미 가지고 있는 단어를 추가하려고 하면 어디에 있는지 알려줍니다. «이미 «IT편»에 있습니다»처럼, 내 단어장·직접 만든 단어장·내려받은 패키지 어디에 있든 이름이 나옵니다',ru:'Если вы добавляете слово, которое уже есть, приложение теперь говорит где: «уже в IT» — в вашем блокноте, в созданном вами блокноте или в скачанном пакете'},
+  v5250_1:{ja:'自由学習が毎回ちがう単語を出すようになりました。これまでは期限の古い順に並べた先頭から取っていたので、何百語あっても同じ顔ぶれが出ていました。1回の問題数もスライダーで選べます',en:'Free study now picks different words each time. It used to take them off the top of a due-date list, so the same faces came round however many hundreds you had. The round size is a slider now, too',zh:'自由学习现在每次都会出不同的单词。以前是按到期日排序后取最前面的，所以无论有几百个词都是同一批。每轮题数也改成了滑块',fr:'L’étude libre propose maintenant des mots différents à chaque fois. Elle prenait le haut d’une liste triée par échéance, donc les mêmes revenaient sans cesse. La taille de la série se règle aussi au curseur',ar:'صارت الدراسة الحرة تختار كلمات مختلفة في كل مرة، بعد أن كانت تأخذ أوائل قائمة مرتّبة بالاستحقاق فتتكرر الكلمات نفسها. وعدد أسئلة الجولة صار شريط تمرير أيضًا',ko:'자유 학습이 매번 다른 단어를 내도록 바뀌었습니다. 지금까지는 기한이 오래된 순서의 앞에서부터 가져왔기 때문에 수백 개가 있어도 같은 얼굴만 나왔습니다. 한 번의 문제 수도 슬라이더로 고를 수 있습니다',ru:'Свободное изучение теперь каждый раз берёт другие слова — раньше оно брало начало списка по сроку, и повторялись одни и те же. Размер раунда тоже стал ползунком'},
+  v5250_2:{ja:'マークを ♡ と ⚠ に変えました。星と ⚠ ではどちらも黄色で見分けがつきにくかったためです。答えたあとの「単語の詳細」などのすぐ上に移したので、下までスクロールしなくても押せます',en:'The marks are now a heart and a warning. A star and a warning were both yellow and hard to tell apart. They have also moved directly above the tiles you get after answering, so they no longer need scrolling to',zh:'标记改为 ♡ 和 ⚠。原先的星形与 ⚠ 都是黄色，不易区分。位置也移到了答题后「单词详情」等按钮的正上方，无需下滑即可点击',fr:'Les marques sont désormais un cœur et un avertissement : l’étoile et l’avertissement étaient tous deux jaunes et se confondaient. Elles sont aussi passées juste au-dessus des tuiles d’après-réponse, sans avoir à faire défiler',ar:'صارت العلامتان قلبًا وعلامة تحذير، فالنجمة والتحذير كانا أصفرين يصعب التمييز بينهما. ونُقلتا إلى أعلى أزرار ما بعد الإجابة مباشرة فلا تحتاج للتمرير',ko:'마크를 ♡ 와 ⚠ 로 바꿨습니다. 별과 ⚠ 는 둘 다 노란색이라 구별하기 어려웠기 때문입니다. 답한 뒤의 «단어 상세» 등 바로 위로 옮겨서 아래로 스크롤하지 않아도 누를 수 있습니다',ru:'Метки теперь сердце и предупреждение — звезда и предупреждение были одинаково жёлтыми. Они переехали прямо над кнопками, которые появляются после ответа, так что прокручивать до них больше не нужно'},
+  v5250_3:{ja:'前の問題に戻る機能の不具合を直しました。2問前まで戻ってしまうことがあり、戻ってから進むと答え終わった問題をもう一度解けてしまっていました（間違いを取り消せてしまう状態でした）。戻れるのは1問だけ、解き直しはできません。ランキングは人の多い種目から並ぶようになりました',en:'Fixed looking back at the previous question. It could go back two, and coming forward again let you re-answer a question that had already been graded — which meant a miss could be undone. It now goes back exactly one, and nothing can be answered twice. The ranking also leads with the boards that have the most people on them',zh:'修复了回看上一题的问题。它可能回退两题，且返回后已作答的题目还能重答（等于可以撤销错误）。现在只回退一题，且不能重答。排行榜也改为按参与人数从多到少排列',fr:'Correction du retour à la question précédente : il pouvait reculer de deux, et en revenant on pouvait répondre à nouveau à une question déjà notée — une erreur devenait annulable. Il recule maintenant d’exactement une, sans possibilité de répondre deux fois. Le classement commence aussi par les tableaux les plus fournis',ar:'أُصلح الرجوع إلى السؤال السابق: كان يرجع سؤالين أحيانًا، وعند العودة كان يمكن الإجابة مجددًا عن سؤال مصحَّح — أي إلغاء الخطأ. صار الرجوع سؤالًا واحدًا فقط بلا إعادة إجابة. كما صار الترتيب يبدأ باللوحات الأكثر مشاركين',ko:'이전 문제로 돌아가는 기능의 버그를 고쳤습니다. 두 문제 앞까지 돌아가는 경우가 있었고, 돌아갔다가 나아가면 이미 채점된 문제를 다시 풀 수 있었습니다(틀린 것을 취소할 수 있는 상태였습니다). 이제 한 문제만 돌아가며 다시 풀 수는 없습니다. 랭킹은 사람이 많은 종목부터 표시됩니다',ru:'Исправлен возврат к предыдущему вопросу: он мог отступить на два, а на пути вперёд уже оценённый вопрос можно было ответить снова — то есть отменить ошибку. Теперь возврат ровно на один, и дважды ответить нельзя. Рейтинг также начинается с таблиц, где больше участников'},
   v5240_1:{ja:'出題順をシャッフルできるようになりました。設定の「学習」からオンにすると、毎回ちがう並びで出題されます。単語ではなく順番を覚えてしまうのを防げます',en:'You can now shuffle the question order. Turn it on under Settings → Study and each round comes in a different order, so you learn the words rather than the list',zh:'现在可以打乱出题顺序。在「设置 → 学习」中开启后，每轮顺序都不同，避免记住顺序而不是单词',fr:'Vous pouvez désormais mélanger l’ordre des questions. Activez-le dans Réglages → Apprentissage : chaque série arrive dans un ordre différent, pour apprendre les mots et non la liste',ar:'صار بإمكانك خلط ترتيب الأسئلة. فعّل الخيار من الإعدادات ← الدراسة، فيأتي كل دور بترتيب مختلف حتى تحفظ الكلمات لا الترتيب',ko:'출제 순서를 섞을 수 있게 되었습니다. 설정 → 학습에서 켜면 매번 다른 순서로 나와, 단어가 아니라 순서를 외우는 일을 막을 수 있습니다',ru:'Теперь порядок вопросов можно перемешивать. Включите его в «Настройки → Обучение», и каждый раунд будет идти в новом порядке — вы запоминаете слова, а не список'},
   v5240_2:{ja:'単語に「お気に入り」と「苦手マーク」を付けられるようになりました。問題を解いているその場で付けられるので、あとから思い出す必要がありません',en:'Words can now be marked Favourite or Tricky. You can mark one right there while answering, so you never have to remember which it was later',zh:'现在可以给单词加「收藏」和「难记」标记。答题时即可直接标记，不必事后再回想',fr:'Vous pouvez maintenant marquer un mot comme Favori ou Délicat — directement pendant que vous répondez, sans avoir à vous en souvenir plus tard',ar:'صار بإمكانك وسم الكلمات بـ«مفضّلة» أو «صعبة عليّ»، ويمكنك ذلك أثناء الإجابة نفسها فلا تحتاج لتذكّرها لاحقًا',ko:'단어에 «즐겨찾기»와 «어려움» 표시를 붙일 수 있게 되었습니다. 문제를 푸는 그 자리에서 붙일 수 있어, 나중에 떠올릴 필요가 없습니다',ru:'Слова теперь можно помечать как «Избранное» или «Сложное» — прямо во время ответа, чтобы не вспоминать об этом потом'},
   v5240_3:{ja:'マークを付けた単語だけを復習したり、一覧で絞り込んだりできます。また、アプリのキーボードに打鍵音を付けました（設定の効果音でオフにできます）',en:'You can review only the words you have marked, or filter the list down to them. The in-app keyboard also has a key sound now — you can turn it off under sound settings',zh:'可以只复习已标记的单词，也可在列表中筛选出它们。应用内键盘现在还带有按键音，可在音效设置中关闭',fr:'Vous pouvez réviser uniquement les mots marqués, ou filtrer la liste dessus. Le clavier de l’application a aussi un son de frappe, désactivable dans les réglages sonores',ar:'يمكنك مراجعة الكلمات الموسومة وحدها أو تصفية القائمة عليها. كما صار للوحة مفاتيح التطبيق صوت نقر يمكن إيقافه من إعدادات المؤثرات الصوتية',ko:'표시한 단어만 복습하거나 목록에서 그것만 골라 볼 수 있습니다. 또 앱 키보드에 타건음을 넣었습니다(설정의 효과음에서 끌 수 있습니다)',ru:'Можно повторять только помеченные слова или отфильтровать по ним список. А у клавиатуры приложения появился звук нажатия — его можно выключить в настройках звука'},
-  v5230_1:{ja:'復習中に右へスワイプすると、答え終わった問題を見返せるようになりました。パソコンでは←キーです。採点はやり直せません（見るだけです）',en:'Swipe right during a review to look back at questions you have already answered — ← on a keyboard. They are read-only; nothing is re-graded',zh:'复习时向右滑动即可回看已作答的题目，电脑上按 ← 键。仅供查看，不会重新评分',fr:'Balayez vers la droite pendant une révision pour revoir les questions déjà répondues (touche ← au clavier). En lecture seule : rien n’est réévalué',ar:'اسحب لليمين أثناء المراجعة لتستعرض الأسئلة التي أجبت عنها، أو استخدم مفتاح ← على الحاسوب. وهي للعرض فقط ولا يُعاد تقييمها',ko:'복습 중에 오른쪽으로 스와이프하면 이미 답한 문제를 다시 볼 수 있습니다. PC에서는 ← 키입니다. 보기 전용이라 채점은 다시 하지 않습니다',ru:'Проведите вправо во время повторения, чтобы просмотреть отвеченные вопросы (или клавиша ← на компьютере). Только просмотр — оценка не меняется'},
-  v5230_2:{ja:'単語リストから、いらない単語をまとめて削除できるようになりました。「選択して削除」から複数選んで一度に消せます',en:'You can now delete several words at once from the list. Tap “Select to delete”, pick them, and remove them in one go',zh:'现在可从单词列表批量删除。点击「选择并删除」，勾选后一次性移除',fr:'Vous pouvez maintenant supprimer plusieurs mots d’un coup depuis la liste, via « Sélectionner pour supprimer »',ar:'صار بإمكانك حذف عدة كلمات دفعة واحدة من القائمة عبر «حدّد للحذف»',ko:'단어 목록에서 필요 없는 단어를 한꺼번에 삭제할 수 있게 되었습니다. «선택해서 삭제»에서 여러 개를 골라 한 번에 지웁니다',ru:'Теперь из списка можно удалить сразу несколько слов — «Выбрать для удаления»'},
-  v5230_3:{ja:'リマインドを、あなたがふだん学習している時間帯に合わせて送るようにしました。また、はじめたばかりの方には連続が途切れる話ではなく、習慣づくりのご案内をお送りします',en:'Reminders now arrive around the time you usually study. And if you have only just started, they talk about building the habit rather than about a streak you could lose',zh:'提醒现在会在你平常学习的时间段发送。刚开始使用的用户会收到关于养成习惯的提示，而非连续记录中断的警告',fr:'Les rappels arrivent désormais vers l’heure à laquelle vous étudiez d’habitude. Et si vous débutez, ils parlent d’installer l’habitude plutôt que d’une série à perdre',ar:'صارت التذكيرات تصل قرب الوقت الذي تدرس فيه عادة. وإن كنت بدأت للتو، فهي تتحدث عن بناء العادة لا عن سلسلة قد تفقدها',ko:'리마인드를 평소 학습하는 시간대에 맞춰 보내도록 했습니다. 또 막 시작한 분께는 연속이 끊긴다는 이야기가 아니라 습관 만들기를 안내합니다',ru:'Напоминания теперь приходят примерно в то время, когда вы обычно занимаетесь. А новичкам они говорят о формировании привычки, а не о серии, которую можно потерять'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1499,6 +1505,7 @@ const T={
   bulk_s_ready:{ja:'追加できます',en:'Ready',zh:'可添加',fr:'Prêt',ar:'جاهز',ko:'추가 가능',ru:'Готово'},
   bulk_s_pending:{ja:'意味を取得',en:'Will look up',zh:'待获取',fr:'À rechercher',ar:'سيتم البحث',ko:'뜻 가져오기',ru:'Будет найдено'},
   bulk_s_nomeaning:{ja:'意味なし',en:'Not found',zh:'未找到',fr:'Introuvable',ar:'غير موجود',ko:'찾지 못함',ru:'Не найдено'},
+  bulk_s_exists_in:{ja:'{0}にあり',en:'In {0}',zh:'在{0}',fr:'Dans {0}',ar:'في {0}',ko:'{0}에 있음',ru:'В «{0}»'},
   bulk_s_exists:{ja:'登録済み',en:'Already saved',zh:'已存在',fr:'Déjà enregistré',ar:'محفوظ مسبقًا',ko:'이미 등록됨',ru:'Уже есть'},
   bulk_s_dupe:{ja:'リスト内で重複',en:'Repeated in the list',zh:'列表内重复',fr:'En double dans la liste',ar:'مكرر في القائمة',ko:'목록 내 중복',ru:'Повтор в списке'},
   bulk_e_empty:{ja:'単語が読み取れませんでした',en:'No words could be read',zh:'未能读取到单词',fr:'Aucun mot n’a pu être lu',ar:'تعذّرت قراءة أي كلمة',ko:'단어를 읽지 못했습니다',ru:'Не удалось прочитать слова'},
@@ -1510,7 +1517,7 @@ const T={
   hint_after_type:{ja:'「調べる」で辞書・翻訳から自動取得します（任意）。',en:'Tap Look up to auto-fetch (optional).',zh:'点「查询」自动获取（可选）。',fr:'Appuyez sur Rechercher pour un remplissage auto (facultatif).',ar:'اضغط بحث للجلب التلقائي (اختياري).',ko:'검색을 누르면 자동으로 채워집니다 (선택).',ru:'Нажмите «Найти» для автозаполнения (необязательно).'},
   hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.',ru:'Проверьте и нажмите «Добавить в список».'},
   looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…',ru:'Ищем в словаре и переводе…'},
-  dup_here:{ja:'この単語はすでにリストにあります。',en:'This word is already in your list.',zh:'这个单词已在列表中。',fr:'Ce mot est déjà dans votre liste.',ar:'هذه الكلمة موجودة بالفعل في قائمتك.',ko:'이 단어는 이미 목록에 있습니다.',ru:'Это слово уже есть в вашем списке.'},
+  dup_here:{ja:'この単語はすでに「{0}」にあります。',en:'This word is already in {0}.',zh:'这个单词已在「{0}」中。',fr:'Ce mot est déjà dans « {0} ».',ar:'هذه الكلمة موجودة بالفعل في «{0}».',ko:'이 단어는 이미 «{0}»에 있습니다.',ru:'Это слово уже есть в «{0}».'},
   maybe_mean:{ja:'もしかして：',en:'Did you mean:',zh:'你是不是想输入：',fr:'Vouliez-vous dire :',ar:'هل تقصد:',ko:'혹시 이거였나요:',ru:'Возможно, вы имели в виду:'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
   not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。',fr:'Introuvable dans le dictionnaire ou la traduction. Saisissez le sens manuellement.',ar:'غير موجود في القاموس أو الترجمة. أدخل المعنى يدويًا.',ko:'사전·번역에서 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Не найдено ни в словаре, ни в переводе. Введите значение вручную.'},
@@ -1534,7 +1541,7 @@ const T={
   toast_updated:{ja:'更新しました',en:'Updated',zh:'已更新',fr:'Mis à jour',ar:'تم التحديث',ko:'수정되었습니다',ru:'Обновлено'},
   toast_word_empty:{ja:'単語は空にできません',en:"Word can't be empty",zh:'单词不能为空',fr:'Le mot ne peut pas être vide',ar:'لا يمكن ترك الكلمة فارغة',ko:'단어는 비울 수 없습니다',ru:'Слово не может быть пустым'},
   toast_added:{ja:'「{0}」を追加しました',en:'Added "{0}"',zh:'已添加“{0}”',fr:'« {0} » ajouté',ar:'تمت إضافة «{0}»',ko:'"{0}" 추가됨',ru:'Добавлено «{0}»'},
-  toast_dup:{ja:'「{0}」は既にリストにあります',en:'"{0}" is already in your list',zh:'“{0}”已在列表中',fr:'« {0} » est déjà dans votre liste',ar:'«{0}» موجودة بالفعل في قائمتك',ko:'"{0}" 은(는) 이미 목록에 있습니다',ru:'«{0}» уже есть в вашем списке'},
+  toast_dup:{ja:'「{0}」は既に「{1}」にあります',en:'"{0}" is already in {1}',zh:'“{0}”已在「{1}」中',fr:'« {0} » est déjà dans « {1} »',ar:'«{0}» موجودة بالفعل في «{1}»',ko:'"{0}" 은(는) 이미 «{1}»에 있습니다',ru:'«{0}» уже есть в «{1}»'},
   toast_export:{ja:'バックアップを書き出しました',en:'Backup exported',zh:'已导出备份',fr:'Sauvegarde exportée',ar:'تم تصدير النسخة الاحتياطية',ko:'백업을 내보냈습니다',ru:'Резервная копия сохранена'},
   toast_import_fail:{ja:'読み込みに失敗しました',en:'Import failed',zh:'导入失败',fr:'Échec de l’import',ar:'فشل الاستيراد',ko:'가져오기 실패',ru:'Не удалось загрузить'},
   toast_loaded:{ja:'{0}語を読み込みました',en:'Imported {0} words',zh:'已导入 {0} 个单词',fr:'{0} mots importés',ar:'تم استيراد {0} كلمة',ko:'{0} 단어를 가져왔습니다',ru:'Загружено слов: {0}'},
@@ -2646,7 +2653,30 @@ function fmtDate(ts){
   if(diffDays===1)return t('tomorrow');
   return (d.getMonth()+1)+'/'+d.getDate();
 }
-function wordExists(w){const l=w.toLowerCase();return DB.words.some(x=>(x.word||'').toLowerCase()===l);}
+// Which list a word is already in, or null. "It is already saved" was true but
+// useless on its own: the answer people want is WHERE, and without it the only
+// way to find out was to go and look.
+//
+// The search covers everything the user actually holds -- their own notebook,
+// every notebook they made, and every package they have downloaded -- rather
+// than the notebook currently on screen. A package whose words have not been
+// downloaded is deliberately not searched: it would need a network fetch per
+// keystroke, and a package you have not taken is not somewhere you have the
+// word.
+function wordOwner(w){
+  const l=String(w||'').toLowerCase();
+  if(!l)return null;
+  const mine=DB.words.find(x=>(x.word||'').toLowerCase()===l);
+  // A deleted deck leaves its words behind, and wordsInDeck() already treats
+  // those as belonging to the default notebook -- deckName() agrees.
+  if(mine)return deckName(mine.deck||null);
+  for(const p of PACKAGES){
+    const ws=pkgWords(p.id);
+    if(ws&&ws.some(x=>(x.word||'').toLowerCase()===l))return pkgTitle(p);
+  }
+  return null;
+}
+function wordExists(w){return wordOwner(w)!==null;}
 // Scrolls just enough to put an element fully on screen, above the fixed tab
 // bar. scrollIntoView() is not usable here: its `nearest`/`end` alignments
 // stop at the viewport edge, which on this layout means underneath the 68px
@@ -2840,7 +2870,7 @@ async function lookup(){
   const raw=inWord.value.trim();
   if(!raw)return;
   const w=raw.toLowerCase();
-  const dup=wordExists(w);
+  const dup=wordOwner(w);
   const box=$('#lookupBox');
   box.innerHTML='<div class="preview"><span class="spin"></span> <span style="color:var(--muted);margin-left:8px">'+t('looking_up')+'</span></div>';
   $('#inJa').value=''; // always clear so a previous search's result can't linger unnoticed
@@ -2878,7 +2908,7 @@ async function lookup(){
   }
 
   let html='<div class="preview">';
-  if(dup)html+='<div class="dup">'+t('dup_here')+'</div>';
+  if(dup)html+='<div class="dup">'+esc(t('dup_here',dup))+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
   if(dictOk){
     html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+spkBtn(pending.word)+'</div>'+
@@ -2920,7 +2950,8 @@ $('#btnSave').onclick=()=>{
   if(!w)return;
   // Adding always targets the user's own deck -- switch context back to it so
   // the list they land on shows the word they just added/found.
-  if(wordExists(w)){if(CTX.type==='pkg')setSource('own');toast(t('toast_dup',w));go('v-list');return;}
+  const owner=wordOwner(w);
+  if(owner){if(CTX.type==='pkg')setSource('own');toast(t('toast_dup',w,owner));go('v-list');return;}
   const now=Date.now();
   const item={
     id:now+''+Math.random().toString(36).slice(2,6),
@@ -3000,11 +3031,11 @@ function parseBulk(text){
     const word=u.word.replace(/^[\-*•]\s*/,'').replace(/^\d+[.)]\s*/,'').trim();
     if(!word)continue;
     const key=word.toLowerCase();
-    let status='ok';
+    let status='ok',owner=null;
     if(seen.has(key))status='dupe_in_paste';
-    else if(wordExists(word))status='exists';
+    else if((owner=wordOwner(word)))status='exists';
     seen.add(key);
-    rows.push({...u,word,status,include:status==='ok',looked:false});
+    rows.push({...u,word,status,owner,include:status==='ok',looked:false});
     if(rows.length>=BULK_MAX)break;
   }
   return rows;
@@ -3115,7 +3146,8 @@ function renderBulk(){
   const need=bulkRows.filter(r=>r.include&&!r.ja&&!r.looked).length;
   const chosen=bulkRows.filter(r=>r.include).length;
   const chip=r=>{
-    if(r.status==='exists')return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_exists'))+'</span>';
+    if(r.status==='exists')return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+
+      esc(r.owner?t('bulk_s_exists_in',r.owner):t('bulk_s_exists'))+'</span>';
     if(r.status==='dupe_in_paste')return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_dupe'))+'</span>';
     if(!r.ja&&r.looked)return '<span class="tag-sm" style="background:var(--dup-bg);color:var(--dup-ink)">'+esc(t('bulk_s_nomeaning'))+'</span>';
     // tag-new is the green one and tag-due the red one, so "ready to add"
@@ -3974,22 +4006,30 @@ function pickDistractors(w,correct,showEng,n){
 // The Home button deliberately bypasses this and starts immediately: getting
 // from opening the app to answering in one tap is the whole point of that CTA.
 /* ---- a slider with fixed stops --------------------------------------------
-   Four values, so this is a range input with step=1 over the INDEX rather than
-   over the numbers themselves -- the stops are 5/10/20/all, which are not
-   evenly spaced and "all" is not a number at all. The native input keeps the
-   drag, the keyboard support and the accessibility for free; only the readout
-   and the tick marks are ours. -------------------------------------------- */
+   Driven by pointer events rather than <input type=range>, and that is the
+   whole point: a range input with step=1 JUMPS between stops while you drag, so
+   the handle lags the finger and arrives in lurches. Here the handle tracks the
+   finger continuously and only snaps when it is let go.
+
+   The stops are 5/10/20/all, which are not evenly spaced and where "all" is not
+   a number at all -- so the geometry is in stop INDEX, not in the values.
+   -------------------------------------------------------------------------- */
+// Geometry lives in CSS. The handle is placed with a calc() over percentages
+// rather than measured pixels, so it is correct at any width without JS ever
+// reading one -- including a slider built inside a sheet that is still closed,
+// which measures zero and used to leave the handle pinned at the left edge.
+const STP_PAD=5, STP_THUMB=44;    // must match the CSS, used only to read the pointer
 function stepSliderHTML(id,opts,cur){
   let i=opts.findIndex(o=>String(o.v)===String(cur));
   if(i<0)i=0;
   return '<div class="stepper" id="'+id+'">'+
     '<div class="stp-val">'+esc(opts[i].n)+'</div>'+
-    '<div class="stp-wrap">'+
-      '<div class="stp-track"><i style="width:'+(opts.length>1?i/(opts.length-1)*100:0)+'%"></i></div>'+
-      '<div class="stp-ticks">'+opts.map((o,k)=>
-        '<span class="'+(k<=i?'on':'')+'"></span>').join('')+'</div>'+
-      '<input type="range" min="0" max="'+(opts.length-1)+'" step="1" value="'+i+'" '+
-        'aria-label="'+esc(t('st_len'))+'" aria-valuetext="'+esc(opts[i].n)+'">'+
+    '<div class="stp-bar" tabindex="0" role="slider" aria-valuemin="0" '+
+      'aria-valuemax="'+(opts.length-1)+'" aria-valuenow="'+i+'" '+
+      'aria-valuetext="'+esc(opts[i].n)+'" aria-label="'+esc(t('st_len'))+'">'+
+      '<div class="stp-fill"></div>'+
+      '<div class="stp-dots">'+opts.map(()=> '<span></span>').join('')+'</div>'+
+      '<div class="stp-thumb"></div>'+
     '</div>'+
     '<div class="stp-labs">'+opts.map((o,k)=>
       '<span class="'+(k===i?'on':'')+'">'+esc(o.n)+'</span>').join('')+'</div>'+
@@ -3998,19 +4038,66 @@ function stepSliderHTML(id,opts,cur){
 function bindStepSlider(id,opts,onPick){
   const root=$('#'+id);
   if(!root)return;
-  const input=root.querySelector('input');
-  const paint=i=>{
-    root.querySelector('.stp-val').textContent=opts[i].n;
-    root.querySelector('.stp-track i').style.width=(opts.length>1?i/(opts.length-1)*100:0)+'%';
-    root.querySelectorAll('.stp-ticks span').forEach((el,k)=>el.classList.toggle('on',k<=i));
-    root.querySelectorAll('.stp-labs span').forEach((el,k)=>el.classList.toggle('on',k===i));
-    input.setAttribute('aria-valuetext',opts[i].n);
+  const bar=root.querySelector('.stp-bar'),
+        fill=root.querySelector('.stp-fill'),
+        thumb=root.querySelector('.stp-thumb'),
+        val=root.querySelector('.stp-val');
+  const last=opts.length-1;
+  let index=Math.max(0,Math.min(last,parseInt(bar.getAttribute('aria-valuenow'),10)||0));
+  // `pos` is a continuous 0..1 while dragging and an exact stop otherwise.
+  const travelCSS='(100% - var(--stp-pad)*2 - var(--stp-thumb))';
+  const paint=pos=>{
+    thumb.style.left='calc(var(--stp-pad) + '+pos+' * '+travelCSS+')';
+    fill.style.width='calc(var(--stp-thumb) + '+pos+' * '+travelCSS+')';
+    const near=Math.round(pos*last);
+    val.textContent=opts[near].n;
+    bar.setAttribute('aria-valuenow',near);
+    bar.setAttribute('aria-valuetext',opts[near].n);
+    root.querySelectorAll('.stp-labs span').forEach((el,k)=>el.classList.toggle('on',k===near));
   };
-  // Repaint on every movement but only commit on release: `input` fires for
-  // each step of a drag, and committing there would rebuild the screen under
-  // the finger doing the dragging.
-  input.oninput=()=>paint(parseInt(input.value,10));
-  input.onchange=()=>onPick(opts[parseInt(input.value,10)].v);
+  const commit=i=>{
+    index=Math.max(0,Math.min(last,i));
+    paint(index/last);
+    if(String(opts[index].v)!==String(bar.dataset.v)){bar.dataset.v=opts[index].v;onPick(opts[index].v);}
+  };
+  bar.dataset.v=opts[index].v;
+  paint(index/last);
+  // The transition is what makes the snap-on-release feel like a snap; leaving
+  // it on during the drag is exactly what makes a slider feel like it is being
+  // dragged through treacle, so it comes off for the duration.
+  let dragging=false;
+  // The one place a measurement is needed, and it only runs while a finger is
+  // on the control -- so the bar is on screen and has a real width.
+  const ratioAt=clientX=>{
+    const r=bar.getBoundingClientRect();
+    const travel=Math.max(1,r.width-STP_PAD*2-STP_THUMB);
+    return Math.max(0,Math.min(1,(clientX-r.left-STP_PAD-STP_THUMB/2)/travel));
+  };
+  bar.addEventListener('pointerdown',e=>{
+    dragging=true;
+    bar.setPointerCapture(e.pointerId);
+    root.classList.add('dragging');
+    paint(ratioAt(e.clientX));
+    e.preventDefault();
+  });
+  bar.addEventListener('pointermove',e=>{ if(dragging)paint(ratioAt(e.clientX)); });
+  const release=e=>{
+    if(!dragging)return;
+    dragging=false;
+    root.classList.remove('dragging');
+    commit(Math.round(ratioAt(e.clientX)*last));
+  };
+  bar.addEventListener('pointerup',release);
+  bar.addEventListener('pointercancel',()=>{
+    if(!dragging)return;
+    dragging=false;root.classList.remove('dragging');paint(index/last);
+  });
+  bar.addEventListener('keydown',e=>{
+    const d=e.key==='ArrowLeft'||e.key==='ArrowDown'?-1:e.key==='ArrowRight'||e.key==='ArrowUp'?1:0;
+    if(d){e.preventDefault();commit(index+d);}
+    else if(e.key==='Home'){e.preventDefault();commit(0);}
+    else if(e.key==='End'){e.preventDefault();commit(last);}
+  });
 }
 function renderQuizSetup(){
   const body=$('#quizBody');
@@ -4048,18 +4135,25 @@ function renderQuizSetup(){
       esc(t('qs_start'))+'</button>'+
     '<p class="hint" id="qsNote" style="text-align:center;margin-top:10px"></p>';
 
-  bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();renderQuizSetup();});
+  bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();updateQsNote();});
   $$('#quizBody .qs-o').forEach(b=>b.onclick=()=>{
     const g=b.dataset.g, v=b.dataset.v;
     if(g==='mode')quizSetup.mode=v;
     else if(g==='type'){S().quizType=v;save();}
     renderQuizSetup();
   });
-  const n=pickWords(quizSetup.mode).length;
-  $('#qsNote').textContent=n?t('qs_count',n):t('qs_none');
+  updateQsNote();
   const st=$('#qsStart');
-  st.disabled=!n;
   st.onclick=()=>startQuiz(quizSetup.mode);
+}
+// The only thing on the setup screen that a round-size change affects.
+function updateQsNote(){
+  const note=$('#qsNote');
+  if(!note)return;
+  const n=pickWords(quizSetup.mode).length;
+  note.textContent=n?t('qs_count',n):t('qs_none');
+  const st=$('#qsStart');
+  if(st)st.disabled=!n;
 }
 function startQuiz(mode){
   $('#src-quiz').innerHTML='';   // nothing but the question while a round runs
@@ -4757,7 +4851,9 @@ function renderSettings(){
   const lenEl=$('#setLen');
   if(lenEl){
     lenEl.innerHTML=stepSliderHTML('setLenS',LEN_STEPS(),S().len);
-    bindStepSlider('setLenS',LEN_STEPS(),v=>{S().len=v;save();renderSettings();applySettingsNow('len');});
+    // No renderSettings() here for the same reason: it would rebuild the sheet,
+    // and the slider is inside it.
+    bindStepSlider('setLenS',LEN_STEPS(),v=>{S().len=v;save();applySettingsNow('len');});
   }
   seg('#segGoal','dailyGoal',true);
   $('#swWeak').classList.toggle('on',S().weak);
