@@ -1170,15 +1170,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.26.0';
+const APP_VERSION='5.27.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.26.0',date:'2026-08-27',keys:['wn1','wn2']},
+  {version:'5.27.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.26.0',date:'2026-08-27',keys:['v5260_1','v5260_2']},
   {version:'5.25.0',date:'2026-08-27',keys:['v5250_1','v5250_2','v5250_3']},
-  {version:'5.24.0',date:'2026-08-26',keys:['v5240_1','v5240_2','v5240_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1276,14 +1276,14 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'1回の問題数のスライダーが、指にそのままついてくるようになりました。これまでは目盛りごとに飛んでいたので、引っかかるような動きでした。見た目も作り直しています',en:'The round-size slider now follows your finger exactly. It used to jump from notch to notch, which is what made it feel like it was catching. It has been redrawn as well',zh:'每轮题数的滑块现在会跟随手指移动。以前是逐格跳动，所以显得卡顿。外观也重新设计了',fr:'Le curseur du nombre de questions suit désormais le doigt exactement. Il sautait d’un cran à l’autre, d’où cette impression d’accroc. Son apparence a aussi été refaite',ar:'صار شريط عدد أسئلة الجولة يتبع إصبعك تمامًا، بعد أن كان يقفز من علامة إلى أخرى فيبدو متعثرًا. وأُعيد تصميم شكله أيضًا',ko:'한 번의 문제 수 슬라이더가 손가락을 그대로 따라오게 되었습니다. 지금까지는 눈금마다 건너뛰어서 걸리는 듯한 움직임이었습니다. 모양도 새로 만들었습니다',ru:'Ползунок размера раунда теперь точно следует за пальцем — раньше он прыгал от деления к делению, отчего казался дёрганым. Внешний вид тоже переделан'},
-  wn2:{ja:'すでに持っている単語を追加しようとしたとき、どこにあるのかを言うようになりました。「すでに「IT編」にあります」のように、自分の単語帳・作った単語帳・ダウンロード済みのパッケージのどこにあっても名前が出ます',en:'When you try to add a word you already have, it now says where. "Already in IT" and so on — your own notebook, any notebook you made, or any package you have downloaded',zh:'当你尝试添加已有的单词时，现在会告诉你它在哪里。例如「已在「IT编」中」——你自己的单词本、你创建的单词本，或已下载的单词包',fr:'Quand vous ajoutez un mot que vous avez déjà, l’app dit maintenant où il se trouve : « déjà dans IT », que ce soit votre carnet, un carnet que vous avez créé ou un paquet téléchargé',ar:'عند محاولة إضافة كلمة تملكها بالفعل، صار التطبيق يخبرك بمكانها: «موجودة بالفعل في IT» — سواء في دفترك أو دفتر أنشأته أو حزمة نزّلتها',ko:'이미 가지고 있는 단어를 추가하려고 하면 어디에 있는지 알려줍니다. «이미 «IT편»에 있습니다»처럼, 내 단어장·직접 만든 단어장·내려받은 패키지 어디에 있든 이름이 나옵니다',ru:'Если вы добавляете слово, которое уже есть, приложение теперь говорит где: «уже в IT» — в вашем блокноте, в созданном вами блокноте или в скачанном пакете'},
+  wn1:{ja:'学習した日には、お知らせが届かなくなりました。これまでは終わっている日にも同じように送っていて、それが一番よくないところでした。忘れている日だけ、時間帯に応じて言うことを変えてお送りします',en:'On the days you study, no reminder arrives at all. Until now they went out whether or not the day was already done, which was the worst thing about them. They come only on the days you have forgotten, and say something different depending on the hour',zh:'你学习过的那天不会再收到提醒。此前无论当天是否已完成都会照发，这是最大的问题。现在只在你忘记的日子发送，并按时间段改变内容',fr:'Les jours où vous étudiez, aucun rappel n’arrive. Ils partaient jusqu’ici que la journée soit faite ou non, et c’était leur pire défaut. Ils ne viennent plus que les jours oubliés, et disent autre chose selon l’heure',ar:'في الأيام التي تدرس فيها لم يعد يصلك تذكير. كانت التذكيرات تُرسل سواء أنجزت يومك أم لا، وكان ذلك أسوأ ما فيها. صارت تأتي في الأيام المنسية فقط، وتقول شيئًا مختلفًا بحسب الساعة',ko:'학습한 날에는 알림이 오지 않게 되었습니다. 지금까지는 이미 끝낸 날에도 똑같이 보냈고, 그것이 가장 나쁜 점이었습니다. 잊은 날에만, 시간대에 따라 다른 말로 보냅니다',ru:'В дни, когда вы занимались, напоминания больше не приходят. Раньше они уходили независимо от того, сделан ли день, — и это было в них самым плохим. Теперь они приходят только в забытые дни и говорят разное в зависимости от времени'},
+  wn2:{ja:'連続が途切れる日の夜22時に、最後のお知らせが届きます。これは本当に今夜で途切れる方にだけ送ります。フリーズが残っていて実際には途切れない場合は、そう書きます',en:'On the night a streak would end, a last call arrives at 22:00. It goes only to people whose streak really does end tonight — and if a freeze is in hand so that it does not, it says that instead',zh:'在连续记录将中断的那天晚上 22:00 会收到最后提醒。只发给今晚确实会中断的人；如果还有冻结、实际不会中断，就会照实说明',fr:'Le soir où une série va se terminer, un dernier rappel arrive à 22 h. Il ne part qu’aux personnes dont la série se termine vraiment ce soir — et s’il reste un gel qui l’empêche, il le dit',ar:'في الليلة التي تنتهي فيها السلسلة يصل تذكير أخير عند 22:00، ولا يُرسل إلا لمن تنتهي سلسلته فعلًا تلك الليلة. وإن كانت لديك تجميدة تمنع ذلك، يقول لك هذا بدل ذلك',ko:'연속이 끊기는 날 밤 22시에 마지막 알림이 옵니다. 정말로 오늘 밤 끊기는 분에게만 보냅니다. 프리즈가 남아 있어 실제로는 끊기지 않는 경우에는 그렇게 적습니다',ru:'В ночь, когда серия прервётся, в 22:00 приходит последнее напоминание. Оно уходит только тем, у кого серия действительно обрывается сегодня, — а если есть заморозка и она не оборвётся, так и будет сказано'},
+  wn3:{ja:'連続日数の数え方を、上ではなく下に向けました。「3日目です」ではなく「あと4日で習慣になります」、6日目には「あと1日で7日連続です」。連続が切れたあとは、これまでの自己ベストをお伝えします',en:'Streak days now count down instead of up. Not "day 3" but "four more days and it is a habit"; on day six, "one more day to seven in a row". And after a streak breaks, it tells you your own best run',zh:'连续天数改为倒数而非累加。不再是「第 3 天」，而是「再 4 天就成习惯」；第 6 天则是「再 1 天就连续 7 天」。连续中断后会告诉你自己的最好记录',fr:'Les jours de série se comptent désormais à rebours. Non plus « jour 3 » mais « encore quatre jours et c’est une habitude » ; au sixième, « encore un jour pour sept d’affilée ». Après une rupture, il vous rappelle votre meilleure série',ar:'صار عدّ أيام السلسلة تنازليًا لا تصاعديًا: ليس «اليوم 3» بل «تبقّى أربعة أيام لتصير عادة»، وفي اليوم السادس «يوم واحد لتصل إلى سبعة متتالية». وبعد انقطاع السلسلة يذكّرك بأفضل سلسلة حقّقتها',ko:'연속 일수를 위가 아니라 아래로 세도록 바꿨습니다. «3일째»가 아니라 «4일 더면 습관이 됩니다», 6일째에는 «1일만 더 하면 7일 연속입니다». 연속이 끊긴 뒤에는 지금까지의 최고 기록을 알려 드립니다',ru:'Дни серии теперь считаются вниз, а не вверх: не «день 3», а «ещё четыре дня — и это привычка»; на шестой — «ещё один день до семи подряд». А после обрыва серии вам напомнят ваш собственный рекорд'},
+  v5260_1:{ja:'1回の問題数のスライダーが、指にそのままついてくるようになりました。これまでは目盛りごとに飛んでいたので、引っかかるような動きでした。見た目も作り直しています',en:'The round-size slider now follows your finger exactly. It used to jump from notch to notch, which is what made it feel like it was catching. It has been redrawn as well',zh:'每轮题数的滑块现在会跟随手指移动。以前是逐格跳动，所以显得卡顿。外观也重新设计了',fr:'Le curseur du nombre de questions suit désormais le doigt exactement. Il sautait d’un cran à l’autre, d’où cette impression d’accroc. Son apparence a aussi été refaite',ar:'صار شريط عدد أسئلة الجولة يتبع إصبعك تمامًا، بعد أن كان يقفز من علامة إلى أخرى فيبدو متعثرًا. وأُعيد تصميم شكله أيضًا',ko:'한 번의 문제 수 슬라이더가 손가락을 그대로 따라오게 되었습니다. 지금까지는 눈금마다 건너뛰어서 걸리는 듯한 움직임이었습니다. 모양도 새로 만들었습니다',ru:'Ползунок размера раунда теперь точно следует за пальцем — раньше он прыгал от деления к делению, отчего казался дёрганым. Внешний вид тоже переделан'},
+  v5260_2:{ja:'すでに持っている単語を追加しようとしたとき、どこにあるのかを言うようになりました。「すでに「IT編」にあります」のように、自分の単語帳・作った単語帳・ダウンロード済みのパッケージのどこにあっても名前が出ます',en:'When you try to add a word you already have, it now says where. "Already in IT" and so on — your own notebook, any notebook you made, or any package you have downloaded',zh:'当你尝试添加已有的单词时，现在会告诉你它在哪里。例如「已在「IT编」中」——你自己的单词本、你创建的单词本，或已下载的单词包',fr:'Quand vous ajoutez un mot que vous avez déjà, l’app dit maintenant où il se trouve : « déjà dans IT », que ce soit votre carnet, un carnet que vous avez créé ou un paquet téléchargé',ar:'عند محاولة إضافة كلمة تملكها بالفعل، صار التطبيق يخبرك بمكانها: «موجودة بالفعل في IT» — سواء في دفترك أو دفتر أنشأته أو حزمة نزّلتها',ko:'이미 가지고 있는 단어를 추가하려고 하면 어디에 있는지 알려줍니다. «이미 «IT편»에 있습니다»처럼, 내 단어장·직접 만든 단어장·내려받은 패키지 어디에 있든 이름이 나옵니다',ru:'Если вы добавляете слово, которое уже есть, приложение теперь говорит где: «уже в IT» — в вашем блокноте, в созданном вами блокноте или в скачанном пакете'},
   v5250_1:{ja:'自由学習が毎回ちがう単語を出すようになりました。これまでは期限の古い順に並べた先頭から取っていたので、何百語あっても同じ顔ぶれが出ていました。1回の問題数もスライダーで選べます',en:'Free study now picks different words each time. It used to take them off the top of a due-date list, so the same faces came round however many hundreds you had. The round size is a slider now, too',zh:'自由学习现在每次都会出不同的单词。以前是按到期日排序后取最前面的，所以无论有几百个词都是同一批。每轮题数也改成了滑块',fr:'L’étude libre propose maintenant des mots différents à chaque fois. Elle prenait le haut d’une liste triée par échéance, donc les mêmes revenaient sans cesse. La taille de la série se règle aussi au curseur',ar:'صارت الدراسة الحرة تختار كلمات مختلفة في كل مرة، بعد أن كانت تأخذ أوائل قائمة مرتّبة بالاستحقاق فتتكرر الكلمات نفسها. وعدد أسئلة الجولة صار شريط تمرير أيضًا',ko:'자유 학습이 매번 다른 단어를 내도록 바뀌었습니다. 지금까지는 기한이 오래된 순서의 앞에서부터 가져왔기 때문에 수백 개가 있어도 같은 얼굴만 나왔습니다. 한 번의 문제 수도 슬라이더로 고를 수 있습니다',ru:'Свободное изучение теперь каждый раз берёт другие слова — раньше оно брало начало списка по сроку, и повторялись одни и те же. Размер раунда тоже стал ползунком'},
   v5250_2:{ja:'マークを ♡ と ⚠ に変えました。星と ⚠ ではどちらも黄色で見分けがつきにくかったためです。答えたあとの「単語の詳細」などのすぐ上に移したので、下までスクロールしなくても押せます',en:'The marks are now a heart and a warning. A star and a warning were both yellow and hard to tell apart. They have also moved directly above the tiles you get after answering, so they no longer need scrolling to',zh:'标记改为 ♡ 和 ⚠。原先的星形与 ⚠ 都是黄色，不易区分。位置也移到了答题后「单词详情」等按钮的正上方，无需下滑即可点击',fr:'Les marques sont désormais un cœur et un avertissement : l’étoile et l’avertissement étaient tous deux jaunes et se confondaient. Elles sont aussi passées juste au-dessus des tuiles d’après-réponse, sans avoir à faire défiler',ar:'صارت العلامتان قلبًا وعلامة تحذير، فالنجمة والتحذير كانا أصفرين يصعب التمييز بينهما. ونُقلتا إلى أعلى أزرار ما بعد الإجابة مباشرة فلا تحتاج للتمرير',ko:'마크를 ♡ 와 ⚠ 로 바꿨습니다. 별과 ⚠ 는 둘 다 노란색이라 구별하기 어려웠기 때문입니다. 답한 뒤의 «단어 상세» 등 바로 위로 옮겨서 아래로 스크롤하지 않아도 누를 수 있습니다',ru:'Метки теперь сердце и предупреждение — звезда и предупреждение были одинаково жёлтыми. Они переехали прямо над кнопками, которые появляются после ответа, так что прокручивать до них больше не нужно'},
   v5250_3:{ja:'前の問題に戻る機能の不具合を直しました。2問前まで戻ってしまうことがあり、戻ってから進むと答え終わった問題をもう一度解けてしまっていました（間違いを取り消せてしまう状態でした）。戻れるのは1問だけ、解き直しはできません。ランキングは人の多い種目から並ぶようになりました',en:'Fixed looking back at the previous question. It could go back two, and coming forward again let you re-answer a question that had already been graded — which meant a miss could be undone. It now goes back exactly one, and nothing can be answered twice. The ranking also leads with the boards that have the most people on them',zh:'修复了回看上一题的问题。它可能回退两题，且返回后已作答的题目还能重答（等于可以撤销错误）。现在只回退一题，且不能重答。排行榜也改为按参与人数从多到少排列',fr:'Correction du retour à la question précédente : il pouvait reculer de deux, et en revenant on pouvait répondre à nouveau à une question déjà notée — une erreur devenait annulable. Il recule maintenant d’exactement une, sans possibilité de répondre deux fois. Le classement commence aussi par les tableaux les plus fournis',ar:'أُصلح الرجوع إلى السؤال السابق: كان يرجع سؤالين أحيانًا، وعند العودة كان يمكن الإجابة مجددًا عن سؤال مصحَّح — أي إلغاء الخطأ. صار الرجوع سؤالًا واحدًا فقط بلا إعادة إجابة. كما صار الترتيب يبدأ باللوحات الأكثر مشاركين',ko:'이전 문제로 돌아가는 기능의 버그를 고쳤습니다. 두 문제 앞까지 돌아가는 경우가 있었고, 돌아갔다가 나아가면 이미 채점된 문제를 다시 풀 수 있었습니다(틀린 것을 취소할 수 있는 상태였습니다). 이제 한 문제만 돌아가며 다시 풀 수는 없습니다. 랭킹은 사람이 많은 종목부터 표시됩니다',ru:'Исправлен возврат к предыдущему вопросу: он мог отступить на два, а на пути вперёд уже оценённый вопрос можно было ответить снова — то есть отменить ошибку. Теперь возврат ровно на один, и дважды ответить нельзя. Рейтинг также начинается с таблиц, где больше участников'},
-  v5240_1:{ja:'出題順をシャッフルできるようになりました。設定の「学習」からオンにすると、毎回ちがう並びで出題されます。単語ではなく順番を覚えてしまうのを防げます',en:'You can now shuffle the question order. Turn it on under Settings → Study and each round comes in a different order, so you learn the words rather than the list',zh:'现在可以打乱出题顺序。在「设置 → 学习」中开启后，每轮顺序都不同，避免记住顺序而不是单词',fr:'Vous pouvez désormais mélanger l’ordre des questions. Activez-le dans Réglages → Apprentissage : chaque série arrive dans un ordre différent, pour apprendre les mots et non la liste',ar:'صار بإمكانك خلط ترتيب الأسئلة. فعّل الخيار من الإعدادات ← الدراسة، فيأتي كل دور بترتيب مختلف حتى تحفظ الكلمات لا الترتيب',ko:'출제 순서를 섞을 수 있게 되었습니다. 설정 → 학습에서 켜면 매번 다른 순서로 나와, 단어가 아니라 순서를 외우는 일을 막을 수 있습니다',ru:'Теперь порядок вопросов можно перемешивать. Включите его в «Настройки → Обучение», и каждый раунд будет идти в новом порядке — вы запоминаете слова, а не список'},
-  v5240_2:{ja:'単語に「お気に入り」と「苦手マーク」を付けられるようになりました。問題を解いているその場で付けられるので、あとから思い出す必要がありません',en:'Words can now be marked Favourite or Tricky. You can mark one right there while answering, so you never have to remember which it was later',zh:'现在可以给单词加「收藏」和「难记」标记。答题时即可直接标记，不必事后再回想',fr:'Vous pouvez maintenant marquer un mot comme Favori ou Délicat — directement pendant que vous répondez, sans avoir à vous en souvenir plus tard',ar:'صار بإمكانك وسم الكلمات بـ«مفضّلة» أو «صعبة عليّ»، ويمكنك ذلك أثناء الإجابة نفسها فلا تحتاج لتذكّرها لاحقًا',ko:'단어에 «즐겨찾기»와 «어려움» 표시를 붙일 수 있게 되었습니다. 문제를 푸는 그 자리에서 붙일 수 있어, 나중에 떠올릴 필요가 없습니다',ru:'Слова теперь можно помечать как «Избранное» или «Сложное» — прямо во время ответа, чтобы не вспоминать об этом потом'},
-  v5240_3:{ja:'マークを付けた単語だけを復習したり、一覧で絞り込んだりできます。また、アプリのキーボードに打鍵音を付けました（設定の効果音でオフにできます）',en:'You can review only the words you have marked, or filter the list down to them. The in-app keyboard also has a key sound now — you can turn it off under sound settings',zh:'可以只复习已标记的单词，也可在列表中筛选出它们。应用内键盘现在还带有按键音，可在音效设置中关闭',fr:'Vous pouvez réviser uniquement les mots marqués, ou filtrer la liste dessus. Le clavier de l’application a aussi un son de frappe, désactivable dans les réglages sonores',ar:'يمكنك مراجعة الكلمات الموسومة وحدها أو تصفية القائمة عليها. كما صار للوحة مفاتيح التطبيق صوت نقر يمكن إيقافه من إعدادات المؤثرات الصوتية',ko:'표시한 단어만 복습하거나 목록에서 그것만 골라 볼 수 있습니다. 또 앱 키보드에 타건음을 넣었습니다(설정의 효과음에서 끌 수 있습니다)',ru:'Можно повторять только помеченные слова или отфильтровать по ним список. А у клавиатуры приложения появился звук нажатия — его можно выключить в настройках звука'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1317,18 +1317,30 @@ const T={
   today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
   sec_notify:{ja:'通知',en:'Notifications',zh:'通知',fr:'Notifications',ar:'الإشعارات',ko:'알림',ru:'Уведомления'},
   st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
-  desc_notify:{ja:'1日2回（朝と夜）、復習の合図をお送りします。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'Two nudges a day, morning and evening. The text is written on your own device, so which words you study is never sent to the server',zh:'每天两次（早晚）提醒复习。通知文案在你的设备上生成，你学习了哪些单词不会发送到服务器',fr:'Deux rappels par jour, matin et soir. Le texte est composé sur votre appareil : les mots que vous étudiez ne sont jamais envoyés au serveur',ar:'تذكيران يوميًا، صباحًا ومساءً. يُكتب نص الإشعار على جهازك، فلا تُرسل الكلمات التي تدرسها إلى الخادم أبدًا',ko:'하루 두 번(아침과 저녁) 복습 알림을 보냅니다. 알림 문구는 기기 안에서 만들어지므로 어떤 단어를 공부하는지는 서버로 전송되지 않습니다',ru:'Два напоминания в день, утром и вечером. Текст составляется на вашем устройстве, поэтому изучаемые слова никогда не отправляются на сервер'},
+  desc_notify:{ja:'学習を忘れている日だけ、そっとお知らせします。学習した日には届きません。通知の文面はあなたの端末の中で作られるので、どの単語を勉強しているかがサーバーに送られることはありません',en:'A quiet nudge only on the days you have not studied — nothing on the days you have. The wording is composed on your device, so the server never learns which words you study',zh:'只在你当天还没学习时轻声提醒，学习过的日子不会打扰。通知文案在你的设备上生成，服务器不会知道你在学哪些单词',fr:'Un rappel discret uniquement les jours où vous n’avez pas étudié, rien les autres. Le texte est composé sur votre appareil : le serveur n’apprend jamais quels mots vous étudiez',ar:'تنبيه هادئ في الأيام التي لم تدرس فيها فقط، ولا شيء في غيرها. ويُكتب نص الإشعار داخل جهازك، فلا يعرف الخادم أي الكلمات تدرس',ko:'학습을 잊은 날에만 조용히 알려 드립니다. 학습한 날에는 오지 않습니다. 알림 문구는 기기 안에서 만들어지므로, 어떤 단어를 공부하는지 서버에 전달되지 않습니다',ru:'Тихое напоминание только в дни, когда вы не занимались, и ничего в остальные. Текст составляется на вашем устройстве, поэтому сервер не узнаёт, какие слова вы учите'},
   ntf_ask_t:{ja:'忘れないように、お知らせしましょうか？',en:'Shall we remind you?',zh:'要提醒你复习吗？',fr:'Voulez-vous des rappels ?',ar:'هل نُذكّرك؟',ko:'잊지 않도록 알려 드릴까요?',ru:'Напоминать вам о занятиях?'},
-  ntf_ask_b:{ja:'1日2回だけ、そっとお知らせします。7日続けば習慣になります。1問だけでも今日の分になりますし、あとから設定でいつでも止められます',en:'Just twice a day. Seven days in a row is what turns this into a habit — and a single question counts. You can turn it off any time in Settings',zh:'每天仅两次。坚持 7 天就会成为习惯，哪怕只答一题也算数。随时可在设置中关闭',fr:'Deux fois par jour seulement. Sept jours d’affilée suffisent à en faire une habitude, et une seule question compte. Désactivable à tout moment dans les réglages',ar:'مرتين فقط يوميًا. سبعة أيام متتالية تكفي لتصير عادة، وحتى سؤال واحد يُحتسب. ويمكنك إيقافه متى شئت من الإعدادات',ko:'하루 두 번만 조용히 알려 드립니다. 7일 이어지면 습관이 되고, 한 문제만 풀어도 오늘 몫이 됩니다. 나중에 설정에서 언제든 끌 수 있습니다',ru:'Всего дважды в день. Семь дней подряд превращают это в привычку, и даже один вопрос засчитывается. Отключить можно в любой момент в настройках'},
+  ntf_ask_b:{ja:'7日続けば習慣になります。1問だけでも今日の分になります。学習した日にはお知らせは届きません。あとから設定でいつでも止められます',en:'Seven days in a row is what turns this into a habit, and a single question counts. On the days you study, nothing arrives at all. You can turn it off any time in Settings',zh:'坚持 7 天就会成为习惯，哪怕只答一题也算。你学习过的那天不会收到任何提醒。随时可在设置中关闭',fr:'Sept jours d’affilée en font une habitude, et une seule question suffit. Les jours où vous étudiez, rien n’arrive. Vous pouvez désactiver à tout moment dans les réglages',ar:'سبعة أيام متتالية تصنع عادة، وسؤال واحد يكفي لليوم. وفي الأيام التي تدرس فيها لا يصلك شيء. ويمكنك الإيقاف متى شئت من الإعدادات',ko:'7일 이어가면 습관이 됩니다. 한 문제만 풀어도 오늘 몫이 됩니다. 학습한 날에는 알림이 오지 않습니다. 설정에서 언제든 끌 수 있습니다',ru:'Семь дней подряд превращают это в привычку, и одного вопроса достаточно. В дни, когда вы занимаетесь, ничего не приходит. Отключить можно в настройках в любой момент'},
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
-  ntf_habit_t:{ja:'{0}日目です。7日続けば習慣になります',en:'Day {0}. Seven in a row makes it a habit',zh:'第 {0} 天。坚持 7 天就会成为习惯',fr:'Jour {0}. Sept jours d’affilée et c’est une habitude',ar:'اليوم {0}. سبعة أيام متتالية تصنع عادة',ko:'{0}일째입니다. 7일 이어지면 습관이 됩니다',ru:'День {0}. Семь дней подряд — и это привычка'},
-  ntf_habit_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Même une seule question compte pour aujourd’hui',ar:'حتى سؤال واحد يُحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
-  ntf_streak_t:{ja:'{0}日の連続が今日で途切れます',en:'Your {0}-day streak ends today',zh:'你的 {0} 天连续记录今天将中断',fr:'Votre série de {0} jours prend fin aujourd’hui',ar:'سلسلتك البالغة {0} يومًا تنتهي اليوم',ko:'{0}일 연속 기록이 오늘 끊깁니다',ru:'Ваша серия из {0} дн. прервётся сегодня'},
+  ntf_build_t:{ja:'{0}日目です。あと{1}日で習慣になります',en:'Day {0}. {1} more and it is a habit',zh:'第 {0} 天。再坚持 {1} 天就成习惯了',fr:'Jour {0}. Encore {1} et c’est une habitude',ar:'اليوم {0}. تبقّى {1} لتصير عادة',ko:'{0}일째입니다. {1}일 더면 습관이 됩니다',ru:'День {0}. Ещё {1} — и это привычка'},
+  ntf_build_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Une seule question suffit pour aujourd’hui',ar:'حتى سؤال واحد يحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
+  ntf_near_t:{ja:'あと{0}日で、{1}日連続です',en:'{0} more day to {1} in a row',zh:'再 {0} 天就是连续 {1} 天',fr:'Encore {0} jour pour {1} d’affilée',ar:'يوم {0} فقط لتصل إلى {1} متتالية',ko:'{0}일만 더 하면 {1}일 연속입니다',ru:'Ещё {0} день до серии в {1}'},
+  ntf_near_b:{ja:'ここまで来ました。今日は1問で足ります',en:'You have come this far. One question does it today',zh:'已经走到这里了。今天一题就够',fr:'Vous en êtes là. Une question suffit aujourd’hui',ar:'وصلت إلى هنا. سؤال واحد يكفي اليوم',ko:'여기까지 왔습니다. 오늘은 한 문제면 됩니다',ru:'Вы уже здесь. Сегодня хватит одного вопроса'},
+  ntf_last_t:{ja:'あと{0}時間で、{1}日の連続が途切れます',en:'{1}-day streak ends in {0} hours',zh:'再过 {0} 小时，{1} 天连续记录就中断了',fr:'Votre série de {1} jours se termine dans {0} h',ar:'تنتهي سلسلة {1} يومًا خلال {0} ساعات',ko:'{0}시간 뒤에 {1}일 연속이 끊깁니다',ru:'Серия из {1} дней прервётся через {0} ч'},
+  ntf_last_b:{ja:'1問解けば守れます',en:'One question keeps it',zh:'答一题就能保住',fr:'Une question la sauve',ar:'سؤال واحد يحفظها',ko:'한 문제만 풀면 지킬 수 있습니다',ru:'Один вопрос — и она сохранится'},
+  ntf_freeze_t:{ja:'このままだと、フリーズが1つ使われます',en:'A freeze will be used tonight',zh:'照这样下去会用掉 1 个冻结',fr:'Un gel va être utilisé cette nuit',ar:'ستُستخدم تجميدة الليلة',ko:'이대로면 프리즈가 1개 사용됩니다',ru:'Сегодня будет потрачена заморозка'},
+  ntf_freeze_b:{ja:'残り{0}個。1問解けば使わずに済みます',en:'{0} left. One question and you keep it',zh:'还剩 {0} 个。答一题就不必使用',fr:'Il en reste {0}. Une question et vous le gardez',ar:'بقيت {0}. سؤال واحد وتحتفظ بها',ko:'{0}개 남았습니다. 한 문제 풀면 쓰지 않아도 됩니다',ru:'Осталось {0}. Один вопрос — и она останется'},
+  ntf_back_t:{ja:'これまでの最高は{0}日連続でした',en:'Your best run was {0} days',zh:'你的最好记录是连续 {0} 天',fr:'Votre meilleure série : {0} jours',ar:'أفضل سلسلة لك كانت {0} أيام',ko:'지금까지 최고는 {0}일 연속이었습니다',ru:'Ваш рекорд — {0} дней подряд'},
+  ntf_back_b:{ja:'今日やれば、また1日目です',en:'Study today and day one starts again',zh:'今天学一下，第一天重新开始',fr:'Étudiez aujourd’hui et le jour 1 recommence',ar:'ادرس اليوم ليبدأ اليوم الأول من جديد',ko:'오늘 하면 다시 1일째입니다',ru:'Позанимайтесь сегодня — и первый день начнётся заново'},
+  ntf_start_t:{ja:'まずは1問だけ、やってみませんか',en:'How about just one question?',zh:'先做一题看看？',fr:'Et si vous faisiez juste une question ?',ar:'ما رأيك بسؤال واحد فقط؟',ko:'우선 한 문제만 해볼까요?',ru:'Может, всего один вопрос?'},
+  ntf_start_b:{ja:'今日やれば1日目。7日で習慣になります',en:'Today makes it day one. Seven makes it a habit',zh:'今天就是第 1 天。七天成习惯',fr:'Aujourd’hui, c’est le jour 1. Sept jours en font une habitude',ar:'اليوم هو اليوم الأول. وسبعة أيام تصنع عادة',ko:'오늘 하면 1일째. 7일이면 습관이 됩니다',ru:'Сегодня — первый день. Семь дней делают привычку'},
+  ntf_done_t:{ja:'{0}日連続、今日も達成です',en:'{0} days in a row, today included',zh:'连续 {0} 天，今天也完成了',fr:'{0} jours d’affilée, aujourd’hui compris',ar:'{0} أيام متتالية، واليوم منها',ko:'{0}일 연속, 오늘도 달성했습니다',ru:'{0} дней подряд, включая сегодня'},
+  ntf_done_b:{ja:'あと{0}日で{1}日連続です',en:'{0} more days to {1} in a row',zh:'再 {0} 天就是连续 {1} 天',fr:'Encore {0} jours pour {1} d’affilée',ar:'تبقّى {0} أيام للوصول إلى {1} متتالية',ko:'{0}일 더 하면 {1}일 연속입니다',ru:'Ещё {0} дней до серии в {1}'},
+  ntf_streak_t:{ja:'{0}日連続中。今日はまだです',en:'{0} days in a row. Not today yet',zh:'已连续 {0} 天。今天还没学',fr:'{0} jours d’affilée. Pas encore aujourd’hui',ar:'{0} أيام متتالية. ولم تدرس اليوم بعد',ko:'{0}일 연속 중. 오늘은 아직입니다',ru:'{0} дней подряд. Сегодня ещё нет'},
   ntf_streak_b:{ja:'1問でも解けばつながります',en:'A single question keeps it alive',zh:'只要答一题就能延续',fr:'Une seule question suffit à la préserver',ar:'سؤال واحد يكفي للحفاظ عليها',ko:'한 문제만 풀어도 이어집니다',ru:'Достаточно одного вопроса, чтобы её сохранить'},
   ntf_word_t:{ja:'「{0}」の意味は覚えていますか？',en:'Do you remember what “{0}” means?',zh:'还记得「{0}」的意思吗？',fr:'Vous souvenez-vous du sens de « {0} » ?',ar:'هل تتذكر معنى «{0}»؟',ko:'«{0}»의 뜻을 기억하고 있나요?',ru:'Помните, что значит «{0}»?'},
   ntf_word_b:{ja:'タップして確かめる',en:'Tap to check',zh:'点击查看',fr:'Touchez pour vérifier',ar:'المس للتحقق',ko:'눌러서 확인하기',ru:'Нажмите, чтобы проверить'},
@@ -6114,8 +6126,35 @@ const HINT_DB='wordkeep-notify', HINT_STORE='hint';
 // This does tell the server roughly WHEN somebody studies. That is far less
 // than what they study, which still never leaves the device -- but it is not
 // nothing, and it is why the setting says so.
-const NOTIFY_EVENING=20;       // local hour for the last call of the day
+const NOTIFY_EVENING=20;       // local hour for the evening nudge
+// The last call, and the only slot allowed to talk about losing something. It
+// is sent ONLY to people whose streak actually breaks tonight -- see
+// pushState() for what the server is told, and tools/send-reminders.mjs for
+// the decision. A "your streak is in danger" that arrives on a day you already
+// studied is the fastest way to teach somebody to ignore every notification.
+const NOTIFY_LASTCALL=22;
 const NOTIFY_DEFAULT_MIN=9*60; // until there is a habit to aim at
+// Duolingo aims its first reminder 23.5 hours after the last session rather
+// than at a fixed clock time, so it drifts slightly earlier each day and stays
+// ahead of the habit instead of chasing it. The cron runs hourly, so this is
+// as fine as the aim can get.
+const NOTIFY_LEAD_MIN=30;
+
+/* The whole of what the server is told, and it is deliberately this small:
+   - lastDay   which local day they last studied, so a reminder can be skipped
+               entirely on a day they have already done
+   - hasStreak whether there IS a run, never how long it is
+   No words, ever. `streak` and today's count are already public on the board
+   for anyone in the ranking; this adds one integer and one bit for everyone
+   else, and buys the difference between a notification that is always true and
+   one that is true about a third of the time. */
+function pushState(){
+  const st=S().streak||{};
+  return {
+    lastDay:st.lastActiveDate!=null?localDayIndex(st.lastActiveDate):-1,
+    hasStreak:(st.current||0)>0
+  };
+}
 
 function pushSupported(){
   return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
@@ -6149,15 +6188,29 @@ function buildHint(){
     ((b.wrong||0)-(b.correct||0))-((a.wrong||0)-(a.correct||0))
     ||(b.added||0)-(a.added||0)).slice(0,25);
   return {
-    v:1, at:Date.now(),
+    v:2, at:Date.now(),
     streak:st.current||0,
+    // The best run they have ever had is the only goal a beginner already knows
+    // is reachable -- they have reached it. "Seven days" is somebody else's
+    // number until you have done six.
+    longest:st.longest||0,
+    nextMs:nextMilestone(st.current||0),
+    // A freeze covers one missed day, so on a night with one in hand the streak
+    // does NOT break -- saying it does would be a lie the app can be caught in.
+    freezes:st.freezesAvailable||0,
     lastStudied:st.lastActiveDate?localDayIndex(st.lastActiveDate):null,
     due:curDueCount(),
     words:ranked.map(w=>({w:w.word,m:primaryMeaning(w).slice(0,40)})),
     // The worker has no access to the app's i18n table, so the strings it might
     // need travel with the data in whatever language the user reads.
     t:{
-      habit_t:t('ntf_habit_t'),   habit_b:t('ntf_habit_b'),
+      build_t:t('ntf_build_t'),   build_b:t('ntf_build_b'),
+      near_t:t('ntf_near_t'),     near_b:t('ntf_near_b'),
+      last_t:t('ntf_last_t'),     last_b:t('ntf_last_b'),
+      freeze_t:t('ntf_freeze_t'), freeze_b:t('ntf_freeze_b'),
+      back_t:t('ntf_back_t'),     back_b:t('ntf_back_b'),
+      start_t:t('ntf_start_t'),   start_b:t('ntf_start_b'),
+      done_t:t('ntf_done_t'),     done_b:t('ntf_done_b'),
       streak_t:t('ntf_streak_t'), streak_b:t('ntf_streak_b'),
       word_t:t('ntf_word_t'),     word_b:t('ntf_word_b'),
       due_t:t('ntf_due_t'),       due_b:t('ntf_due_b'),
@@ -6183,7 +6236,9 @@ async function refreshPushTime(){
   if(!notifyOn()||!cloudUser||!fbDb)return;
   try{
     await fbDb.collection('push').doc(cloudUser.uid)
-      .set({studyMin:lastStudyMinute(),at:Date.now()},{merge:true});
+      .set({studyMin:lastStudyMinute(),eveningHour:NOTIFY_EVENING,
+            lastCallHour:NOTIFY_LASTCALL,...pushState(),
+            tzOffset:-new Date().getTimezoneOffset(),at:Date.now()},{merge:true});
   }catch(e){ /* the reminder still works on the old time */ }
 }
 async function enableNotify(){
@@ -6239,6 +6294,8 @@ async function saveSubscription(sub){
     // hour for the second.
     studyMin:lastStudyMinute(),
     eveningHour:NOTIFY_EVENING,
+    lastCallHour:NOTIFY_LASTCALL,
+    ...pushState(),
     // Minutes to ADD to UTC to get the user's local time.
     tzOffset:-new Date().getTimezoneOffset(),
     at:Date.now()

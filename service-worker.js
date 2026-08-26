@@ -95,49 +95,106 @@ function dayIndex(ts) {
   return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
 }
 
-// What to say. Chosen from local state only.
-function compose(hint) {
+// What to say. Chosen from local state only -- the push that woke us carries
+// nothing, so everything below is read off this device.
+//
+// The slot is inferred from the clock rather than from the payload there isn't
+// one of. That is enough: the sender only ever fires at the habit hour, at 20,
+// and at 22, and the three want different things said.
+const HABIT_UNTIL = 7;
+function compose(hint, now) {
   const T = (hint && hint.t) || {};
   const say = (k, d) => T[k] || d;
-  if (!hint) return { title: say('generic_t', 'Wordkeep'), body: say('generic_b', '') };
+  const out = (t, b, tag, renotify) => ({ title: t, body: b, tag: tag, renotify: !!renotify });
+  if (!hint) return out(say('generic_t', 'Wordkeep'), say('generic_b', ''));
 
-  const doneToday = hint.lastStudied != null && dayIndex(Date.now()) === hint.lastStudied;
+  now = now || new Date();
+  const today = dayIndex(now.getTime());
+  const last = hint.lastStudied;
+  const doneToday = last != null && last === today;
+  const freezes = hint.freezes || 0;
+  const best = hint.longest || 0;
+  const nextMs = hint.nextMs || HABIT_UNTIL;
+  // The app only recomputes the streak when somebody next answers something, so
+  // a run that died on Tuesday still reads as 12 on Friday. Believing that
+  // number would have the notification congratulate people on a streak they no
+  // longer have -- and being caught in that once is enough to make every later
+  // notification worthless. A run counts as live only while it can still be
+  // continued: yesterday, or the day before if a freeze can cover the gap.
+  const alive = last != null &&
+    (last >= today - 1 || (last === today - 2 && freezes > 0));
+  const streak = alive ? (hint.streak || 0) : 0;
+  const fill = (k, ...a) => { let v = say(k, ''); a.forEach((x, i) => { v = v.split('{' + i + '}').join(x); }); return v; };
 
-  // What is at stake depends on how much there is to lose, so the framing does
-  // too. Telling somebody on day 2 that their streak is about to break is not
-  // motivating -- there is nothing there yet. Early on the goal is to build the
-  // habit; once a run is long enough to matter, losing it is the stronger pull.
-  const HABIT_UNTIL = 7;
-  if (hint.streak > 0 && !doneToday) {
-    if (hint.streak < HABIT_UNTIL)
-      return { title: say('habit_t', '').replace('{0}', hint.streak).replace('{1}', HABIT_UNTIL),
-               body:  say('habit_b', '') };
-    return { title: say('streak_t', '').replace('{0}', hint.streak),
-             body:  say('streak_b', '') };
+  // Nothing left to ask for. Say what they earned instead of asking again --
+  // the sender normally skips these entirely, so this is the case where a
+  // device synced late and the push went out anyway.
+  if (doneToday) {
+    if (streak > 0)
+      return out(fill('done_t', streak),
+                 nextMs > streak ? fill('done_b', nextMs - streak, nextMs) : say('done_b', ''),
+                 'wordkeep');
+    return out(say('idle_t', 'Wordkeep'), say('idle_b', ''), 'wordkeep');
   }
 
-  // Otherwise ask about a word. Being asked something specific beats being told
-  // there is work waiting.
+  // The last call. 21:00 onward, and the ONLY place a loss is mentioned. It is
+  // reached only when the streak really does end tonight, so:
+  const lastCall = now.getHours() >= 21;
+  const breaksTonight = streak > 0 && last === today - 1;
+  if (lastCall && breaksTonight) {
+    // ...unless a freeze is in hand, in which case it does not end tonight and
+    // saying so would be a straight lie. What IS lost is the freeze, and that
+    // is a real thing to lose: one a month, two at most.
+    if (freezes > 0)
+      return out(say('freeze_t', ''), fill('freeze_b', freezes), 'wordkeep', true);
+    return out(fill('last_t', Math.max(1, 24 - now.getHours()), streak),
+               say('last_b', ''), 'wordkeep', true);
+  }
+
+  // One or two days from a milestone. This is the strongest thing that can be
+  // said to somebody who has never held a streak: day 6 is not "keep going",
+  // it is "one more day and you have done the thing".
+  if (streak > 0 && nextMs - streak <= 2)
+    return out(fill('near_t', nextMs - streak, nextMs), say('near_b', ''), 'wordkeep');
+
+  // Still building. Counted DOWN to seven rather than up from one: "day 3" is a
+  // fact about the past, "four more days" is a reason to open the app.
+  if (streak > 0 && streak < HABIT_UNTIL)
+    return out(fill('build_t', streak, HABIT_UNTIL - streak), say('build_b', ''), 'wordkeep');
+
+  if (streak > 0)
+    return out(fill('streak_t', streak), say('streak_b', ''), 'wordkeep');
+
+  // No streak. If they have held one before, their own best is the only target
+  // they already know is reachable -- they reached it.
+  if (best >= 2)
+    return out(fill('back_t', best), say('back_b', ''), 'wordkeep');
+
+  // Never held one. Ask about an actual word if there is one: being asked
+  // something specific beats being told there is work waiting. Otherwise make
+  // the first day the whole of the offer.
   const words = hint.words || [];
   if (words.length) {
     const w = words[Math.floor(Math.random() * words.length)];
-    return { title: say('word_t', '').replace('{0}', w.w),
-             body:  say('word_b', '') , tag: 'word' };
+    return out(fill('word_t', w.w), say('word_b', ''), 'word');
   }
-  if (hint.due > 0)
-    return { title: say('due_t', '').replace('{0}', hint.due), body: say('due_b', '') };
-  return { title: say('idle_t', 'Wordkeep'), body: say('idle_b', '') };
+  if (hint.due > 0) return out(fill('due_t', hint.due), say('due_b', ''), 'wordkeep');
+  return out(say('start_t', ''), say('start_b', ''), 'wordkeep');
 }
 
 self.addEventListener('push', e => {
   e.waitUntil(readHint().then(hint => {
-    const m = compose(hint);
+    const m = compose(hint, new Date());
     return self.registration.showNotification(m.title, {
       body: m.body,
       icon: './icon-192.png',
       badge: './icon-192.png',
       tag: m.tag || 'wordkeep',
-      renotify: false,
+      // The evening nudge and the last call share a tag, so the later one
+      // REPLACES the earlier rather than stacking two rows saying the same
+      // thing. renotify is what makes that replacement alert again, and only
+      // the last call earns it.
+      renotify: !!m.renotify,
       data: { url: './' }
     });
   }));

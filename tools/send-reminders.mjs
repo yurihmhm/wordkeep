@@ -32,6 +32,14 @@ const FORCE = (process.env.FORCE || '').trim() === 'true';
 
 // The workflow fires hourly in UTC; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
+//
+// Three possible slots, and every one of them is conditional:
+//   habit      ~30 min before the hour they usually study
+//   evening    20:00
+//   last call  22:00, and ONLY when a streak really ends tonight
+// A day that has already been studied gets none of them. So somebody keeping up
+// hears nothing, and somebody about to break a run hears three escalating
+// things -- which is the point.
 const nowUtcMin = new Date().getUTCHours() * 60 + new Date().getUTCMinutes();
 const clamp = (v, lo, hi, dflt) =>
   Number.isFinite(v) && v >= lo && v <= hi ? v : dflt;
@@ -46,21 +54,37 @@ for (const doc of snap.docs) {
   const d = doc.data();
   if (!TEST_UID && !FORCE) {
     const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
-    // Two sends, with different jobs. The first is aimed at the hour this
-    // person actually studies -- a reminder that lands when they are already in
-    // the habit of opening the app beats one that lands when the schedule says
-    // so. The second is the last call before the day ends, and that one is
-    // fixed because its timing is about the deadline, not about them.
-    //
-    // Matched to the hour: the workflow only runs hourly, so aiming finer than
-    // that would just mean missing.
-    const studyHour   = Math.floor(clamp(d.studyMin, 0, 1439, 9 * 60) / 60);
+    const localHour = Math.floor(localMin / 60);
+    // The user's own calendar day, computed the same way the app's
+    // localDayIndex() does it, so `lastDay` can be compared to it directly.
+    const localDay = Math.floor((Date.now() + (d.tzOffset || 0) * 60000) / 86400000);
+    const lastDay = Number.isFinite(d.lastDay) ? d.lastDay : -1;
+
+    // Nothing to remind them of. This one skip is the whole difference between
+    // a notification that means something and wallpaper: the old version sent
+    // both reminders whether or not the day was already done, which teaches
+    // people that the app does not know what they have done -- and after that
+    // no wording helps.
+    if (lastDay === localDay) { skipped++; continue; }
+
+    // Aimed 30 minutes BEFORE the hour they usually study, so the reminder
+    // stays in front of the habit rather than arriving after it. Duolingo does
+    // the same thing at 23.5 hours; hourly cron is as fine as this can be cut.
+    const aim = (clamp(d.studyMin, 0, 1439, 9 * 60) - 30 + 1440) % 1440;
+    const studyHour = Math.floor(aim / 60);
     const eveningHour = clamp(d.eveningHour, 0, 23, 20);
+    const lastCallHour = clamp(d.lastCallHour, 0, 23, 22);
+
+    const wanted = [studyHour, eveningHour];
+    // The last call goes only to people who actually lose something tonight:
+    // a live run, and yesterday was the last day of it. Anyone else would be
+    // getting an urgent notification about nothing, which is how urgency stops
+    // working. `hasStreak` is a bit -- the length never leaves the device.
+    if (d.hasStreak === true && lastDay === localDay - 1) wanted.push(lastCallHour);
+
     // Legacy subscriptions still carry `hours`; honour them until they refresh.
-    const wanted = Array.isArray(d.hours) && d.hours.length
-      ? d.hours
-      : [studyHour, eveningHour];
-    if (!wanted.includes(Math.floor(localMin / 60))) { skipped++; continue; }
+    const slots = Array.isArray(d.hours) && d.hours.length ? d.hours : wanted;
+    if (!slots.includes(localHour)) { skipped++; continue; }
   }
 
   try {

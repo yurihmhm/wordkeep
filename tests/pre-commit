@@ -13,7 +13,10 @@ changed() { git diff --cached --name-only | grep -qx "$1"; }
 pkg_changed() { git diff --cached --name-only | grep -q '^packages/'; }
 
 # Nothing relevant staged? Nothing to check.
-if ! changed index.html && ! changed tests/logic.test.js && ! changed tests/extract.mjs && ! pkg_changed; then
+notify_changed() { git diff --cached --name-only | grep -qE '^(service-worker\.js|tools/send-reminders\.mjs|tests/(notify|slots)\.test\.mjs)$'; }
+
+if ! changed index.html && ! changed tests/logic.test.js && ! changed tests/extract.mjs \
+   && ! pkg_changed && ! notify_changed; then
   exit 0
 fi
 
@@ -40,6 +43,17 @@ echo "pre-commit: running logic tests..."
   echo ""
   echo "BLOCKED: logic tests failed. Fix them, or use --no-verify if you"
   echo "genuinely mean to commit a known-failing state."
+  exit 1
+}
+
+# The notification wording is the one part of the app nobody can see while
+# working on it -- it renders on a locked phone, hours later, from state that
+# has to be simulated. So it is the part that most needs a test.
+echo "pre-commit: running notification tests..."
+node tests/notify.test.mjs >/dev/null && node tests/slots.test.mjs >/dev/null || {
+  echo ""
+  echo "BLOCKED: notification tests failed. Run them directly to see which:"
+  echo "  node tests/notify.test.mjs && node tests/slots.test.mjs"
   exit 1
 }
 

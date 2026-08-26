@@ -130,7 +130,8 @@ service cloud.firestore {
       allow delete: if (request.auth != null && request.auth.uid == userId) || isAdmin();
       allow write: if request.auth != null && request.auth.uid == userId
                    && request.resource.data.keys().hasOnly(
-                        ['endpoint','p256dh','auth','hours','studyMin','eveningHour','tzOffset','at'])
+                        ['endpoint','p256dh','auth','hours','studyMin','eveningHour',
+                         'lastCallHour','lastDay','hasStreak','tzOffset','at'])
                    // A refresh of just the study time is a merge, so the
                    // endpoint and keys are absent from that write.
                    && (!('endpoint' in request.resource.data)
@@ -150,6 +151,21 @@ service cloud.firestore {
                        || (request.resource.data.eveningHour is int
                            && request.resource.data.eveningHour >= 0
                            && request.resource.data.eveningHour <= 23))
+                   && (!('lastCallHour' in request.resource.data)
+                       || (request.resource.data.lastCallHour is int
+                           && request.resource.data.lastCallHour >= 0
+                           && request.resource.data.lastCallHour <= 23))
+                   // Which local day they last studied, so a reminder can be
+                   // skipped on a day already done. -1 means "never". Bounded
+                   // so a bad value cannot become a date far in the future and
+                   // silence the reminders forever.
+                   && (!('lastDay' in request.resource.data)
+                       || (request.resource.data.lastDay is int
+                           && request.resource.data.lastDay >= -1
+                           && request.resource.data.lastDay <= 100000))
+                   // Whether there IS a run. Never how long it is.
+                   && (!('hasStreak' in request.resource.data)
+                       || request.resource.data.hasStreak is bool)
                    && (!('tzOffset' in request.resource.data)
                        || (request.resource.data.tzOffset is int
                            && request.resource.data.tzOffset >= -840
