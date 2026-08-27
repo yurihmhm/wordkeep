@@ -33,13 +33,13 @@ const FORCE = (process.env.FORCE || '').trim() === 'true';
 // The workflow fires hourly in UTC; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
 //
-// Three possible slots, and every one of them is conditional:
-//   habit      ~30 min before the hour they usually study
-//   evening    20:00
+// Three possible slots:
+//   habit      ~30 min before the hour they usually study, only if not studied
+//   evening    20:00, always -- a nudge if the day is open, a receipt if it is
+//              already done
 //   last call  22:00, and ONLY when a streak really ends tonight
-// A day that has already been studied gets none of them. So somebody keeping up
-// hears nothing, and somebody about to break a run hears three escalating
-// things -- which is the point.
+// So somebody keeping their streak hears once, in the evening, and somebody
+// about to break one hears three escalating things.
 const nowUtcMin = new Date().getUTCHours() * 60 + new Date().getUTCMinutes();
 const clamp = (v, lo, hi, dflt) =>
   Number.isFinite(v) && v >= lo && v <= hi ? v : dflt;
@@ -52,39 +52,46 @@ let sent = 0, skipped = 0, dropped = 0;
 
 for (const doc of snap.docs) {
   const d = doc.data();
+  // What this run decided to send, if anything. Written back only after the
+  // push actually goes out, so a failure is retried on the next run.
+  let mark = null;
   if (!TEST_UID && !FORCE) {
-    const localMin = (nowUtcMin + (d.tzOffset || 0) + 1440 * 2) % 1440;
-    const localHour = Math.floor(localMin / 60);
-    // The user's own calendar day, computed the same way the app's
-    // localDayIndex() does it, so `lastDay` can be compared to it directly.
-    const localDay = Math.floor((Date.now() + (d.tzOffset || 0) * 60000) / 86400000);
+    const tz = d.tzOffset || 0;
+    const localMin = (nowUtcMin + tz + 1440 * 2) % 1440;
+    // The user's own calendar day, computed the way the app's localDayIndex()
+    // does it, so `lastDay` can be compared to it directly.
+    const localDay = Math.floor((Date.now() + tz * 60000) / 86400000);
     const lastDay = Number.isFinite(d.lastDay) ? d.lastDay : -1;
-
-    // Nothing to remind them of. This one skip is the whole difference between
-    // a notification that means something and wallpaper: the old version sent
-    // both reminders whether or not the day was already done, which teaches
-    // people that the app does not know what they have done -- and after that
-    // no wording helps.
-    if (lastDay === localDay) { skipped++; continue; }
+    const studied = lastDay === localDay;
 
     // Aimed 30 minutes BEFORE the hour they usually study, so the reminder
-    // stays in front of the habit rather than arriving after it. Duolingo does
-    // the same thing at 23.5 hours; hourly cron is as fine as this can be cut.
+    // stays in front of the habit rather than arriving after it.
     const aim = (clamp(d.studyMin, 0, 1439, 9 * 60) - 30 + 1440) % 1440;
-    const studyHour = Math.floor(aim / 60);
-    const eveningHour = clamp(d.eveningHour, 0, 23, 20);
-    const lastCallHour = clamp(d.lastCallHour, 0, 23, 22);
+    const evening = clamp(d.eveningHour, 0, 23, 20) * 60;
+    const lastCall = clamp(d.lastCallHour, 0, 23, 22) * 60;
 
-    const wanted = [studyHour, eveningHour];
-    // The last call goes only to people who actually lose something tonight:
-    // a live run, and yesterday was the last day of it. Anyone else would be
-    // getting an urgent notification about nothing, which is how urgency stops
-    // working. `hasStreak` is a bit -- the length never leaves the device.
-    if (d.hasStreak === true && lastDay === localDay - 1) wanted.push(lastCallHour);
+    const slots = [];
+    if (!studied) slots.push(aim);
+    // The evening slot fires either way. On a day that is already done it is a
+    // receipt rather than a nudge -- which is the only notification somebody
+    // who never misses a day would ever see, and without it the app is silent
+    // for exactly the people who use it most.
+    slots.push(evening);
+    // Only when a live run really ends tonight.
+    if (!studied && d.hasStreak === true && lastDay === localDay - 1) slots.push(lastCall);
 
-    // Legacy subscriptions still carry `hours`; honour them until they refresh.
-    const slots = Array.isArray(d.hours) && d.hours.length ? d.hours : wanted;
-    if (!slots.includes(localHour)) { skipped++; continue; }
+    // The latest slot whose time has already passed. Matching the exact hour
+    // was the bug: GitHub's scheduler is best-effort and skips hours -- there
+    // are 10-hour gaps in this repo's own history -- so a slot whose hour was
+    // missed was simply lost. Taking the latest passed slot instead means a
+    // missed hour is picked up by whatever run comes next.
+    const due = slots.filter(m => localMin >= m).sort((a, b) => b - a)[0];
+    if (due === undefined) { skipped++; continue; }
+    // ...and never twice for the same slot. `sentMin` is the slot's own time,
+    // not the send time, so it stays monotonic even when a habit hour lands
+    // after the evening one.
+    if (d.sentDay === localDay && Number.isFinite(d.sentMin) && d.sentMin >= due) { skipped++; continue; }
+    mark = { sentDay: localDay, sentMin: due };
   }
 
   try {
@@ -94,6 +101,9 @@ for (const doc of snap.docs) {
       { TTL: 3 * 60 * 60 }         // a reminder that arrives 3 hours late is noise
     );
     sent++;
+    // Recorded after the send, so a push that failed is tried again rather
+    // than being marked done.
+    if (mark) { try { await doc.ref.set(mark, { merge: true }); } catch (e) { /* next run retries */ } }
   } catch (e) {
     // 404/410 mean the browser threw the subscription away (uninstalled, cleared
     // storage, permission revoked). Keeping it would fail forever.

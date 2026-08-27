@@ -24,7 +24,7 @@ const t = (n, f) => {
 const T = { build_t:'D{0}/{1}left', build_b:'b', near_t:'near{0}/{1}', near_b:'nb',
   last_t:'last{0}h/{1}d', last_b:'lb', freeze_t:'freeze', freeze_b:'fz{0}',
   back_t:'best{0}', back_b:'bb', start_t:'start', start_b:'sb',
-  done_t:'done{0}', done_b:'to{0}/{1}', streak_t:'streak{0}', streak_b:'sk',
+  done_t:'done{0}!', done_b:'to{0}/{1}', done_b2:'keepgoing', streak_t:'streak{0}', streak_b:'sk',
   word_t:'word:{0}', word_b:'wb', due_t:'due{0}', due_b:'db', idle_t:'idle', idle_b:'ib' };
 const at = h => { const d = new Date(); d.setHours(h, 0, 0, 0); return d; };
 const today = () => dayIdx(Date.now());
@@ -33,7 +33,30 @@ const hint = o => ({ t:T, streak:0, longest:0, nextMs:7, freezes:0, lastStudied:
 console.log('\nalready studied today');
 t('gets a reward, never a nudge', () => {
   const m = compose(hint({ streak:4, lastStudied:today(), nextMs:7 }), at(22));
-  return (m.title === 'done4' && m.body === 'to3/7') || JSON.stringify(m);
+  return (m.title === 'done4!' && m.body === 'to3/7') || JSON.stringify(m);
+});
+t('past the last milestone it never prints a raw placeholder', () => {
+  const m = compose(hint({ streak:400, longest:400, lastStudied:today(), nextMs:null }), at(20));
+  if (/\{\d\}/.test(m.title + m.body)) return 'placeholder leaked: ' + m.title + ' / ' + m.body;
+  return m.body === 'keepgoing' || JSON.stringify(m);
+});
+t('no template anywhere keeps an unfilled placeholder', () => {
+  const states = [
+    { streak:3, longest:3, nextMs:7, lastStudied:today()-1 },
+    { streak:6, longest:6, nextMs:7, lastStudied:today()-1 },
+    { streak:12, longest:12, nextMs:30, freezes:0, lastStudied:today()-1 },
+    { streak:12, longest:12, nextMs:30, freezes:2, lastStudied:today()-1 },
+    { streak:0, longest:5, lastStudied:today()-4 },
+    { streak:0, longest:0, lastStudied:null },
+    { streak:0, longest:0, due:8 },
+    { streak:9, longest:9, nextMs:30, lastStudied:today() },
+    { streak:400, longest:400, nextMs:null, lastStudied:today() }
+  ];
+  for (const st of states) for (const h of [8, 20, 22]) {
+    const m = compose(hint(st), at(h));
+    if (/\{\d\}/.test(m.title + m.body)) return h + 'h ' + JSON.stringify(st) + ' -> ' + m.title + ' / ' + m.body;
+  }
+  return true;
 });
 t('no streak and done: nothing urgent', () => {
   const m = compose(hint({ lastStudied:today() }), at(20));

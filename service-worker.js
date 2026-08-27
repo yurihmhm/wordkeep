@@ -131,8 +131,10 @@ function compose(hint, now) {
   // device synced late and the push went out anyway.
   if (doneToday) {
     if (streak > 0)
+      // say() returns the template untouched, so the no-milestone branch used
+      // to put the literal placeholders on somebody's lock screen.
       return out(fill('done_t', streak),
-                 nextMs > streak ? fill('done_b', nextMs - streak, nextMs) : say('done_b', ''),
+                 nextMs > streak ? fill('done_b', nextMs - streak, nextMs) : say('done_b2', ''),
                  'wordkeep');
     return out(say('idle_t', 'Wordkeep'), say('idle_b', ''), 'wordkeep');
   }

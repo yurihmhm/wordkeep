@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f1e3d">
 <title>Wordkeep</title>
+<!-- Link preview. Deliberately generic: this is a static page on GitHub Pages,
+     so every shared deck is served by this same HTML and there is no server to
+     render per-deck tags. What names the deck is the message the share sheet
+     copies alongside the link. -->
+<meta name="description" content="覚えたい英単語を集めて、忘れかけた頃に出題する単語帳アプリ。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Wordkeep">
+<meta property="og:title" content="Wordkeep">
+<meta property="og:description" content="覚えたい英単語を集めて、忘れかけた頃に出題する単語帳アプリ。">
+<meta property="og:image" content="https://yurihmhm.github.io/wordkeep/icon-512.png">
+<meta name="twitter:card" content="summary">
 
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
@@ -1237,15 +1248,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.32.0';
+const APP_VERSION='5.33.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.32.0',date:'2026-08-27',keys:['wn1','wn2','wn3']},
+  {version:'5.33.0',date:'2026-08-28',keys:['wn1','wn2','wn3']},
+  {version:'5.32.0',date:'2026-08-27',keys:['v5320_1','v5320_2','v5320_3']},
   {version:'5.31.0',date:'2026-08-27',keys:['v5310_1','v5310_2','v5310_3']},
-  {version:'5.30.0',date:'2026-08-27',keys:['v5300_1','v5300_2','v5300_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1343,15 +1354,15 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'自分の単語帳を、リンクで人に渡せるようになりました。単語帳の編集から「この単語帳を共有」を選ぶとリンクができます。受け取る側にアカウントは要りません。',en:'You can now hand a notebook to someone as a link. Open a notebook’s edit screen, choose "Share this notebook", and you get one. Whoever receives it needs no account.',zh:'现在可以用链接把自己的单词本分享给别人。在单词本的编辑界面选择「共享这个单词本」即可生成链接。接收方无需账号。',fr:'Vous pouvez désormais transmettre un carnet par lien. Depuis l’écran d’édition d’un carnet, choisissez « Partager ce carnet ». Le destinataire n’a besoin d’aucun compte.',ar:'صار بإمكانك تمرير دفترك إلى شخص آخر عبر رابط. من شاشة تحرير الدفتر اختر «مشاركة هذا الدفتر». ولا يحتاج المستلم إلى حساب.',ko:'내 단어장을 링크로 다른 사람에게 건넬 수 있게 되었습니다. 단어장 편집에서 «이 단어장 공유»를 고르면 링크가 만들어집니다. 받는 쪽에 계정은 필요 없습니다.',ru:'Теперь свой словарь можно передать ссылкой. В экране редактирования словаря выберите «Поделиться словарём». Получателю аккаунт не нужен.'},
-  wn2:{ja:'受け取った単語帳は、配布の単語パッケージと同じ扱いになります。学習の記録はあなただけのもので、自分の単語帳には混ざりません。作者が中身を更新すれば、次に開いたときに取り直します。',en:'A notebook you receive behaves like the built-in word packages: your progress is your own and it does not mix into your notebook. If the author updates it, it is refetched next time you open it.',zh:'收到的单词本与内置单词包相同：学习进度是你自己的，不会混入你的单词本。作者更新内容后，下次打开时会重新获取。',fr:'Un carnet reçu se comporte comme les paquets intégrés : votre progression reste la vôtre et ne se mélange pas. Si l’auteur le met à jour, il est récupéré à la prochaine ouverture.',ar:'الدفتر الذي تستلمه يعمل كحزم الكلمات المدمجة: تقدّمك خاص بك ولا يختلط بدفترك. وإذا حدّثه صاحبه أُعيد جلبه عند فتحه لاحقًا.',ko:'받은 단어장은 기본 제공 단어 패키지와 같은 취급이 됩니다. 학습 기록은 내 것이고 내 단어장에 섞이지 않습니다. 작성자가 내용을 바꾸면 다음에 열 때 다시 받습니다.',ru:'Полученный словарь ведёт себя как встроенные пакеты: прогресс остаётся вашим и не смешивается. Если автор его обновит, он загрузится заново при следующем открытии.'},
-  wn3:{ja:'共有するときは、メモを一緒に渡すかどうかを選べます（既定では渡しません）。学習の記録・連続日数・マークは共有されません。共有はいつでもやめられます。',en:'When you share, you choose whether your notes go with it — by default they do not. Progress, streaks and marks are never shared, and you can stop sharing at any time.',zh:'共享时可以选择是否一并附上备注（默认不附）。学习进度、连续天数和标记不会被共享，并且可随时停止共享。',fr:'Au partage, vous choisissez si vos mémos suivent — par défaut, non. Progression, séries et marques ne sont jamais partagées, et vous pouvez arrêter à tout moment.',ar:'عند المشاركة تختار إن كانت ملاحظاتك ستُرفَق أم لا، والافتراضي ألا تُرفَق. أما التقدّم والسلاسل والعلامات فلا تُشارَك أبدًا، ويمكنك إيقاف المشاركة متى شئت.',ko:'공유할 때 메모를 함께 건넬지 고를 수 있습니다(기본은 건네지 않습니다). 학습 기록·연속 일수·마크는 공유되지 않으며, 공유는 언제든 중지할 수 있습니다.',ru:'При публикации вы выбираете, идут ли с ней ваши заметки, — по умолчанию нет. Прогресс, серии и метки не публикуются никогда, а доступ можно прекратить в любой момент.'},
+  wn1:{ja:'通知が届かなくなっていたのを直しました。送信の時刻合わせが厳密すぎて、時報が1時間でも飛ぶとその日の通知がまるごと消えていました。飛んでも次の実行で拾い直します。',en:'Fixed reminders not arriving. The send matched the hour exactly, so whenever the scheduler skipped an hour that reminder was simply lost. A missed hour is now picked up by the next run.',zh:'修复了收不到提醒的问题。此前发送严格匹配整点，调度器一旦跳过某小时，当天的提醒就整个丢失。现在会由下一次运行补上。',fr:'Correction des rappels qui n’arrivaient plus. L’envoi visait l’heure exacte : dès que le planificateur sautait une heure, le rappel était perdu. Une heure manquée est désormais rattrapée au passage suivant.',ar:'أُصلح عدم وصول التذكيرات. كان الإرسال يطابق الساعة بدقة، فإذا تخطّى المجدول ساعة ضاع التذكير كله. صارت الساعة الفائتة تُلتقط في التشغيل التالي.',ko:'알림이 오지 않던 문제를 고쳤습니다. 발송이 정시에 정확히 맞춰져 있어서, 스케줄러가 한 시간이라도 건너뛰면 그날 알림이 통째로 사라졌습니다. 이제 놓친 시간은 다음 실행에서 이어받습니다.',ru:'Исправлено: напоминания не приходили. Отправка совпадала строго с часом, и стоило планировщику пропустить час, как напоминание терялось. Теперь пропущенный час подхватывается следующим запуском.'},
+  wn2:{ja:'続けている日にも、夜にひとことお伝えするようにしました。「10日連続、今日も達成です！」のように。毎日きちんと続けている人ほど通知が一度も来ない、という状態になっていたためです。',en:'On the days you do study, there is now a note in the evening — “10 days in a row, today included!”. Until now the people keeping their streak best were the ones who never heard anything at all.',zh:'在你学习过的日子，晚上也会有一句话，比如「连续 10 天，今天也完成了！」。此前越是每天坚持的人，反而一次通知都收不到。',fr:'Les jours où vous étudiez, un mot arrive le soir : « 10 jours d’affilée, aujourd’hui compris ! ». Jusqu’ici, ceux qui tenaient le mieux leur série n’entendaient jamais rien.',ar:'في الأيام التي تدرس فيها صارت تصلك كلمة مساءً مثل «10 أيام متتالية، واليوم منها!». فقد كان أكثر الناس مواظبة هم من لا يصلهم شيء أبدًا.',ko:'이어 가고 있는 날에도 밤에 한마디 전해 드립니다. «10일 연속, 오늘도 달성했습니다!»처럼요. 지금까지는 매일 꾸준히 하는 사람일수록 알림이 한 번도 오지 않는 상태였습니다.',ru:'В дни, когда вы занимались, вечером приходит короткая заметка: «10 дней подряд, включая сегодня!». До сих пор те, кто держал серию лучше всех, не получали вообще ничего.'},
+  wn3:{ja:'単語帳の共有にログインが必要になりました。リンクを開くと、ログインしてから受け取れます。共有のコピーには「〇〇さんが「句動詞」の単語帳を共有しました！」という一文が付くので、LINEなどでも何のリンクか分かります。',en:'Receiving a shared notebook now needs an account: open the link, sign in, and it is yours. The copy button also includes a line saying who shared what, so the link is recognisable in a chat.',zh:'接收共享单词本现在需要登录：打开链接、登录后即可获取。复制内容还会附上「某某共享了「句动词」单词本！」，在聊天中一眼就能看出是什么链接。',fr:'Recevoir un carnet partagé demande maintenant un compte : ouvrez le lien, connectez-vous, il est à vous. La copie inclut aussi une phrase indiquant qui partage quoi, pour que le lien soit reconnaissable dans une conversation.',ar:'صار استلام دفتر مُشارَك يتطلب حسابًا: افتح الرابط وسجّل الدخول فيصبح لك. كما تتضمن النسخة جملة تذكر من شارك ماذا، ليُعرف الرابط في المحادثة.',ko:'단어장 공유를 받으려면 로그인이 필요해졌습니다. 링크를 열고 로그인하면 받을 수 있습니다. 복사하는 내용에는 «〇〇님이 «구동사» 단어장을 공유했습니다!»라는 문장이 붙어, 채팅에서도 무슨 링크인지 알 수 있습니다.',ru:'Чтобы получить словарь, теперь нужен аккаунт: откройте ссылку, войдите — и он ваш. Кнопка копирования добавляет строку о том, кто и чем поделился, чтобы ссылку было видно в переписке.'},
+  v5320_1:{ja:'自分の単語帳を、リンクで人に渡せるようになりました。単語帳の編集から「この単語帳を共有」を選ぶとリンクができます。受け取る側にアカウントは要りません。',en:'You can now hand a notebook to someone as a link. Open a notebook’s edit screen, choose "Share this notebook", and you get one. Whoever receives it needs no account.',zh:'现在可以用链接把自己的单词本分享给别人。在单词本的编辑界面选择「共享这个单词本」即可生成链接。接收方无需账号。',fr:'Vous pouvez désormais transmettre un carnet par lien. Depuis l’écran d’édition d’un carnet, choisissez « Partager ce carnet ». Le destinataire n’a besoin d’aucun compte.',ar:'صار بإمكانك تمرير دفترك إلى شخص آخر عبر رابط. من شاشة تحرير الدفتر اختر «مشاركة هذا الدفتر». ولا يحتاج المستلم إلى حساب.',ko:'내 단어장을 링크로 다른 사람에게 건넬 수 있게 되었습니다. 단어장 편집에서 «이 단어장 공유»를 고르면 링크가 만들어집니다. 받는 쪽에 계정은 필요 없습니다.',ru:'Теперь свой словарь можно передать ссылкой. В экране редактирования словаря выберите «Поделиться словарём». Получателю аккаунт не нужен.'},
+  v5320_2:{ja:'受け取った単語帳は、配布の単語パッケージと同じ扱いになります。学習の記録はあなただけのもので、自分の単語帳には混ざりません。作者が中身を更新すれば、次に開いたときに取り直します。',en:'A notebook you receive behaves like the built-in word packages: your progress is your own and it does not mix into your notebook. If the author updates it, it is refetched next time you open it.',zh:'收到的单词本与内置单词包相同：学习进度是你自己的，不会混入你的单词本。作者更新内容后，下次打开时会重新获取。',fr:'Un carnet reçu se comporte comme les paquets intégrés : votre progression reste la vôtre et ne se mélange pas. Si l’auteur le met à jour, il est récupéré à la prochaine ouverture.',ar:'الدفتر الذي تستلمه يعمل كحزم الكلمات المدمجة: تقدّمك خاص بك ولا يختلط بدفترك. وإذا حدّثه صاحبه أُعيد جلبه عند فتحه لاحقًا.',ko:'받은 단어장은 기본 제공 단어 패키지와 같은 취급이 됩니다. 학습 기록은 내 것이고 내 단어장에 섞이지 않습니다. 작성자가 내용을 바꾸면 다음에 열 때 다시 받습니다.',ru:'Полученный словарь ведёт себя как встроенные пакеты: прогресс остаётся вашим и не смешивается. Если автор его обновит, он загрузится заново при следующем открытии.'},
+  v5320_3:{ja:'共有するときは、メモを一緒に渡すかどうかを選べます（既定では渡しません）。学習の記録・連続日数・マークは共有されません。共有はいつでもやめられます。',en:'When you share, you choose whether your notes go with it — by default they do not. Progress, streaks and marks are never shared, and you can stop sharing at any time.',zh:'共享时可以选择是否一并附上备注（默认不附）。学习进度、连续天数和标记不会被共享，并且可随时停止共享。',fr:'Au partage, vous choisissez si vos mémos suivent — par défaut, non. Progression, séries et marques ne sont jamais partagées, et vous pouvez arrêter à tout moment.',ar:'عند المشاركة تختار إن كانت ملاحظاتك ستُرفَق أم لا، والافتراضي ألا تُرفَق. أما التقدّم والسلاسل والعلامات فلا تُشارَك أبدًا، ويمكنك إيقاف المشاركة متى شئت.',ko:'공유할 때 메모를 함께 건넬지 고를 수 있습니다(기본은 건네지 않습니다). 학습 기록·연속 일수·마크는 공유되지 않으며, 공유는 언제든 중지할 수 있습니다.',ru:'При публикации вы выбираете, идут ли с ней ваши заметки, — по умолчанию нет. Прогресс, серии и метки не публикуются никогда, а доступ можно прекратить в любой момент.'},
   v5310_1:{ja:'「for example」のように2語以上の問題で、forを打ち終わった時点でforだけが緑になるようになりました。ヒントを見ていなくても単語ごとに判定します',en:'On a two-word answer like "for example", "for" turns green the moment it is finished — each word is judged on its own, whether or not you asked for a hint',zh:'像「for example」这样两个以上单词的题目，打完 for 时 for 就会变绿。即使没看提示，也会逐词判断',fr:'Sur une réponse en deux mots comme « for example », « for » passe au vert dès qu’il est fini : chaque mot est jugé séparément, avec ou sans indice',ar:'في إجابة من كلمتين مثل «for example» تتحول for إلى الأخضر لحظة اكتمالها، فكل كلمة تُقيَّم وحدها سواء طلبت تلميحًا أم لا',ko:'«for example»처럼 두 단어 이상인 문제에서, for를 다 친 시점에 for만 초록색이 됩니다. 힌트를 보지 않아도 단어별로 판정합니다',ru:'В ответе из двух слов вроде «for example» слово «for» зеленеет, как только дописано: каждое слово оценивается отдельно, с подсказкой или без'},
   v5310_2:{ja:'惜しかったときの表示が、文字を消した瞬間に出るようになりました。消す＝違うと思った瞬間なので、そこで直前の入力について答えます。足りない文字は exa_ple のように空きで示します',en:'The "how close were you" line now appears the instant you delete a letter — deleting is the moment you decide it was wrong, so that is when it answers, about the word you had a moment ago. A missing letter shows as a gap: exa_ple',zh:'「差多少」的提示改为在你删除字符的瞬间显示——删除正是你认为写错了的时刻。缺少的字母会以空位显示，如 exa_ple',fr:'L’indication « à combien vous étiez » apparaît dès que vous effacez une lettre : effacer, c’est le moment où l’on se dit qu’on s’est trompé. Une lettre manquante s’affiche comme un trou : exa_ple',ar:'صار بيان «كم اقتربت» يظهر لحظة حذفك حرفًا — فالحذف هو اللحظة التي تقرر فيها أنك أخطأت. والحرف الناقص يظهر فراغًا هكذا: exa_ple',ko:'아까웠을 때의 표시가 글자를 지운 순간에 나오게 되었습니다. 지우기는 «틀렸다»고 판단한 순간이므로, 그때 직전 입력에 대해 답합니다. 모자란 글자는 exa_ple처럼 빈칸으로 보여 줍니다',ru:'Подсказка «насколько близко» появляется, как только вы удаляете букву: удаление — это момент, когда вы решили, что ошиблись. Пропущенная буква показана пробелом: exa_ple'},
   v5310_3:{ja:'単語帳の「前」「次」とマークを1行にまとめました。スマホで下までスクロールしないと次に進めなかったのを直しています。あわせて、読まなくてよかった説明文をいくつか削りました',en:'On the flashcards, "previous", "next" and the marks now share one row — on a phone the marks had pushed "next" below the fold, which made them cost the thing you came for. A few explanations nobody needed have been removed as well',zh:'单词卡的「上一个」「下一个」和标记合并到一行。此前在手机上必须滑到底才能翻页，现已修复。同时删除了几段没必要的说明文字',fr:'Sur les cartes, « précédent », « suivant » et les marques tiennent sur une seule ligne : sur téléphone, les marques repoussaient « suivant » hors de l’écran. Quelques explications inutiles ont aussi été supprimées',ar:'في البطاقات صار «السابق» و«التالي» والعلامات في سطر واحد، بعد أن كانت العلامات تدفع «التالي» خارج الشاشة على الهاتف. كما حُذفت بعض الشروح التي لا لزوم لها',ko:'단어장의 «이전» «다음»과 마크를 한 줄로 모았습니다. 휴대폰에서 아래까지 스크롤해야 다음으로 갈 수 있던 것을 고쳤습니다. 아울러 읽지 않아도 되는 설명문을 몇 개 지웠습니다',ru:'На карточках «назад», «вперёд» и метки теперь в одной строке — на телефоне метки выталкивали «вперёд» за экран. Заодно убрано несколько ненужных пояснений'},
-  v5300_1:{ja:'まとめて追加に「すべて選択」と「すべて解除」を付けました。あわせて、すでに持っているのが配布パッケージの中だけの場合はチェックを外さないようにしました。パッケージは共有の中身なので、自分の単語帳に入れたいこととは別のことです',en:'Bulk add has "Select all" and "Clear all". And a word that exists only inside a downloaded package no longer arrives unticked — a package is shared content, which is a different thing from having the word in your own notebook',zh:'批量添加新增「全选」和「全部取消」。另外，若单词仅存在于已下载的单词包中，不再自动取消勾选——单词包是共享内容，与你自己的单词本是两回事',fr:'L’ajout groupé a « Tout sélectionner » et « Tout désélectionner ». Et un mot présent seulement dans un paquet téléchargé n’arrive plus décoché : un paquet est du contenu partagé, ce n’est pas la même chose que l’avoir dans son carnet',ar:'أُضيف إلى الإضافة الجماعية «تحديد الكل» و«إلغاء التحديد». كما أن الكلمة الموجودة داخل حزمة منزّلة فقط لم تعد تصل بلا تحديد — فالحزمة محتوى مشترك، وهذا غير أن تكون الكلمة في دفترك',ko:'모아서 추가에 «전체 선택»과 «전체 해제»를 넣었습니다. 또 이미 가지고 있는 곳이 배포 패키지 안뿐이라면 체크를 해제하지 않습니다. 패키지는 공유 내용이라, 내 단어장에 넣고 싶은 것과는 다른 이야기입니다',ru:'В массовом добавлении появились «Выбрать все» и «Снять все». А слово, которое есть только в скачанном пакете, больше не приходит без галочки: пакет — это общий материал, а не ваш словарь'},
-  v5300_2:{ja:'スペル入力で、文字が足りないときも「正解と1文字違います」と出るようになりました。打っている途中では出さず、手が止まってから出ます。また、まったく違うときに出ていた「ちがいます。もう一度どうぞ」は消しました',en:'Spelling now also tells you when a letter is missing, not only when one is wrong. It waits until you stop typing rather than calling you out mid-word. And the "not quite, try again" line for a wholly wrong guess is gone',zh:'拼写输入在少打字母时也会提示「与正确答案差 1 个字母」。它会等你停下来再显示，不会打字中途就提醒。另外完全不对时出现的「不对，再试一次」已删除',fr:'La saisie signale aussi une lettre manquante, pas seulement une lettre fausse. Elle attend que vous vous arrêtiez plutôt que de vous reprendre en plein mot. Et le « pas tout à fait, réessayez » a disparu',ar:'صار إدخال التهجئة ينبّهك أيضًا حين ينقص حرف، لا حين يخطئ حرف فقط. وينتظر حتى تتوقف عن الكتابة بدل مقاطعتك في منتصف الكلمة. كما حُذفت عبارة «ليست صحيحة، حاول مرة أخرى»',ko:'스펠 입력에서 글자가 모자랄 때도 «정답과 1글자 다릅니다»가 나오게 되었습니다. 치는 도중에는 나오지 않고, 손이 멈춘 뒤에 나옵니다. 또 완전히 다를 때 나오던 «아닙니다. 다시 해 보세요»는 없앴습니다',ru:'Ввод по буквам теперь подсказывает и когда буквы не хватает, а не только когда она неверна. Он ждёт, пока вы остановитесь, а не перебивает посреди слова. А строка «не то, попробуйте ещё раз» убрана'},
-  v5300_3:{ja:'単語帳（カード）をキーボードで操作できるようになりました。←→で前後、Enterで裏返しです。また、スペースキーの右に見えないキーを足して、キーボードの下段でスペースがちょうど真ん中に来るようにしました',en:'The flashcards can be driven from the keyboard: ← → to move, Enter to turn the card over. And the space bar now sits exactly in the middle of the bottom row, balanced by an invisible key on its right',zh:'单词卡现在可用键盘操作：←→ 翻页，Enter 翻面。另外在空格键右侧加了一个隐形键，让底排的空格键正好居中',fr:'Les cartes se pilotent au clavier : ← → pour naviguer, Entrée pour retourner la carte. Et la barre d’espace est désormais parfaitement centrée, équilibrée par une touche invisible à sa droite',ar:'صار بإمكانك تصفّح البطاقات بلوحة المفاتيح: ← → للتنقل، وEnter لقلب البطاقة. كما أضيف مفتاح غير مرئي يمين المسافة ليستقر شريط المسافة في منتصف الصف السفلي تمامًا',ko:'단어장(카드)을 키보드로 조작할 수 있게 되었습니다. ←→로 앞뒤, Enter로 뒤집기입니다. 또 스페이스 오른쪽에 보이지 않는 키를 넣어, 아래 줄에서 스페이스가 정확히 가운데에 오도록 했습니다',ru:'Карточками теперь можно управлять с клавиатуры: ← → листают, Enter переворачивает. А пробел встал ровно по центру нижнего ряда — его уравновешивает невидимая клавиша справа'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1385,37 +1396,38 @@ const T={
   today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
   sec_notify:{ja:'通知',en:'Notifications',zh:'通知',fr:'Notifications',ar:'الإشعارات',ko:'알림',ru:'Уведомления'},
   st_notify:{ja:'学習のリマインド',en:'Study reminders',zh:'学习提醒',fr:'Rappels d’étude',ar:'تذكيرات الدراسة',ko:'학습 리마인드',ru:'Напоминания о занятиях'},
-  desc_notify:{ja:'学習を忘れている日だけ、そっとお知らせします。学習した日には届きません。',en:'A quiet nudge only on the days you have not studied — nothing on the days you have.',zh:'只在你当天还没学习时轻声提醒，学习过的日子不会打扰。',fr:'Un rappel discret uniquement les jours où vous n’avez pas étudié, rien les autres.',ar:'تنبيه هادئ في الأيام التي لم تدرس فيها فقط، ولا شيء في غيرها.',ko:'학습을 잊은 날에만 조용히 알려 드립니다. 학습한 날에는 오지 않습니다.',ru:'Тихое напоминание только в дни, когда вы не занимались, и ничего в остальные.'},
+  desc_notify:{ja:'学習を忘れている日は、そっとお知らせします。続けている日は、夜に連続日数をお伝えします。',en:'A quiet nudge on the days you have not studied, and a note in the evening about your streak on the days you have.',zh:'当天还没学习时会轻声提醒；学习过的日子，晚上会告诉你连续天数。',fr:'Un rappel discret les jours sans révision, et le soir un mot sur votre série les jours où vous avez étudié.',ar:'تنبيه هادئ في الأيام التي لم تدرس فيها، وفي الأيام التي درست فيها رسالة مسائية عن سلسلتك.',ko:'학습을 잊은 날에는 조용히 알려 드리고, 이어 간 날에는 밤에 연속 일수를 전해 드립니다.',ru:'Тихое напоминание в дни без занятий и вечерняя заметка о вашей серии в дни, когда вы занимались.'},
   ntf_ask_t:{ja:'忘れないように、お知らせしましょうか？',en:'Shall we remind you?',zh:'要提醒你复习吗？',fr:'Voulez-vous des rappels ?',ar:'هل نُذكّرك؟',ko:'잊지 않도록 알려 드릴까요?',ru:'Напоминать вам о занятиях?'},
-  ntf_ask_b:{ja:'7日続けば習慣になります。1問だけでも今日の分になります。学習した日にはお知らせは届きません。あとから設定でいつでも止められます',en:'Seven days in a row is what turns this into a habit, and a single question counts. On the days you study, nothing arrives at all. You can turn it off any time in Settings',zh:'坚持 7 天就会成为习惯，哪怕只答一题也算。你学习过的那天不会收到任何提醒。随时可在设置中关闭',fr:'Sept jours d’affilée en font une habitude, et une seule question suffit. Les jours où vous étudiez, rien n’arrive. Vous pouvez désactiver à tout moment dans les réglages',ar:'سبعة أيام متتالية تصنع عادة، وسؤال واحد يكفي لليوم. وفي الأيام التي تدرس فيها لا يصلك شيء. ويمكنك الإيقاف متى شئت من الإعدادات',ko:'7일 이어가면 습관이 됩니다. 한 문제만 풀어도 오늘 몫이 됩니다. 학습한 날에는 알림이 오지 않습니다. 설정에서 언제든 끌 수 있습니다',ru:'Семь дней подряд превращают это в привычку, и одного вопроса достаточно. В дни, когда вы занимаетесь, ничего не приходит. Отключить можно в настройках в любой момент'},
+  ntf_ask_b:{ja:'7日続けば習慣になります。1問だけでも今日の分になります。多くても1日2〜3回、あとから設定でいつでも止められます。',en:'Seven days in a row is what turns this into a habit, and a single question counts. Two or three a day at most, and you can turn it off any time in Settings.',zh:'坚持 7 天就会成为习惯，哪怕只答一题也算。每天最多两三条，随时可在设置中关闭。',fr:'Sept jours d’affilée en font une habitude, et une seule question suffit. Deux ou trois par jour au maximum, désactivables à tout moment.',ar:'سبعة أيام متتالية تصنع عادة، وسؤال واحد يكفي. اثنان أو ثلاثة يوميًا على الأكثر، ويمكنك الإيقاف متى شئت من الإعدادات.',ko:'7일 이어가면 습관이 됩니다. 한 문제만 풀어도 오늘 몫이 됩니다. 하루 많아야 2~3번이고, 설정에서 언제든 끌 수 있습니다.',ru:'Семь дней подряд превращают это в привычку, и одного вопроса достаточно. Не больше двух-трёх в день, отключить можно в любой момент.'},
   ntf_ask_yes:{ja:'お知らせを受け取る',en:'Yes, remind me',zh:'接收提醒',fr:'Oui, me rappeler',ar:'نعم، ذكّرني',ko:'알림 받기',ru:'Да, напоминать'},
   ntf_ask_no:{ja:'今はしない',en:'Not now',zh:'暂不需要',fr:'Pas maintenant',ar:'ليس الآن',ko:'지금은 안 할게요',ru:'Не сейчас'},
   ntf_ask_done:{ja:'お知らせをオンにしました',en:'Reminders are on',zh:'已开启提醒',fr:'Rappels activés',ar:'فُعِّلت التذكيرات',ko:'알림을 켰습니다',ru:'Напоминания включены'},
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
-  ntf_build_t:{ja:'{0}日目です。あと{1}日で習慣になります',en:'Day {0}. {1} more and it is a habit',zh:'第 {0} 天。再坚持 {1} 天就成习惯了',fr:'Jour {0}. Encore {1} et c’est une habitude',ar:'اليوم {0}. تبقّى {1} لتصير عادة',ko:'{0}일째입니다. {1}일 더면 습관이 됩니다',ru:'День {0}. Ещё {1} — и это привычка'},
+  ntf_build_t:{ja:'{0}日目です。あと{1}日で習慣になります！',en:'Day {0}. {1} more and it is a habit!',zh:'第 {0} 天。再坚持 {1} 天就成习惯了！',fr:'Jour {0}. Encore {1} et c’est une habitude !',ar:'اليوم {0}. تبقّى {1} لتصير عادة!',ko:'{0}일째입니다. {1}일 더면 습관이 됩니다!',ru:'День {0}. Ещё {1} — и это привычка!'},
   ntf_build_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Une seule question suffit pour aujourd’hui',ar:'حتى سؤال واحد يحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
-  ntf_near_t:{ja:'あと{0}日で、{1}日連続です',en:'{0} more day to {1} in a row',zh:'再 {0} 天就是连续 {1} 天',fr:'Encore {0} jour pour {1} d’affilée',ar:'يوم {0} فقط لتصل إلى {1} متتالية',ko:'{0}일만 더 하면 {1}일 연속입니다',ru:'Ещё {0} день до серии в {1}'},
-  ntf_near_b:{ja:'ここまで来ました。今日は1問で足ります',en:'You have come this far. One question does it today',zh:'已经走到这里了。今天一题就够',fr:'Vous en êtes là. Une question suffit aujourd’hui',ar:'وصلت إلى هنا. سؤال واحد يكفي اليوم',ko:'여기까지 왔습니다. 오늘은 한 문제면 됩니다',ru:'Вы уже здесь. Сегодня хватит одного вопроса'},
-  ntf_last_t:{ja:'あと{0}時間で、{1}日の連続が途切れます',en:'{1}-day streak ends in {0} hours',zh:'再过 {0} 小时，{1} 天连续记录就中断了',fr:'Votre série de {1} jours se termine dans {0} h',ar:'تنتهي سلسلة {1} يومًا خلال {0} ساعات',ko:'{0}시간 뒤에 {1}일 연속이 끊깁니다',ru:'Серия из {1} дней прервётся через {0} ч'},
-  ntf_last_b:{ja:'1問解けば守れます',en:'One question keeps it',zh:'答一题就能保住',fr:'Une question la sauve',ar:'سؤال واحد يحفظها',ko:'한 문제만 풀면 지킬 수 있습니다',ru:'Один вопрос — и она сохранится'},
+  ntf_near_t:{ja:'あと{0}日で、{1}日連続です⚡️',en:'{0} more day to {1} in a row ⚡️',zh:'再 {0} 天就是连续 {1} 天 ⚡️',fr:'Encore {0} jour pour {1} d’affilée ⚡️',ar:'يوم {0} فقط لتصل إلى {1} متتالية ⚡️',ko:'{0}일만 더 하면 {1}일 연속입니다 ⚡️',ru:'Ещё {0} день до серии в {1} ⚡️'},
+  ntf_near_b:{ja:'ここまで来ました。今日は1問で足ります！',en:'You have come this far. One question does it today!',zh:'已经走到这里了，今天一题就够！',fr:'Vous en êtes là. Une question suffit aujourd’hui !',ar:'وصلت إلى هنا. سؤال واحد يكفي اليوم!',ko:'여기까지 왔습니다. 오늘은 한 문제면 됩니다!',ru:'Вы уже здесь. Сегодня хватит одного вопроса!'},
+  ntf_last_t:{ja:'あと{0}時間で、{1}日の連続が途切れます',en:'Your {1}-day streak ends in {0} hours',zh:'再过 {0} 小时，{1} 天连续记录就中断了',fr:'Votre série de {1} jours se termine dans {0} h',ar:'تنتهي سلسلة {1} يومًا خلال {0} ساعات',ko:'{0}시간 뒤에 {1}일 연속이 끊깁니다',ru:'Серия из {1} дней прервётся через {0} ч'},
+  ntf_last_b:{ja:'1問解けば守れます！',en:'One question keeps it!',zh:'答一题就能保住！',fr:'Une question la sauve !',ar:'سؤال واحد يحفظها!',ko:'한 문제만 풀면 지킬 수 있습니다!',ru:'Один вопрос — и она сохранится!'},
   ntf_freeze_t:{ja:'このままだと、フリーズが1つ使われます',en:'A freeze will be used tonight',zh:'照这样下去会用掉 1 个冻结',fr:'Un gel va être utilisé cette nuit',ar:'ستُستخدم تجميدة الليلة',ko:'이대로면 프리즈가 1개 사용됩니다',ru:'Сегодня будет потрачена заморозка'},
   ntf_freeze_b:{ja:'残り{0}個。1問解けば使わずに済みます',en:'{0} left. One question and you keep it',zh:'还剩 {0} 个。答一题就不必使用',fr:'Il en reste {0}. Une question et vous le gardez',ar:'بقيت {0}. سؤال واحد وتحتفظ بها',ko:'{0}개 남았습니다. 한 문제 풀면 쓰지 않아도 됩니다',ru:'Осталось {0}. Один вопрос — и она останется'},
   ntf_back_t:{ja:'これまでの最高は{0}日連続でした',en:'Your best run was {0} days',zh:'你的最好记录是连续 {0} 天',fr:'Votre meilleure série : {0} jours',ar:'أفضل سلسلة لك كانت {0} أيام',ko:'지금까지 최고는 {0}일 연속이었습니다',ru:'Ваш рекорд — {0} дней подряд'},
-  ntf_back_b:{ja:'今日やれば、また1日目です',en:'Study today and day one starts again',zh:'今天学一下，第一天重新开始',fr:'Étudiez aujourd’hui et le jour 1 recommence',ar:'ادرس اليوم ليبدأ اليوم الأول من جديد',ko:'오늘 하면 다시 1일째입니다',ru:'Позанимайтесь сегодня — и первый день начнётся заново'},
-  ntf_start_t:{ja:'まずは1問だけ、やってみませんか',en:'How about just one question?',zh:'先做一题看看？',fr:'Et si vous faisiez juste une question ?',ar:'ما رأيك بسؤال واحد فقط؟',ko:'우선 한 문제만 해볼까요?',ru:'Может, всего один вопрос?'},
-  ntf_start_b:{ja:'今日やれば1日目。7日で習慣になります',en:'Today makes it day one. Seven makes it a habit',zh:'今天就是第 1 天。七天成习惯',fr:'Aujourd’hui, c’est le jour 1. Sept jours en font une habitude',ar:'اليوم هو اليوم الأول. وسبعة أيام تصنع عادة',ko:'오늘 하면 1일째. 7일이면 습관이 됩니다',ru:'Сегодня — первый день. Семь дней делают привычку'},
-  ntf_done_t:{ja:'{0}日連続、今日も達成です',en:'{0} days in a row, today included',zh:'连续 {0} 天，今天也完成了',fr:'{0} jours d’affilée, aujourd’hui compris',ar:'{0} أيام متتالية، واليوم منها',ko:'{0}일 연속, 오늘도 달성했습니다',ru:'{0} дней подряд, включая сегодня'},
-  ntf_done_b:{ja:'あと{0}日で{1}日連続です',en:'{0} more days to {1} in a row',zh:'再 {0} 天就是连续 {1} 天',fr:'Encore {0} jours pour {1} d’affilée',ar:'تبقّى {0} أيام للوصول إلى {1} متتالية',ko:'{0}일 더 하면 {1}일 연속입니다',ru:'Ещё {0} дней до серии в {1}'},
-  ntf_streak_t:{ja:'{0}日連続中。今日はまだです',en:'{0} days in a row. Not today yet',zh:'已连续 {0} 天。今天还没学',fr:'{0} jours d’affilée. Pas encore aujourd’hui',ar:'{0} أيام متتالية. ولم تدرس اليوم بعد',ko:'{0}일 연속 중. 오늘은 아직입니다',ru:'{0} дней подряд. Сегодня ещё нет'},
+  ntf_back_b:{ja:'今日やれば、また1日目です！',en:'Study today and day one starts again!',zh:'今天学一下，第一天重新开始！',fr:'Étudiez aujourd’hui et le jour 1 recommence !',ar:'ادرس اليوم ليبدأ اليوم الأول من جديد!',ko:'오늘 하면 다시 1일째입니다!',ru:'Позанимайтесь сегодня — и первый день начнётся заново!'},
+  ntf_start_t:{ja:'まずは1問だけ、やってみませんか？',en:'How about just one question?',zh:'先做一题看看？',fr:'Et si vous faisiez juste une question ?',ar:'ما رأيك بسؤال واحد فقط؟',ko:'우선 한 문제만 해볼까요?',ru:'Может, всего один вопрос?'},
+  ntf_start_b:{ja:'今日やれば1日目。7日で習慣になります！',en:'Today makes it day one. Seven makes it a habit!',zh:'今天就是第 1 天，七天成习惯！',fr:'Aujourd’hui, c’est le jour 1. Sept jours en font une habitude !',ar:'اليوم هو اليوم الأول، وسبعة أيام تصنع عادة!',ko:'오늘 하면 1일째. 7일이면 습관이 됩니다!',ru:'Сегодня — первый день. Семь дней делают привычку!'},
+  ntf_done_t:{ja:'{0}日連続、今日も達成です！',en:'{0} days in a row — today included!',zh:'连续 {0} 天，今天也完成了！',fr:'{0} jours d’affilée, aujourd’hui compris !',ar:'{0} أيام متتالية، واليوم منها!',ko:'{0}일 연속, 오늘도 달성했습니다!',ru:'{0} дней подряд, включая сегодня!'},
+  ntf_done_b2:{ja:'この調子です！',en:'Keep it going!',zh:'保持下去！',fr:'Continuez comme ça !',ar:'واصل هكذا!',ko:'이대로 계속해요!',ru:'Так держать!'},
+  ntf_done_b:{ja:'あと{0}日で{1}日ストリークです⚡️',en:'{0} more days to a {1}-day streak ⚡️',zh:'再 {0} 天就是 {1} 天连续记录 ⚡️',fr:'Encore {0} jours pour une série de {1} ⚡️',ar:'تبقّى {0} أيام لسلسلة من {1} يومًا ⚡️',ko:'{0}일 더 하면 {1}일 스트릭입니다 ⚡️',ru:'Ещё {0} дней до серии в {1} ⚡️'},
+  ntf_streak_t:{ja:'{0}日連続中！今日はまだです',en:'{0} days in a row! Not today yet',zh:'已连续 {0} 天！今天还没学',fr:'{0} jours d’affilée ! Pas encore aujourd’hui',ar:'{0} أيام متتالية! ولم تدرس اليوم بعد',ko:'{0}일 연속 중! 오늘은 아직입니다',ru:'{0} дней подряд! Сегодня ещё нет'},
   ntf_streak_b:{ja:'1問でも解けばつながります',en:'A single question keeps it alive',zh:'只要答一题就能延续',fr:'Une seule question suffit à la préserver',ar:'سؤال واحد يكفي للحفاظ عليها',ko:'한 문제만 풀어도 이어집니다',ru:'Достаточно одного вопроса, чтобы её сохранить'},
   ntf_word_t:{ja:'「{0}」の意味は覚えていますか？',en:'Do you remember what “{0}” means?',zh:'还记得「{0}」的意思吗？',fr:'Vous souvenez-vous du sens de « {0} » ?',ar:'هل تتذكر معنى «{0}»؟',ko:'«{0}»의 뜻을 기억하고 있나요?',ru:'Помните, что значит «{0}»?'},
   ntf_word_b:{ja:'タップして確かめる',en:'Tap to check',zh:'点击查看',fr:'Touchez pour vérifier',ar:'المس للتحقق',ko:'눌러서 확인하기',ru:'Нажмите, чтобы проверить'},
   ntf_due_t:{ja:'今日の復習が{0}語あります',en:'{0} reviews waiting today',zh:'今天有 {0} 个待复习',fr:'{0} révisions vous attendent',ar:'لديك {0} مراجعة اليوم',ko:'오늘 복습할 단어가 {0}개 있습니다',ru:'Сегодня ждут {0} повторов'},
-  ntf_due_b:{ja:'5分あれば終わります',en:'Five minutes is enough',zh:'五分钟就能完成',fr:'Cinq minutes suffisent',ar:'خمس دقائق تكفي',ko:'5분이면 끝납니다',ru:'Хватит пяти минут'},
+  ntf_due_b:{ja:'5分あれば終わります！',en:'Five minutes is enough!',zh:'五分钟就能完成！',fr:'Cinq minutes suffisent !',ar:'خمس دقائق تكفي!',ko:'5분이면 끝납니다!',ru:'Хватит пяти минут!'},
   ntf_idle_t:{ja:'今日はどんな単語を覚えますか？',en:'What will you learn today?',zh:'今天想学哪些单词？',fr:'Quel mot apprendrez-vous aujourd’hui ?',ar:'أي كلمة ستتعلم اليوم؟',ko:'오늘은 어떤 단어를 외울까요?',ru:'Какое слово выучите сегодня?'},
-  ntf_idle_b:{ja:'Wordkeepを開く',en:'Open Wordkeep',zh:'打开 Wordkeep',fr:'Ouvrir Wordkeep',ar:'افتح Wordkeep',ko:'Wordkeep 열기',ru:'Открыть Wordkeep'},
+  ntf_idle_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Une seule question suffit pour aujourd’hui',ar:'حتى سؤال واحد يحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
   st_goal:{ja:'1日に出す上限',en:'Daily limit',zh:'每日上限',fr:'Limite quotidienne',ar:'الحد اليومي',ko:'하루 상한',ru:'Дневной лимит'},
   desc_goal:{ja:'復習が何百語たまっても、1日に出すのはこの数までにします。残りは翌日以降に回ります。予定そのものは変わりません',en:'However many reviews pile up, only this many are offered in a day. The rest roll over. The schedule itself is unchanged',zh:'无论积压多少复习，每天最多只出这么多，其余顺延。复习计划本身不受影响',fr:'Quel que soit le retard accumulé, seul ce nombre est proposé par jour ; le reste est reporté. Le planning lui-même ne change pas',ar:'مهما تراكمت المراجعات، لا يُعرض في اليوم سوى هذا العدد ويُرحّل الباقي. أما الجدول نفسه فلا يتغير',ko:'복습이 수백 개 밀려도 하루에 내보내는 것은 이 개수까지입니다. 나머지는 다음 날 이후로 넘어갑니다. 일정 자체는 바뀌지 않습니다',ru:'Сколько бы повторов ни накопилось, за день предлагается не больше этого числа, остальное переносится. Само расписание не меняется'},
   goal_off:{ja:'上限なし',en:'No limit',zh:'不限',fr:'Sans limite',ar:'بلا حد',ko:'제한 없음',ru:'Без лимита'},
@@ -1549,6 +1561,8 @@ const T={
   sh_publishing:{ja:'作成中…',en:'Creating…',zh:'生成中…',fr:'Création…',ar:'جارٍ الإنشاء…',ko:'만드는 중…',ru:'Создание…'},
   sh_done:{ja:'リンクを作りました',en:'Link created',zh:'已生成链接',fr:'Lien créé',ar:'أُنشئ الرابط',ko:'링크를 만들었습니다',ru:'Ссылка создана'},
   sh_live:{ja:'共有中です（{0}語）。',en:'Shared, {0} words.',zh:'共享中（{0} 个单词）。',fr:'Partagé, {0} mots.',ar:'مُشارَك، {0} كلمة.',ko:'공유 중입니다({0}개).',ru:'В общем доступе, {0} слов.'},
+  sh_msg:{ja:'{0}さんが「{1}」の単語帳を共有しました！',en:'{0} shared the “{1}” word list with you!',zh:'{0} 共享了「{1}」单词本！',fr:'{0} a partagé le carnet « {1} » avec vous !',ar:'شارك {0} معك دفتر «{1}»!',ko:'{0}님이 «{1}» 단어장을 공유했습니다!',ru:'{0} поделился словарём «{1}»!'},
+  sh_send:{ja:'アプリで送る',en:'Send it',zh:'通过应用发送',fr:'Envoyer',ar:'أرسله',ko:'앱으로 보내기',ru:'Отправить'},
   sh_copy:{ja:'リンクをコピー',en:'Copy the link',zh:'复制链接',fr:'Copier le lien',ar:'انسخ الرابط',ko:'링크 복사',ru:'Скопировать ссылку'},
   sh_copied:{ja:'コピーしました',en:'Copied',zh:'已复制',fr:'Copié',ar:'تم النسخ',ko:'복사했습니다',ru:'Скопировано'},
   sh_open_note:{ja:'受け取る側にアカウントは要りません。開いてそのまま取り込めます。',en:'Whoever opens it needs no account — they can take it straight away.',zh:'接收方无需账号，打开即可获取。',fr:'Aucun compte n’est requis pour l’ouvrir : la récupération est immédiate.',ar:'لا يحتاج المستلم إلى حساب، بل يأخذها مباشرة عند الفتح.',ko:'받는 쪽에 계정은 필요 없습니다. 열어서 바로 받을 수 있습니다.',ru:'Открывающему не нужен аккаунт — он может забрать словарь сразу.'},
@@ -2792,17 +2806,22 @@ function renderDeckShare(){
   }
   if(rec&&rec.id){
     const link=shareLink(rec.id);
+    // Copied together, because the link alone tells a LINE thread nothing: the
+    // preview card is the same for every deck (one static page, no server to
+    // render per-deck tags), so the sentence above it has to do that work.
+    const msg=t('sh_msg',displayName()||'',rec.title||d.name)+'\n'+link;
     body.innerHTML='<h3 style="text-align:center">'+esc(t('sh_manage'))+'</h3>'+
       '<p class="hint" style="margin:12px 2px 0">'+esc(t('sh_live',rec.count|0))+'</p>'+
-      '<div class="sh-link" id="shLink">'+esc(link)+'</div>'+
+      '<div class="sh-link" id="shLink">'+esc(msg)+'</div>'+
       '<button class="btn btn-primary" id="shCopy" style="width:100%;margin-top:10px">'+esc(t('sh_copy'))+'</button>'+
+      (navigator.share?'<button class="btn btn-ghost" id="shSend" style="width:100%;margin-top:10px">'+esc(t('sh_send'))+'</button>':'')+
       '<p class="hint" style="margin:12px 2px 0">'+esc(t('sh_open_note'))+'</p>'+
       '<button class="btn btn-ghost" id="shUpdate" style="width:100%;margin-top:14px">'+esc(t('sh_update',n))+'</button>'+
       '<button class="btn btn-ghost" id="shStop" style="width:100%;margin-top:10px;color:var(--bad)">'+esc(t('sh_stop'))+'</button>'+
       '<p class="hint" style="margin:8px 2px 0">'+esc(t('sh_stop_note'))+'</p>'+back;
     $('#shCopy').onclick=async()=>{
       const b=$('#shCopy');
-      try{await navigator.clipboard.writeText(link);b.textContent=t('sh_copied');
+      try{await navigator.clipboard.writeText(msg);b.textContent=t('sh_copied');
           setTimeout(()=>{if($('#shCopy'))$('#shCopy').textContent=t('sh_copy');},1800);}
       catch(e){ // clipboard access can be refused; selecting it is the fallback
         const el=$('#shLink');
@@ -2811,6 +2830,10 @@ function renderDeckShare(){
       }
     };
     // Keep the name it was published under: the update is about the words.
+    const sb=$('#shSend');
+    // The OS share sheet, where there is one: it puts the message straight into
+    // LINE rather than asking somebody to paste it.
+    if(sb)sb.onclick=()=>navigator.share({text:msg}).catch(()=>{});
     $('#shUpdate').onclick=()=>doPublish(d.id,rec.title||d.name,!!rec.notes,$('#shUpdate'));
     $('#shStop').onclick=async()=>{
       if(!confirm(t('sh_stop_confirm')))return;
@@ -4495,10 +4518,23 @@ function clearDeckParam(){
     history.replaceState(null,'',u.pathname+(u.search==='?'?'':u.search)+u.hash);
   }catch(e){}
 }
+// Held across the sign-in round trip: the gate replaces the whole screen and
+// the URL is cleaned immediately, so without this the deck would be forgotten
+// by the time an account exists.
+let pendingDeck=null;
 async function maybeOpenSharedLink(){
-  const id=pendingDeckId();
+  const id=pendingDeckId()||pendingDeck;
   if(!id)return false;
   clearDeckParam();
+  // Receiving a deck writes nothing about the receiver, but the words behind it
+  // are only readable to signed-in accounts -- and this is an app you sign in
+  // to use, so a half-usable signed-out state would be the odd one out.
+  if(!cloudUser){
+    pendingDeck=id;
+    await loadFirebase();
+    if(!cloudUser){maybeGate();return true;}
+  }
+  pendingDeck=null;
   if(isShared(id)){setSource(id);go('v-list');toast(t('sh_already'));return true;}
   const ov=$('#overlayImport');
   const body=$('#impBody');
@@ -6809,7 +6845,8 @@ function loadFirebase(){
       renderCount();
       renderActiveView();
       hideSplash();
-      maybeGate();
+      if(pendingDeck&&cloudUser)maybeOpenSharedLink();
+      else maybeGate();
       settleFirstAuth();
     });
     // Never hang the caller if that callback somehow never arrives.
@@ -6983,6 +7020,7 @@ function buildHint(){
       back_t:t('ntf_back_t'),     back_b:t('ntf_back_b'),
       start_t:t('ntf_start_t'),   start_b:t('ntf_start_b'),
       done_t:t('ntf_done_t'),     done_b:t('ntf_done_b'),
+      done_b2:t('ntf_done_b2'),
       streak_t:t('ntf_streak_t'), streak_b:t('ntf_streak_b'),
       word_t:t('ntf_word_t'),     word_b:t('ntf_word_b'),
       due_t:t('ntf_due_t'),       due_b:t('ntf_due_b'),
@@ -7716,10 +7754,9 @@ function closeNickPrompt(){
 }
 function maybeGate(){
   if(!authKnown)return;
-  // A shared link is being opened. The gate fires again from the auth listener,
-  // so without this it lands on top of the deck a stranger just tapped through
-  // to -- which is the one moment the app has to make a case for itself.
-  if(pendingDeckId()||$('#overlayImport').classList.contains('show'))return;
+  // The import sheet is its own decision point and the gate must not land on
+  // top of it; the sheet is only ever shown once there IS an account.
+  if($('#overlayImport').classList.contains('show'))return;
   if(tutShown())return;   // the tutorial sells the app; the gate follows it
   if(!cloudUser){
     closeNickPrompt();
@@ -7935,10 +7972,8 @@ else if(!S().seenStorageTip){openStorageTip();}
 // After the first-run overlays, so it doesn't bury the tutorial. Signed-in
 // sessions are handled by the auth listener instead; this covers the case
 // where there is nothing to restore and the answer is already known.
-// The shared link comes first: it is the only screen a stranger may ever see,
-// and the account gate over the top of it is where they would close the tab.
-// Checked synchronously -- maybeOpenSharedLink is async, and a promise is
-// always truthy, so branching on its return value would gate nobody at all.
+// Checked synchronously: maybeOpenSharedLink is async, and a promise is always
+// truthy, so branching on its return value would gate nobody at all.
 if(pendingDeckId())maybeOpenSharedLink();
 else maybeGate();
 maybeRequestPersistence();

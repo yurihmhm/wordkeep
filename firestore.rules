@@ -137,7 +137,14 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == userId
                    && request.resource.data.keys().hasOnly(
                         ['endpoint','p256dh','auth','hours','studyMin','eveningHour',
-                         'lastCallHour','lastDay','hasStreak','tzOffset','at'])
+                         'lastCallHour','lastDay','hasStreak','tzOffset','at',
+                         // Written by the sender (Admin SDK, which bypasses
+                         // these rules) to remember which slot already went out
+                         // today. Listed anyway: on a merge write the client
+                         // sends a partial document but hasOnly() is evaluated
+                         // against the RESULT, so leaving them out would make
+                         // every later client write fail.
+                         'sentDay','sentMin'])
                    // A refresh of just the study time is a merge, so the
                    // endpoint and keys are absent from that write.
                    && (!('endpoint' in request.resource.data)
@@ -172,6 +179,14 @@ service cloud.firestore {
                    // Whether there IS a run. Never how long it is.
                    && (!('hasStreak' in request.resource.data)
                        || request.resource.data.hasStreak is bool)
+                   && (!('sentDay' in request.resource.data)
+                       || (request.resource.data.sentDay is int
+                           && request.resource.data.sentDay >= -1
+                           && request.resource.data.sentDay <= 100000))
+                   && (!('sentMin' in request.resource.data)
+                       || (request.resource.data.sentMin is int
+                           && request.resource.data.sentMin >= 0
+                           && request.resource.data.sentMin <= 1439))
                    && (!('tzOffset' in request.resource.data)
                        || (request.resource.data.tzOffset is int
                            && request.resource.data.tzOffset >= -840
@@ -186,12 +201,10 @@ service cloud.firestore {
     // makes this safe to run without a server: nothing here can be screened
     // before it is published.
     //
-    // Read is open, including to signed-out visitors. That is deliberate: the
-    // link is the one thing that can bring a new person into the app, and a
-    // link that demands an account before it shows anything is a link most
-    // people close. The id is ten random characters from a 32-letter alphabet,
-    // so it cannot usefully be guessed, and there is no way to list the
-    // collection from a client.
+    // Reading requires an account. Wordkeep is an app you sign in to use, so a
+    // deck that could be taken without one would be the only half-usable
+    // signed-out surface in it -- and requiring sign-in also means a forwarded
+    // link cannot be scraped by anything that merely has the id.
     //
     // Only the owner may change or withdraw one. The admin can delete, which
     // is the backstop for anything reported.
@@ -199,7 +212,7 @@ service cloud.firestore {
       // Covers list as well as get, which is what lets the admin page show
       // them all. Nothing else queries this collection: the app only ever
       // fetches a single deck by the id from a link.
-      allow read: if true;
+      allow read: if request.auth != null;
       allow delete: if isAdmin()
                     || (request.auth != null && resource.data.ownerUid == request.auth.uid);
       allow create, update: if request.auth != null
