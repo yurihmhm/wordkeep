@@ -179,6 +179,56 @@ service cloud.firestore {
                    && request.resource.data.at is int;
     }
 
+    // ---- Shared decks -----------------------------------------------------
+    // A deck a user published. Distribution is by link only -- there is no
+    // gallery and no query from the app -- so a deck reaches the people its
+    // author sent the id to, and essentially nobody else. That limit is what
+    // makes this safe to run without a server: nothing here can be screened
+    // before it is published.
+    //
+    // Read is open, including to signed-out visitors. That is deliberate: the
+    // link is the one thing that can bring a new person into the app, and a
+    // link that demands an account before it shows anything is a link most
+    // people close. The id is ten random characters from a 32-letter alphabet,
+    // so it cannot usefully be guessed, and there is no way to list the
+    // collection from a client.
+    //
+    // Only the owner may change or withdraw one. The admin can delete, which
+    // is the backstop for anything reported.
+    match /shared/{id} {
+      // Covers list as well as get, which is what lets the admin page show
+      // them all. Nothing else queries this collection: the app only ever
+      // fetches a single deck by the id from a link.
+      allow read: if true;
+      allow delete: if isAdmin()
+                    || (request.auth != null && resource.data.ownerUid == request.auth.uid);
+      allow create, update: if request.auth != null
+                   && request.resource.data.ownerUid == request.auth.uid
+                   // An update may only ever be made by the same owner: without
+                   // this, anyone signed in could overwrite somebody's deck
+                   // with their own uid in the field and take it over.
+                   && (resource == null || resource.data.ownerUid == request.auth.uid)
+                   && request.resource.data.keys().hasOnly(
+                        ['ownerUid','nickname','title','lang','v','count','words','at'])
+                   && request.resource.data.title is string
+                   && request.resource.data.title.size() > 0
+                   && request.resource.data.title.size() <= 60
+                   && request.resource.data.nickname is string
+                   && request.resource.data.nickname.size() <= 60
+                   && request.resource.data.lang is string
+                   && request.resource.data.lang.size() <= 5
+                   && request.resource.data.v is int
+                   && request.resource.data.v > 0
+                   && request.resource.data.count is int
+                   && request.resource.data.at is int
+                   // The rules cannot look inside the list, so the count is the
+                   // bound that matters: it caps the document, and Firestore's
+                   // own 1 MiB limit catches anything pathological inside it.
+                   && request.resource.data.words is list
+                   && request.resource.data.words.size() > 0
+                   && request.resource.data.words.size() <= 300;
+    }
+
     // ---- Error reports ----------------------------------------------------
     // Anyone may file one, including signed-out visitors -- an error that stops
     // sign-in is exactly the kind worth hearing about. Only the admin reads

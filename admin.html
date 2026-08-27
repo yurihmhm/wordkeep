@@ -149,19 +149,21 @@ $('#out').onclick=()=>auth.signOut();
 
 /* ---------- data ---------- */
 async function loadAll(){
-  const [fb,us,er]=await Promise.all([
+  const [fb,us,er,sh]=await Promise.all([
     db.collection('feedback').orderBy('createdAt','desc').limit(300).get().catch(e=>e),
     db.collection('users').get().catch(e=>e),
-    db.collection('errors').orderBy('at','desc').limit(300).get().catch(e=>e)
+    db.collection('errors').orderBy('at','desc').limit(300).get().catch(e=>e),
+    db.collection('shared').orderBy('at','desc').limit(200).get().catch(e=>e)
   ]);
   const rows=s=>s.forEach?(()=>{const a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));return a;})():[];
-  feedback=rows(fb); users=rows(us); errors=rows(er);
+  feedback=rows(fb); users=rows(us); errors=rows(er); shared=rows(sh);
   users.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
   // Errors are the newest collection, so a stale ruleset shows up here first.
   // Reported separately rather than folded in, so a missing errors rule does
   // not look like the whole page failing.
   window.__loadErr = (fb.forEach?null:fb) || (us.forEach?null:us);
   window.__errLoadErr = er.forEach?null:er;
+  window.__shLoadErr = sh.forEach?null:sh;
 }
 // Same message and place, counted rather than repeated: one bug hitting twenty
 // people is one thing to fix, not twenty rows to scroll past.
@@ -217,6 +219,52 @@ async function removeErrors(msg){
   render();
 }
 
+/* ---------- shared decks ----------
+   Published by users and readable by anyone holding the link, so unlike the
+   words in an account these ARE the admin's business: this page is the only
+   thing standing behind them. Distribution is link-only, so nothing here has
+   been broadcast -- but a deck that gets reported has to be removable, and
+   that is what this is for. */
+let shared=[], shOpen={};
+function renderShared(){
+  if(window.__shLoadErr)
+    return '<div class="card"><div class="err">共有デッキを読めませんでした: '+
+      esc(window.__shLoadErr.code||window.__shLoadErr.message)+
+      '<br>firestore.rules の shared に管理者の読み取りが入っているか確認してください。</div></div>';
+  if(!shared.length)return '<div class="empty">共有されたデッキはまだありません。</div>';
+  return shared.map(d=>{
+    const open=!!shOpen[d.id];
+    const words=(d.words||[]);
+    return '<div class="card">'+
+      '<div class="fb-txt" style="font-weight:700">'+esc(d.title||'(名前なし)')+'</div>'+
+      '<div class="meta">'+
+        '<span>'+fmt(d.at)+'</span>'+
+        '<span class="tag">'+esc(d.nickname||'(名前なし)')+'</span>'+
+        '<span class="tag">'+words.length+'語</span>'+
+        '<span class="tag">'+esc(d.lang||'?')+'</span>'+
+        '<span class="tag">v'+(d.v|0)+'</span>'+
+        '<span class="tag">'+esc(d.id)+'</span>'+
+      '</div>'+
+      '<div class="row" style="margin-top:8px">'+
+        '<button data-shsee="'+esc(d.id)+'">'+(open?'単語を隠す':'単語を見る')+'</button>'+
+        '<button class="danger" data-shdel="'+esc(d.id)+'">削除</button>'+
+      '</div>'+
+      (open?'<div class="sd" style="margin-top:8px;font-size:12.5px;line-height:1.9">'+
+        words.map(w=>esc(String(w.w||''))+' — '+esc(String(w.m||''))+(w.n?' 〔'+esc(String(w.n))+'〕':'')).join('<br>')+
+      '</div>':'')+
+    '</div>';
+  }).join('');
+}
+async function removeShared(id){
+  const d=shared.find(x=>x.id===id);
+  if(!confirm('「'+((d&&d.title)||id)+'」を削除します。作者のリンクは使えなくなります。よろしいですか？'))return;
+  try{
+    await db.collection('shared').doc(id).delete();
+    shared=shared.filter(x=>x.id!==id);
+    render();
+  }catch(e){ alert('削除できませんでした: '+(e.code||e.message)); }
+}
+
 /* ---------- render ---------- */
 function render(){
   const openCount=feedback.filter(f=>!f.handled).length;
@@ -224,18 +272,26 @@ function render(){
     '<button data-t="feedback" class="'+(tab==='feedback'?'on':'')+'">フィードバック'+(openCount?'（'+openCount+'）':'')+'</button>'+
     '<button data-t="users" class="'+(tab==='users'?'on':'')+'">ユーザー（'+users.length+'）</button>'+
     '<button data-t="errors" class="'+(tab==='errors'?'on':'')+'">エラー（'+errors.length+'）</button>'+
+    '<button data-t="shared" class="'+(tab==='shared'?'on':'')+'">共有デッキ（'+shared.length+'）</button>'+
   '</div>';
   if(window.__loadErr){
     html+='<div class="card"><div class="err">読み込みに失敗しました: '+esc(window.__loadErr.code||window.__loadErr.message)+
       '<br>Firestoreのルールに管理者の読み取り権限が入っているか確認してください。</div></div>';
   }
-  html+= tab==='feedback' ? renderFeedback() : tab==='errors' ? renderErrors() : renderUsers();
+  html+= tab==='feedback' ? renderFeedback()
+       : tab==='errors' ? renderErrors()
+       : tab==='shared' ? renderShared()
+       : renderUsers();
   app.innerHTML=html;
   document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();});
   const c=$('#onlyOpen'); if(c)c.onchange=()=>{onlyOpen=c.checked;render();};
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markHandled(b.dataset.done,b.dataset.to==='1'));
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>removeFeedback(b.dataset.del));
   document.querySelectorAll('[data-errdel]').forEach(b=>b.onclick=()=>removeErrors(b.dataset.errdel));
+  document.querySelectorAll('[data-shdel]').forEach(b=>b.onclick=()=>removeShared(b.dataset.shdel));
+  document.querySelectorAll('[data-shsee]').forEach(b=>b.onclick=()=>{
+    shOpen[b.dataset.shsee]=!shOpen[b.dataset.shsee];render();
+  });
 }
 
 function renderFeedback(){
