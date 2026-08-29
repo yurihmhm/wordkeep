@@ -291,6 +291,13 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .mark-row.sq .mark-btn{width:46px;height:46px;border-radius:13px}
 .mark-row.sq .mark-btn svg{width:21px;height:21px}
 
+.q-ear{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:220px;margin:6px auto 0;padding:26px 16px;border-radius:20px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink-strong);
+  font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
+  transition:transform .12s ease,background .15s ease}
+.q-ear svg{width:44px;height:44px}
+.q-ear:active{transform:scale(.97);background:var(--surface-2)}
 .q-word{text-align:center;margin:10px 0 22px}
 /* The prompt is a meaning, which can be a whole sentence. At a fixed 36px a
    long one pushed the hint button and the typing area below the fold, so the
@@ -318,6 +325,32 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-feedback.ng{background:var(--bad-bg);border:1px solid var(--bad-line)}
 .q-feedback .ans{font-family:Georgia,serif;font-size:19px;font-weight:600;color:var(--ink-strong)}
 .q-feedback .nextin{font-size:12.5px;color:var(--muted);margin-top:8px}
+/* The mode is the decision people came to make, so it is the only thing on the
+   screen at full size. Two per row, which holds three or four the same way. */
+.qs-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.qs-mode{display:flex;flex-direction:column;align-items:flex-start;gap:3px;
+  padding:14px 14px 13px;border-radius:16px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink-strong);font-family:inherit;
+  text-align:left;cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.qs-mode .qm-ic{display:block;color:var(--muted);margin-bottom:3px}
+.qs-mode .qm-ic svg{width:22px;height:22px}
+.qs-mode .qm-n{font-size:15px;font-weight:700;line-height:1.3}
+.qs-mode .qm-d{font-size:11.5px;color:var(--muted);line-height:1.45}
+.qs-mode.on{border-color:var(--fill);background:var(--surface-2)}
+.qs-mode.on .qm-ic{color:var(--fill)}
+/* One line that says what the round will be, and opens the rest if that is not
+   what somebody wanted. */
+.qs-sum{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  padding:13px 15px;border-radius:13px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink);font-family:inherit;font-size:13.5px;
+  font-weight:600;cursor:pointer;text-align:left}
+.qs-sum .qs-cv{display:flex;color:var(--muted);transition:transform .2s ease}
+.qs-sum .qs-cv svg{width:18px;height:18px}
+.qs-sum.open .qs-cv{transform:rotate(180deg)}
+.qs-detail{margin-top:12px;padding:14px 14px 2px;border-radius:14px;
+  border:1px solid var(--line);background:var(--surface-2)}
+.qs-detail .qs-grp:last-of-type{margin-bottom:12px}
+.qs-detail .qs-check{margin-top:0;background:var(--surface)}
 .qs-grp{margin-bottom:18px}
 .qs-lab{font-size:12px;font-weight:700;letter-spacing:.4px;color:var(--muted);margin:0 2px 8px}
 .qs-opts{display:flex;flex-wrap:wrap;gap:8px}
@@ -1139,13 +1172,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st" data-i18n="st_quiztype">クイズのタイプ</div><div class="sd" id="quizTypeDesc"></div></div>
-        <div class="seg" id="segQuizType">
-          <button data-v="choice" data-i18n="opt_choice">4択</button>
-          <button data-v="spell" data-i18n="opt_spell">スペル入力</button>
-        </div>
-      </div>
-      <div class="set-row">
         <div><div class="st" data-i18n="st_dir">出題の向き</div><div class="sd" data-i18n="desc_dir">単語→意味 か、意味→単語 か</div></div>
         <div class="seg" id="segDir">
           <button data-v="e2j" data-i18n="dir_e2j">単語→意</button>
@@ -1248,15 +1274,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.33.0';
+const APP_VERSION='5.34.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.33.0',date:'2026-08-28',keys:['wn1','wn2','wn3']},
+  {version:'5.34.0',date:'2026-08-28',keys:['wn1','wn2']},
+  {version:'5.33.0',date:'2026-08-28',keys:['v5330_1','v5330_2','v5330_3']},
   {version:'5.32.0',date:'2026-08-27',keys:['v5320_1','v5320_2','v5320_3']},
-  {version:'5.31.0',date:'2026-08-27',keys:['v5310_1','v5310_2','v5310_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1354,15 +1380,14 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'通知が届かなくなっていたのを直しました。送信の時刻合わせが厳密すぎて、時報が1時間でも飛ぶとその日の通知がまるごと消えていました。飛んでも次の実行で拾い直します。',en:'Fixed reminders not arriving. The send matched the hour exactly, so whenever the scheduler skipped an hour that reminder was simply lost. A missed hour is now picked up by the next run.',zh:'修复了收不到提醒的问题。此前发送严格匹配整点，调度器一旦跳过某小时，当天的提醒就整个丢失。现在会由下一次运行补上。',fr:'Correction des rappels qui n’arrivaient plus. L’envoi visait l’heure exacte : dès que le planificateur sautait une heure, le rappel était perdu. Une heure manquée est désormais rattrapée au passage suivant.',ar:'أُصلح عدم وصول التذكيرات. كان الإرسال يطابق الساعة بدقة، فإذا تخطّى المجدول ساعة ضاع التذكير كله. صارت الساعة الفائتة تُلتقط في التشغيل التالي.',ko:'알림이 오지 않던 문제를 고쳤습니다. 발송이 정시에 정확히 맞춰져 있어서, 스케줄러가 한 시간이라도 건너뛰면 그날 알림이 통째로 사라졌습니다. 이제 놓친 시간은 다음 실행에서 이어받습니다.',ru:'Исправлено: напоминания не приходили. Отправка совпадала строго с часом, и стоило планировщику пропустить час, как напоминание терялось. Теперь пропущенный час подхватывается следующим запуском.'},
-  wn2:{ja:'続けている日にも、夜にひとことお伝えするようにしました。「10日連続、今日も達成です！」のように。毎日きちんと続けている人ほど通知が一度も来ない、という状態になっていたためです。',en:'On the days you do study, there is now a note in the evening — “10 days in a row, today included!”. Until now the people keeping their streak best were the ones who never heard anything at all.',zh:'在你学习过的日子，晚上也会有一句话，比如「连续 10 天，今天也完成了！」。此前越是每天坚持的人，反而一次通知都收不到。',fr:'Les jours où vous étudiez, un mot arrive le soir : « 10 jours d’affilée, aujourd’hui compris ! ». Jusqu’ici, ceux qui tenaient le mieux leur série n’entendaient jamais rien.',ar:'في الأيام التي تدرس فيها صارت تصلك كلمة مساءً مثل «10 أيام متتالية، واليوم منها!». فقد كان أكثر الناس مواظبة هم من لا يصلهم شيء أبدًا.',ko:'이어 가고 있는 날에도 밤에 한마디 전해 드립니다. «10일 연속, 오늘도 달성했습니다!»처럼요. 지금까지는 매일 꾸준히 하는 사람일수록 알림이 한 번도 오지 않는 상태였습니다.',ru:'В дни, когда вы занимались, вечером приходит короткая заметка: «10 дней подряд, включая сегодня!». До сих пор те, кто держал серию лучше всех, не получали вообще ничего.'},
-  wn3:{ja:'単語帳の共有にログインが必要になりました。リンクを開くと、ログインしてから受け取れます。共有のコピーには「〇〇さんが「句動詞」の単語帳を共有しました！」という一文が付くので、LINEなどでも何のリンクか分かります。',en:'Receiving a shared notebook now needs an account: open the link, sign in, and it is yours. The copy button also includes a line saying who shared what, so the link is recognisable in a chat.',zh:'接收共享单词本现在需要登录：打开链接、登录后即可获取。复制内容还会附上「某某共享了「句动词」单词本！」，在聊天中一眼就能看出是什么链接。',fr:'Recevoir un carnet partagé demande maintenant un compte : ouvrez le lien, connectez-vous, il est à vous. La copie inclut aussi une phrase indiquant qui partage quoi, pour que le lien soit reconnaissable dans une conversation.',ar:'صار استلام دفتر مُشارَك يتطلب حسابًا: افتح الرابط وسجّل الدخول فيصبح لك. كما تتضمن النسخة جملة تذكر من شارك ماذا، ليُعرف الرابط في المحادثة.',ko:'단어장 공유를 받으려면 로그인이 필요해졌습니다. 링크를 열고 로그인하면 받을 수 있습니다. 복사하는 내용에는 «〇〇님이 «구동사» 단어장을 공유했습니다!»라는 문장이 붙어, 채팅에서도 무슨 링크인지 알 수 있습니다.',ru:'Чтобы получить словарь, теперь нужен аккаунт: откройте ссылку, войдите — и он ваш. Кнопка копирования добавляет строку о том, кто и чем поделился, чтобы ссылку было видно в переписке.'},
+  wn1:{ja:'リスニングを追加しました。音声を聞いて意味を選びます。これまでの出題はすべて「文字を見る」ところから始まっていましたが、読んで分かることと聞いて分かることは別の力です。答えると綴りが出ます。',en:'Listening is here: hear the word, then pick the meaning. Everything the app asked until now started from seeing letters, and reading a word is not the same skill as catching it in speech. The spelling appears once you answer.',zh:'新增听力模式：听发音后选出意思。此前所有题目都从「看文字」开始，但读得懂和听得懂是两种能力。作答后会显示拼写。',fr:'L’écoute arrive : entendez le mot, puis choisissez le sens. Jusqu’ici, tout partait de lettres à lire — or lire un mot et le saisir à l’oral sont deux compétences. L’orthographe s’affiche après la réponse.',ar:'أُضيف نمط الاستماع: استمع إلى الكلمة ثم اختر معناها. كان كل سؤال حتى الآن يبدأ من رؤية الحروف، وقراءة الكلمة ليست كالتقاطها في الكلام. وتظهر التهجئة بعد الإجابة.',ko:'리스닝을 추가했습니다. 음성을 듣고 뜻을 고릅니다. 지금까지의 문제는 모두 «글자를 보는» 데서 시작했지만, 읽어서 아는 것과 들어서 아는 것은 다른 힘입니다. 답하면 철자가 나옵니다.',ru:'Появилось аудирование: услышьте слово и выберите значение. Раньше всё начиналось с букв, но читать слово и узнавать его на слух — разные умения. Написание показывается после ответа.'},
+  wn2:{ja:'復習をはじめる画面を作り直しました。形式（4択・スペル入力・リスニング）を大きく並べ、範囲や問題数は必要なときだけ開きます。毎回4つ決めさせられる記入用紙のようだったのを、押すボタンひとつが主役の画面にしました。',en:'The start-a-round screen has been rebuilt. The three formats are the screen; the range and the round size fold away until you want them. It had become a form to fill in every time, and now the one button you came to press is the point of it.',zh:'重做了开始复习的界面。三种形式大字并列，范围和题数需要时才展开。此前每次都要填四项，像一张表格；现在你要按的那一个按钮才是主角。',fr:'L’écran de lancement a été refait. Les trois formats occupent l’écran ; la portée et la taille de la série se replient jusqu’à ce que vous les vouliez. C’était devenu un formulaire à remplir ; le bouton que vous venez presser en est désormais le sujet.',ar:'أُعيد بناء شاشة بدء المراجعة. الأنماط الثلاثة هي الشاشة، أما النطاق وعدد الأسئلة فينطويان حتى تطلبهما. كانت استمارة تُملأ في كل مرة، وصار الزر الذي جئت لتضغطه هو محورها.',ko:'복습을 시작하는 화면을 다시 만들었습니다. 형식(4택·스펠 입력·리스닝)을 크게 늘어놓고, 범위나 문제 수는 필요할 때만 펼칩니다. 매번 네 가지를 정하게 하는 서식 같았던 것을, 누를 버튼 하나가 주인공인 화면으로 바꿨습니다.',ru:'Экран запуска раунда переделан. Три формата — это и есть экран, а диапазон и размер раунда сворачиваются, пока не понадобятся. Раньше это была анкета; теперь главное на нём — та самая кнопка.'},
+  v5330_1:{ja:'通知が届かなくなっていたのを直しました。送信の時刻合わせが厳密すぎて、時報が1時間でも飛ぶとその日の通知がまるごと消えていました。飛んでも次の実行で拾い直します。',en:'Fixed reminders not arriving. The send matched the hour exactly, so whenever the scheduler skipped an hour that reminder was simply lost. A missed hour is now picked up by the next run.',zh:'修复了收不到提醒的问题。此前发送严格匹配整点，调度器一旦跳过某小时，当天的提醒就整个丢失。现在会由下一次运行补上。',fr:'Correction des rappels qui n’arrivaient plus. L’envoi visait l’heure exacte : dès que le planificateur sautait une heure, le rappel était perdu. Une heure manquée est désormais rattrapée au passage suivant.',ar:'أُصلح عدم وصول التذكيرات. كان الإرسال يطابق الساعة بدقة، فإذا تخطّى المجدول ساعة ضاع التذكير كله. صارت الساعة الفائتة تُلتقط في التشغيل التالي.',ko:'알림이 오지 않던 문제를 고쳤습니다. 발송이 정시에 정확히 맞춰져 있어서, 스케줄러가 한 시간이라도 건너뛰면 그날 알림이 통째로 사라졌습니다. 이제 놓친 시간은 다음 실행에서 이어받습니다.',ru:'Исправлено: напоминания не приходили. Отправка совпадала строго с часом, и стоило планировщику пропустить час, как напоминание терялось. Теперь пропущенный час подхватывается следующим запуском.'},
+  v5330_2:{ja:'続けている日にも、夜にひとことお伝えするようにしました。「10日連続、今日も達成です！」のように。毎日きちんと続けている人ほど通知が一度も来ない、という状態になっていたためです。',en:'On the days you do study, there is now a note in the evening — “10 days in a row, today included!”. Until now the people keeping their streak best were the ones who never heard anything at all.',zh:'在你学习过的日子，晚上也会有一句话，比如「连续 10 天，今天也完成了！」。此前越是每天坚持的人，反而一次通知都收不到。',fr:'Les jours où vous étudiez, un mot arrive le soir : « 10 jours d’affilée, aujourd’hui compris ! ». Jusqu’ici, ceux qui tenaient le mieux leur série n’entendaient jamais rien.',ar:'في الأيام التي تدرس فيها صارت تصلك كلمة مساءً مثل «10 أيام متتالية، واليوم منها!». فقد كان أكثر الناس مواظبة هم من لا يصلهم شيء أبدًا.',ko:'이어 가고 있는 날에도 밤에 한마디 전해 드립니다. «10일 연속, 오늘도 달성했습니다!»처럼요. 지금까지는 매일 꾸준히 하는 사람일수록 알림이 한 번도 오지 않는 상태였습니다.',ru:'В дни, когда вы занимались, вечером приходит короткая заметка: «10 дней подряд, включая сегодня!». До сих пор те, кто держал серию лучше всех, не получали вообще ничего.'},
+  v5330_3:{ja:'単語帳の共有にログインが必要になりました。リンクを開くと、ログインしてから受け取れます。共有のコピーには「〇〇さんが「句動詞」の単語帳を共有しました！」という一文が付くので、LINEなどでも何のリンクか分かります。',en:'Receiving a shared notebook now needs an account: open the link, sign in, and it is yours. The copy button also includes a line saying who shared what, so the link is recognisable in a chat.',zh:'接收共享单词本现在需要登录：打开链接、登录后即可获取。复制内容还会附上「某某共享了「句动词」单词本！」，在聊天中一眼就能看出是什么链接。',fr:'Recevoir un carnet partagé demande maintenant un compte : ouvrez le lien, connectez-vous, il est à vous. La copie inclut aussi une phrase indiquant qui partage quoi, pour que le lien soit reconnaissable dans une conversation.',ar:'صار استلام دفتر مُشارَك يتطلب حسابًا: افتح الرابط وسجّل الدخول فيصبح لك. كما تتضمن النسخة جملة تذكر من شارك ماذا، ليُعرف الرابط في المحادثة.',ko:'단어장 공유를 받으려면 로그인이 필요해졌습니다. 링크를 열고 로그인하면 받을 수 있습니다. 복사하는 내용에는 «〇〇님이 «구동사» 단어장을 공유했습니다!»라는 문장이 붙어, 채팅에서도 무슨 링크인지 알 수 있습니다.',ru:'Чтобы получить словарь, теперь нужен аккаунт: откройте ссылку, войдите — и он ваш. Кнопка копирования добавляет строку о том, кто и чем поделился, чтобы ссылку было видно в переписке.'},
   v5320_1:{ja:'自分の単語帳を、リンクで人に渡せるようになりました。単語帳の編集から「この単語帳を共有」を選ぶとリンクができます。受け取る側にアカウントは要りません。',en:'You can now hand a notebook to someone as a link. Open a notebook’s edit screen, choose "Share this notebook", and you get one. Whoever receives it needs no account.',zh:'现在可以用链接把自己的单词本分享给别人。在单词本的编辑界面选择「共享这个单词本」即可生成链接。接收方无需账号。',fr:'Vous pouvez désormais transmettre un carnet par lien. Depuis l’écran d’édition d’un carnet, choisissez « Partager ce carnet ». Le destinataire n’a besoin d’aucun compte.',ar:'صار بإمكانك تمرير دفترك إلى شخص آخر عبر رابط. من شاشة تحرير الدفتر اختر «مشاركة هذا الدفتر». ولا يحتاج المستلم إلى حساب.',ko:'내 단어장을 링크로 다른 사람에게 건넬 수 있게 되었습니다. 단어장 편집에서 «이 단어장 공유»를 고르면 링크가 만들어집니다. 받는 쪽에 계정은 필요 없습니다.',ru:'Теперь свой словарь можно передать ссылкой. В экране редактирования словаря выберите «Поделиться словарём». Получателю аккаунт не нужен.'},
   v5320_2:{ja:'受け取った単語帳は、配布の単語パッケージと同じ扱いになります。学習の記録はあなただけのもので、自分の単語帳には混ざりません。作者が中身を更新すれば、次に開いたときに取り直します。',en:'A notebook you receive behaves like the built-in word packages: your progress is your own and it does not mix into your notebook. If the author updates it, it is refetched next time you open it.',zh:'收到的单词本与内置单词包相同：学习进度是你自己的，不会混入你的单词本。作者更新内容后，下次打开时会重新获取。',fr:'Un carnet reçu se comporte comme les paquets intégrés : votre progression reste la vôtre et ne se mélange pas. Si l’auteur le met à jour, il est récupéré à la prochaine ouverture.',ar:'الدفتر الذي تستلمه يعمل كحزم الكلمات المدمجة: تقدّمك خاص بك ولا يختلط بدفترك. وإذا حدّثه صاحبه أُعيد جلبه عند فتحه لاحقًا.',ko:'받은 단어장은 기본 제공 단어 패키지와 같은 취급이 됩니다. 학습 기록은 내 것이고 내 단어장에 섞이지 않습니다. 작성자가 내용을 바꾸면 다음에 열 때 다시 받습니다.',ru:'Полученный словарь ведёт себя как встроенные пакеты: прогресс остаётся вашим и не смешивается. Если автор его обновит, он загрузится заново при следующем открытии.'},
   v5320_3:{ja:'共有するときは、メモを一緒に渡すかどうかを選べます（既定では渡しません）。学習の記録・連続日数・マークは共有されません。共有はいつでもやめられます。',en:'When you share, you choose whether your notes go with it — by default they do not. Progress, streaks and marks are never shared, and you can stop sharing at any time.',zh:'共享时可以选择是否一并附上备注（默认不附）。学习进度、连续天数和标记不会被共享，并且可随时停止共享。',fr:'Au partage, vous choisissez si vos mémos suivent — par défaut, non. Progression, séries et marques ne sont jamais partagées, et vous pouvez arrêter à tout moment.',ar:'عند المشاركة تختار إن كانت ملاحظاتك ستُرفَق أم لا، والافتراضي ألا تُرفَق. أما التقدّم والسلاسل والعلامات فلا تُشارَك أبدًا، ويمكنك إيقاف المشاركة متى شئت.',ko:'공유할 때 메모를 함께 건넬지 고를 수 있습니다(기본은 건네지 않습니다). 학습 기록·연속 일수·마크는 공유되지 않으며, 공유는 언제든 중지할 수 있습니다.',ru:'При публикации вы выбираете, идут ли с ней ваши заметки, — по умолчанию нет. Прогресс, серии и метки не публикуются никогда, а доступ можно прекратить в любой момент.'},
-  v5310_1:{ja:'「for example」のように2語以上の問題で、forを打ち終わった時点でforだけが緑になるようになりました。ヒントを見ていなくても単語ごとに判定します',en:'On a two-word answer like "for example", "for" turns green the moment it is finished — each word is judged on its own, whether or not you asked for a hint',zh:'像「for example」这样两个以上单词的题目，打完 for 时 for 就会变绿。即使没看提示，也会逐词判断',fr:'Sur une réponse en deux mots comme « for example », « for » passe au vert dès qu’il est fini : chaque mot est jugé séparément, avec ou sans indice',ar:'في إجابة من كلمتين مثل «for example» تتحول for إلى الأخضر لحظة اكتمالها، فكل كلمة تُقيَّم وحدها سواء طلبت تلميحًا أم لا',ko:'«for example»처럼 두 단어 이상인 문제에서, for를 다 친 시점에 for만 초록색이 됩니다. 힌트를 보지 않아도 단어별로 판정합니다',ru:'В ответе из двух слов вроде «for example» слово «for» зеленеет, как только дописано: каждое слово оценивается отдельно, с подсказкой или без'},
-  v5310_2:{ja:'惜しかったときの表示が、文字を消した瞬間に出るようになりました。消す＝違うと思った瞬間なので、そこで直前の入力について答えます。足りない文字は exa_ple のように空きで示します',en:'The "how close were you" line now appears the instant you delete a letter — deleting is the moment you decide it was wrong, so that is when it answers, about the word you had a moment ago. A missing letter shows as a gap: exa_ple',zh:'「差多少」的提示改为在你删除字符的瞬间显示——删除正是你认为写错了的时刻。缺少的字母会以空位显示，如 exa_ple',fr:'L’indication « à combien vous étiez » apparaît dès que vous effacez une lettre : effacer, c’est le moment où l’on se dit qu’on s’est trompé. Une lettre manquante s’affiche comme un trou : exa_ple',ar:'صار بيان «كم اقتربت» يظهر لحظة حذفك حرفًا — فالحذف هو اللحظة التي تقرر فيها أنك أخطأت. والحرف الناقص يظهر فراغًا هكذا: exa_ple',ko:'아까웠을 때의 표시가 글자를 지운 순간에 나오게 되었습니다. 지우기는 «틀렸다»고 판단한 순간이므로, 그때 직전 입력에 대해 답합니다. 모자란 글자는 exa_ple처럼 빈칸으로 보여 줍니다',ru:'Подсказка «насколько близко» появляется, как только вы удаляете букву: удаление — это момент, когда вы решили, что ошиблись. Пропущенная буква показана пробелом: exa_ple'},
-  v5310_3:{ja:'単語帳の「前」「次」とマークを1行にまとめました。スマホで下までスクロールしないと次に進めなかったのを直しています。あわせて、読まなくてよかった説明文をいくつか削りました',en:'On the flashcards, "previous", "next" and the marks now share one row — on a phone the marks had pushed "next" below the fold, which made them cost the thing you came for. A few explanations nobody needed have been removed as well',zh:'单词卡的「上一个」「下一个」和标记合并到一行。此前在手机上必须滑到底才能翻页，现已修复。同时删除了几段没必要的说明文字',fr:'Sur les cartes, « précédent », « suivant » et les marques tiennent sur une seule ligne : sur téléphone, les marques repoussaient « suivant » hors de l’écran. Quelques explications inutiles ont aussi été supprimées',ar:'في البطاقات صار «السابق» و«التالي» والعلامات في سطر واحد، بعد أن كانت العلامات تدفع «التالي» خارج الشاشة على الهاتف. كما حُذفت بعض الشروح التي لا لزوم لها',ko:'단어장의 «이전» «다음»과 마크를 한 줄로 모았습니다. 휴대폰에서 아래까지 스크롤해야 다음으로 갈 수 있던 것을 고쳤습니다. 아울러 읽지 않아도 되는 설명문을 몇 개 지웠습니다',ru:'На карточках «назад», «вперёд» и метки теперь в одной строке — на телефоне метки выталкивали «вперёд» за экран. Заодно убрано несколько ненужных пояснений'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1823,15 +1848,19 @@ const T={
   st_sound:{ja:'正解・不正解の音',en:'Answer sounds',zh:'答题音效',fr:'Sons de réponse',ar:'أصوات الإجابة',ko:'정답·오답 소리',ru:'Звуки ответа'},
   desc_sound:{ja:'クイズで答えたときに短い音を鳴らす',en:'Play a short tone when you answer a quiz question',zh:'答题时播放短促提示音',fr:'Joue un son bref quand vous répondez',ar:'تشغيل نغمة قصيرة عند الإجابة',ko:'퀴즈에 답할 때 짧은 소리를 재생',ru:'Короткий сигнал при ответе на вопрос'},
   sec_quiz:{ja:'出題形式',en:'Quiz format',zh:'出题形式',fr:'Format du quiz',ar:'صيغة الاختبار',ko:'출제 형식',ru:'Формат теста'},
-  st_quiztype:{ja:'クイズのタイプ',en:'Quiz type',zh:'测验类型',fr:'Type de quiz',ar:'نوع الاختبار',ko:'퀴즈 유형',ru:'Тип теста'},
-  desc_quiztype_choice:{ja:'4つの選択肢から選ぶ',en:'Pick from 4 choices',zh:'从 4 个选项中选择',fr:'Choisir parmi 4 réponses',ar:'الاختيار من 4 خيارات',ko:'4개 보기 중 선택',ru:'Выбор из 4 вариантов'},
   opt_spell:{ja:'スペル入力',en:'Spelling',zh:'拼写输入',fr:'Orthographe',ar:'الإملاء',ko:'스펠링 입력',ru:'Написание'},
   prompt_spell:{ja:'この意味の単語を入力',en:'Type the word for this meaning',zh:'输入对应这个意思的单词',fr:'Tapez le mot correspondant',ar:'اكتب الكلمة المقابلة لهذا المعنى',ko:'이 뜻에 해당하는 단어를 입력',ru:'Введите слово с этим значением'},
   sp_hint:{ja:'ヒントを見る',en:'Show a hint',zh:'查看提示',fr:'Voir un indice',ar:'عرض تلميح',ko:'힌트 보기',ru:'Показать подсказку'},
   sp_reveal:{ja:'答えを見る',en:'Show the answer',zh:'查看答案',fr:'Voir la réponse',ar:'عرض الإجابة',ko:'정답 보기',ru:'Показать ответ'},
   sp_space:{ja:'スペース',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
   sp_type_hint:{ja:'キーボードで入力してください。Enterでヒント、Backspaceで1文字削除。',en:'Type on your keyboard. Enter for a hint, Backspace to delete a letter.',zh:'请用键盘输入。Enter 查看提示，Backspace 删除一个字母。',fr:'Tapez au clavier. Entrée pour un indice, Retour arrière pour effacer une lettre.',ar:'اكتب باستخدام لوحة المفاتيح. Enter للتلميح وBackspace لحذف حرف.',ko:'키보드로 입력하세요. Enter는 힌트, Backspace는 한 글자 삭제입니다.',ru:'Печатайте на клавиатуре. Enter — подсказка, Backspace — удалить букву.'},
-  desc_quiztype_spell:{ja:'意味を見てスペルを入力。正しく打てた瞬間に正解になります',en:'See the meaning, type the spelling. It is marked correct the moment you finish the word',zh:'看释义输入拼写，拼对的瞬间即判定正确',fr:'Voyez le sens, tapez l’orthographe : validé dès que le mot est complet',ar:'انظر إلى المعنى واكتب التهجئة؛ تُحتسب صحيحة لحظة اكتمال الكلمة',ko:'뜻을 보고 스펠링을 입력합니다. 정확히 입력한 순간 정답이 됩니다',ru:'Видите значение — набираете написание; засчитывается в тот момент, когда слово закончено'},
+  opt_choice_d:{ja:'意味を4つから選ぶ',en:'Pick the meaning from four',zh:'从四个中选出意思',fr:'Choisir le sens parmi quatre',ar:'اختر المعنى من أربعة',ko:'네 개 중에서 뜻 고르기',ru:'Выбрать значение из четырёх'},
+  opt_spell_d:{ja:'意味を見て綴りを打つ',en:'Type the spelling from the meaning',zh:'看意思拼出单词',fr:'Écrire le mot d’après le sens',ar:'اكتب التهجئة من المعنى',ko:'뜻을 보고 철자 입력',ru:'Написать слово по значению'},
+  opt_listen:{ja:'リスニング',en:'Listening',zh:'听力',fr:'Écoute',ar:'استماع',ko:'리스닝',ru:'Аудирование'},
+  opt_listen_d:{ja:'音声を聞いて意味を選ぶ',en:'Hear it, then pick the meaning',zh:'听发音后选出意思',fr:'Écouter, puis choisir le sens',ar:'استمع ثم اختر المعنى',ko:'듣고 나서 뜻 고르기',ru:'Услышать и выбрать значение'},
+  prompt_listen:{ja:'聞こえた単語の意味は？',en:'What does the word you heard mean?',zh:'你听到的单词是什么意思？',fr:'Que signifie le mot entendu ?',ar:'ما معنى الكلمة التي سمعتها؟',ko:'들린 단어의 뜻은?',ru:'Что значит услышанное слово?'},
+  listen_again:{ja:'もう一度聞く',en:'Play it again',zh:'再听一次',fr:'Réécouter',ar:'استمع مجددًا',ko:'다시 듣기',ru:'Прослушать снова'},
+  qs_n_q:{ja:'{0}問',en:'{0} questions',zh:'{0} 题',fr:'{0} questions',ar:'{0} أسئلة',ko:'{0}문제',ru:'{0} вопросов'},
   opt_choice:{ja:'4択',en:'Choice',zh:'选择',fr:'Choix',ar:'اختيار',ko:'선택',ru:'Выбор'},
   st_dir:{ja:'出題の向き',en:'Direction',zh:'出题方向',fr:'Sens de la question',ar:'اتجاه السؤال',ko:'출제 방향',ru:'Направление'},
   desc_dir:{ja:'単語→意味 か、意味→単語 か',en:'Word→meaning or meaning→word',zh:'单词→意思 或 意思→单词',fr:'Mot→sens ou sens→mot',ar:'كلمة→معنى أو معنى→كلمة',ko:'단어→뜻 또는 뜻→단어',ru:'Слово→значение или значение→слово'},
@@ -2216,6 +2245,8 @@ const FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const DOWNLOAD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 17.5v1.6A1.4 1.4 0 0 0 5.9 20.5h12.2a1.4 1.4 0 0 0 1.4-1.4v-1.6"/></svg>';
 const FAV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.3S3.6 15.2 3.6 9.4A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8.4 2.1c0 5.8-8.4 10.9-8.4 10.9z"/></svg>';
 const HARD_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 21.5 20H2.5z"/><path d="M12 9.5v4.4"/><circle cx="12" cy="16.9" r=".9" fill="currentColor"/></svg>';
+const KEYS_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.4"/><path d="M6 9.5h.01M9.5 9.5h.01M13 9.5h.01M16.5 9.5h.01M6 12.8h.01M9.5 12.8h.01M13 12.8h.01M16.5 12.8h.01M8 15.6h8"/></svg>';
+const CHEV_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>';
 const SHARE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px;margin-right:7px;vertical-align:-3px"><circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="m8.3 10.8 7.4-4.1M8.3 13.2l7.4 4.1"/></svg>';
 const BELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.2 15.2V10.4a6.2 6.2 0 1 0-12.4 0v4.8L3.9 18.1h16.2z"/><path d="M9.9 21a2.3 2.3 0 0 0 4.2 0"/></svg>';
 const NOTE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h8.6L19 7.9V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V5A1.5 1.5 0 0 1 6.5 3.5Z"/><path d="M14 3.6V8h4.4"/><path d="M8.6 12.4h6M8.6 16.2h4"/></svg>';
@@ -4774,6 +4805,20 @@ function bindStepSlider(id,opts,onPick){
     else if(e.key==='End'){e.preventDefault();commit(last);}
   });
 }
+// The four ways a round can be asked. Listening needs speech synthesis, so on
+// a browser without it the card is not offered at all rather than offered and
+// then failing silently.
+function quizModes(){
+  const m=[{v:'choice',n:t('opt_choice'),d:t('opt_choice_d'),i:LIST_SVG},
+           {v:'spell', n:t('opt_spell'), d:t('opt_spell_d'), i:KEYS_SVG}];
+  if(TTS_OK)m.push({v:'listen',n:t('opt_listen'),d:t('opt_listen_d'),i:SPEAKER_SVG});
+  return m;
+}
+function quizModeOk(v){return quizModes().some(m=>m.v===v);}
+// Open only when somebody asks. The range and the round size are right almost
+// every time, and putting four decisions in front of the one button people came
+// to press made the screen look like a form to fill in.
+let qsOpen=false;
 function renderQuizSetup(){
   const body=$('#quizBody');
   if(!body)return;
@@ -4796,27 +4841,48 @@ function renderQuizSetup(){
   modes.push({v:'all',n:t('quiz_free'),on:true});
   if(!quizSetup.mode||!modes.some(m=>m.v===quizSetup.mode&&m.on))
     quizSetup.mode=due>0?'due':'all';
+  // A browser that lost speech synthesis between sessions must not be left
+  // pointing at a mode it can no longer run.
+  if(!quizModeOk(S().quizType)){S().quizType='choice';save();}
 
   const grp=(label,html)=>'<div class="qs-grp"><div class="qs-lab">'+esc(label)+'</div>'+html+'</div>';
   const pick=(name,opts,cur)=>'<div class="qs-opts">'+opts.map(o=>
     '<button class="qs-o'+(String(o.v)===String(cur)?' on':'')+'" data-g="'+name+'" data-v="'+esc(String(o.v))+'"'+
     (o.on===false?' disabled':'')+'>'+esc(o.n)+'</button>').join('')+'</div>';
 
-  body.innerHTML=
-    grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
-    grp(t('st_quiztype'),pick('type',[{v:'choice',n:t('opt_choice')},{v:'spell',n:t('opt_spell')}],S().quizType))+
-    grp(t('st_len'),stepSliderHTML('qsLen',LEN_STEPS(),S().len))+
-    // Belongs with the other choices about THIS round, not buried in settings:
-    // it is a decision you make while looking at what you are about to study.
-    '<label class="qs-check"><input type="checkbox" id="qsShuffle"'+(S().shuffle?' checked':'')+'>'+
-      '<span><b>'+esc(t('st_shuffle'))+'</b>'+esc(t('desc_shuffle'))+'</span></label>'+
-    '<button class="btn btn-gold" id="qsStart" style="margin-top:20px;width:100%;font-size:16px;padding:16px">'+
+  const cards='<div class="qs-modes">'+quizModes().map(m=>
+    '<button class="qs-mode'+(S().quizType===m.v?' on':'')+'" data-g="type" data-v="'+esc(m.v)+'">'+
+      '<span class="qm-ic">'+m.i+'</span>'+
+      '<span class="qm-n">'+esc(m.n)+'</span>'+
+      '<span class="qm-d">'+esc(m.d)+'</span>'+
+    '</button>').join('')+'</div>';
+
+  const rangeName=(modes.find(m=>m.v===quizSetup.mode)||modes[0]).n;
+  const lenName=(LEN_STEPS().find(o=>String(o.v)===String(S().len))||{n:''}).n;
+  const summary='<button class="qs-sum'+(qsOpen?' open':'')+'" id="qsToggle" aria-expanded="'+qsOpen+'">'+
+    '<span>'+esc(rangeName)+' · '+esc(t('qs_n_q',lenName))+(S().shuffle?' · '+esc(t('st_shuffle')):'')+'</span>'+
+    '<i class="qs-cv">'+CHEV_SVG+'</i></button>';
+
+  const detail=qsOpen
+    ? '<div class="qs-detail">'+
+        grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
+        grp(t('st_len'),stepSliderHTML('qsLen',LEN_STEPS(),S().len))+
+        '<label class="qs-check"><input type="checkbox" id="qsShuffle"'+(S().shuffle?' checked':'')+'>'+
+          '<span><b>'+esc(t('st_shuffle'))+'</b>'+esc(t('desc_shuffle'))+'</span></label>'+
+      '</div>'
+    : '';
+
+  body.innerHTML=cards+summary+detail+
+    '<button class="btn btn-gold" id="qsStart" style="margin-top:18px;width:100%;font-size:16px;padding:16px">'+
       esc(t('qs_start'))+'</button>'+
     '<p class="hint" id="qsNote" style="text-align:center;margin-top:10px"></p>';
 
-  bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();updateQsNote();});
-  $('#qsShuffle').onchange=e=>{S().shuffle=e.target.checked;save();};
-  $$('#quizBody .qs-o').forEach(b=>b.onclick=()=>{
+  $('#qsToggle').onclick=()=>{qsOpen=!qsOpen;renderQuizSetup();};
+  if(qsOpen){
+    bindStepSlider('qsLen',LEN_STEPS(),v=>{S().len=v;save();updateQsNote();refreshQsSummary();});
+    $('#qsShuffle').onchange=e=>{S().shuffle=e.target.checked;save();refreshQsSummary();};
+  }
+  $$('#quizBody .qs-o,#quizBody .qs-mode').forEach(b=>b.onclick=()=>{
     const g=b.dataset.g, v=b.dataset.v;
     if(g==='mode')quizSetup.mode=v;
     else if(g==='type'){S().quizType=v;save();}
@@ -4825,6 +4891,17 @@ function renderQuizSetup(){
   updateQsNote();
   const st=$('#qsStart');
   st.onclick=()=>startQuiz(quizSetup.mode);
+}
+// The summary line restates the open controls, so it has to follow them --
+// without re-rendering, which would close the panel under the user's finger.
+function refreshQsSummary(){
+  const el=$('#qsToggle');
+  if(!el)return;
+  const span=el.querySelector('span');
+  const lenName=(LEN_STEPS().find(o=>String(o.v)===String(S().len))||{n:''}).n;
+  const cur=$$('#quizBody .qs-o[data-g="mode"]').find(b=>b.classList.contains('on'));
+  const rangeName=cur?cur.textContent:'';
+  if(span)span.textContent=rangeName+' · '+t('qs_n_q',lenName)+(S().shuffle?' · '+t('st_shuffle'):'');
 }
 // The only thing on the setup screen that a round-size change affects.
 function updateQsNote(){
@@ -5458,12 +5535,18 @@ function renderQ(){
   const dir=S().dir;
   const prog=Math.round(quiz.i/quiz.items.length*100);
   const spellMode=S().quizType==='spell';
+  // Listening asks the same question as four-choice, from the other end: the
+  // prompt is the sound rather than the spelling. Everything the app asks
+  // currently starts from seeing letters, and reading a word is not the same
+  // skill as catching it in speech -- which is the one that matters abroad.
+  const listen=S().quizType==='listen';
   // Spelling is inherently meaning -> word, so this mode overrides the
-  // direction setting rather than pretending to honour it.
-  const showEng=spellMode?false:dir==='e2j';
-  const promptTxt=spellMode?t('prompt_spell'):(showEng?t('prompt_e2j'):t('prompt_j2e'));
+  // direction setting rather than pretending to honour it. Listening does the
+  // same for the opposite reason: the answer is the meaning.
+  const showEng=spellMode?false:listen?true:dir==='e2j';
+  const promptTxt=spellMode?t('prompt_spell'):listen?t('prompt_listen'):(showEng?t('prompt_e2j'):t('prompt_j2e'));
   const face=showEng?w.word:primaryMeaning(w);
-  const kata=showEng?(w.kata||''):'';
+  const kata=(showEng&&!listen)?(w.kata||''):'';
 
   let inner='<div class="q-slide"><div class="q-top"><div class="q-progress"><i style="width:'+prog+'%"></i></div>'+
     '<button class="q-quit" id="qQuit" type="button" aria-label="'+esc(t('btn_quit_round'))+'" title="'+esc(t('btn_quit_round'))+'">✕</button></div>'+
@@ -5476,7 +5559,15 @@ function renderQ(){
     // positioned against the question card instead of the viewport -- it
     // appeared over the header for 0.2s and then snapped back when the
     // transform cleared. Only the question card animates.
-    '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+(kata?'<div class="qk">'+esc(kata)+'</div>':'')+'</div></div>';
+    // In listening mode the word itself must NOT be on screen -- printing it
+    // would answer the question being asked. A big replay button stands in for
+    // it, because the one thing somebody needs here is to hear it again.
+    (listen
+      ? '<button class="q-ear" id="qEar" type="button" aria-label="'+esc(t('listen_again'))+'">'+
+          SPEAKER_SVG+'<span>'+esc(t('listen_again'))+'</span></button>'
+      : '<div class="qw">'+esc(face)+(showEng?spkBtn(w.word):'')+'</div>'+
+        (kata?'<div class="qk">'+esc(kata)+'</div>':''))+
+    '</div></div>';
 
   if(spellMode){
     spell={buf:'',hint:0,done:false,target:spellTargetOf(w),near:null};
@@ -5493,13 +5584,17 @@ function renderQ(){
     // predictive candidates, and here those candidates are the answer.
     if(touchDevice()){$('#spKb').innerHTML=spellKeyboardHTML();bindSpellKeys();padForKeyboard();}
     else $('#spKb').innerHTML='<p class="hint" style="text-align:center;margin-top:14px">'+esc(t('sp_type_hint'))+'</p>';
-  }else if(S().quizType==='choice'){
-    const correct=showEng?primaryMeaning(w):w.word;
-    const others=pickDistractors(w,correct,showEng,3);
+  }else{
+    // Listening answers with meanings, so its distractors are drawn the same
+    // way four-choice draws them when the word is the prompt.
+    const correct=listen?primaryMeaning(w):(showEng?primaryMeaning(w):w.word);
+    const others=pickDistractors(w,correct,listen?true:showEng,3);
     const opts=shuffle([correct,...others]);
     inner+='<div id="opts">'+opts.map(o=>'<button class="opt">'+esc(o)+'</button>').join('')+'</div>';
     body.innerHTML=inner;
-    fitQuestion(face,null);
+    fitQuestion(listen?'':face,null);
+    const ear=$('#qEar');
+    if(ear)ear.onclick=()=>speak(w.word);
     $$('#opts .opt').forEach(btn=>btn.onclick=()=>{
       const ok=btn.textContent===correct;
       $$('#opts .opt').forEach(b=>{b.disabled=true;
@@ -5511,7 +5606,11 @@ function renderQ(){
   }
   const qq=$('#qQuit');
   if(qq)qq.onclick=quitRound;
-  if(showEng)speakAuto(w.word);
+  // speakAuto respects the auto-pronounce setting, which is right everywhere
+  // else -- but in listening mode the sound IS the question, so it plays
+  // regardless.
+  if(listen)speak(w.word);
+  else if(showEng)speakAuto(w.word);
 }
 // Leaving mid-round. Every answer already updated the schedule and the streak,
 // so this just drops what is left of the queue and goes back to the setup card.
@@ -5616,6 +5715,12 @@ function grade(w,ok,correctText,isInput){
   else{$('#quizBody').insertAdjacentHTML('beforeend',fbHtml);}
   // Typed answers put the verdict in the pinned bar, tapped ones append it to
   // the card, so the marks are in whichever of the two just got written.
+  // Listening hid the word on purpose. Once it is answered, hiding it is just
+  // withholding the thing they were trying to learn, so the replay button
+  // becomes the word itself.
+  const ear=$('#qEar');
+  if(ear)ear.outerHTML='<div class="qw">'+esc(w.word)+spkBtn(w.word)+'</div>'+
+    (w.kata?'<div class="qk">'+esc(w.kata)+'</div>':'');
   const fbRoot=isInput?'#qfb':'#quizBody';
   const paintMarks=()=>bindMarks(fbRoot,()=>{
     const row=$(fbRoot+' .mark-row');
@@ -5673,7 +5778,6 @@ function showScore(){
 /* ---------- SETTINGS ---------- */
 function renderSettings(){
   segTheme();
-  seg('#segQuizType','quizType');
   seg('#segDir','dir');
   const lenEl=$('#setLen');
   if(lenEl){
@@ -5686,7 +5790,6 @@ function renderSettings(){
   $('#swWeak').classList.toggle('on',S().weak);
   $('#swSound').classList.toggle('on',!!S().sound);
   renderVolumeRow();
-  $('#quizTypeDesc').textContent=S().quizType==='spell'?t('desc_quiztype_spell'):t('desc_quiztype_choice');
   const sel=$('#selLang');
   sel.value=S().lang;
   sel.onchange=()=>{
