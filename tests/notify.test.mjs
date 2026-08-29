@@ -23,7 +23,7 @@ const t = (n, f) => {
 // Templates carry their placeholders through so we can assert on substitution.
 const T = { build_t:'D{0}/{1}left', build_b:'b', near_t:'near{0}/{1}', near_b:'nb',
   last_t:'last{0}h/{1}d', last_b:'lb', freeze_t:'freeze', freeze_b:'fz{0}',
-  back_t:'best{0}', back_b:'bb', start_t:'start', start_b:'sb',
+  back_t:'best{0}', back_b:'bb', start_t:'start', start_b:'sb', hello_t:'welcome', hello_b:'hb',
   done_t:'done{0}!', done_b:'to{0}/{1}', done_b2:'keepgoing', streak_t:'streak{0}', streak_b:'sk',
   word_t:'word:{0}', word_b:'wb', due_t:'due{0}', due_b:'db', idle_t:'idle', idle_b:'ib' };
 const at = h => { const d = new Date(); d.setHours(h, 0, 0, 0); return d; };
@@ -137,9 +137,17 @@ t('never studied, has words: asks about one', () => {
   const m = compose(hint({ words:[{w:'adorable'}] }), at(9));
   return m.title === 'word:adorable' || JSON.stringify(m);
 });
-t('never studied, no words at all: offers day one', () => {
+t('signed up and never started: welcomed, not asked the impossible', () => {
   const m = compose(hint({}), at(9));
-  return (m.title === 'start' && m.body === 'sb') || JSON.stringify(m);
+  return (m.title === 'welcome' && m.body === 'hb') || JSON.stringify(m);
+});
+t('a broken streak with no words left is not welcomed again', () => {
+  const m = compose(hint({ longest:4, lastStudied:today()-9 }), at(9));
+  return m.title === 'best4' || JSON.stringify(m);
+});
+t('having words is enough to be asked one, welcome or not', () => {
+  const m = compose(hint({ words:[{w:'apple'}] }), at(9));
+  return m.title === 'word:apple' || JSON.stringify(m);
 });
 t('no words but reviews waiting', () => {
   const m = compose(hint({ due:8 }), at(9));

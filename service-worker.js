@@ -186,6 +186,11 @@ function compose(hint, now) {
     return out(fill('word_t', w.w), say('word_b', ''), 'word');
   }
   if (hint.due > 0) return out(fill('due_t', hint.due), say('due_b', ''), 'wordkeep');
+  // Nothing saved and nothing ever studied: this is somebody who has signed up
+  // and stopped. "Just one question" is impossible for them -- there is nothing
+  // to be asked -- so say what the app is for instead. It stops the moment they
+  // save their first word.
+  if (best === 0 && last == null) return out(say('hello_t', 'Wordkeep'), say('hello_b', ''), 'wordkeep');
   return out(say('start_t', ''), say('start_b', ''), 'wordkeep');
 }
 

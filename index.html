@@ -83,10 +83,23 @@ header{
   padding:calc(env(safe-area-inset-top) + 13px) 18px 14px;
   border-radius:0 0 20px 20px;
 }
-#splash{position:fixed;inset:0;z-index:200;background:var(--navy);
+#splash{position:fixed;inset:0;z-index:200;background:var(--fill);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
   transition:opacity .35s ease}
 #splash.gone{opacity:0;pointer-events:none}
+/* The load screen does not fade away -- it becomes the header. It shrinks to
+   the header's exact height and corner radius while the wordmark travels to
+   where the real title sits, so the two are already identical by the time the
+   overlay is taken away. Nothing crossfades, because there is nothing to
+   crossfade between. */
+#splash.curtain{
+  justify-content:flex-start;overflow:hidden;
+  border-radius:0 0 20px 20px;
+  transition:height .52s cubic-bezier(.65,0,.2,1),border-radius .52s cubic-bezier(.65,0,.2,1);
+}
+#splash.curtain .sp-bar,#splash.curtain .sp-note{opacity:0;transition:opacity .16s ease}
+#splash.curtain .sp-name{transition:transform .52s cubic-bezier(.65,0,.2,1);will-change:transform}
+#splash.settled{opacity:0;transition:opacity .18s ease}
 #splash .sp-name{font-family:Georgia,"Times New Roman",serif;font-size:34px;font-weight:600;
   color:#fff;letter-spacing:.5px}
 #splash .sp-bar{width:132px;height:3px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
@@ -1276,15 +1289,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.35.1';
+const APP_VERSION='5.36.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.35.1',date:'2026-08-30',keys:['wn1']},
+  {version:'5.36.0',date:'2026-08-30',keys:['wn1','wn2']},
+  {version:'5.35.1',date:'2026-08-30',keys:['v5351_1']},
   {version:'5.35.0',date:'2026-08-28',keys:['v5350_1']},
-  {version:'5.34.0',date:'2026-08-28',keys:['v5340_1','v5340_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1382,10 +1395,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'不具合の修正です。ディクテーションで音声を2回目以降聞けなかったのを直しました（再生ボタンが4択側にしか繋がっていませんでした）。単語が3つ以下の単語帳で「はじめる」が押せるのに何も起きなかったのも直しています——4択とリスニングは選択肢を4つ作るので単語が4つ要ります。理由を画面に出すようにしました。',en:'Fixes. Dictation could not replay its audio — the replay button was only wired on the four-choice side. And on a notebook of three words or fewer, Start was pressable but did nothing: four-choice and listening both build four options, so they need four words. The screen now says so.',zh:'修复。听写模式无法重复播放音频（播放按钮只接在四选一那一侧）。另外，单词不足 4 个的单词本上「开始」可点却毫无反应——四选一和听力都需要四个选项，因此需要四个单词。现在界面会说明原因。',fr:'Corrections. La dictée ne pouvait pas rejouer son audio : le bouton n’était câblé que du côté QCM. Et sur un carnet de trois mots ou moins, « Commencer » était cliquable sans rien faire — le QCM et l’écoute construisent quatre options et exigent donc quatre mots. L’écran l’explique désormais.',ar:'إصلاحات. لم يكن الإملاء يعيد تشغيل الصوت، إذ كان زر الإعادة موصولًا في جانب الاختيار من أربعة فقط. وفي دفتر من ثلاث كلمات أو أقل كان زر «ابدأ» قابلًا للضغط دون أن يحدث شيء — فالاختيار من أربعة والاستماع يبنيان أربعة خيارات ويحتاجان أربع كلمات. وصارت الشاشة تبيّن ذلك.',ko:'버그 수정입니다. 딕테이션에서 음성을 두 번째부터 들을 수 없던 문제를 고쳤습니다(재생 버튼이 4택 쪽에만 연결되어 있었습니다). 단어가 3개 이하인 단어장에서 «시작하기»를 누를 수 있는데 아무 일도 일어나지 않던 것도 고쳤습니다——4택과 리스닝은 선택지를 4개 만들기 때문에 단어가 4개 필요합니다. 이유를 화면에 표시합니다.',ru:'Исправления. Диктант не проигрывал звук повторно — кнопка была подключена только со стороны выбора из четырёх. И в словаре из трёх слов и меньше кнопка «Начать» нажималась, но ничего не происходило: выбор из четырёх и аудирование строят четыре варианта, значит нужно четыре слова. Теперь экран об этом говорит.'},
+  wn1:{ja:'読み込み画面が、そのままヘッダーになるようにしました。幕が上がるように縮んでいって、Wordkeepの文字が上部の紺色の帯の中に収まります。消えて別のものが現れるのではなく、同じものが形を変えるだけです。',en:'The loading screen no longer fades away — it becomes the header. It rises like a curtain, shrinking to the header’s exact shape while the wordmark settles into place. Nothing disappears and nothing replaces it; one thing changes shape.',zh:'加载画面不再淡出，而是直接变成顶部标题栏。它像幕布一样上升收拢，Wordkeep 字样正好落在深蓝色横条中。不是消失后换成另一个，而是同一个东西改变了形状。',fr:'L’écran de chargement ne disparaît plus : il devient l’en-tête. Il remonte comme un rideau jusqu’à la forme exacte de la barre, le nom venant se poser à sa place. Rien ne disparaît, rien ne le remplace — une seule chose change de forme.',ar:'لم تعد شاشة التحميل تتلاشى، بل صارت تتحول إلى الشريط العلوي: ترتفع كالستارة وتنكمش إلى شكل الشريط تمامًا بينما يستقر اسم التطبيق في مكانه. لا شيء يختفي ولا شيء يحل محله، بل شيء واحد يغيّر شكله.',ko:'로딩 화면이 그대로 헤더가 되도록 했습니다. 막이 오르듯 줄어들면서 Wordkeep 글자가 위쪽 남색 띠 안에 자리 잡습니다. 사라지고 다른 것이 나타나는 게 아니라, 같은 것이 모양만 바뀝니다.',ru:'Экран загрузки больше не растворяется — он становится шапкой. Поднимается как занавес, сжимаясь ровно до её формы, а название встаёт на своё место. Ничего не исчезает и ничем не заменяется: одна вещь меняет форму.'},
+  wn2:{ja:'ホームのあいさつを、時間帯と使っている長さで変えるようにしました。朝・昼・夕・夜それぞれに3通り、長く続けている方にはさらに2通り、しばらく空いた方には「ひさしぶり」。下の一文は消しました。通知の文面も「〜です」をやめて短くしています。はじめての方には、最初のお知らせでWordkeepが何をするアプリなのかをお伝えします。',en:'The home greeting now varies by the hour and by how long you have been here — three lines for each part of the day, two more once you have been at it a while, and a different one if you have been away. The line underneath is gone. Notification wording is shorter too, and someone who has just signed up gets a first note explaining what the app is for.',zh:'主页问候语现在会随时段和使用时长变化：早、午、傍晚、夜各三种，长期使用者另有两种，久未使用则另有一句。下面那行小字已删除。通知文案也更简短，刚注册的用户会收到一条介绍应用用途的通知。',fr:'Le message d’accueil varie désormais selon l’heure et l’ancienneté : trois formules par moment de la journée, deux de plus quand cela fait un moment que vous êtes là, et une autre après une absence. La ligne en dessous a disparu. Les notifications sont plus brèves, et un nouvel inscrit reçoit un premier mot expliquant à quoi sert l’application.',ar:'صارت تحية الصفحة الرئيسية تتغير بحسب الوقت ومدة استخدامك: ثلاث صيغ لكل فترة من اليوم، واثنتان إضافيتان لمن طالت رفقته، وأخرى لمن غاب مدة. وحُذف السطر الذي تحتها. كما صارت نصوص الإشعارات أقصر، ويصل من سجّل حديثًا إشعار أول يشرح فيمَ يفيد التطبيق.',ko:'홈 인사말이 시간대와 사용 기간에 따라 달라집니다. 아침·낮·저녁·밤에 각각 세 가지, 오래 이어 온 분께는 두 가지 더, 한동안 뜸했던 분께는 «오랜만이에요». 아래 한 줄은 지웠습니다. 알림 문구도 짧게 바꿨고, 막 가입한 분께는 첫 알림으로 Wordkeep이 무엇을 하는 앱인지 알려 드립니다.',ru:'Приветствие на главной теперь зависит от времени суток и от того, как давно вы здесь: по три строки на каждую часть дня, ещё две — когда вы уже не новичок, и отдельная после перерыва. Строка под ним убрана. Тексты уведомлений стали короче, а тот, кто только зарегистрировался, получает первое сообщение о том, зачем нужно приложение.'},
+  v5351_1:{ja:'不具合の修正です。ディクテーションで音声を2回目以降聞けなかったのを直しました（再生ボタンが4択側にしか繋がっていませんでした）。単語が3つ以下の単語帳で「はじめる」が押せるのに何も起きなかったのも直しています——4択とリスニングは選択肢を4つ作るので単語が4つ要ります。理由を画面に出すようにしました。',en:'Fixes. Dictation could not replay its audio — the replay button was only wired on the four-choice side. And on a notebook of three words or fewer, Start was pressable but did nothing: four-choice and listening both build four options, so they need four words. The screen now says so.',zh:'修复。听写模式无法重复播放音频（播放按钮只接在四选一那一侧）。另外，单词不足 4 个的单词本上「开始」可点却毫无反应——四选一和听力都需要四个选项，因此需要四个单词。现在界面会说明原因。',fr:'Corrections. La dictée ne pouvait pas rejouer son audio : le bouton n’était câblé que du côté QCM. Et sur un carnet de trois mots ou moins, « Commencer » était cliquable sans rien faire — le QCM et l’écoute construisent quatre options et exigent donc quatre mots. L’écran l’explique désormais.',ar:'إصلاحات. لم يكن الإملاء يعيد تشغيل الصوت، إذ كان زر الإعادة موصولًا في جانب الاختيار من أربعة فقط. وفي دفتر من ثلاث كلمات أو أقل كان زر «ابدأ» قابلًا للضغط دون أن يحدث شيء — فالاختيار من أربعة والاستماع يبنيان أربعة خيارات ويحتاجان أربع كلمات. وصارت الشاشة تبيّن ذلك.',ko:'버그 수정입니다. 딕테이션에서 음성을 두 번째부터 들을 수 없던 문제를 고쳤습니다(재생 버튼이 4택 쪽에만 연결되어 있었습니다). 단어가 3개 이하인 단어장에서 «시작하기»를 누를 수 있는데 아무 일도 일어나지 않던 것도 고쳤습니다——4택과 리스닝은 선택지를 4개 만들기 때문에 단어가 4개 필요합니다. 이유를 화면에 표시합니다.',ru:'Исправления. Диктант не проигрывал звук повторно — кнопка была подключена только со стороны выбора из четырёх. И в словаре из трёх слов и меньше кнопка «Начать» нажималась, но ничего не происходило: выбор из четырёх и аудирование строят четыре варианта, значит нужно четыре слова. Теперь экран об этом говорит.'},
   v5350_1:{ja:'ディクテーションを追加しました。音声を聞いて綴りを打ちます。これで4つの形式が「文字から／音から」×「選ぶ／打つ」で揃いました。聞き取れても書けない単語は調べることもできないので、ここがいちばん実害のある穴でした。',en:'Dictation is here: hear the word, then spell it. That completes the four formats — read or heard, crossed with picked or typed. A word you can catch but cannot write is also a word you cannot look up, which made this the gap that cost the most.',zh:'新增听写：听发音后拼写出来。至此四种形式凑齐了「看文字／听发音」×「选择／输入」。听得出却写不出的单词也无法查询，这正是最实际的缺口。',fr:'La dictée arrive : écoutez le mot, puis écrivez-le. Les quatre formats sont complets — lu ou entendu, croisé avec choisi ou tapé. Un mot qu’on saisit à l’oreille sans savoir l’écrire ne peut pas être cherché non plus : c’était le manque le plus coûteux.',ar:'أُضيف الإملاء: استمع إلى الكلمة ثم اكتب تهجئتها. بذلك اكتملت الأنماط الأربعة: مقروء أو مسموع، في مقابل اختيار أو كتابة. والكلمة التي تلتقطها ولا تعرف كتابتها لا يمكنك البحث عنها أيضًا، وهذه كانت أكثر الثغرات كلفة.',ko:'딕테이션을 추가했습니다. 음성을 듣고 철자를 입력합니다. 이로써 네 가지 형식이 «글자에서／소리에서» × «고르기／입력하기»로 갖춰졌습니다. 알아들어도 쓸 수 없는 단어는 찾아볼 수도 없으니, 여기가 가장 실질적인 구멍이었습니다.',ru:'Появился диктант: услышьте слово и запишите его. Так собрались все четыре формата — прочитанное или услышанное на выбор или на ввод. Слово, которое вы уловили, но не можете написать, вы и не найдёте в словаре: это был самый дорогой пробел.'},
-  v5340_1:{ja:'リスニングを追加しました。音声を聞いて意味を選びます。これまでの出題はすべて「文字を見る」ところから始まっていましたが、読んで分かることと聞いて分かることは別の力です。答えると綴りが出ます。',en:'Listening is here: hear the word, then pick the meaning. Everything the app asked until now started from seeing letters, and reading a word is not the same skill as catching it in speech. The spelling appears once you answer.',zh:'新增听力模式：听发音后选出意思。此前所有题目都从「看文字」开始，但读得懂和听得懂是两种能力。作答后会显示拼写。',fr:'L’écoute arrive : entendez le mot, puis choisissez le sens. Jusqu’ici, tout partait de lettres à lire — or lire un mot et le saisir à l’oral sont deux compétences. L’orthographe s’affiche après la réponse.',ar:'أُضيف نمط الاستماع: استمع إلى الكلمة ثم اختر معناها. كان كل سؤال حتى الآن يبدأ من رؤية الحروف، وقراءة الكلمة ليست كالتقاطها في الكلام. وتظهر التهجئة بعد الإجابة.',ko:'리스닝을 추가했습니다. 음성을 듣고 뜻을 고릅니다. 지금까지의 문제는 모두 «글자를 보는» 데서 시작했지만, 읽어서 아는 것과 들어서 아는 것은 다른 힘입니다. 답하면 철자가 나옵니다.',ru:'Появилось аудирование: услышьте слово и выберите значение. Раньше всё начиналось с букв, но читать слово и узнавать его на слух — разные умения. Написание показывается после ответа.'},
-  v5340_2:{ja:'復習をはじめる画面を作り直しました。形式（4択・スペル入力・リスニング）を大きく並べ、範囲や問題数は必要なときだけ開きます。毎回4つ決めさせられる記入用紙のようだったのを、押すボタンひとつが主役の画面にしました。',en:'The start-a-round screen has been rebuilt. The three formats are the screen; the range and the round size fold away until you want them. It had become a form to fill in every time, and now the one button you came to press is the point of it.',zh:'重做了开始复习的界面。三种形式大字并列，范围和题数需要时才展开。此前每次都要填四项，像一张表格；现在你要按的那一个按钮才是主角。',fr:'L’écran de lancement a été refait. Les trois formats occupent l’écran ; la portée et la taille de la série se replient jusqu’à ce que vous les vouliez. C’était devenu un formulaire à remplir ; le bouton que vous venez presser en est désormais le sujet.',ar:'أُعيد بناء شاشة بدء المراجعة. الأنماط الثلاثة هي الشاشة، أما النطاق وعدد الأسئلة فينطويان حتى تطلبهما. كانت استمارة تُملأ في كل مرة، وصار الزر الذي جئت لتضغطه هو محورها.',ko:'복습을 시작하는 화면을 다시 만들었습니다. 형식(4택·스펠 입력·리스닝)을 크게 늘어놓고, 범위나 문제 수는 필요할 때만 펼칩니다. 매번 네 가지를 정하게 하는 서식 같았던 것을, 누를 버튼 하나가 주인공인 화면으로 바꿨습니다.',ru:'Экран запуска раунда переделан. Три формата — это и есть экран, а диапазон и размер раунда сворачиваются, пока не понадобятся. Раньше это была анкета; теперь главное на нём — та самая кнопка.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1401,19 +1414,24 @@ const T={
   nav_home:{ja:'ホーム',en:'Home',zh:'首页',fr:'Accueil',ar:'الرئيسية',ko:'홈',ru:'Главная'},
   nav_words:{ja:'単語',en:'Words',zh:'单词',fr:'Mots',ar:'الكلمات',ko:'단어',ru:'Слова'},
   note_heading:{ja:'メモ',en:'Notes',zh:'备注',fr:'Notes',ar:'ملاحظات',ko:'메모',ru:'Заметки'},
+  hi_morning1:{ja:'おはよう、{0}',en:'Good morning, {0}',zh:'早上好，{0}',fr:'Bonjour, {0}',ar:'صباح الخير، {0}',ko:'좋은 아침이에요, {0}',ru:'Доброе утро, {0}'},
+  hi_morning2:{ja:'{0}さん、今朝もどうぞ',en:'Morning, {0}',zh:'早安，{0}',fr:'Bien le bonjour, {0}',ar:'صباحك سعيد، {0}',ko:'{0}님, 오늘 아침도',ru:'Утро доброе, {0}'},
+  hi_morning3:{ja:'今日もはじめよう、{0}',en:'Let’s begin, {0}',zh:'今天也开始吧，{0}',fr:'On commence, {0}',ar:'لنبدأ، {0}',ko:'오늘도 시작해요, {0}',ru:'Начнём, {0}'},
+  hi_day1:{ja:'こんにちは、{0}',en:'Hello, {0}',zh:'你好，{0}',fr:'Bonjour, {0}',ar:'مرحبًا، {0}',ko:'안녕하세요, {0}',ru:'Здравствуйте, {0}'},
+  hi_day2:{ja:'{0}さん、おつかれさま',en:'Hey, {0}',zh:'辛苦了，{0}',fr:'Salut, {0}',ar:'أهلًا، {0}',ko:'{0}님, 수고 많아요',ru:'Привет, {0}'},
+  hi_day3:{ja:'ひと息つきますか、{0}',en:'Taking a break, {0}?',zh:'歇一会儿吗，{0}',fr:'Une pause, {0} ?',ar:'استراحة قصيرة، {0}؟',ko:'잠깐 쉬어 갈까요, {0}',ru:'Сделаем паузу, {0}?'},
+  hi_evening1:{ja:'こんばんは、{0}',en:'Good evening, {0}',zh:'晚上好，{0}',fr:'Bonsoir, {0}',ar:'مساء الخير، {0}',ko:'안녕하세요, {0}',ru:'Добрый вечер, {0}'},
+  hi_evening2:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
+  hi_evening3:{ja:'{0}さん、今日はどうでした',en:'How was today, {0}?',zh:'今天过得如何，{0}',fr:'Ta journée, {0} ?',ar:'كيف كان يومك، {0}؟',ko:'{0}님, 오늘 어땠어요',ru:'Как день, {0}?'},
+  hi_night1:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
+  hi_night2:{ja:'まだ起きてる、{0}？',en:'Still up, {0}?',zh:'还没睡吗，{0}',fr:'Encore debout, {0} ?',ar:'ما زلت مستيقظًا، {0}؟',ko:'아직 안 잤어요, {0}?',ru:'Ещё не спите, {0}?'},
+  hi_night3:{ja:'夜のうちに少しだけ、{0}',en:'A quick one before bed, {0}',zh:'睡前来一点，{0}',fr:'Un petit tour avant la nuit, {0}',ar:'قليلًا قبل النوم، {0}',ko:'자기 전에 조금만, {0}',ru:'Немного перед сном, {0}'},
+  hi_vet1:{ja:'また会えたね、{0}',en:'Good to see you, {0}',zh:'又见面了，{0}',fr:'Content de vous revoir, {0}',ar:'سعيد برؤيتك، {0}',ko:'또 만났네요, {0}',ru:'Рад видеть, {0}'},
+  hi_vet2:{ja:'{0}さん、今日もここに',en:'Here again, {0}',zh:'今天也来了，{0}',fr:'De retour, {0}',ar:'هنا من جديد، {0}',ko:'{0}님, 오늘도 여기에',ru:'Снова здесь, {0}'},
+  hi_back1:{ja:'ひさしぶり、{0}',en:'It’s been a while, {0}',zh:'好久不见，{0}',fr:'Ça fait un moment, {0}',ar:'مضى وقت، {0}',ko:'오랜만이에요, {0}',ru:'Давно не виделись, {0}'},
+  hi_back2:{ja:'また来てくれた、{0}',en:'You came back, {0}',zh:'你又回来了，{0}',fr:'Vous revoilà, {0}',ar:'عدت، {0}',ko:'다시 와 주었네요, {0}',ru:'Вы вернулись, {0}'},
   hi_first:{ja:'ようこそ、{0}',en:'Welcome, {0}',zh:'欢迎，{0}',fr:'Bienvenue, {0}',ar:'أهلًا بك، {0}',ko:'환영합니다, {0}',ru:'Добро пожаловать, {0}'},
-  hi_morning:{ja:'おはよう、{0}',en:'Good morning, {0}',zh:'早上好，{0}',fr:'Bonjour, {0}',ar:'صباح الخير، {0}',ko:'좋은 아침이에요, {0}',ru:'Доброе утро, {0}'},
-  hi_day:{ja:'こんにちは、{0}',en:'Hello, {0}',zh:'你好，{0}',fr:'Bonjour, {0}',ar:'مرحبًا، {0}',ko:'안녕하세요, {0}',ru:'Здравствуйте, {0}'},
-  hi_evening:{ja:'こんばんは、{0}',en:'Good evening, {0}',zh:'晚上好，{0}',fr:'Bonsoir, {0}',ar:'مساء الخير، {0}',ko:'좋은 저녁이에요, {0}',ru:'Добрый вечер, {0}'},
-  hi_night:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
-  sub_first:{ja:'まずは1語から。ここが単語帳になります。',en:'Start with a single word. This will become your notebook.',zh:'先从一个单词开始，这里会成为你的单词本。',fr:'Commencez par un seul mot. Ceci deviendra votre carnet.',ar:'ابدأ بكلمة واحدة، وسيصبح هذا دفترك.',ko:'우선 한 단어부터. 여기가 당신의 단어장이 됩니다.',ru:'Начните с одного слова — здесь появится ваш словарь.'},
-  sub_2:{ja:'覚えたころに、もう一度出てきます。',en:'Words come back just as you start to forget them.',zh:'正当你快忘记时，单词会再次出现。',fr:'Les mots reviennent juste quand vous commencez à les oublier.',ar:'تعود الكلمات في اللحظة التي تبدأ فيها بنسيانها.',ko:'잊어갈 때쯤 다시 나타납니다.',ru:'Слова возвращаются как раз тогда, когда вы начинаете их забывать.'},
-  sub_3:{ja:'5分でも、開かない日より強いです。',en:'Five minutes beats a day you never opened it.',zh:'哪怕只有五分钟，也胜过一天不打开。',fr:'Cinq minutes valent mieux qu’un jour sans l’ouvrir.',ar:'خمس دقائق أفضل من يوم لم تفتحه فيه أصلًا.',ko:'5분이라도, 열지 않은 날보다 낫습니다.',ru:'Пять минут лучше дня, когда вы вообще не открыли приложение.'},
-  sub_4:{ja:'間違えた分だけ、早く戻ってきます。',en:'Whatever you miss comes back sooner.',zh:'答错的部分会更早回来。',fr:'Ce que vous ratez revient plus tôt.',ar:'ما تخطئ فيه يعود إليك أسرع.',ko:'틀린 만큼 더 빨리 돌아옵니다.',ru:'Что не вспомнили — вернётся раньше.'},
-  sub_5:{ja:'今日の分を終えれば、それで十分です。',en:'Finish today’s and that’s enough.',zh:'完成今天的份量就足够了。',fr:'Terminez ce qui est prévu aujourd’hui, cela suffit.',ar:'أنهِ نصيب اليوم، وهذا يكفي.',ko:'오늘 몫만 끝내면 그것으로 충분합니다.',ru:'Сделайте сегодняшнее — этого достаточно.'},
-  home_hi:{ja:'おかえり、{0}',en:'Welcome back, {0}',zh:'欢迎回来，{0}',fr:'Bon retour, {0}',ar:'أهلًا بعودتك، {0}',ko:'다시 오셨네요, {0}',ru:'С возвращением, {0}'},
   home_you:{ja:'あなた',en:'there',zh:'你',fr:'vous',ar:'بك',ko:'여러분',ru:'друг'},
-  home_sub:{ja:'今日の1回が、いちばん効きます。',en:'One session today does more than a long one next week.',zh:'今天练一次，胜过下周补一大段。',fr:'Une session aujourd’hui vaut mieux qu’une longue la semaine prochaine.',ar:'جلسة واحدة اليوم أفضل من جلسة طويلة الأسبوع القادم.',ko:'오늘의 한 번이 가장 효과적입니다.',ru:'Одно занятие сегодня полезнее долгого на следующей неделе.'},
   home_m_streak:{ja:'連続',en:'STREAK',zh:'连续',fr:'SÉRIE',ar:'التتابع',ko:'연속',ru:'СЕРИЯ'},
   today_backlog:{ja:'たまっている分が{0}語あります。今日は上の数だけで大丈夫です',en:'{0} more have piled up. Today’s number above is enough',zh:'另有 {0} 个积压。今天完成上面的数量就够了',fr:'{0} en retard se sont accumulés. Le nombre ci-dessus suffit pour aujourd’hui',ar:'تراكمت {0} كلمة أخرى. يكفيك اليوم العدد المذكور أعلاه',ko:'밀린 단어가 {0}개 있습니다. 오늘은 위의 개수만으로 충분합니다',ru:'Накопилось ещё {0}. На сегодня хватит числа выше'},
   today_backlog_done:{ja:'今日の分は終わりました。たまっている{0}語は、少しずつで大丈夫です',en:'Today’s set is done. The {0} that piled up can wait — a few at a time is fine',zh:'今天的份已完成。积压的 {0} 个慢慢来即可',fr:'Votre série du jour est faite. Les {0} en retard peuvent attendre, quelques-uns à la fois suffisent',ar:'أنهيت حصة اليوم. أما الـ{0} المتراكمة فيمكن أن تنتظر، وقليل منها كل يوم يكفي',ko:'오늘 몫은 끝났습니다. 밀린 {0}개는 조금씩 해도 괜찮습니다',ru:'Сегодняшняя норма выполнена. Накопившиеся {0} могут подождать — понемногу за раз'},
@@ -1428,22 +1446,24 @@ const T={
   ntf_unsupported:{ja:'この端末・ブラウザでは通知を使えません。iPhoneの場合はホーム画面に追加してから開いてください',en:'Notifications aren’t available on this browser. On iPhone, add the app to your Home Screen first',zh:'此浏览器不支持通知。iPhone 请先将应用添加到主屏幕',fr:'Les notifications ne sont pas disponibles sur ce navigateur. Sur iPhone, ajoutez d’abord l’app à l’écran d’accueil',ar:'الإشعارات غير متاحة في هذا المتصفح. على iPhone أضف التطبيق إلى الشاشة الرئيسية أولًا',ko:'이 브라우저에서는 알림을 쓸 수 없습니다. iPhone은 홈 화면에 추가한 뒤 열어 주세요',ru:'Уведомления недоступны в этом браузере. На iPhone сначала добавьте приложение на главный экран'},
   ntf_denied:{ja:'通知が許可されませんでした。端末の設定から許可すると受け取れます',en:'Permission wasn’t granted. You can allow notifications in your device settings',zh:'未获得通知权限。可在系统设置中允许',fr:'L’autorisation n’a pas été accordée. Vous pouvez l’activer dans les réglages de l’appareil',ar:'لم يُمنح الإذن. يمكنك السماح بالإشعارات من إعدادات جهازك',ko:'알림이 허용되지 않았습니다. 기기 설정에서 허용하면 받을 수 있습니다',ru:'Разрешение не получено. Включить уведомления можно в настройках устройства'},
   ntf_fail:{ja:'通知を設定できませんでした。通信を確認してもう一度お試しください',en:'Couldn’t set up notifications. Check your connection and try again',zh:'无法设置通知。请检查网络后重试',fr:'Impossible de configurer les notifications. Vérifiez votre connexion et réessayez',ar:'تعذّر إعداد الإشعارات. تحقّق من الاتصال وحاول مجددًا',ko:'알림을 설정하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요',ru:'Не удалось настроить уведомления. Проверьте соединение и повторите'},
-  ntf_build_t:{ja:'{0}日目です。あと{1}日で習慣になります！',en:'Day {0}. {1} more and it is a habit!',zh:'第 {0} 天。再坚持 {1} 天就成习惯了！',fr:'Jour {0}. Encore {1} et c’est une habitude !',ar:'اليوم {0}. تبقّى {1} لتصير عادة!',ko:'{0}일째입니다. {1}일 더면 습관이 됩니다!',ru:'День {0}. Ещё {1} — и это привычка!'},
-  ntf_build_b:{ja:'1問だけでも今日の分になります',en:'Even one question counts for today',zh:'哪怕只答一题，今天也算数',fr:'Une seule question suffit pour aujourd’hui',ar:'حتى سؤال واحد يحتسب لليوم',ko:'한 문제만 풀어도 오늘 몫이 됩니다',ru:'Даже один вопрос засчитывается за сегодня'},
-  ntf_near_t:{ja:'あと{0}日で、{1}日連続です⚡️',en:'{0} more day to {1} in a row ⚡️',zh:'再 {0} 天就是连续 {1} 天 ⚡️',fr:'Encore {0} jour pour {1} d’affilée ⚡️',ar:'يوم {0} فقط لتصل إلى {1} متتالية ⚡️',ko:'{0}일만 더 하면 {1}일 연속입니다 ⚡️',ru:'Ещё {0} день до серии в {1} ⚡️'},
-  ntf_near_b:{ja:'ここまで来ました。今日は1問で足ります！',en:'You have come this far. One question does it today!',zh:'已经走到这里了，今天一题就够！',fr:'Vous en êtes là. Une question suffit aujourd’hui !',ar:'وصلت إلى هنا. سؤال واحد يكفي اليوم!',ko:'여기까지 왔습니다. 오늘은 한 문제면 됩니다!',ru:'Вы уже здесь. Сегодня хватит одного вопроса!'},
-  ntf_last_t:{ja:'あと{0}時間で、{1}日の連続が途切れます',en:'Your {1}-day streak ends in {0} hours',zh:'再过 {0} 小时，{1} 天连续记录就中断了',fr:'Votre série de {1} jours se termine dans {0} h',ar:'تنتهي سلسلة {1} يومًا خلال {0} ساعات',ko:'{0}시간 뒤에 {1}일 연속이 끊깁니다',ru:'Серия из {1} дней прервётся через {0} ч'},
+  ntf_build_t:{ja:'{0}日目。あと{1}日で習慣に',en:'Day {0}. {1} more to a habit',zh:'第 {0} 天。再 {1} 天成习惯',fr:'Jour {0}. Encore {1} pour une habitude',ar:'اليوم {0}. تبقّى {1} لتصير عادة',ko:'{0}일째. {1}일 더면 습관',ru:'День {0}. Ещё {1} — и привычка'},
+  ntf_build_b:{ja:'1問だけでも今日の分',en:'One question still counts',zh:'哪怕一题也算数',fr:'Une seule question compte',ar:'حتى سؤال واحد يحتسب',ko:'한 문제만 풀어도 오늘 몫',ru:'Даже один вопрос считается'},
+  ntf_near_t:{ja:'あと{0}日で{1}日ストリーク⚡️',en:'{0} more day to a {1}-day streak ⚡️',zh:'再 {0} 天就是 {1} 天连续 ⚡️',fr:'Encore {0} jour pour {1} d’affilée ⚡️',ar:'يوم {0} فقط حتى سلسلة {1} يومًا ⚡️',ko:'{0}일만 더 하면 {1}일 스트릭 ⚡️',ru:'Ещё {0} день до серии в {1} ⚡️'},
+  ntf_near_b:{ja:'ここまで来た。今日は1問でいい',en:'You’ve come this far. One question today',zh:'已经走到这里了。今天一题就好',fr:'Vous en êtes là. Une question aujourd’hui',ar:'وصلت إلى هنا. سؤال واحد اليوم',ko:'여기까지 왔다. 오늘은 한 문제만',ru:'Вы уже здесь. Сегодня — один вопрос'},
+  ntf_last_t:{ja:'あと{0}時間で{1}日の連続が途切れる',en:'{1}-day streak ends in {0} hours',zh:'再 {0} 小时，{1} 天连续就断了',fr:'Série de {1} jours perdue dans {0} h',ar:'تنتهي سلسلة {1} يومًا خلال {0} ساعات',ko:'{0}시간 뒤에 {1}일 연속이 끊긴다',ru:'Серия из {1} дней прервётся через {0} ч'},
   ntf_last_b:{ja:'1問解けば守れます！',en:'One question keeps it!',zh:'答一题就能保住！',fr:'Une question la sauve !',ar:'سؤال واحد يحفظها!',ko:'한 문제만 풀면 지킬 수 있습니다!',ru:'Один вопрос — и она сохранится!'},
   ntf_freeze_t:{ja:'このままだと、フリーズが1つ使われます',en:'A freeze will be used tonight',zh:'照这样下去会用掉 1 个冻结',fr:'Un gel va être utilisé cette nuit',ar:'ستُستخدم تجميدة الليلة',ko:'이대로면 프리즈가 1개 사용됩니다',ru:'Сегодня будет потрачена заморозка'},
   ntf_freeze_b:{ja:'残り{0}個。1問解けば使わずに済みます',en:'{0} left. One question and you keep it',zh:'还剩 {0} 个。答一题就不必使用',fr:'Il en reste {0}. Une question et vous le gardez',ar:'بقيت {0}. سؤال واحد وتحتفظ بها',ko:'{0}개 남았습니다. 한 문제 풀면 쓰지 않아도 됩니다',ru:'Осталось {0}. Один вопрос — и она останется'},
-  ntf_back_t:{ja:'これまでの最高は{0}日連続でした',en:'Your best run was {0} days',zh:'你的最好记录是连续 {0} 天',fr:'Votre meilleure série : {0} jours',ar:'أفضل سلسلة لك كانت {0} أيام',ko:'지금까지 최고는 {0}일 연속이었습니다',ru:'Ваш рекорд — {0} дней подряд'},
+  ntf_back_t:{ja:'これまでの最高は{0}日連続',en:'Your best run: {0} days',zh:'你的最好记录：连续 {0} 天',fr:'Votre record : {0} jours',ar:'أفضل سلسلة لك: {0} أيام',ko:'지금까지 최고는 {0}일 연속',ru:'Ваш рекорд — {0} дней'},
   ntf_back_b:{ja:'今日やれば、また1日目です！',en:'Study today and day one starts again!',zh:'今天学一下，第一天重新开始！',fr:'Étudiez aujourd’hui et le jour 1 recommence !',ar:'ادرس اليوم ليبدأ اليوم الأول من جديد!',ko:'오늘 하면 다시 1일째입니다!',ru:'Позанимайтесь сегодня — и первый день начнётся заново!'},
   ntf_start_t:{ja:'まずは1問だけ、やってみませんか？',en:'How about just one question?',zh:'先做一题看看？',fr:'Et si vous faisiez juste une question ?',ar:'ما رأيك بسؤال واحد فقط؟',ko:'우선 한 문제만 해볼까요?',ru:'Может, всего один вопрос?'},
   ntf_start_b:{ja:'今日やれば1日目。7日で習慣になります！',en:'Today makes it day one. Seven makes it a habit!',zh:'今天就是第 1 天，七天成习惯！',fr:'Aujourd’hui, c’est le jour 1. Sept jours en font une habitude !',ar:'اليوم هو اليوم الأول، وسبعة أيام تصنع عادة!',ko:'오늘 하면 1일째. 7일이면 습관이 됩니다!',ru:'Сегодня — первый день. Семь дней делают привычку!'},
-  ntf_done_t:{ja:'{0}日連続、今日も達成です！',en:'{0} days in a row — today included!',zh:'连续 {0} 天，今天也完成了！',fr:'{0} jours d’affilée, aujourd’hui compris !',ar:'{0} أيام متتالية، واليوم منها!',ko:'{0}일 연속, 오늘도 달성했습니다!',ru:'{0} дней подряд, включая сегодня!'},
-  ntf_done_b2:{ja:'この調子です！',en:'Keep it going!',zh:'保持下去！',fr:'Continuez comme ça !',ar:'واصل هكذا!',ko:'이대로 계속해요!',ru:'Так держать!'},
-  ntf_done_b:{ja:'あと{0}日で{1}日ストリークです⚡️',en:'{0} more days to a {1}-day streak ⚡️',zh:'再 {0} 天就是 {1} 天连续记录 ⚡️',fr:'Encore {0} jours pour une série de {1} ⚡️',ar:'تبقّى {0} أيام لسلسلة من {1} يومًا ⚡️',ko:'{0}일 더 하면 {1}일 스트릭입니다 ⚡️',ru:'Ещё {0} дней до серии в {1} ⚡️'},
-  ntf_streak_t:{ja:'{0}日連続中！今日はまだです',en:'{0} days in a row! Not today yet',zh:'已连续 {0} 天！今天还没学',fr:'{0} jours d’affilée ! Pas encore aujourd’hui',ar:'{0} أيام متتالية! ولم تدرس اليوم بعد',ko:'{0}일 연속 중! 오늘은 아직입니다',ru:'{0} дней подряд! Сегодня ещё нет'},
+  ntf_hello_t:{ja:'Wordkeepへようこそ！✨',en:'Welcome to Wordkeep! ✨',zh:'欢迎使用 Wordkeep！✨',fr:'Bienvenue sur Wordkeep ! ✨',ar:'أهلًا بك في Wordkeep! ✨',ko:'Wordkeep에 오신 것을 환영합니다! ✨',ru:'Добро пожаловать в Wordkeep! ✨'},
+  ntf_hello_b:{ja:'知らなかった単語を入れておくと、忘れかけた頃に出します',en:'Save a word you didn’t know, and it comes back just as you start to forget it',zh:'把不认识的单词存进来，快忘记时会再出现',fr:'Enregistrez un mot inconnu : il revient juste avant que vous l’oubliiez',ar:'احفظ كلمة لم تكن تعرفها، وستعود إليك قبيل أن تنساها',ko:'몰랐던 단어를 넣어 두면, 잊어갈 무렵에 다시 나옵니다',ru:'Сохраните незнакомое слово — оно вернётся, когда вы начнёте его забывать'},
+  ntf_done_t:{ja:'{0}日連続、今日も達成！',en:'{0} days in a row — today too!',zh:'连续 {0} 天，今天也做到了！',fr:'{0} jours d’affilée, aujourd’hui aussi !',ar:'{0} أيام متتالية، واليوم أيضًا!',ko:'{0}일 연속, 오늘도 달성!',ru:'{0} дней подряд — и сегодня тоже!'},
+  ntf_done_b2:{ja:'この調子！',en:'Keep it going!',zh:'保持下去！',fr:'Continuez !',ar:'واصل!',ko:'이대로 계속!',ru:'Так держать!'},
+  ntf_done_b:{ja:'あと{0}日で{1}日ストリーク⚡️',en:'{0} days to a {1}-day streak ⚡️',zh:'再 {0} 天就是 {1} 天连续 ⚡️',fr:'Encore {0} jours pour {1} d’affilée ⚡️',ar:'{0} أيام حتى سلسلة {1} يومًا ⚡️',ko:'{0}일 더면 {1}일 스트릭 ⚡️',ru:'Ещё {0} дней до серии в {1} ⚡️'},
+  ntf_streak_t:{ja:'{0}日連続中！今日はまだ',en:'{0} days in a row! Not today yet',zh:'已连续 {0} 天！今天还没',fr:'{0} jours d’affilée ! Pas encore aujourd’hui',ar:'{0} أيام متتالية! ولم تدرس اليوم',ko:'{0}일 연속 중! 오늘은 아직',ru:'{0} дней подряд! Сегодня ещё нет'},
   ntf_streak_b:{ja:'1問でも解けばつながります',en:'A single question keeps it alive',zh:'只要答一题就能延续',fr:'Une seule question suffit à la préserver',ar:'سؤال واحد يكفي للحفاظ عليها',ko:'한 문제만 풀어도 이어집니다',ru:'Достаточно одного вопроса, чтобы её сохранить'},
   ntf_word_t:{ja:'「{0}」の意味は覚えていますか？',en:'Do you remember what “{0}” means?',zh:'还记得「{0}」的意思吗？',fr:'Vous souvenez-vous du sens de « {0} » ?',ar:'هل تتذكر معنى «{0}»؟',ko:'«{0}»의 뜻을 기억하고 있나요?',ru:'Помните, что значит «{0}»?'},
   ntf_word_b:{ja:'タップして確かめる',en:'Tap to check',zh:'点击查看',fr:'Touchez pour vérifier',ar:'المس للتحقق',ko:'눌러서 확인하기',ru:'Нажмите, чтобы проверить'},
@@ -3808,14 +3828,33 @@ function firstTimeHere(){
   // Never finished a study session: greet them as new rather than "welcome back".
   return !((S().streak||{}).lastActiveDate);
 }
+// How long they have been at this, which is the other half of a greeting that
+// does not read as a template. Somebody on day 200 and somebody on day 2 should
+// not be met with the same sentence forever.
+function daysStudied(){
+  let n=0;
+  dailyCounts().forEach(v=>{if(v.n>0)n++;});
+  return n;
+}
+function greetBand(){
+  if(firstTimeHere())return 'first';
+  const last=(S().streak||{}).lastActiveDate;
+  const gap=localDayIndex(Date.now())-localDayIndex(last);
+  // Away long enough that "good evening" would be the wrong note.
+  if(gap>=3)return 'back';
+  return daysStudied()>=30?'vet':'reg';
+}
 function greetingLine(){
   const name=displayName()||t('home_you');
-  if(firstTimeHere())return t('hi_first',name);
-  return t({morning:'hi_morning',day:'hi_day',evening:'hi_evening',night:'hi_night'}[timeBand()],name);
-}
-function greetingSub(){
-  if(firstTimeHere())return t('sub_first');
-  return t(pickStable(['home_sub','sub_2','sub_3','sub_4','sub_5'],1));
+  const b=greetBand();
+  if(b==='first')return t('hi_first',name);
+  if(b==='back')return t(pickStable(['hi_back1','hi_back2'],3),name);
+  const band=timeBand();
+  const pool=[band+'1',band+'2',band+'3'].map(x=>'hi_'+x);
+  // Two lines only somebody who has been here a while ever sees, mixed in with
+  // the hour-appropriate ones rather than replacing them.
+  if(b==='vet')pool.push('hi_vet1','hi_vet2');
+  return t(pickStable(pool,1),name);
 }
 function renderHome(report){
   const el=$('#homeBody');
@@ -3826,8 +3865,7 @@ function renderHome(report){
   const learned=curWords().filter(w=>w.box>=0).length;
   const ts=todayState();
 
-  let h='<div class="home-hi"><h2>'+esc(greetingLine())+'</h2>'+
-    '<div class="sub">'+esc(greetingSub())+'</div></div>';
+  let h='<div class="home-hi"><h2>'+esc(greetingLine())+'</h2></div>';
 
   h+='<div class="home-metrics">'+
     '<div class="hm'+((st.current||0)>0?' live':'')+'"><div class="v">'+(st.current||0)+'</div>'+
@@ -7157,6 +7195,7 @@ function buildHint(){
       freeze_t:t('ntf_freeze_t'), freeze_b:t('ntf_freeze_b'),
       back_t:t('ntf_back_t'),     back_b:t('ntf_back_b'),
       start_t:t('ntf_start_t'),   start_b:t('ntf_start_b'),
+      hello_t:t('ntf_hello_t'),   hello_b:t('ntf_hello_b'),
       done_t:t('ntf_done_t'),     done_b:t('ntf_done_b'),
       done_b2:t('ntf_done_b2'),
       streak_t:t('ntf_streak_t'), streak_b:t('ntf_streak_b'),
@@ -8040,8 +8079,44 @@ function hideSplash(){
   setTimeout(()=>{
     const el=$('#splash');
     if(!el)return;
-    el.classList.add('gone');
-    setTimeout(()=>{if(el.parentNode)el.remove();},400);
+    const hdr=document.querySelector('header');
+    const name=el.querySelector('.sp-name');
+    const title=hdr&&hdr.querySelector('h1');
+    const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    // The morph needs both ends measurable. Anything missing, or somebody who
+    // asked for less motion, gets the plain fade this used to do.
+    if(!hdr||!name||!title||reduce){
+      el.classList.add('gone');
+      setTimeout(()=>{if(el.parentNode)el.remove();},400);
+      return;
+    }
+    const h=hdr.getBoundingClientRect();
+    const n=name.getBoundingClientRect();
+    const tr=title.getBoundingClientRect();
+    // Pin the wordmark where it currently is before the panel starts shrinking:
+    // it is centred by flexbox, and a flex box whose height is animating would
+    // drag it along a second, competing path.
+    name.style.position='fixed';
+    name.style.margin='0';
+    name.style.left=n.left+'px';
+    name.style.top=n.top+'px';
+    el.style.height=window.innerHeight+'px';
+    el.style.bottom='auto';
+    // Read back so the browser commits those values as the start of the
+    // transition rather than collapsing both frames into one.
+    void el.offsetHeight;
+    el.classList.add('curtain');
+    const scale=tr.height/(n.height||tr.height);
+    name.style.transformOrigin='left top';
+    name.style.transform='translate('+(tr.left-n.left)+'px,'+(tr.top-n.top)+'px) scale('+scale+')';
+    el.style.height=h.height+'px';
+    // Only now is the overlay indistinguishable from the header underneath, so
+    // taking it away is invisible. The short fade is insurance against a
+    // half-pixel of rounding, not a visible crossfade.
+    setTimeout(()=>{
+      el.classList.add('settled');
+      setTimeout(()=>{if(el.parentNode)el.remove();},220);
+    },540);
   },wait);
 }
 // Never let a stalled network hold the app hostage.
