@@ -246,8 +246,9 @@ function renderShared(){
         '<span class="tag">'+esc(d.id)+'</span>'+
       '</div>'+
       '<div class="row" style="margin-top:8px">'+
-        '<button data-shsee="'+esc(d.id)+'">'+(open?'単語を隠す':'単語を見る')+'</button>'+
-        '<button class="danger" data-shdel="'+esc(d.id)+'">削除</button>'+
+        '<button class="btn btn-ghost btn-sm" data-shsee="'+esc(d.id)+'">'+
+          (open?'単語を隠す':'単語を見る')+'</button>'+
+        '<button class="btn btn-ghost btn-sm" style="color:var(--bad)" data-shdel="'+esc(d.id)+'">削除</button>'+
       '</div>'+
       (open?'<div class="sd" style="margin-top:8px;font-size:12.5px;line-height:1.9">'+
         words.map(w=>esc(String(w.w||''))+' — '+esc(String(w.m||''))+(w.n?' 〔'+esc(String(w.n))+'〕':'')).join('<br>')+

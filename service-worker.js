@@ -81,10 +81,15 @@ function readHint() {
     req.onerror = () => resolve(null);
     req.onsuccess = () => {
       const db = req.result;
-      if (!db.objectStoreNames.contains(HINT_STORE)) { db.close(); return resolve(null); }
-      const g = db.transaction(HINT_STORE, 'readonly').objectStore(HINT_STORE).get('v1');
-      g.onerror = () => { db.close(); resolve(null); };
-      g.onsuccess = () => { db.close(); resolve(g.result || null); };
+      // Same guard as the writer: WebKit can throw out of the transaction
+      // call itself, and an unreadable hint must degrade to a generic
+      // notification rather than taking the push handler down with it.
+      try {
+        if (!db.objectStoreNames.contains(HINT_STORE)) { db.close(); return resolve(null); }
+        const g = db.transaction(HINT_STORE, 'readonly').objectStore(HINT_STORE).get('v1');
+        g.onerror = () => { db.close(); resolve(null); };
+        g.onsuccess = () => { db.close(); resolve(g.result || null); };
+      } catch (e) { try { db.close(); } catch (e2) {} resolve(null); }
     };
   });
 }
