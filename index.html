@@ -1187,13 +1187,6 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
     <div class="set-section-t" data-i18n="sec_quiz">出題形式</div>
     <div class="panel">
       <div class="set-row">
-        <div><div class="st" data-i18n="st_dir">出題の向き</div><div class="sd" data-i18n="desc_dir">単語→意味 か、意味→単語 か</div></div>
-        <div class="seg" id="segDir">
-          <button data-v="e2j" data-i18n="dir_e2j">単語→意</button>
-          <button data-v="j2e" data-i18n="dir_j2e">意→単語</button>
-        </div>
-      </div>
-      <div class="set-row">
         <div><div class="st" data-i18n="st_len">1回の問題数</div><div class="sd" data-i18n="desc_len">まとめて何問出すか</div></div>
         <div id="setLen"></div>
       </div>
@@ -1289,15 +1282,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.36.0';
+const APP_VERSION='5.37.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.36.0',date:'2026-08-30',keys:['wn1','wn2']},
+  {version:'5.37.0',date:'2026-08-30',keys:['wn1','wn2']},
+  {version:'5.36.0',date:'2026-08-30',keys:['v5360_1','v5360_2']},
   {version:'5.35.1',date:'2026-08-30',keys:['v5351_1']},
-  {version:'5.35.0',date:'2026-08-28',keys:['v5350_1']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1395,10 +1388,11 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'読み込み画面が、そのままヘッダーになるようにしました。幕が上がるように縮んでいって、Wordkeepの文字が上部の紺色の帯の中に収まります。消えて別のものが現れるのではなく、同じものが形を変えるだけです。',en:'The loading screen no longer fades away — it becomes the header. It rises like a curtain, shrinking to the header’s exact shape while the wordmark settles into place. Nothing disappears and nothing replaces it; one thing changes shape.',zh:'加载画面不再淡出，而是直接变成顶部标题栏。它像幕布一样上升收拢，Wordkeep 字样正好落在深蓝色横条中。不是消失后换成另一个，而是同一个东西改变了形状。',fr:'L’écran de chargement ne disparaît plus : il devient l’en-tête. Il remonte comme un rideau jusqu’à la forme exacte de la barre, le nom venant se poser à sa place. Rien ne disparaît, rien ne le remplace — une seule chose change de forme.',ar:'لم تعد شاشة التحميل تتلاشى، بل صارت تتحول إلى الشريط العلوي: ترتفع كالستارة وتنكمش إلى شكل الشريط تمامًا بينما يستقر اسم التطبيق في مكانه. لا شيء يختفي ولا شيء يحل محله، بل شيء واحد يغيّر شكله.',ko:'로딩 화면이 그대로 헤더가 되도록 했습니다. 막이 오르듯 줄어들면서 Wordkeep 글자가 위쪽 남색 띠 안에 자리 잡습니다. 사라지고 다른 것이 나타나는 게 아니라, 같은 것이 모양만 바뀝니다.',ru:'Экран загрузки больше не растворяется — он становится шапкой. Поднимается как занавес, сжимаясь ровно до её формы, а название встаёт на своё место. Ничего не исчезает и ничем не заменяется: одна вещь меняет форму.'},
-  wn2:{ja:'ホームのあいさつを、時間帯と使っている長さで変えるようにしました。朝・昼・夕・夜それぞれに3通り、長く続けている方にはさらに2通り、しばらく空いた方には「ひさしぶり」。下の一文は消しました。通知の文面も「〜です」をやめて短くしています。はじめての方には、最初のお知らせでWordkeepが何をするアプリなのかをお伝えします。',en:'The home greeting now varies by the hour and by how long you have been here — three lines for each part of the day, two more once you have been at it a while, and a different one if you have been away. The line underneath is gone. Notification wording is shorter too, and someone who has just signed up gets a first note explaining what the app is for.',zh:'主页问候语现在会随时段和使用时长变化：早、午、傍晚、夜各三种，长期使用者另有两种，久未使用则另有一句。下面那行小字已删除。通知文案也更简短，刚注册的用户会收到一条介绍应用用途的通知。',fr:'Le message d’accueil varie désormais selon l’heure et l’ancienneté : trois formules par moment de la journée, deux de plus quand cela fait un moment que vous êtes là, et une autre après une absence. La ligne en dessous a disparu. Les notifications sont plus brèves, et un nouvel inscrit reçoit un premier mot expliquant à quoi sert l’application.',ar:'صارت تحية الصفحة الرئيسية تتغير بحسب الوقت ومدة استخدامك: ثلاث صيغ لكل فترة من اليوم، واثنتان إضافيتان لمن طالت رفقته، وأخرى لمن غاب مدة. وحُذف السطر الذي تحتها. كما صارت نصوص الإشعارات أقصر، ويصل من سجّل حديثًا إشعار أول يشرح فيمَ يفيد التطبيق.',ko:'홈 인사말이 시간대와 사용 기간에 따라 달라집니다. 아침·낮·저녁·밤에 각각 세 가지, 오래 이어 온 분께는 두 가지 더, 한동안 뜸했던 분께는 «오랜만이에요». 아래 한 줄은 지웠습니다. 알림 문구도 짧게 바꿨고, 막 가입한 분께는 첫 알림으로 Wordkeep이 무엇을 하는 앱인지 알려 드립니다.',ru:'Приветствие на главной теперь зависит от времени суток и от того, как давно вы здесь: по три строки на каждую часть дня, ещё две — когда вы уже не новичок, и отдельная после перерыва. Строка под ним убрана. Тексты уведомлений стали короче, а тот, кто только зарегистрировался, получает первое сообщение о том, зачем нужно приложение.'},
+  wn1:{ja:'「意味→単語」で、選択肢に<b>紛らわしい単語</b>が出るようになりました。affect なら effect・defect・infect、quiet なら quite・quit。自分の単語帳に入っていない単語からも探します。手持ちが少ないと選択肢が無関係な単語ばかりで簡単すぎたのを直しています。',en:'In meaning → word, the options are now words you could actually confuse: effect, defect and infect for “affect”; quite and quit for “quiet”. They are found outside your own notebook too. With a small vocabulary the options used to be unrelated words, which made the question no test at all.',zh:'在「意思→单词」中，选项现在会出现<b>容易混淆的单词</b>：affect 会配 effect、defect、infect；quiet 会配 quite、quit。也会从你单词本以外寻找。此前词量少时选项全是无关单词，题目太简单。',fr:'En sens → mot, les options sont désormais des mots réellement confondables : effect, defect, infect pour « affect » ; quite et quit pour « quiet ». Ils sont aussi cherchés hors de votre carnet. Avec peu de mots, les options étaient sans rapport et la question sans intérêt.',ar:'في «المعنى ← الكلمة» صارت الخيارات كلمات يسهل الخلط بينها فعلًا: effect وdefect وinfect مقابل «affect»، وquite وquit مقابل «quiet». وتُلتمس من خارج دفترك أيضًا. فقد كانت الخيارات بلا صلة حين يكون رصيدك صغيرًا، مما يجعل السؤال بلا قيمة.',ko:'«뜻→단어»에서 선택지에 <b>헷갈리기 쉬운 단어</b>가 나오게 되었습니다. affect라면 effect·defect·infect, quiet이라면 quite·quit. 내 단어장에 없는 단어에서도 찾습니다. 가진 단어가 적으면 선택지가 무관한 단어뿐이라 너무 쉬웠던 것을 고쳤습니다.',ru:'В режиме «значение → слово» варианты теперь действительно путаются между собой: effect, defect, infect для «affect»; quite и quit для «quiet». Их ищут и за пределами вашего словаря. При маленьком запасе варианты были случайными, и вопрос ничего не проверял.'},
+  wn2:{ja:'「出題の向き」を設定から復習をはじめる画面へ移しました。<b>4択を選んでいるときだけ</b>出ます——スペル入力は必ず意味→単語、リスニングは必ず音→意味なので、そこで選ばせても何も変わりません。',en:'The question direction moved out of Settings and onto the screen where you start a round — and it only appears for four-choice. Spelling is always meaning → word and listening is always sound → meaning, so offering the choice there would have been offering a setting that does nothing.',zh:'「出题方向」已从设置移到开始复习的界面，并且<b>只在选择四选一时出现</b>——拼写输入必定是意思→单词，听力必定是声音→意思，在那里让你选也不会有任何变化。',fr:'Le sens de la question a quitté les réglages pour l’écran de lancement, et n’apparaît que pour le QCM : l’orthographe va toujours du sens vers le mot et l’écoute du son vers le sens, donc le choix n’y changerait rien.',ar:'انتقل «اتجاه السؤال» من الإعدادات إلى شاشة بدء المراجعة، ولا يظهر إلا مع الاختيار من أربعة: فالإملاء دائمًا من المعنى إلى الكلمة، والاستماع دائمًا من الصوت إلى المعنى، فلا معنى لعرض الخيار هناك.',ko:'«출제 방향»을 설정에서 복습을 시작하는 화면으로 옮겼습니다. <b>4택을 고른 때만</b> 나옵니다——스펠 입력은 항상 뜻→단어, 리스닝은 항상 소리→뜻이라, 거기서 고르게 해도 아무것도 달라지지 않습니다.',ru:'Направление вопроса переехало из настроек на экран запуска раунда и показывается только для выбора из четырёх: ввод по буквам всегда идёт от значения к слову, аудирование — от звука к значению, так что выбирать там было бы нечего.'},
+  v5360_1:{ja:'読み込み画面が、そのままヘッダーになるようにしました。幕が上がるように縮んでいって、Wordkeepの文字が上部の紺色の帯の中に収まります。消えて別のものが現れるのではなく、同じものが形を変えるだけです。',en:'The loading screen no longer fades away — it becomes the header. It rises like a curtain, shrinking to the header’s exact shape while the wordmark settles into place. Nothing disappears and nothing replaces it; one thing changes shape.',zh:'加载画面不再淡出，而是直接变成顶部标题栏。它像幕布一样上升收拢，Wordkeep 字样正好落在深蓝色横条中。不是消失后换成另一个，而是同一个东西改变了形状。',fr:'L’écran de chargement ne disparaît plus : il devient l’en-tête. Il remonte comme un rideau jusqu’à la forme exacte de la barre, le nom venant se poser à sa place. Rien ne disparaît, rien ne le remplace — une seule chose change de forme.',ar:'لم تعد شاشة التحميل تتلاشى، بل صارت تتحول إلى الشريط العلوي: ترتفع كالستارة وتنكمش إلى شكل الشريط تمامًا بينما يستقر اسم التطبيق في مكانه. لا شيء يختفي ولا شيء يحل محله، بل شيء واحد يغيّر شكله.',ko:'로딩 화면이 그대로 헤더가 되도록 했습니다. 막이 오르듯 줄어들면서 Wordkeep 글자가 위쪽 남색 띠 안에 자리 잡습니다. 사라지고 다른 것이 나타나는 게 아니라, 같은 것이 모양만 바뀝니다.',ru:'Экран загрузки больше не растворяется — он становится шапкой. Поднимается как занавес, сжимаясь ровно до её формы, а название встаёт на своё место. Ничего не исчезает и ничем не заменяется: одна вещь меняет форму.'},
+  v5360_2:{ja:'ホームのあいさつを、時間帯と使っている長さで変えるようにしました。朝・昼・夕・夜それぞれに3通り、長く続けている方にはさらに2通り、しばらく空いた方には「ひさしぶり」。下の一文は消しました。通知の文面も「〜です」をやめて短くしています。はじめての方には、最初のお知らせでWordkeepが何をするアプリなのかをお伝えします。',en:'The home greeting now varies by the hour and by how long you have been here — three lines for each part of the day, two more once you have been at it a while, and a different one if you have been away. The line underneath is gone. Notification wording is shorter too, and someone who has just signed up gets a first note explaining what the app is for.',zh:'主页问候语现在会随时段和使用时长变化：早、午、傍晚、夜各三种，长期使用者另有两种，久未使用则另有一句。下面那行小字已删除。通知文案也更简短，刚注册的用户会收到一条介绍应用用途的通知。',fr:'Le message d’accueil varie désormais selon l’heure et l’ancienneté : trois formules par moment de la journée, deux de plus quand cela fait un moment que vous êtes là, et une autre après une absence. La ligne en dessous a disparu. Les notifications sont plus brèves, et un nouvel inscrit reçoit un premier mot expliquant à quoi sert l’application.',ar:'صارت تحية الصفحة الرئيسية تتغير بحسب الوقت ومدة استخدامك: ثلاث صيغ لكل فترة من اليوم، واثنتان إضافيتان لمن طالت رفقته، وأخرى لمن غاب مدة. وحُذف السطر الذي تحتها. كما صارت نصوص الإشعارات أقصر، ويصل من سجّل حديثًا إشعار أول يشرح فيمَ يفيد التطبيق.',ko:'홈 인사말이 시간대와 사용 기간에 따라 달라집니다. 아침·낮·저녁·밤에 각각 세 가지, 오래 이어 온 분께는 두 가지 더, 한동안 뜸했던 분께는 «오랜만이에요». 아래 한 줄은 지웠습니다. 알림 문구도 짧게 바꿨고, 막 가입한 분께는 첫 알림으로 Wordkeep이 무엇을 하는 앱인지 알려 드립니다.',ru:'Приветствие на главной теперь зависит от времени суток и от того, как давно вы здесь: по три строки на каждую часть дня, ещё две — когда вы уже не новичок, и отдельная после перерыва. Строка под ним убрана. Тексты уведомлений стали короче, а тот, кто только зарегистрировался, получает первое сообщение о том, зачем нужно приложение.'},
   v5351_1:{ja:'不具合の修正です。ディクテーションで音声を2回目以降聞けなかったのを直しました（再生ボタンが4択側にしか繋がっていませんでした）。単語が3つ以下の単語帳で「はじめる」が押せるのに何も起きなかったのも直しています——4択とリスニングは選択肢を4つ作るので単語が4つ要ります。理由を画面に出すようにしました。',en:'Fixes. Dictation could not replay its audio — the replay button was only wired on the four-choice side. And on a notebook of three words or fewer, Start was pressable but did nothing: four-choice and listening both build four options, so they need four words. The screen now says so.',zh:'修复。听写模式无法重复播放音频（播放按钮只接在四选一那一侧）。另外，单词不足 4 个的单词本上「开始」可点却毫无反应——四选一和听力都需要四个选项，因此需要四个单词。现在界面会说明原因。',fr:'Corrections. La dictée ne pouvait pas rejouer son audio : le bouton n’était câblé que du côté QCM. Et sur un carnet de trois mots ou moins, « Commencer » était cliquable sans rien faire — le QCM et l’écoute construisent quatre options et exigent donc quatre mots. L’écran l’explique désormais.',ar:'إصلاحات. لم يكن الإملاء يعيد تشغيل الصوت، إذ كان زر الإعادة موصولًا في جانب الاختيار من أربعة فقط. وفي دفتر من ثلاث كلمات أو أقل كان زر «ابدأ» قابلًا للضغط دون أن يحدث شيء — فالاختيار من أربعة والاستماع يبنيان أربعة خيارات ويحتاجان أربع كلمات. وصارت الشاشة تبيّن ذلك.',ko:'버그 수정입니다. 딕테이션에서 음성을 두 번째부터 들을 수 없던 문제를 고쳤습니다(재생 버튼이 4택 쪽에만 연결되어 있었습니다). 단어가 3개 이하인 단어장에서 «시작하기»를 누를 수 있는데 아무 일도 일어나지 않던 것도 고쳤습니다——4택과 리스닝은 선택지를 4개 만들기 때문에 단어가 4개 필요합니다. 이유를 화면에 표시합니다.',ru:'Исправления. Диктант не проигрывал звук повторно — кнопка была подключена только со стороны выбора из четырёх. И в словаре из трёх слов и меньше кнопка «Начать» нажималась, но ничего не происходило: выбор из четырёх и аудирование строят четыре варианта, значит нужно четыре слова. Теперь экран об этом говорит.'},
-  v5350_1:{ja:'ディクテーションを追加しました。音声を聞いて綴りを打ちます。これで4つの形式が「文字から／音から」×「選ぶ／打つ」で揃いました。聞き取れても書けない単語は調べることもできないので、ここがいちばん実害のある穴でした。',en:'Dictation is here: hear the word, then spell it. That completes the four formats — read or heard, crossed with picked or typed. A word you can catch but cannot write is also a word you cannot look up, which made this the gap that cost the most.',zh:'新增听写：听发音后拼写出来。至此四种形式凑齐了「看文字／听发音」×「选择／输入」。听得出却写不出的单词也无法查询，这正是最实际的缺口。',fr:'La dictée arrive : écoutez le mot, puis écrivez-le. Les quatre formats sont complets — lu ou entendu, croisé avec choisi ou tapé. Un mot qu’on saisit à l’oreille sans savoir l’écrire ne peut pas être cherché non plus : c’était le manque le plus coûteux.',ar:'أُضيف الإملاء: استمع إلى الكلمة ثم اكتب تهجئتها. بذلك اكتملت الأنماط الأربعة: مقروء أو مسموع، في مقابل اختيار أو كتابة. والكلمة التي تلتقطها ولا تعرف كتابتها لا يمكنك البحث عنها أيضًا، وهذه كانت أكثر الثغرات كلفة.',ko:'딕테이션을 추가했습니다. 음성을 듣고 철자를 입력합니다. 이로써 네 가지 형식이 «글자에서／소리에서» × «고르기／입력하기»로 갖춰졌습니다. 알아들어도 쓸 수 없는 단어는 찾아볼 수도 없으니, 여기가 가장 실질적인 구멍이었습니다.',ru:'Появился диктант: услышьте слово и запишите его. Так собрались все четыре формата — прочитанное или услышанное на выбор или на ввод. Слово, которое вы уловили, но не можете написать, вы и не найдёте в словаре: это был самый дорогой пробел.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -4729,11 +4723,96 @@ function norm(s){
     .replace(/[^\p{L}\p{N}\s]/gu,' ')
     .replace(/\s+/g,' ').trim();
 }
+/* ---- confusable words from outside the notebook ---------------------------
+   In meaning -> word, the four options are English words, and drawing them all
+   from the user's own list makes the question trivial: "apple / kubernetes /
+   journey" is not a test of whether they know `affect`. What a learner actually
+   confuses is `effect`, `defect`, `infect` -- words they may not have saved.
+
+   Datamuse's `sl=` (sounds like) returns exactly those, and the app already
+   uses Datamuse for lookup, so there is no new dependency. Two things have to
+   be filtered out or it does harm rather than good:
+     - non-words and misspellings (`accomodation`, `effekt`, `kwiat`), which
+       would teach the wrong spelling; the frequency tag is what separates them
+     - the answer's own inflections (`affects`, `accommodations`), which are not
+       wrong answers at all -- both match the meaning being asked about
+   -------------------------------------------------------------------------- */
+const SIMKEY='wordkeep.sim.v1';
+const SIM_MAX_WORDS=400;     // roughly 25KB; the cache is a convenience, not a store
+const SIM_MIN_FREQ=1.0;      // occurrences per million, below which it is not a word people meet
+function loadSim(){try{return JSON.parse(localStorage.getItem(SIMKEY))||{};}catch(e){return {};}}
+let SIMDB=loadSim();
+function saveSim(){
+  try{
+    const keys=Object.keys(SIMDB);
+    // Oldest-first eviction is not worth a timestamp per entry; when it grows
+    // past the cap, drop the front half and let it refill.
+    if(keys.length>SIM_MAX_WORDS){
+      const cut=keys.slice(0,keys.length-Math.floor(SIM_MAX_WORDS/2));
+      cut.forEach(k=>delete SIMDB[k]);
+    }
+    localStorage.setItem(SIMKEY,JSON.stringify(SIMDB));
+  }catch(e){}
+}
+function simKey(w){return String(w||'').trim().toLowerCase();}
+function simFilter(rows,answer){
+  const a=simKey(answer);
+  const out=[];
+  (rows||[]).forEach(r=>{
+    const word=String((r&&r.word)||'').trim();
+    const k=simKey(word);
+    if(!k||k===a)return;
+    // One token, letters only. Datamuse returns phrases ("does it") and names.
+    if(!/^[a-z][a-z'-]*$/.test(k))return;
+    // An inflection of the answer is not a wrong answer.
+    if(k.indexOf(a)>=0||a.indexOf(k)>=0)return;
+    let f=0;
+    ((r&&r.tags)||[]).forEach(t=>{if(t.indexOf('f:')===0)f=parseFloat(t.slice(2))||0;});
+    if(f<SIM_MIN_FREQ)return;
+    out.push(word);
+  });
+  return out.slice(0,6);
+}
+let simFetching={};
+async function fetchSimilar(word){
+  const k=simKey(word);
+  if(!k||SIMDB[k])return SIMDB[k]||[];
+  if(simFetching[k])return simFetching[k];
+  simFetching[k]=(async()=>{
+    try{
+      const r=await fetchWithTimeout(
+        'https://api.datamuse.com/words?sl='+encodeURIComponent(k)+'&max=20&md=f',4000);
+      if(!r.ok)throw new Error('datamuse_fail');
+      SIMDB[k]=simFilter(await r.json(),k);
+    }catch(e){
+      // Remembered as "nothing" so a word that genuinely has no confusable
+      // neighbours is not asked for again every round. `receive` is one.
+      SIMDB[k]=[];
+    }
+    saveSim();
+    delete simFetching[k];
+    return SIMDB[k];
+  })();
+  return simFetching[k];
+}
+// Warmed while the user is still choosing on the setup screen, so the words are
+// usually already there by the time they press start. Never awaited: a round
+// must never wait on the network, and a miss just falls back to the notebook.
+function warmSimilar(items){
+  if(!navigator.onLine)return;
+  (items||[]).slice(0,12).forEach(w=>{
+    if(w&&w.word&&!SIMDB[simKey(w.word)])fetchSimilar(w.word);
+  });
+}
 function pickDistractors(w,correct,showEng,n){
   n=n||3;
+  // Only when the options ARE words. When they are meanings, a similar-sounding
+  // English word is not an option at all.
+  const outside=showEng?[]:(SIMDB[simKey(w.word)]||[]);
   const candidates=[...new Set(
     curWords().filter(x=>x.id!==w.id&&primaryMeaning(x))
       .map(x=>showEng?primaryMeaning(x):x.word)
+      .concat(outside)
       .filter(tx=>tx&&tx!==correct)
   )];
   const cn=norm(correct);
@@ -4912,6 +4991,12 @@ function renderQuizSetup(){
   const detail=qsOpen
     ? '<div class="qs-detail">'+
         grp(t('qs_range'),pick('mode',modes,quizSetup.mode))+
+        // Only four-choice has a direction to have. Spelling is always
+        // meaning->word and listening is always sound->meaning, so offering the
+        // choice there would be offering a setting that does nothing.
+        (S().quizType==='choice'
+          ? grp(t('st_dir'),pick('dir',[{v:'e2j',n:t('dir_e2j')},{v:'j2e',n:t('dir_j2e')}],S().dir))
+          : '')+
         grp(t('st_len'),stepSliderHTML('qsLen',LEN_STEPS(),S().len))+
         '<label class="qs-check"><input type="checkbox" id="qsShuffle"'+(S().shuffle?' checked':'')+'>'+
           '<span><b>'+esc(t('st_shuffle'))+'</b>'+esc(t('desc_shuffle'))+'</span></label>'+
@@ -4931,10 +5016,13 @@ function renderQuizSetup(){
   $$('#quizBody .qs-o,#quizBody .qs-mode').forEach(b=>b.onclick=()=>{
     const g=b.dataset.g, v=b.dataset.v;
     if(g==='mode')quizSetup.mode=v;
+    else if(g==='dir'){S().dir=v;save();}
     else if(g==='type'){S().quizType=v;save();}
     renderQuizSetup();
   });
   updateQsNote();
+  // Only meaning->word needs them, and only four-choice has a direction.
+  if(S().quizType==='choice'&&S().dir==='j2e')warmSimilar(pickWords(quizSetup.mode));
   const st=$('#qsStart');
   st.onclick=()=>startQuiz(quizSetup.mode);
 }
@@ -5002,6 +5090,7 @@ function startQuiz(mode){
     return;
   }
   quiz={items,i:0,score:0,mode,ctx:ctxKey()};
+  if(S().quizType==='choice'&&S().dir==='j2e')warmSimilar(items);
   gaEvent('quiz_started',{quiz_type:S().quizType,item_count:items.length,package_id:pkgId});
   if(mode==='due')gaEvent('review_started',{item_count:items.length,package_id:pkgId});
   renderQ();
@@ -5845,7 +5934,6 @@ function showScore(){
 /* ---------- SETTINGS ---------- */
 function renderSettings(){
   segTheme();
-  seg('#segDir','dir');
   const lenEl=$('#setLen');
   if(lenEl){
     lenEl.innerHTML=stepSliderHTML('setLenS',LEN_STEPS(),S().len);
