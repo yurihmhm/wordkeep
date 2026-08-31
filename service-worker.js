@@ -4,7 +4,7 @@
 // the app shell so it opens offline. Cache strategy is deliberately
 // simple: cache the shell on install, serve navigations from cache when the
 // network is unavailable.
-const CACHE = 'wordkeep-v6';
+const CACHE = 'wordkeep-v7';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -41,6 +41,11 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
+  // version.json is how the app finds out it is running a stale build, so it is
+  // the one file that must never be answered from here. Cached like everything
+  // else it would keep reporting the version that got stuck in the first place.
+  if (new URL(req.url).pathname.endsWith('/version.json')) return;
+
   // Other same-origin GETs: cache-first, and keep what the network returns.
   // changelog.json is deliberately NOT precached -- it is 138KB that most
   // people never open -- but once someone has asked for it, holding on to it

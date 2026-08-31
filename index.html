@@ -53,13 +53,14 @@
      that cannot come back, wherever the clip happens to fall. The alpha was
      buying a 6% brightness lift that the border-top already provides. */
   --tabbar-bg:var(--paper);
-  /* Quiz modes come in two families: the question either SHOWS you the word or
-     SAYS it. Reading and hearing are different skills -- that is the reason
-     listening exists as a mode at all -- so that is the split the colour marks.
-     What you do back (choose / type) is left to the icon; two hues is the most
-     the screen can carry without becoming a paint chart. */
-  --qm-read:#2f5fa8; --qm-read-bg:#eaf1fb;
-  --qm-hear:#7a4bb5; --qm-hear-bg:#f1ebfa;
+  /* The app's accent set, beyond navy and gold. Each hue keeps ONE meaning
+     wherever it appears: blue is looking at something (reading a word, reading
+     your own records), violet is hearing it, teal is doing something. Three is
+     the ceiling -- the screens that use them never appear together, and a
+     fourth would make any one screen a paint chart. */
+  --acc-blue:#2f5fa8; --acc-blue-bg:#eaf1fb;
+  --acc-violet:#7a4bb5; --acc-violet-bg:#f1ebfa;
+  --acc-teal:#0a7d78; --acc-teal-bg:#e6f4f3;
   --shadow:0 1px 3px rgba(15,30,61,.08),0 8px 24px rgba(15,30,61,.06);
 }
 :root[data-theme="dark"]{
@@ -77,8 +78,9 @@
   --sp-word-bg:rgba(255,255,255,.05);
   --mk-fav:#ff7b8f; --mk-fav-bg:rgba(255,123,143,.14); --mk-hard:#ff9247; --mk-hard-bg:rgba(255,146,71,.15);
   --switch-off:#3a4658; --knob:#e9edf5; --tab-on:var(--accent); --tab-on-ic:var(--accent);
-  --qm-read:#7fa9e6; --qm-read-bg:rgba(127,169,230,.14);
-  --qm-hear:#b795e6; --qm-hear-bg:rgba(183,149,230,.15);
+  --acc-blue:#7fa9e6; --acc-blue-bg:rgba(127,169,230,.14);
+  --acc-violet:#b795e6; --acc-violet-bg:rgba(183,149,230,.15);
+  --acc-teal:#4fc6bd; --acc-teal-bg:rgba(79,198,189,.15);
   --shadow:0 1px 3px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.4);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -417,8 +419,8 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
   padding:14px 14px 13px;border-radius:16px;border:1.5px solid var(--line);
   background:var(--surface);color:var(--ink-strong);font-family:inherit;
   text-align:left;cursor:pointer;transition:border-color .15s ease,background .15s ease}
-.qs-mode[data-fam="read"]{--qm:var(--qm-read);--qm-bg:var(--qm-read-bg)}
-.qs-mode[data-fam="hear"]{--qm:var(--qm-hear);--qm-bg:var(--qm-hear-bg)}
+.qs-mode[data-fam="read"]{--qm:var(--acc-blue);--qm-bg:var(--acc-blue-bg)}
+.qs-mode[data-fam="hear"]{--qm:var(--acc-violet);--qm-bg:var(--acc-violet-bg)}
 .qs-mode .qm-ic{display:block;color:var(--qm,var(--muted));margin-bottom:3px}
 .qs-mode .qm-ic svg{width:22px;height:22px}
 .qs-mode .qm-n{font-size:15px;font-weight:700;line-height:1.3}
@@ -890,8 +892,17 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .home-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 2px}
 .home-act{background:var(--surface);border:1px solid var(--line);border-radius:13px;
   padding:14px 12px;box-shadow:var(--shadow);text-align:left;cursor:pointer;font:inherit;color:inherit}
-.home-act .ic{display:block;margin-bottom:8px;line-height:0;color:var(--ink-2)}
-.home-act .ic svg{width:21px;height:21px}
+/* Four identical rectangles gave the eye nothing to sort by -- you had to read
+   every label to find the one you wanted. The rows already mean something: the
+   top pair DO something to your words, the bottom pair SHOW you something. The
+   icon carries that in a tinted chip, which is enough to tell them apart at a
+   glance without turning the panel into a set of coloured buttons. */
+.home-act[data-fam="do"]{--acc:var(--acc-teal);--acc-bg:var(--acc-teal-bg)}
+.home-act[data-fam="see"]{--acc:var(--acc-blue);--acc-bg:var(--acc-blue-bg)}
+.home-act .ic{display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:10px;margin-bottom:9px;line-height:0;
+  background:var(--acc-bg,var(--ghost-bg));color:var(--acc,var(--ink-2))}
+.home-act .ic svg{width:19px;height:19px}
 .home-act .t{display:block;font-size:13.5px;font-weight:700;color:var(--ink-strong)}
 .home-act .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
 .home-act:active{transform:scale(.985)}
@@ -1400,15 +1411,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.42.0';
+const APP_VERSION='5.43.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.42.0',date:'2026-09-01',keys:['wn1']},
+  {version:'5.43.0',date:'2026-09-01',keys:['wn1','wn2']},
+  {version:'5.42.0',date:'2026-09-01',keys:['v5420_1']},
   {version:'5.41.0',date:'2026-09-01',keys:['v5410_1']},
-  {version:'5.40.0',date:'2026-09-01',keys:['v5400_1','v5400_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1506,10 +1517,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'画面のいちばん下でタブバーが<b>浮いて見えていたのを直しました</b>。タブバーは画面に固定されているので、iPhoneではホームバーの帯の手前で切られ、その帯はページ側が塗ります。バーの背景が半透明だったため、重ね合わさった色が帯とわずかにずれていました——ライトでは<b>バーが純白、帯が #fbfcfe</b>。この差が境目に見えていたわけです。バーを不透明にして帯とまったく同じ色にしました。バーの輪郭は上の細い線が受け持ちます。',en:'Fixed the tab bar looking like it floats above the bottom of the screen. The bar is pinned to the viewport, so on iPhone it is clipped just above the home-indicator strip, and the page paints that strip instead. The bar’s background was semi-transparent, so once composited it came out slightly different from the strip — pure white against #fbfcfe in light mode — and that difference read as an edge. The bar is now opaque and exactly the strip’s colour; the thin line along its top is what defines it.',zh:'修复了屏幕最下方标签栏<b>看起来浮起来</b>的问题。标签栏固定在视口上，因此在 iPhone 上会被裁切在主页指示条那道带子之前，而那道带子由页面绘制。由于标签栏背景是半透明的，叠加后的颜色与带子略有差异——浅色模式下<b>标签栏为纯白，带子为 #fbfcfe</b>，这个差异就成了可见的接缝。现在标签栏改为不透明且与带子完全同色，其轮廓交由顶部的细线来表示。',fr:'Corrigé : la barre d’onglets semblait flotter au-dessus du bas de l’écran. Elle est fixée au viewport, donc sur iPhone elle est rognée juste au-dessus de la bande de l’indicateur d’accueil, bande que la page peint à sa place. Son fond étant semi-transparent, la couleur composée différait légèrement de celle de la bande — blanc pur contre #fbfcfe en thème clair — et cet écart se lisait comme une arête. La barre est désormais opaque et exactement de la couleur de la bande ; c’est le filet du haut qui la délimite.',ar:'أُصلح ظهور شريط التبويبات وكأنه <b>طافٍ</b> فوق أسفل الشاشة. فالشريط مثبَّت على منطقة العرض، ولذا يُقتطع على iPhone قبيل شريط مؤشّر الصفحة الرئيسية، وتتولى الصفحة طلاء ذلك الشريط. ولأن خلفية الشريط كانت شبه شفافة، جاء لونها بعد المزج مختلفًا قليلًا عن الشريط — أبيض ناصع مقابل ‎#fbfcfe‎ في الوضع الفاتح — فبدا الفرق حدًّا ظاهرًا. صار الشريط معتمًا وبلون الشريط نفسه تمامًا، ويتكفّل الخط الرفيع أعلاه بتحديده.',ko:'화면 맨 아래에서 탭 바가 <b>떠 보이던 것을 고쳤습니다</b>. 탭 바는 화면에 고정돼 있어 iPhone에서는 홈 바 띠 앞에서 잘리고, 그 띠는 페이지 쪽이 칠합니다. 바의 배경이 반투명이라 합성된 색이 띠와 미세하게 어긋나 있었습니다——라이트에서는 <b>바가 순백, 띠가 #fbfcfe</b>. 이 차이가 경계로 보였던 것입니다. 바를 불투명하게 하여 띠와 완전히 같은 색으로 맞췄습니다. 바의 윤곽은 위쪽 가는 선이 맡습니다.',ru:'Исправлено: панель вкладок выглядела приподнятой над нижним краем экрана. Она закреплена во вьюпорте, поэтому на iPhone обрезается прямо над полосой индикатора «Домой», а саму полосу рисует страница. Фон панели был полупрозрачным, и после наложения его цвет чуть расходился с полосой — чистый белый против #fbfcfe в светлой теме, — и это расхождение читалось как кромка. Теперь панель непрозрачна и точно того же цвета, что полоса, а очерчивает её тонкая линия сверху.'},
+  wn1:{ja:'ホームの「ほかにできること」の4枚に色をつけました。復習タブと同じで、<b>行ごとに意味が揃っています</b>——上の2枚（カードで覚える・単語を追加）は<b>単語に手を加えるもの</b>、下の2枚（単語リスト・学習の記録）は<b>見るだけのもの</b>。アイコンを色つきの四角に置いたので、読まなくてもどれがどれか分かります。青は「見る」で、復習タブの4択・スペル入力と同じ意味です。',en:'The four tiles under “More” on Home are colour-coded, on the same principle as the review tab: each row means one thing. The top pair — flashcards, add a word — change your words; the bottom pair — word list, records — only show you something. Putting each icon in a tinted square makes them tellable apart without reading. Blue means looking at something, the same as it does for four-choice and spelling.',zh:'首页「其他功能」的四张卡片加上了颜色，原则与复习标签一致：<b>每一行代表一件事</b>——上面两张（卡片记忆、添加单词）会改动你的单词，下面两张（单词列表、学习记录）只是给你看。图标放进了带色的方块中，不必阅读也能分辨。蓝色表示「查看」，与复习标签的四选一、拼写输入含义相同。',fr:'Les quatre tuiles « Autres » de l’accueil sont désormais colorées, selon le principe de l’onglet révision : chaque rangée veut dire une chose. Les deux du haut — cartes, ajouter un mot — modifient vos mots ; celles du bas — liste, historique — se contentent de vous montrer. L’icône placée dans un carré teinté suffit à les distinguer sans lire. Le bleu signifie regarder, comme pour le QCM et l’orthographe.',ar:'لُوِّنت البطاقات الأربع تحت «المزيد» في الصفحة الرئيسية على المبدأ نفسه المتّبع في تبويب المراجعة: <b>لكل صف معنى واحد</b> — العلويتان (البطاقات، إضافة كلمة) تغيّران كلماتك، والسفليتان (قائمة الكلمات، السجل) تعرضان لا غير. ووضْع الأيقونة في مربّع ملوّن يكفي لتمييزها دون قراءة. والأزرق معناه النظر، كما هو في الاختيار من أربعة والإملاء.',ko:'홈의 «그 밖에» 네 장에 색을 넣었습니다. 복습 탭과 같이 <b>행마다 의미가 맞춰져 있습니다</b>——위 두 장(카드로 외우기·단어 추가)은 <b>단어에 손을 대는 것</b>, 아래 두 장(단어 목록·학습 기록)은 <b>보기만 하는 것</b>. 아이콘을 색이 든 사각형에 넣어, 읽지 않아도 어느 것인지 알 수 있습니다. 파랑은 «보다»이며, 복습 탭의 4택·스펠 입력과 같은 뜻입니다.',ru:'Четыре плитки в разделе «Ещё» на главной получили цвет — по тому же принципу, что и вкладка повторения: каждый ряд означает одно. Верхние две (карточки, добавить слово) меняют ваши слова; нижние две (список, записи) только показывают. Значок в цветном квадрате различает их без чтения. Синий значит «смотреть» — то же, что у выбора из четырёх и ввода по буквам.'},
+  wn2:{ja:'アプリが<b>古いまま取り残されないようにしました</b>。ホーム画面から開くアプリは、更新が出ていることを知る手段がなく、端末によっては何度開き直しても古いままになります。起動して少ししてから、サーバーに今の版を小さく問い合わせ、食い違っていれば一度だけ自動で読み込み直します。通信できないとき、答えがおかしいとき、既に一度やり直したときは何もしません。',en:'The app no longer gets stranded on an old build. An app opened from the home screen has no way of knowing a newer version exists, and on some devices it stays old however many times you reopen it. Shortly after launch it now asks the server which version is current, and if that disagrees with what is running it reloads itself once. It does nothing when there is no connection, when the answer is malformed, or when it has already reloaded once.',zh:'应用<b>不会再停留在旧版本上</b>。从主屏幕打开的应用无从得知已有新版，在某些设备上无论重开多少次都仍是旧的。现在启动稍后会向服务器询问当前版本，若与正在运行的不一致，就自动重新加载一次。无网络、回应异常、或本次已重载过时，则什么都不做。',fr:'L’application ne reste plus bloquée sur une ancienne version. Lancée depuis l’écran d’accueil, elle n’a aucun moyen de savoir qu’une mise à jour existe, et sur certains appareils elle reste ancienne quel que soit le nombre de réouvertures. Peu après le démarrage, elle demande au serveur quelle version est courante et, en cas de désaccord, se recharge une seule fois. Elle ne fait rien hors connexion, si la réponse est invalide, ou si elle s’est déjà rechargée.',ar:'لم يعد التطبيق <b>يعلق على نسخة قديمة</b>. فالتطبيق المفتوح من الشاشة الرئيسية لا سبيل له إلى معرفة وجود تحديث، وقد يبقى قديمًا على بعض الأجهزة مهما أعدت فتحه. صار بعد الإقلاع بقليل يسأل الخادم عن النسخة الحالية، فإن خالفت ما يعمل أعاد تحميل نفسه مرة واحدة. ولا يفعل شيئًا إن انقطع الاتصال، أو جاء الجواب معطوبًا، أو كان قد أعاد التحميل مرة.',ko:'앱이 <b>옛 버전에 갇히지 않도록 했습니다</b>. 홈 화면에서 여는 앱은 업데이트가 나온 것을 알 방법이 없어, 기기에 따라서는 몇 번을 다시 열어도 옛것 그대로입니다. 이제 시작하고 잠시 뒤 서버에 현재 버전을 작게 물어, 어긋나면 한 번만 자동으로 다시 읽어 들입니다. 통신이 안 될 때, 답이 이상할 때, 이미 한 번 다시 읽었을 때는 아무것도 하지 않습니다.',ru:'Приложение больше не застревает на старой сборке. Открытое с домашнего экрана, оно никак не узнаёт о новой версии, и на некоторых устройствах остаётся старым, сколько его ни перезапускай. Вскоре после запуска оно спрашивает у сервера текущую версию и, если та расходится с работающей, один раз перезагружается. Ничего не делает без связи, при испорченном ответе и если уже перезагружалось.'},
+  v5420_1:{ja:'画面のいちばん下でタブバーが<b>浮いて見えていたのを直しました</b>。タブバーは画面に固定されているので、iPhoneではホームバーの帯の手前で切られ、その帯はページ側が塗ります。バーの背景が半透明だったため、重ね合わさった色が帯とわずかにずれていました——ライトでは<b>バーが純白、帯が #fbfcfe</b>。この差が境目に見えていたわけです。バーを不透明にして帯とまったく同じ色にしました。バーの輪郭は上の細い線が受け持ちます。',en:'Fixed the tab bar looking like it floats above the bottom of the screen. The bar is pinned to the viewport, so on iPhone it is clipped just above the home-indicator strip, and the page paints that strip instead. The bar’s background was semi-transparent, so once composited it came out slightly different from the strip — pure white against #fbfcfe in light mode — and that difference read as an edge. The bar is now opaque and exactly the strip’s colour; the thin line along its top is what defines it.',zh:'修复了屏幕最下方标签栏<b>看起来浮起来</b>的问题。标签栏固定在视口上，因此在 iPhone 上会被裁切在主页指示条那道带子之前，而那道带子由页面绘制。由于标签栏背景是半透明的，叠加后的颜色与带子略有差异——浅色模式下<b>标签栏为纯白，带子为 #fbfcfe</b>，这个差异就成了可见的接缝。现在标签栏改为不透明且与带子完全同色，其轮廓交由顶部的细线来表示。',fr:'Corrigé : la barre d’onglets semblait flotter au-dessus du bas de l’écran. Elle est fixée au viewport, donc sur iPhone elle est rognée juste au-dessus de la bande de l’indicateur d’accueil, bande que la page peint à sa place. Son fond étant semi-transparent, la couleur composée différait légèrement de celle de la bande — blanc pur contre #fbfcfe en thème clair — et cet écart se lisait comme une arête. La barre est désormais opaque et exactement de la couleur de la bande ; c’est le filet du haut qui la délimite.',ar:'أُصلح ظهور شريط التبويبات وكأنه <b>طافٍ</b> فوق أسفل الشاشة. فالشريط مثبَّت على منطقة العرض، ولذا يُقتطع على iPhone قبيل شريط مؤشّر الصفحة الرئيسية، وتتولى الصفحة طلاء ذلك الشريط. ولأن خلفية الشريط كانت شبه شفافة، جاء لونها بعد المزج مختلفًا قليلًا عن الشريط — أبيض ناصع مقابل ‎#fbfcfe‎ في الوضع الفاتح — فبدا الفرق حدًّا ظاهرًا. صار الشريط معتمًا وبلون الشريط نفسه تمامًا، ويتكفّل الخط الرفيع أعلاه بتحديده.',ko:'화면 맨 아래에서 탭 바가 <b>떠 보이던 것을 고쳤습니다</b>. 탭 바는 화면에 고정돼 있어 iPhone에서는 홈 바 띠 앞에서 잘리고, 그 띠는 페이지 쪽이 칠합니다. 바의 배경이 반투명이라 합성된 색이 띠와 미세하게 어긋나 있었습니다——라이트에서는 <b>바가 순백, 띠가 #fbfcfe</b>. 이 차이가 경계로 보였던 것입니다. 바를 불투명하게 하여 띠와 완전히 같은 색으로 맞췄습니다. 바의 윤곽은 위쪽 가는 선이 맡습니다.',ru:'Исправлено: панель вкладок выглядела приподнятой над нижним краем экрана. Она закреплена во вьюпорте, поэтому на iPhone обрезается прямо над полосой индикатора «Домой», а саму полосу рисует страница. Фон панели был полупрозрачным, и после наложения его цвет чуть расходился с полосой — чистый белый против #fbfcfe в светлой теме, — и это расхождение читалось как кромка. Теперь панель непрозрачна и точно того же цвета, что полоса, а очерчивает её тонкая линия сверху.'},
   v5410_1:{ja:'iPhoneで起動したときに画面の下へ出ていた帯を、原因から直しました。読み込み画面は画面に固定して表示していますが、<b>固定したものは「表示領域」で切り取られます</b>。iPhoneでは起動した直後だけこの表示領域が本来より短く、指で少し動かした瞬間に正しくなります——スワイプすると帯が消えたのはこのためです。それまでのあいだ、下端の帯は読み込み画面が届かない場所にあり、ページの地色がそこに出ていました。地色のほうを読み込み画面と同じ色にしたので、表示領域が短いあいだも境目が出ません。',en:'Fixed the band along the bottom of the screen on iPhone, at the cause. The load screen is pinned to the viewport, and anything pinned is clipped to it — but for the first moments after a launch iPhone reports that viewport short, and it corrects the instant anything moves. That is why a small swipe made the band disappear. Until then the strip at the bottom lies outside what the load screen can cover, and the page’s own background shows there instead. That background is now the load screen’s colour, so there is no seam even while the viewport is short.',zh:'从根源修复了 iPhone 启动时屏幕底部出现的色带。加载画面是固定在视口上的，而<b>固定元素会被视口裁切</b>。iPhone 在刚启动的瞬间会把视口报得偏短，只要稍有移动就会修正——这正是轻轻一划色带就消失的原因。在此之前，底部那条带子位于加载画面够不到的地方，露出的是页面自身的底色。现在把底色改成与加载画面同色，即使视口偏短也不会出现接缝。',fr:'La bande en bas de l’écran sur iPhone est corrigée à la source. L’écran de chargement est fixé au viewport, et tout ce qui est fixé y est rogné — or, juste après un lancement, l’iPhone annonce un viewport trop court, et cela se corrige dès que quelque chose bouge : d’où la disparition de la bande après un petit balayage. En attendant, la bande du bas se trouve hors de portée de l’écran de chargement, et c’est le fond de la page qui s’y voit. Ce fond prend désormais la couleur de l’écran de chargement : plus de raccord, même viewport court.',ar:'عُولج الشريط الظاهر أسفل الشاشة على iPhone من أصله. شاشة التحميل مثبَّتة على منطقة العرض، <b>وكل مثبَّت يُقتطع عندها</b>؛ غير أن iPhone يبلّغ عن منطقة عرض أقصر في اللحظات الأولى بعد الإقلاع، ويصحّح ذلك بمجرد أي حركة — ولهذا كان الشريط يختفي مع تمريرة خفيفة. وحتى ذلك الحين يقع شريط الأسفل خارج ما تبلغه شاشة التحميل، فتظهر فيه خلفية الصفحة نفسها. صارت تلك الخلفية بلون شاشة التحميل، فلا يظهر فاصل ولو كانت منطقة العرض قصيرة.',ko:'iPhone에서 시작할 때 화면 아래에 나오던 띠를 원인부터 고쳤습니다. 로딩 화면은 화면에 고정해 두는데, <b>고정한 것은 «표시 영역»에서 잘립니다</b>. iPhone에서는 막 시작한 직후에만 이 표시 영역이 실제보다 짧고, 손가락으로 조금 움직이는 순간 바로잡힙니다——스와이프하면 띠가 사라진 것은 이 때문입니다. 그때까지 아래쪽 띠는 로딩 화면이 닿지 않는 곳이라, 페이지의 바탕색이 거기에 드러났습니다. 그 바탕색을 로딩 화면과 같은 색으로 했으므로, 표시 영역이 짧은 동안에도 이음매가 보이지 않습니다.',ru:'Полоса внизу экрана на iPhone исправлена по причине, а не по симптому. Экран загрузки закреплён во вьюпорте, а всё закреплённое им же и обрезается — но в первые мгновения после запуска iPhone сообщает вьюпорт короче настоящего и исправляется при первом же движении: потому лёгкий свайп и убирал полосу. До этого нижняя полоса лежит там, куда экран загрузки не достаёт, и в ней видно собственный фон страницы. Теперь этот фон — цвета экрана загрузки, так что стыка нет даже при коротком вьюпорте.'},
-  v5400_1:{ja:'復習の4つのモードに色をつけました。<b>問題が単語を見せるか、読み上げるか</b>で二色に分かれます——上の段（4択・スペル入力）が青、下の段（リスニング・ディクテーション）が紫。読んで分かることと聞いて分かることは別の力なので、そこで分けています。左右は「選ぶ／打つ」の違いで、こちらはアイコンが示しています。',en:'The four review modes are colour-coded now, by whether the question shows you the word or says it: the top row (four-choice, spelling) is blue, the bottom row (listening, dictation) violet. Reading and hearing are different skills, so that is the line the colour draws. Left and right differ by what you do back — choose or type — which the icon already shows.',zh:'复习的四种模式加了颜色，按<b>题目是给你看单词还是读出来</b>分成两色：上排（四选一、拼写输入）为蓝，下排（听力、听写）为紫。读得懂和听得懂是两种能力，所以以此为界。左右之分是「选择／输入」，由图标表示。',fr:'Les quatre modes de révision sont désormais colorés selon que la question montre le mot ou le prononce : la rangée du haut (QCM, orthographe) en bleu, celle du bas (écoute, dictée) en violet. Lire et entendre sont deux compétences distinctes, d’où cette ligne de partage. Gauche et droite diffèrent par ce que vous faites — choisir ou taper — ce que l’icône indique déjà.',ar:'صارت أنماط المراجعة الأربعة ملوّنة بحسب <b>ما إذا كان السؤال يعرض الكلمة أم ينطقها</b>: الصف الأعلى (الاختيار من أربعة، الإملاء) أزرق، والأسفل (الاستماع، الإملاء السمعي) بنفسجي. فالقراءة والسمع مهارتان مختلفتان، وعلى ذلك جرى الفصل. أما اليمين واليسار فيفترقان بما تفعله ردًّا — تختار أم تكتب — وذلك ما تقوله الأيقونة.',ko:'복습의 네 가지 모드에 색을 넣었습니다. <b>문제가 단어를 보여 주는지, 읽어 주는지</b>로 두 색으로 나뉩니다——위 줄(4택·스펠 입력)이 파랑, 아래 줄(리스닝·딕테이션)이 보라. 읽어서 아는 것과 들어서 아는 것은 다른 힘이라 거기서 나눴습니다. 좌우는 «고르기/치기»의 차이로, 이쪽은 아이콘이 보여 줍니다.',ru:'Четыре режима повторения теперь различаются цветом — по тому, показывает вопрос слово или произносит его: верхний ряд (выбор из четырёх, ввод по буквам) синий, нижний (аудирование, диктант) фиолетовый. Читать и слышать — разные навыки, отсюда и граница. Левое и правое различаются тем, что делаете вы — выбираете или печатаете, — и это уже говорит значок.'},
-  v5400_2:{ja:'iPhoneの画面のいちばん下——ホームバーの帯——に、色の切れ目が出ないようにしました。<b>下端に固定されるもの</b>（タブバー、4択、操作バー、スペル用キーボード、読み込み画面）は、実はその帯の手前で止まっています。それぞれが自分の色をその帯まで伸ばすようにしました。',en:'The strip along the home indicator at the very bottom of an iPhone screen no longer shows a seam. Everything pinned to the bottom — the tab bar, the four options, the action bar, the spelling keyboard, the load screen — actually stops just short of that strip. Each of them now carries its own colour down through it.',zh:'iPhone 屏幕最下方——主页指示条那一带——不再出现颜色断层。<b>固定在底部的元素</b>（标签栏、四个选项、操作栏、拼写键盘、加载画面）其实都停在那条带子之前，现在它们各自把自己的颜色延伸了下去。',fr:'La bande le long de l’indicateur d’accueil, tout en bas de l’écran d’un iPhone, ne laisse plus voir de raccord. Tout ce qui est fixé en bas — barre d’onglets, options, barre d’actions, clavier d’orthographe, écran de chargement — s’arrête en réalité juste avant cette bande ; chacun y prolonge désormais sa propre couleur.',ar:'لم يعد الشريط الممتد عند مؤشّر الصفحة الرئيسية، في أسفل شاشة iPhone تمامًا، يُظهر فاصلًا لونيًا. فكل ما يُثبَّت في الأسفل — شريط التبويبات والخيارات الأربعة وشريط الإجراءات ولوحة مفاتيح الإملاء وشاشة التحميل — يتوقف في الحقيقة قبيل ذلك الشريط، وقد صار كلٌّ منها يمدّ لونه عبره.',ko:'iPhone 화면 맨 아래——홈 바 부근의 띠——에 색의 이음매가 보이지 않게 했습니다. <b>아래에 고정되는 것들</b>(탭 바, 4택, 조작 바, 스펠용 키보드, 로딩 화면)은 실은 그 띠 앞에서 멈춰 있습니다. 각자 자기 색을 그 띠까지 늘리도록 했습니다.',ru:'Полоса вдоль индикатора «Домой» в самом низу экрана iPhone больше не показывает стык. Всё, что закреплено внизу, — панель вкладок, четыре варианта, панель действий, клавиатура для ввода по буквам, экран загрузки — на деле останавливается чуть выше этой полосы; теперь каждый из них продолжает свой цвет через неё.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -4012,16 +4023,16 @@ function renderHome(report){
   h+='<div id="src-home"></div>';
 
   h+='<div class="home-sec">'+esc(t('home_more'))+'</div><div class="home-acts">'+
-    '<button class="home-act" id="hmCards"><span class="ic">'+CARDS_SVG+'</span>'+
+    '<button class="home-act" data-fam="do" id="hmCards"><span class="ic">'+CARDS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_cards'))+'</span>'+
       '<span class="s">'+esc(t('home_act_cards_s'))+'</span></button>'+
-    '<button class="home-act" id="hmAdd"><span class="ic">'+PLUS_SVG+'</span>'+
+    '<button class="home-act" data-fam="do" id="hmAdd"><span class="ic">'+PLUS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_add'))+'</span>'+
       '<span class="s">'+esc(t('home_act_add_s'))+'</span></button>'+
-    '<button class="home-act" id="hmWords"><span class="ic">'+BOOKS_SVG+'</span>'+
+    '<button class="home-act" data-fam="see" id="hmWords"><span class="ic">'+BOOKS_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_words'))+'</span>'+
       '<span class="s">'+esc(t('n_words',total))+'</span></button>'+
-    '<button class="home-act" id="hmStats"><span class="ic">'+CHART_SVG+'</span>'+
+    '<button class="home-act" data-fam="see" id="hmStats"><span class="ic">'+CHART_SVG+'</span>'+
       '<span class="t">'+esc(t('home_act_stats'))+'</span>'+
       '<span class="s">'+esc(t('home_act_stats_s'))+'</span></button>'+
   '</div>';
@@ -8579,6 +8590,42 @@ document.addEventListener('focusout',e=>{
 if('serviceWorker'in navigator){
   navigator.serviceWorker.register('./service-worker.js').catch(e=>console.warn('SW registration failed',e));
 }
+
+/* ---- is this copy of the app current? --------------------------------------
+   An installed PWA can get stuck on an old build with nothing to tell it so.
+   The service worker fetches navigations network-first, but on iOS a home-screen
+   launch can be restored from a snapshot that never asks anyone -- and the app
+   then runs the old code indefinitely. Reported: fixed on a friend's phone,
+   still broken from the home-screen icon, across restarts.
+
+   version.json is a few bytes and is fetched with no-store, so it is the one
+   thing that is always the server's answer rather than a cached one. If it
+   disagrees with the build that is running, this copy is stale.
+
+   Guards, because a reload loop would be far worse than a stale build:
+   once per session, only on a clean answer, and never before the app is up. */
+async function checkForUpdate(){
+  if(!window.fetch||!window.sessionStorage)return;
+  try{
+    if(sessionStorage.getItem('wk.reloaded'))return;
+    const r=await fetch('version.json',{cache:'no-store'});
+    if(!r.ok)return;
+    const d=await r.json();
+    if(!d||typeof d.v!=='string'||d.v===APP_VERSION)return;
+    // Drop the shell the worker is holding, so the reload cannot be answered
+    // from the same stale copy that got us here.
+    if(window.caches){
+      const keys=await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }
+    sessionStorage.setItem('wk.reloaded','1');
+    console.warn('stale build '+APP_VERSION+', server has '+d.v+' -- reloading');
+    location.reload();
+  }catch(e){/* offline, or no such file: keep running what we have */}
+}
+// After boot, not during it: a slow answer must never hold up the app, and
+// there is nothing to reload into until the page is up anyway.
+setTimeout(checkForUpdate,4000);
 </script>
 </body>
 </html>

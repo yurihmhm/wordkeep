@@ -16,7 +16,7 @@ pkg_changed() { git diff --cached --name-only | grep -q '^packages/'; }
 notify_changed() { git diff --cached --name-only | grep -qE '^(service-worker\.js|tools/send-reminders\.mjs|tests/(notify|slots)\.test\.mjs)$'; }
 
 if ! changed index.html && ! changed tests/logic.test.js && ! changed tests/extract.mjs \
-   && ! pkg_changed && ! notify_changed; then
+   && ! pkg_changed && ! notify_changed && ! changed version.json; then
   exit 0
 fi
 
@@ -67,6 +67,25 @@ node tests/build-packages.mjs --check || {
   echo ""
   echo "BLOCKED: the package catalogue and packages/*.json disagree (see above)."
   echo "Run 'node tests/build-packages.mjs' and stage index.html."
+  exit 1
+}
+
+# The app compares this file against its own APP_VERSION to notice it is running
+# a stale build. If the two ever drift, every client decides it is out of date
+# and reloads -- so this is checked, not remembered.
+echo "pre-commit: checking version.json..."
+node -e '
+const fs=require("fs");
+const html=fs.readFileSync("index.html","utf8");
+const m=html.match(/const APP_VERSION=.([0-9][^"\x27]*)./);
+if(!m){console.error("could not find APP_VERSION in index.html");process.exit(1);}
+const v=JSON.parse(fs.readFileSync("version.json","utf8")).v;
+if(v!==m[1]){console.error("version.json says "+v+", index.html says "+m[1]);process.exit(1);}
+console.log("  version.json matches APP_VERSION ("+v+")");
+' || {
+  echo ""
+  echo "BLOCKED: version.json and APP_VERSION disagree."
+  echo "Write the current version into version.json and stage it."
   exit 1
 }
 
