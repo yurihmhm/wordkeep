@@ -107,18 +107,22 @@ header{
    the canvas the splash's own colour for exactly as long as the splash is up.
    After boot the class is dropped and the strip goes back to matching the app,
    which is what the tab bar sitting there expects. */
+/* The load screen is position:fixed, and a fixed element is clipped to the
+   layout viewport. On iPhone that viewport is SHORT for the first moments after
+   a launch -- it corrects itself the instant anything scrolls, which is why a
+   flick of the finger made the band disappear. Until then the document is
+   taller than the box the splash is clipped to, so the strip along the home
+   indicator is painted by normal flow (body, or the canvas behind it) while the
+   splash cannot reach it. Nothing fixed can: a spread shadow was tried and is
+   clipped by the same rectangle.
+   So paint the boot state on the elements that DO reach it. body needs the rule
+   in its own right -- once html carries a background, body's background stops
+   being propagated to the canvas and is painted on body's own box instead. */
 html.booting{background:var(--fill)}
+html.booting body{background:var(--fill)}
 #splash{position:fixed;inset:0;z-index:200;background:var(--fill);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
   transition:opacity .35s ease}
-/* Paint past every edge of the box. `inset:0` stops at the layout viewport, and
-   on iPhone the strip along the home indicator can sit outside it -- a white
-   band under a navy load screen. A spread shadow is the one way to colour
-   outside the box without changing where the box is, so the wordmark still
-   lands exactly where the morph expects. Dropped for .curtain, when the panel
-   is shrinking into the header and a flood underneath it would be a navy bar
-   trailing across the app. */
-#splash:not(.curtain){box-shadow:0 0 0 140px var(--fill)}
 #splash.gone{opacity:0;pointer-events:none}
 /* The load screen does not fade away -- it becomes the header. It shrinks to
    the header's exact height and corner radius while the wordmark travels to
@@ -379,8 +383,7 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 #quizBody.q-center .q-slide .q-word{margin-top:auto;margin-bottom:auto}
 #opts.pinned{position:fixed;left:0;right:0;bottom:0;z-index:55;
   padding:12px 12px calc(10px + env(safe-area-inset-bottom));
-  background:var(--surface);border-top:1px solid var(--line);
-  box-shadow:0 140px 0 0 var(--surface)}
+  background:var(--surface);border-top:1px solid var(--line)}
 #opts.pinned .opt:last-child{margin-bottom:0}
 .opt{width:100%;text-align:left;padding:15px 18px;margin-bottom:10px;border:1.5px solid var(--line);
   border-radius:13px;background:var(--surface);color:var(--ink);font-size:15.5px;cursor:pointer;transition:.15s;line-height:1.4}
@@ -523,8 +526,7 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
    and left a margin down each side -- both make touch-typing guesswork. */
 .sp-kb{position:fixed;left:0;right:0;bottom:0;z-index:60;
   padding:9px 3px calc(9px + env(safe-area-inset-bottom));background:var(--kb-bg);
-  user-select:none;-webkit-user-select:none;touch-action:manipulation;
-  box-shadow:0 140px 0 0 var(--kb-bg)}
+  user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .sp-row{display:flex;gap:6px;justify-content:center;margin-bottom:9px}
 .sp-row:last-child{margin-bottom:0}
 .sp-row.r2{padding:0 5.2%}
@@ -707,8 +709,7 @@ body.in-round{--tabbar-h:0px}
 .q-bottom .q-acts{margin-top:0}
 .q-bottom.pinned{position:fixed;left:0;right:0;bottom:0;z-index:60;
   margin:0;padding:12px 12px calc(12px + env(safe-area-inset-bottom));
-  background:var(--surface);border-top:1px solid var(--line);
-  box-shadow:0 140px 0 0 var(--surface)}
+  background:var(--surface);border-top:1px solid var(--line)}
 .q-bottom.pinned .q-acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .q-bottom.pinned .q-act{border-radius:18px;padding:16px 6px 14px;gap:8px;font-size:12px}
 .q-bottom.pinned .q-act svg{width:26px;height:26px}
@@ -777,18 +778,9 @@ select.sel{width:auto;min-width:130px;flex-shrink:0;padding:11px 12px;font-size:
 .set-section-t{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;
   text-transform:uppercase;margin:22px 2px 8px}
 
-/* Everything pinned to bottom:0 stops at the layout viewport, and on iPhone that
-   edge can sit ABOVE the physical bottom of the screen -- the strip along the
-   home indicator is paintable but outside the box `bottom:0` resolves against.
-   Proven on a device: the load screen left a visible band there until it was
-   flooded past its own edge. Each of these carries its own colour down through
-   that strip so no seam can appear, in either theme. The spread is a shadow on
-   purpose: it colours outside the box without moving the box, so nothing that
-   measures these elements sees a different height. */
 nav.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--tabbar-bg);
   backdrop-filter:blur(12px);border-top:1px solid var(--line);
-  display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:50;
-  box-shadow:0 140px 0 0 var(--tabbar-bg)}
+  display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:50}
 nav.tabbar button{flex:1;background:none;border:none;display:flex;flex-direction:column;
   align-items:center;gap:3px;color:var(--muted);font-size:11px;cursor:pointer;
   font-family:inherit;padding:4px 0;position:relative}
@@ -1399,15 +1391,15 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.40.0';
+const APP_VERSION='5.41.0';
 // Full release history shown in Settings > Update history. The current
 // version's notes reuse the wn* keys (also used by the "what's new" modal);
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.40.0',date:'2026-09-01',keys:['wn1','wn2']},
+  {version:'5.41.0',date:'2026-09-01',keys:['wn1']},
+  {version:'5.40.0',date:'2026-09-01',keys:['v5400_1','v5400_2']},
   {version:'5.39.0',date:'2026-08-31',keys:['v5390_1','v5390_2','v5390_3']},
-  {version:'5.38.0',date:'2026-08-31',keys:['v5380_1','v5380_2','v5380_3']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1505,14 +1497,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'復習の4つのモードに色をつけました。<b>問題が単語を見せるか、読み上げるか</b>で二色に分かれます——上の段（4択・スペル入力）が青、下の段（リスニング・ディクテーション）が紫。読んで分かることと聞いて分かることは別の力なので、そこで分けています。左右は「選ぶ／打つ」の違いで、こちらはアイコンが示しています。',en:'The four review modes are colour-coded now, by whether the question shows you the word or says it: the top row (four-choice, spelling) is blue, the bottom row (listening, dictation) violet. Reading and hearing are different skills, so that is the line the colour draws. Left and right differ by what you do back — choose or type — which the icon already shows.',zh:'复习的四种模式加了颜色，按<b>题目是给你看单词还是读出来</b>分成两色：上排（四选一、拼写输入）为蓝，下排（听力、听写）为紫。读得懂和听得懂是两种能力，所以以此为界。左右之分是「选择／输入」，由图标表示。',fr:'Les quatre modes de révision sont désormais colorés selon que la question montre le mot ou le prononce : la rangée du haut (QCM, orthographe) en bleu, celle du bas (écoute, dictée) en violet. Lire et entendre sont deux compétences distinctes, d’où cette ligne de partage. Gauche et droite diffèrent par ce que vous faites — choisir ou taper — ce que l’icône indique déjà.',ar:'صارت أنماط المراجعة الأربعة ملوّنة بحسب <b>ما إذا كان السؤال يعرض الكلمة أم ينطقها</b>: الصف الأعلى (الاختيار من أربعة، الإملاء) أزرق، والأسفل (الاستماع، الإملاء السمعي) بنفسجي. فالقراءة والسمع مهارتان مختلفتان، وعلى ذلك جرى الفصل. أما اليمين واليسار فيفترقان بما تفعله ردًّا — تختار أم تكتب — وذلك ما تقوله الأيقونة.',ko:'복습의 네 가지 모드에 색을 넣었습니다. <b>문제가 단어를 보여 주는지, 읽어 주는지</b>로 두 색으로 나뉩니다——위 줄(4택·스펠 입력)이 파랑, 아래 줄(리스닝·딕테이션)이 보라. 읽어서 아는 것과 들어서 아는 것은 다른 힘이라 거기서 나눴습니다. 좌우는 «고르기/치기»의 차이로, 이쪽은 아이콘이 보여 줍니다.',ru:'Четыре режима повторения теперь различаются цветом — по тому, показывает вопрос слово или произносит его: верхний ряд (выбор из четырёх, ввод по буквам) синий, нижний (аудирование, диктант) фиолетовый. Читать и слышать — разные навыки, отсюда и граница. Левое и правое различаются тем, что делаете вы — выбираете или печатаете, — и это уже говорит значок.'},
-  wn2:{ja:'iPhoneの画面のいちばん下——ホームバーの帯——に、色の切れ目が出ないようにしました。<b>下端に固定されるもの</b>（タブバー、4択、操作バー、スペル用キーボード、読み込み画面）は、実はその帯の手前で止まっています。それぞれが自分の色をその帯まで伸ばすようにしました。',en:'The strip along the home indicator at the very bottom of an iPhone screen no longer shows a seam. Everything pinned to the bottom — the tab bar, the four options, the action bar, the spelling keyboard, the load screen — actually stops just short of that strip. Each of them now carries its own colour down through it.',zh:'iPhone 屏幕最下方——主页指示条那一带——不再出现颜色断层。<b>固定在底部的元素</b>（标签栏、四个选项、操作栏、拼写键盘、加载画面）其实都停在那条带子之前，现在它们各自把自己的颜色延伸了下去。',fr:'La bande le long de l’indicateur d’accueil, tout en bas de l’écran d’un iPhone, ne laisse plus voir de raccord. Tout ce qui est fixé en bas — barre d’onglets, options, barre d’actions, clavier d’orthographe, écran de chargement — s’arrête en réalité juste avant cette bande ; chacun y prolonge désormais sa propre couleur.',ar:'لم يعد الشريط الممتد عند مؤشّر الصفحة الرئيسية، في أسفل شاشة iPhone تمامًا، يُظهر فاصلًا لونيًا. فكل ما يُثبَّت في الأسفل — شريط التبويبات والخيارات الأربعة وشريط الإجراءات ولوحة مفاتيح الإملاء وشاشة التحميل — يتوقف في الحقيقة قبيل ذلك الشريط، وقد صار كلٌّ منها يمدّ لونه عبره.',ko:'iPhone 화면 맨 아래——홈 바 부근의 띠——에 색의 이음매가 보이지 않게 했습니다. <b>아래에 고정되는 것들</b>(탭 바, 4택, 조작 바, 스펠용 키보드, 로딩 화면)은 실은 그 띠 앞에서 멈춰 있습니다. 각자 자기 색을 그 띠까지 늘리도록 했습니다.',ru:'Полоса вдоль индикатора «Домой» в самом низу экрана iPhone больше не показывает стык. Всё, что закреплено внизу, — панель вкладок, четыре варианта, панель действий, клавиатура для ввода по буквам, экран загрузки — на деле останавливается чуть выше этой полосы; теперь каждый из них продолжает свой цвет через неё.'},
+  wn1:{ja:'iPhoneで起動したときに画面の下へ出ていた帯を、原因から直しました。読み込み画面は画面に固定して表示していますが、<b>固定したものは「表示領域」で切り取られます</b>。iPhoneでは起動した直後だけこの表示領域が本来より短く、指で少し動かした瞬間に正しくなります——スワイプすると帯が消えたのはこのためです。それまでのあいだ、下端の帯は読み込み画面が届かない場所にあり、ページの地色がそこに出ていました。地色のほうを読み込み画面と同じ色にしたので、表示領域が短いあいだも境目が出ません。',en:'Fixed the band along the bottom of the screen on iPhone, at the cause. The load screen is pinned to the viewport, and anything pinned is clipped to it — but for the first moments after a launch iPhone reports that viewport short, and it corrects the instant anything moves. That is why a small swipe made the band disappear. Until then the strip at the bottom lies outside what the load screen can cover, and the page’s own background shows there instead. That background is now the load screen’s colour, so there is no seam even while the viewport is short.',zh:'从根源修复了 iPhone 启动时屏幕底部出现的色带。加载画面是固定在视口上的，而<b>固定元素会被视口裁切</b>。iPhone 在刚启动的瞬间会把视口报得偏短，只要稍有移动就会修正——这正是轻轻一划色带就消失的原因。在此之前，底部那条带子位于加载画面够不到的地方，露出的是页面自身的底色。现在把底色改成与加载画面同色，即使视口偏短也不会出现接缝。',fr:'La bande en bas de l’écran sur iPhone est corrigée à la source. L’écran de chargement est fixé au viewport, et tout ce qui est fixé y est rogné — or, juste après un lancement, l’iPhone annonce un viewport trop court, et cela se corrige dès que quelque chose bouge : d’où la disparition de la bande après un petit balayage. En attendant, la bande du bas se trouve hors de portée de l’écran de chargement, et c’est le fond de la page qui s’y voit. Ce fond prend désormais la couleur de l’écran de chargement : plus de raccord, même viewport court.',ar:'عُولج الشريط الظاهر أسفل الشاشة على iPhone من أصله. شاشة التحميل مثبَّتة على منطقة العرض، <b>وكل مثبَّت يُقتطع عندها</b>؛ غير أن iPhone يبلّغ عن منطقة عرض أقصر في اللحظات الأولى بعد الإقلاع، ويصحّح ذلك بمجرد أي حركة — ولهذا كان الشريط يختفي مع تمريرة خفيفة. وحتى ذلك الحين يقع شريط الأسفل خارج ما تبلغه شاشة التحميل، فتظهر فيه خلفية الصفحة نفسها. صارت تلك الخلفية بلون شاشة التحميل، فلا يظهر فاصل ولو كانت منطقة العرض قصيرة.',ko:'iPhone에서 시작할 때 화면 아래에 나오던 띠를 원인부터 고쳤습니다. 로딩 화면은 화면에 고정해 두는데, <b>고정한 것은 «표시 영역»에서 잘립니다</b>. iPhone에서는 막 시작한 직후에만 이 표시 영역이 실제보다 짧고, 손가락으로 조금 움직이는 순간 바로잡힙니다——스와이프하면 띠가 사라진 것은 이 때문입니다. 그때까지 아래쪽 띠는 로딩 화면이 닿지 않는 곳이라, 페이지의 바탕색이 거기에 드러났습니다. 그 바탕색을 로딩 화면과 같은 색으로 했으므로, 표시 영역이 짧은 동안에도 이음매가 보이지 않습니다.',ru:'Полоса внизу экрана на iPhone исправлена по причине, а не по симптому. Экран загрузки закреплён во вьюпорте, а всё закреплённое им же и обрезается — но в первые мгновения после запуска iPhone сообщает вьюпорт короче настоящего и исправляется при первом же движении: потому лёгкий свайп и убирал полосу. До этого нижняя полоса лежит там, куда экран загрузки не достаёт, и в ней видно собственный фон страницы. Теперь этот фон — цвета экрана загрузки, так что стыка нет даже при коротком вьюпорте.'},
+  v5400_1:{ja:'復習の4つのモードに色をつけました。<b>問題が単語を見せるか、読み上げるか</b>で二色に分かれます——上の段（4択・スペル入力）が青、下の段（リスニング・ディクテーション）が紫。読んで分かることと聞いて分かることは別の力なので、そこで分けています。左右は「選ぶ／打つ」の違いで、こちらはアイコンが示しています。',en:'The four review modes are colour-coded now, by whether the question shows you the word or says it: the top row (four-choice, spelling) is blue, the bottom row (listening, dictation) violet. Reading and hearing are different skills, so that is the line the colour draws. Left and right differ by what you do back — choose or type — which the icon already shows.',zh:'复习的四种模式加了颜色，按<b>题目是给你看单词还是读出来</b>分成两色：上排（四选一、拼写输入）为蓝，下排（听力、听写）为紫。读得懂和听得懂是两种能力，所以以此为界。左右之分是「选择／输入」，由图标表示。',fr:'Les quatre modes de révision sont désormais colorés selon que la question montre le mot ou le prononce : la rangée du haut (QCM, orthographe) en bleu, celle du bas (écoute, dictée) en violet. Lire et entendre sont deux compétences distinctes, d’où cette ligne de partage. Gauche et droite diffèrent par ce que vous faites — choisir ou taper — ce que l’icône indique déjà.',ar:'صارت أنماط المراجعة الأربعة ملوّنة بحسب <b>ما إذا كان السؤال يعرض الكلمة أم ينطقها</b>: الصف الأعلى (الاختيار من أربعة، الإملاء) أزرق، والأسفل (الاستماع، الإملاء السمعي) بنفسجي. فالقراءة والسمع مهارتان مختلفتان، وعلى ذلك جرى الفصل. أما اليمين واليسار فيفترقان بما تفعله ردًّا — تختار أم تكتب — وذلك ما تقوله الأيقونة.',ko:'복습의 네 가지 모드에 색을 넣었습니다. <b>문제가 단어를 보여 주는지, 읽어 주는지</b>로 두 색으로 나뉩니다——위 줄(4택·스펠 입력)이 파랑, 아래 줄(리스닝·딕테이션)이 보라. 읽어서 아는 것과 들어서 아는 것은 다른 힘이라 거기서 나눴습니다. 좌우는 «고르기/치기»의 차이로, 이쪽은 아이콘이 보여 줍니다.',ru:'Четыре режима повторения теперь различаются цветом — по тому, показывает вопрос слово или произносит его: верхний ряд (выбор из четырёх, ввод по буквам) синий, нижний (аудирование, диктант) фиолетовый. Читать и слышать — разные навыки, отсюда и граница. Левое и правое различаются тем, что делаете вы — выбираете или печатаете, — и это уже говорит значок.'},
+  v5400_2:{ja:'iPhoneの画面のいちばん下——ホームバーの帯——に、色の切れ目が出ないようにしました。<b>下端に固定されるもの</b>（タブバー、4択、操作バー、スペル用キーボード、読み込み画面）は、実はその帯の手前で止まっています。それぞれが自分の色をその帯まで伸ばすようにしました。',en:'The strip along the home indicator at the very bottom of an iPhone screen no longer shows a seam. Everything pinned to the bottom — the tab bar, the four options, the action bar, the spelling keyboard, the load screen — actually stops just short of that strip. Each of them now carries its own colour down through it.',zh:'iPhone 屏幕最下方——主页指示条那一带——不再出现颜色断层。<b>固定在底部的元素</b>（标签栏、四个选项、操作栏、拼写键盘、加载画面）其实都停在那条带子之前，现在它们各自把自己的颜色延伸了下去。',fr:'La bande le long de l’indicateur d’accueil, tout en bas de l’écran d’un iPhone, ne laisse plus voir de raccord. Tout ce qui est fixé en bas — barre d’onglets, options, barre d’actions, clavier d’orthographe, écran de chargement — s’arrête en réalité juste avant cette bande ; chacun y prolonge désormais sa propre couleur.',ar:'لم يعد الشريط الممتد عند مؤشّر الصفحة الرئيسية، في أسفل شاشة iPhone تمامًا، يُظهر فاصلًا لونيًا. فكل ما يُثبَّت في الأسفل — شريط التبويبات والخيارات الأربعة وشريط الإجراءات ولوحة مفاتيح الإملاء وشاشة التحميل — يتوقف في الحقيقة قبيل ذلك الشريط، وقد صار كلٌّ منها يمدّ لونه عبره.',ko:'iPhone 화면 맨 아래——홈 바 부근의 띠——에 색의 이음매가 보이지 않게 했습니다. <b>아래에 고정되는 것들</b>(탭 바, 4택, 조작 바, 스펠용 키보드, 로딩 화면)은 실은 그 띠 앞에서 멈춰 있습니다. 각자 자기 색을 그 띠까지 늘리도록 했습니다.',ru:'Полоса вдоль индикатора «Домой» в самом низу экрана iPhone больше не показывает стык. Всё, что закреплено внизу, — панель вкладок, четыре варианта, панель действий, клавиатура для ввода по буквам, экран загрузки — на деле останавливается чуть выше этой полосы; теперь каждый из них продолжает свой цвет через неё.'},
   v5390_1:{ja:'復習を終えると、<b>その回で何が動いたか</b>が出るようになりました。通算の復習数がその場で数え上がり、その日はじめての学習なら連続日数も1つ増えます。途中でやめた場合も、解いたぶんの結果が出ます——4問で切り上げても、その4問は消えません。',en:'Finishing a round now shows what it moved. Your all-time review count counts up on the spot, and if this was the first study of the day the streak ticks over with it. Stopping early shows the same screen for the questions you did answer — four questions still count for four.',zh:'完成复习后，会显示<b>这一轮改变了什么</b>：累计复习数当场累加，若是当天首次学习，连续天数也随之加一。中途结束同样会显示已作答部分的结果——只做4题，那4题也不会消失。',fr:'Terminer une série montre désormais ce qu’elle a changé : le total de révisions s’incrémente sous vos yeux, et s’il s’agit de la première séance du jour, la série gagne un jour. En arrêtant en cours de route, vous voyez le même écran pour les questions traitées — quatre questions comptent pour quatre.',ar:'صار إنهاء الجولة يعرض <b>ما الذي تغيّر بها</b>: يتصاعد عدد المراجعات الكلي أمامك، وإن كانت هذه أول مذاكرة في اليوم زادت السلسلة يومًا. والتوقّف في المنتصف يعرض النتيجة نفسها لما أجبت عنه — أربعة أسئلة تبقى أربعة.',ko:'복습을 마치면 <b>이번 회차로 무엇이 움직였는지</b>가 나옵니다. 누적 복습 수가 그 자리에서 올라가고, 그날 첫 학습이라면 연속 일수도 하나 늘어납니다. 도중에 그만둔 경우에도 푼 만큼의 결과가 나옵니다——4문제에서 끝내도 그 4문제는 사라지지 않습니다.',ru:'После раунда теперь видно, что он изменил: общее число повторений растёт прямо на экране, а если это первое занятие за день, серия прибавляет день. Если выйти на середине, тот же экран покажет отвеченные вопросы — четыре вопроса остаются четырьмя.'},
   v5390_2:{ja:'パソコンで単語カードを見るとき、矢印キーを<b>押しっぱなしにしてもカードが流れなくなりました</b>。1回押して1枚です。長押しは判断ではなく、指が置かれているだけなので。',en:'On a computer, holding an arrow key no longer runs the flashcards away. One press, one card. A held key is a resting finger, not a decision.',zh:'在电脑上翻看单词卡时，<b>长按方向键不再让卡片飞速滑过</b>。按一次翻一张。长按只是手指放着，并不是选择。',fr:'Sur ordinateur, maintenir une flèche ne fait plus défiler les cartes en rafale : une pression, une carte. Une touche maintenue est un doigt posé, pas une décision.',ar:'على الحاسوب، لم تعد البطاقات تنطلق تباعًا عند <b>الاستمرار في الضغط على سهم</b>. ضغطة واحدة، بطاقة واحدة؛ فالضغط المستمر إصبع مستقر لا قرار.',ko:'컴퓨터에서 단어 카드를 볼 때 화살표 키를 <b>누르고 있어도 카드가 흘러가지 않습니다</b>. 한 번 누르면 한 장입니다. 길게 누르는 것은 판단이 아니라 손가락이 놓여 있을 뿐이니까요.',ru:'На компьютере удержание стрелки больше не прокручивает карточки очередью: одно нажатие — одна карточка. Зажатая клавиша — это лежащий палец, а не решение.'},
   v5390_3:{ja:'iPhoneで起動したとき、読み込み画面の下に白い帯が出ていたのを直しました。画面のいちばん下——ホームバーのあたり——は読み込み画面が届かない場所で、そこにアプリの明るい背景がのぞいていました。',en:'Fixed a white band under the load screen when the app opens on iPhone. The very bottom of the screen — the home-indicator strip — is outside what the load screen can cover, and the app’s light background was showing through it.',zh:'修复了在 iPhone 上启动时，加载画面下方出现白色横条的问题。屏幕最下方——主页指示条那一带——是加载画面覆盖不到的位置，应用的浅色背景从那里透了出来。',fr:'Correction d’une bande blanche sous l’écran de chargement au lancement sur iPhone. Le tout bas de l’écran — la zone de l’indicateur d’accueil — échappe à l’écran de chargement, et le fond clair de l’application y transparaissait.',ar:'أُصلح الشريط الأبيض الذي كان يظهر أسفل شاشة التحميل عند فتح التطبيق على iPhone. فأسفل الشاشة تمامًا — موضع شريط الصفحة الرئيسية — خارج ما تغطيه شاشة التحميل، وكانت خلفية التطبيق الفاتحة تطلّ منه.',ko:'iPhone에서 앱을 열 때 로딩 화면 아래에 흰 띠가 보이던 것을 고쳤습니다. 화면 맨 아래——홈 바 부근——은 로딩 화면이 닿지 않는 곳이라, 거기로 앱의 밝은 배경이 비쳤습니다.',ru:'Исправлена белая полоса под экраном загрузки при запуске на iPhone. Самый низ экрана — полоса индикатора «Домой» — лежит вне того, что экран загрузки может закрыть, и сквозь неё просвечивал светлый фон приложения.'},
-  v5380_1:{ja:'ホームから数字のタイルを外しました。連続日数はどの画面でも上に出ているので、ホームで言い直すと<b>次に何をするか</b>という唯一の数字が二番手に落ちます。残ったのは一行と、ボタンひとつです。',en:'The metric tiles are gone from Home. Your streak sits in the header on every screen, so repeating it here pushed the one number that changes what you do next into second place. What is left is a line of context and a button.',zh:'首页移除了数字磁贴。连续天数在每个画面的顶部都有，在首页再说一遍，只会把<b>决定你接下来做什么</b>的那个数字挤到第二位。留下的是一行说明和一个按钮。',fr:'Les tuiles de statistiques ont quitté l’accueil. Votre série figure déjà en tête de chaque écran ; la répéter ici reléguait au second plan le seul chiffre qui change ce que vous allez faire. Il reste une ligne de contexte et un bouton.',ar:'أُزيلت بطاقات الأرقام من الصفحة الرئيسية. فسلسلتك ظاهرة في أعلى كل شاشة، وتكرارها هنا كان يدفع الرقم الوحيد الذي يحدّد خطوتك التالية إلى المرتبة الثانية. بقي سطر واحد وزر.',ko:'홈에서 숫자 타일을 없앴습니다. 연속 일수는 어느 화면에서나 위에 나오므로, 홈에서 다시 말하면 <b>다음에 무엇을 할지</b>를 정하는 유일한 숫자가 뒷자리로 밀립니다. 남은 것은 한 줄과 버튼 하나입니다.',ru:'С главной убраны плитки со статистикой. Серия и так видна в шапке на каждом экране, и повтор здесь отодвигал на второе место единственное число, которое определяет ваш следующий шаг. Остались строка контекста и кнопка.'},
-  v5380_2:{ja:'4択の選択肢を画面の下に固定しました。キーボードと同じ位置です。単語は空いた真ん中に置かれるので、読む場所と押す場所が分かれ、<b>指はほとんど動きません</b>。',en:'The four options are pinned to the foot of the screen, where the keyboard already sits. The word takes the space that frees up in the middle, so you read in one place and tap in another, and your thumb barely travels.',zh:'四个选项已固定在屏幕底部，与键盘位置相同。单词则占据空出来的中间区域：阅读在一处，点击在另一处，<b>手指几乎不用移动</b>。',fr:'Les quatre options sont fixées en bas de l’écran, là où se trouve déjà le clavier. Le mot occupe le milieu ainsi libéré : on lit à un endroit, on appuie à un autre, et le pouce ne voyage presque plus.',ar:'ثُبِّتت الخيارات الأربعة في أسفل الشاشة، حيث تقع لوحة المفاتيح أصلًا. وتشغل الكلمة الفراغ الذي تحرَّر في الوسط، فتقرأ في موضع وتضغط في آخر، ولا يكاد إبهامك يتحرك.',ko:'4택 선택지를 화면 아래에 고정했습니다. 키보드와 같은 자리입니다. 단어는 비워진 가운데에 놓이므로 읽는 곳과 누르는 곳이 나뉘고, <b>손가락은 거의 움직이지 않습니다</b>.',ru:'Четыре варианта закреплены внизу экрана — там же, где появляется клавиатура. Слово занимает освободившуюся середину: читаете в одном месте, нажимаете в другом, и палец почти не двигается.'},
-  v5380_3:{ja:'単語カードを送ると、横に滑って入れ替わるようになりました。裏返したまま送った場合は、先に表へ戻ってから切り替わります。カードの上にあった注意書きも外しました。',en:'Flashcards now slide sideways as you move through them, instead of switching in place. If a card was flipped, it turns back to the front first. The note that sat above the deck is gone too.',zh:'翻看单词卡时，卡片会横向滑动切换，而不再原地跳变。若卡片处于翻面状态，会先翻回正面再切换。卡片上方的说明文字也已移除。',fr:'Les cartes glissent désormais latéralement quand vous les faites défiler, au lieu de changer sur place. Une carte retournée revient d’abord côté face. La note qui surmontait le paquet a également disparu.',ar:'صارت البطاقات تنزلق جانبًا عند التنقل بينها بدل أن تتبدّل في مكانها. وإن كانت البطاقة مقلوبة، عادت إلى وجهها أولًا. كما أُزيلت الملاحظة التي كانت فوق المجموعة.',ko:'단어 카드를 넘기면 옆으로 미끄러지며 바뀝니다. 뒤집은 채로 넘기면 먼저 앞면으로 돌아온 뒤 바뀝니다. 카드 위에 있던 안내문도 없앴습니다.',ru:'Карточки теперь уезжают вбок при перелистывании, а не подменяются на месте. Перевёрнутая карточка сначала возвращается лицевой стороной. Подпись над колодой тоже убрана.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -8456,8 +8446,12 @@ function hideSplash(){
     // The morph needs both ends measurable. Anything missing, or somebody who
     // asked for less motion, gets the plain fade this used to do.
     if(!hdr||!name||!title||reduce){
+      // Before the fade, not after: for as long as `booting` is on, the whole
+      // page is painted the load screen's navy, and revealing the app through
+      // a navy body is exactly the flash this is meant to avoid.
+      unboot();
       el.classList.add('gone');
-      setTimeout(()=>{el.remove();unboot();},400);
+      setTimeout(()=>{el.remove();},400);
       return;
     }
     const h=hdr.getBoundingClientRect();
@@ -8475,6 +8469,9 @@ function hideSplash(){
     // Read back so the browser commits those values as the start of the
     // transition rather than collapsing both frames into one.
     void el.offsetHeight;
+    // Same reason as the fade above: the curtain reveals the app underneath, so
+    // the app's own background has to be back before it does.
+    unboot();
     el.classList.add('curtain');
     const scale=tr.height/(n.height||tr.height);
     name.style.transformOrigin='left top';
@@ -8485,7 +8482,7 @@ function hideSplash(){
     // half-pixel of rounding, not a visible crossfade.
     setTimeout(()=>{
       el.classList.add('settled');
-      setTimeout(()=>{el.remove();unboot();},220);
+      setTimeout(()=>{el.remove();},220);
     },540);
   },wait);
 }
