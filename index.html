@@ -102,6 +102,14 @@ html.booting{background:var(--fill)}
 #splash{position:fixed;inset:0;z-index:200;background:var(--fill);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
   transition:opacity .35s ease}
+/* Paint past every edge of the box. `inset:0` stops at the layout viewport, and
+   on iPhone the strip along the home indicator can sit outside it -- a white
+   band under a navy load screen. A spread shadow is the one way to colour
+   outside the box without changing where the box is, so the wordmark still
+   lands exactly where the morph expects. Dropped for .curtain, when the panel
+   is shrinking into the header and a flood underneath it would be a navy bar
+   trailing across the app. */
+#splash:not(.curtain){box-shadow:0 0 0 140px var(--fill)}
 #splash.gone{opacity:0;pointer-events:none}
 /* The load screen does not fade away -- it becomes the header. It shrinks to
    the header's exact height and corner radius while the wordmark travels to
