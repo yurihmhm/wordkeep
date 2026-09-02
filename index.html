@@ -732,6 +732,11 @@ body.in-round{--tabbar-h:0px}
   box-shadow:0 2px 6px rgba(15,30,61,.18);transition:transform .06s,filter .06s}
 .q-act svg{width:22px;height:22px;flex:none}
 .q-act.main{background:var(--accent);color:var(--navy);box-shadow:0 2px 8px rgba(240,180,41,.34)}
+/* The last question's button ends the round rather than advancing it, and gold
+   -- the colour of "start", "continue", every other forward step -- says the
+   opposite. Green is already this app's word for "that was right", which is
+   what finishing a round is. */
+.q-act.main.done{background:var(--good);color:#fff;box-shadow:0 2px 8px rgba(31,157,107,.34)}
 .q-act:active{transform:translateY(1px);filter:brightness(.94)}
 .q-mode-tabs,.word-modes{display:flex;gap:8px;margin-bottom:16px}
 .q-mode-tabs button,.word-modes button{flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--line);
@@ -1416,7 +1421,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.46.0';
+const APP_VERSION='5.47.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1429,9 +1434,9 @@ const APP_VERSION='5.46.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.46.0',date:'2026-09-02',keys:['wn1','wn2']},
+  {version:'5.47.0',date:'2026-09-03',keys:['wn1','wn2']},
+  {version:'5.46.0',date:'2026-09-02',keys:['v5460_1','v5460_2']},
   {version:'5.45.0',date:'2026-09-02',keys:['v5450_1','v5450_2']},
-  {version:'5.44.0',date:'2026-09-01',keys:['v5440_1','v5440_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1533,12 +1538,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
-  wn2:{ja:'メールアドレスの打ち間違いに気づけるようにしました。「@gmail.con」のように惜しい入力をすると、正しい形を提案します。タップすれば直ります。',en:'The app now spots a mistyped email address. Type something like “@gmail.con” and it offers the right one — tap to fix it.',zh:'现在能发现邮箱地址的输入错误。输入「@gmail.con」之类时会提示正确写法，点一下即可修正。',fr:'L’application repère désormais une adresse e-mail mal saisie. Tapez « @gmail.con » et elle propose la bonne : touchez pour corriger.',ar:'صار التطبيق ينبّه إلى الخطأ في كتابة البريد. اكتب «gmail.con@» وسيقترح الصيغة الصحيحة — المس لتصحيحها.',ko:'이메일 주소의 오타를 알아차립니다. «@gmail.con»처럼 아깝게 틀리면 올바른 형태를 제안합니다. 누르면 고쳐집니다.',ru:'Приложение замечает опечатку в адресе почты. Наберите «@gmail.con» — оно предложит правильный вариант, нажмите, чтобы исправить.'},
+  wn1:{ja:'単語が少ない単語帳でも4択が出せるようになりました。まちがいの選択肢は、ほかの単語帳やダウンロード済みのパッケージから借りてきます。1語だけの単語帳でも出題できます。',en:'Four-choice works on a small notebook now. The wrong answers are borrowed from your other notebooks and downloaded packs, so even a notebook with one word in it can be studied.',zh:'单词很少的单词本也能出四选一了。错误选项会从你的其他单词本和已下载的单词包中借用，因此只有一个单词的本子也能练习。',fr:'Le QCM fonctionne désormais sur un petit carnet : les mauvaises réponses sont empruntées à vos autres carnets et aux packs téléchargés, si bien qu’un carnet d’un seul mot est jouable.',ar:'صار الاختيار من أربعة يعمل حتى مع دفتر قليل الكلمات؛ إذ تُستعار الإجابات الخاطئة من دفاترك الأخرى ومن الحزم المنزَّلة، فيمكن مذاكرة دفتر فيه كلمة واحدة.',ko:'단어가 적은 단어장에서도 4택을 낼 수 있습니다. 오답 선택지는 다른 단어장과 내려받은 패키지에서 빌려 오므로, 한 단어뿐인 단어장도 출제됩니다.',ru:'Выбор из четырёх работает и на маленьком словаре: неверные варианты берутся из ваших других словарей и загруженных наборов, так что играбелен даже словарь с одним словом.'},
+  wn2:{ja:'最後の問題のボタンを「学習完了」にして、正解と同じ緑にしました。次に進むボタンと同じ見た目だと、終わった感じがしなかったので。',en:'The button on the last question now says “Done!” and turns the same green as a correct answer. Looking like every other “next” button did not feel like finishing.',zh:'最后一题的按钮改为「学习完成」，并使用与答对相同的绿色。此前与「下一题」长得一样，缺少完成的感觉。',fr:'Le bouton de la dernière question affiche « Terminé ! » et prend le vert d’une bonne réponse. Identique au bouton « suivant », il ne donnait aucune impression d’avoir fini.',ar:'صار زر السؤال الأخير يقول «تمّ!» ويأخذ اللون الأخضر نفسه الذي للإجابة الصحيحة. فتشابهه مع زر «التالي» كان يفقده معنى الإنهاء.',ko:'마지막 문제의 버튼을 «학습 완료»로 바꾸고, 정답과 같은 초록색으로 했습니다. 다음으로 넘어가는 버튼과 같은 모습이면 끝낸 느낌이 나지 않아서요.',ru:'Кнопка на последнем вопросе теперь говорит «Готово!» и становится того же зелёного цвета, что и верный ответ. Выглядя как обычная «дальше», она не давала ощущения завершения.'},
+  v5460_1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
+  v5460_2:{ja:'メールアドレスの打ち間違いに気づけるようにしました。「@gmail.con」のように惜しい入力をすると、正しい形を提案します。タップすれば直ります。',en:'The app now spots a mistyped email address. Type something like “@gmail.con” and it offers the right one — tap to fix it.',zh:'现在能发现邮箱地址的输入错误。输入「@gmail.con」之类时会提示正确写法，点一下即可修正。',fr:'L’application repère désormais une adresse e-mail mal saisie. Tapez « @gmail.con » et elle propose la bonne : touchez pour corriger.',ar:'صار التطبيق ينبّه إلى الخطأ في كتابة البريد. اكتب «gmail.con@» وسيقترح الصيغة الصحيحة — المس لتصحيحها.',ko:'이메일 주소의 오타를 알아차립니다. «@gmail.con»처럼 아깝게 틀리면 올바른 형태를 제안합니다. 누르면 고쳐집니다.',ru:'Приложение замечает опечатку в адресе почты. Наберите «@gmail.con» — оно предложит правильный вариант, нажмите, чтобы исправить.'},
   v5450_1:{ja:'アプリの話しかたを、ていねいな言い方に揃えました。あいさつの中に「おかえり」と「おかえりなさい」が混ざっていたような不揃いをなくしています。通知だけは「！」と絵文字をそのまま残しました。',en:'The app now speaks in one consistent, polite voice. Greetings used to mix casual and formal lines; that is gone. Notifications keep their exclamation marks and emoji.',zh:'应用的说话方式已统一为礼貌的语气，问候语中混杂的随意说法已消除。只有通知保留了感叹号和表情符号。',fr:'L’application parle désormais d’une seule voix, polie et cohérente : les salutations mêlaient le tutoiement et le vouvoiement, ce n’est plus le cas. Les notifications gardent leurs points d’exclamation et leurs émojis.',ar:'صار التطبيق يتحدث بنبرة مهذّبة واحدة؛ فقد كانت التحيات تخلط بين العامّي والرسمي. أما الإشعارات فتحتفظ بعلامات التعجب والرموز.',ko:'앱의 말투를 정중한 쪽으로 통일했습니다. 인사말에 반말과 존댓말이 섞여 있던 것을 없앴습니다. 알림만은 «!»와 이모지를 그대로 두었습니다.',ru:'Приложение теперь говорит одним вежливым голосом — в приветствиях больше не смешаны обращения на «ты» и на «вы». Уведомления сохраняют восклицательные знаки и эмодзи.'},
   v5450_2:{ja:'言語を切り替えても通知が前の言語のままだった不具合を直しました。切り替えた時点から、新しい言語で届きます。',en:'Fixed a problem where notifications stayed in the old language after you switched languages. They now follow the language you chose.',zh:'修复了切换语言后通知仍是旧语言的问题。现在通知会跟随你选择的语言。',fr:'Correction d’un problème : les notifications restaient dans l’ancienne langue après un changement. Elles suivent désormais la langue choisie.',ar:'أُصلح خلل كانت الإشعارات معه تبقى باللغة السابقة بعد تغيير اللغة. صارت الآن تتبع اللغة التي تختارها.',ko:'언어를 바꿔도 알림이 이전 언어 그대로이던 문제를 고쳤습니다. 이제 고른 언어로 도착합니다.',ru:'Исправлено: уведомления оставались на прежнем языке после его смены. Теперь они следуют выбранному языку.'},
-  v5440_1:{ja:'アプリの中で不具合が起きたとき、これまでは「何かが起きた」ということしか分かりませんでした。これからは原因まで記録されるので、直すのが早くなります。',en:'When something goes wrong inside the app, all we used to learn was that it had. Now the cause is recorded too, so problems get fixed sooner.',zh:'过去应用内部出错时，我们只能知道「出了问题」。现在连原因也会一并记录，修复会更快。',fr:'Quand quelque chose n’allait pas dans l’application, nous n’apprenions que le fait. Désormais la cause est enregistrée aussi, donc les problèmes sont corrigés plus vite.',ar:'حين كان يقع خلل داخل التطبيق لم نكن نعرف سوى أنه وقع. صار السبب يُسجَّل أيضًا، فتُصلَح المشكلات أسرع.',ko:'앱 안에서 문제가 생겼을 때, 지금까지는 «무언가 일어났다»는 것밖에 알 수 없었습니다. 앞으로는 원인까지 기록되어 더 빨리 고칠 수 있습니다.',ru:'Когда внутри приложения что-то ломалось, мы узнавали только сам факт. Теперь записывается и причина, так что неполадки исправляются быстрее.'},
-  v5440_2:{ja:'この「更新しました」のお知らせを、短く読みやすく書くようにしました。これまでは説明が細かすぎました。',en:'These “What’s new” notes are shorter and plainer from now on. They had been far too detailed.',zh:'今后这些「更新内容」会写得更简短易读。此前的说明过于琐碎了。',fr:'Ces notes « Nouveautés » seront désormais plus courtes et plus simples. Elles étaient bien trop détaillées.',ar:'صارت رسائل «ما الجديد» هذه أقصر وأيسر قراءة من الآن فصاعدًا؛ فقد كانت مفرطة في التفصيل.',ko:'이 «업데이트 내용» 안내를 짧고 읽기 쉽게 쓰기로 했습니다. 그동안은 설명이 너무 자세했습니다.',ru:'Эти заметки «Обновление» теперь короче и проще. Раньше они были слишком подробными.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1932,7 +1937,7 @@ const T={
   btn_quit_round:{ja:'この回を終える',en:'End this round',zh:'结束本轮',fr:'Terminer la série',ar:'إنهاء الجولة',ko:'이번 회차 종료',ru:'Завершить раунд'},
   sp_near:{ja:'正解と{0}文字違います。',en:'{0} letter off.',zh:'与正确答案差 {0} 个字母。',fr:'{0} lettre d’écart.',ar:'يختلف عن الإجابة بـ {0} حرف.',ko:'정답과 {0}글자 다릅니다.',ru:'Отличается на {0} букв.'},
   sp_space:{ja:'space',en:'space',zh:'空格',fr:'espace',ar:'مسافة',ko:'스페이스',ru:'пробел'},
-  btn_see_result:{ja:'結果を見る',en:'See result',zh:'查看结果',fr:'Voir le résultat',ar:'عرض النتيجة',ko:'결과 보기',ru:'Показать результат'},
+  btn_see_result:{ja:'学習完了',en:'Done!',zh:'学习完成',fr:'Terminé !',ar:'تمّ!',ko:'학습 완료',ru:'Готово!'},
   accuracy:{ja:'正答率 {0}%',en:'Accuracy {0}%',zh:'正确率 {0}%',fr:'Précision {0}%',ar:'الدقة {0}%',ko:'정답률 {0}%',ru:'Точность {0}%'},
   btn_continue_review:{ja:'続けて復習',en:'Keep reviewing',zh:'继续复习',fr:'Continuer la révision',ar:'متابعة المراجعة',ko:'계속 복습',ru:'Продолжить повтор'},
   btn_back_list:{ja:'リストに戻る',en:'Back to list',zh:'返回列表',fr:'Retour à la liste',ar:'العودة إلى القائمة',ko:'목록으로',ru:'Вернуться к списку'},
@@ -5034,13 +5039,36 @@ function warmSimilar(items){
     if(w&&w.word&&!SIMDB[simKey(w.word)])fetchSimilar(w.word);
   });
 }
+// Every word the device holds, whatever notebook or package it sits in.
+// Four-choice used to draw its wrong answers from the CURRENT deck alone, so a
+// deck with one word in it could not be tested at all, and a deck with four
+// gave the same three wrong answers every single time. Nothing about a
+// distractor requires it to come from the deck being studied -- it only has to
+// be a plausible word in the same language.
+function allKnownWords(){
+  const out=(DB.words||[]).slice();
+  Object.keys(PKGW||{}).forEach(id=>{
+    const p=PKGW[id];
+    if(p&&Array.isArray(p.words))out.push.apply(out,p.words);
+  });
+  return out;
+}
 function pickDistractors(w,correct,showEng,n){
   n=n||3;
   // Only when the options ARE words. When they are meanings, a similar-sounding
   // English word is not an option at all.
   const outside=showEng?[]:(SIMDB[simKey(w.word)]||[]);
+  // The deck being studied comes first, because a wrong answer the learner has
+  // actually met is a better test than a stranger. Everything else follows, and
+  // the weighting below decides what really gets used.
+  const pool=curWords().concat(allKnownWords());
+  const seenId={};
   const candidates=[...new Set(
-    curWords().filter(x=>x.id!==w.id&&primaryMeaning(x))
+    pool.filter(x=>{
+      if(!x||x.id===w.id||!primaryMeaning(x))return false;
+      if(seenId[x.id])return false;
+      seenId[x.id]=1;return true;
+    })
       .map(x=>showEng?primaryMeaning(x):x.word)
       .concat(outside)
       .filter(tx=>tx&&tx!==correct)
@@ -5276,11 +5304,23 @@ function refreshQsSummary(){
 // refused -- but the button said "3 questions" and stayed enabled, so pressing
 // it looked like nothing happening. Say why here instead.
 function modeNeeds(v){return (v==='choice'||v==='listen')?4:1;}
+// How many words are available to BUILD a question, which is not the same as
+// how many are due. Four-choice needs three wrong answers from somewhere, and
+// since v5.47.0 that somewhere is every notebook and every downloaded package
+// -- so a deck holding a single word is perfectly testable.
+function eligiblePool(){
+  const seen={};let n=0;
+  curWords().concat(allKnownWords()).forEach(x=>{
+    if(!x||seen[x.id]||!primaryMeaning(x))return;
+    seen[x.id]=1;n++;
+  });
+  return n;
+}
 function updateQsNote(){
   const note=$('#qsNote');
   if(!note)return;
   const n=pickWords(quizSetup.mode).length;
-  const total=curWords().filter(w=>primaryMeaning(w)).length;
+  const total=eligiblePool();
   const need=modeNeeds(S().quizType);
   const short=total<need;
   note.textContent=short?t('qs_need_n',need,total):(n?t('qs_count',n):t('qs_none'));
@@ -5298,7 +5338,7 @@ function startQuiz(mode){
   const items=pickWords(mode);
   const body=$('#quizBody');
 
-  const eligibleTotal=curWords().filter(w=>primaryMeaning(w)).length;
+  const eligibleTotal=eligiblePool();
   if(mode==='leech'&&!leechCount()){
     renderQuizSetup();return;
   }
@@ -6084,10 +6124,12 @@ function quizActionsHTML(opt){
   const I={d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5h6a2.5 2.5 0 0 1 2 2.4V20a2 2 0 0 0-1.7-1H4z"/><path d="M20 4.5h-6a2.5 2.5 0 0 0-2 2.4V20a2 2 0 0 1 1.7-1H20z"/></svg>',s:SPEAKER_SVG,n:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5.5 15.5 12 9 18.5"/></svg>'};
   const back=!!(opt&&opt.back);
   const last=quiz.i+1>=quiz.items.length;
+  const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5 10 18 19.5 6.5"/></svg>';
   return '<div class="q-acts">'+
     '<button class="q-act" id="qDetail" type="button">'+I.d+'<span>'+esc(t('act_detail'))+'</span></button>'+
     (TTS_OK?'<button class="q-act" id="qSay" type="button">'+I.s+'<span>'+esc(t('act_listen'))+'</span></button>':'')+
-    '<button class="q-act main" id="qNext" type="button">'+I.n+'<span>'+
+    '<button class="q-act main'+(last&&!back?' done':'')+'" id="qNext" type="button">'+
+      (last&&!back?CHECK:I.n)+'<span>'+
       esc(back?t('past_resume'):last?t('btn_see_result'):t('btn_next_q'))+'</span></button>'+
   '</div>';
 }
