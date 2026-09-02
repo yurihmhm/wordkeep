@@ -830,6 +830,11 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .gate-brand{font-family:Georgia,'Times New Roman',serif;font-size:26px;letter-spacing:.02em;
   text-align:center;color:var(--gold);margin:0 0 6px}
 .gate-lead{text-align:center;margin:0 0 20px}
+.mail-fix{display:inline-block;margin-top:8px;background:var(--chip-bg);border:1px solid var(--line);
+  border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;color:var(--ink-2);
+  cursor:pointer;text-align:left;line-height:1.5}
+.mail-fix b{color:var(--ink-strong);word-break:break-all}
+.mail-fix:active{filter:brightness(.95)}
 .gate-alt{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center}
 .gate-alt .hint{margin:0 0 8px}
 .sheet{position:relative;background:var(--surface);border-radius:22px;max-width:400px;width:100%;padding:26px 22px;
@@ -1411,7 +1416,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.45.0';
+const APP_VERSION='5.46.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1424,9 +1429,9 @@ const APP_VERSION='5.45.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.45.0',date:'2026-09-02',keys:['wn1','wn2']},
+  {version:'5.46.0',date:'2026-09-02',keys:['wn1','wn2']},
+  {version:'5.45.0',date:'2026-09-02',keys:['v5450_1','v5450_2']},
   {version:'5.44.0',date:'2026-09-01',keys:['v5440_1','v5440_2']},
-  {version:'5.43.0',date:'2026-09-01',keys:['v5430_1','v5430_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1528,12 +1533,12 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'アプリの話しかたを、ていねいな言い方に揃えました。あいさつの中に「おかえり」と「おかえりなさい」が混ざっていたような不揃いをなくしています。通知だけは「！」と絵文字をそのまま残しました。',en:'The app now speaks in one consistent, polite voice. Greetings used to mix casual and formal lines; that is gone. Notifications keep their exclamation marks and emoji.',zh:'应用的说话方式已统一为礼貌的语气，问候语中混杂的随意说法已消除。只有通知保留了感叹号和表情符号。',fr:'L’application parle désormais d’une seule voix, polie et cohérente : les salutations mêlaient le tutoiement et le vouvoiement, ce n’est plus le cas. Les notifications gardent leurs points d’exclamation et leurs émojis.',ar:'صار التطبيق يتحدث بنبرة مهذّبة واحدة؛ فقد كانت التحيات تخلط بين العامّي والرسمي. أما الإشعارات فتحتفظ بعلامات التعجب والرموز.',ko:'앱의 말투를 정중한 쪽으로 통일했습니다. 인사말에 반말과 존댓말이 섞여 있던 것을 없앴습니다. 알림만은 «!»와 이모지를 그대로 두었습니다.',ru:'Приложение теперь говорит одним вежливым голосом — в приветствиях больше не смешаны обращения на «ты» и на «вы». Уведомления сохраняют восклицательные знаки и эмодзи.'},
-  wn2:{ja:'言語を切り替えても通知が前の言語のままだった不具合を直しました。切り替えた時点から、新しい言語で届きます。',en:'Fixed a problem where notifications stayed in the old language after you switched languages. They now follow the language you chose.',zh:'修复了切换语言后通知仍是旧语言的问题。现在通知会跟随你选择的语言。',fr:'Correction d’un problème : les notifications restaient dans l’ancienne langue après un changement. Elles suivent désormais la langue choisie.',ar:'أُصلح خلل كانت الإشعارات معه تبقى باللغة السابقة بعد تغيير اللغة. صارت الآن تتبع اللغة التي تختارها.',ko:'언어를 바꿔도 알림이 이전 언어 그대로이던 문제를 고쳤습니다. 이제 고른 언어로 도착합니다.',ru:'Исправлено: уведомления оставались на прежнем языке после его смены. Теперь они следуют выбранному языку.'},
+  wn1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
+  wn2:{ja:'メールアドレスの打ち間違いに気づけるようにしました。「@gmail.con」のように惜しい入力をすると、正しい形を提案します。タップすれば直ります。',en:'The app now spots a mistyped email address. Type something like “@gmail.con” and it offers the right one — tap to fix it.',zh:'现在能发现邮箱地址的输入错误。输入「@gmail.con」之类时会提示正确写法，点一下即可修正。',fr:'L’application repère désormais une adresse e-mail mal saisie. Tapez « @gmail.con » et elle propose la bonne : touchez pour corriger.',ar:'صار التطبيق ينبّه إلى الخطأ في كتابة البريد. اكتب «gmail.con@» وسيقترح الصيغة الصحيحة — المس لتصحيحها.',ko:'이메일 주소의 오타를 알아차립니다. «@gmail.con»처럼 아깝게 틀리면 올바른 형태를 제안합니다. 누르면 고쳐집니다.',ru:'Приложение замечает опечатку в адресе почты. Наберите «@gmail.con» — оно предложит правильный вариант, нажмите, чтобы исправить.'},
+  v5450_1:{ja:'アプリの話しかたを、ていねいな言い方に揃えました。あいさつの中に「おかえり」と「おかえりなさい」が混ざっていたような不揃いをなくしています。通知だけは「！」と絵文字をそのまま残しました。',en:'The app now speaks in one consistent, polite voice. Greetings used to mix casual and formal lines; that is gone. Notifications keep their exclamation marks and emoji.',zh:'应用的说话方式已统一为礼貌的语气，问候语中混杂的随意说法已消除。只有通知保留了感叹号和表情符号。',fr:'L’application parle désormais d’une seule voix, polie et cohérente : les salutations mêlaient le tutoiement et le vouvoiement, ce n’est plus le cas. Les notifications gardent leurs points d’exclamation et leurs émojis.',ar:'صار التطبيق يتحدث بنبرة مهذّبة واحدة؛ فقد كانت التحيات تخلط بين العامّي والرسمي. أما الإشعارات فتحتفظ بعلامات التعجب والرموز.',ko:'앱의 말투를 정중한 쪽으로 통일했습니다. 인사말에 반말과 존댓말이 섞여 있던 것을 없앴습니다. 알림만은 «!»와 이모지를 그대로 두었습니다.',ru:'Приложение теперь говорит одним вежливым голосом — в приветствиях больше не смешаны обращения на «ты» и на «вы». Уведомления сохраняют восклицательные знаки и эмодзи.'},
+  v5450_2:{ja:'言語を切り替えても通知が前の言語のままだった不具合を直しました。切り替えた時点から、新しい言語で届きます。',en:'Fixed a problem where notifications stayed in the old language after you switched languages. They now follow the language you chose.',zh:'修复了切换语言后通知仍是旧语言的问题。现在通知会跟随你选择的语言。',fr:'Correction d’un problème : les notifications restaient dans l’ancienne langue après un changement. Elles suivent désormais la langue choisie.',ar:'أُصلح خلل كانت الإشعارات معه تبقى باللغة السابقة بعد تغيير اللغة. صارت الآن تتبع اللغة التي تختارها.',ko:'언어를 바꿔도 알림이 이전 언어 그대로이던 문제를 고쳤습니다. 이제 고른 언어로 도착합니다.',ru:'Исправлено: уведомления оставались на прежнем языке после его смены. Теперь они следуют выбранному языку.'},
   v5440_1:{ja:'アプリの中で不具合が起きたとき、これまでは「何かが起きた」ということしか分かりませんでした。これからは原因まで記録されるので、直すのが早くなります。',en:'When something goes wrong inside the app, all we used to learn was that it had. Now the cause is recorded too, so problems get fixed sooner.',zh:'过去应用内部出错时，我们只能知道「出了问题」。现在连原因也会一并记录，修复会更快。',fr:'Quand quelque chose n’allait pas dans l’application, nous n’apprenions que le fait. Désormais la cause est enregistrée aussi, donc les problèmes sont corrigés plus vite.',ar:'حين كان يقع خلل داخل التطبيق لم نكن نعرف سوى أنه وقع. صار السبب يُسجَّل أيضًا، فتُصلَح المشكلات أسرع.',ko:'앱 안에서 문제가 생겼을 때, 지금까지는 «무언가 일어났다»는 것밖에 알 수 없었습니다. 앞으로는 원인까지 기록되어 더 빨리 고칠 수 있습니다.',ru:'Когда внутри приложения что-то ломалось, мы узнавали только сам факт. Теперь записывается и причина, так что неполадки исправляются быстрее.'},
   v5440_2:{ja:'この「更新しました」のお知らせを、短く読みやすく書くようにしました。これまでは説明が細かすぎました。',en:'These “What’s new” notes are shorter and plainer from now on. They had been far too detailed.',zh:'今后这些「更新内容」会写得更简短易读。此前的说明过于琐碎了。',fr:'Ces notes « Nouveautés » seront désormais plus courtes et plus simples. Elles étaient bien trop détaillées.',ar:'صارت رسائل «ما الجديد» هذه أقصر وأيسر قراءة من الآن فصاعدًا؛ فقد كانت مفرطة في التفصيل.',ko:'이 «업데이트 내용» 안내를 짧고 읽기 쉽게 쓰기로 했습니다. 그동안은 설명이 너무 자세했습니다.',ru:'Эти заметки «Обновление» теперь короче и проще. Раньше они были слишком подробными.'},
-  v5430_1:{ja:'ホームの「ほかにできること」の4枚に色をつけました。復習タブと同じで、<b>行ごとに意味が揃っています</b>——上の2枚（カードで覚える・単語を追加）は<b>単語に手を加えるもの</b>、下の2枚（単語リスト・学習の記録）は<b>見るだけのもの</b>。アイコンを色つきの四角に置いたので、読まなくてもどれがどれか分かります。青は「見る」で、復習タブの4択・スペル入力と同じ意味です。',en:'The four tiles under “More” on Home are colour-coded, on the same principle as the review tab: each row means one thing. The top pair — flashcards, add a word — change your words; the bottom pair — word list, records — only show you something. Putting each icon in a tinted square makes them tellable apart without reading. Blue means looking at something, the same as it does for four-choice and spelling.',zh:'首页「其他功能」的四张卡片加上了颜色，原则与复习标签一致：<b>每一行代表一件事</b>——上面两张（卡片记忆、添加单词）会改动你的单词，下面两张（单词列表、学习记录）只是给你看。图标放进了带色的方块中，不必阅读也能分辨。蓝色表示「查看」，与复习标签的四选一、拼写输入含义相同。',fr:'Les quatre tuiles « Autres » de l’accueil sont désormais colorées, selon le principe de l’onglet révision : chaque rangée veut dire une chose. Les deux du haut — cartes, ajouter un mot — modifient vos mots ; celles du bas — liste, historique — se contentent de vous montrer. L’icône placée dans un carré teinté suffit à les distinguer sans lire. Le bleu signifie regarder, comme pour le QCM et l’orthographe.',ar:'لُوِّنت البطاقات الأربع تحت «المزيد» في الصفحة الرئيسية على المبدأ نفسه المتّبع في تبويب المراجعة: <b>لكل صف معنى واحد</b> — العلويتان (البطاقات، إضافة كلمة) تغيّران كلماتك، والسفليتان (قائمة الكلمات، السجل) تعرضان لا غير. ووضْع الأيقونة في مربّع ملوّن يكفي لتمييزها دون قراءة. والأزرق معناه النظر، كما هو في الاختيار من أربعة والإملاء.',ko:'홈의 «그 밖에» 네 장에 색을 넣었습니다. 복습 탭과 같이 <b>행마다 의미가 맞춰져 있습니다</b>——위 두 장(카드로 외우기·단어 추가)은 <b>단어에 손을 대는 것</b>, 아래 두 장(단어 목록·학습 기록)은 <b>보기만 하는 것</b>. 아이콘을 색이 든 사각형에 넣어, 읽지 않아도 어느 것인지 알 수 있습니다. 파랑은 «보다»이며, 복습 탭의 4택·스펠 입력과 같은 뜻입니다.',ru:'Четыре плитки в разделе «Ещё» на главной получили цвет — по тому же принципу, что и вкладка повторения: каждый ряд означает одно. Верхние две (карточки, добавить слово) меняют ваши слова; нижние две (список, записи) только показывают. Значок в цветном квадрате различает их без чтения. Синий значит «смотреть» — то же, что у выбора из четырёх и ввода по буквам.'},
-  v5430_2:{ja:'アプリが<b>古いまま取り残されないようにしました</b>。ホーム画面から開くアプリは、更新が出ていることを知る手段がなく、端末によっては何度開き直しても古いままになります。起動して少ししてから、サーバーに今の版を小さく問い合わせ、食い違っていれば一度だけ自動で読み込み直します。通信できないとき、答えがおかしいとき、既に一度やり直したときは何もしません。',en:'The app no longer gets stranded on an old build. An app opened from the home screen has no way of knowing a newer version exists, and on some devices it stays old however many times you reopen it. Shortly after launch it now asks the server which version is current, and if that disagrees with what is running it reloads itself once. It does nothing when there is no connection, when the answer is malformed, or when it has already reloaded once.',zh:'应用<b>不会再停留在旧版本上</b>。从主屏幕打开的应用无从得知已有新版，在某些设备上无论重开多少次都仍是旧的。现在启动稍后会向服务器询问当前版本，若与正在运行的不一致，就自动重新加载一次。无网络、回应异常、或本次已重载过时，则什么都不做。',fr:'L’application ne reste plus bloquée sur une ancienne version. Lancée depuis l’écran d’accueil, elle n’a aucun moyen de savoir qu’une mise à jour existe, et sur certains appareils elle reste ancienne quel que soit le nombre de réouvertures. Peu après le démarrage, elle demande au serveur quelle version est courante et, en cas de désaccord, se recharge une seule fois. Elle ne fait rien hors connexion, si la réponse est invalide, ou si elle s’est déjà rechargée.',ar:'لم يعد التطبيق <b>يعلق على نسخة قديمة</b>. فالتطبيق المفتوح من الشاشة الرئيسية لا سبيل له إلى معرفة وجود تحديث، وقد يبقى قديمًا على بعض الأجهزة مهما أعدت فتحه. صار بعد الإقلاع بقليل يسأل الخادم عن النسخة الحالية، فإن خالفت ما يعمل أعاد تحميل نفسه مرة واحدة. ولا يفعل شيئًا إن انقطع الاتصال، أو جاء الجواب معطوبًا، أو كان قد أعاد التحميل مرة.',ko:'앱이 <b>옛 버전에 갇히지 않도록 했습니다</b>. 홈 화면에서 여는 앱은 업데이트가 나온 것을 알 방법이 없어, 기기에 따라서는 몇 번을 다시 열어도 옛것 그대로입니다. 이제 시작하고 잠시 뒤 서버에 현재 버전을 작게 물어, 어긋나면 한 번만 자동으로 다시 읽어 들입니다. 통신이 안 될 때, 답이 이상할 때, 이미 한 번 다시 읽었을 때는 아무것도 하지 않습니다.',ru:'Приложение больше не застревает на старой сборке. Открытое с домашнего экрана, оно никак не узнаёт о новой версии, и на некоторых устройствах остаётся старым, сколько его ни перезапускай. Вскоре после запуска оно спрашивает у сервера текущую версию и, если та расходится с работающей, один раз перезагружается. Ничего не делает без связи, при испорченном ответе и если уже перезагружалось.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -1828,7 +1833,7 @@ const T={
   dup_here:{ja:'この単語はすでに「{0}」にあります。',en:'This word is already in {0}.',zh:'这个单词已在「{0}」中。',fr:'Ce mot est déjà dans « {0} ».',ar:'هذه الكلمة موجودة بالفعل في «{0}».',ko:'이 단어는 이미 «{0}»에 있습니다.',ru:'Это слово уже есть в «{0}».'},
   maybe_mean:{ja:'もしかして：',en:'Did you mean:',zh:'你是不是想输入：',fr:'Vouliez-vous dire :',ar:'هل تقصد:',ko:'혹시 이거였나요:',ru:'Возможно, вы имели в виду:'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
-  not_found_meaning:{ja:'辞書にも翻訳にも見つかりませんでした。意味を手入力してね。',en:'Not found in dictionary or translation. Enter the meaning manually.',zh:'词典和翻译都未找到，请手动输入意思。',fr:'Introuvable dans le dictionnaire ou la traduction. Saisissez le sens manuellement.',ar:'غير موجود في القاموس أو الترجمة. أدخل المعنى يدويًا.',ko:'사전·번역에서 찾지 못했습니다. 뜻을 직접 입력하세요.',ru:'Не найдено ни в словаре, ни в переводе. Введите значение вручную.'},
+  not_found_meaning:{ja:'自動では確かな意味が見つかりませんでした。下の「意味」に自分で書けば、そのまま登録できます。',en:'No reliable meaning found automatically. Write one in the meaning field below and it saves just the same.',zh:'未能自动找到可靠的释义。在下面的「意思」栏自行填写即可照常保存。',fr:'Aucun sens fiable trouvé automatiquement. Écrivez-le dans le champ ci-dessous : l’enregistrement fonctionne pareil.',ar:'لم يُعثر تلقائيًا على معنى موثوق. اكتبه في حقل المعنى بالأسفل وسيُحفظ كالمعتاد.',ko:'자동으로는 확실한 뜻을 찾지 못했습니다. 아래 «뜻»에 직접 적으면 그대로 저장됩니다.',ru:'Надёжное значение автоматически не нашлось. Впишите его в поле ниже — сохранится так же.'},
 
   ph_search:{ja:'検索…',en:'Search…',zh:'搜索…',fr:'Rechercher…',ar:'بحث…',ko:'검색…',ru:'Поиск…'},
   n_words:{ja:'{0}語',en:'{0} words',zh:'{0} 词',fr:'{0} mots',ar:'{0} كلمة',ko:'{0} 단어',ru:'{0} слов'},
@@ -2059,6 +2064,7 @@ const T={
   persist_toast_ng:{ja:'保護できませんでした。ホーム画面に追加すると保護されやすくなります',en:'Couldn’t enable protection. Adding the app to your home screen makes it more likely',zh:'未能开启保护。将应用添加到主屏幕后更容易成功',fr:'Impossible d’activer la protection. Ajouter l’app à l’écran d’accueil augmente les chances',ar:'تعذّر تفعيل الحماية. إضافة التطبيق إلى الشاشة الرئيسية تزيد فرص نجاحها',ko:'보호를 켜지 못했습니다. 홈 화면에 추가하면 적용될 가능성이 높아집니다',ru:'Не удалось включить защиту. Добавьте приложение на главный экран — так вероятнее'},
   backup_last:{ja:'最終バックアップ: {0}',en:'Last backup: {0}',zh:'上次备份：{0}',fr:'Dernière sauvegarde : {0}',ar:'آخر نسخة احتياطية: {0}',ko:'마지막 백업: {0}',ru:'Последняя копия: {0}'},
   backup_none:{ja:'まだ一度もバックアップしていません',en:'No backup yet',zh:'尚未备份',fr:'Aucune sauvegarde pour l’instant',ar:'لا توجد نسخة احتياطية بعد',ko:'아직 백업하지 않았습니다',ru:'Резервных копий пока нет'},
+  email_did_you_mean:{ja:'もしかして ',en:'Did you mean ',zh:'你是不是想输入 ',fr:'Vouliez-vous dire ',ar:'هل تقصد ',ko:'혹시 ',ru:'Возможно, вы имели в виду '},
   acct_email:{ja:'メールアドレス',en:'Email address',zh:'邮箱地址',fr:'Adresse e-mail',ar:'البريد الإلكتروني',ko:'이메일 주소',ru:'Адрес эл. почты'},
   acct_email_set:{ja:'復旧用メールを設定',en:'Add a recovery email',zh:'设置找回邮箱',fr:'Ajouter un e-mail de récupération',ar:'إضافة بريد للاسترداد',ko:'복구용 이메일 설정',ru:'Добавить почту для восстановления'},
   acct_email_change:{ja:'メールアドレスを変更',en:'Change email address',zh:'更改邮箱地址',fr:'Changer l’adresse e-mail',ar:'تغيير البريد الإلكتروني',ko:'이메일 주소 변경',ru:'Изменить адрес почты'},
@@ -3378,6 +3384,48 @@ function mmPair(){
   return m[S().lang]||null;
 }
 function normForCompare(s){return (s||'').toLowerCase().replace(/[^a-z0-9ぁ-んァ-ヶ一-龠々ー]/g,'');}
+// Which of MyMemory's matches can be believed.
+//
+// Reported: "It's not that bad" came back as "-俺が相手をする あの女足フェチか何か".
+// Measured against the live API, neither score the response carries is usable
+// for this -- that answer scored match 0.99, while correct answers routinely
+// carry quality 0. The signal that does work is WHERE the match came from.
+//
+//   Public_Corpora  film subtitles, and the pairs are misaligned. "As far as I
+//                   know." returns "おれたちのことさ" with a matching segment and
+//                   match 0.97. It is wrong often enough to be worthless, and a
+//                   wrong meaning saved into a vocabulary app is far worse than
+//                   no meaning -- you go on to memorise it.
+//   MT! / MateCat   machine translation. Reliable on this sample.
+//   a username      a person's TM entry. Fine when their segment IS the phrase,
+//                   guesswork when it merely contains it.
+//
+// Sampled over 12 words and phrases: 10 answers, all correct. The two that now
+// return nothing were both returning nonsense before.
+const MM_TRUST={'MT!':3,'MateCat':2,'Matecat':2};
+// Subtitle leftovers: a leading dash, and the ideographic space used to split
+// a speaker from their line.
+const MM_JUNK=/^[\s\-\u2013\u2014\u2015\u2022\u00b7"\u201c\u201d'\u2018\u2019]+/;
+function mmBest(matches,text){
+  if(!Array.isArray(matches))return null;
+  const src=normForCompare(text);
+  let best=null;
+  for(const m of matches){
+    const by=String((m&&m['created-by'])||'');
+    if(by==='Public_Corpora')continue;
+    const tr=String((m&&m.translation)||'').trim();
+    if(!tr||MM_JUNK.test(tr))continue;
+    if(tr.indexOf('\u3000')!==-1)continue;
+    if(tr.length>Math.max(28,text.length*3))continue;   // a sentence where a phrase was asked
+    if(normForCompare(tr)===src)continue;               // echoed the English back
+    const exact=normForCompare(m.segment)===src;
+    const trust=MM_TRUST[by]||1;
+    if(!exact&&trust<2)continue;
+    const score=(exact?4:0)+trust+(parseFloat(m.match)||0);
+    if(!best||score>best.score)best={score,tr};
+  }
+  return best?best.tr:null;
+}
 async function fetchTranslation(text){
   const pair=mmPair();
   if(!pair)throw new Error('no_translate');
@@ -3385,17 +3433,15 @@ async function fetchTranslation(text){
   if(!r.ok)throw new Error('translate_fail');
   const data=await r.json();
   if(data.responseStatus!==200)throw new Error('translate_fail');
-  // MyMemory sometimes "translates" a word into itself (e.g. upon -> upon)
-  // when it has no real equivalent -- treat that as no translation rather
-  // than echoing the English word back. The top-level translatedText can also
-  // be empty while a good match sits in matches[] -- fall back to the best one.
-  const src=normForCompare(text);
-  const useless=x=>!x||normForCompare(x)===src;
-  let out=data.responseData&&data.responseData.translatedText;
-  if(useless(out))out=null;
-  if(!out&&Array.isArray(data.matches)){
-    const best=data.matches.filter(m=>!useless(m.translation)).sort((a,b)=>(b.quality||0)-(a.quality||0))[0];
-    if(best)out=best.translation;
+  let out=mmBest(data.matches,text);
+  // responseData.translatedText is normally just matches[0] wearing no label,
+  // so it must NOT be used as a fallback for a match that was rejected -- that
+  // would hand back the very answer the filter threw away. It is read only when
+  // there are no matches to judge at all, which is the pure-MT response, and it
+  // still has to pass the shape checks.
+  if(!out&&!(data.matches||[]).length){
+    const top=data.responseData&&data.responseData.translatedText;
+    out=mmBest([{translation:top,segment:text,'created-by':'MT!',match:1}],text);
   }
   if(!out)throw new Error('translate_fail');
   return out;
@@ -8125,6 +8171,87 @@ function acctField(id,label,opts){
     (opts.type?' type="'+opts.type+'"':'')+
     ' placeholder="'+esc(opts.ph||'')+'">';
 }
+/* ---------- "did you mean" for a mistyped address -------------------------
+   A wrong recovery address is only discovered when somebody has forgotten
+   their PIN and needs it -- by which point the account cannot be reached at
+   all. So the moment to catch a slip is while it is being typed.
+   Suggestions only, never a block: plenty of real addresses sit on domains no
+   list will ever have.
+   -------------------------------------------------------------------------- */
+// The providers people here actually use, across the languages the app speaks.
+const MAIL_DOMAINS=['gmail.com','yahoo.co.jp','yahoo.com','yahoo.ne.jp','icloud.com','me.com','mac.com',
+  'outlook.com','outlook.jp','hotmail.com','hotmail.co.jp','live.jp','live.com','msn.com',
+  'docomo.ne.jp','ezweb.ne.jp','au.com','softbank.ne.jp','i.softbank.jp','ymobile.ne.jp',
+  'nifty.com','so-net.ne.jp','ocn.ne.jp','biglobe.ne.jp','ybb.ne.jp','ntt.ne.jp',
+  'protonmail.com','proton.me','gmx.com','aol.com','zoho.com',
+  'qq.com','163.com','126.com','naver.com','daum.net','hanmail.net',
+  'mail.ru','yandex.ru','rambler.ru','orange.fr','free.fr','laposte.net','wanadoo.fr','sfr.fr',
+  'web.de','t-online.de','gmx.de','hotmail.fr','yahoo.fr'];
+// Endings that are only ever a slip of the finger. Checked before the fuzzy
+// pass so that a company domain -- which no list will contain -- still gets
+// "example.con" corrected without being dragged onto gmail.
+const TLD_SLIPS=[[/\.con$/,'.com'],[/\.cmo$/,'.com'],[/\.vom$/,'.com'],[/\.comm?$/,'.com'],
+  [/\.co$/,'.com'],[/\.om$/,'.com'],[/\.cim$/,'.com'],[/\.xom$/,'.com'],
+  [/\.nte$/,'.net'],[/\.ner$/,'.net'],[/\.orgg?$/,'.org'],[/\.jpp$/,'.jp'],[/\.o\.jp$/,'.co.jp']];
+// Levenshtein counts a swapped pair of letters as two edits, but "gmial" is a
+// single slip of the fingers and by far the most common way an address goes
+// wrong. This is the restricted Damerau variant, which charges one.
+function mailDist(a,b){
+  const m=a.length,n=b.length;
+  const d=Array.from({length:m+1},(_,i)=>{const row=new Array(n+1).fill(0);row[0]=i;return row;});
+  for(let j=0;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){
+    const c=a[i-1]===b[j-1]?0:1;
+    d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+    if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);
+  }
+  return d[m][n];
+}
+function emailSuggest(raw){
+  const v=String(raw||'').trim();
+  const at=v.lastIndexOf('@');
+  if(at<1||at===v.length-1)return null;             // nothing to judge yet
+  const local=v.slice(0,at), dom=v.slice(at+1).toLowerCase();
+  if(/\s/.test(v)||v.indexOf('@')!==at)return null; // a different problem
+  if(MAIL_DOMAINS.indexOf(dom)!==-1)return null;    // already right
+  for(const [re,fix] of TLD_SLIPS){
+    if(re.test(dom)){
+      const fixed=dom.replace(re,fix);
+      if(fixed!==dom)return local+'@'+fixed;
+    }
+  }
+  if(dom.indexOf('.')===-1){
+    // "@gmail" with the ending left off -- only worth guessing when exactly one
+    // known provider starts that way.
+    const hits=MAIL_DOMAINS.filter(d=>d.split('.')[0]===dom);
+    return hits.length===1?local+'@'+hits[0]:null;
+  }
+  // Fuzzy, and deliberately timid: one edit for short domains, two only for
+  // long ones, so real addresses on unlisted domains are left alone.
+  let best=null;
+  for(const d of MAIL_DOMAINS){
+    const dist=mailDist(dom,d);
+    const limit=d.length>=12?2:1;
+    if(dist>0&&dist<=limit&&(!best||dist<best.dist))best={dist,d};
+  }
+  return best?local+'@'+best.d:null;
+}
+// Wires a "did you mean" line under an address field. Debounced, because the
+// suggestion for a half-typed address is noise.
+function bindEmailCheck(inputId,hintId){
+  const inp=$('#'+inputId), box=$('#'+hintId);
+  if(!inp||!box)return;
+  let timer=null;
+  const show=()=>{
+    const fix=emailSuggest(inp.value);
+    if(!fix){box.innerHTML='';return;}
+    box.innerHTML='<button type="button" class="mail-fix">'+esc(t('email_did_you_mean'))+
+      '<b>'+esc(fix)+'</b></button>';
+    box.querySelector('.mail-fix').onclick=()=>{inp.value=fix;box.innerHTML='';inp.focus();};
+  };
+  inp.addEventListener('input',()=>{clearTimeout(timer);box.innerHTML='';timer=setTimeout(show,500);});
+  inp.addEventListener('blur',()=>{clearTimeout(timer);show();});
+}
 function acctErr(msg){const e=$('#acctErr');if(e)e.textContent=msg||'';}
 function acctBusy(on,label){
   const b=$('#acctGo');if(!b)return;
@@ -8160,9 +8287,11 @@ function renderAccountUI(){
   if(acctView==='email'){
     body.innerHTML='<p class="hint" style="margin:0 2px 14px">'+esc(t('acct_email_desc'))+'</p>'+
       acctField('acctEmail',t('acct_email'),{type:'email',ph:'you@example.com'})+
+      '<div id="acctEmailHint"></div>'+
       acctField('acctPin',t('acct_pin_current'),{pin:true,mt:true,ph:'123456'})+
       '<div id="acctErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
       '<button class="btn btn-primary" id="acctGo" style="margin-top:16px">'+esc(t('acct_email_save'))+'</button>'+back;
+    bindEmailCheck('acctEmail','acctEmailHint');
     $('#acctBack').onclick=()=>{acctView='main';renderAccountUI();};
     $('#acctGo').onclick=async()=>{
       acctErr('');acctBusy(true);
@@ -8378,6 +8507,7 @@ function renderGate(){
     '<p class="hint gate-lead">'+esc(t('gate_lead'))+'</p>'+
     acctField('gateWho',signup?t('acct_email'):t('acct_email_or_user'),
               {type:signup?'email':'',ph:signup?'you@example.com':'you@example.com'})+
+    '<div id="gateWhoHint"></div>'+
     acctField('gatePin',t('acct_pin'),{pin:true,mt:true,ph:'123456'})+
     '<p class="hint" style="margin:8px 2px 0">'+esc(signup?t('gate_note'):t('acct_pin_note'))+'</p>'+
     '<div id="gateErr" class="hint" style="color:var(--bad);margin:10px 2px 0"></div>'+
@@ -8389,6 +8519,7 @@ function renderGate(){
       '<button class="btn btn-ghost" id="gateAlt" style="width:100%">'+
         esc(signup?t('gate_to_login'):t('gate_to_signup'))+'</button>'+
     '</div>';
+  bindEmailCheck('gateWho','gateWhoHint');
   $('#gateAlt').onclick=()=>{gateMode=signup?'login':'signup';renderGate();};
   const fg=$('#gateForgot');
   if(fg)fg.onclick=()=>{gateMode='forgot';renderGate();};
