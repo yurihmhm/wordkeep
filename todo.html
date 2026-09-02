@@ -158,13 +158,13 @@ footer a{color:var(--ink-2)}
           <div class="d">画像アップロードは保管・費用・不適切画像の対応が発生するので、<b>最初は絵文字またはプリセットから選ぶ方式</b>が現実的。文字列1つ保存するだけで済み、フレンド一覧やランキングでそのまま使える。</div>
         </div>
       </li>
-      <li data-s="open">
-        <span class="chip open">未完了</span>
+      <li data-s="done">
+        <span class="chip done">完了</span>
         <div>
           <div class="t">公開プロフィールの置き場所を決める</div>
-          <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（ニックネーム・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。<b>メールアドレスは絶対にここへ入れない。</b></div>
+          <div class="d">現在のルールは<code>users/{uid}</code>を本人しか読めない。ランキングやフレンド表示には「他人が読んでよい最小限の情報」（ニックネーム・アイコン・連続日数・語数など）を別コレクションに分ける必要がある。学習内容そのものは非公開のまま保つ。<b>メールアドレスは絶対にここへ入れない。</b> <b>→ v4.3.0〜v5.xで対応：</b>board/{uid} が公開プロフィールそのもの。ニックネームと少数のカウンタだけを持ち、学習内容もメールアドレスも入っていない。firestore.rules でログイン済みなら誰でも読め、書けるのは本人（とニックネームの是正のみ管理者）。ランキングはこのコレクションだけを読んでいる。</div>
         </div>
-      </li>
+      <div class="ver">v4.3.0〜v5.x</div></li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
@@ -271,6 +271,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">チュートリアル案：説明をやめて、最初の1語を通す</div>
+          <div class="d">現行は5枚のスライドで機能を説明するだけなので、読んでも何ができるようになったか分からず全員がスキップする。案は「説明しない」こと。①空の単語帳で入力欄だけを出し、覚えたい単語を1つ入れてもらう（意味は自動取得なので打つのは英単語1語。思いつかない人向けに候補を3つ、タップで選べるように）。②その語で4択を1問だけ出す。正解した瞬間にアプリの正体が伝わる。③そこで初めて「明日また出ます」と間隔反復を1行だけ説明し、その直後に通知を訊く——通知が一番意味を持つ瞬間がここなので、今の訊くタイミングより効くはず。④終わり。所要30秒。4つの出題形式・共有・パッケージは最初に説明せず、その画面を初めて開いたときに1行のヒントで出す。「スキップ」ではなく「あとで」にする。設定から再実行できるようにし、GA4で完了率を見る。</div>
+        </div>
+      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -629,6 +636,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>コードと配信</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">転送量は実測済み。分割は当面やらないと判断した。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">古いリリースノートが開発者向けのまま</div>
+          <div class="d">v5.44.0から平易な文体に切り替えたが、設定→更新履歴に残っている過去分はビューポートだの合成色だのを説明したままになっている。読む人は単語アプリを開いた人なので、直近の数版だけでも書き直す価値はある。急ぎではない。</div>
+        </div>
+      </li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
@@ -675,6 +689,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>開発の足回り</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">「作る」側は足りているが、「壊れたことに気づく」側が手薄。友達に配って使ってもらう段階で効いてくる。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">crossorigin後に届く実エラーを確認する</div>
+          <div class="d">v5.44.0でFirebase SDKとgtagにcrossorigin=anonymousを付けたので、これまで「Script error.」に潰れていた例外が本当のメッセージとスタックで届くようになった。iOS 18.7から2件出ていたやつの正体を、次に届いた記録で確定させる。有力な線はプライベートブラウズ等でIndexedDBが使えずFirebaseが投げるケース。</div>
+        </div>
+      </li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
