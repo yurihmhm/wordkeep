@@ -1,0 +1,1315 @@
+{
+ "id": "university_coursework",
+ "v": 1,
+ "title": {
+  "ja": "大学の授業と課題",
+  "en": "University Classes & Coursework",
+  "zh": "大学课程与作业",
+  "fr": "Cours et travaux universitaires",
+  "ar": "المحاضرات والواجبات الجامعية",
+  "ko": "대학 수업과 과제",
+  "ru": "Учёба и задания в университете"
+ },
+ "words": [
+  {
+   "word": "lecture",
+   "pos": "noun",
+   "meaning": {
+    "ja": "講義",
+    "en": "a talk given to a large class",
+    "zh": "讲座课",
+    "fr": "cours magistral",
+    "ar": "محاضرة",
+    "ko": "강의",
+    "ru": "лекция"
+   }
+  },
+  {
+   "word": "tutorial",
+   "pos": "noun",
+   "meaning": {
+    "ja": "少人数の演習",
+    "en": "a small class for discussion and questions",
+    "zh": "小班辅导课",
+    "fr": "travaux dirigés",
+    "ar": "حصة تطبيقية صغيرة",
+    "ko": "소규모 지도 수업",
+    "ru": "семинарское занятие"
+   }
+  },
+  {
+   "word": "seminar",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ゼミ",
+    "en": "a class where students present and debate",
+    "zh": "研讨课",
+    "fr": "séminaire",
+    "ar": "حلقة دراسية",
+    "ko": "세미나",
+    "ru": "семинар"
+   }
+  },
+  {
+   "word": "workshop",
+   "pos": "noun",
+   "meaning": {
+    "ja": "実習形式の授業",
+    "en": "a session where you practise doing something",
+    "zh": "实作课",
+    "fr": "atelier pratique",
+    "ar": "ورشة عملية",
+    "ko": "실습 워크숍",
+    "ru": "практический воркшоп"
+   }
+  },
+  {
+   "word": "lab",
+   "pos": "noun",
+   "meaning": {
+    "ja": "実験の授業",
+    "en": "a class where you do experiments",
+    "zh": "实验课",
+    "fr": "séance de laboratoire",
+    "ar": "حصة مختبر",
+    "ko": "실험 수업",
+    "ru": "лабораторное занятие"
+   }
+  },
+  {
+   "word": "module",
+   "pos": "noun",
+   "meaning": {
+    "ja": "履修科目",
+    "en": "one subject you take as part of a degree",
+    "zh": "课程单元",
+    "fr": "module d'enseignement",
+    "ar": "مقرر دراسي",
+    "ko": "이수 과목",
+    "ru": "учебный модуль"
+   }
+  },
+  {
+   "word": "credit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "単位",
+    "en": "a point you earn for completing a subject",
+    "zh": "学分",
+    "fr": "crédit universitaire",
+    "ar": "وحدة دراسية معتمدة",
+    "ko": "학점",
+    "ru": "зачётная единица"
+   }
+  },
+  {
+   "word": "semester",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学期",
+    "en": "one of the halves the school year is split into",
+    "zh": "学期",
+    "fr": "semestre",
+    "ar": "فصل دراسي",
+    "ko": "학기",
+    "ru": "семестр"
+   }
+  },
+  {
+   "word": "syllabus",
+   "pos": "noun",
+   "meaning": {
+    "ja": "授業の計画表",
+    "en": "the document listing what a course covers",
+    "zh": "教学大纲",
+    "fr": "programme du cours",
+    "ar": "خطة المقرر",
+    "ko": "강의 계획서",
+    "ru": "программа курса"
+   }
+  },
+  {
+   "word": "curriculum",
+   "pos": "noun",
+   "meaning": {
+    "ja": "教育課程全体",
+    "en": "all the subjects taught in a programme",
+    "zh": "整体课程体系",
+    "fr": "cursus",
+    "ar": "المنهج الدراسي",
+    "ko": "교육 과정",
+    "ru": "учебный план"
+   }
+  },
+  {
+   "word": "prerequisite",
+   "pos": "noun",
+   "meaning": {
+    "ja": "前提となる科目",
+    "en": "a subject you must pass before taking another",
+    "zh": "先修课",
+    "fr": "prérequis",
+    "ar": "متطلب سابق",
+    "ko": "선수 과목",
+    "ru": "предварительное требование"
+   }
+  },
+  {
+   "word": "elective",
+   "pos": "noun",
+   "meaning": {
+    "ja": "選択科目",
+    "en": "a subject you choose rather than must take",
+    "zh": "选修课",
+    "fr": "cours optionnel",
+    "ar": "مادة اختيارية",
+    "ko": "선택 과목",
+    "ru": "курс по выбору"
+   }
+  },
+  {
+   "word": "compulsory",
+   "pos": "noun",
+   "meaning": {
+    "ja": "必修の",
+    "en": "which you are required to take",
+    "zh": "必修的",
+    "fr": "obligatoire",
+    "ar": "إجباري",
+    "ko": "필수의",
+    "ru": "обязательный"
+   }
+  },
+  {
+   "word": "enrol",
+   "pos": "noun",
+   "meaning": {
+    "ja": "履修登録する",
+    "en": "to officially join a course",
+    "zh": "注册选课",
+    "fr": "s'inscrire à un cours",
+    "ar": "يسجل في مقرر",
+    "ko": "수강 신청하다",
+    "ru": "записаться на курс"
+   }
+  },
+  {
+   "word": "drop a subject",
+   "pos": "noun",
+   "meaning": {
+    "ja": "履修をやめる",
+    "en": "to stop taking a course you signed up for",
+    "zh": "退掉一门课",
+    "fr": "abandonner une matière",
+    "ar": "ينسحب من مادة",
+    "ko": "과목을 취소하다",
+    "ru": "отказаться от предмета"
+   }
+  },
+  {
+   "word": "timetable",
+   "pos": "noun",
+   "meaning": {
+    "ja": "時間割",
+    "en": "the schedule of when your classes are",
+    "zh": "课程表",
+    "fr": "emploi du temps",
+    "ar": "جدول الحصص",
+    "ko": "시간표",
+    "ru": "расписание занятий"
+   }
+  },
+  {
+   "word": "handout",
+   "pos": "noun",
+   "meaning": {
+    "ja": "配布資料",
+    "en": "paper given out in class",
+    "zh": "课堂讲义",
+    "fr": "polycopié",
+    "ar": "نشرة توزع في الحصة",
+    "ko": "수업 유인물",
+    "ru": "раздаточный материал"
+   }
+  },
+  {
+   "word": "reading list",
+   "pos": "noun",
+   "meaning": {
+    "ja": "参考図書の一覧",
+    "en": "the books you are expected to read",
+    "zh": "阅读书单",
+    "fr": "liste de lectures",
+    "ar": "قائمة القراءات",
+    "ko": "필독 도서 목록",
+    "ru": "список литературы"
+   }
+  },
+  {
+   "word": "take notes",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ノートを取る",
+    "en": "to write down what is said in class",
+    "zh": "记笔记",
+    "fr": "prendre des notes",
+    "ar": "يدون ملاحظات",
+    "ko": "필기하다",
+    "ru": "конспектировать"
+   }
+  },
+  {
+   "word": "revise",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試験に向けて復習する",
+    "en": "to study again before an exam",
+    "zh": "考前复习",
+    "fr": "réviser pour un examen",
+    "ar": "يراجع للامتحان",
+    "ko": "시험 공부를 하다",
+    "ru": "повторять к экзамену"
+   }
+  },
+  {
+   "word": "cram",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一夜漬けする",
+    "en": "to study very hard just before an exam",
+    "zh": "临时抱佛脚",
+    "fr": "bachoter",
+    "ar": "يذاكر بكثافة قبل الامتحان",
+    "ko": "벼락치기하다",
+    "ru": "зубрить в последний момент"
+   }
+  },
+  {
+   "word": "study group",
+   "pos": "noun",
+   "meaning": {
+    "ja": "勉強会の仲間",
+    "en": "students who meet to study together",
+    "zh": "学习小组",
+    "fr": "groupe de révision",
+    "ar": "مجموعة مذاكرة",
+    "ko": "스터디 모임",
+    "ru": "учебная группа"
+   }
+  },
+  {
+   "word": "office hours",
+   "pos": "noun",
+   "meaning": {
+    "ja": "教員の面談時間",
+    "en": "the times a teacher is free to see students",
+    "zh": "教师答疑时间",
+    "fr": "heures de permanence",
+    "ar": "ساعات استقبال الأستاذ",
+    "ko": "교수 면담 시간",
+    "ru": "часы приёма преподавателя"
+   }
+  },
+  {
+   "word": "lecturer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "講義を担当する教員",
+    "en": "the person who gives the lectures",
+    "zh": "授课教师",
+    "fr": "enseignant en amphi",
+    "ar": "محاضر",
+    "ko": "강의 담당 교원",
+    "ru": "лектор"
+   }
+  },
+  {
+   "word": "tutor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "個別に指導する人",
+    "en": "someone who teaches you in a small group or alone",
+    "zh": "辅导老师",
+    "fr": "chargé de TD",
+    "ar": "مدرس مساعد",
+    "ko": "개별 지도 교사",
+    "ru": "тьютор"
+   }
+  },
+  {
+   "word": "professor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "教授",
+    "en": "a senior university teacher",
+    "zh": "教授",
+    "fr": "professeur d'université",
+    "ar": "أستاذ جامعي",
+    "ko": "교수",
+    "ru": "профессор"
+   }
+  },
+  {
+   "word": "cohort",
+   "pos": "noun",
+   "meaning": {
+    "ja": "同じ学年の集団",
+    "en": "the group of students who started together",
+    "zh": "同届学生",
+    "fr": "groupe de la même année",
+    "ar": "دفعة الطلاب",
+    "ko": "같은 학번 무리",
+    "ru": "поток студентов"
+   }
+  },
+  {
+   "word": "recap",
+   "pos": "noun",
+   "meaning": {
+    "ja": "要点をおさらいする",
+    "en": "to go over the main points again",
+    "zh": "回顾要点",
+    "fr": "récapituler",
+    "ar": "يلخص ما سبق",
+    "ko": "요점을 되짚다",
+    "ru": "кратко повторить"
+   }
+  },
+  {
+   "word": "miss a class",
+   "pos": "noun",
+   "meaning": {
+    "ja": "授業を欠席する",
+    "en": "to not go to a lesson",
+    "zh": "缺一节课",
+    "fr": "manquer un cours",
+    "ar": "يتغيب عن حصة",
+    "ko": "수업을 빠지다",
+    "ru": "пропустить занятие"
+   }
+  },
+  {
+   "word": "skim",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ざっと目を通す",
+    "en": "to read quickly to get the general idea",
+    "zh": "略读",
+    "fr": "lire en diagonale",
+    "ar": "يقرأ قراءة سريعة",
+    "ko": "훑어 읽다",
+    "ru": "бегло просмотреть"
+   }
+  },
+  {
+   "word": "annotate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "書き込みを入れる",
+    "en": "to add notes to a text as you read",
+    "zh": "做批注",
+    "fr": "annoter",
+    "ar": "يعلق على النص",
+    "ko": "주석을 달다",
+    "ru": "делать пометки"
+   }
+  },
+  {
+   "word": "assessment",
+   "pos": "noun",
+   "meaning": {
+    "ja": "評価の対象となる課題",
+    "en": "a piece of work that counts towards your result",
+    "zh": "考核任务",
+    "fr": "épreuve évaluée",
+    "ar": "عمل خاضع للتقييم",
+    "ko": "평가 과제",
+    "ru": "оцениваемое задание"
+   }
+  },
+  {
+   "word": "weighting",
+   "pos": "noun",
+   "meaning": {
+    "ja": "成績に占める割合",
+    "en": "how much of the final result something is worth",
+    "zh": "占分比重",
+    "fr": "coefficient",
+    "ar": "وزن الدرجة",
+    "ko": "성적 반영 비율",
+    "ru": "вес в итоговой оценке"
+   }
+  },
+  {
+   "word": "guidelines",
+   "pos": "noun",
+   "meaning": {
+    "ja": "課題の指示書き",
+    "en": "the rules explaining how to do the work",
+    "zh": "作业要求说明",
+    "fr": "consignes",
+    "ar": "إرشادات التكليف",
+    "ko": "과제 안내 지침",
+    "ru": "указания к заданию"
+   }
+  },
+  {
+   "word": "rubric",
+   "pos": "noun",
+   "meaning": {
+    "ja": "採点の評価表",
+    "en": "a table showing how marks are given",
+    "zh": "评分表",
+    "fr": "grille d'évaluation",
+    "ar": "جدول التقييم",
+    "ko": "채점 기준표",
+    "ru": "таблица критериев оценки"
+   }
+  },
+  {
+   "word": "criteria",
+   "pos": "noun",
+   "meaning": {
+    "ja": "評価の観点",
+    "en": "the things your work is judged on",
+    "zh": "评分标准",
+    "fr": "critères d'évaluation",
+    "ar": "معايير التقييم",
+    "ko": "평가 항목",
+    "ru": "критерии оценки"
+   }
+  },
+  {
+   "word": "grade",
+   "pos": "noun",
+   "meaning": {
+    "ja": "評点",
+    "en": "the letter or number given for your work",
+    "zh": "成绩等级",
+    "fr": "note attribuée",
+    "ar": "تقدير الدرجة",
+    "ko": "학점 등급",
+    "ru": "отметка"
+   }
+  },
+  {
+   "word": "marking",
+   "pos": "noun",
+   "meaning": {
+    "ja": "採点作業",
+    "en": "the work of judging and scoring assignments",
+    "zh": "批改评分",
+    "fr": "correction des copies",
+    "ar": "تصحيح الأوراق",
+    "ko": "채점",
+    "ru": "проверка работ"
+   }
+  },
+  {
+   "word": "marked down",
+   "pos": "noun",
+   "meaning": {
+    "ja": "減点された",
+    "en": "given a lower score because of a fault",
+    "zh": "被扣分的",
+    "fr": "pénalisé sur la note",
+    "ar": "خصمت درجاته",
+    "ko": "감점된",
+    "ru": "со снятыми баллами"
+   }
+  },
+  {
+   "word": "pass",
+   "pos": "noun",
+   "meaning": {
+    "ja": "合格する",
+    "en": "to reach the score needed to succeed",
+    "zh": "及格",
+    "fr": "réussir l'épreuve",
+    "ar": "ينجح في المقرر",
+    "ko": "통과하다",
+    "ru": "сдать"
+   }
+  },
+  {
+   "word": "fail",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不合格になる",
+    "en": "to score below what is needed",
+    "zh": "不及格",
+    "fr": "échouer à l'épreuve",
+    "ar": "يرسب",
+    "ko": "낙제하다",
+    "ru": "не сдать"
+   }
+  },
+  {
+   "word": "distinction",
+   "pos": "noun",
+   "meaning": {
+    "ja": "優秀な成績",
+    "en": "a very high grade",
+    "zh": "优等成绩",
+    "fr": "mention très bien",
+    "ar": "تقدير امتياز",
+    "ko": "우수 성적",
+    "ru": "отличная оценка"
+   }
+  },
+  {
+   "word": "results",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試験の結果",
+    "en": "the scores you get at the end of a course",
+    "zh": "考试结果",
+    "fr": "résultats d'examen",
+    "ar": "نتائج الامتحان",
+    "ko": "시험 결과",
+    "ru": "результаты экзаменов"
+   }
+  },
+  {
+   "word": "GPA",
+   "pos": "noun",
+   "meaning": {
+    "ja": "成績平均値",
+    "en": "the average of all your grades",
+    "zh": "平均成绩点数",
+    "fr": "moyenne générale",
+    "ar": "المعدل التراكمي",
+    "ko": "평점 평균",
+    "ru": "средний балл"
+   }
+  },
+  {
+   "word": "transcript",
+   "pos": "noun",
+   "meaning": {
+    "ja": "成績証明書",
+    "en": "the official record of everything you studied",
+    "zh": "成绩单",
+    "fr": "relevé de notes",
+    "ar": "كشف الدرجات",
+    "ko": "성적 증명서",
+    "ru": "выписка оценок"
+   }
+  },
+  {
+   "word": "midterm",
+   "pos": "noun",
+   "meaning": {
+    "ja": "中間試験",
+    "en": "an exam halfway through the course",
+    "zh": "期中考试",
+    "fr": "partiel de mi-semestre",
+    "ar": "امتحان منتصف الفصل",
+    "ko": "중간고사",
+    "ru": "промежуточный экзамен"
+   }
+  },
+  {
+   "word": "final exam",
+   "pos": "noun",
+   "meaning": {
+    "ja": "期末試験",
+    "en": "the exam at the end of the course",
+    "zh": "期末考试",
+    "fr": "examen final",
+    "ar": "الامتحان النهائي",
+    "ko": "기말고사",
+    "ru": "итоговый экзамен"
+   }
+  },
+  {
+   "word": "exam period",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試験期間",
+    "en": "the weeks when exams are held",
+    "zh": "考试周",
+    "fr": "période d'examens",
+    "ar": "فترة الامتحانات",
+    "ko": "시험 기간",
+    "ru": "экзаменационная сессия"
+   }
+  },
+  {
+   "word": "sit an exam",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試験を受ける",
+    "en": "to take a test in the exam room",
+    "zh": "参加考试",
+    "fr": "passer un examen",
+    "ar": "يؤدي امتحانا",
+    "ko": "시험을 치르다",
+    "ru": "сдавать экзамен"
+   }
+  },
+  {
+   "word": "open book",
+   "pos": "noun",
+   "meaning": {
+    "ja": "資料持ち込み可の",
+    "en": "allowing you to use your notes during the test",
+    "zh": "开卷的",
+    "fr": "à livre ouvert",
+    "ar": "بكتاب مفتوح",
+    "ko": "오픈북의",
+    "ru": "с открытыми материалами"
+   }
+  },
+  {
+   "word": "multiple choice",
+   "pos": "noun",
+   "meaning": {
+    "ja": "選択肢から選ぶ形式",
+    "en": "a question where you pick one of several answers",
+    "zh": "选择题的",
+    "fr": "à choix multiple",
+    "ar": "اختيار من متعدد",
+    "ko": "객관식의",
+    "ru": "с вариантами ответа"
+   }
+  },
+  {
+   "word": "short answer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "短文で答える形式",
+    "en": "a question answered in a sentence or two",
+    "zh": "简答题的",
+    "fr": "à réponse courte",
+    "ar": "إجابة قصيرة",
+    "ko": "단답형의",
+    "ru": "с кратким ответом"
+   }
+  },
+  {
+   "word": "past paper",
+   "pos": "noun",
+   "meaning": {
+    "ja": "過去問",
+    "en": "an exam from a previous year used for practice",
+    "zh": "往年真题",
+    "fr": "annale d'examen",
+    "ar": "امتحان سنة سابقة",
+    "ko": "기출 문제",
+    "ru": "экзамен прошлых лет"
+   }
+  },
+  {
+   "word": "invigilator",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試験監督",
+    "en": "the person who watches over an exam",
+    "zh": "监考人员",
+    "fr": "surveillant d'examen",
+    "ar": "مراقب الامتحان",
+    "ko": "시험 감독관",
+    "ru": "наблюдающий на экзамене"
+   }
+  },
+  {
+   "word": "cheat",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不正行為をする",
+    "en": "to break the rules to get a better score",
+    "zh": "作弊",
+    "fr": "tricher",
+    "ar": "يغش",
+    "ko": "부정행위를 하다",
+    "ru": "списывать"
+   }
+  },
+  {
+   "word": "plagiarism",
+   "pos": "noun",
+   "meaning": {
+    "ja": "盗用",
+    "en": "using someone's words as if they were yours",
+    "zh": "抄袭",
+    "fr": "plagiat",
+    "ar": "انتحال",
+    "ko": "표절",
+    "ru": "плагиат"
+   }
+  },
+  {
+   "word": "academic integrity",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学問上の誠実さ",
+    "en": "honesty in how you produce your work",
+    "zh": "学术诚信",
+    "fr": "intégrité académique",
+    "ar": "النزاهة الأكاديمية",
+    "ko": "학문적 정직성",
+    "ru": "академическая честность"
+   }
+  },
+  {
+   "word": "essay",
+   "pos": "noun",
+   "meaning": {
+    "ja": "小論文",
+    "en": "a written piece arguing a point",
+    "zh": "论述文",
+    "fr": "dissertation courte",
+    "ar": "مقال أكاديمي",
+    "ko": "소논문",
+    "ru": "эссе"
+   }
+  },
+  {
+   "word": "report",
+   "pos": "noun",
+   "meaning": {
+    "ja": "調査結果をまとめた文書",
+    "en": "a written account of findings",
+    "zh": "研究报告",
+    "fr": "rapport écrit",
+    "ar": "تقرير مكتوب",
+    "ko": "보고서",
+    "ru": "письменный отчёт"
+   }
+  },
+  {
+   "word": "thesis",
+   "pos": "noun",
+   "meaning": {
+    "ja": "卒業論文",
+    "en": "the long paper written to finish a degree",
+    "zh": "毕业论文",
+    "fr": "mémoire de fin d'études",
+    "ar": "رسالة التخرج",
+    "ko": "졸업 논문",
+    "ru": "дипломная работа"
+   }
+  },
+  {
+   "word": "dissertation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研究論文",
+    "en": "a long piece of original research",
+    "zh": "学位研究论文",
+    "fr": "thèse de recherche",
+    "ar": "أطروحة بحثية",
+    "ko": "연구 학위 논문",
+    "ru": "диссертация"
+   }
+  },
+  {
+   "word": "coursework",
+   "pos": "noun",
+   "meaning": {
+    "ja": "平常点となる課題",
+    "en": "work done during the term that counts to your grade",
+    "zh": "平时作业",
+    "fr": "contrôle continu",
+    "ar": "أعمال الفصل",
+    "ko": "평소 과제",
+    "ru": "работа в течение семестра"
+   }
+  },
+  {
+   "word": "problem set",
+   "pos": "noun",
+   "meaning": {
+    "ja": "演習問題",
+    "en": "a group of exercises given as homework",
+    "zh": "习题集",
+    "fr": "série d'exercices",
+    "ar": "مجموعة تمارين",
+    "ko": "연습 문제 세트",
+    "ru": "набор задач"
+   }
+  },
+  {
+   "word": "group work",
+   "pos": "noun",
+   "meaning": {
+    "ja": "共同での課題",
+    "en": "a task done together with other students",
+    "zh": "小组作业",
+    "fr": "travail de groupe",
+    "ar": "عمل جماعي",
+    "ko": "조별 과제",
+    "ru": "групповая работа"
+   }
+  },
+  {
+   "word": "peer review",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生同士の講評",
+    "en": "students checking each other's work",
+    "zh": "同伴互评",
+    "fr": "évaluation par les pairs",
+    "ar": "مراجعة الأقران",
+    "ko": "동료 평가",
+    "ru": "взаимная проверка"
+   }
+  },
+  {
+   "word": "draft",
+   "pos": "noun",
+   "meaning": {
+    "ja": "下書き",
+    "en": "an early version you will improve",
+    "zh": "初稿",
+    "fr": "brouillon",
+    "ar": "مسودة",
+    "ko": "초고",
+    "ru": "черновик"
+   }
+  },
+  {
+   "word": "outline",
+   "pos": "noun",
+   "meaning": {
+    "ja": "構成のメモ",
+    "en": "a plan of the parts before you write",
+    "zh": "提纲",
+    "fr": "plan de rédaction",
+    "ar": "مخطط الكتابة",
+    "ko": "개요",
+    "ru": "план текста"
+   }
+  },
+  {
+   "word": "thesis statement",
+   "pos": "noun",
+   "meaning": {
+    "ja": "論文の中心主張",
+    "en": "the sentence stating what you will argue",
+    "zh": "中心论点句",
+    "fr": "phrase de problématique",
+    "ar": "جملة الأطروحة",
+    "ko": "핵심 논지 문장",
+    "ru": "тезис работы"
+   }
+  },
+  {
+   "word": "introduction",
+   "pos": "noun",
+   "meaning": {
+    "ja": "序論",
+    "en": "the opening part that sets up the topic",
+    "zh": "引言",
+    "fr": "introduction",
+    "ar": "مقدمة",
+    "ko": "서론",
+    "ru": "введение"
+   }
+  },
+  {
+   "word": "conclusion",
+   "pos": "noun",
+   "meaning": {
+    "ja": "結論",
+    "en": "the final part that sums up what you showed",
+    "zh": "结论",
+    "fr": "conclusion",
+    "ar": "خاتمة",
+    "ko": "결론",
+    "ru": "заключение"
+   }
+  },
+  {
+   "word": "argument",
+   "pos": "noun",
+   "meaning": {
+    "ja": "論の組み立て",
+    "en": "the reasoning you build to convince the reader",
+    "zh": "论证",
+    "fr": "argumentation",
+    "ar": "بناء الحجة",
+    "ko": "논증",
+    "ru": "аргументация"
+   }
+  },
+  {
+   "word": "claim",
+   "pos": "noun",
+   "meaning": {
+    "ja": "主張",
+    "en": "a statement you say is true",
+    "zh": "论点",
+    "fr": "affirmation avancée",
+    "ar": "ادعاء",
+    "ko": "주장",
+    "ru": "утверждение"
+   }
+  },
+  {
+   "word": "counterargument",
+   "pos": "noun",
+   "meaning": {
+    "ja": "反論",
+    "en": "a point against your own position",
+    "zh": "反驳观点",
+    "fr": "contre-argument",
+    "ar": "حجة مضادة",
+    "ko": "반론",
+    "ru": "контраргумент"
+   }
+  },
+  {
+   "word": "source",
+   "pos": "noun",
+   "meaning": {
+    "ja": "情報の出どころ",
+    "en": "a text or person your information came from",
+    "zh": "资料来源",
+    "fr": "source documentaire",
+    "ar": "مصدر المعلومة",
+    "ko": "자료 출처",
+    "ru": "источник"
+   }
+  },
+  {
+   "word": "citation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "出典の表記",
+    "en": "the note saying where information came from",
+    "zh": "引用标注",
+    "fr": "référence citée",
+    "ar": "إشارة مرجعية",
+    "ko": "인용 표기",
+    "ru": "ссылка на источник"
+   }
+  },
+  {
+   "word": "cite",
+   "pos": "noun",
+   "meaning": {
+    "ja": "出典として挙げる",
+    "en": "to name the source you used",
+    "zh": "引证",
+    "fr": "citer une source",
+    "ar": "يستشهد بمصدر",
+    "ko": "출처를 밝히다",
+    "ru": "сослаться на"
+   }
+  },
+  {
+   "word": "bibliography",
+   "pos": "noun",
+   "meaning": {
+    "ja": "参考文献一覧",
+    "en": "the list of everything you read",
+    "zh": "参考文献表",
+    "fr": "bibliographie",
+    "ar": "قائمة المراجع",
+    "ko": "참고 문헌 목록",
+    "ru": "список источников"
+   }
+  },
+  {
+   "word": "footnote",
+   "pos": "noun",
+   "meaning": {
+    "ja": "脚注",
+    "en": "a note at the bottom of the page",
+    "zh": "脚注",
+    "fr": "note de bas de page",
+    "ar": "حاشية سفلية",
+    "ko": "각주",
+    "ru": "сноска"
+   }
+  },
+  {
+   "word": "quote",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そのまま引用する",
+    "en": "to use someone's exact words",
+    "zh": "直接引述",
+    "fr": "reprendre mot pour mot",
+    "ar": "يقتبس نصا حرفيا",
+    "ko": "그대로 인용하다",
+    "ru": "привести дословно"
+   }
+  },
+  {
+   "word": "paraphrase",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分の言葉で言い換える",
+    "en": "to say the same idea in your own words",
+    "zh": "改写转述",
+    "fr": "reformuler",
+    "ar": "يعيد الصياغة",
+    "ko": "바꿔 표현하다",
+    "ru": "пересказать своими словами"
+   }
+  },
+  {
+   "word": "word count",
+   "pos": "noun",
+   "meaning": {
+    "ja": "指定の語数",
+    "en": "how many words the work must be",
+    "zh": "字数要求",
+    "fr": "nombre de mots exigé",
+    "ar": "عدد الكلمات المطلوب",
+    "ko": "요구 단어 수",
+    "ru": "требуемый объём слов"
+   }
+  },
+  {
+   "word": "appendix",
+   "pos": "noun",
+   "meaning": {
+    "ja": "巻末の補足資料",
+    "en": "extra material put at the end",
+    "zh": "附录",
+    "fr": "annexe",
+    "ar": "ملحق",
+    "ko": "부록",
+    "ru": "приложение"
+   }
+  },
+  {
+   "word": "proofread",
+   "pos": "noun",
+   "meaning": {
+    "ja": "誤字脱字を直す",
+    "en": "to check writing for small mistakes",
+    "zh": "校对",
+    "fr": "relire pour corriger",
+    "ar": "يدقق لغويا",
+    "ko": "교정하다",
+    "ru": "вычитывать"
+   }
+  },
+  {
+   "word": "submission",
+   "pos": "noun",
+   "meaning": {
+    "ja": "提出物",
+    "en": "the work you send in to be marked",
+    "zh": "提交的作业",
+    "fr": "travail rendu",
+    "ar": "العمل المسلم",
+    "ko": "제출물",
+    "ru": "сданная работа"
+   }
+  },
+  {
+   "word": "hand in",
+   "pos": "noun",
+   "meaning": {
+    "ja": "課題を出す",
+    "en": "to give completed work to a teacher",
+    "zh": "交上去",
+    "fr": "rendre un devoir",
+    "ar": "يسلم الواجب",
+    "ko": "과제를 내다",
+    "ru": "сдать работу"
+   }
+  },
+  {
+   "word": "due date",
+   "pos": "noun",
+   "meaning": {
+    "ja": "提出期限の日",
+    "en": "the day work must be given in",
+    "zh": "交作业的日子",
+    "fr": "date de remise",
+    "ar": "تاريخ التسليم",
+    "ko": "제출 마감일",
+    "ru": "дата сдачи"
+   }
+  },
+  {
+   "word": "overdue",
+   "pos": "noun",
+   "meaning": {
+    "ja": "期限を過ぎた",
+    "en": "later than the date it should have been in",
+    "zh": "逾期的",
+    "fr": "rendu en retard",
+    "ar": "متأخر عن موعده",
+    "ko": "기한이 지난",
+    "ru": "просроченный"
+   }
+  },
+  {
+   "word": "extension",
+   "pos": "noun",
+   "meaning": {
+    "ja": "期限の延長",
+    "en": "extra time given to finish work",
+    "zh": "延期",
+    "fr": "délai supplémentaire",
+    "ar": "تمديد المهلة",
+    "ko": "기한 연장",
+    "ru": "продление срока"
+   }
+  },
+  {
+   "word": "late penalty",
+   "pos": "noun",
+   "meaning": {
+    "ja": "遅れによる減点",
+    "en": "marks taken off for handing in late",
+    "zh": "迟交扣分",
+    "fr": "pénalité de retard",
+    "ar": "عقوبة التأخير",
+    "ko": "지각 제출 감점",
+    "ru": "штраф за опоздание"
+   }
+  },
+  {
+   "word": "resubmit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "出し直す",
+    "en": "to hand the work in again after changes",
+    "zh": "重新提交",
+    "fr": "soumettre à nouveau",
+    "ar": "يعيد التسليم",
+    "ko": "다시 제출하다",
+    "ru": "сдать повторно"
+   }
+  },
+  {
+   "word": "resit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "追試を受ける",
+    "en": "to take an exam again after failing",
+    "zh": "补考",
+    "fr": "repasser un examen",
+    "ar": "يعيد الامتحان",
+    "ko": "재시험을 보다",
+    "ru": "пересдавать"
+   }
+  },
+  {
+   "word": "retake",
+   "pos": "noun",
+   "meaning": {
+    "ja": "科目を取り直す",
+    "en": "to study a whole subject again",
+    "zh": "重修",
+    "fr": "redoubler une matière",
+    "ar": "يعيد دراسة المادة",
+    "ko": "과목을 재수강하다",
+    "ru": "проходить предмет заново"
+   }
+  },
+  {
+   "word": "defer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "受験や提出を延期する",
+    "en": "to officially postpone an exam or assessment",
+    "zh": "申请延考",
+    "fr": "reporter une épreuve",
+    "ar": "يؤجل الامتحان رسميا",
+    "ko": "시험을 연기하다",
+    "ru": "перенести на потом"
+   }
+  },
+  {
+   "word": "appeal",
+   "pos": "noun",
+   "meaning": {
+    "ja": "成績に異議を申し立てる",
+    "en": "to formally ask for a decision to be reviewed",
+    "zh": "申请复核",
+    "fr": "contester une note",
+    "ar": "يتظلم من القرار",
+    "ko": "이의를 신청하다",
+    "ru": "подать апелляцию"
+   }
+  },
+  {
+   "word": "mitigating circumstances",
+   "pos": "noun",
+   "meaning": {
+    "ja": "やむを得ない事情",
+    "en": "serious problems that explain poor work",
+    "zh": "特殊情况说明",
+    "fr": "circonstances atténuantes",
+    "ar": "ظروف قاهرة",
+    "ko": "참작 사유",
+    "ru": "уважительные обстоятельства"
+   }
+  },
+  {
+   "word": "exemption",
+   "pos": "noun",
+   "meaning": {
+    "ja": "履修の免除",
+    "en": "permission not to do something normally required",
+    "zh": "免修",
+    "fr": "dispense",
+    "ar": "إعفاء",
+    "ko": "이수 면제",
+    "ru": "освобождение от требования"
+   }
+  },
+  {
+   "word": "scholarship",
+   "pos": "noun",
+   "meaning": {
+    "ja": "奨学金",
+    "en": "money given to help you study",
+    "zh": "奖学金",
+    "fr": "bourse d'études",
+    "ar": "منحة دراسية",
+    "ko": "장학금",
+    "ru": "стипендия"
+   }
+  },
+  {
+   "word": "tuition",
+   "pos": "noun",
+   "meaning": {
+    "ja": "授業料",
+    "en": "the fee you pay to study",
+    "zh": "学费",
+    "fr": "frais de scolarité",
+    "ar": "الرسوم الدراسية",
+    "ko": "수업료",
+    "ru": "плата за обучение"
+   }
+  },
+  {
+   "word": "catch up on",
+   "pos": "noun",
+   "meaning": {
+    "ja": "遅れを取り戻す",
+    "en": "to do work you did not do earlier",
+    "zh": "补上进度",
+    "fr": "rattraper son retard",
+    "ar": "يعوض ما فاته",
+    "ko": "밀린 것을 따라잡다",
+    "ru": "нагнать упущенное"
+   }
+  },
+  {
+   "word": "fall behind on",
+   "pos": "noun",
+   "meaning": {
+    "ja": "進度に遅れる",
+    "en": "to fail to keep up with the work",
+    "zh": "进度落后",
+    "fr": "prendre du retard sur",
+    "ar": "يتأخر عن الركب",
+    "ko": "진도에 뒤처지다",
+    "ru": "отставать от программы"
+   }
+  }
+ ]
+}
