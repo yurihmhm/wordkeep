@@ -31,18 +31,58 @@ const raw = fs.readFileSync(0, 'utf8').trim();
 if (!raw) die('Nothing on stdin. Copy the JSON from the chat, then:\n  pbpaste | node tools/add-package.mjs');
 
 // A chat reply is usually clean JSON, but a stray "Here you go:" or a ```json
-// fence should not send somebody back to the chat to tidy it by hand. Take the
-// outermost {...} and let JSON.parse judge the rest.
-const start = raw.indexOf('{'), end = raw.lastIndexOf('}');
-if (start < 0) die('No JSON found in what was pasted. Copy the whole reply, braces included.');
-// A reply that ran out of room ends mid-word with no closing brace. Saying so
-// beats "no JSON object found", because the fix is different: ask again rather
-// than hunt for a typo.
-if (end < start) die('The pasted JSON has no closing brace -- the reply was probably cut off.\nAsk the chat to send it again, or in two smaller pieces.');
-let d;
-try { d = JSON.parse(raw.slice(start, end + 1)); }
-catch (e) { die('That is not valid JSON -- ' + e.message + '\nIf the reply was cut off, ask the chat to send it again.'); }
+// fence should not send somebody back to the chat to tidy it by hand -- and
+// nor should having copied BOTH replies at once, which is the natural thing to
+// do once the two are sitting there in the conversation. So: find every
+// top-level {...} in what was pasted and apply them in order.
+//
+// Brace counting has to ignore braces inside strings, because a meaning may
+// contain one, and has to respect backslash escapes so a \" does not look like
+// the end of a string.
+function topLevelObjects(text) {
+  const out = [];
+  let depth = 0, start = -1, inStr = false, esc = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (c === '\\') esc = true;
+      else if (c === '"') inStr = false;
+      continue;
+    }
+    if (c === '"') { inStr = true; continue; }
+    if (c === '{') { if (depth === 0) start = i; depth++; continue; }
+    if (c === '}') {
+      depth--;
+      if (depth === 0 && start >= 0) { out.push(text.slice(start, i + 1)); start = -1; }
+      // A stray closing brace in prose would take depth negative; ignore it.
+      if (depth < 0) depth = 0;
+    }
+  }
+  // depth > 0 at the end means the last object never closed.
+  return { objects: out, truncated: depth > 0 || start >= 0 };
+}
 
+const found = topLevelObjects(raw);
+if (!found.objects.length) {
+  if (found.truncated) die('The pasted JSON never closes -- the reply was probably cut off.\nAsk the chat to send it again, or in two smaller pieces.');
+  die('No JSON found in what was pasted. Copy the whole reply, braces included.');
+}
+if (found.truncated) console.error('note: there is an unfinished object after the last complete one -- it was ignored.');
+
+const replies = [];
+found.objects.forEach((txt, i) => {
+  try { replies.push(JSON.parse(txt)); }
+  catch (e) { die('Block ' + (i + 1) + ' of ' + found.objects.length + ' is not valid JSON -- ' + e.message); }
+});
+
+// Each block is filed in turn, so pasting reply 1 and reply 2 together does
+// exactly what pasting them one after the other would.
+let filed = 0;
+for (const d of replies) { fileOne(d); filed++; }
+if (filed > 1) console.log('\n' + filed + ' blocks filed.');
+
+function fileOne(d) {
 // ---- what did we get -------------------------------------------------------
 if (!d.id || typeof d.id !== 'string') die('The JSON has no "id". Both replies must carry it, so this knows which package to file them under.');
 if (!/^[a-z0-9_]+$/.test(d.id)) die('"' + d.id + '" is not a usable id. Lower-case letters, digits and underscores only.');
@@ -104,6 +144,30 @@ console.log('\n' + (exists ? 'appended to' : 'created') + '  packages/' + d.id +
 console.log('  added   ' + added + (dupes.length ? '   (skipped ' + dupes.length + ' already there: ' + dupes.slice(0, 5).join(', ') + (dupes.length > 5 ? '…' : '') + ')' : ''));
 console.log('  total   ' + out.words.length + (before ? '   (was ' + before + ')' : ''));
 
+// ---- what the schema cannot catch ------------------------------------------
+// Two words sharing a meaning is not a broken file, so it does not block. It is
+// still a real defect: four-choice draws its wrong answers from the same
+// package, so "sure" and "of course" both meaning もちろん can appear in one
+// question with two correct answers and no way to pick right. Named here
+// because it is invisible until somebody fails a question they knew.
+const byMeaning = new Map();
+out.words.forEach(w => {
+  const k = String(w.meaning.ja || '').trim();
+  if (!k) return;
+  (byMeaning.get(k) || byMeaning.set(k, []).get(k)).push(w.word);
+});
+const collisions = [...byMeaning.entries()].filter(([, ws]) => ws.length > 1);
+if (collisions.length) {
+  console.log('\n  ' + collisions.length + ' meaning(s) used by more than one word:');
+  collisions.slice(0, 10).forEach(([m, ws]) => console.log('    ' + m + '  ←  ' + ws.join(' / ')));
+  if (collisions.length > 10) console.log('    ...and ' + (collisions.length - 10) + ' more');
+  console.log('  Four-choice would offer both as answers. Ask the chat to make these distinct.');
+}
+// The package is meant to land on exactly 100. Say where it stands rather than
+// leaving it to be noticed weeks later in the catalogue.
+if (added !== 50) console.log('\n  note: this block had ' + added + ' new words, not 50.');
+if (out.words.length > 100) console.log('  note: the package is now ' + out.words.length + ' words -- 100 was the target.');
+
 try {
   execFileSync('node', [fileURLToPath(new URL('tests/build-packages.mjs', root))], { stdio: 'inherit' });
 } catch (e) {
@@ -112,4 +176,5 @@ try {
 }
 
 if (out.words.length < 100)
-  console.log('\nnext: ask the chat for the rest, then  pbpaste | node tools/add-package.mjs');
+  console.log('\nnext: ask the chat for the rest, then paste it the same way');
+}

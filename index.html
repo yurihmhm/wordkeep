@@ -1421,7 +1421,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.47.0';
+const APP_VERSION='5.48.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1434,7 +1434,8 @@ const APP_VERSION='5.47.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.47.0',date:'2026-09-03',keys:['wn1','wn2']},
+  {version:'5.48.0',date:'2026-09-03',keys:['wn1','wn2'],show:true},
+  {version:'5.47.0',date:'2026-09-03',keys:['v5470_1','v5470_2'],show:true},
   {version:'5.46.0',date:'2026-09-02',keys:['v5460_1','v5460_2']},
   {version:'5.45.0',date:'2026-09-02',keys:['v5450_1','v5450_2']},
 ];
@@ -1538,8 +1539,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語が少ない単語帳でも4択が出せるようになりました。まちがいの選択肢は、ほかの単語帳やダウンロード済みのパッケージから借りてきます。1語だけの単語帳でも出題できます。',en:'Four-choice works on a small notebook now. The wrong answers are borrowed from your other notebooks and downloaded packs, so even a notebook with one word in it can be studied.',zh:'单词很少的单词本也能出四选一了。错误选项会从你的其他单词本和已下载的单词包中借用，因此只有一个单词的本子也能练习。',fr:'Le QCM fonctionne désormais sur un petit carnet : les mauvaises réponses sont empruntées à vos autres carnets et aux packs téléchargés, si bien qu’un carnet d’un seul mot est jouable.',ar:'صار الاختيار من أربعة يعمل حتى مع دفتر قليل الكلمات؛ إذ تُستعار الإجابات الخاطئة من دفاترك الأخرى ومن الحزم المنزَّلة، فيمكن مذاكرة دفتر فيه كلمة واحدة.',ko:'단어가 적은 단어장에서도 4택을 낼 수 있습니다. 오답 선택지는 다른 단어장과 내려받은 패키지에서 빌려 오므로, 한 단어뿐인 단어장도 출제됩니다.',ru:'Выбор из четырёх работает и на маленьком словаре: неверные варианты берутся из ваших других словарей и загруженных наборов, так что играбелен даже словарь с одним словом.'},
-  wn2:{ja:'最後の問題のボタンを「学習完了」にして、正解と同じ緑にしました。次に進むボタンと同じ見た目だと、終わった感じがしなかったので。',en:'The button on the last question now says “Done!” and turns the same green as a correct answer. Looking like every other “next” button did not feel like finishing.',zh:'最后一题的按钮改为「学习完成」，并使用与答对相同的绿色。此前与「下一题」长得一样，缺少完成的感觉。',fr:'Le bouton de la dernière question affiche « Terminé ! » et prend le vert d’une bonne réponse. Identique au bouton « suivant », il ne donnait aucune impression d’avoir fini.',ar:'صار زر السؤال الأخير يقول «تمّ!» ويأخذ اللون الأخضر نفسه الذي للإجابة الصحيحة. فتشابهه مع زر «التالي» كان يفقده معنى الإنهاء.',ko:'마지막 문제의 버튼을 «학습 완료»로 바꾸고, 정답과 같은 초록색으로 했습니다. 다음으로 넘어가는 버튼과 같은 모습이면 끝낸 느낌이 나지 않아서요.',ru:'Кнопка на последнем вопросе теперь говорит «Готово!» и становится того же зелёного цвета, что и верный ответ. Выглядя как обычная «дальше», она не давала ощущения завершения.'},
+  wn1:{ja:'新しい単語パッケージ「日常のつなぎ言葉・相づち」を追加しました。actually、I mean、kind of のような、辞書で引いても意味の分かりにくい100語です。会話で最初に詰まるのはこのあたりです。',en:'A new pack: Everyday Fillers & Reactions. A hundred words like actually, I mean and kind of — the ones a dictionary never quite explains, and the first thing that trips you up in conversation.',zh:'新增单词包「日常口头禅与附和语」。收录 actually、I mean、kind of 等100个词——查词典也讲不清楚，却最容易在对话中卡住的那些。',fr:'Un nouveau pack : « Mots de liaison et réactions ». Cent mots comme actually, I mean ou kind of — ceux que le dictionnaire n’explique jamais vraiment, et sur lesquels on bute en premier.',ar:'حزمة جديدة: «عبارات ربط وردود يومية». مئة كلمة مثل actually وI mean وkind of — تلك التي لا يشرحها القاموس حقًا، وأول ما يعثّرك في الحديث.',ko:'새 단어 패키지 «일상 연결어·맞장구»를 더했습니다. actually, I mean, kind of처럼 사전을 찾아도 잘 알 수 없는 100단어입니다. 대화에서 가장 먼저 막히는 것들이에요.',ru:'Новый набор: «Слова-связки и реакции». Сто слов вроде actually, I mean и kind of — тех, что словарь толком не объясняет, и на которых спотыкаешься первым делом.'},
+  wn2:{ja:'この「更新しました」を、毎回は出さないようにしました。細かい修正のたびに画面をふさぐのは邪魔なので、お知らせする価値があるときだけ出します。そのあいだの変更も、そのとき一緒にお伝えします。',en:'This “What’s new” box no longer appears every release. Blocking the app for every small fix was a nuisance, so it waits until there is something worth stopping you for — and then it shows everything since you last looked.',zh:'这个「更新内容」不再每次都弹出。每个小修复都挡住画面太打扰了，因此只在值得告知时才出现，届时会一并显示这期间的所有更改。',fr:'Cette fenêtre « Nouveautés » n’apparaît plus à chaque version. Bloquer l’app pour le moindre correctif était pénible : elle attend qu’il y ait de quoi vous arrêter, et montre alors tout ce qui a changé depuis.',ar:'لم تعد نافذة «ما الجديد» تظهر مع كل إصدار. فحجب التطبيق عند كل إصلاح صغير كان مزعجًا؛ صارت تنتظر ما يستحق إيقافك، ثم تعرض كل ما تغيّر منذ آخر مرة.',ko:'이 «업데이트 내용»을 매번 띄우지 않도록 했습니다. 사소한 수정마다 화면을 가리는 건 방해가 되니, 알릴 가치가 있을 때만 나옵니다. 그동안의 변경도 그때 함께 알려 드립니다.',ru:'Окно «Обновление» больше не появляется с каждым выпуском. Загораживать приложение ради каждой мелкой правки было навязчиво: теперь оно ждёт того, ради чего стоит вас остановить, и тогда показывает всё, что изменилось с прошлого раза.'},
+  v5470_1:{ja:'単語が少ない単語帳でも4択が出せるようになりました。まちがいの選択肢は、ほかの単語帳やダウンロード済みのパッケージから借りてきます。1語だけの単語帳でも出題できます。',en:'Four-choice works on a small notebook now. The wrong answers are borrowed from your other notebooks and downloaded packs, so even a notebook with one word in it can be studied.',zh:'单词很少的单词本也能出四选一了。错误选项会从你的其他单词本和已下载的单词包中借用，因此只有一个单词的本子也能练习。',fr:'Le QCM fonctionne désormais sur un petit carnet : les mauvaises réponses sont empruntées à vos autres carnets et aux packs téléchargés, si bien qu’un carnet d’un seul mot est jouable.',ar:'صار الاختيار من أربعة يعمل حتى مع دفتر قليل الكلمات؛ إذ تُستعار الإجابات الخاطئة من دفاترك الأخرى ومن الحزم المنزَّلة، فيمكن مذاكرة دفتر فيه كلمة واحدة.',ko:'단어가 적은 단어장에서도 4택을 낼 수 있습니다. 오답 선택지는 다른 단어장과 내려받은 패키지에서 빌려 오므로, 한 단어뿐인 단어장도 출제됩니다.',ru:'Выбор из четырёх работает и на маленьком словаре: неверные варианты берутся из ваших других словарей и загруженных наборов, так что играбелен даже словарь с одним словом.'},
+  v5470_2:{ja:'最後の問題のボタンを「学習完了」にして、正解と同じ緑にしました。次に進むボタンと同じ見た目だと、終わった感じがしなかったので。',en:'The button on the last question now says “Done!” and turns the same green as a correct answer. Looking like every other “next” button did not feel like finishing.',zh:'最后一题的按钮改为「学习完成」，并使用与答对相同的绿色。此前与「下一题」长得一样，缺少完成的感觉。',fr:'Le bouton de la dernière question affiche « Terminé ! » et prend le vert d’une bonne réponse. Identique au bouton « suivant », il ne donnait aucune impression d’avoir fini.',ar:'صار زر السؤال الأخير يقول «تمّ!» ويأخذ اللون الأخضر نفسه الذي للإجابة الصحيحة. فتشابهه مع زر «التالي» كان يفقده معنى الإنهاء.',ko:'마지막 문제의 버튼을 «학습 완료»로 바꾸고, 정답과 같은 초록색으로 했습니다. 다음으로 넘어가는 버튼과 같은 모습이면 끝낸 느낌이 나지 않아서요.',ru:'Кнопка на последнем вопросе теперь говорит «Готово!» и становится того же зелёного цвета, что и верный ответ. Выглядя как обычная «дальше», она не давала ощущения завершения.'},
   v5460_1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
   v5460_2:{ja:'メールアドレスの打ち間違いに気づけるようにしました。「@gmail.con」のように惜しい入力をすると、正しい形を提案します。タップすれば直ります。',en:'The app now spots a mistyped email address. Type something like “@gmail.con” and it offers the right one — tap to fix it.',zh:'现在能发现邮箱地址的输入错误。输入「@gmail.con」之类时会提示正确写法，点一下即可修正。',fr:'L’application repère désormais une adresse e-mail mal saisie. Tapez « @gmail.con » et elle propose la bonne : touchez pour corriger.',ar:'صار التطبيق ينبّه إلى الخطأ في كتابة البريد. اكتب «gmail.con@» وسيقترح الصيغة الصحيحة — المس لتصحيحها.',ko:'이메일 주소의 오타를 알아차립니다. «@gmail.con»처럼 아깝게 틀리면 올바른 형태를 제안합니다. 누르면 고쳐집니다.',ru:'Приложение замечает опечатку в адресе почты. Наберите «@gmail.con» — оно предложит правильный вариант, нажмите, чтобы исправить.'},
   v5450_1:{ja:'アプリの話しかたを、ていねいな言い方に揃えました。あいさつの中に「おかえり」と「おかえりなさい」が混ざっていたような不揃いをなくしています。通知だけは「！」と絵文字をそのまま残しました。',en:'The app now speaks in one consistent, polite voice. Greetings used to mix casual and formal lines; that is gone. Notifications keep their exclamation marks and emoji.',zh:'应用的说话方式已统一为礼貌的语气，问候语中混杂的随意说法已消除。只有通知保留了感叹号和表情符号。',fr:'L’application parle désormais d’une seule voix, polie et cohérente : les salutations mêlaient le tutoiement et le vouvoiement, ce n’est plus le cas. Les notifications gardent leurs points d’exclamation et leurs émojis.',ar:'صار التطبيق يتحدث بنبرة مهذّبة واحدة؛ فقد كانت التحيات تخلط بين العامّي والرسمي. أما الإشعارات فتحتفظ بعلامات التعجب والرموز.',ko:'앱의 말투를 정중한 쪽으로 통일했습니다. 인사말에 반말과 존댓말이 섞여 있던 것을 없앴습니다. 알림만은 «!»와 이모지를 그대로 두었습니다.',ru:'Приложение теперь говорит одним вежливым голосом — в приветствиях больше не смешаны обращения на «ты» и на «вы». Уведомления сохраняют восклицательные знаки и эмодзи.'},
@@ -2571,6 +2574,7 @@ function playAnswerSound(ok){
 // `v` is the content version. Bumping it makes the app re-fetch, and progress
 // survives because it is keyed by the word itself rather than by position.
 const PKG_CATALOG=[
+  {id:'conversation_fillers_reactions',v:1,count:100,title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
   {id:'studyabroad_part1',v:1,count:50,title:{ja:'語学留学の英単語 Part1',en:'Study Abroad English Words Part 1',zh:'留学英语单词 Part1',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 1',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 1',ko:'유학 영단어 Part1',ru:'Английские слова для учёбы за рубежом Часть 1'}},
   {id:'studyabroad_part2',v:1,count:50,title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'}},
   {id:'studyabroad_part3',v:1,count:50,title:{ja:'語学留学の英単語 Part3',en:'Study Abroad English Vocabulary — Part 3',zh:'留学英语单词 Part3',fr:'Vocabulaire anglais pour séjour linguistique — Part3',ar:'مفردات إنجليزية للدراسة في الخارج — الجزء 3',ko:'어학연수 영단어 Part3',ru:'Английская лексика для учёбы за границей — Part3'}},
@@ -7361,10 +7365,41 @@ $('#ntfYes').onclick=async()=>{
 };
 
 /* ---------- what's new (after an update) ---------- */
-function openWhatsNew(){
+/* ---- when to interrupt somebody with what changed -------------------------
+   Not on every release. Most of what ships is a fix nobody was waiting for, and
+   a modal in front of the app every few days is a tax on opening it -- the
+   version gets bumped far more often than anything happens that a person would
+   want to be stopped for.
+
+   So a release is silent unless its entry says `show:true`. seenVersion still
+   moves forward quietly, and when a release DOES earn the modal it carries the
+   notes from everything since the reader last looked -- so a quiet release is
+   deferred, never dropped.
+   -------------------------------------------------------------------------- */
+function notesSince(seen){
+  const out=[];
+  for(const e of CHANGELOG){
+    if(e.version===seen)break;      // CHANGELOG is newest-first
+    out.push(e);
+  }
+  return out;
+}
+function whatsNewDue(){
+  const seen=S().seenVersion;
+  if(!seen||seen===APP_VERSION)return null;
+  const since=notesSince(seen);
+  if(!since.length)return null;
+  // The newest release decides whether anybody is interrupted. If it is quiet,
+  // its notes wait for one that is not.
+  return since[0].show?since:null;
+}
+function openWhatsNew(entries){
+  entries=entries||notesSince(S().seenVersion)||[];
+  if(!entries.length)entries=[CHANGELOG[0]].filter(Boolean);
   $('#wnTitle').textContent=t('whatsnew_title');
-  const keys=(CHANGELOG[0]&&CHANGELOG[0].version===APP_VERSION)?CHANGELOG[0].keys:['wn1','wn2','wn3'];
-  $('#wnList').innerHTML=keys.map(k=>'<li>'+noteHtml(t(k))+'</li>').join('');
+  const keys=[];
+  entries.forEach(e=>(e.keys||[]).forEach(k=>{if(keys.indexOf(k)===-1)keys.push(k);}));
+  $('#wnList').innerHTML=(keys.length?keys:['wn1']).map(k=>'<li>'+noteHtml(t(k))+'</li>').join('');
   $('#wnOk').textContent=t('ok');
   $('#overlayWn').classList.add('show');
 }
@@ -8765,7 +8800,13 @@ applyStaticI18n();
 renderCount();
 go('v-home');
 if(!S().onboarded){openTutorial(true);}
-else if(S().seenVersion!==APP_VERSION){openWhatsNew();}
+else if(S().seenVersion!==APP_VERSION){
+  // Quiet releases move the marker without a word; the notes are not lost,
+  // they ride along with the next release that earns the modal.
+  const due=whatsNewDue();
+  if(due)openWhatsNew(due);
+  else{S().seenVersion=APP_VERSION;save();}
+}
 else if(!S().seenStorageTip){openStorageTip();}
 // After the first-run overlays, so it doesn't bury the tutorial. Signed-in
 // sessions are handled by the auth listener instead; this covers the case

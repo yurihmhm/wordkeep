@@ -1,0 +1,1315 @@
+{
+  "id": "conversation_fillers_reactions",
+  "v": 1,
+  "title": {
+    "ja": "日常のつなぎ言葉・相づち",
+    "en": "Everyday Fillers & Reactions",
+    "zh": "日常口头禅与附和语",
+    "fr": "Mots de liaison et réactions",
+    "ar": "عبارات ربط وردود يومية",
+    "ko": "일상 연결어·맞장구",
+    "ru": "Слова-связки и реакции"
+  },
+  "words": [
+    {
+      "word": "well",
+      "pos": "adv",
+      "meaning": {
+        "ja": "ええと",
+        "en": "used to pause before speaking",
+        "zh": "嗯，那个",
+        "fr": "eh bien",
+        "ar": "حسنًا",
+        "ko": "음, 그게",
+        "ru": "ну"
+      }
+    },
+    {
+      "word": "so",
+      "pos": "adv",
+      "meaning": {
+        "ja": "それで",
+        "en": "used to start explaining something",
+        "zh": "所以呢",
+        "fr": "alors",
+        "ar": "إذن",
+        "ko": "그래서",
+        "ru": "итак"
+      }
+    },
+    {
+      "word": "anyway",
+      "pos": "adv",
+      "meaning": {
+        "ja": "とにかく",
+        "en": "used to return to a topic",
+        "zh": "总之",
+        "fr": "bref",
+        "ar": "على أي حال",
+        "ko": "어쨌든",
+        "ru": "в любом случае"
+      }
+    },
+    {
+      "word": "actually",
+      "pos": "adv",
+      "meaning": {
+        "ja": "実は",
+        "en": "used to say something surprising or true",
+        "zh": "其实",
+        "fr": "en fait",
+        "ar": "في الواقع",
+        "ko": "사실은",
+        "ru": "на самом деле"
+      }
+    },
+    {
+      "word": "basically",
+      "pos": "adv",
+      "meaning": {
+        "ja": "要するに",
+        "en": "used to explain the main point simply",
+        "zh": "基本上",
+        "fr": "en gros",
+        "ar": "بشكل أساسي",
+        "ko": "기본적으로",
+        "ru": "по сути"
+      }
+    },
+    {
+      "word": "I mean",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "つまり",
+        "en": "used to explain or correct what you said",
+        "zh": "我是说",
+        "fr": "je veux dire",
+        "ar": "أعني",
+        "ko": "내 말은",
+        "ru": "то есть"
+      }
+    },
+    {
+      "word": "you know",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ほら、あの",
+        "en": "used to check the listener understands",
+        "zh": "你知道的",
+        "fr": "tu vois",
+        "ar": "كما تعلم",
+        "ko": "있잖아",
+        "ru": "знаешь"
+      }
+    },
+    {
+      "word": "like",
+      "pos": "adv",
+      "meaning": {
+        "ja": "なんか",
+        "en": "used casually before an example or pause",
+        "zh": "就是",
+        "fr": "genre",
+        "ar": "مثل",
+        "ko": "뭔가",
+        "ru": "типа"
+      }
+    },
+    {
+      "word": "right",
+      "pos": "adv",
+      "meaning": {
+        "ja": "でしょ",
+        "en": "used to check agreement",
+        "zh": "对吧",
+        "fr": "n'est-ce pas",
+        "ar": "أليس كذلك",
+        "ko": "그렇지",
+        "ru": "верно"
+      }
+    },
+    {
+      "word": "okay",
+      "pos": "adv",
+      "meaning": {
+        "ja": "じゃあ",
+        "en": "used to show agreement or move on",
+        "zh": "好的",
+        "fr": "d'accord",
+        "ar": "حسنًا",
+        "ko": "오케이",
+        "ru": "ладно"
+      }
+    },
+    {
+      "word": "sure",
+      "pos": "adv",
+      "meaning": {
+        "ja": "いいよ",
+        "en": "used to agree readily",
+        "zh": "当然",
+        "fr": "bien sûr",
+        "ar": "بالتأكيد",
+        "ko": "물론이지",
+        "ru": "конечно"
+      }
+    },
+    {
+      "word": "totally",
+      "pos": "adv",
+      "meaning": {
+        "ja": "まったくその通り",
+        "en": "used to agree strongly",
+        "zh": "完全同意",
+        "fr": "totalement",
+        "ar": "تمامًا",
+        "ko": "완전 그래",
+        "ru": "полностью"
+      }
+    },
+    {
+      "word": "exactly",
+      "pos": "adv",
+      "meaning": {
+        "ja": "その通り",
+        "en": "used to say something is completely correct",
+        "zh": "没错",
+        "fr": "exactement",
+        "ar": "بالضبط",
+        "ko": "맞아",
+        "ru": "именно"
+      }
+    },
+    {
+      "word": "absolutely",
+      "pos": "adv",
+      "meaning": {
+        "ja": "間違いなく",
+        "en": "used to agree very strongly",
+        "zh": "绝对是",
+        "fr": "absolument",
+        "ar": "بالتأكيد تمامًا",
+        "ko": "완전 맞아",
+        "ru": "безусловно"
+      }
+    },
+    {
+      "word": "no way",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まさか",
+        "en": "used to show disbelief",
+        "zh": "不会吧",
+        "fr": "pas possible",
+        "ar": "مستحيل",
+        "ko": "말도 안 돼",
+        "ru": "не может быть"
+      }
+    },
+    {
+      "word": "really",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "本当に？",
+        "en": "used to show surprise",
+        "zh": "真的吗",
+        "fr": "vraiment ?",
+        "ar": "حقًا؟",
+        "ko": "진짜?",
+        "ru": "правда?"
+      }
+    },
+    {
+      "word": "seriously",
+      "pos": "adv",
+      "meaning": {
+        "ja": "マジで",
+        "en": "used to show surprise or emphasis",
+        "zh": "说真的",
+        "fr": "sérieux",
+        "ar": "بجدية",
+        "ko": "진심으로",
+        "ru": "серьёзно"
+      }
+    },
+    {
+      "word": "I see",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "なるほど",
+        "en": "used to show you understand",
+        "zh": "我明白了",
+        "fr": "je vois",
+        "ar": "فهمت",
+        "ko": "그렇구나",
+        "ru": "понятно"
+      }
+    },
+    {
+      "word": "got it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "了解",
+        "en": "used to say you understand",
+        "zh": "明白了",
+        "fr": "compris",
+        "ar": "فهمت الأمر",
+        "ko": "알겠어",
+        "ru": "понял"
+      }
+    },
+    {
+      "word": "makes sense",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "納得できる",
+        "en": "used to say something is logical",
+        "zh": "有道理",
+        "fr": "ça se tient",
+        "ar": "معقول",
+        "ko": "말이 되네",
+        "ru": "логично"
+      }
+    },
+    {
+      "word": "I guess",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まあ、そうかな",
+        "en": "used to agree without full certainty",
+        "zh": "我想是吧",
+        "fr": "je suppose",
+        "ar": "أعتقد ذلك",
+        "ko": "그런 것 같아",
+        "ru": "наверное"
+      }
+    },
+    {
+      "word": "kind of",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ちょっと",
+        "en": "used to soften a statement",
+        "zh": "有点儿",
+        "fr": "un peu",
+        "ar": "نوعًا ما",
+        "ko": "약간",
+        "ru": "вроде"
+      }
+    },
+    {
+      "word": "sort of",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まあまあ",
+        "en": "used to make a statement less exact",
+        "zh": "算是吧",
+        "fr": "en quelque sorte",
+        "ar": "إلى حد ما",
+        "ko": "어느 정도",
+        "ru": "как бы"
+      }
+    },
+    {
+      "word": "honestly",
+      "pos": "adv",
+      "meaning": {
+        "ja": "正直なところ",
+        "en": "used to say you are being truthful",
+        "zh": "老实说",
+        "fr": "honnêtement",
+        "ar": "بصراحة",
+        "ko": "솔직히",
+        "ru": "честно говоря"
+      }
+    },
+    {
+      "word": "to be honest",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "本音を言うと",
+        "en": "used before an honest opinion",
+        "zh": "说实话",
+        "fr": "pour être honnête",
+        "ar": "لأكون صادقًا",
+        "ko": "솔직히 말하면",
+        "ru": "по правде говоря"
+      }
+    },
+    {
+      "word": "anyhow",
+      "pos": "adv",
+      "meaning": {
+        "ja": "いずれにせよ",
+        "en": "used to return to the main topic",
+        "zh": "不管怎样",
+        "fr": "quoi qu'il en soit",
+        "ar": "على كل حال",
+        "ko": "어쨌든",
+        "ru": "так или иначе"
+      }
+    },
+    {
+      "word": "by the way",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ところで",
+        "en": "used to add a new topic",
+        "zh": "顺便说一下",
+        "fr": "au fait",
+        "ar": "بالمناسبة",
+        "ko": "그런데",
+        "ru": "кстати"
+      }
+    },
+    {
+      "word": "speaking of which",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "それと言えば",
+        "en": "used to connect to what was just said",
+        "zh": "说到这个",
+        "fr": "à ce propos",
+        "ar": "بالحديث عن ذلك",
+        "ko": "그러고 보니",
+        "ru": "кстати говоря"
+      }
+    },
+    {
+      "word": "anyways",
+      "pos": "adv",
+      "meaning": {
+        "ja": "ともかく",
+        "en": "casual way to change or return to topic",
+        "zh": "总之呢",
+        "fr": "enfin bref",
+        "ar": "على أية حال",
+        "ko": "아무튼",
+        "ru": "ну ладно"
+      }
+    },
+    {
+      "word": "hmm",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "うーん",
+        "en": "used while thinking",
+        "zh": "嗯……",
+        "fr": "hum",
+        "ar": "هممم",
+        "ko": "음…",
+        "ru": "хм"
+      }
+    },
+    {
+      "word": "oh",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "あっ",
+        "en": "used to show surprise or realization",
+        "zh": "哦",
+        "fr": "oh",
+        "ar": "أوه",
+        "ko": "아",
+        "ru": "о"
+      }
+    },
+    {
+      "word": "wow",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "うわあ",
+        "en": "used to show amazement",
+        "zh": "哇",
+        "fr": "waouh",
+        "ar": "واو",
+        "ko": "우와",
+        "ru": "вау"
+      }
+    },
+    {
+      "word": "oh no",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "やばい",
+        "en": "used to show worry or disappointment",
+        "zh": "糟糕",
+        "fr": "oh non",
+        "ar": "يا للأسف",
+        "ko": "이런",
+        "ru": "о нет"
+      }
+    },
+    {
+      "word": "oops",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "おっと",
+        "en": "used after a small mistake",
+        "zh": "哎呀",
+        "fr": "oups",
+        "ar": "عفوًا",
+        "ko": "어이쿠",
+        "ru": "ой"
+      }
+    },
+    {
+      "word": "never mind",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "なんでもない",
+        "en": "used to say something is not important now",
+        "zh": "没关系",
+        "fr": "laisse tomber",
+        "ar": "لا يهم",
+        "ko": "신경 쓰지 마",
+        "ru": "неважно"
+      }
+    },
+    {
+      "word": "no worries",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "気にしないで",
+        "en": "used to say something is fine",
+        "zh": "没关系",
+        "fr": "pas de souci",
+        "ar": "لا مشكلة",
+        "ko": "괜찮아",
+        "ru": "без проблем"
+      }
+    },
+    {
+      "word": "anytime",
+      "pos": "adv",
+      "meaning": {
+        "ja": "いつでもどうぞ",
+        "en": "used to reply to thanks",
+        "zh": "不客气",
+        "fr": "quand tu veux",
+        "ar": "في أي وقت",
+        "ko": "언제든지",
+        "ru": "не за что"
+      }
+    },
+    {
+      "word": "of course",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "もちろん",
+        "en": "used to say yes strongly",
+        "zh": "当然了",
+        "fr": "bien sûr",
+        "ar": "بالطبع",
+        "ko": "당연하지",
+        "ru": "конечно же"
+      }
+    },
+    {
+      "word": "fair enough",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まあ納得",
+        "en": "used to accept a reasonable point",
+        "zh": "有道理",
+        "fr": "c'est juste",
+        "ar": "معقول، اتفقنا",
+        "ko": "그건 그렇네",
+        "ru": "справедливо"
+      }
+    },
+    {
+      "word": "either way",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "どちらにしても",
+        "en": "used to say both options are fine",
+        "zh": "反正都行",
+        "fr": "dans les deux cas",
+        "ar": "على أي حال",
+        "ko": "어느 쪽이든",
+        "ru": "в любом случае"
+      }
+    },
+    {
+      "word": "come on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "えー、まさか",
+        "en": "used to show disbelief or urge someone",
+        "zh": "拜托",
+        "fr": "allez",
+        "ar": "هيا",
+        "ko": "에이, 왜 이래",
+        "ru": "да ладно"
+      }
+    },
+    {
+      "word": "let's see",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ええと、そうだな",
+        "en": "used while thinking of an answer",
+        "zh": "让我想想",
+        "fr": "voyons voir",
+        "ar": "دعني أفكر",
+        "ko": "글쎄, 어디 보자",
+        "ru": "давай посмотрим"
+      }
+    },
+    {
+      "word": "good point",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "いい指摘だね",
+        "en": "used to agree with a smart comment",
+        "zh": "说得好",
+        "fr": "bien vu",
+        "ar": "نقطة جيدة",
+        "ko": "좋은 지적이야",
+        "ru": "хорошая мысль"
+      }
+    },
+    {
+      "word": "same here",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "私も同じ",
+        "en": "used to say you feel the same way",
+        "zh": "我也一样",
+        "fr": "pareil pour moi",
+        "ar": "وأنا كذلك",
+        "ko": "나도 그래",
+        "ru": "я тоже"
+      }
+    },
+    {
+      "word": "me too",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "私も",
+        "en": "used to agree you feel the same",
+        "zh": "我也是",
+        "fr": "moi aussi",
+        "ar": "أنا أيضًا",
+        "ko": "나도",
+        "ru": "я тоже"
+      }
+    },
+    {
+      "word": "not really",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "そうでもない",
+        "en": "used to mildly disagree",
+        "zh": "不太是",
+        "fr": "pas vraiment",
+        "ar": "ليس تمامًا",
+        "ko": "그렇지도 않아",
+        "ru": "не совсем"
+      }
+    },
+    {
+      "word": "whatever",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "どうでもいい",
+        "en": "used to show you don't mind or care",
+        "zh": "随便",
+        "fr": "peu importe",
+        "ar": "لا يهم أمرك",
+        "ko": "아무거나",
+        "ru": "как угодно"
+      }
+    },
+    {
+      "word": "I dunno",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "さあね",
+        "en": "casual way to say you don't know",
+        "zh": "不知道诶",
+        "fr": "sais pas",
+        "ar": "لا أدري",
+        "ko": "글쎄",
+        "ru": "не знаю"
+      }
+    },
+    {
+      "word": "tell me about it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ほんとそれ",
+        "en": "used to strongly agree with a complaint",
+        "zh": "可不是嘛",
+        "fr": "à qui le dis-tu",
+        "ar": "لا تقل لي",
+        "ko": "진짜 그래",
+        "ru": "не говори"
+      }
+    },
+    {
+      "word": "if you say so",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まあそう言うなら",
+        "en": "used to accept doubtfully",
+        "zh": "你说了算",
+        "fr": "si tu le dis",
+        "ar": "إذا كنت تقول ذلك",
+        "ko": "뭐, 그렇다면",
+        "ru": "ну, если ты так говоришь"
+      }
+    },
+    {
+      "word": "anyway, moving on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "それはさておき",
+        "en": "used to change back to the main topic",
+        "zh": "话说回来",
+        "fr": "bon, passons",
+        "ar": "بأي حال، لنكمل",
+        "ko": "아무튼, 넘어가서",
+        "ru": "ладно, дальше"
+      }
+    },
+    {
+      "word": "as I was saying",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "さっきの話だけど",
+        "en": "used to return to an earlier point",
+        "zh": "我刚才说到",
+        "fr": "comme je disais",
+        "ar": "كما كنت أقول",
+        "ko": "내가 하던 말은",
+        "ru": "как я говорил"
+      }
+    },
+    {
+      "word": "where was I",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "どこまで話したっけ",
+        "en": "used when you forget your point",
+        "zh": "我说到哪儿了",
+        "fr": "où en étais-je",
+        "ar": "أين كنت",
+        "ko": "어디까지 얘기했더라",
+        "ru": "на чём я остановился"
+      }
+    },
+    {
+      "word": "long story short",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "手短に言うと",
+        "en": "used to summarize quickly",
+        "zh": "长话短说",
+        "fr": "pour faire court",
+        "ar": "باختصار",
+        "ko": "짧게 말하면",
+        "ru": "короче говоря"
+      }
+    },
+    {
+      "word": "the thing is",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "実を言うと",
+        "en": "used to explain the main problem",
+        "zh": "问题是",
+        "fr": "le truc, c'est que",
+        "ar": "المشكلة هي",
+        "ko": "문제는 말이야",
+        "ru": "дело в том"
+      }
+    },
+    {
+      "word": "in other words",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "つまり言い換えると",
+        "en": "used to restate something more simply",
+        "zh": "换句话说",
+        "fr": "en d'autres termes",
+        "ar": "بعبارة أخرى",
+        "ko": "다시 말하면",
+        "ru": "другими словами"
+      }
+    },
+    {
+      "word": "or something",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "とかそんな感じ",
+        "en": "used to give a vague example",
+        "zh": "或者之类的",
+        "fr": "ou un truc comme ça",
+        "ar": "أو شيء من هذا القبيل",
+        "ko": "뭐 그런 거",
+        "ru": "или что-то такое"
+      }
+    },
+    {
+      "word": "and stuff",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "みたいな感じ",
+        "en": "used vaguely to mean similar things",
+        "zh": "之类的东西",
+        "fr": "et tout ça",
+        "ar": "وما شابه",
+        "ko": "뭐 그런 거",
+        "ru": "и всё такое"
+      }
+    },
+    {
+      "word": "more or less",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "だいたい",
+        "en": "used to mean approximately",
+        "zh": "差不多",
+        "fr": "plus ou moins",
+        "ar": "تقريبًا",
+        "ko": "대략",
+        "ru": "более-менее"
+      }
+    },
+    {
+      "word": "give or take",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "多少の差はあれ",
+        "en": "used to mean approximately",
+        "zh": "上下浮动",
+        "fr": "à peu près",
+        "ar": "تقريبًا زيادة أو نقصانًا",
+        "ko": "오차는 있지만",
+        "ru": "плюс-минус"
+      }
+    },
+    {
+      "word": "as far as I know",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "私の知る限り",
+        "en": "used to say your knowledge is limited",
+        "zh": "据我所知",
+        "fr": "pour autant que je sache",
+        "ar": "على حد علمي",
+        "ko": "내가 알기로는",
+        "ru": "насколько я знаю"
+      }
+    },
+    {
+      "word": "if I'm honest",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "正直に言うとね",
+        "en": "used before an honest opinion",
+        "zh": "说实话呢",
+        "fr": "si je suis honnête",
+        "ar": "إن كنت صادقًا",
+        "ko": "솔직히 말해서",
+        "ru": "если честно"
+      }
+    },
+    {
+      "word": "come to think of it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "考えてみれば",
+        "en": "used when you suddenly remember something",
+        "zh": "这么一想",
+        "fr": "en y réfléchissant",
+        "ar": "بالتفكير في الأمر",
+        "ko": "생각해보니",
+        "ru": "если подумать"
+      }
+    },
+    {
+      "word": "now that you mention it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "言われてみれば",
+        "en": "used to agree after being reminded",
+        "zh": "你这么一说",
+        "fr": "maintenant que tu le dis",
+        "ar": "بما أنك ذكرت ذلك",
+        "ko": "그러고 보니",
+        "ru": "раз уж ты упомянул"
+      }
+    },
+    {
+      "word": "as a matter of fact",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "実のところ",
+        "en": "used to add a surprising true detail",
+        "zh": "事实上",
+        "fr": "en fait, justement",
+        "ar": "في الحقيقة",
+        "ko": "사실은 말이야",
+        "ru": "по правде сказать"
+      }
+    },
+    {
+      "word": "for what it's worth",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "参考までに",
+        "en": "used before giving an opinion humbly",
+        "zh": "仅供参考",
+        "fr": "pour ce que ça vaut",
+        "ar": "لعلمك فقط",
+        "ko": "참고로 말하자면",
+        "ru": "на всякий случай"
+      }
+    },
+    {
+      "word": "if that makes sense",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "伝わるかな",
+        "en": "used to check you explained clearly",
+        "zh": "不知道你懂不懂",
+        "fr": "si ça a du sens",
+        "ar": "إن كان هذا مفهومًا",
+        "ko": "이해되려나",
+        "ru": "если это понятно"
+      }
+    },
+    {
+      "word": "you see",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "つまりね",
+        "en": "used to explain a reason",
+        "zh": "你看啊",
+        "fr": "tu vois",
+        "ar": "كما ترى",
+        "ko": "그러니까 말이야",
+        "ru": "понимаешь"
+      }
+    },
+    {
+      "word": "believe it or not",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "信じられないかもだけど",
+        "en": "used before a surprising true fact",
+        "zh": "信不信由你",
+        "fr": "crois-le ou non",
+        "ar": "صدق أو لا تصدق",
+        "ko": "믿기 힘들겠지만",
+        "ru": "верите или нет"
+      }
+    },
+    {
+      "word": "as it turns out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "結局のところ",
+        "en": "used to introduce a surprising result",
+        "zh": "结果发现",
+        "fr": "il s'avère que",
+        "ar": "كما اتضح",
+        "ko": "알고 보니",
+        "ru": "как оказалось"
+      }
+    },
+    {
+      "word": "turns out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "実は～だった",
+        "en": "used to reveal an unexpected result",
+        "zh": "结果是",
+        "fr": "il s'avère",
+        "ar": "اتضح أن",
+        "ko": "알고 보니",
+        "ru": "оказывается"
+      }
+    },
+    {
+      "word": "apparently",
+      "pos": "adv",
+      "meaning": {
+        "ja": "どうやら",
+        "en": "used when something seems true but is unconfirmed",
+        "zh": "据说",
+        "fr": "apparemment",
+        "ar": "على ما يبدو",
+        "ko": "듣자 하니",
+        "ru": "судя по всему"
+      }
+    },
+    {
+      "word": "supposedly",
+      "pos": "adv",
+      "meaning": {
+        "ja": "うわさでは",
+        "en": "used to say something is claimed but not certain",
+        "zh": "据称",
+        "fr": "soi-disant",
+        "ar": "يُفترض",
+        "ko": "소문에는",
+        "ru": "якобы"
+      }
+    },
+    {
+      "word": "I bet",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "きっとそうだ",
+        "en": "used to say you are fairly sure",
+        "zh": "我猜肯定",
+        "fr": "je parie",
+        "ar": "أراهن",
+        "ko": "분명해",
+        "ru": "держу пари"
+      }
+    },
+    {
+      "word": "no kidding",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "うそでしょ",
+        "en": "used to show surprise",
+        "zh": "不是吧",
+        "fr": "sans blague",
+        "ar": "بلا مزاح",
+        "ko": "장난 아니지",
+        "ru": "да ладно, серьёзно?"
+      }
+    },
+    {
+      "word": "you're kidding",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "冗談でしょ",
+        "en": "used when you can't believe something",
+        "zh": "你开玩笑吧",
+        "fr": "tu plaisantes",
+        "ar": "أنت تمزح",
+        "ko": "장난하는 거지",
+        "ru": "ты шутишь"
+      }
+    },
+    {
+      "word": "for real",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ガチで",
+        "en": "used to ask or say something is true",
+        "zh": "真的假的",
+        "fr": "pour de vrai",
+        "ar": "بجدية؟",
+        "ko": "진짜로",
+        "ru": "реально"
+      }
+    },
+    {
+      "word": "that's crazy",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "それやばいね",
+        "en": "used to react to something surprising",
+        "zh": "太夸张了",
+        "fr": "c'est dingue",
+        "ar": "هذا جنون",
+        "ko": "완전 미쳤다",
+        "ru": "это безумие"
+      }
+    },
+    {
+      "word": "that's wild",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "すごいね",
+        "en": "used to react to something very surprising",
+        "zh": "太离谱了",
+        "fr": "c'est fou",
+        "ar": "هذا غريب جدًا",
+        "ko": "엄청나네",
+        "ru": "это нечто"
+      }
+    },
+    {
+      "word": "I can't believe it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "信じられない",
+        "en": "used to show strong surprise",
+        "zh": "我不敢相信",
+        "fr": "j'y crois pas",
+        "ar": "لا أصدق ذلك",
+        "ko": "믿을 수가 없어",
+        "ru": "не могу поверить"
+      }
+    },
+    {
+      "word": "that makes two of us",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "私も同じだよ",
+        "en": "used to say you feel the same way too",
+        "zh": "我也一样啦",
+        "fr": "on est deux",
+        "ar": "وأنا مثلك",
+        "ko": "나도 마찬가지야",
+        "ru": "мы оба такие"
+      }
+    },
+    {
+      "word": "I hear you",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "わかるよ",
+        "en": "used to show you understand someone's feelings",
+        "zh": "我懂你",
+        "fr": "je te comprends",
+        "ar": "أفهمك",
+        "ko": "이해해",
+        "ru": "я тебя понимаю"
+      }
+    },
+    {
+      "word": "that's rough",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "それは大変だね",
+        "en": "used to show sympathy for a hard situation",
+        "zh": "真不容易",
+        "fr": "c'est dur",
+        "ar": "هذا صعب",
+        "ko": "힘들었겠다",
+        "ru": "это тяжело"
+      }
+    },
+    {
+      "word": "that sucks",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "それは残念",
+        "en": "used casually to show sympathy",
+        "zh": "太惨了",
+        "fr": "ça craint",
+        "ar": "هذا مؤسف",
+        "ko": "안됐다",
+        "ru": "это отстой"
+      }
+    },
+    {
+      "word": "bummer",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "がっかりだね",
+        "en": "used casually when something is disappointing",
+        "zh": "真扫兴",
+        "fr": "dommage",
+        "ar": "يا للأسف",
+        "ko": "아쉽다",
+        "ru": "обидно"
+      }
+    },
+    {
+      "word": "that's a shame",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "残念だね",
+        "en": "used to show mild disappointment",
+        "zh": "真可惜",
+        "fr": "c'est dommage",
+        "ar": "يا للخسارة",
+        "ko": "안타깝네",
+        "ru": "жаль"
+      }
+    },
+    {
+      "word": "cheer up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "元気出して",
+        "en": "used to tell someone to feel happier",
+        "zh": "打起精神",
+        "fr": "remonte-toi le moral",
+        "ar": "ابتهج",
+        "ko": "기운 내",
+        "ru": "не грусти"
+      }
+    },
+    {
+      "word": "hang in there",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "頑張って",
+        "en": "used to encourage someone in a hard time",
+        "zh": "坚持住",
+        "fr": "tiens bon",
+        "ar": "تماسك",
+        "ko": "조금만 견뎌",
+        "ru": "держись"
+      }
+    },
+    {
+      "word": "good for you",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "よかったね",
+        "en": "used to show you are happy for someone",
+        "zh": "真为你高兴",
+        "fr": "tant mieux pour toi",
+        "ar": "جيد لك",
+        "ko": "잘됐다",
+        "ru": "молодец"
+      }
+    },
+    {
+      "word": "way to go",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "よくやった",
+        "en": "used to praise someone's success",
+        "zh": "干得漂亮",
+        "fr": "bien joué",
+        "ar": "أحسنت",
+        "ko": "잘했어",
+        "ru": "так держать"
+      }
+    },
+    {
+      "word": "nice one",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "やったね",
+        "en": "used casually to praise something",
+        "zh": "漂亮",
+        "fr": "bien vu",
+        "ar": "عمل جيد",
+        "ko": "나이스",
+        "ru": "неплохо"
+      }
+    },
+    {
+      "word": "no biggie",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "大したことないよ",
+        "en": "used to say something is not a problem",
+        "zh": "没什么大不了",
+        "fr": "c'est pas grave",
+        "ar": "ليس أمرًا مهمًا",
+        "ko": "별거 아니야",
+        "ru": "ничего страшного"
+      }
+    },
+    {
+      "word": "my bad",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "私のミスだ",
+        "en": "used casually to admit a mistake",
+        "zh": "我的错",
+        "fr": "c'est ma faute",
+        "ar": "خطئي",
+        "ko": "내 실수야",
+        "ru": "моя вина"
+      }
+    },
+    {
+      "word": "my pleasure",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "こちらこそ",
+        "en": "used politely after thanks",
+        "zh": "我的荣幸",
+        "fr": "avec plaisir",
+        "ar": "العفو، بكل سرور",
+        "ko": "천만에요",
+        "ru": "пожалуйста"
+      }
+    },
+    {
+      "word": "don't mention it",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "どういたしまして",
+        "en": "used to reply politely to thanks",
+        "zh": "不客气",
+        "fr": "de rien",
+        "ar": "لا شكر على واجب",
+        "ko": "별말씀을요",
+        "ru": "не за что"
+      }
+    },
+    {
+      "word": "you bet",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "もちろんだよ",
+        "en": "used to agree enthusiastically",
+        "zh": "那当然",
+        "fr": "et comment",
+        "ar": "بالتأكيد",
+        "ko": "당연하지",
+        "ru": "ещё бы"
+      }
+    },
+    {
+      "word": "why not",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "いいね、そうしよう",
+        "en": "used to agree with a suggestion",
+        "zh": "好啊为什么不呢",
+        "fr": "pourquoi pas",
+        "ar": "لماذا لا",
+        "ko": "그러지 뭐",
+        "ru": "почему бы и нет"
+      }
+    },
+    {
+      "word": "I suppose so",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "まあそうだね",
+        "en": "used to agree without full enthusiasm",
+        "zh": "我想是的",
+        "fr": "je suppose que oui",
+        "ar": "أعتقد ذلك",
+        "ko": "그런 것 같긴 해",
+        "ru": "пожалуй, да"
+      }
+    },
+    {
+      "word": "beats me",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "さっぱりわからない",
+        "en": "casual way to say you don't know",
+        "zh": "我也不知道",
+        "fr": "aucune idée",
+        "ar": "لا أدري إطلاقًا",
+        "ko": "낸들 알겠냐",
+        "ru": "понятия не имею"
+      }
+    },
+    {
+      "word": "who knows",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "さあどうだろう",
+        "en": "used to say no one is sure",
+        "zh": "谁知道呢",
+        "fr": "qui sait",
+        "ar": "من يدري",
+        "ko": "누가 알겠어",
+        "ru": "кто знает"
+      }
+    }
+  ]
+}
