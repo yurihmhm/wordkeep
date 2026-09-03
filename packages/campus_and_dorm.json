@@ -1,0 +1,1313 @@
+{
+ "id": "campus_and_dorm",
+ "v": 1,
+ "title": {
+  "ja": "寮とキャンパス生活",
+  "en": "Dorm & Campus Life",
+  "zh": "宿舍与校园生活",
+  "fr": "Vie en résidence et sur le campus",
+  "ar": "الحياة في السكن الجامعي والحرم",
+  "ko": "기숙사와 캠퍼스 생활",
+  "ru": "Общежитие и жизнь в кампусе"
+ },
+ "words": [
+  {
+   "word": "dorm",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生寮",
+    "en": "a building where students live",
+    "zh": "学生宿舍",
+    "fr": "résidence étudiante",
+    "ar": "سكن طلابي",
+    "ko": "기숙사",
+    "ru": "общежитие"
+   }
+  },
+  {
+   "word": "halls of residence",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大学直営の宿舎",
+    "en": "student accommodation run by the university",
+    "zh": "校方宿舍楼",
+    "fr": "cité universitaire",
+    "ar": "مساكن تديرها الجامعة",
+    "ko": "대학 운영 숙소",
+    "ru": "университетский корпус проживания"
+   }
+  },
+  {
+   "word": "flatmate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アパートの同居人",
+    "en": "someone you share a flat with",
+    "zh": "公寓室友",
+    "fr": "colocataire d'appartement",
+    "ar": "شريك الشقة",
+    "ko": "아파트 동거인",
+    "ru": "сосед по съёмной квартире"
+   }
+  },
+  {
+   "word": "housemate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一軒家の同居人",
+    "en": "someone you share a house with",
+    "zh": "合租房友",
+    "fr": "colocataire de maison",
+    "ar": "شريك المنزل",
+    "ko": "주택 동거인",
+    "ru": "сосед по дому"
+   }
+  },
+  {
+   "word": "share a room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "部屋を共同で使う",
+    "en": "to sleep in the same room as another person",
+    "zh": "合住一间房",
+    "fr": "partager une chambre",
+    "ar": "يتشارك الغرفة",
+    "ko": "방을 함께 쓰다",
+    "ru": "жить в одной комнате"
+   }
+  },
+  {
+   "word": "common room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "みんなが集まる部屋",
+    "en": "a shared room for relaxing together",
+    "zh": "公共休息室",
+    "fr": "salle commune",
+    "ar": "غرفة مشتركة للاستراحة",
+    "ko": "공용 휴게실",
+    "ru": "общая комната отдыха"
+   }
+  },
+  {
+   "word": "shared kitchen",
+   "pos": "noun",
+   "meaning": {
+    "ja": "共同のキッチン",
+    "en": "a kitchen used by everyone on the floor",
+    "zh": "共用厨房",
+    "fr": "cuisine partagée",
+    "ar": "مطبخ مشترك",
+    "ko": "공용 주방",
+    "ru": "общая кухня"
+   }
+  },
+  {
+   "word": "laundry room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "洗濯室",
+    "en": "the room with the washing machines",
+    "zh": "洗衣房",
+    "fr": "buanderie",
+    "ar": "غرفة الغسيل",
+    "ko": "세탁실",
+    "ru": "прачечная"
+   }
+  },
+  {
+   "word": "shower block",
+   "pos": "noun",
+   "meaning": {
+    "ja": "共同シャワー棟",
+    "en": "a shared building or area with showers",
+    "zh": "公共淋浴区",
+    "fr": "bloc sanitaire",
+    "ar": "مبنى الاستحمام المشترك",
+    "ko": "공동 샤워장",
+    "ru": "общий душевой блок"
+   }
+  },
+  {
+   "word": "communal",
+   "pos": "noun",
+   "meaning": {
+    "ja": "みんなで使う",
+    "en": "shared by all the residents",
+    "zh": "公用的",
+    "fr": "à usage commun",
+    "ar": "مشترك بين السكان",
+    "ko": "공동으로 쓰는",
+    "ru": "общего пользования"
+   }
+  },
+  {
+   "word": "ensuite",
+   "pos": "noun",
+   "meaning": {
+    "ja": "部屋に浴室が付いた",
+    "en": "with its own private bathroom",
+    "zh": "带独立卫浴的",
+    "fr": "avec salle de bain privative",
+    "ar": "بحمام خاص",
+    "ko": "욕실이 딸린",
+    "ru": "с собственной ванной"
+   }
+  },
+  {
+   "word": "bunk bed",
+   "pos": "noun",
+   "meaning": {
+    "ja": "二段ベッド",
+    "en": "a bed with one bed above another",
+    "zh": "上下铺",
+    "fr": "lit superposé",
+    "ar": "سرير بطابقين",
+    "ko": "이층 침대",
+    "ru": "двухъярусная кровать"
+   }
+  },
+  {
+   "word": "mattress",
+   "pos": "noun",
+   "meaning": {
+    "ja": "マットレス",
+    "en": "the soft part of a bed you lie on",
+    "zh": "床垫",
+    "fr": "matelas",
+    "ar": "مرتبة",
+    "ko": "매트리스",
+    "ru": "матрас"
+   }
+  },
+  {
+   "word": "bedding",
+   "pos": "noun",
+   "meaning": {
+    "ja": "寝具一式",
+    "en": "sheets, blankets and pillows",
+    "zh": "床上用品",
+    "fr": "literie",
+    "ar": "مفروشات السرير",
+    "ko": "침구류",
+    "ru": "постельные принадлежности"
+   }
+  },
+  {
+   "word": "locker",
+   "pos": "noun",
+   "meaning": {
+    "ja": "鍵付きの収納棚",
+    "en": "a small cupboard you can lock",
+    "zh": "储物柜",
+    "fr": "casier",
+    "ar": "خزانة صغيرة بقفل",
+    "ko": "사물함",
+    "ru": "шкафчик с замком"
+   }
+  },
+  {
+   "word": "hallway",
+   "pos": "noun",
+   "meaning": {
+    "ja": "廊下",
+    "en": "the passage between rooms",
+    "zh": "走廊",
+    "fr": "couloir",
+    "ar": "ممر",
+    "ko": "복도",
+    "ru": "коридор"
+   }
+  },
+  {
+   "word": "lift",
+   "pos": "noun",
+   "meaning": {
+    "ja": "エレベーター",
+    "en": "the machine that carries you between floors",
+    "zh": "电梯",
+    "fr": "ascenseur",
+    "ar": "مصعد",
+    "ko": "엘리베이터",
+    "ru": "лифт"
+   }
+  },
+  {
+   "word": "radiator",
+   "pos": "noun",
+   "meaning": {
+    "ja": "暖房のパネル",
+    "en": "the metal panel that heats a room",
+    "zh": "暖气片",
+    "fr": "radiateur",
+    "ar": "مشع التدفئة",
+    "ko": "라디에이터",
+    "ru": "батарея отопления"
+   }
+  },
+  {
+   "word": "socket",
+   "pos": "noun",
+   "meaning": {
+    "ja": "コンセントの差込口",
+    "en": "the place in the wall you plug things into",
+    "zh": "插座",
+    "fr": "prise murale",
+    "ar": "مقبس كهربائي",
+    "ko": "콘센트",
+    "ru": "розетка"
+   }
+  },
+  {
+   "word": "adapter",
+   "pos": "noun",
+   "meaning": {
+    "ja": "変換プラグ",
+    "en": "a piece that lets a foreign plug fit",
+    "zh": "转换插头",
+    "fr": "adaptateur de prise",
+    "ar": "محول قابس",
+    "ko": "변환 플러그",
+    "ru": "переходник для вилки"
+   }
+  },
+  {
+   "word": "key card",
+   "pos": "noun",
+   "meaning": {
+    "ja": "カード式の鍵",
+    "en": "a card you touch to unlock a door",
+    "zh": "门禁卡",
+    "fr": "badge d'accès",
+    "ar": "بطاقة فتح الباب",
+    "ko": "카드 열쇠",
+    "ru": "ключ-карта"
+   }
+  },
+  {
+   "word": "front desk",
+   "pos": "noun",
+   "meaning": {
+    "ja": "受付",
+    "en": "the counter where staff help residents",
+    "zh": "前台",
+    "fr": "accueil de la résidence",
+    "ar": "مكتب الاستقبال",
+    "ko": "프런트",
+    "ru": "стойка администратора"
+   }
+  },
+  {
+   "word": "mail room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "郵便物の受取室",
+    "en": "the room where post is kept for residents",
+    "zh": "收发室",
+    "fr": "salle du courrier",
+    "ar": "غرفة البريد",
+    "ko": "우편물 보관실",
+    "ru": "комната для почты"
+   }
+  },
+  {
+   "word": "parcel",
+   "pos": "noun",
+   "meaning": {
+    "ja": "届いた荷物",
+    "en": "something sent to you in a box",
+    "zh": "包裹",
+    "fr": "colis",
+    "ar": "طرد",
+    "ko": "소포",
+    "ru": "посылка"
+   }
+  },
+  {
+   "word": "lock out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "鍵を中に置いたまま閉め出される",
+    "en": "to be shut out because you left your key inside",
+    "zh": "被反锁在门外",
+    "fr": "se retrouver enfermé dehors",
+    "ar": "يحبس خارج الغرفة",
+    "ko": "열쇠를 두고 갇히다",
+    "ru": "остаться без ключа снаружи"
+   }
+  },
+  {
+   "word": "spare key",
+   "pos": "noun",
+   "meaning": {
+    "ja": "予備の鍵",
+    "en": "an extra key kept in case you lose yours",
+    "zh": "备用钥匙",
+    "fr": "double de la clé",
+    "ar": "مفتاح احتياطي",
+    "ko": "여분 열쇠",
+    "ru": "запасной ключ"
+   }
+  },
+  {
+   "word": "report a fault",
+   "pos": "noun",
+   "meaning": {
+    "ja": "故障を届け出る",
+    "en": "to tell staff something is broken",
+    "zh": "报修",
+    "fr": "signaler une panne",
+    "ar": "يبلغ عن عطل",
+    "ko": "고장을 신고하다",
+    "ru": "сообщить о поломке"
+   }
+  },
+  {
+   "word": "leak",
+   "pos": "noun",
+   "meaning": {
+    "ja": "水漏れ",
+    "en": "water escaping where it should not",
+    "zh": "漏水",
+    "fr": "fuite d'eau",
+    "ar": "تسرب مياه",
+    "ko": "누수",
+    "ru": "протечка"
+   }
+  },
+  {
+   "word": "damp",
+   "pos": "noun",
+   "meaning": {
+    "ja": "じめじめした",
+    "en": "slightly wet in a way that feels unpleasant",
+    "zh": "潮湿的",
+    "fr": "humide",
+    "ar": "رطب",
+    "ko": "눅눅한",
+    "ru": "сырой"
+   }
+  },
+  {
+   "word": "mould",
+   "pos": "noun",
+   "meaning": {
+    "ja": "カビ",
+    "en": "the black or green growth in wet places",
+    "zh": "霉",
+    "fr": "moisissure",
+    "ar": "عفن",
+    "ko": "곰팡이",
+    "ru": "плесень"
+   }
+  },
+  {
+   "word": "stuffy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "空気がこもった",
+    "en": "with air that feels heavy and unfresh",
+    "zh": "闷的",
+    "fr": "mal aéré",
+    "ar": "خانق الهواء",
+    "ko": "공기가 답답한",
+    "ru": "душный"
+   }
+  },
+  {
+   "word": "fire alarm",
+   "pos": "noun",
+   "meaning": {
+    "ja": "火災報知器",
+    "en": "the device that sounds when there is a fire",
+    "zh": "火警警报",
+    "fr": "alarme incendie",
+    "ar": "إنذار الحريق",
+    "ko": "화재경보기",
+    "ru": "пожарная сигнализация"
+   }
+  },
+  {
+   "word": "fire drill",
+   "pos": "noun",
+   "meaning": {
+    "ja": "避難訓練",
+    "en": "a practice for leaving the building safely",
+    "zh": "消防演习",
+    "fr": "exercice d'évacuation",
+    "ar": "تدريب إخلاء",
+    "ko": "소방 훈련",
+    "ru": "учебная эвакуация"
+   }
+  },
+  {
+   "word": "inspection",
+   "pos": "noun",
+   "meaning": {
+    "ja": "部屋の点検",
+    "en": "a check of your room by staff",
+    "zh": "查房",
+    "fr": "visite de contrôle",
+    "ar": "تفتيش الغرفة",
+    "ko": "방 점검",
+    "ru": "проверка комнаты"
+   }
+  },
+  {
+   "word": "quiet hours",
+   "pos": "noun",
+   "meaning": {
+    "ja": "静かにする時間帯",
+    "en": "the times when noise is not allowed",
+    "zh": "安静时段",
+    "fr": "heures de silence",
+    "ar": "ساعات الهدوء",
+    "ko": "정숙 시간",
+    "ru": "часы тишины"
+   }
+  },
+  {
+   "word": "lights out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "消灯",
+    "en": "the time everyone must turn the lights off",
+    "zh": "熄灯时间",
+    "fr": "extinction des feux",
+    "ar": "موعد إطفاء الأنوار",
+    "ko": "소등",
+    "ru": "отбой"
+   }
+  },
+  {
+   "word": "house rules",
+   "pos": "noun",
+   "meaning": {
+    "ja": "寮の決まり",
+    "en": "the rules everyone living there must follow",
+    "zh": "宿舍规定",
+    "fr": "règlement intérieur",
+    "ar": "قواعد السكن",
+    "ko": "기숙사 규칙",
+    "ru": "правила проживания"
+   }
+  },
+  {
+   "word": "ground rules",
+   "pos": "noun",
+   "meaning": {
+    "ja": "あらかじめ決めた約束事",
+    "en": "basic points agreed before living together",
+    "zh": "事先约定",
+    "fr": "règles convenues d'avance",
+    "ar": "اتفاقات أولية",
+    "ko": "미리 정한 약속",
+    "ru": "заранее оговорённые правила"
+   }
+  },
+  {
+   "word": "sign in",
+   "pos": "noun",
+   "meaning": {
+    "ja": "入館記録をつける",
+    "en": "to write your name when entering a building",
+    "zh": "登记进入",
+    "fr": "s'enregistrer à l'entrée",
+    "ar": "يسجل دخوله",
+    "ko": "출입 기록을 남기다",
+    "ru": "отметиться при входе"
+   }
+  },
+  {
+   "word": "visitor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "訪ねてくる人",
+    "en": "someone who comes to see you",
+    "zh": "访客",
+    "fr": "visiteur",
+    "ar": "زائر",
+    "ko": "방문객",
+    "ru": "посетитель"
+   }
+  },
+  {
+   "word": "overnight guest",
+   "pos": "noun",
+   "meaning": {
+    "ja": "泊まっていく客",
+    "en": "someone who stays the night",
+    "zh": "留宿的客人",
+    "fr": "invité qui dort sur place",
+    "ar": "ضيف يبيت الليلة",
+    "ko": "하룻밤 묵는 손님",
+    "ru": "гость с ночёвкой"
+   }
+  },
+  {
+   "word": "resident assistant",
+   "pos": "noun",
+   "meaning": {
+    "ja": "寮の学生スタッフ",
+    "en": "a student who helps run the dorm",
+    "zh": "宿舍助理",
+    "fr": "étudiant responsable d'étage",
+    "ar": "طالب مشرف على السكن",
+    "ko": "기숙사 학생 조교",
+    "ru": "студент-куратор этажа"
+   }
+  },
+  {
+   "word": "welfare officer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "生活相談の担当者",
+    "en": "staff whose job is students' wellbeing",
+    "zh": "学生福利专员",
+    "fr": "référent bien-être",
+    "ar": "مسؤول رعاية الطلاب",
+    "ko": "복지 담당 직원",
+    "ru": "сотрудник по вопросам благополучия"
+   }
+  },
+  {
+   "word": "next door",
+   "pos": "noun",
+   "meaning": {
+    "ja": "隣の部屋の",
+    "en": "in the room right beside yours",
+    "zh": "隔壁的",
+    "fr": "d'à côté",
+    "ar": "في الغرفة المجاورة",
+    "ko": "옆방의",
+    "ru": "по соседству"
+   }
+  },
+  {
+   "word": "thin walls",
+   "pos": "noun",
+   "meaning": {
+    "ja": "音が筒抜けの壁",
+    "en": "walls that let sound through easily",
+    "zh": "隔音差的墙",
+    "fr": "murs peu isolés",
+    "ar": "جدران رقيقة تنقل الصوت",
+    "ko": "소리가 새는 얇은 벽",
+    "ru": "тонкие стены"
+   }
+  },
+  {
+   "word": "roommate agreement",
+   "pos": "noun",
+   "meaning": {
+    "ja": "同居のルール取り決め",
+    "en": "what you and your roommate agree on in writing",
+    "zh": "室友约定",
+    "fr": "accord entre colocataires",
+    "ar": "اتفاق بين شركاء الغرفة",
+    "ko": "룸메이트 협약",
+    "ru": "договорённость соседей"
+   }
+  },
+  {
+   "word": "term-time",
+   "pos": "noun",
+   "meaning": {
+    "ja": "授業のある時期",
+    "en": "the weeks when classes are running",
+    "zh": "学期中",
+    "fr": "période de cours",
+    "ar": "فترة الدراسة",
+    "ko": "학기 중",
+    "ru": "учебное время"
+   }
+  },
+  {
+   "word": "vacation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学校の長期休み",
+    "en": "the long break between terms",
+    "zh": "假期",
+    "fr": "vacances universitaires",
+    "ar": "عطلة جامعية",
+    "ko": "방학",
+    "ru": "каникулы"
+   }
+  },
+  {
+   "word": "inspection notice",
+   "pos": "noun",
+   "meaning": {
+    "ja": "点検の事前通知",
+    "en": "the warning that staff will check your room",
+    "zh": "查房通知",
+    "fr": "avis de visite",
+    "ar": "إشعار بالتفتيش",
+    "ko": "점검 예고 안내",
+    "ru": "уведомление о проверке"
+   }
+  },
+  {
+   "word": "chore",
+   "pos": "noun",
+   "meaning": {
+    "ja": "当番の家事",
+    "en": "a small household job you have to do",
+    "zh": "家务活",
+    "fr": "corvée ménagère",
+    "ar": "عمل منزلي روتيني",
+    "ko": "집안 잡일",
+    "ru": "бытовая обязанность"
+   }
+  },
+  {
+   "word": "cleaning roster",
+   "pos": "noun",
+   "meaning": {
+    "ja": "掃除当番表",
+    "en": "the list saying whose turn it is to clean",
+    "zh": "值日表",
+    "fr": "planning de ménage",
+    "ar": "جدول التنظيف",
+    "ko": "청소 당번표",
+    "ru": "график уборки"
+   }
+  },
+  {
+   "word": "take out the rubbish",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ごみを出す",
+    "en": "to carry the waste outside",
+    "zh": "倒垃圾",
+    "fr": "sortir les poubelles",
+    "ar": "يخرج القمامة",
+    "ko": "쓰레기를 버리다",
+    "ru": "выносить мусор"
+   }
+  },
+  {
+   "word": "do the dishes",
+   "pos": "noun",
+   "meaning": {
+    "ja": "皿を洗う",
+    "en": "to wash the plates and cups",
+    "zh": "洗碗",
+    "fr": "faire la vaisselle",
+    "ar": "يغسل الأطباق",
+    "ko": "설거지하다",
+    "ru": "мыть посуду"
+   }
+  },
+  {
+   "word": "tidy up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "片づける",
+    "en": "to put things back where they belong",
+    "zh": "收拾整理",
+    "fr": "remettre en ordre",
+    "ar": "يرتب المكان",
+    "ko": "깔끔하게 치우다",
+    "ru": "прибраться"
+   }
+  },
+  {
+   "word": "mess",
+   "pos": "noun",
+   "meaning": {
+    "ja": "散らかった状態",
+    "en": "a dirty or untidy state",
+    "zh": "一片狼藉",
+    "fr": "désordre",
+    "ar": "فوضى",
+    "ko": "어질러진 상태",
+    "ru": "беспорядок"
+   }
+  },
+  {
+   "word": "clean up after yourself",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分の後始末をする",
+    "en": "to clear away your own mess",
+    "zh": "收拾自己的东西",
+    "fr": "nettoyer derrière soi",
+    "ar": "ينظف ما تركه",
+    "ko": "자기 뒷정리를 하다",
+    "ru": "убирать за собой"
+   }
+  },
+  {
+   "word": "recycling",
+   "pos": "noun",
+   "meaning": {
+    "ja": "資源ごみの分別",
+    "en": "separating waste so it can be reused",
+    "zh": "垃圾回收分类",
+    "fr": "tri des déchets",
+    "ar": "فرز النفايات للتدوير",
+    "ko": "재활용 분리배출",
+    "ru": "раздельный сбор отходов"
+   }
+  },
+  {
+   "word": "detergent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "洗剤",
+    "en": "the liquid or powder used for washing",
+    "zh": "洗涤剂",
+    "fr": "lessive",
+    "ar": "منظف",
+    "ko": "세제",
+    "ru": "моющее средство"
+   }
+  },
+  {
+   "word": "washing machine",
+   "pos": "noun",
+   "meaning": {
+    "ja": "洗濯機",
+    "en": "the machine that washes clothes",
+    "zh": "洗衣机",
+    "fr": "machine à laver",
+    "ar": "غسالة",
+    "ko": "세탁기",
+    "ru": "стиральная машина"
+   }
+  },
+  {
+   "word": "dryer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "乾燥機",
+    "en": "the machine that dries clothes",
+    "zh": "烘干机",
+    "fr": "sèche-linge",
+    "ar": "مجفف الملابس",
+    "ko": "건조기",
+    "ru": "сушильная машина"
+   }
+  },
+  {
+   "word": "microwave",
+   "pos": "noun",
+   "meaning": {
+    "ja": "電子レンジ",
+    "en": "the oven that heats food quickly",
+    "zh": "微波炉",
+    "fr": "micro-ondes",
+    "ar": "ميكروويف",
+    "ko": "전자레인지",
+    "ru": "микроволновка"
+   }
+  },
+  {
+   "word": "kettle",
+   "pos": "noun",
+   "meaning": {
+    "ja": "湯沸かし器",
+    "en": "the pot used to boil water",
+    "zh": "电水壶",
+    "fr": "bouilloire",
+    "ar": "غلاية ماء",
+    "ko": "주전자",
+    "ru": "чайник"
+   }
+  },
+  {
+   "word": "groceries",
+   "pos": "noun",
+   "meaning": {
+    "ja": "買ってきた食料品",
+    "en": "the food you buy at the shop",
+    "zh": "食品杂货",
+    "fr": "courses alimentaires",
+    "ar": "مشتريات البقالة",
+    "ko": "장 본 식료품",
+    "ru": "продукты из магазина"
+   }
+  },
+  {
+   "word": "leftovers",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食べ残し",
+    "en": "food left after a meal",
+    "zh": "剩饭菜",
+    "fr": "restes de repas",
+    "ar": "بقايا الطعام",
+    "ko": "남은 음식",
+    "ru": "остатки еды"
+   }
+  },
+  {
+   "word": "label your food",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食品に名前を書く",
+    "en": "to write your name on what you put in the fridge",
+    "zh": "给食物贴名字",
+    "fr": "étiqueter sa nourriture",
+    "ar": "يكتب اسمه على طعامه",
+    "ko": "음식에 이름을 붙이다",
+    "ru": "подписать свою еду"
+   }
+  },
+  {
+   "word": "meal plan",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食事付きの契約",
+    "en": "a paid arrangement for meals on campus",
+    "zh": "餐费套餐",
+    "fr": "forfait repas",
+    "ar": "اشتراك وجبات",
+    "ko": "식사 이용권",
+    "ru": "абонемент на питание"
+   }
+  },
+  {
+   "word": "cafeteria",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生食堂",
+    "en": "the place on campus where you buy meals",
+    "zh": "学生餐厅",
+    "fr": "cafétéria universitaire",
+    "ar": "كافتيريا الجامعة",
+    "ko": "학생 식당",
+    "ru": "студенческая столовая"
+   }
+  },
+  {
+   "word": "dining hall",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食事用の大広間",
+    "en": "a large room where residents eat together",
+    "zh": "公共餐厅大厅",
+    "fr": "réfectoire",
+    "ar": "قاعة الطعام",
+    "ko": "공동 식당 홀",
+    "ru": "обеденный зал"
+   }
+  },
+  {
+   "word": "campus",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大学の敷地",
+    "en": "the grounds and buildings of a university",
+    "zh": "校园",
+    "fr": "campus",
+    "ar": "الحرم الجامعي",
+    "ko": "캠퍼스",
+    "ru": "кампус"
+   }
+  },
+  {
+   "word": "quad",
+   "pos": "noun",
+   "meaning": {
+    "ja": "校舎に囲まれた中庭",
+    "en": "the open square surrounded by buildings",
+    "zh": "四方庭院",
+    "fr": "cour intérieure",
+    "ar": "الساحة الداخلية",
+    "ko": "안뜰 광장",
+    "ru": "внутренний двор"
+   }
+  },
+  {
+   "word": "student union",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生自治会",
+    "en": "the organisation that represents students",
+    "zh": "学生会",
+    "fr": "association étudiante",
+    "ar": "اتحاد الطلاب",
+    "ko": "학생회",
+    "ru": "студенческий союз"
+   }
+  },
+  {
+   "word": "society",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大学のサークル",
+    "en": "a student group for a shared interest",
+    "zh": "社团",
+    "fr": "club étudiant",
+    "ar": "جمعية طلابية",
+    "ko": "동아리",
+    "ru": "студенческое общество"
+   }
+  },
+  {
+   "word": "join a club",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サークルに入る",
+    "en": "to become a member of a student group",
+    "zh": "加入社团",
+    "fr": "rejoindre un club",
+    "ar": "ينضم إلى نادٍ",
+    "ko": "동아리에 가입하다",
+    "ru": "вступить в клуб"
+   }
+  },
+  {
+   "word": "orientation week",
+   "pos": "noun",
+   "meaning": {
+    "ja": "入学時の説明週間",
+    "en": "the first week that introduces you to the university",
+    "zh": "迎新周",
+    "fr": "semaine d'accueil",
+    "ar": "أسبوع التعريف",
+    "ko": "오리엔테이션 주간",
+    "ru": "неделя знакомства с вузом"
+   }
+  },
+  {
+   "word": "freshers",
+   "pos": "noun",
+   "meaning": {
+    "ja": "新入生",
+    "en": "students in their first year",
+    "zh": "大一新生",
+    "fr": "étudiants de première année",
+    "ar": "طلاب السنة الأولى",
+    "ko": "신입생",
+    "ru": "первокурсники"
+   }
+  },
+  {
+   "word": "ID card",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生証",
+    "en": "the card proving you are a student",
+    "zh": "学生证",
+    "fr": "carte d'étudiant",
+    "ar": "بطاقة الطالب",
+    "ko": "학생증",
+    "ru": "студенческий билет"
+   }
+  },
+  {
+   "word": "noticeboard",
+   "pos": "noun",
+   "meaning": {
+    "ja": "掲示板",
+    "en": "the board where announcements are put up",
+    "zh": "公告栏",
+    "fr": "panneau d'affichage",
+    "ar": "لوحة الإعلانات",
+    "ko": "게시판",
+    "ru": "доска объявлений"
+   }
+  },
+  {
+   "word": "study room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自習室",
+    "en": "a quiet room set aside for studying",
+    "zh": "自习室",
+    "fr": "salle de travail",
+    "ar": "غرفة مذاكرة",
+    "ko": "자습실",
+    "ru": "комната для занятий"
+   }
+  },
+  {
+   "word": "book a room",
+   "pos": "noun",
+   "meaning": {
+    "ja": "部屋を予約する",
+    "en": "to reserve a room in advance",
+    "zh": "预约房间",
+    "fr": "réserver une salle",
+    "ar": "يحجز غرفة",
+    "ko": "방을 예약하다",
+    "ru": "забронировать комнату"
+   }
+  },
+  {
+   "word": "computer lab",
+   "pos": "noun",
+   "meaning": {
+    "ja": "パソコン室",
+    "en": "a room of computers students can use",
+    "zh": "电脑房",
+    "fr": "salle informatique",
+    "ar": "معمل حاسوب",
+    "ko": "컴퓨터실",
+    "ru": "компьютерный класс"
+   }
+  },
+  {
+   "word": "printing",
+   "pos": "noun",
+   "meaning": {
+    "ja": "印刷サービス",
+    "en": "paying to print documents on campus",
+    "zh": "打印服务",
+    "fr": "service d'impression",
+    "ar": "خدمة الطباعة",
+    "ko": "인쇄 이용",
+    "ru": "услуга печати"
+   }
+  },
+  {
+   "word": "gym",
+   "pos": "noun",
+   "meaning": {
+    "ja": "トレーニング施設",
+    "en": "the place on campus for exercise",
+    "zh": "健身房",
+    "fr": "salle de sport",
+    "ar": "صالة رياضية",
+    "ko": "체육관",
+    "ru": "спортзал"
+   }
+  },
+  {
+   "word": "health centre",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学内の診療所",
+    "en": "where students go when they are ill",
+    "zh": "校医院",
+    "fr": "centre de santé",
+    "ar": "المركز الصحي",
+    "ko": "보건소",
+    "ru": "медпункт"
+   }
+  },
+  {
+   "word": "counselling",
+   "pos": "noun",
+   "meaning": {
+    "ja": "心の相談",
+    "en": "talking to a professional about your problems",
+    "zh": "心理咨询",
+    "fr": "soutien psychologique",
+    "ar": "استشارة نفسية",
+    "ko": "심리 상담",
+    "ru": "психологическая помощь"
+   }
+  },
+  {
+   "word": "student services",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学生支援窓口",
+    "en": "the office that helps with student problems",
+    "zh": "学生服务中心",
+    "fr": "service aux étudiants",
+    "ar": "خدمات الطلاب",
+    "ko": "학생 지원 창구",
+    "ru": "служба поддержки студентов"
+   }
+  },
+  {
+   "word": "international office",
+   "pos": "noun",
+   "meaning": {
+    "ja": "留学生担当の部署",
+    "en": "the office that helps students from abroad",
+    "zh": "国际学生办公室",
+    "fr": "bureau des relations internationales",
+    "ar": "مكتب الطلاب الدوليين",
+    "ko": "국제 학생 담당 부서",
+    "ru": "отдел по работе с иностранцами"
+   }
+  },
+  {
+   "word": "peer mentor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "先輩の相談役",
+    "en": "an older student who guides a new one",
+    "zh": "学长辅导员",
+    "fr": "étudiant tuteur",
+    "ar": "طالب مرشد",
+    "ko": "선배 멘토",
+    "ru": "студент-наставник"
+   }
+  },
+  {
+   "word": "buddy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "世話役の相棒",
+    "en": "a partner assigned to help you settle in",
+    "zh": "结对伙伴",
+    "fr": "binôme d'accueil",
+    "ar": "رفيق مرافق",
+    "ko": "짝 도우미",
+    "ru": "напарник-помощник"
+   }
+  },
+  {
+   "word": "icebreaker",
+   "pos": "noun",
+   "meaning": {
+    "ja": "場を和ませる活動",
+    "en": "a game that helps strangers relax together",
+    "zh": "破冰活动",
+    "fr": "activité brise-glace",
+    "ar": "نشاط كسر الجليد",
+    "ko": "어색함을 푸는 활동",
+    "ru": "игра для знакомства"
+   }
+  },
+  {
+   "word": "small talk",
+   "pos": "noun",
+   "meaning": {
+    "ja": "軽い世間話",
+    "en": "light conversation about unimportant things",
+    "zh": "闲聊",
+    "fr": "conversation légère",
+    "ar": "حديث عابر",
+    "ko": "가벼운 잡담",
+    "ru": "светская беседа"
+   }
+  },
+  {
+   "word": "make friends",
+   "pos": "noun",
+   "meaning": {
+    "ja": "友達をつくる",
+    "en": "to get to know people and become close",
+    "zh": "交朋友",
+    "fr": "se faire des amis",
+    "ar": "يكوّن صداقات",
+    "ko": "친구를 사귀다",
+    "ru": "заводить друзей"
+   }
+  },
+  {
+   "word": "invite over",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分の部屋に招く",
+    "en": "to ask someone to come to where you live",
+    "zh": "请到家里来",
+    "fr": "inviter chez soi",
+    "ar": "يدعو إلى مسكنه",
+    "ko": "집으로 초대하다",
+    "ru": "позвать к себе"
+   }
+  },
+  {
+   "word": "settle in",
+   "pos": "noun",
+   "meaning": {
+    "ja": "新しい環境に慣れる",
+    "en": "to get comfortable in a new place",
+    "zh": "安顿下来",
+    "fr": "prendre ses marques",
+    "ar": "يتأقلم مع المكان",
+    "ko": "새 환경에 적응하다",
+    "ru": "обжиться"
+   }
+  },
+  {
+   "word": "fit in",
+   "pos": "noun",
+   "meaning": {
+    "ja": "周囲になじむ",
+    "en": "to feel accepted by the people around you",
+    "zh": "融入群体",
+    "fr": "trouver sa place",
+    "ar": "يندمج مع الآخرين",
+    "ko": "무리에 어울리다",
+    "ru": "вписаться в компанию"
+   }
+  },
+  {
+   "word": "homesick",
+   "pos": "noun",
+   "meaning": {
+    "ja": "故郷が恋しい",
+    "en": "sad because you miss your home",
+    "zh": "想家的",
+    "fr": "qui a le mal du pays",
+    "ar": "يشتاق لوطنه",
+    "ko": "향수병에 걸린",
+    "ru": "тоскующий по дому"
+   }
+  },
+  {
+   "word": "culture shock",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文化の違いによる戸惑い",
+    "en": "the confusion of living in a very different culture",
+    "zh": "文化冲击",
+    "fr": "choc culturel",
+    "ar": "صدمة ثقافية",
+    "ko": "문화 충격",
+    "ru": "культурный шок"
+   }
+  },
+  {
+   "word": "language barrier",
+   "pos": "noun",
+   "meaning": {
+    "ja": "言葉が通じない壁",
+    "en": "the difficulty of not sharing a language",
+    "zh": "语言障碍",
+    "fr": "barrière de la langue",
+    "ar": "حاجز اللغة",
+    "ko": "언어 장벽",
+    "ru": "языковой барьер"
+   }
+  },
+  {
+   "word": "time difference",
+   "pos": "noun",
+   "meaning": {
+    "ja": "時差",
+    "en": "the gap in clock time between two countries",
+    "zh": "时差",
+    "fr": "décalage horaire",
+    "ar": "فارق التوقيت",
+    "ko": "시차",
+    "ru": "разница во времени"
+   }
+  },
+  {
+   "word": "night out",
+   "meaning": {
+    "ja": "夜の遊びの外出",
+    "en": "an evening spent out enjoying yourself",
+    "zh": "晚上出去玩",
+    "fr": "soirée en ville",
+    "ar": "سهرة بالخارج",
+    "ko": "밤에 놀러 나가기",
+    "ru": "вечерняя вылазка"
+   }
+  },
+  {
+   "word": "fridge space",
+   "meaning": {
+    "ja": "冷蔵庫の使える場所",
+    "en": "the room you get in a shared fridge",
+    "zh": "冰箱可用空间",
+    "fr": "place dans le frigo",
+    "ar": "مساحتك في الثلاجة",
+    "ko": "냉장고 자리",
+    "ru": "место в общем холодильнике"
+   }
+  }
+ ]
+}

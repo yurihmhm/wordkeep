@@ -12,12 +12,16 @@ const packs = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()
   .map(f => ({ id: f.slice(0, -5), data: JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) }));
 
 const only = process.argv[2] || null;
+// Fold British/American spelling and the plural away, so "neighbour" and
+// "neighbor" are seen as the one word they are.
 const norm = s => String(s || '').trim().toLowerCase();
+const wkey = s => norm(s).replace(/our\b/g, 'or').replace(/ise\b/g, 'ize').replace(/([bt])re\b/g, '$1er')
+  .split(/\s+/).map(w => w.replace(/(?:ies)$/, 'y').replace(/(?:es|s)$/, '')).join(' ');
 let issues = 0;
 
 const byWord = new Map();
 packs.forEach(p => (p.data.words || []).forEach(w => {
-  const k = norm(w.word);
+  const k = wkey(w.word);
   (byWord.get(k) || byWord.set(k, []).get(k)).push(p.id);
 }));
 const dupWords = [...byWord.entries()]

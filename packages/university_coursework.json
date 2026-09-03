@@ -558,19 +558,6 @@
    }
   },
   {
-   "word": "results",
-   "pos": "noun",
-   "meaning": {
-    "ja": "試験の結果",
-    "en": "the scores you get at the end of a course",
-    "zh": "考试结果",
-    "fr": "résultats d'examen",
-    "ar": "نتائج الامتحان",
-    "ko": "시험 결과",
-    "ru": "результаты экзаменов"
-   }
-  },
-  {
    "word": "GPA",
    "pos": "noun",
    "meaning": {
@@ -1309,6 +1296,18 @@
     "ar": "يتأخر عن الركب",
     "ko": "진도에 뒤처지다",
     "ru": "отставать от программы"
+   }
+  },
+  {
+   "word": "academic advisor",
+   "meaning": {
+    "ja": "履修相談の担当教員",
+    "en": "the staff member who advises you on your studies",
+    "zh": "学业指导老师",
+    "fr": "conseiller pédagogique",
+    "ar": "المرشد الأكاديمي",
+    "ko": "학업 지도 교수",
+    "ru": "научный руководитель по учёбе"
    }
   }
  ]
