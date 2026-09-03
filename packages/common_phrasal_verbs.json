@@ -1,0 +1,1315 @@
+{
+  "id": "common_phrasal_verbs",
+  "v": 1,
+  "title": {
+    "ja": "会話でよく使う句動詞",
+    "en": "Common Conversational Phrasal Verbs",
+    "zh": "日常会话常用短语动词",
+    "fr": "Verbes à particule courants",
+    "ar": "أفعال مركبة شائعة في المحادثة",
+    "ko": "대화에서 자주 쓰는 구동사",
+    "ru": "Частые фразовые глаголы"
+  },
+  "words": [
+    {
+      "word": "get up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "起きる",
+        "en": "to rise from bed or a seat",
+        "zh": "起床",
+        "fr": "se lever",
+        "ar": "ينهض",
+        "ko": "일어나다",
+        "ru": "вставать"
+      }
+    },
+    {
+      "word": "wake up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "目が覚める",
+        "en": "to stop sleeping",
+        "zh": "醒来",
+        "fr": "se réveiller",
+        "ar": "يستيقظ",
+        "ko": "잠에서 깨다",
+        "ru": "просыпаться"
+      }
+    },
+    {
+      "word": "come in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "入る",
+        "en": "to enter a place",
+        "zh": "进来",
+        "fr": "entrer",
+        "ar": "يدخل",
+        "ko": "들어오다",
+        "ru": "входить"
+      }
+    },
+    {
+      "word": "go out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "外出する",
+        "en": "to leave home for fun or errands",
+        "zh": "出去",
+        "fr": "sortir",
+        "ar": "يخرج",
+        "ko": "외출하다",
+        "ru": "выходить"
+      }
+    },
+    {
+      "word": "sit down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "座る",
+        "en": "to move into a sitting position",
+        "zh": "坐下",
+        "fr": "s'asseoir",
+        "ar": "يجلس",
+        "ko": "앉다",
+        "ru": "садиться"
+      }
+    },
+    {
+      "word": "stand up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "立つ",
+        "en": "to rise to a standing position",
+        "zh": "站起来",
+        "fr": "se lever",
+        "ar": "يقف",
+        "ko": "일어서다",
+        "ru": "вставать"
+      }
+    },
+    {
+      "word": "pick up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "拾う",
+        "en": "to lift something from a surface",
+        "zh": "捡起",
+        "fr": "ramasser",
+        "ar": "يلتقط",
+        "ko": "집어 들다",
+        "ru": "поднимать"
+      }
+    },
+    {
+      "word": "put down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "下に置く",
+        "en": "to place something onto a surface",
+        "zh": "放下",
+        "fr": "poser",
+        "ar": "يضع",
+        "ko": "내려놓다",
+        "ru": "класть"
+      }
+    },
+    {
+      "word": "put on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "身につける",
+        "en": "to dress in clothing",
+        "zh": "穿上",
+        "fr": "mettre",
+        "ar": "يرتدي",
+        "ko": "입다",
+        "ru": "надевать"
+      }
+    },
+    {
+      "word": "take off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "脱ぐ",
+        "en": "to remove clothing",
+        "zh": "脱掉",
+        "fr": "enlever",
+        "ar": "يخلع",
+        "ko": "벗다",
+        "ru": "снимать"
+      }
+    },
+    {
+      "word": "turn on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "つける",
+        "en": "to start a machine or light",
+        "zh": "打开",
+        "fr": "allumer",
+        "ar": "يشغّل",
+        "ko": "켜다",
+        "ru": "включать"
+      }
+    },
+    {
+      "word": "turn off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "消す",
+        "en": "to stop a machine or light",
+        "zh": "关闭",
+        "fr": "éteindre",
+        "ar": "يطفئ",
+        "ko": "끄다",
+        "ru": "выключать"
+      }
+    },
+    {
+      "word": "look for",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "探す",
+        "en": "to try to find something",
+        "zh": "寻找",
+        "fr": "chercher",
+        "ar": "يبحث عن",
+        "ko": "찾다",
+        "ru": "искать"
+      }
+    },
+    {
+      "word": "look after",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "世話をする",
+        "en": "to take care of someone or something",
+        "zh": "照顾",
+        "fr": "s'occuper de",
+        "ar": "يعتني بـ",
+        "ko": "돌보다",
+        "ru": "заботиться"
+      }
+    },
+    {
+      "word": "look forward to",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "楽しみにする",
+        "en": "to feel excited about something future",
+        "zh": "期待",
+        "fr": "avoir hâte de",
+        "ar": "يتطلع إلى",
+        "ko": "기대하다",
+        "ru": "с нетерпением ждать"
+      }
+    },
+    {
+      "word": "find out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "知る、判明する",
+        "en": "to discover information",
+        "zh": "发现",
+        "fr": "découvrir",
+        "ar": "يكتشف",
+        "ko": "알아내다",
+        "ru": "узнавать"
+      }
+    },
+    {
+      "word": "figure out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "理解する",
+        "en": "to solve or understand something",
+        "zh": "弄明白",
+        "fr": "comprendre",
+        "ar": "يستنتج",
+        "ko": "알아내다",
+        "ru": "разбираться"
+      }
+    },
+    {
+      "word": "work out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "うまくいく",
+        "en": "to end successfully",
+        "zh": "顺利解决",
+        "fr": "s'arranger",
+        "ar": "ينجح",
+        "ko": "잘 풀리다",
+        "ru": "получаться"
+      }
+    },
+    {
+      "word": "give up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "あきらめる",
+        "en": "to stop trying",
+        "zh": "放弃",
+        "fr": "abandonner",
+        "ar": "يستسلم",
+        "ko": "포기하다",
+        "ru": "сдаваться"
+      }
+    },
+    {
+      "word": "keep up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ついていく",
+        "en": "to stay at the same pace",
+        "zh": "跟上",
+        "fr": "suivre le rythme",
+        "ar": "يواكب",
+        "ko": "따라가다",
+        "ru": "не отставать"
+      }
+    },
+    {
+      "word": "catch up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "追いつく",
+        "en": "to reach the same level as others",
+        "zh": "赶上",
+        "fr": "rattraper",
+        "ar": "يلحق بـ",
+        "ko": "따라잡다",
+        "ru": "наверстывать"
+      }
+    },
+    {
+      "word": "hang out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "一緒に過ごす",
+        "en": "to spend casual time with someone",
+        "zh": "一起玩",
+        "fr": "traîner ensemble",
+        "ar": "يقضي وقتًا مع",
+        "ko": "놀다",
+        "ru": "тусоваться"
+      }
+    },
+    {
+      "word": "hang on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ちょっと待って",
+        "en": "to wait for a short moment",
+        "zh": "稍等",
+        "fr": "attends",
+        "ar": "انتظر قليلاً",
+        "ko": "잠깐만",
+        "ru": "подожди"
+      }
+    },
+    {
+      "word": "hold on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "待って",
+        "en": "to wait briefly",
+        "zh": "等一下",
+        "fr": "patiente",
+        "ar": "انتظر",
+        "ko": "잠시만",
+        "ru": "погоди"
+      }
+    },
+    {
+      "word": "come back",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "戻ってくる",
+        "en": "to return to a place",
+        "zh": "回来",
+        "fr": "revenir",
+        "ar": "يعود",
+        "ko": "돌아오다",
+        "ru": "возвращаться"
+      }
+    },
+    {
+      "word": "go back",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "戻る",
+        "en": "to return somewhere",
+        "zh": "回去",
+        "fr": "retourner",
+        "ar": "يعود إلى",
+        "ko": "돌아가다",
+        "ru": "идти обратно"
+      }
+    },
+    {
+      "word": "come over",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "家に来る",
+        "en": "to visit someone's place",
+        "zh": "过来串门",
+        "fr": "passer chez quelqu'un",
+        "ar": "يزور",
+        "ko": "놀러 오다",
+        "ru": "заходить в гости"
+      }
+    },
+    {
+      "word": "drop by",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "立ち寄る",
+        "en": "to visit briefly and casually",
+        "zh": "顺便拜访",
+        "fr": "passer rapidement",
+        "ar": "يمر سريعًا",
+        "ko": "잠깐 들르다",
+        "ru": "заглянуть"
+      }
+    },
+    {
+      "word": "show up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "現れる",
+        "en": "to arrive at a place",
+        "zh": "出现",
+        "fr": "se pointer",
+        "ar": "يحضر",
+        "ko": "나타나다",
+        "ru": "появляться"
+      }
+    },
+    {
+      "word": "turn up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ひょっこり現れる",
+        "en": "to arrive, often unexpectedly",
+        "zh": "意外出现",
+        "fr": "débarquer",
+        "ar": "يظهر فجأة",
+        "ko": "불쑥 나타나다",
+        "ru": "объявляться"
+      }
+    },
+    {
+      "word": "run into",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "偶然会う",
+        "en": "to meet someone by chance",
+        "zh": "偶遇",
+        "fr": "tomber sur",
+        "ar": "يصادف",
+        "ko": "우연히 만나다",
+        "ru": "случайно встретить"
+      }
+    },
+    {
+      "word": "bump into",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ばったり会う",
+        "en": "to meet someone unexpectedly",
+        "zh": "碰见",
+        "fr": "croiser par hasard",
+        "ar": "يلتقي صدفة",
+        "ko": "우연히 마주치다",
+        "ru": "наткнуться на"
+      }
+    },
+    {
+      "word": "set up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "準備する、設定する",
+        "en": "to arrange or prepare something",
+        "zh": "设置",
+        "fr": "organiser",
+        "ar": "يجهّز",
+        "ko": "설치하다",
+        "ru": "устраивать"
+      }
+    },
+    {
+      "word": "clean up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "片付ける",
+        "en": "to make a place tidy",
+        "zh": "打扫",
+        "fr": "nettoyer",
+        "ar": "ينظف",
+        "ko": "청소하다",
+        "ru": "убирать"
+      }
+    },
+    {
+      "word": "throw away",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "捨てる",
+        "en": "to get rid of something",
+        "zh": "扔掉",
+        "fr": "jeter",
+        "ar": "يرمي",
+        "ko": "버리다",
+        "ru": "выбрасывать"
+      }
+    },
+    {
+      "word": "put away",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "片付けてしまう",
+        "en": "to store something in its place",
+        "zh": "收起来",
+        "fr": "ranger",
+        "ar": "يخزّن",
+        "ko": "치우다",
+        "ru": "убирать на место"
+      }
+    },
+    {
+      "word": "fill out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "記入する",
+        "en": "to complete a form with information",
+        "zh": "填写",
+        "fr": "remplir",
+        "ar": "يملأ",
+        "ko": "작성하다",
+        "ru": "заполнять"
+      }
+    },
+    {
+      "word": "check in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "チェックインする",
+        "en": "to register at a hotel or airport",
+        "zh": "办理入住",
+        "fr": "s'enregistrer",
+        "ar": "يسجل الوصول",
+        "ko": "체크인하다",
+        "ru": "регистрироваться"
+      }
+    },
+    {
+      "word": "check out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "チェックアウトする、見てみる",
+        "en": "to leave a hotel, or to look at something",
+        "zh": "退房，看看",
+        "fr": "régler la note, jeter un œil",
+        "ar": "يسجل المغادرة، يتفقد",
+        "ko": "체크아웃하다, 확인해보다",
+        "ru": "выписываться, посмотреть"
+      }
+    },
+    {
+      "word": "drop off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "送り届ける",
+        "en": "to take someone or something somewhere",
+        "zh": "送到",
+        "fr": "déposer",
+        "ar": "يوصل",
+        "ko": "내려주다",
+        "ru": "подвозить"
+      }
+    },
+    {
+      "word": "pick someone up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "迎えに行く",
+        "en": "to collect someone by vehicle",
+        "zh": "去接人",
+        "fr": "aller chercher quelqu'un",
+        "ar": "يقلّ شخصًا",
+        "ko": "태우러 가다",
+        "ru": "забирать кого-то"
+      }
+    },
+    {
+      "word": "take out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "持ち出す、連れて出る",
+        "en": "to remove or bring someone out",
+        "zh": "带出去",
+        "fr": "sortir",
+        "ar": "يخرج",
+        "ko": "밖으로 데려가다",
+        "ru": "выводить"
+      }
+    },
+    {
+      "word": "bring up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "話題に出す",
+        "en": "to mention a topic",
+        "zh": "提起",
+        "fr": "aborder un sujet",
+        "ar": "يثير موضوعًا",
+        "ko": "화제로 꺼내다",
+        "ru": "поднимать тему"
+      }
+    },
+    {
+      "word": "point out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "指摘する",
+        "en": "to make someone notice something",
+        "zh": "指出",
+        "fr": "souligner",
+        "ar": "يشير إلى",
+        "ko": "지적하다",
+        "ru": "указывать на"
+      }
+    },
+    {
+      "word": "talk about",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "話し合う",
+        "en": "to discuss a topic",
+        "zh": "谈论",
+        "fr": "parler de",
+        "ar": "يتحدث عن",
+        "ko": "이야기하다",
+        "ru": "говорить о"
+      }
+    },
+    {
+      "word": "deal with",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "対処する",
+        "en": "to handle a problem or situation",
+        "zh": "处理",
+        "fr": "gérer",
+        "ar": "يتعامل مع",
+        "ko": "처리하다",
+        "ru": "иметь дело с"
+      }
+    },
+    {
+      "word": "put up with",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "我慢する",
+        "en": "to tolerate something unpleasant",
+        "zh": "忍受",
+        "fr": "supporter",
+        "ar": "يتحمل",
+        "ko": "참다",
+        "ru": "мириться с"
+      }
+    },
+    {
+      "word": "count on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "頼りにする",
+        "en": "to rely on someone",
+        "zh": "指望",
+        "fr": "compter sur",
+        "ar": "يعتمد على",
+        "ko": "믿고 의지하다",
+        "ru": "рассчитывать на"
+      }
+    },
+    {
+      "word": "end up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "結局～になる",
+        "en": "to eventually be in a situation",
+        "zh": "最终变成",
+        "fr": "finir par",
+        "ar": "ينتهي به الأمر",
+        "ko": "결국 ~하게 되다",
+        "ru": "в итоге оказаться"
+      }
+    },
+    {
+      "word": "go on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "続ける、起こる",
+        "en": "to continue, or to happen",
+        "zh": "继续，发生",
+        "fr": "continuer, se passer",
+        "ar": "يستمر، يحدث",
+        "ko": "계속하다, 일어나다",
+        "ru": "продолжать, происходить"
+      }
+    },
+    {
+      "word": "go over",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "見直す",
+        "en": "to review something carefully",
+        "zh": "仔细检查",
+        "fr": "revoir",
+        "ar": "يراجع",
+        "ko": "검토하다",
+        "ru": "просматривать"
+      }
+    },
+    {
+      "word": "go through",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "経験する、調べる",
+        "en": "to experience or examine something",
+        "zh": "经历，仔细查看",
+        "fr": "traverser, examiner",
+        "ar": "يمر بـ، يفحص",
+        "ko": "겪다, 살펴보다",
+        "ru": "проходить через"
+      }
+    },
+    {
+      "word": "break down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "故障する",
+        "en": "to stop working, for a machine",
+        "zh": "出故障",
+        "fr": "tomber en panne",
+        "ar": "يتعطل",
+        "ko": "고장 나다",
+        "ru": "ломаться"
+      }
+    },
+    {
+      "word": "break up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "別れる",
+        "en": "to end a relationship",
+        "zh": "分手",
+        "fr": "rompre",
+        "ar": "ينفصل عن",
+        "ko": "헤어지다",
+        "ru": "расставаться"
+      }
+    },
+    {
+      "word": "make up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "仲直りする、でっち上げる",
+        "en": "to reconcile, or to invent a story",
+        "zh": "和好，编造",
+        "fr": "se réconcilier, inventer",
+        "ar": "يتصالح، يختلق",
+        "ko": "화해하다, 지어내다",
+        "ru": "мириться, выдумывать"
+      }
+    },
+    {
+      "word": "make sure",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "確認する",
+        "en": "to check something is true",
+        "zh": "确保",
+        "fr": "s'assurer",
+        "ar": "يتأكد من",
+        "ko": "확실히 하다",
+        "ru": "убедиться"
+      }
+    },
+    {
+      "word": "take over",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "引き継ぐ",
+        "en": "to take control of something",
+        "zh": "接管",
+        "fr": "prendre la relève",
+        "ar": "يتولى المسؤولية",
+        "ko": "인수하다",
+        "ru": "брать на себя"
+      }
+    },
+    {
+      "word": "take back",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "撤回する",
+        "en": "to withdraw something you said",
+        "zh": "收回",
+        "fr": "retirer ce qu'on a dit",
+        "ar": "يسحب كلامه",
+        "ko": "취소하다",
+        "ru": "брать назад"
+      }
+    },
+    {
+      "word": "get over",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "乗り越える",
+        "en": "to recover from something difficult",
+        "zh": "克服",
+        "fr": "surmonter",
+        "ar": "يتجاوز",
+        "ko": "극복하다",
+        "ru": "пережить"
+      }
+    },
+    {
+      "word": "get away",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "逃げる",
+        "en": "to escape from a place or situation",
+        "zh": "逃离",
+        "fr": "s'échapper",
+        "ar": "يهرب",
+        "ko": "벗어나다",
+        "ru": "сбегать"
+      }
+    },
+    {
+      "word": "get along",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "仲良くやる",
+        "en": "to have a friendly relationship",
+        "zh": "相处融洽",
+        "fr": "bien s'entendre",
+        "ar": "ينسجم مع",
+        "ko": "잘 지내다",
+        "ru": "ладить"
+      }
+    },
+    {
+      "word": "get through",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "乗り切る",
+        "en": "to survive a hard situation",
+        "zh": "熬过去",
+        "fr": "s'en sortir",
+        "ar": "يتخطى",
+        "ko": "헤쳐 나가다",
+        "ru": "пройти через"
+      }
+    },
+    {
+      "word": "get back to",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "後で返事する",
+        "en": "to reply to someone later",
+        "zh": "稍后回复",
+        "fr": "recontacter",
+        "ar": "يعاود الاتصال بـ",
+        "ko": "나중에 다시 연락하다",
+        "ru": "перезвонить позже"
+      }
+    },
+    {
+      "word": "come up with",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "思いつく",
+        "en": "to think of an idea",
+        "zh": "想出",
+        "fr": "trouver une idée",
+        "ar": "يبتكر فكرة",
+        "ko": "생각해내다",
+        "ru": "придумывать"
+      }
+    },
+    {
+      "word": "come across",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "偶然見つける",
+        "en": "to find something by chance",
+        "zh": "偶然发现",
+        "fr": "tomber sur",
+        "ar": "يصادف",
+        "ko": "우연히 발견하다",
+        "ru": "наткнуться на"
+      }
+    },
+    {
+      "word": "run out of",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "使い果たす",
+        "en": "to have no more of something",
+        "zh": "用完",
+        "fr": "manquer de",
+        "ar": "ينفد منه",
+        "ko": "다 떨어지다",
+        "ru": "заканчиваться"
+      }
+    },
+    {
+      "word": "run late",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "遅れる",
+        "en": "to be behind schedule",
+        "zh": "迟到",
+        "fr": "être en retard",
+        "ar": "يتأخر",
+        "ko": "늦어지다",
+        "ru": "опаздывать"
+      }
+    },
+    {
+      "word": "hurry up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "急ぐ",
+        "en": "to do something more quickly",
+        "zh": "快点",
+        "fr": "se dépêcher",
+        "ar": "يسرع",
+        "ko": "서두르다",
+        "ru": "поторопиться"
+      }
+    },
+    {
+      "word": "slow down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "速度を落とす",
+        "en": "to go more slowly",
+        "zh": "放慢速度",
+        "fr": "ralentir",
+        "ar": "يبطئ",
+        "ko": "속도를 줄이다",
+        "ru": "замедляться"
+      }
+    },
+    {
+      "word": "calm down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "落ち着く",
+        "en": "to become less upset",
+        "zh": "冷静下来",
+        "fr": "se calmer",
+        "ar": "يهدأ",
+        "ko": "진정하다",
+        "ru": "успокоиться"
+      }
+    },
+    {
+      "word": "cheer up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "元気を出す",
+        "en": "to become happier",
+        "zh": "高兴起来",
+        "fr": "se remonter le moral",
+        "ar": "يبتهج",
+        "ko": "기운 내다",
+        "ru": "взбодриться"
+      }
+    },
+    {
+      "word": "think over",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "よく考える",
+        "en": "to consider something carefully",
+        "zh": "仔细考虑",
+        "fr": "réfléchir à",
+        "ar": "يفكر مليًا في",
+        "ko": "곰곰이 생각하다",
+        "ru": "обдумывать"
+      }
+    },
+    {
+      "word": "think about",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "考える",
+        "en": "to consider an idea",
+        "zh": "考虑",
+        "fr": "penser à",
+        "ar": "يفكر في",
+        "ko": "생각하다",
+        "ru": "думать о"
+      }
+    },
+    {
+      "word": "depend on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "次第である",
+        "en": "to be decided by something",
+        "zh": "取决于",
+        "fr": "dépendre de",
+        "ar": "يعتمد على",
+        "ko": "~에 달려있다",
+        "ru": "зависеть от"
+      }
+    },
+    {
+      "word": "rely on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "頼る",
+        "en": "to trust and depend on someone",
+        "zh": "依靠",
+        "fr": "compter sur",
+        "ar": "يعتمد على",
+        "ko": "의지하다",
+        "ru": "полагаться на"
+      }
+    },
+    {
+      "word": "stick to",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "守り続ける",
+        "en": "to continue following a plan",
+        "zh": "坚持",
+        "fr": "s'en tenir à",
+        "ar": "يلتزم بـ",
+        "ko": "고수하다",
+        "ru": "придерживаться"
+      }
+    },
+    {
+      "word": "stick around",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "その場に留まる",
+        "en": "to stay in a place a while",
+        "zh": "留在这儿",
+        "fr": "rester dans les parages",
+        "ar": "يبقى قريبًا",
+        "ko": "자리를 지키다",
+        "ru": "оставаться поблизости"
+      }
+    },
+    {
+      "word": "back up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "支持する、後退する",
+        "en": "to support someone, or move backward",
+        "zh": "支持，倒退",
+        "fr": "soutenir, reculer",
+        "ar": "يدعم، يتراجع",
+        "ko": "지지하다, 뒤로 물러나다",
+        "ru": "поддерживать, отступать"
+      }
+    },
+    {
+      "word": "back out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "約束を取り消す",
+        "en": "to decide not to do something agreed",
+        "zh": "退出承诺",
+        "fr": "se désister",
+        "ar": "ينسحب من اتفاق",
+        "ko": "약속을 취소하다",
+        "ru": "отказаться от обещания"
+      }
+    },
+    {
+      "word": "call off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "中止する",
+        "en": "to cancel a planned event",
+        "zh": "取消",
+        "fr": "annuler",
+        "ar": "يلغي",
+        "ko": "취소하다",
+        "ru": "отменять"
+      }
+    },
+    {
+      "word": "put off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "延期する",
+        "en": "to delay doing something",
+        "zh": "推迟",
+        "fr": "reporter",
+        "ar": "يؤجل",
+        "ko": "미루다",
+        "ru": "откладывать"
+      }
+    },
+    {
+      "word": "carry on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "続ける",
+        "en": "to continue doing something",
+        "zh": "继续",
+        "fr": "continuer",
+        "ar": "يواصل",
+        "ko": "계속하다",
+        "ru": "продолжать"
+      }
+    },
+    {
+      "word": "keep on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "し続ける",
+        "en": "to continue an action repeatedly",
+        "zh": "不断继续",
+        "fr": "continuer sans cesse",
+        "ar": "يستمر في",
+        "ko": "계속 ~하다",
+        "ru": "продолжать делать"
+      }
+    },
+    {
+      "word": "move on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "次に進む",
+        "en": "to progress to a new topic or stage",
+        "zh": "继续前进",
+        "fr": "passer à autre chose",
+        "ar": "ينتقل إلى",
+        "ko": "넘어가다",
+        "ru": "двигаться дальше"
+      }
+    },
+    {
+      "word": "move in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "引っ越してくる",
+        "en": "to start living in a new home",
+        "zh": "搬进来",
+        "fr": "emménager",
+        "ar": "ينتقل للسكن",
+        "ko": "이사 오다",
+        "ru": "въезжать"
+      }
+    },
+    {
+      "word": "move out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "引っ越して出る",
+        "en": "to leave a home permanently",
+        "zh": "搬出去",
+        "fr": "déménager",
+        "ar": "ينتقل للسكن في مكان آخر",
+        "ko": "이사 나가다",
+        "ru": "съезжать"
+      }
+    },
+    {
+      "word": "settle down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "腰を落ち着ける",
+        "en": "to start living a stable life",
+        "zh": "安定下来",
+        "fr": "se poser",
+        "ar": "يستقر",
+        "ko": "정착하다",
+        "ru": "обосноваться"
+      }
+    },
+    {
+      "word": "sign up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "登録する",
+        "en": "to register for something",
+        "zh": "报名",
+        "fr": "s'inscrire",
+        "ar": "يسجل",
+        "ko": "신청하다",
+        "ru": "записываться"
+      }
+    },
+    {
+      "word": "log in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ログインする",
+        "en": "to access an account online",
+        "zh": "登录",
+        "fr": "se connecter",
+        "ar": "يسجل الدخول",
+        "ko": "로그인하다",
+        "ru": "входить в систему"
+      }
+    },
+    {
+      "word": "log out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "ログアウトする",
+        "en": "to exit an online account",
+        "zh": "退出登录",
+        "fr": "se déconnecter",
+        "ar": "يسجل الخروج",
+        "ko": "로그아웃하다",
+        "ru": "выходить из системы"
+      }
+    },
+    {
+      "word": "print out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "印刷する",
+        "en": "to produce a paper copy",
+        "zh": "打印出来",
+        "fr": "imprimer",
+        "ar": "يطبع",
+        "ko": "출력하다",
+        "ru": "распечатывать"
+      }
+    },
+    {
+      "word": "write down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "書き留める",
+        "en": "to record something on paper",
+        "zh": "写下来",
+        "fr": "noter",
+        "ar": "يدوّن",
+        "ko": "적어두다",
+        "ru": "записывать"
+      }
+    },
+    {
+      "word": "cross out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "線を引いて消す",
+        "en": "to draw a line through text",
+        "zh": "划掉",
+        "fr": "barrer",
+        "ar": "يشطب",
+        "ko": "줄을 그어 지우다",
+        "ru": "вычёркивать"
+      }
+    },
+    {
+      "word": "add up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "つじつまが合う",
+        "en": "to make logical sense",
+        "zh": "说得通",
+        "fr": "tenir debout",
+        "ar": "يبدو منطقيًا",
+        "ko": "앞뒤가 맞다",
+        "ru": "сходиться"
+      }
+    },
+    {
+      "word": "leave out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "省く",
+        "en": "to not include something",
+        "zh": "遗漏",
+        "fr": "omettre",
+        "ar": "يستبعد",
+        "ko": "빼다",
+        "ru": "пропускать"
+      }
+    },
+    {
+      "word": "fill in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "空欄を埋める",
+        "en": "to complete missing information",
+        "zh": "填入",
+        "fr": "remplir",
+        "ar": "يملأ",
+        "ko": "채워 넣다",
+        "ru": "вписывать"
+      }
+    },
+    {
+      "word": "go off",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "鳴る、爆発する",
+        "en": "to make a sudden loud noise, like an alarm",
+        "zh": "响起",
+        "fr": "se déclencher",
+        "ar": "يرن، ينفجر",
+        "ko": "울리다",
+        "ru": "срабатывать"
+      }
+    },
+    {
+      "word": "pass out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "気を失う",
+        "en": "to faint suddenly",
+        "zh": "昏倒",
+        "fr": "s'évanouir",
+        "ar": "يغمى عليه",
+        "ko": "기절하다",
+        "ru": "падать в обморок"
+      }
+    },
+    {
+      "word": "pass away",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "亡くなる",
+        "en": "a polite way to say someone died",
+        "zh": "去世",
+        "fr": "décéder",
+        "ar": "يتوفى",
+        "ko": "돌아가시다",
+        "ru": "скончаться"
+      }
+    },
+    {
+      "word": "look up",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "調べる",
+        "en": "to search for information",
+        "zh": "查找",
+        "fr": "chercher (une info)",
+        "ar": "يبحث عن معلومة",
+        "ko": "찾아보다",
+        "ru": "искать информацию"
+      }
+    }
+  ]
+}

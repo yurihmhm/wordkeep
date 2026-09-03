@@ -1421,7 +1421,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.48.0';
+const APP_VERSION='5.49.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1434,7 +1434,8 @@ const APP_VERSION='5.48.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.48.0',date:'2026-09-03',keys:['wn1','wn2'],show:true},
+  {version:'5.49.0',date:'2026-09-03',keys:['wn1','wn2'],show:true},
+  {version:'5.48.0',date:'2026-09-03',keys:['v5480_1','v5480_2'],show:true},
   {version:'5.47.0',date:'2026-09-03',keys:['v5470_1','v5470_2'],show:true},
   {version:'5.46.0',date:'2026-09-02',keys:['v5460_1','v5460_2']},
   {version:'5.45.0',date:'2026-09-02',keys:['v5450_1','v5450_2']},
@@ -1539,8 +1540,10 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'新しい単語パッケージ「日常のつなぎ言葉・相づち」を追加しました。actually、I mean、kind of のような、辞書で引いても意味の分かりにくい100語です。会話で最初に詰まるのはこのあたりです。',en:'A new pack: Everyday Fillers & Reactions. A hundred words like actually, I mean and kind of — the ones a dictionary never quite explains, and the first thing that trips you up in conversation.',zh:'新增单词包「日常口头禅与附和语」。收录 actually、I mean、kind of 等100个词——查词典也讲不清楚，却最容易在对话中卡住的那些。',fr:'Un nouveau pack : « Mots de liaison et réactions ». Cent mots comme actually, I mean ou kind of — ceux que le dictionnaire n’explique jamais vraiment, et sur lesquels on bute en premier.',ar:'حزمة جديدة: «عبارات ربط وردود يومية». مئة كلمة مثل actually وI mean وkind of — تلك التي لا يشرحها القاموس حقًا، وأول ما يعثّرك في الحديث.',ko:'새 단어 패키지 «일상 연결어·맞장구»를 더했습니다. actually, I mean, kind of처럼 사전을 찾아도 잘 알 수 없는 100단어입니다. 대화에서 가장 먼저 막히는 것들이에요.',ru:'Новый набор: «Слова-связки и реакции». Сто слов вроде actually, I mean и kind of — тех, что словарь толком не объясняет, и на которых спотыкаешься первым делом.'},
-  wn2:{ja:'この「更新しました」を、毎回は出さないようにしました。細かい修正のたびに画面をふさぐのは邪魔なので、お知らせする価値があるときだけ出します。そのあいだの変更も、そのとき一緒にお伝えします。',en:'This “What’s new” box no longer appears every release. Blocking the app for every small fix was a nuisance, so it waits until there is something worth stopping you for — and then it shows everything since you last looked.',zh:'这个「更新内容」不再每次都弹出。每个小修复都挡住画面太打扰了，因此只在值得告知时才出现，届时会一并显示这期间的所有更改。',fr:'Cette fenêtre « Nouveautés » n’apparaît plus à chaque version. Bloquer l’app pour le moindre correctif était pénible : elle attend qu’il y ait de quoi vous arrêter, et montre alors tout ce qui a changé depuis.',ar:'لم تعد نافذة «ما الجديد» تظهر مع كل إصدار. فحجب التطبيق عند كل إصلاح صغير كان مزعجًا؛ صارت تنتظر ما يستحق إيقافك، ثم تعرض كل ما تغيّر منذ آخر مرة.',ko:'이 «업데이트 내용»을 매번 띄우지 않도록 했습니다. 사소한 수정마다 화면을 가리는 건 방해가 되니, 알릴 가치가 있을 때만 나옵니다. 그동안의 변경도 그때 함께 알려 드립니다.',ru:'Окно «Обновление» больше не появляется с каждым выпуском. Загораживать приложение ради каждой мелкой правки было навязчиво: теперь оно ждёт того, ради чего стоит вас остановить, и тогда показывает всё, что изменилось с прошлого раза.'},
+  wn1:{ja:'新しい単語パッケージ「会話でよく使う句動詞」を追加しました。get along、put up with、come across など100語です。話す速さを決めているのはこの層なので、単語を一つずつ覚えても出てきません。',en:'A new pack: Common Conversational Phrasal Verbs. A hundred of them — get along, put up with, come across. This layer is what sets your speaking speed, and learning single words never reaches it.',zh:'新增单词包「日常会话常用短语动词」。收录 get along、put up with、come across 等100个。说话的流畅度取决于这一层，光背单个单词是练不出来的。',fr:'Un nouveau pack : « Verbes à particule courants ». Cent d’entre eux — get along, put up with, come across. C’est cette couche qui règle votre débit, et apprendre des mots isolés n’y donne jamais accès.',ar:'حزمة جديدة: «أفعال مركبة شائعة في المحادثة». مئة منها — get along وput up with وcome across. هذه الطبقة هي ما يحدد سرعة كلامك، ولا تبلغها بحفظ الكلمات المفردة.',ko:'새 단어 패키지 «대화에서 자주 쓰는 구동사»를 더했습니다. get along, put up with, come across 등 100단어입니다. 말하는 속도를 정하는 것이 이 층이라, 단어를 하나씩 외워서는 나오지 않습니다.',ru:'Новый набор: «Частые фразовые глаголы» — сто штук: get along, put up with, come across. Именно этот слой задаёт скорость речи, и заучиванием отдельных слов до него не добраться.'},
+  wn2:{ja:'「語学留学の英単語」のPart1・2・3を、148語の1つにまとめました。<b>学習の記録はそのまま引き継がれます</b>——どの単語をどこまで覚えていたかは残ります。3つに分かれている理由が説明できなかったので、選ぶときに迷うだけでした。',en:'The three Study Abroad packs are now one, with 148 words. <b>Your progress carries over</b> — every word keeps the stage it had reached. There was no difference between the parts anybody could name, so three of them only made the choice harder.',zh:'「留学英语单词」的 Part1・2・3 已合并为一个148词的单词包。<b>学习进度会完整保留</b>——每个单词记到哪一步都还在。三个分册本就说不出区别，分开只会让人难以选择。',fr:'Les trois packs « Vocabulaire pour étudier à l’étranger » n’en font plus qu’un, de 148 mots. <b>Votre progression est conservée</b> : chaque mot garde l’étape atteinte. Aucune différence entre les parties n’était explicable ; en avoir trois ne faisait que compliquer le choix.',ar:'دُمجت أجزاء «مفردات الدراسة في الخارج» الثلاثة في حزمة واحدة من 148 كلمة. <b>ويُنقل تقدّمك كما هو</b> — تحتفظ كل كلمة بالمرحلة التي بلغتها. فلم يكن بين الأجزاء فرق يمكن تسميته، وثلاثتها لم تزد الاختيار إلا صعوبة.',ko:'«어학연수 영단어»의 Part1·2·3을 148단어짜리 하나로 합쳤습니다. <b>학습 기록은 그대로 이어집니다</b>——어느 단어를 어디까지 외웠는지 남습니다. 셋으로 나뉜 이유를 설명할 수 없었으니, 고를 때 헷갈릴 뿐이었습니다.',ru:'Три набора «Английский для учёбы за рубежом» объединены в один из 148 слов. <b>Прогресс переносится</b> — каждое слово сохраняет достигнутый этап. Разницу между частями никто не мог назвать, так что три штуки лишь усложняли выбор.'},
+  v5480_1:{ja:'新しい単語パッケージ「日常のつなぎ言葉・相づち」を追加しました。actually、I mean、kind of のような、辞書で引いても意味の分かりにくい100語です。会話で最初に詰まるのはこのあたりです。',en:'A new pack: Everyday Fillers & Reactions. A hundred words like actually, I mean and kind of — the ones a dictionary never quite explains, and the first thing that trips you up in conversation.',zh:'新增单词包「日常口头禅与附和语」。收录 actually、I mean、kind of 等100个词——查词典也讲不清楚，却最容易在对话中卡住的那些。',fr:'Un nouveau pack : « Mots de liaison et réactions ». Cent mots comme actually, I mean ou kind of — ceux que le dictionnaire n’explique jamais vraiment, et sur lesquels on bute en premier.',ar:'حزمة جديدة: «عبارات ربط وردود يومية». مئة كلمة مثل actually وI mean وkind of — تلك التي لا يشرحها القاموس حقًا، وأول ما يعثّرك في الحديث.',ko:'새 단어 패키지 «일상 연결어·맞장구»를 더했습니다. actually, I mean, kind of처럼 사전을 찾아도 잘 알 수 없는 100단어입니다. 대화에서 가장 먼저 막히는 것들이에요.',ru:'Новый набор: «Слова-связки и реакции». Сто слов вроде actually, I mean и kind of — тех, что словарь толком не объясняет, и на которых спотыкаешься первым делом.'},
+  v5480_2:{ja:'この「更新しました」を、毎回は出さないようにしました。細かい修正のたびに画面をふさぐのは邪魔なので、お知らせする価値があるときだけ出します。そのあいだの変更も、そのとき一緒にお伝えします。',en:'This “What’s new” box no longer appears every release. Blocking the app for every small fix was a nuisance, so it waits until there is something worth stopping you for — and then it shows everything since you last looked.',zh:'这个「更新内容」不再每次都弹出。每个小修复都挡住画面太打扰了，因此只在值得告知时才出现，届时会一并显示这期间的所有更改。',fr:'Cette fenêtre « Nouveautés » n’apparaît plus à chaque version. Bloquer l’app pour le moindre correctif était pénible : elle attend qu’il y ait de quoi vous arrêter, et montre alors tout ce qui a changé depuis.',ar:'لم تعد نافذة «ما الجديد» تظهر مع كل إصدار. فحجب التطبيق عند كل إصلاح صغير كان مزعجًا؛ صارت تنتظر ما يستحق إيقافك، ثم تعرض كل ما تغيّر منذ آخر مرة.',ko:'이 «업데이트 내용»을 매번 띄우지 않도록 했습니다. 사소한 수정마다 화면을 가리는 건 방해가 되니, 알릴 가치가 있을 때만 나옵니다. 그동안의 변경도 그때 함께 알려 드립니다.',ru:'Окно «Обновление» больше не появляется с каждым выпуском. Загораживать приложение ради каждой мелкой правки было навязчиво: теперь оно ждёт того, ради чего стоит вас остановить, и тогда показывает всё, что изменилось с прошлого раза.'},
   v5470_1:{ja:'単語が少ない単語帳でも4択が出せるようになりました。まちがいの選択肢は、ほかの単語帳やダウンロード済みのパッケージから借りてきます。1語だけの単語帳でも出題できます。',en:'Four-choice works on a small notebook now. The wrong answers are borrowed from your other notebooks and downloaded packs, so even a notebook with one word in it can be studied.',zh:'单词很少的单词本也能出四选一了。错误选项会从你的其他单词本和已下载的单词包中借用，因此只有一个单词的本子也能练习。',fr:'Le QCM fonctionne désormais sur un petit carnet : les mauvaises réponses sont empruntées à vos autres carnets et aux packs téléchargés, si bien qu’un carnet d’un seul mot est jouable.',ar:'صار الاختيار من أربعة يعمل حتى مع دفتر قليل الكلمات؛ إذ تُستعار الإجابات الخاطئة من دفاترك الأخرى ومن الحزم المنزَّلة، فيمكن مذاكرة دفتر فيه كلمة واحدة.',ko:'단어가 적은 단어장에서도 4택을 낼 수 있습니다. 오답 선택지는 다른 단어장과 내려받은 패키지에서 빌려 오므로, 한 단어뿐인 단어장도 출제됩니다.',ru:'Выбор из четырёх работает и на маленьком словаре: неверные варианты берутся из ваших других словарей и загруженных наборов, так что играбелен даже словарь с одним словом.'},
   v5470_2:{ja:'最後の問題のボタンを「学習完了」にして、正解と同じ緑にしました。次に進むボタンと同じ見た目だと、終わった感じがしなかったので。',en:'The button on the last question now says “Done!” and turns the same green as a correct answer. Looking like every other “next” button did not feel like finishing.',zh:'最后一题的按钮改为「学习完成」，并使用与答对相同的绿色。此前与「下一题」长得一样，缺少完成的感觉。',fr:'Le bouton de la dernière question affiche « Terminé ! » et prend le vert d’une bonne réponse. Identique au bouton « suivant », il ne donnait aucune impression d’avoir fini.',ar:'صار زر السؤال الأخير يقول «تمّ!» ويأخذ اللون الأخضر نفسه الذي للإجابة الصحيحة. فتشابهه مع زر «التالي» كان يفقده معنى الإنهاء.',ko:'마지막 문제의 버튼을 «학습 완료»로 바꾸고, 정답과 같은 초록색으로 했습니다. 다음으로 넘어가는 버튼과 같은 모습이면 끝낸 느낌이 나지 않아서요.',ru:'Кнопка на последнем вопросе теперь говорит «Готово!» и становится того же зелёного цвета, что и верный ответ. Выглядя как обычная «дальше», она не давала ощущения завершения.'},
   v5460_1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
@@ -2574,10 +2577,9 @@ function playAnswerSound(ok){
 // `v` is the content version. Bumping it makes the app re-fetch, and progress
 // survives because it is keyed by the word itself rather than by position.
 const PKG_CATALOG=[
+  {id:'common_phrasal_verbs',v:1,count:100,title:{ja:'会話でよく使う句動詞',en:'Common Conversational Phrasal Verbs',zh:'日常会话常用短语动词',fr:'Verbes à particule courants',ar:'أفعال مركبة شائعة في المحادثة',ko:'대화에서 자주 쓰는 구동사',ru:'Частые фразовые глаголы'}},
   {id:'conversation_fillers_reactions',v:1,count:100,title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
-  {id:'studyabroad_part1',v:1,count:50,title:{ja:'語学留学の英単語 Part1',en:'Study Abroad English Words Part 1',zh:'留学英语单词 Part1',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 1',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 1',ko:'유학 영단어 Part1',ru:'Английские слова для учёбы за рубежом Часть 1'}},
-  {id:'studyabroad_part2',v:1,count:50,title:{ja:'語学留学の英単語 Part2',en:'Study Abroad English Words Part 2',zh:'留学英语单词 Part2',fr:'Vocabulaire anglais pour étudier à l’étranger Partie 2',ar:'مفردات إنجليزية للدراسة في الخارج - الجزء 2',ko:'유학 영단어 Part2',ru:'Английские слова для учёбы за рубежом Часть 2'}},
-  {id:'studyabroad_part3',v:1,count:50,title:{ja:'語学留学の英単語 Part3',en:'Study Abroad English Vocabulary — Part 3',zh:'留学英语单词 Part3',fr:'Vocabulaire anglais pour séjour linguistique — Part3',ar:'مفردات إنجليزية للدراسة في الخارج — الجزء 3',ko:'어학연수 영단어 Part3',ru:'Английская лексика для учёбы за границей — Part3'}},
+  {id:'studyabroad',v:1,count:148,title:{ja:'語学留学の英単語',en:'Study Abroad English',zh:'留学英语单词',fr:'Vocabulaire anglais pour étudier à l’étranger',ar:'مفردات إنجليزية للدراسة في الخارج',ko:'어학연수 영단어',ru:'Английская лексика для учёбы за рубежом'}},
   {id:'tech_en',v:1,count:50,title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
   {id:'workingholiday_en',v:1,count:106,title:{ja:'ワーホリで使える英単語 Part1',en:'Working Holiday English Words Part1',zh:'打工度假英语单词 Part1',fr:'Vocabulaire anglais pour un visa vacances-travail',ar:'مفردات إنجليزية لعطلة العمل',ko:'워킹홀리데이 영단어',ru:'Английские слова для рабочей поездки'}},
 ];
@@ -2646,6 +2648,32 @@ function pkgReady(id){
   return !!(c&&held&&Array.isArray(held.words)&&held.words.length&&(held.v|0)>=(c.v|0));
 }
 function pkgWords(id){return pkgReady(id)?PKGW[id].words:null;}
+/* ---- studyabroad Part1/2/3 became one package (v5.49.0) --------------------
+   Nobody ever chose "Part 2": the three had no difference anybody could name,
+   and three entries in a list of recommendations is three ways to hesitate.
+
+   Progress inside a package is keyed by the WORD, not by a position, so the
+   merge is a merge of maps -- every box and every next-review date survives.
+   Runs once; the marker is the absence of the old keys.
+   -------------------------------------------------------------------------- */
+(function foldStudyAbroad(){
+  const OLD=['studyabroad_part1','studyabroad_part2','studyabroad_part3'],NEW='studyabroad';
+  if(!OLD.some(id=>PKGDB[id]||PKGW[id]))return;
+  const dest=PKGDB[NEW]||(PKGDB[NEW]={});
+  OLD.forEach(id=>{
+    const src=PKGDB[id];
+    if(src)Object.keys(src).forEach(word=>{
+      const a=dest[word],b=src[word];
+      // The parts were disjoint, so a clash should not happen -- but if one
+      // does, keep whichever the learner had got further with rather than
+      // letting load order decide.
+      if(!a||((b&&b.box)|0)>((a&&a.box)|0))dest[word]=b;
+    });
+    delete PKGDB[id];
+    delete PKGW[id];       // the downloaded words; the merged file replaces them
+  });
+  savePkg();savePkgWords();
+})();
 let pkgFetching={};                        // id -> promise, so a double tap fetches once
 // The static file, for the packages that ship with the app. The version is in
 // the URL because the service worker keeps what it fetched, so a bare name
@@ -5067,11 +5095,19 @@ function pickDistractors(w,correct,showEng,n){
   // the weighting below decides what really gets used.
   const pool=curWords().concat(allKnownWords());
   const seenId={};
+  // When the options are WORDS, a word that means the same thing as the answer
+  // is not a wrong answer -- it is a second right one that the round will mark
+  // wrong. `understand` and `figure out` are both 理解する, and they sit in
+  // different packages, so no amount of care inside any one package prevents
+  // this. Comparing the meanings is what does.
+  const answerMeaning=showEng?null:normForCompare(primaryMeaning(w));
   const candidates=[...new Set(
     pool.filter(x=>{
       if(!x||x.id===w.id||!primaryMeaning(x))return false;
       if(seenId[x.id])return false;
-      seenId[x.id]=1;return true;
+      seenId[x.id]=1;
+      if(answerMeaning&&normForCompare(primaryMeaning(x))===answerMeaning)return false;
+      return true;
     })
       .map(x=>showEng?primaryMeaning(x):x.word)
       .concat(outside)
