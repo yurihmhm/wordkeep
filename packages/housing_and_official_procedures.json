@@ -1,0 +1,1315 @@
+{
+  "id": "housing_and_official_procedures",
+  "v": 1,
+  "title": {
+    "ja": "住まい・契約・役所",
+    "en": "Housing, Contracts & Government Offices",
+    "zh": "住房、合同与政府机关",
+    "fr": "Logement, contrats et démarches administratives",
+    "ar": "السكن والعقود والدوائر الحكومية",
+    "ko": "주거·계약·관공서",
+    "ru": "Жильё, договоры и госучреждения"
+  },
+  "words": [
+    {
+      "word": "lease",
+      "pos": "noun",
+      "meaning": {
+        "ja": "賃貸契約",
+        "en": "a legal agreement to rent property",
+        "zh": "租约",
+        "fr": "bail",
+        "ar": "عقد إيجار",
+        "ko": "임대 계약",
+        "ru": "договор аренды"
+      }
+    },
+    {
+      "word": "landlord",
+      "pos": "noun",
+      "meaning": {
+        "ja": "大家",
+        "en": "a person who rents out property",
+        "zh": "房东",
+        "fr": "propriétaire (bailleur)",
+        "ar": "مالك العقار",
+        "ko": "집주인",
+        "ru": "арендодатель"
+      }
+    },
+    {
+      "word": "tenant",
+      "pos": "noun",
+      "meaning": {
+        "ja": "賃借人",
+        "en": "a person who rents a place to live",
+        "zh": "租客",
+        "fr": "locataire",
+        "ar": "مستأجر",
+        "ko": "세입자",
+        "ru": "арендатор"
+      }
+    },
+    {
+      "word": "deposit",
+      "pos": "noun",
+      "meaning": {
+        "ja": "敷金",
+        "en": "money paid in advance as security",
+        "zh": "押金",
+        "fr": "caution",
+        "ar": "عربون تأمين",
+        "ko": "보증금",
+        "ru": "залог"
+      }
+    },
+    {
+      "word": "rent",
+      "pos": "noun",
+      "meaning": {
+        "ja": "家賃",
+        "en": "money paid regularly to live somewhere",
+        "zh": "房租",
+        "fr": "loyer",
+        "ar": "إيجار",
+        "ko": "월세",
+        "ru": "квартплата"
+      }
+    },
+    {
+      "word": "utilities",
+      "pos": "noun",
+      "meaning": {
+        "ja": "公共料金",
+        "en": "basic services like water and electricity",
+        "zh": "水电煤气费",
+        "fr": "charges (eau, électricité)",
+        "ar": "فواتير الخدمات",
+        "ko": "공과금",
+        "ru": "коммунальные услуги"
+      }
+    },
+    {
+      "word": "move in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "入居する",
+        "en": "to start living in a new home",
+        "zh": "搬进去",
+        "fr": "emménager",
+        "ar": "ينتقل للسكن",
+        "ko": "입주하다",
+        "ru": "вселяться"
+      }
+    },
+    {
+      "word": "move out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "退去する",
+        "en": "to leave a home for good",
+        "zh": "搬出去",
+        "fr": "déménager",
+        "ar": "يغادر السكن",
+        "ko": "퇴거하다",
+        "ru": "выезжать"
+      }
+    },
+    {
+      "word": "sign a contract",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "契約を結ぶ",
+        "en": "to formally agree to a contract",
+        "zh": "签合同",
+        "fr": "signer un contrat",
+        "ar": "يوقع عقدًا",
+        "ko": "계약을 맺다",
+        "ru": "подписывать договор"
+      }
+    },
+    {
+      "word": "renew",
+      "pos": "verb",
+      "meaning": {
+        "ja": "更新する",
+        "en": "to extend an agreement's length",
+        "zh": "续约",
+        "fr": "renouveler",
+        "ar": "يجدد",
+        "ko": "갱신하다",
+        "ru": "продлевать"
+      }
+    },
+    {
+      "word": "terminate",
+      "pos": "verb",
+      "meaning": {
+        "ja": "解約する",
+        "en": "to formally end a contract",
+        "zh": "终止（合同）",
+        "fr": "résilier",
+        "ar": "ينهي عقدًا",
+        "ko": "해지하다",
+        "ru": "расторгать"
+      }
+    },
+    {
+      "word": "notice period",
+      "pos": "noun",
+      "meaning": {
+        "ja": "予告期間",
+        "en": "time required before ending an agreement",
+        "zh": "提前通知期",
+        "fr": "préavis",
+        "ar": "مدة الإشعار المسبق",
+        "ko": "통보 기간",
+        "ru": "срок уведомления"
+      }
+    },
+    {
+      "word": "furnished",
+      "pos": "adj",
+      "meaning": {
+        "ja": "家具付きの",
+        "en": "already having furniture inside",
+        "zh": "带家具的",
+        "fr": "meublé",
+        "ar": "مفروش",
+        "ko": "가구가 딸린",
+        "ru": "меблированный"
+      }
+    },
+    {
+      "word": "vacant",
+      "pos": "adj",
+      "meaning": {
+        "ja": "空いている",
+        "en": "empty and available to move into",
+        "zh": "空置的",
+        "fr": "vacant",
+        "ar": "شاغر",
+        "ko": "비어 있는",
+        "ru": "свободный (о жилье)"
+      }
+    },
+    {
+      "word": "real estate agent",
+      "pos": "noun",
+      "meaning": {
+        "ja": "不動産業者",
+        "en": "a person who helps rent or sell property",
+        "zh": "房产中介",
+        "fr": "agent immobilier",
+        "ar": "وكيل عقاري",
+        "ko": "부동산 중개인",
+        "ru": "агент по недвижимости"
+      }
+    },
+    {
+      "word": "guarantor",
+      "pos": "noun",
+      "meaning": {
+        "ja": "保証人",
+        "en": "a person who promises to pay if you can't",
+        "zh": "担保人",
+        "fr": "garant",
+        "ar": "كفيل",
+        "ko": "보증인",
+        "ru": "поручитель"
+      }
+    },
+    {
+      "word": "application form",
+      "pos": "noun",
+      "meaning": {
+        "ja": "申込用紙",
+        "en": "a document used to apply for something",
+        "zh": "申请表",
+        "fr": "formulaire de demande",
+        "ar": "استمارة طلب",
+        "ko": "신청서",
+        "ru": "заявление (бланк)"
+      }
+    },
+    {
+      "word": "proof of income",
+      "pos": "noun",
+      "meaning": {
+        "ja": "収入証明",
+        "en": "a document showing how much you earn",
+        "zh": "收入证明",
+        "fr": "justificatif de revenus",
+        "ar": "إثبات الدخل",
+        "ko": "소득 증명서",
+        "ru": "справка о доходах"
+      }
+    },
+    {
+      "word": "resident registration",
+      "pos": "noun",
+      "meaning": {
+        "ja": "住民登録",
+        "en": "official recording of where you live",
+        "zh": "居住登记",
+        "fr": "inscription de résidence",
+        "ar": "تسجيل الإقامة",
+        "ko": "주민등록",
+        "ru": "регистрация по месту жительства"
+      }
+    },
+    {
+      "word": "city hall",
+      "pos": "noun",
+      "meaning": {
+        "ja": "市役所",
+        "en": "the local government office",
+        "zh": "市政厅",
+        "fr": "mairie",
+        "ar": "مبنى البلدية",
+        "ko": "시청",
+        "ru": "мэрия"
+      }
+    },
+    {
+      "word": "application",
+      "pos": "noun",
+      "meaning": {
+        "ja": "申請",
+        "en": "a formal request for something official",
+        "zh": "申请",
+        "fr": "demande",
+        "ar": "طلب رسمي",
+        "ko": "신청",
+        "ru": "заявка"
+      }
+    },
+    {
+      "word": "appointment",
+      "pos": "noun",
+      "meaning": {
+        "ja": "予約",
+        "en": "an arranged time to meet or be seen",
+        "zh": "预约",
+        "fr": "rendez-vous",
+        "ar": "موعد",
+        "ko": "예약",
+        "ru": "запись на приём"
+      }
+    },
+    {
+      "word": "identification",
+      "pos": "noun",
+      "meaning": {
+        "ja": "身分証明書",
+        "en": "an official document proving who you are",
+        "zh": "身份证明",
+        "fr": "pièce d'identité",
+        "ar": "وثيقة هوية",
+        "ko": "신분증",
+        "ru": "удостоверение личности"
+      }
+    },
+    {
+      "word": "proof of address",
+      "pos": "noun",
+      "meaning": {
+        "ja": "住所証明",
+        "en": "a document confirming where you live",
+        "zh": "地址证明",
+        "fr": "justificatif de domicile",
+        "ar": "إثبات العنوان",
+        "ko": "주소 증명서",
+        "ru": "подтверждение адреса"
+      }
+    },
+    {
+      "word": "issue a document",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "書類を発行する",
+        "en": "to officially produce a document",
+        "zh": "签发文件",
+        "fr": "délivrer un document",
+        "ar": "يصدر وثيقة",
+        "ko": "서류를 발급하다",
+        "ru": "выдавать документ"
+      }
+    },
+    {
+      "word": "submit",
+      "pos": "verb",
+      "meaning": {
+        "ja": "提出する",
+        "en": "to hand in a document or form",
+        "zh": "提交",
+        "fr": "soumettre",
+        "ar": "يقدم",
+        "ko": "제출하다",
+        "ru": "подавать (документы)"
+      }
+    },
+    {
+      "word": "fill out a form",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "用紙に記入する",
+        "en": "to write information on a form",
+        "zh": "填写表格",
+        "fr": "remplir un formulaire",
+        "ar": "يملأ استمارة",
+        "ko": "서류를 작성하다",
+        "ru": "заполнять бланк"
+      }
+    },
+    {
+      "word": "stamp",
+      "pos": "noun",
+      "meaning": {
+        "ja": "印鑑、印",
+        "en": "an official mark showing approval",
+        "zh": "印章",
+        "fr": "tampon",
+        "ar": "ختم رسمي",
+        "ko": "도장",
+        "ru": "печать"
+      }
+    },
+    {
+      "word": "signature",
+      "pos": "noun",
+      "meaning": {
+        "ja": "署名",
+        "en": "your name written by hand to confirm something",
+        "zh": "签名",
+        "fr": "signature",
+        "ar": "توقيع",
+        "ko": "서명",
+        "ru": "подпись"
+      }
+    },
+    {
+      "word": "queue number",
+      "pos": "noun",
+      "meaning": {
+        "ja": "整理番号",
+        "en": "a number showing your place in line",
+        "zh": "排队号码",
+        "fr": "numéro de file d'attente",
+        "ar": "رقم دور الانتظار",
+        "ko": "대기 번호",
+        "ru": "номер очереди"
+      }
+    },
+    {
+      "word": "counter",
+      "pos": "noun",
+      "meaning": {
+        "ja": "窓口",
+        "en": "the desk where you are served",
+        "zh": "服务窗口",
+        "fr": "guichet",
+        "ar": "شباك الخدمة",
+        "ko": "창구",
+        "ru": "окно (обслуживания)"
+      }
+    },
+    {
+      "word": "processing time",
+      "pos": "noun",
+      "meaning": {
+        "ja": "手続きにかかる時間",
+        "en": "how long an official task takes",
+        "zh": "办理时间",
+        "fr": "délai de traitement",
+        "ar": "مدة معالجة الطلب",
+        "ko": "처리 기간",
+        "ru": "срок обработки"
+      }
+    },
+    {
+      "word": "deadline",
+      "pos": "noun",
+      "meaning": {
+        "ja": "締め切り",
+        "en": "the latest time something must be done",
+        "zh": "截止日期",
+        "fr": "date limite",
+        "ar": "الموعد النهائي",
+        "ko": "마감일",
+        "ru": "крайний срок"
+      }
+    },
+    {
+      "word": "valid",
+      "pos": "adj",
+      "meaning": {
+        "ja": "有効な",
+        "en": "legally acceptable at this time",
+        "zh": "有效的",
+        "fr": "valide",
+        "ar": "صالح",
+        "ko": "유효한",
+        "ru": "действительный"
+      }
+    },
+    {
+      "word": "expire",
+      "pos": "verb",
+      "meaning": {
+        "ja": "期限切れになる",
+        "en": "to stop being valid after a date",
+        "zh": "过期",
+        "fr": "expirer",
+        "ar": "تنتهي صلاحيته",
+        "ko": "만료되다",
+        "ru": "истекать (о сроке)"
+      }
+    },
+    {
+      "word": "insurance",
+      "pos": "noun",
+      "meaning": {
+        "ja": "保険",
+        "en": "a plan that pays for losses or damage",
+        "zh": "保险",
+        "fr": "assurance",
+        "ar": "تأمين",
+        "ko": "보험",
+        "ru": "страхование"
+      }
+    },
+    {
+      "word": "bill",
+      "pos": "noun",
+      "meaning": {
+        "ja": "請求書",
+        "en": "a document showing money owed",
+        "zh": "账单",
+        "fr": "facture",
+        "ar": "فاتورة",
+        "ko": "청구서",
+        "ru": "счёт (к оплате)"
+      }
+    },
+    {
+      "word": "pay in installments",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "分割払いする",
+        "en": "to pay in several smaller amounts",
+        "zh": "分期付款",
+        "fr": "payer en plusieurs fois",
+        "ar": "يدفع على أقساط",
+        "ko": "할부로 내다",
+        "ru": "платить частями"
+      }
+    },
+    {
+      "word": "neighbor",
+      "pos": "noun",
+      "meaning": {
+        "ja": "隣人",
+        "en": "a person who lives nearby",
+        "zh": "邻居",
+        "fr": "voisin",
+        "ar": "جار",
+        "ko": "이웃",
+        "ru": "сосед"
+      }
+    },
+    {
+      "word": "noise complaint",
+      "pos": "noun",
+      "meaning": {
+        "ja": "騒音の苦情",
+        "en": "a report about a disturbing sound",
+        "zh": "噪音投诉",
+        "fr": "plainte pour bruit",
+        "ar": "شكوى ضجيج",
+        "ko": "소음 민원",
+        "ru": "жалоба на шум"
+      }
+    },
+    {
+      "word": "trash collection",
+      "pos": "noun",
+      "meaning": {
+        "ja": "ごみ収集",
+        "en": "regular removal of household waste",
+        "zh": "垃圾收集",
+        "fr": "collecte des déchets",
+        "ar": "جمع القمامة",
+        "ko": "쓰레기 수거",
+        "ru": "вывоз мусора"
+      }
+    },
+    {
+      "word": "repair",
+      "pos": "verb",
+      "meaning": {
+        "ja": "修理する",
+        "en": "to fix something broken",
+        "zh": "修理",
+        "fr": "réparer",
+        "ar": "يصلح",
+        "ko": "수리하다",
+        "ru": "ремонтировать"
+      }
+    },
+    {
+      "word": "maintenance",
+      "pos": "noun",
+      "meaning": {
+        "ja": "メンテナンス",
+        "en": "regular work to keep something in good shape",
+        "zh": "维修保养",
+        "fr": "entretien",
+        "ar": "صيانة",
+        "ko": "유지 보수",
+        "ru": "техобслуживание"
+      }
+    },
+    {
+      "word": "broken",
+      "pos": "adj",
+      "meaning": {
+        "ja": "壊れている",
+        "en": "not working or damaged",
+        "zh": "坏了的",
+        "fr": "cassé",
+        "ar": "معطل",
+        "ko": "고장 난",
+        "ru": "сломанный"
+      }
+    },
+    {
+      "word": "heating",
+      "pos": "noun",
+      "meaning": {
+        "ja": "暖房",
+        "en": "a system that warms a room",
+        "zh": "暖气",
+        "fr": "chauffage",
+        "ar": "تدفئة",
+        "ko": "난방",
+        "ru": "отопление"
+      }
+    },
+    {
+      "word": "electricity",
+      "pos": "noun",
+      "meaning": {
+        "ja": "電気",
+        "en": "power used for lights and appliances",
+        "zh": "电力",
+        "fr": "électricité",
+        "ar": "كهرباء",
+        "ko": "전기",
+        "ru": "электричество"
+      }
+    },
+    {
+      "word": "water supply",
+      "pos": "noun",
+      "meaning": {
+        "ja": "水道",
+        "en": "the system that provides running water",
+        "zh": "供水",
+        "fr": "alimentation en eau",
+        "ar": "إمدادات المياه",
+        "ko": "수도",
+        "ru": "водоснабжение"
+      }
+    },
+    {
+      "word": "internet provider",
+      "pos": "noun",
+      "meaning": {
+        "ja": "インターネット業者",
+        "en": "a company giving internet access",
+        "zh": "网络运营商",
+        "fr": "fournisseur d'accès internet",
+        "ar": "مزود خدمة الإنترنت",
+        "ko": "인터넷 통신사",
+        "ru": "интернет-провайдер"
+      }
+    },
+    {
+      "word": "roommate",
+      "pos": "noun",
+      "meaning": {
+        "ja": "ルームメイト",
+        "en": "a person you share a home with",
+        "zh": "室友",
+        "fr": "colocataire",
+        "ar": "زميل سكن",
+        "ko": "룸메이트",
+        "ru": "сосед по квартире"
+      }
+    },
+    {
+      "word": "eviction",
+      "pos": "noun",
+      "meaning": {
+        "ja": "立ち退き",
+        "en": "being forced to leave a rented home",
+        "zh": "驱逐（房客）",
+        "fr": "expulsion",
+        "ar": "إخلاء قسري",
+        "ko": "강제 퇴거",
+        "ru": "выселение"
+      }
+    },
+    {
+      "word": "security deposit",
+      "pos": "noun",
+      "meaning": {
+        "ja": "保証金",
+        "en": "money held to cover damage or unpaid rent",
+        "zh": "保证金",
+        "fr": "dépôt de garantie",
+        "ar": "وديعة ضمان",
+        "ko": "보증금",
+        "ru": "обеспечительный депозит"
+      }
+    },
+    {
+      "word": "refundable",
+      "pos": "adj",
+      "meaning": {
+        "ja": "返金可能な",
+        "en": "able to be paid back",
+        "zh": "可退还的",
+        "fr": "remboursable",
+        "ar": "قابل للاسترداد",
+        "ko": "환불 가능한",
+        "ru": "возвращаемый"
+      }
+    },
+    {
+      "word": "key money",
+      "pos": "noun",
+      "meaning": {
+        "ja": "礼金",
+        "en": "a non-refundable payment to a landlord",
+        "zh": "礼金（不退还）",
+        "fr": "pas-de-porte",
+        "ar": "مبلغ غير مسترد للمالك",
+        "ko": "사례금",
+        "ru": "невозвратный взнос арендодателю"
+      }
+    },
+    {
+      "word": "move-in inspection",
+      "pos": "noun",
+      "meaning": {
+        "ja": "入居時の点検",
+        "en": "a check of a home's condition before moving in",
+        "zh": "入住检查",
+        "fr": "état des lieux d'entrée",
+        "ar": "فحص عند الانتقال",
+        "ko": "입주 점검",
+        "ru": "осмотр при заселении"
+      }
+    },
+    {
+      "word": "landlord's permission",
+      "pos": "noun",
+      "meaning": {
+        "ja": "大家の許可",
+        "en": "approval needed from the property owner",
+        "zh": "房东许可",
+        "fr": "autorisation du propriétaire",
+        "ar": "إذن المالك",
+        "ko": "집주인의 허락",
+        "ru": "разрешение арендодателя"
+      }
+    },
+    {
+      "word": "sublet",
+      "pos": "verb",
+      "meaning": {
+        "ja": "又貸しする",
+        "en": "to rent out a place you are renting",
+        "zh": "转租",
+        "fr": "sous-louer",
+        "ar": "يؤجر من الباطن",
+        "ko": "전대하다",
+        "ru": "сдавать в субаренду"
+      }
+    },
+    {
+      "word": "co-signer",
+      "pos": "noun",
+      "meaning": {
+        "ja": "連帯保証人",
+        "en": "a second person legally responsible on a contract",
+        "zh": "共同签署人",
+        "fr": "cosignataire",
+        "ar": "شريك ضامن في العقد",
+        "ko": "공동 서명인",
+        "ru": "созаёмщик по договору"
+      }
+    },
+    {
+      "word": "breach of contract",
+      "pos": "noun",
+      "meaning": {
+        "ja": "契約違反",
+        "en": "failing to follow the terms of an agreement",
+        "zh": "违约",
+        "fr": "rupture de contrat",
+        "ar": "إخلال بالعقد",
+        "ko": "계약 위반",
+        "ru": "нарушение договора"
+      }
+    },
+    {
+      "word": "clause",
+      "pos": "noun",
+      "meaning": {
+        "ja": "条項",
+        "en": "a specific part of a legal document",
+        "zh": "条款",
+        "fr": "clause",
+        "ar": "بند في العقد",
+        "ko": "조항",
+        "ru": "пункт договора"
+      }
+    },
+    {
+      "word": "terms and conditions",
+      "pos": "noun",
+      "meaning": {
+        "ja": "利用規約",
+        "en": "the rules that apply to an agreement",
+        "zh": "条款细则",
+        "fr": "conditions générales",
+        "ar": "الشروط والأحكام",
+        "ko": "이용 약관",
+        "ru": "условия соглашения"
+      }
+    },
+    {
+      "word": "residency permit",
+      "pos": "noun",
+      "meaning": {
+        "ja": "在留許可証",
+        "en": "a document allowing you to live somewhere",
+        "zh": "居留许可",
+        "fr": "titre de séjour",
+        "ar": "تصريح إقامة",
+        "ko": "체류 허가증",
+        "ru": "вид на жительство"
+      }
+    },
+    {
+      "word": "local government office",
+      "pos": "noun",
+      "meaning": {
+        "ja": "地方自治体の窓口",
+        "en": "a place handling regional official matters",
+        "zh": "地方政府机关",
+        "fr": "mairie locale",
+        "ar": "مكتب الحكومة المحلية",
+        "ko": "지방 관공서",
+        "ru": "местное госучреждение"
+      }
+    },
+    {
+      "word": "certificate",
+      "pos": "noun",
+      "meaning": {
+        "ja": "証明書",
+        "en": "an official document confirming a fact",
+        "zh": "证书",
+        "fr": "certificat",
+        "ar": "شهادة رسمية",
+        "ko": "증명서",
+        "ru": "справка / сертификат"
+      }
+    },
+    {
+      "word": "apply in person",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "窓口で申請する",
+        "en": "to submit an application by going there yourself",
+        "zh": "亲自申请",
+        "fr": "faire une demande en personne",
+        "ar": "يتقدم بطلب شخصيًا",
+        "ko": "직접 방문하여 신청하다",
+        "ru": "подавать заявление лично"
+      }
+    },
+    {
+      "word": "take a number",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "整理券を取る",
+        "en": "to get a ticket showing your place in line",
+        "zh": "取号排队",
+        "fr": "prendre un ticket",
+        "ar": "يأخذ رقم دور",
+        "ko": "번호표를 뽑다",
+        "ru": "взять талон в очередь"
+      }
+    },
+    {
+      "word": "business hours",
+      "pos": "noun",
+      "meaning": {
+        "ja": "営業時間",
+        "en": "the hours a place is open for service",
+        "zh": "营业时间",
+        "fr": "heures d'ouverture",
+        "ar": "ساعات العمل",
+        "ko": "영업시간",
+        "ru": "часы работы"
+      }
+    },
+    {
+      "word": "closed for the holiday",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "祝日で休業",
+        "en": "not open because of a public holiday",
+        "zh": "假日休息",
+        "fr": "fermé pour jour férié",
+        "ar": "مغلق بسبب العطلة",
+        "ko": "공휴일 휴무",
+        "ru": "закрыто на праздник"
+      }
+    },
+    {
+      "word": "required document",
+      "pos": "noun",
+      "meaning": {
+        "ja": "必要書類",
+        "en": "a paper you must bring for a procedure",
+        "zh": "所需文件",
+        "fr": "document requis",
+        "ar": "وثيقة مطلوبة",
+        "ko": "필요 서류",
+        "ru": "необходимый документ"
+      }
+    },
+    {
+      "word": "original copy",
+      "pos": "noun",
+      "meaning": {
+        "ja": "原本",
+        "en": "the first, official version of a document",
+        "zh": "原件",
+        "fr": "original",
+        "ar": "النسخة الأصلية",
+        "ko": "원본",
+        "ru": "оригинал документа"
+      }
+    },
+    {
+      "word": "photocopy",
+      "pos": "noun",
+      "meaning": {
+        "ja": "コピー",
+        "en": "a duplicate of a document",
+        "zh": "复印件",
+        "fr": "photocopie",
+        "ar": "نسخة مصورة",
+        "ko": "복사본",
+        "ru": "копия документа"
+      }
+    },
+    {
+      "word": "processing fee",
+      "pos": "noun",
+      "meaning": {
+        "ja": "手数料",
+        "en": "money charged to handle a request",
+        "zh": "手续费",
+        "fr": "frais de dossier",
+        "ar": "رسوم معالجة",
+        "ko": "수수료",
+        "ru": "плата за обработку"
+      }
+    },
+    {
+      "word": "in advance",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "事前に",
+        "en": "before something happens",
+        "zh": "提前",
+        "fr": "à l'avance",
+        "ar": "مسبقًا",
+        "ko": "미리",
+        "ru": "заранее"
+      }
+    },
+    {
+      "word": "pending",
+      "pos": "adj",
+      "meaning": {
+        "ja": "審査中の",
+        "en": "waiting for a decision or approval",
+        "zh": "待处理的",
+        "fr": "en attente",
+        "ar": "قيد الانتظار",
+        "ko": "보류 중인",
+        "ru": "на рассмотрении"
+      }
+    },
+    {
+      "word": "approve",
+      "pos": "verb",
+      "meaning": {
+        "ja": "承認する",
+        "en": "to officially accept a request",
+        "zh": "批准",
+        "fr": "approuver",
+        "ar": "يوافق على",
+        "ko": "승인하다",
+        "ru": "одобрять"
+      }
+    },
+    {
+      "word": "reject",
+      "pos": "verb",
+      "meaning": {
+        "ja": "却下する",
+        "en": "to officially refuse a request",
+        "zh": "拒绝，驳回",
+        "fr": "rejeter",
+        "ar": "يرفض",
+        "ko": "거부하다",
+        "ru": "отклонять"
+      }
+    },
+    {
+      "word": "complaint",
+      "pos": "noun",
+      "meaning": {
+        "ja": "苦情",
+        "en": "a formal statement that something is wrong",
+        "zh": "投诉",
+        "fr": "réclamation",
+        "ar": "شكوى",
+        "ko": "불만 신고",
+        "ru": "жалоба"
+      }
+    },
+    {
+      "word": "file a complaint",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "苦情を申し立てる",
+        "en": "to formally report a problem",
+        "zh": "提出投诉",
+        "fr": "déposer une plainte",
+        "ar": "يقدم شكوى رسمية",
+        "ko": "불만을 제기하다",
+        "ru": "подавать жалобу"
+      }
+    },
+    {
+      "word": "dispute",
+      "pos": "noun",
+      "meaning": {
+        "ja": "紛争、もめごと",
+        "en": "a disagreement between two parties",
+        "zh": "纠纷",
+        "fr": "litige",
+        "ar": "نزاع",
+        "ko": "분쟁",
+        "ru": "спор"
+      }
+    },
+    {
+      "word": "legal advice",
+      "pos": "noun",
+      "meaning": {
+        "ja": "法律相談",
+        "en": "guidance about the law from an expert",
+        "zh": "法律咨询",
+        "fr": "conseil juridique",
+        "ar": "استشارة قانونية",
+        "ko": "법률 상담",
+        "ru": "юридическая консультация"
+      }
+    },
+    {
+      "word": "tax office",
+      "pos": "noun",
+      "meaning": {
+        "ja": "税務署",
+        "en": "the government office handling taxes",
+        "zh": "税务局",
+        "fr": "centre des impôts",
+        "ar": "مكتب الضرائب",
+        "ko": "세무서",
+        "ru": "налоговая инспекция"
+      }
+    },
+    {
+      "word": "pay taxes",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "税金を納める",
+        "en": "to pay money owed to the government",
+        "zh": "缴税",
+        "fr": "payer des impôts",
+        "ar": "يدفع الضرائب",
+        "ko": "세금을 납부하다",
+        "ru": "платить налоги"
+      }
+    },
+    {
+      "word": "bank account",
+      "pos": "noun",
+      "meaning": {
+        "ja": "銀行口座",
+        "en": "an account for keeping and managing money",
+        "zh": "银行账户",
+        "fr": "compte bancaire",
+        "ar": "حساب مصرفي",
+        "ko": "은행 계좌",
+        "ru": "банковский счёт"
+      }
+    },
+    {
+      "word": "open an account",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "口座を開設する",
+        "en": "to start a new bank account",
+        "zh": "开户",
+        "fr": "ouvrir un compte",
+        "ar": "يفتح حسابًا",
+        "ko": "계좌를 개설하다",
+        "ru": "открывать счёт"
+      }
+    },
+    {
+      "word": "transfer money",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "送金する",
+        "en": "to send money from one account to another",
+        "zh": "转账",
+        "fr": "transférer de l'argent",
+        "ar": "يحوّل أموالًا",
+        "ko": "송금하다",
+        "ru": "переводить деньги"
+      }
+    },
+    {
+      "word": "direct debit",
+      "pos": "noun",
+      "meaning": {
+        "ja": "口座引き落とし",
+        "en": "automatic payment taken from a bank account",
+        "zh": "自动扣款",
+        "fr": "prélèvement automatique",
+        "ar": "خصم مباشر",
+        "ko": "자동 이체",
+        "ru": "прямое дебетование"
+      }
+    },
+    {
+      "word": "mailbox",
+      "pos": "noun",
+      "meaning": {
+        "ja": "郵便受け",
+        "en": "a box where mail is delivered",
+        "zh": "信箱",
+        "fr": "boîte aux lettres",
+        "ar": "صندوق البريد",
+        "ko": "우편함",
+        "ru": "почтовый ящик"
+      }
+    },
+    {
+      "word": "registered mail",
+      "pos": "noun",
+      "meaning": {
+        "ja": "書留郵便",
+        "en": "mail tracked and confirmed as delivered",
+        "zh": "挂号信",
+        "fr": "courrier recommandé",
+        "ar": "بريد مسجل",
+        "ko": "등기 우편",
+        "ru": "заказное письмо"
+      }
+    },
+    {
+      "word": "waiting list",
+      "pos": "noun",
+      "meaning": {
+        "ja": "順番待ちリスト",
+        "en": "a list of people waiting for something",
+        "zh": "候补名单",
+        "fr": "liste d'attente",
+        "ar": "قائمة انتظار",
+        "ko": "대기자 명단",
+        "ru": "список ожидания"
+      }
+    },
+    {
+      "word": "eligibility",
+      "pos": "noun",
+      "meaning": {
+        "ja": "資格要件",
+        "en": "whether you qualify for something",
+        "zh": "资格",
+        "fr": "éligibilité",
+        "ar": "أهلية",
+        "ko": "자격 요건",
+        "ru": "право на получение"
+      }
+    },
+    {
+      "word": "renewal fee",
+      "pos": "noun",
+      "meaning": {
+        "ja": "更新料",
+        "en": "money paid to extend a contract",
+        "zh": "续约费",
+        "fr": "frais de renouvellement",
+        "ar": "رسوم التجديد",
+        "ko": "갱신 비용",
+        "ru": "плата за продление"
+      }
+    },
+    {
+      "word": "prior notice",
+      "pos": "noun",
+      "meaning": {
+        "ja": "事前通知",
+        "en": "warning given before an action is taken",
+        "zh": "事先通知",
+        "fr": "préavis",
+        "ar": "إشعار مسبق",
+        "ko": "사전 통지",
+        "ru": "предварительное уведомление"
+      }
+    },
+    {
+      "word": "share house",
+      "pos": "noun",
+      "meaning": {
+        "ja": "シェアハウス",
+        "en": "a house rented and shared by several people",
+        "zh": "合租房",
+        "fr": "colocation",
+        "ar": "سكن مشترك",
+        "ko": "셰어하우스",
+        "ru": "шэрхаус"
+      }
+    },
+    {
+      "word": "viewing",
+      "pos": "noun",
+      "meaning": {
+        "ja": "内見",
+        "en": "an arranged visit to see a place before renting",
+        "zh": "看房",
+        "fr": "visite du logement",
+        "ar": "معاينة السكن",
+        "ko": "집 보기",
+        "ru": "просмотр жилья"
+      }
+    },
+    {
+      "word": "bills included",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "光熱費込み",
+        "en": "with electricity, water and internet in the rent",
+        "zh": "包水电网",
+        "fr": "charges comprises",
+        "ar": "الفواتير مشمولة",
+        "ko": "공과금 포함",
+        "ru": "счета включены"
+      }
+    },
+    {
+      "word": "weekly rent",
+      "pos": "noun",
+      "meaning": {
+        "ja": "週ごとの家賃",
+        "en": "rent quoted and paid by the week",
+        "zh": "周租",
+        "fr": "loyer à la semaine",
+        "ar": "إيجار أسبوعي",
+        "ko": "주 단위 월세",
+        "ru": "аренда за неделю"
+      }
+    },
+    {
+      "word": "reference",
+      "pos": "noun",
+      "meaning": {
+        "ja": "推薦者",
+        "en": "a person who vouches for you to a landlord",
+        "zh": "推荐人",
+        "fr": "référence (garant moral)",
+        "ar": "مُزكٍّ",
+        "ko": "추천인",
+        "ru": "рекомендатель"
+      }
+    },
+    {
+      "word": "notice to vacate",
+      "pos": "noun",
+      "meaning": {
+        "ja": "退去通知",
+        "en": "a written notice that you are leaving",
+        "zh": "退租通知",
+        "fr": "congé (avis de départ)",
+        "ar": "إشعار إخلاء",
+        "ko": "퇴거 통지서",
+        "ru": "уведомление о выезде"
+      }
+    },
+    {
+      "word": "wear and tear",
+      "pos": "noun",
+      "meaning": {
+        "ja": "経年劣化",
+        "en": "damage that comes from normal daily use",
+        "zh": "自然磨损",
+        "fr": "usure normale",
+        "ar": "تلف طبيعي بالاستعمال",
+        "ko": "자연 마모",
+        "ru": "естественный износ"
+      }
+    },
+    {
+      "word": "curfew",
+      "pos": "noun",
+      "meaning": {
+        "ja": "門限",
+        "en": "a time by which you must be back inside",
+        "zh": "门禁时间",
+        "fr": "couvre-feu",
+        "ar": "موعد الإغلاق الليلي",
+        "ko": "통금 시간",
+        "ru": "комендантский час"
+      }
+    },
+    {
+      "word": "hostel",
+      "pos": "noun",
+      "meaning": {
+        "ja": "安宿",
+        "en": "cheap shared lodging, often used on arrival",
+        "zh": "青年旅舍",
+        "fr": "auberge de jeunesse",
+        "ar": "نُزُل رخيص",
+        "ko": "호스텔",
+        "ru": "хостел"
+      }
+    }
+  ]
+}
