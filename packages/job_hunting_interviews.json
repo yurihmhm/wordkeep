@@ -1,0 +1,1315 @@
+{
+  "id": "job_hunting_interviews",
+  "v": 1,
+  "title": {
+    "ja": "仕事探しと面接",
+    "en": "Job Hunting & Interviews",
+    "zh": "找工作与面试",
+    "fr": "Recherche d'emploi et entretiens",
+    "ar": "البحث عن عمل والمقابلات",
+    "ko": "구직과 면접",
+    "ru": "Поиск работы и собеседования"
+  },
+  "words": [
+    {
+      "word": "job listing",
+      "pos": "noun",
+      "meaning": {
+        "ja": "求人の掲載",
+        "en": "an advertisement for an open job",
+        "zh": "招聘启事",
+        "fr": "annonce d'emploi",
+        "ar": "إعلان وظيفة",
+        "ko": "채용 공고",
+        "ru": "объявление о вакансии"
+      }
+    },
+    {
+      "word": "help wanted",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "スタッフ募集中",
+        "en": "a sign showing a shop needs staff",
+        "zh": "招聘启事（招牌）",
+        "fr": "panneau « on recrute »",
+        "ar": "لافتة مطلوب موظفون",
+        "ko": "직원 구함",
+        "ru": "вывеска «требуются сотрудники»"
+      }
+    },
+    {
+      "word": "we're hiring",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "採用しています",
+        "en": "what a business says when it needs staff",
+        "zh": "我们在招人",
+        "fr": "nous recrutons",
+        "ar": "نحن نوظّف",
+        "ko": "채용 중입니다",
+        "ru": "мы нанимаем"
+      }
+    },
+    {
+      "word": "cover letter",
+      "pos": "noun",
+      "meaning": {
+        "ja": "添え状",
+        "en": "a letter sent with your resume",
+        "zh": "求职信",
+        "fr": "lettre de motivation",
+        "ar": "خطاب تغطية",
+        "ko": "자기소개서",
+        "ru": "сопроводительное письмо"
+      }
+    },
+    {
+      "word": "walk in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "アポなしで訪ねる",
+        "en": "to enter a business to ask for work without an appointment",
+        "zh": "直接上门应聘",
+        "fr": "se présenter sans rendez-vous",
+        "ar": "يدخل دون موعد",
+        "ko": "예고 없이 찾아가다",
+        "ru": "зайти без записи"
+      }
+    },
+    {
+      "word": "drop off a resume",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "履歴書を置いてくる",
+        "en": "to leave your resume at a business in person",
+        "zh": "亲自送简历",
+        "fr": "déposer son CV",
+        "ar": "يسلّم سيرته الذاتية",
+        "ko": "이력서를 놓고 오다",
+        "ru": "занести резюме"
+      }
+    },
+    {
+      "word": "opening",
+      "pos": "noun",
+      "meaning": {
+        "ja": "空きのある職",
+        "en": "a job that is free to be filled",
+        "zh": "职位空缺",
+        "fr": "poste à pourvoir",
+        "ar": "وظيفة شاغرة",
+        "ko": "공석",
+        "ru": "свободная должность"
+      }
+    },
+    {
+      "word": "full-time",
+      "pos": "adj",
+      "meaning": {
+        "ja": "常勤の",
+        "en": "working the full standard number of hours",
+        "zh": "全职的",
+        "fr": "à temps plein",
+        "ar": "بدوام كامل",
+        "ko": "정규 근무의",
+        "ru": "на полную ставку"
+      }
+    },
+    {
+      "word": "part-time",
+      "pos": "adj",
+      "meaning": {
+        "ja": "非常勤の",
+        "en": "working fewer than full hours",
+        "zh": "兼职的",
+        "fr": "à temps partiel",
+        "ar": "بدوام جزئي",
+        "ko": "시간제의",
+        "ru": "на неполную ставку"
+      }
+    },
+    {
+      "word": "casual",
+      "pos": "adj",
+      "meaning": {
+        "ja": "不定期雇用の",
+        "en": "employed with no guaranteed hours",
+        "zh": "临时用工的",
+        "fr": "en contrat occasionnel",
+        "ar": "بعمل غير منتظم",
+        "ko": "비정규 단기의",
+        "ru": "с нерегулярной занятостью"
+      }
+    },
+    {
+      "word": "hourly rate",
+      "pos": "noun",
+      "meaning": {
+        "ja": "時給の額",
+        "en": "how much you are paid for one hour",
+        "zh": "时薪",
+        "fr": "taux horaire",
+        "ar": "الأجر بالساعة",
+        "ko": "시간당 임금",
+        "ru": "почасовая ставка"
+      }
+    },
+    {
+      "word": "start date",
+      "pos": "noun",
+      "meaning": {
+        "ja": "勤務開始日",
+        "en": "the day you begin the job",
+        "zh": "入职日期",
+        "fr": "date de début",
+        "ar": "تاريخ المباشرة",
+        "ko": "근무 시작일",
+        "ru": "дата выхода на работу"
+      }
+    },
+    {
+      "word": "no experience necessary",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "未経験でも可",
+        "en": "you can apply without having done the job before",
+        "zh": "无经验可",
+        "fr": "débutants acceptés",
+        "ar": "لا يشترط خبرة",
+        "ko": "경력 무관",
+        "ru": "опыт не требуется"
+      }
+    },
+    {
+      "word": "entry-level",
+      "pos": "adj",
+      "meaning": {
+        "ja": "初心者向けの",
+        "en": "suitable for someone starting out",
+        "zh": "入门级的",
+        "fr": "pour débutant",
+        "ar": "لمستوى المبتدئين",
+        "ko": "초급자용의",
+        "ru": "начального уровня"
+      }
+    },
+    {
+      "word": "qualification",
+      "pos": "noun",
+      "meaning": {
+        "ja": "資格",
+        "en": "a skill or training a job requires",
+        "zh": "资历",
+        "fr": "qualification",
+        "ar": "مؤهل",
+        "ko": "자격",
+        "ru": "квалификация"
+      }
+    },
+    {
+      "word": "work permit",
+      "pos": "noun",
+      "meaning": {
+        "ja": "就労許可",
+        "en": "official permission to have a job in a country",
+        "zh": "工作许可",
+        "fr": "permis de travail",
+        "ar": "تصريح عمل",
+        "ko": "취업 허가",
+        "ru": "разрешение на работу"
+      }
+    },
+    {
+      "word": "eligible to work",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "働く資格がある",
+        "en": "legally allowed to be employed",
+        "zh": "具备工作资格",
+        "fr": "autorisé à travailler",
+        "ar": "مؤهل قانونيًا للعمل",
+        "ko": "취업 자격이 있는",
+        "ru": "имеющий право работать"
+      }
+    },
+    {
+      "word": "referee",
+      "pos": "noun",
+      "meaning": {
+        "ja": "照会先の人",
+        "en": "a person an employer can ask about you",
+        "zh": "证明人",
+        "fr": "personne de référence",
+        "ar": "شخص مرجعي",
+        "ko": "신원 보증인",
+        "ru": "поручитель для работодателя"
+      }
+    },
+    {
+      "word": "previous employer",
+      "pos": "noun",
+      "meaning": {
+        "ja": "前の勤務先",
+        "en": "a company you worked for before",
+        "zh": "前雇主",
+        "fr": "employeur précédent",
+        "ar": "صاحب العمل السابق",
+        "ko": "이전 근무처",
+        "ru": "предыдущий работодатель"
+      }
+    },
+    {
+      "word": "employment history",
+      "pos": "noun",
+      "meaning": {
+        "ja": "職歴",
+        "en": "the record of jobs you have had",
+        "zh": "工作经历",
+        "fr": "parcours professionnel",
+        "ar": "السجل الوظيفي",
+        "ko": "근무 이력",
+        "ru": "трудовая история"
+      }
+    },
+    {
+      "word": "trial shift",
+      "pos": "noun",
+      "meaning": {
+        "ja": "お試しの勤務",
+        "en": "a short work session to see if you suit the job",
+        "zh": "试工",
+        "fr": "journée d'essai",
+        "ar": "وردية تجريبية",
+        "ko": "수습 근무",
+        "ru": "пробная смена"
+      }
+    },
+    {
+      "word": "unpaid trial",
+      "pos": "noun",
+      "meaning": {
+        "ja": "無給のお試し勤務",
+        "en": "a trial shift you are not paid for",
+        "zh": "无薪试工",
+        "fr": "essai non rémunéré",
+        "ar": "تجربة بلا أجر",
+        "ko": "무급 수습",
+        "ru": "неоплачиваемая стажировка"
+      }
+    },
+    {
+      "word": "group interview",
+      "pos": "noun",
+      "meaning": {
+        "ja": "複数人での面接",
+        "en": "an interview with several candidates at once",
+        "zh": "集体面试",
+        "fr": "entretien collectif",
+        "ar": "مقابلة جماعية",
+        "ko": "집단 면접",
+        "ru": "групповое собеседование"
+      }
+    },
+    {
+      "word": "dress code",
+      "pos": "noun",
+      "meaning": {
+        "ja": "服装のきまり",
+        "en": "rules about what to wear",
+        "zh": "着装要求",
+        "fr": "code vestimentaire",
+        "ar": "قواعد اللباس",
+        "ko": "복장 규정",
+        "ru": "дресс-код"
+      }
+    },
+    {
+      "word": "first impression",
+      "pos": "noun",
+      "meaning": {
+        "ja": "第一印象",
+        "en": "how you seem when first meeting someone",
+        "zh": "第一印象",
+        "fr": "première impression",
+        "ar": "الانطباع الأول",
+        "ko": "첫인상",
+        "ru": "первое впечатление"
+      }
+    },
+    {
+      "word": "strengths",
+      "pos": "noun",
+      "meaning": {
+        "ja": "自分の強み",
+        "en": "the things you are good at",
+        "zh": "优势",
+        "fr": "points forts",
+        "ar": "نقاط القوة",
+        "ko": "강점",
+        "ru": "сильные стороны"
+      }
+    },
+    {
+      "word": "weaknesses",
+      "pos": "noun",
+      "meaning": {
+        "ja": "自分の弱み",
+        "en": "the things you are less good at",
+        "zh": "弱点",
+        "fr": "points faibles",
+        "ar": "نقاط الضعف",
+        "ko": "약점",
+        "ru": "слабые стороны"
+      }
+    },
+    {
+      "word": "expected pay",
+      "pos": "noun",
+      "meaning": {
+        "ja": "希望する給与",
+        "en": "the amount you hope to be paid",
+        "zh": "期望薪资",
+        "fr": "prétentions salariales",
+        "ar": "الراتب المتوقع",
+        "ko": "희망 급여",
+        "ru": "желаемая зарплата"
+      }
+    },
+    {
+      "word": "negotiate",
+      "pos": "verb",
+      "meaning": {
+        "ja": "交渉する",
+        "en": "to discuss terms until both sides agree",
+        "zh": "谈判",
+        "fr": "négocier",
+        "ar": "يتفاوض",
+        "ko": "협상하다",
+        "ru": "вести переговоры"
+      }
+    },
+    {
+      "word": "job offer",
+      "pos": "noun",
+      "meaning": {
+        "ja": "採用の申し出",
+        "en": "a formal invitation to take a job",
+        "zh": "录用通知",
+        "fr": "offre d'emploi ferme",
+        "ar": "عرض عمل",
+        "ko": "채용 제안",
+        "ru": "предложение о работе"
+      }
+    },
+    {
+      "word": "accept an offer",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "採用を受ける",
+        "en": "to agree to take the job",
+        "zh": "接受录用",
+        "fr": "accepter une offre",
+        "ar": "يقبل العرض",
+        "ko": "제안을 수락하다",
+        "ru": "принять предложение"
+      }
+    },
+    {
+      "word": "turn down",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "断る",
+        "en": "to refuse an offer",
+        "zh": "拒绝",
+        "fr": "décliner",
+        "ar": "يرفض العرض",
+        "ko": "거절하다",
+        "ru": "отклонить"
+      }
+    },
+    {
+      "word": "probation period",
+      "pos": "noun",
+      "meaning": {
+        "ja": "試用期間",
+        "en": "the first months when a job is not yet secure",
+        "zh": "试用期",
+        "fr": "période d'essai",
+        "ar": "فترة التجربة",
+        "ko": "수습 기간",
+        "ru": "испытательный срок"
+      }
+    },
+    {
+      "word": "orientation",
+      "pos": "noun",
+      "meaning": {
+        "ja": "初日の説明",
+        "en": "a first session explaining how things work",
+        "zh": "入职介绍",
+        "fr": "séance d'accueil",
+        "ar": "جلسة تعريفية",
+        "ko": "오리엔테이션",
+        "ru": "вводный инструктаж"
+      }
+    },
+    {
+      "word": "paperwork",
+      "pos": "noun",
+      "meaning": {
+        "ja": "事務書類",
+        "en": "the forms that must be filled in",
+        "zh": "文书工作",
+        "fr": "formalités administratives",
+        "ar": "الأوراق الرسمية",
+        "ko": "서류 작업",
+        "ru": "бумажная волокита"
+      }
+    },
+    {
+      "word": "uniform",
+      "pos": "noun",
+      "meaning": {
+        "ja": "制服",
+        "en": "clothing you must wear at work",
+        "zh": "制服",
+        "fr": "uniforme",
+        "ar": "زي موحد",
+        "ko": "유니폼",
+        "ru": "форменная одежда"
+      }
+    },
+    {
+      "word": "name tag",
+      "pos": "noun",
+      "meaning": {
+        "ja": "名札",
+        "en": "a badge showing your name at work",
+        "zh": "名牌",
+        "fr": "badge nominatif",
+        "ar": "بطاقة الاسم",
+        "ko": "명찰",
+        "ru": "бейдж"
+      }
+    },
+    {
+      "word": "background check",
+      "pos": "noun",
+      "meaning": {
+        "ja": "経歴の確認",
+        "en": "an employer checking your record",
+        "zh": "背景调查",
+        "fr": "vérification des antécédents",
+        "ar": "التحقق من الخلفية",
+        "ko": "신원 조회",
+        "ru": "проверка биографии"
+      }
+    },
+    {
+      "word": "get hired",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "採用される",
+        "en": "to be given the job",
+        "zh": "被录用",
+        "fr": "être embauché",
+        "ar": "يُوظَّف",
+        "ko": "채용되다",
+        "ru": "быть принятым на работу"
+      }
+    },
+    {
+      "word": "job seeker",
+      "pos": "noun",
+      "meaning": {
+        "ja": "求職者",
+        "en": "a person looking for work",
+        "zh": "求职者",
+        "fr": "demandeur d'emploi",
+        "ar": "باحث عن عمل",
+        "ko": "구직자",
+        "ru": "соискатель"
+      }
+    },
+    {
+      "word": "recruiter",
+      "pos": "noun",
+      "meaning": {
+        "ja": "採用担当者",
+        "en": "a person whose job is finding staff",
+        "zh": "招聘人员",
+        "fr": "recruteur",
+        "ar": "مسؤول التوظيف",
+        "ko": "채용 담당자",
+        "ru": "рекрутер"
+      }
+    },
+    {
+      "word": "staffing agency",
+      "pos": "noun",
+      "meaning": {
+        "ja": "人材派遣会社",
+        "en": "a company that places workers into jobs",
+        "zh": "人力中介",
+        "fr": "agence d'intérim",
+        "ar": "وكالة توظيف",
+        "ko": "인력 파견 회사",
+        "ru": "кадровое агентство"
+      }
+    },
+    {
+      "word": "seasonal work",
+      "pos": "noun",
+      "meaning": {
+        "ja": "季節限定の仕事",
+        "en": "work only available at certain times of year",
+        "zh": "季节性工作",
+        "fr": "travail saisonnier",
+        "ar": "عمل موسمي",
+        "ko": "계절 근로",
+        "ru": "сезонная работа"
+      }
+    },
+    {
+      "word": "night shift",
+      "pos": "noun",
+      "meaning": {
+        "ja": "夜勤",
+        "en": "work done during the night",
+        "zh": "夜班",
+        "fr": "travail de nuit",
+        "ar": "وردية ليلية",
+        "ko": "야간 근무",
+        "ru": "ночная смена"
+      }
+    },
+    {
+      "word": "weekend work",
+      "pos": "noun",
+      "meaning": {
+        "ja": "週末の勤務",
+        "en": "work on Saturday and Sunday",
+        "zh": "周末上班",
+        "fr": "travail le week-end",
+        "ar": "العمل في عطلة الأسبوع",
+        "ko": "주말 근무",
+        "ru": "работа по выходным"
+      }
+    },
+    {
+      "word": "flexible hours",
+      "pos": "noun",
+      "meaning": {
+        "ja": "融通のきく勤務時間",
+        "en": "working times that can be changed",
+        "zh": "弹性工时",
+        "fr": "horaires flexibles",
+        "ar": "ساعات عمل مرنة",
+        "ko": "탄력 근무 시간",
+        "ru": "гибкий график"
+      }
+    },
+    {
+      "word": "pay slip",
+      "pos": "noun",
+      "meaning": {
+        "ja": "給与明細",
+        "en": "a document showing what you were paid",
+        "zh": "工资单",
+        "fr": "fiche de paie",
+        "ar": "قسيمة الراتب",
+        "ko": "급여 명세서",
+        "ru": "расчётный лист"
+      }
+    },
+    {
+      "word": "roster",
+      "pos": "noun",
+      "meaning": {
+        "ja": "勤務表",
+        "en": "the list showing who works when",
+        "zh": "排班表",
+        "fr": "planning des équipes",
+        "ar": "جدول المناوبات",
+        "ko": "근무표",
+        "ru": "график смен"
+      }
+    },
+    {
+      "word": "clock in",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "出勤を記録する",
+        "en": "to record the time you start work",
+        "zh": "打卡上班",
+        "fr": "pointer à l'arrivée",
+        "ar": "يسجّل حضوره",
+        "ko": "출근을 찍다",
+        "ru": "отмечаться при приходе"
+      }
+    },
+    {
+      "word": "bank details",
+      "pos": "noun",
+      "meaning": {
+        "ja": "振込先の口座情報",
+        "en": "the account information an employer needs to pay you",
+        "zh": "银行账户信息",
+        "fr": "coordonnées bancaires",
+        "ar": "بيانات الحساب البنكي",
+        "ko": "계좌 정보",
+        "ru": "банковские реквизиты"
+      }
+    },
+    {
+      "word": "timesheet",
+      "pos": "noun",
+      "meaning": {
+        "ja": "勤務時間の記録表",
+        "en": "a record of the hours you worked",
+        "zh": "工时表",
+        "fr": "feuille d'heures",
+        "ar": "سجل ساعات العمل",
+        "ko": "근무 시간표",
+        "ru": "табель учёта времени"
+      }
+    },
+    {
+      "word": "clock out",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "退勤を記録する",
+        "en": "to record the time you finish work",
+        "zh": "打卡下班",
+        "fr": "pointer au départ",
+        "ar": "يسجّل انصرافه",
+        "ko": "퇴근을 찍다",
+        "ru": "отмечаться при уходе"
+      }
+    },
+    {
+      "word": "pay cycle",
+      "pos": "noun",
+      "meaning": {
+        "ja": "給与の支払い周期",
+        "en": "how often you are paid",
+        "zh": "发薪周期",
+        "fr": "cycle de paie",
+        "ar": "دورة صرف الراتب",
+        "ko": "급여 주기",
+        "ru": "периодичность выплат"
+      }
+    },
+    {
+      "word": "fortnightly",
+      "pos": "adj",
+      "meaning": {
+        "ja": "2週間ごとの",
+        "en": "happening once every two weeks",
+        "zh": "每两周的",
+        "fr": "bimensuel",
+        "ar": "كل أسبوعين",
+        "ko": "격주의",
+        "ru": "раз в две недели"
+      }
+    },
+    {
+      "word": "cash in hand",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "手渡しの現金払い",
+        "en": "paid in cash, often without records",
+        "zh": "现金结算",
+        "fr": "payé en liquide",
+        "ar": "دفع نقدي مباشر",
+        "ko": "현금 직접 지급",
+        "ru": "оплата наличными на руки"
+      }
+    },
+    {
+      "word": "minimum wage",
+      "pos": "noun",
+      "meaning": {
+        "ja": "最低賃金",
+        "en": "the lowest pay allowed by law",
+        "zh": "最低工资",
+        "fr": "salaire minimum",
+        "ar": "الحد الأدنى للأجور",
+        "ko": "최저 임금",
+        "ru": "минимальная зарплата"
+      }
+    },
+    {
+      "word": "underpaid",
+      "pos": "adj",
+      "meaning": {
+        "ja": "賃金が不足している",
+        "en": "paid less than you should be",
+        "zh": "薪资偏低的",
+        "fr": "sous-payé",
+        "ar": "يتقاضى أقل من حقه",
+        "ko": "임금이 덜 지급된",
+        "ru": "недоплаченный"
+      }
+    },
+    {
+      "word": "pay rise",
+      "pos": "noun",
+      "meaning": {
+        "ja": "昇給",
+        "en": "an increase in what you are paid",
+        "zh": "加薪",
+        "fr": "augmentation de salaire",
+        "ar": "زيادة في الأجر",
+        "ko": "임금 인상",
+        "ru": "повышение зарплаты"
+      }
+    },
+    {
+      "word": "tip",
+      "pos": "noun",
+      "meaning": {
+        "ja": "チップ",
+        "en": "extra money a customer leaves for service",
+        "zh": "小费",
+        "fr": "pourboire",
+        "ar": "بقشيش",
+        "ko": "팁",
+        "ru": "чаевые"
+      }
+    },
+    {
+      "word": "sick leave",
+      "pos": "noun",
+      "meaning": {
+        "ja": "病気休暇",
+        "en": "time off allowed when you are unwell",
+        "zh": "病假",
+        "fr": "congé maladie",
+        "ar": "إجازة مرضية",
+        "ko": "병가",
+        "ru": "больничный"
+      }
+    },
+    {
+      "word": "annual leave",
+      "pos": "noun",
+      "meaning": {
+        "ja": "年次の有給休暇",
+        "en": "paid holiday you build up each year",
+        "zh": "年假",
+        "fr": "congés annuels",
+        "ar": "إجازة سنوية",
+        "ko": "연차 휴가",
+        "ru": "ежегодный отпуск"
+      }
+    },
+    {
+      "word": "day off",
+      "pos": "noun",
+      "meaning": {
+        "ja": "休みの日",
+        "en": "a day you are not scheduled to work",
+        "zh": "休息日",
+        "fr": "jour de repos",
+        "ar": "يوم راحة",
+        "ko": "쉬는 날",
+        "ru": "выходной день"
+      }
+    },
+    {
+      "word": "call in sick",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "病欠の連絡をする",
+        "en": "to telephone work to say you cannot come",
+        "zh": "打电话请病假",
+        "fr": "se déclarer malade",
+        "ar": "يتصل ليعتذر لمرضه",
+        "ko": "아파서 못 간다고 연락하다",
+        "ru": "позвонить и сказаться больным"
+      }
+    },
+    {
+      "word": "swap shifts",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "シフトを交代する",
+        "en": "to exchange a work time with a colleague",
+        "zh": "换班",
+        "fr": "échanger un service",
+        "ar": "يتبادل المناوبة",
+        "ko": "근무를 바꾸다",
+        "ru": "поменяться сменами"
+      }
+    },
+    {
+      "word": "cover a shift",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "シフトを代わりに入る",
+        "en": "to work in place of someone else",
+        "zh": "替班",
+        "fr": "remplacer sur un service",
+        "ar": "يغطي مناوبة زميل",
+        "ko": "대신 근무하다",
+        "ru": "подменить на смене"
+      }
+    },
+    {
+      "word": "short-staffed",
+      "pos": "adj",
+      "meaning": {
+        "ja": "人手が足りない",
+        "en": "having fewer workers than needed",
+        "zh": "人手不足的",
+        "fr": "en sous-effectif",
+        "ar": "يعاني نقص الموظفين",
+        "ko": "일손이 부족한",
+        "ru": "с нехваткой персонала"
+      }
+    },
+    {
+      "word": "be on call",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "呼び出しに備えている",
+        "en": "available to be asked to work at short notice",
+        "zh": "随时待命",
+        "fr": "être d'astreinte",
+        "ar": "تحت الطلب",
+        "ko": "대기 상태이다",
+        "ru": "быть на подхвате"
+      }
+    },
+    {
+      "word": "rush hour",
+      "pos": "noun",
+      "meaning": {
+        "ja": "混み合う時間帯",
+        "en": "the busiest part of the day",
+        "zh": "高峰时段",
+        "fr": "heure de pointe",
+        "ar": "ساعة الذروة",
+        "ko": "혼잡 시간대",
+        "ru": "час пик"
+      }
+    },
+    {
+      "word": "break time",
+      "pos": "noun",
+      "meaning": {
+        "ja": "休憩の時間",
+        "en": "time allowed to rest during a shift",
+        "zh": "休息时间",
+        "fr": "temps de pause",
+        "ar": "وقت الاستراحة",
+        "ko": "휴식 시간",
+        "ru": "время перерыва"
+      }
+    },
+    {
+      "word": "clock-in time",
+      "pos": "noun",
+      "meaning": {
+        "ja": "出勤時刻",
+        "en": "the time you are due to start",
+        "zh": "上班时间",
+        "fr": "heure d'arrivée",
+        "ar": "وقت بدء الدوام",
+        "ko": "출근 시각",
+        "ru": "время начала смены"
+      }
+    },
+    {
+      "word": "punctual",
+      "pos": "adj",
+      "meaning": {
+        "ja": "時間を守る",
+        "en": "arriving at the right time",
+        "zh": "守时的",
+        "fr": "ponctuel",
+        "ar": "ملتزم بالمواعيد",
+        "ko": "시간을 잘 지키는",
+        "ru": "пунктуальный"
+      }
+    },
+    {
+      "word": "reliable",
+      "pos": "adj",
+      "meaning": {
+        "ja": "あてにできる",
+        "en": "able to be trusted to do what you said",
+        "zh": "可靠的",
+        "fr": "fiable",
+        "ar": "يُعتمد عليه",
+        "ko": "믿을 만한",
+        "ru": "надёжный"
+      }
+    },
+    {
+      "word": "hardworking",
+      "pos": "adj",
+      "meaning": {
+        "ja": "よく働く",
+        "en": "putting real effort into your work",
+        "zh": "勤奋的",
+        "fr": "travailleur",
+        "ar": "مجتهد",
+        "ko": "성실히 일하는",
+        "ru": "трудолюбивый"
+      }
+    },
+    {
+      "word": "team player",
+      "pos": "noun",
+      "meaning": {
+        "ja": "協調性のある人",
+        "en": "someone who works well with others",
+        "zh": "有团队精神的人",
+        "fr": "esprit d'équipe",
+        "ar": "شخص يعمل بروح الفريق",
+        "ko": "협업을 잘하는 사람",
+        "ru": "командный игрок"
+      }
+    },
+    {
+      "word": "willing to learn",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "学ぶ意欲がある",
+        "en": "happy to be taught new things",
+        "zh": "愿意学习",
+        "fr": "prêt à apprendre",
+        "ar": "مستعد للتعلم",
+        "ko": "배울 의지가 있는",
+        "ru": "готовый учиться"
+      }
+    },
+    {
+      "word": "customer service",
+      "pos": "noun",
+      "meaning": {
+        "ja": "接客の仕事",
+        "en": "the work of helping customers",
+        "zh": "客户服务",
+        "fr": "service à la clientèle",
+        "ar": "خدمة العملاء",
+        "ko": "고객 응대",
+        "ru": "обслуживание клиентов"
+      }
+    },
+    {
+      "word": "work under pressure",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "忙しさの中でこなす",
+        "en": "to keep working well when things are hectic",
+        "zh": "在压力下工作",
+        "fr": "travailler sous pression",
+        "ar": "يعمل تحت الضغط",
+        "ko": "압박 속에서 일하다",
+        "ru": "работать под давлением"
+      }
+    },
+    {
+      "word": "multitask",
+      "pos": "verb",
+      "meaning": {
+        "ja": "同時に複数こなす",
+        "en": "to do several things at the same time",
+        "zh": "同时处理多项任务",
+        "fr": "gérer plusieurs tâches",
+        "ar": "ينجز مهام متعددة",
+        "ko": "동시에 여러 일을 하다",
+        "ru": "делать несколько дел сразу"
+      }
+    },
+    {
+      "word": "take initiative",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "自分から動く",
+        "en": "to act without being told to",
+        "zh": "主动做事",
+        "fr": "prendre des initiatives",
+        "ar": "يبادر من نفسه",
+        "ko": "주도적으로 나서다",
+        "ru": "проявлять инициативу"
+      }
+    },
+    {
+      "word": "follow instructions",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "指示どおりに動く",
+        "en": "to do exactly what you were told",
+        "zh": "遵照指示",
+        "fr": "suivre les consignes",
+        "ar": "يتبع التعليمات",
+        "ko": "지시를 따르다",
+        "ru": "следовать указаниям"
+      }
+    },
+    {
+      "word": "job description",
+      "pos": "noun",
+      "meaning": {
+        "ja": "職務の内容説明",
+        "en": "a written account of what the job involves",
+        "zh": "职位描述",
+        "fr": "description de poste",
+        "ar": "وصف الوظيفة",
+        "ko": "직무 설명",
+        "ru": "описание должности"
+      }
+    },
+    {
+      "word": "duties",
+      "pos": "noun",
+      "meaning": {
+        "ja": "担当する業務",
+        "en": "the tasks you are responsible for",
+        "zh": "职责",
+        "fr": "tâches à accomplir",
+        "ar": "المهام الموكلة",
+        "ko": "담당 업무",
+        "ru": "обязанности"
+      }
+    },
+    {
+      "word": "responsibility",
+      "pos": "noun",
+      "meaning": {
+        "ja": "責任",
+        "en": "something you are expected to take care of",
+        "zh": "责任",
+        "fr": "responsabilité",
+        "ar": "مسؤولية",
+        "ko": "책임",
+        "ru": "ответственность"
+      }
+    },
+    {
+      "word": "line manager",
+      "pos": "noun",
+      "meaning": {
+        "ja": "直属の上司",
+        "en": "the person you report to directly",
+        "zh": "直属主管",
+        "fr": "supérieur direct",
+        "ar": "المدير المباشر",
+        "ko": "직속 상사",
+        "ru": "непосредственный руководитель"
+      }
+    },
+    {
+      "word": "shift leader",
+      "pos": "noun",
+      "meaning": {
+        "ja": "その時間帯の責任者",
+        "en": "the person in charge during a shift",
+        "zh": "当班负责人",
+        "fr": "responsable de service",
+        "ar": "مسؤول المناوبة",
+        "ko": "근무 조 책임자",
+        "ru": "старший смены"
+      }
+    },
+    {
+      "word": "probationary review",
+      "pos": "noun",
+      "meaning": {
+        "ja": "試用期間の評価面談",
+        "en": "a meeting to judge how a new worker is doing",
+        "zh": "试用期评估",
+        "fr": "bilan de période d'essai",
+        "ar": "تقييم فترة التجربة",
+        "ko": "수습 평가 면담",
+        "ru": "оценка по итогам испытательного срока"
+      }
+    },
+    {
+      "word": "feedback",
+      "pos": "noun",
+      "meaning": {
+        "ja": "評価の言葉",
+        "en": "comments on how you are performing",
+        "zh": "反馈",
+        "fr": "retour d'évaluation",
+        "ar": "ملاحظات تقييمية",
+        "ko": "피드백",
+        "ru": "обратная связь"
+      }
+    },
+    {
+      "word": "give notice",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "辞めると伝える",
+        "en": "to tell an employer you are leaving",
+        "zh": "提出辞职",
+        "fr": "donner sa démission",
+        "ar": "يقدّم استقالته",
+        "ko": "퇴사 의사를 알리다",
+        "ru": "уведомить об увольнении"
+      }
+    },
+    {
+      "word": "quit",
+      "pos": "verb",
+      "meaning": {
+        "ja": "仕事を辞める",
+        "en": "to stop working at a job by choice",
+        "zh": "辞职",
+        "fr": "quitter son emploi",
+        "ar": "يترك العمل",
+        "ko": "일을 그만두다",
+        "ru": "уволиться"
+      }
+    },
+    {
+      "word": "resign",
+      "pos": "verb",
+      "meaning": {
+        "ja": "正式に辞職する",
+        "en": "to formally leave a position",
+        "zh": "正式辞职",
+        "fr": "démissionner officiellement",
+        "ar": "يستقيل رسميًا",
+        "ko": "사직하다",
+        "ru": "подать в отставку"
+      }
+    },
+    {
+      "word": "get fired",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "クビになる",
+        "en": "to lose a job because of your conduct",
+        "zh": "被解雇",
+        "fr": "se faire renvoyer",
+        "ar": "يُفصل من العمل",
+        "ko": "해고당하다",
+        "ru": "быть уволенным"
+      }
+    },
+    {
+      "word": "let go",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "やんわり解雇される",
+        "en": "to be dismissed, said gently",
+        "zh": "被辞退（委婉）",
+        "fr": "être remercié",
+        "ar": "يُستغنى عنه",
+        "ko": "완곡히 해고되다",
+        "ru": "быть отпущенным (об увольнении)"
+      }
+    },
+    {
+      "word": "reference letter",
+      "pos": "noun",
+      "meaning": {
+        "ja": "推薦状",
+        "en": "a written statement supporting your application",
+        "zh": "推荐信",
+        "fr": "lettre de recommandation",
+        "ar": "خطاب توصية",
+        "ko": "추천서",
+        "ru": "рекомендательное письмо"
+      }
+    },
+    {
+      "word": "work experience",
+      "pos": "noun",
+      "meaning": {
+        "ja": "実務の経験",
+        "en": "time spent actually doing a job",
+        "zh": "工作经验",
+        "fr": "expérience professionnelle",
+        "ar": "خبرة عملية",
+        "ko": "실무 경험",
+        "ru": "опыт работы"
+      }
+    },
+    {
+      "word": "transferable skills",
+      "pos": "noun",
+      "meaning": {
+        "ja": "他でも活かせる能力",
+        "en": "abilities useful in many different jobs",
+        "zh": "可迁移技能",
+        "fr": "compétences transférables",
+        "ar": "مهارات قابلة للنقل",
+        "ko": "두루 쓰이는 역량",
+        "ru": "универсальные навыки"
+      }
+    },
+    {
+      "word": "job security",
+      "pos": "noun",
+      "meaning": {
+        "ja": "雇用の安定",
+        "en": "how safe your job is from being lost",
+        "zh": "工作稳定性",
+        "fr": "sécurité de l'emploi",
+        "ar": "استقرار وظيفي",
+        "ko": "고용 안정성",
+        "ru": "стабильность занятости"
+      }
+    },
+    {
+      "word": "working conditions",
+      "pos": "noun",
+      "meaning": {
+        "ja": "労働の環境",
+        "en": "what a workplace is like to work in",
+        "zh": "工作条件",
+        "fr": "conditions de travail",
+        "ar": "ظروف العمل",
+        "ko": "근로 환경",
+        "ru": "условия труда"
+      }
+    },
+    {
+      "word": "employment contract",
+      "pos": "noun",
+      "meaning": {
+        "ja": "雇用の契約書",
+        "en": "the signed agreement between you and an employer",
+        "zh": "劳动合同",
+        "fr": "contrat de travail",
+        "ar": "عقد التوظيف",
+        "ko": "근로 계약서",
+        "ru": "трудовой договор"
+      }
+    },
+    {
+      "word": "sign on",
+      "pos": "phrase",
+      "meaning": {
+        "ja": "雇われることに同意する",
+        "en": "to formally agree to join a workplace",
+        "zh": "签约入职",
+        "fr": "s'engager auprès d'un employeur",
+        "ar": "يوقّع للانضمام للعمل",
+        "ko": "입사에 동의하다",
+        "ru": "оформиться на работу"
+      }
+    },
+    {
+      "word": "induction",
+      "pos": "noun",
+      "meaning": {
+        "ja": "就業前の講習",
+        "en": "training given before you start the work",
+        "zh": "岗前培训",
+        "fr": "formation d'accueil",
+        "ar": "تدريب تمهيدي",
+        "ko": "사전 교육",
+        "ru": "вводное обучение"
+      }
+    }
+  ]
+}
