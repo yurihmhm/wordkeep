@@ -150,19 +150,45 @@ console.log('  total   ' + out.words.length + (before ? '   (was ' + before + ')
 // package, so "sure" and "of course" both meaning もちろん can appear in one
 // question with two correct answers and no way to pick right. Named here
 // because it is invisible until somebody fails a question they knew.
-const byMeaning = new Map();
-out.words.forEach(w => {
-  const k = String(w.meaning.ja || '').trim();
-  if (!k) return;
-  (byMeaning.get(k) || byMeaning.set(k, []).get(k)).push(w.word);
+// Each language has a script it is supposed to be written in. A meaning that
+// carries stray Latin letters is almost always a half-typed word -- the kind of
+// slip that survives forever because nobody reads the Russian column.
+const SCRIPTS = {
+  ru: { re: /[\u0400-\u04ff]/, stray: /[A-Za-z]/, name: 'Cyrillic' },
+  ar: { re: /[\u0600-\u06ff]/, stray: /[A-Za-z]/, name: 'Arabic' },
+  ko: { re: /[\uac00-\ud7af]/, stray: /[A-Za-z]/, name: 'Hangul' },
+  zh: { re: /[\u4e00-\u9fff]/, stray: /[A-Za-z]/, name: 'Chinese' },
+  ja: { re: /[\u3040-\u30ff\u4e00-\u9fff]/, stray: /[A-Za-z]/, name: 'Japanese' }
+};
+Object.entries(SCRIPTS).forEach(([lang, sc]) => {
+  const bad = out.words.filter(w => {
+    const v = String((w.meaning || {})[lang] || '');
+    return sc.stray.test(v) && sc.re.test(v);
+  });
+  if (!bad.length) return;
+  console.log('\n  [' + lang + '] ' + bad.length + ' meaning(s) mix Latin letters into ' + sc.name + ':');
+  bad.slice(0, 8).forEach(w => console.log('    ' + w.word + '  →  ' + w.meaning[lang]));
+  console.log('  This is usually a typo. Check them.');
 });
-const collisions = [...byMeaning.entries()].filter(([, ws]) => ws.length > 1);
-if (collisions.length) {
-  console.log('\n  ' + collisions.length + ' meaning(s) used by more than one word:');
-  collisions.slice(0, 10).forEach(([m, ws]) => console.log('    ' + m + '  ←  ' + ws.join(' / ')));
-  if (collisions.length > 10) console.log('    ...and ' + (collisions.length - 10) + ' more');
-  console.log('  Four-choice would offer both as answers. Ask the chat to make these distinct.');
-}
+
+// Checked in EVERY language, not just Japanese. Someone studying in Korean hits
+// the same broken question as someone studying in Japanese, and until now only
+// the Japanese column was ever looked at -- so a collision in the other six
+// could sit there forever without anybody noticing.
+LANGS.forEach(lang => {
+  const byMeaning = new Map();
+  out.words.forEach(w => {
+    const k = String((w.meaning || {})[lang] || '').trim();
+    if (!k) return;
+    (byMeaning.get(k) || byMeaning.set(k, []).get(k)).push(w.word);
+  });
+  const collisions = [...byMeaning.entries()].filter(([, ws]) => ws.length > 1);
+  if (!collisions.length) return;
+  console.log('\n  [' + lang + '] ' + collisions.length + ' meaning(s) used by more than one word:');
+  collisions.slice(0, 8).forEach(([m, ws]) => console.log('    ' + m + '  ←  ' + ws.join(' / ')));
+  if (collisions.length > 8) console.log('    ...and ' + (collisions.length - 8) + ' more');
+  console.log('  Four-choice would offer both as answers to somebody studying in ' + lang + '.');
+});
 // The package is meant to land on exactly 100. Say where it stands rather than
 // leaving it to be noticed weeks later in the catalogue.
 if (added !== 50) console.log('\n  note: this block had ' + added + ' new words, not 50.');

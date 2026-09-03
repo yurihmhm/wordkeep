@@ -1,0 +1,1282 @@
+{
+ "id": "workplace_issues",
+ "v": 1,
+ "title": {
+  "ja": "職場での会話とトラブル",
+  "en": "Workplace Talk & Problems",
+  "zh": "职场沟通与问题",
+  "fr": "Communication et problèmes au travail",
+  "ar": "التواصل والمشكلات في العمل",
+  "ko": "직장 대화와 문제 상황",
+  "ru": "Общение и проблемы на работе"
+ },
+ "words": [
+  {
+   "word": "complain",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文句を言う",
+    "en": "to say you are unhappy about something",
+    "zh": "抱怨",
+    "fr": "se plaindre",
+    "ar": "يشتكي",
+    "ko": "불평하다",
+    "ru": "жаловаться"
+   }
+  },
+  {
+   "word": "speak up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "声を上げる",
+    "en": "to say what you think, especially about a problem",
+    "zh": "大胆说出来",
+    "fr": "oser dire",
+    "ar": "يجاهر برأيه",
+    "ko": "목소리를 내다",
+    "ru": "высказаться"
+   }
+  },
+  {
+   "word": "misunderstanding",
+   "pos": "noun",
+   "meaning": {
+    "ja": "誤解",
+    "en": "a failure to understand correctly",
+    "zh": "误会",
+    "fr": "malentendu",
+    "ar": "سوء فهم",
+    "ko": "오해",
+    "ru": "недоразумение"
+   }
+  },
+  {
+   "word": "on purpose",
+   "pos": "noun",
+   "meaning": {
+    "ja": "わざと",
+    "en": "intentionally",
+    "zh": "故意地",
+    "fr": "exprès",
+    "ar": "عن قصد",
+    "ko": "일부러",
+    "ru": "нарочно"
+   }
+  },
+  {
+   "word": "by accident",
+   "pos": "noun",
+   "meaning": {
+    "ja": "うっかり",
+    "en": "not intentionally",
+    "zh": "不小心",
+    "fr": "par accident",
+    "ar": "بدون قصد",
+    "ko": "실수로",
+    "ru": "случайно"
+   }
+  },
+  {
+   "word": "own up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分の非を認める",
+    "en": "to admit you did something wrong",
+    "zh": "承认错误",
+    "fr": "avouer sa faute",
+    "ar": "يعترف بخطئه",
+    "ko": "잘못을 인정하다",
+    "ru": "признать вину"
+   }
+  },
+  {
+   "word": "let it slide",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大目に見る",
+    "en": "to choose not to react to something wrong",
+    "zh": "睁一只眼闭一只眼",
+    "fr": "laisser passer",
+    "ar": "يتغاضى عن",
+    "ko": "눈감아 주다",
+    "ru": "спустить на тормозах"
+   }
+  },
+  {
+   "word": "fed up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "うんざりして",
+    "en": "annoyed and tired of a situation",
+    "zh": "受够了",
+    "fr": "en avoir marre",
+    "ar": "سئم",
+    "ko": "진저리가 난",
+    "ru": "сыт по горло"
+   }
+  },
+  {
+   "word": "unfair",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不公平な",
+    "en": "not treating people equally",
+    "zh": "不公平的",
+    "fr": "injuste",
+    "ar": "غير عادل",
+    "ko": "불공평한",
+    "ru": "несправедливый"
+   }
+  },
+  {
+   "word": "rights",
+   "pos": "noun",
+   "meaning": {
+    "ja": "権利",
+    "en": "what the law allows you to have or do",
+    "zh": "权利",
+    "fr": "droits",
+    "ar": "حقوق",
+    "ko": "권리",
+    "ru": "права"
+   }
+  },
+  {
+   "word": "entitled to",
+   "pos": "noun",
+   "meaning": {
+    "ja": "〜を受ける資格がある",
+    "en": "having the legal right to something",
+    "zh": "有权享有",
+    "fr": "avoir droit à",
+    "ar": "يحق له",
+    "ko": "받을 자격이 있는",
+    "ru": "иметь право на"
+   }
+  },
+  {
+   "word": "deduction",
+   "pos": "noun",
+   "meaning": {
+    "ja": "控除",
+    "en": "money taken out of your pay",
+    "zh": "扣款",
+    "fr": "retenue sur salaire",
+    "ar": "استقطاع",
+    "ko": "공제",
+    "ru": "вычет"
+   }
+  },
+  {
+   "word": "owe",
+   "pos": "noun",
+   "meaning": {
+    "ja": "支払う義務がある",
+    "en": "to have to pay someone money",
+    "zh": "欠",
+    "fr": "devoir de l'argent",
+    "ar": "مدين بـ",
+    "ko": "빚지다",
+    "ru": "быть должным"
+   }
+  },
+  {
+   "word": "cover for",
+   "pos": "noun",
+   "meaning": {
+    "ja": "代わりを務める",
+    "en": "to do someone's work while they are away",
+    "zh": "顶替",
+    "fr": "remplacer quelqu'un",
+    "ar": "ينوب عن",
+    "ko": "대신해 주다",
+    "ru": "подменять"
+   }
+  },
+  {
+   "word": "swap",
+   "pos": "noun",
+   "meaning": {
+    "ja": "交換する",
+    "en": "to exchange one thing for another",
+    "zh": "交换",
+    "fr": "troquer contre",
+    "ar": "يتبادل",
+    "ko": "바꾸다",
+    "ru": "меняться"
+   }
+  },
+  {
+   "word": "short notice",
+   "pos": "noun",
+   "meaning": {
+    "ja": "直前の連絡",
+    "en": "very little warning before something happens",
+    "zh": "临时通知",
+    "fr": "délai très court",
+    "ar": "إشعار قصير",
+    "ko": "촉박한 통보",
+    "ru": "уведомление в последний момент"
+   }
+  },
+  {
+   "word": "no-show",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無断欠勤",
+    "en": "someone who does not come without telling anyone",
+    "zh": "无故缺勤",
+    "fr": "absence sans prévenir",
+    "ar": "غياب دون إخطار",
+    "ko": "무단 결근",
+    "ru": "неявка без предупреждения"
+   }
+  },
+  {
+   "word": "unpaid",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無給の",
+    "en": "with no money paid for it",
+    "zh": "无薪的",
+    "fr": "non rémunéré",
+    "ar": "غير مدفوع الأجر",
+    "ko": "무급의",
+    "ru": "неоплачиваемый"
+   }
+  },
+  {
+   "word": "pile up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "どんどんたまる",
+    "en": "to increase in amount until there is too much",
+    "zh": "堆积",
+    "fr": "s'accumuler",
+    "ar": "يتراكم",
+    "ko": "쌓이다",
+    "ru": "накапливаться"
+   }
+  },
+  {
+   "word": "slack off",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サボる",
+    "en": "to work less hard than you should",
+    "zh": "偷懒",
+    "fr": "se relâcher",
+    "ar": "يتكاسل",
+    "ko": "게으름 피우다",
+    "ru": "халтурить"
+   }
+  },
+  {
+   "word": "pull your weight",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分の分を果たす",
+    "en": "to do your fair share of the work",
+    "zh": "尽自己的本分",
+    "fr": "faire sa part",
+    "ar": "يؤدي نصيبه",
+    "ko": "제 몫을 하다",
+    "ru": "тянуть свою лямку"
+   }
+  },
+  {
+   "word": "step up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "進んで引き受ける",
+    "en": "to take responsibility when it is needed",
+    "zh": "主动承担",
+    "fr": "prendre les choses en main",
+    "ar": "يتقدم للمسؤولية",
+    "ko": "나서서 맡다",
+    "ru": "взять на себя"
+   }
+  },
+  {
+   "word": "take it personally",
+   "pos": "noun",
+   "meaning": {
+    "ja": "個人攻撃と受け取る",
+    "en": "to feel that criticism is an attack on you",
+    "zh": "往心里去",
+    "fr": "le prendre personnellement",
+    "ar": "يأخذه على محمل شخصي",
+    "ko": "기분 나쁘게 받아들이다",
+    "ru": "принимать на свой счёт"
+   }
+  },
+  {
+   "word": "blow up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "突然激怒する",
+    "en": "to suddenly become very angry",
+    "zh": "发火",
+    "fr": "exploser de colère",
+    "ar": "ينفجر غضبا",
+    "ko": "버럭 화내다",
+    "ru": "взорваться"
+   }
+  },
+  {
+   "word": "fall out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仲たがいする",
+    "en": "to argue and stop being friendly",
+    "zh": "闹翻",
+    "fr": "se brouiller",
+    "ar": "يتخاصم",
+    "ko": "사이가 틀어지다",
+    "ru": "поссориться"
+   }
+  },
+  {
+   "word": "awkward",
+   "pos": "noun",
+   "meaning": {
+    "ja": "気まずい",
+    "en": "uncomfortable and embarrassing",
+    "zh": "尴尬的",
+    "fr": "gênant",
+    "ar": "محرج",
+    "ko": "어색한",
+    "ru": "неловкий"
+   }
+  },
+  {
+   "word": "gossip",
+   "pos": "noun",
+   "meaning": {
+    "ja": "うわさ話",
+    "en": "talk about other people's private lives",
+    "zh": "闲话",
+    "fr": "ragots",
+    "ar": "نميمة",
+    "ko": "뒷담화",
+    "ru": "сплетни"
+   }
+  },
+  {
+   "word": "behind your back",
+   "pos": "noun",
+   "meaning": {
+    "ja": "本人のいないところで",
+    "en": "without the person knowing",
+    "zh": "在背后",
+    "fr": "dans ton dos",
+    "ar": "من وراء ظهرك",
+    "ko": "등 뒤에서",
+    "ru": "за спиной"
+   }
+  },
+  {
+   "word": "pick on",
+   "pos": "noun",
+   "meaning": {
+    "ja": "目の敵にする",
+    "en": "to treat one person unfairly again and again",
+    "zh": "针对",
+    "fr": "s'en prendre à",
+    "ar": "يتنمر على",
+    "ko": "괴롭히다",
+    "ru": "придираться к"
+   }
+  },
+  {
+   "word": "harassment",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ハラスメント",
+    "en": "behaviour that threatens or upsets someone repeatedly",
+    "zh": "骚扰",
+    "fr": "harcèlement",
+    "ar": "تحرش",
+    "ko": "괴롭힘 행위",
+    "ru": "домогательство"
+   }
+  },
+  {
+   "word": "discriminate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "差別する",
+    "en": "to treat someone worse because of who they are",
+    "zh": "歧视",
+    "fr": "discriminer",
+    "ar": "يميز عنصريا",
+    "ko": "차별하다",
+    "ru": "дискриминировать"
+   }
+  },
+  {
+   "word": "witness",
+   "pos": "noun",
+   "meaning": {
+    "ja": "目撃者",
+    "en": "someone who saw what happened",
+    "zh": "目击者",
+    "fr": "témoin",
+    "ar": "شاهد",
+    "ko": "목격자",
+    "ru": "свидетель"
+   }
+  },
+  {
+   "word": "evidence",
+   "pos": "noun",
+   "meaning": {
+    "ja": "証拠",
+    "en": "facts that prove something is true",
+    "zh": "证据",
+    "fr": "preuve",
+    "ar": "دليل",
+    "ko": "증거",
+    "ru": "доказательство"
+   }
+  },
+  {
+   "word": "union",
+   "pos": "noun",
+   "meaning": {
+    "ja": "労働組合",
+    "en": "an organisation that protects workers",
+    "zh": "工会",
+    "fr": "syndicat",
+    "ar": "نقابة عمالية",
+    "ko": "노동조합",
+    "ru": "профсоюз"
+   }
+  },
+  {
+   "word": "boss",
+   "pos": "noun",
+   "meaning": {
+    "ja": "上司",
+    "en": "the person who is in charge of you at work",
+    "zh": "老板",
+    "fr": "patron",
+    "ar": "رئيس في العمل",
+    "ko": "상사",
+    "ru": "начальник"
+   }
+  },
+  {
+   "word": "HR",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人事部",
+    "en": "the department that deals with staff matters",
+    "zh": "人力资源部",
+    "fr": "ressources humaines",
+    "ar": "الموارد البشرية",
+    "ko": "인사부",
+    "ru": "отдел кадров"
+   }
+  },
+  {
+   "word": "permanent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無期雇用の",
+    "en": "with no end date on the contract",
+    "zh": "长期雇用的",
+    "fr": "en contrat à durée indéterminée",
+    "ar": "دائم التوظيف",
+    "ko": "정규직의",
+    "ru": "постоянный"
+   }
+  },
+  {
+   "word": "shift work",
+   "pos": "noun",
+   "meaning": {
+    "ja": "交代勤務",
+    "en": "work in rotating blocks of hours",
+    "zh": "轮班工作",
+    "fr": "travail posté",
+    "ar": "العمل بنظام المناوبات",
+    "ko": "교대 근무",
+    "ru": "сменная работа"
+   }
+  },
+  {
+   "word": "warning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "警告",
+    "en": "a formal notice that behaviour must change",
+    "zh": "警告",
+    "fr": "avertissement",
+    "ar": "إنذار",
+    "ko": "경고",
+    "ru": "предупреждение"
+   }
+  },
+  {
+   "word": "disciplinary",
+   "pos": "noun",
+   "meaning": {
+    "ja": "懲戒の",
+    "en": "relating to punishment for breaking rules",
+    "zh": "纪律处分的",
+    "fr": "disciplinaire",
+    "ar": "تأديبي",
+    "ko": "징계의",
+    "ru": "дисциплинарный"
+   }
+  },
+  {
+   "word": "fired",
+   "pos": "noun",
+   "meaning": {
+    "ja": "解雇された",
+    "en": "made to leave a job because of your behaviour",
+    "zh": "被解雇的",
+    "fr": "licencié pour faute",
+    "ar": "مفصول من العمل",
+    "ko": "해고된",
+    "ru": "уволенный"
+   }
+  },
+  {
+   "word": "laid off",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人員削減で職を失った",
+    "en": "made to leave because the job no longer exists",
+    "zh": "被裁员的",
+    "fr": "licencié économique",
+    "ar": "مسرح لأسباب اقتصادية",
+    "ko": "정리해고된",
+    "ru": "сокращённый"
+   }
+  },
+  {
+   "word": "walk out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "職場を放棄して出ていく",
+    "en": "to leave a job or meeting suddenly in protest",
+    "zh": "愤而离场",
+    "fr": "claquer la porte",
+    "ar": "ينسحب احتجاجا",
+    "ko": "박차고 나가다",
+    "ru": "уйти в знак протеста"
+   }
+  },
+  {
+   "word": "hand over",
+   "pos": "noun",
+   "meaning": {
+    "ja": "業務を引き渡す",
+    "en": "to give your work to the next person",
+    "zh": "移交工作",
+    "fr": "passer le relais",
+    "ar": "يسلم المهام",
+    "ko": "업무를 넘기다",
+    "ru": "передать дела"
+   }
+  },
+  {
+   "word": "in charge of",
+   "pos": "noun",
+   "meaning": {
+    "ja": "〜を任されている",
+    "en": "having control of something or someone",
+    "zh": "负责",
+    "fr": "responsable de",
+    "ar": "مسؤول عن",
+    "ko": "맡고 있는",
+    "ru": "отвечающий за"
+   }
+  },
+  {
+   "word": "delegate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人に任せる",
+    "en": "to give a task to someone else to do",
+    "zh": "委派",
+    "fr": "déléguer",
+    "ar": "يفوض",
+    "ko": "위임하다",
+    "ru": "делегировать"
+   }
+  },
+  {
+   "word": "micromanage",
+   "pos": "noun",
+   "meaning": {
+    "ja": "細かく口を出す",
+    "en": "to control every small detail of someone's work",
+    "zh": "事事插手",
+    "fr": "gérer dans les moindres détails",
+    "ar": "يتدخل في كل تفصيل",
+    "ko": "사사건건 간섭하다",
+    "ru": "контролировать каждую мелочь"
+   }
+  },
+  {
+   "word": "priority",
+   "pos": "noun",
+   "meaning": {
+    "ja": "優先すべきこと",
+    "en": "the thing that must be done first",
+    "zh": "优先事项",
+    "fr": "priorité",
+    "ar": "أولوية",
+    "ko": "우선 사항",
+    "ru": "приоритет"
+   }
+  },
+  {
+   "word": "urgent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "緊急の",
+    "en": "needing to be dealt with immediately",
+    "zh": "紧急的",
+    "fr": "urgent",
+    "ar": "عاجل",
+    "ko": "긴급한",
+    "ru": "срочный"
+   }
+  },
+  {
+   "word": "stressed out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ストレスで参った",
+    "en": "worn down by worry and pressure",
+    "zh": "压力很大的",
+    "fr": "stressé à bout",
+    "ar": "منهك من التوتر",
+    "ko": "스트레스에 지친",
+    "ru": "измотанный стрессом"
+   }
+  },
+  {
+   "word": "overworked",
+   "pos": "noun",
+   "meaning": {
+    "ja": "働きすぎの",
+    "en": "made to work too much",
+    "zh": "工作过度的",
+    "fr": "surmené",
+    "ar": "مرهق بالعمل",
+    "ko": "과로한",
+    "ru": "перегруженный работой"
+   }
+  },
+  {
+   "word": "burnout",
+   "pos": "noun",
+   "meaning": {
+    "ja": "燃え尽き症候群",
+    "en": "total exhaustion caused by long-term stress",
+    "zh": "职业倦怠",
+    "fr": "épuisement professionnel",
+    "ar": "احتراق وظيفي",
+    "ko": "번아웃",
+    "ru": "выгорание"
+   }
+  },
+  {
+   "word": "pressure",
+   "pos": "noun",
+   "meaning": {
+    "ja": "プレッシャー",
+    "en": "the feeling that you must succeed",
+    "zh": "压力",
+    "fr": "pression",
+    "ar": "ضغط نفسي",
+    "ko": "압박감",
+    "ru": "давление"
+   }
+  },
+  {
+   "word": "hectic",
+   "pos": "noun",
+   "meaning": {
+    "ja": "てんてこ舞いの",
+    "en": "very busy and full of activity",
+    "zh": "忙乱的",
+    "fr": "mouvementé",
+    "ar": "مزدحم بالعمل",
+    "ko": "정신없이 바쁜",
+    "ru": "суматошный"
+   }
+  },
+  {
+   "word": "knock off",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕事を切り上げる",
+    "en": "to stop working for the day",
+    "zh": "收工",
+    "fr": "terminer sa journée",
+    "ar": "ينهي عمله",
+    "ko": "일을 마치다",
+    "ru": "закончить смену"
+   }
+  },
+  {
+   "word": "time and a half",
+   "pos": "noun",
+   "meaning": {
+    "ja": "1.5倍の割増賃金",
+    "en": "pay at one and a half times the normal rate",
+    "zh": "一点五倍工资",
+    "fr": "salaire majoré de moitié",
+    "ar": "أجر مرة ونصف",
+    "ko": "1.5배 수당",
+    "ru": "полуторная оплата"
+   }
+  },
+  {
+   "word": "time off",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕事を離れる時間",
+    "en": "a period away from work",
+    "zh": "不用上班的时间",
+    "fr": "temps libre hors travail",
+    "ar": "وقت بعيدا عن العمل",
+    "ko": "쉬는 시간",
+    "ru": "время не на работе"
+   }
+  },
+  {
+   "word": "staff",
+   "pos": "noun",
+   "meaning": {
+    "ja": "従業員全体",
+    "en": "all the people who work somewhere",
+    "zh": "全体员工",
+    "fr": "personnel",
+    "ar": "طاقم العاملين",
+    "ko": "직원 전체",
+    "ru": "персонал"
+   }
+  },
+  {
+   "word": "new hire",
+   "pos": "noun",
+   "meaning": {
+    "ja": "入ったばかりの人",
+    "en": "someone who has just started the job",
+    "zh": "新员工",
+    "fr": "nouvelle recrue",
+    "ar": "موظف جديد",
+    "ko": "신입 직원",
+    "ru": "новый сотрудник"
+   }
+  },
+  {
+   "word": "performance",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕事ぶり",
+    "en": "how well someone does their job",
+    "zh": "工作表现",
+    "fr": "rendement au travail",
+    "ar": "أداء العمل",
+    "ko": "업무 성과",
+    "ru": "результаты работы"
+   }
+  },
+  {
+   "word": "promotion",
+   "pos": "noun",
+   "meaning": {
+    "ja": "昇進",
+    "en": "a move to a more senior position",
+    "zh": "晋升",
+    "fr": "promotion",
+    "ar": "ترقية",
+    "ko": "승진",
+    "ru": "повышение"
+   }
+  },
+  {
+   "word": "demote",
+   "pos": "noun",
+   "meaning": {
+    "ja": "降格させる",
+    "en": "to move someone to a lower position",
+    "zh": "降职",
+    "fr": "rétrograder",
+    "ar": "يخفض الرتبة",
+    "ko": "강등시키다",
+    "ru": "понизить в должности"
+   }
+  },
+  {
+   "word": "severance",
+   "pos": "noun",
+   "meaning": {
+    "ja": "退職時の手当",
+    "en": "money paid when a job ends",
+    "zh": "遣散费",
+    "fr": "indemnité de départ",
+    "ar": "مكافأة نهاية الخدمة",
+    "ko": "퇴직 위로금",
+    "ru": "выходное пособие"
+   }
+  },
+  {
+   "word": "exploit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不当に働かせる",
+    "en": "to treat workers unfairly for profit",
+    "zh": "剥削",
+    "fr": "exploiter",
+    "ar": "يستغل العمال",
+    "ko": "착취하다",
+    "ru": "эксплуатировать"
+   }
+  },
+  {
+   "word": "cut corners",
+   "pos": "noun",
+   "meaning": {
+    "ja": "手を抜く",
+    "en": "to do something badly to save time or money",
+    "zh": "偷工减料",
+    "fr": "bâcler",
+    "ar": "يتحايل في العمل",
+    "ko": "대충 하다",
+    "ru": "делать наспех"
+   }
+  },
+  {
+   "word": "put in writing",
+   "pos": "noun",
+   "meaning": {
+    "ja": "書面に残す",
+    "en": "to record something on paper or in a message",
+    "zh": "落实成书面",
+    "fr": "mettre par écrit",
+    "ar": "يوثق كتابيا",
+    "ko": "서면으로 남기다",
+    "ru": "изложить письменно"
+   }
+  },
+  {
+   "word": "breach",
+   "pos": "noun",
+   "meaning": {
+    "ja": "契約に違反する",
+    "en": "to break the terms of an agreement",
+    "zh": "违反协议",
+    "fr": "enfreindre un accord",
+    "ar": "يخل بالاتفاق",
+    "ko": "계약을 위반하다",
+    "ru": "нарушить условия"
+   }
+  },
+  {
+   "word": "grievance",
+   "meaning": {
+    "ja": "正式な苦情申し立て",
+    "en": "an official complaint about unfair treatment",
+    "zh": "正式申诉",
+    "fr": "réclamation officielle",
+    "ar": "شكوى رسمية",
+    "ko": "공식 고충 제기",
+    "ru": "официальная жалоба"
+   }
+  },
+  {
+   "word": "retaliate",
+   "meaning": {
+    "ja": "仕返しをする",
+    "en": "to punish someone for complaining or reporting",
+    "zh": "报复",
+    "fr": "exercer des représailles",
+    "ar": "ينتقم",
+    "ko": "보복하다",
+    "ru": "мстить"
+   }
+  },
+  {
+   "word": "escalate",
+   "meaning": {
+    "ja": "上の立場の人に上げる",
+    "en": "to pass a problem to someone more senior",
+    "zh": "上报处理",
+    "fr": "faire remonter",
+    "ar": "يحيل إلى مستوى أعلى",
+    "ko": "상부에 보고하다",
+    "ru": "передать выше"
+   }
+  },
+  {
+   "word": "flag",
+   "meaning": {
+    "ja": "問題として指摘する",
+    "en": "to point something out so it gets attention",
+    "zh": "提出示警",
+    "fr": "signaler",
+    "ar": "ينبه إلى",
+    "ko": "문제로 지적하다",
+    "ru": "обозначить проблему"
+   }
+  },
+  {
+   "word": "resolve",
+   "meaning": {
+    "ja": "決着をつける",
+    "en": "to bring a dispute to an end",
+    "zh": "化解纠纷",
+    "fr": "trancher un différend",
+    "ar": "يحسم النزاع",
+    "ko": "매듭짓다",
+    "ru": "урегулировать"
+   }
+  },
+  {
+   "word": "compromise",
+   "meaning": {
+    "ja": "歩み寄る",
+    "en": "to each give up something to reach agreement",
+    "zh": "各让一步",
+    "fr": "faire un compromis",
+    "ar": "يتوصل لحل وسط",
+    "ko": "타협하다",
+    "ru": "пойти на компромисс"
+   }
+  },
+  {
+   "word": "stand your ground",
+   "meaning": {
+    "ja": "主張を曲げない",
+    "en": "to refuse to change your position under pressure",
+    "zh": "坚持立场",
+    "fr": "tenir bon",
+    "ar": "يتمسك بموقفه",
+    "ko": "입장을 굽히지 않다",
+    "ru": "стоять на своём"
+   }
+  },
+  {
+   "word": "blame",
+   "meaning": {
+    "ja": "責任を負わせる",
+    "en": "to say someone is the cause of something bad",
+    "zh": "归咎于",
+    "fr": "rejeter la faute sur",
+    "ar": "يلقي اللوم على",
+    "ko": "탓하다",
+    "ru": "винить"
+   }
+  },
+  {
+   "word": "scapegoat",
+   "meaning": {
+    "ja": "責任を押しつけられる人",
+    "en": "a person unfairly punished for others' mistakes",
+    "zh": "替罪羊",
+    "fr": "bouc émissaire",
+    "ar": "كبش فداء",
+    "ko": "희생양",
+    "ru": "козёл отпущения"
+   }
+  },
+  {
+   "word": "cover up",
+   "meaning": {
+    "ja": "もみ消す",
+    "en": "to hide something wrong so nobody finds out",
+    "zh": "掩盖",
+    "fr": "étouffer une affaire",
+    "ar": "يتستر على",
+    "ko": "은폐하다",
+    "ru": "замять"
+   }
+  },
+  {
+   "word": "professional",
+   "meaning": {
+    "ja": "プロらしい",
+    "en": "behaving in a way suitable for work",
+    "zh": "专业得体的",
+    "fr": "professionnel dans son comportement",
+    "ar": "مهني في تصرفه",
+    "ko": "프로다운",
+    "ru": "профессиональный в поведении"
+   }
+  },
+  {
+   "word": "attitude",
+   "meaning": {
+    "ja": "仕事への姿勢",
+    "en": "the way you behave and think about your work",
+    "zh": "工作态度",
+    "fr": "attitude au travail",
+    "ar": "موقف من العمل",
+    "ko": "업무 태도",
+    "ru": "отношение к работе"
+   }
+  },
+  {
+   "word": "rude",
+   "meaning": {
+    "ja": "失礼な",
+    "en": "not polite to other people",
+    "zh": "无礼的",
+    "fr": "impoli",
+    "ar": "وقح",
+    "ko": "무례한",
+    "ru": "грубый"
+   }
+  },
+  {
+   "word": "patronising",
+   "meaning": {
+    "ja": "見下したような",
+    "en": "treating someone as if they are stupid",
+    "zh": "居高临下的",
+    "fr": "condescendant",
+    "ar": "متعال في الحديث",
+    "ko": "깔보는 듯한",
+    "ru": "снисходительный"
+   }
+  },
+  {
+   "word": "snap at",
+   "meaning": {
+    "ja": "きつい言い方をする",
+    "en": "to speak sharply and angrily to someone",
+    "zh": "没好气地说",
+    "fr": "rembarrer",
+    "ar": "ينهر بحدة",
+    "ko": "쏘아붙이다",
+    "ru": "огрызнуться на"
+   }
+  },
+  {
+   "word": "vent",
+   "meaning": {
+    "ja": "不満をぶちまける",
+    "en": "to express anger by talking about it",
+    "zh": "发泄不满",
+    "fr": "vider son sac",
+    "ar": "يفرغ غضبه بالكلام",
+    "ko": "불만을 털어놓다",
+    "ru": "выплеснуть недовольство"
+   }
+  },
+  {
+   "word": "clear the air",
+   "meaning": {
+    "ja": "わだかまりを解く",
+    "en": "to talk openly so bad feeling goes away",
+    "zh": "消除隔阂",
+    "fr": "crever l'abcès",
+    "ar": "يزيل سوء التفاهم",
+    "ko": "응어리를 풀다",
+    "ru": "разрядить обстановку"
+   }
+  },
+  {
+   "word": "hold a grudge",
+   "meaning": {
+    "ja": "根に持つ",
+    "en": "to stay angry about something for a long time",
+    "zh": "记仇",
+    "fr": "garder rancune",
+    "ar": "يحمل ضغينة",
+    "ko": "앙심을 품다",
+    "ru": "держать обиду"
+   }
+  },
+  {
+   "word": "favouritism",
+   "meaning": {
+    "ja": "えこひいき",
+    "en": "treating one person better than the others",
+    "zh": "偏袒",
+    "fr": "favoritisme",
+    "ar": "محاباة",
+    "ko": "편애",
+    "ru": "фаворитизм"
+   }
+  },
+  {
+   "word": "left out",
+   "meaning": {
+    "ja": "仲間外れにされた",
+    "en": "not included by the group",
+    "zh": "被排挤的",
+    "fr": "mis à l'écart",
+    "ar": "مستبعد من المجموعة",
+    "ko": "따돌림당한",
+    "ru": "оставленный в стороне"
+   }
+  },
+  {
+   "word": "minutes",
+   "meaning": {
+    "ja": "議事録",
+    "en": "the written record of a meeting",
+    "zh": "会议记录",
+    "fr": "compte rendu de réunion",
+    "ar": "محضر اجتماع",
+    "ko": "회의록",
+    "ru": "протокол собрания"
+   }
+  },
+  {
+   "word": "payroll",
+   "meaning": {
+    "ja": "給与支払いの担当部門",
+    "en": "the department that pays the wages",
+    "zh": "薪资部门",
+    "fr": "service de la paie",
+    "ar": "قسم الرواتب",
+    "ko": "급여 담당 부서",
+    "ru": "расчётный отдел"
+   }
+  },
+  {
+   "word": "back pay",
+   "meaning": {
+    "ja": "未払い分の賃金",
+    "en": "wages you should have been paid earlier",
+    "zh": "补发的工资",
+    "fr": "rappel de salaire",
+    "ar": "أجور متأخرة",
+    "ko": "체불 임금",
+    "ru": "задолженность по зарплате"
+   }
+  },
+  {
+   "word": "confidential",
+   "meaning": {
+    "ja": "部外秘の",
+    "en": "meant to be kept secret",
+    "zh": "机密的",
+    "fr": "confidentiel",
+    "ar": "سري",
+    "ko": "기밀의",
+    "ru": "конфиденциальный"
+   }
+  },
+  {
+   "word": "verbal",
+   "meaning": {
+    "ja": "口頭での",
+    "en": "spoken rather than written",
+    "zh": "口头的",
+    "fr": "verbal",
+    "ar": "شفهي",
+    "ko": "구두의",
+    "ru": "устный"
+   }
+  },
+  {
+   "word": "go the extra mile",
+   "meaning": {
+    "ja": "期待以上に頑張る",
+    "en": "to do more than is expected of you",
+    "zh": "多做一步",
+    "fr": "faire plus que le nécessaire",
+    "ar": "يبذل جهدا إضافيا",
+    "ko": "기대 이상으로 애쓰다",
+    "ru": "сделать больше требуемого"
+   }
+  },
+  {
+   "word": "offload",
+   "meaning": {
+    "ja": "面倒な仕事を押しつける",
+    "en": "to give unwanted work to someone else",
+    "zh": "甩给别人",
+    "fr": "refiler une tâche",
+    "ar": "يلقي عملا على غيره",
+    "ko": "떠넘기다",
+    "ru": "спихнуть работу"
+   }
+  },
+  {
+   "word": "swamped",
+   "meaning": {
+    "ja": "仕事に追われた",
+    "en": "having far too much to do",
+    "zh": "忙得不可开交的",
+    "fr": "débordé",
+    "ar": "مثقل بكم هائل من العمل",
+    "ko": "일에 파묻힌",
+    "ru": "заваленный работой"
+   }
+  },
+  {
+   "word": "drop the ball",
+   "meaning": {
+    "ja": "へまをする",
+    "en": "to fail to do something you were trusted with",
+    "zh": "掉链子",
+    "fr": "laisser tomber la balle",
+    "ar": "يقصر في مهمته",
+    "ko": "일을 그르치다",
+    "ru": "провалить дело"
+   }
+  },
+  {
+   "word": "heads up",
+   "meaning": {
+    "ja": "事前の知らせ",
+    "en": "a warning that something is coming",
+    "zh": "提前告知",
+    "fr": "petit avertissement",
+    "ar": "تنبيه مسبق",
+    "ko": "미리 알려 주는 것",
+    "ru": "предупреждение заранее"
+   }
+  },
+  {
+   "word": "sick note",
+   "meaning": {
+    "ja": "診断書",
+    "en": "a doctor's letter proving you were ill",
+    "zh": "病假条",
+    "fr": "certificat médical",
+    "ar": "تقرير طبي",
+    "ko": "진단서",
+    "ru": "справка от врача"
+   }
+  },
+  {
+   "word": "pushback",
+   "meaning": {
+    "ja": "反発",
+    "en": "opposition to a plan or decision",
+    "zh": "反对声音",
+    "fr": "résistance à une décision",
+    "ar": "اعتراض على قرار",
+    "ko": "반발",
+    "ru": "сопротивление решению"
+   }
+  },
+  {
+   "word": "walk someone through",
+   "meaning": {
+    "ja": "手順を一つずつ説明する",
+    "en": "to explain something step by step",
+    "zh": "一步步讲解",
+    "fr": "expliquer étape par étape",
+    "ar": "يشرح خطوة بخطوة",
+    "ko": "차근차근 설명해 주다",
+    "ru": "объяснить по шагам"
+   }
+  }
+ ]
+}
