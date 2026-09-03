@@ -1,1 +1,1315 @@
-{"id":"tech_en","v":1,"title":{"ja":"IT・テックの英単語","en":"IT and Tech English Words","zh":"IT・科技英语单词","fr":"Vocabulaire anglais de l’informatique","ar":"مفردات إنجليزية في تقنية المعلومات","ko":"IT·테크 영단어","ru":"Английские слова из сферы IT"},"words":[{"word":"server","pos":"noun","meaning":{"ja":"サーバー","en":"a computer that provides data or services to others","zh":"服务器","fr":"serveur","ar":"خادم","ko":"서버","ru":"сервер"}},{"word":"client","pos":"noun","meaning":{"ja":"クライアント／依頼主","en":"a computer or person that requests a service","zh":"客户端／客户","fr":"client","ar":"عميل","ko":"클라이언트/의뢰인","ru":"клиент"}},{"word":"database","pos":"noun","meaning":{"ja":"データベース","en":"an organised store of information","zh":"数据库","fr":"base de données","ar":"قاعدة بيانات","ko":"데이터베이스","ru":"база данных"}},{"word":"network","pos":"noun","meaning":{"ja":"ネットワーク","en":"computers connected so they can share data","zh":"网络","fr":"réseau","ar":"شبكة","ko":"네트워크","ru":"сеть"}},{"word":"browser","pos":"noun","meaning":{"ja":"ブラウザ","en":"a program for viewing websites","zh":"浏览器","fr":"navigateur","ar":"متصفّح","ko":"브라우저","ru":"браузер"}},{"word":"device","pos":"noun","meaning":{"ja":"端末／機器","en":"a piece of equipment such as a phone or laptop","zh":"设备","fr":"appareil","ar":"جهاز","ko":"기기/단말","ru":"устройство"}},{"word":"software","pos":"noun","meaning":{"ja":"ソフトウェア","en":"the programs a computer runs","zh":"软件","fr":"logiciel","ar":"برمجيات","ko":"소프트웨어","ru":"программное обеспечение"}},{"word":"hardware","pos":"noun","meaning":{"ja":"ハードウェア","en":"the physical parts of a computer","zh":"硬件","fr":"matériel","ar":"عتاد","ko":"하드웨어","ru":"аппаратное обеспечение"}},{"word":"storage","pos":"noun","meaning":{"ja":"保存領域／ストレージ","en":"space where data is kept","zh":"存储","fr":"stockage","ar":"تخزين","ko":"저장 공간","ru":"хранилище"}},{"word":"memory","pos":"noun","meaning":{"ja":"メモリ","en":"the part of a computer that holds data while it works","zh":"内存","fr":"mémoire","ar":"ذاكرة","ko":"메모리","ru":"память"}},{"word":"file","pos":"noun","meaning":{"ja":"ファイル","en":"a named collection of data","zh":"文件","fr":"fichier","ar":"ملف","ko":"파일","ru":"файл"}},{"word":"folder","pos":"noun","meaning":{"ja":"フォルダ","en":"a container that holds files","zh":"文件夹","fr":"dossier","ar":"مجلد","ko":"폴더","ru":"папка"}},{"word":"backup","pos":"noun","meaning":{"ja":"バックアップ","en":"a spare copy kept in case the original is lost","zh":"备份","fr":"sauvegarde","ar":"نسخة احتياطية","ko":"백업","ru":"резервная копия"}},{"word":"update","pos":"noun","meaning":{"ja":"更新／アップデート","en":"a newer version of software","zh":"更新","fr":"mise à jour","ar":"تحديث","ko":"업데이트","ru":"обновление"}},{"word":"install","pos":"verb","meaning":{"ja":"インストールする","en":"to put software onto a device so it can run","zh":"安装","fr":"installer","ar":"يُثبّت","ko":"설치하다","ru":"устанавливать"}},{"word":"download","pos":"verb","meaning":{"ja":"ダウンロードする","en":"to copy data from the internet to your device","zh":"下载","fr":"télécharger","ar":"يُنزّل","ko":"다운로드하다","ru":"скачивать"}},{"word":"upload","pos":"verb","meaning":{"ja":"アップロードする","en":"to send data from your device to the internet","zh":"上传","fr":"téléverser","ar":"يرفع","ko":"업로드하다","ru":"загружать на сервер"}},{"word":"login","pos":"noun","meaning":{"ja":"ログイン","en":"the act of signing in to an account","zh":"登录","fr":"connexion","ar":"تسجيل الدخول","ko":"로그인","ru":"вход в систему"}},{"word":"password","pos":"noun","meaning":{"ja":"パスワード","en":"a secret word used to prove who you are","zh":"密码","fr":"mot de passe","ar":"كلمة المرور","ko":"비밀번호","ru":"пароль"}},{"word":"account","pos":"noun","meaning":{"ja":"アカウント","en":"a personal record that lets you use a service","zh":"账户","fr":"compte","ar":"حساب","ko":"계정","ru":"учётная запись"}},{"word":"bug","pos":"noun","meaning":{"ja":"バグ／不具合","en":"a mistake that makes a program behave wrongly","zh":"缺陷／错误","fr":"bogue","ar":"خلل برمجي","ko":"버그/결함","ru":"ошибка в программе"}},{"word":"debug","pos":"verb","meaning":{"ja":"デバッグする","en":"to find and remove mistakes in a program","zh":"调试","fr":"déboguer","ar":"ينقّح الأخطاء","ko":"디버그하다","ru":"отлаживать"}},{"word":"code","pos":"noun","meaning":{"ja":"コード／プログラム","en":"the instructions that make up a program","zh":"代码","fr":"code","ar":"شيفرة","ko":"코드","ru":"код"}},{"word":"function","pos":"noun","meaning":{"ja":"関数／機能","en":"a named piece of code, or what something does","zh":"函数／功能","fr":"fonction","ar":"دالة / وظيفة","ko":"함수/기능","ru":"функция"}},{"word":"variable","pos":"noun","meaning":{"ja":"変数","en":"a named place that holds a value","zh":"变量","fr":"variable","ar":"متغيّر","ko":"변수","ru":"переменная"}},{"word":"loop","pos":"noun","meaning":{"ja":"ループ／繰り返し","en":"a part of a program that repeats","zh":"循环","fr":"boucle","ar":"حلقة تكرار","ko":"루프/반복","ru":"цикл"}},{"word":"array","pos":"noun","meaning":{"ja":"配列","en":"an ordered list of values","zh":"数组","fr":"tableau","ar":"مصفوفة","ko":"배열","ru":"массив"}},{"word":"string","pos":"noun","meaning":{"ja":"文字列","en":"a piece of text in a program","zh":"字符串","fr":"chaîne de caractères","ar":"سلسلة نصية","ko":"문자열","ru":"строка"}},{"word":"library","pos":"noun","meaning":{"ja":"ライブラリ","en":"ready-made code you can reuse","zh":"库","fr":"bibliothèque","ar":"مكتبة برمجية","ko":"라이브러리","ru":"библиотека"}},{"word":"framework","pos":"noun","meaning":{"ja":"フレームワーク","en":"a structure that programs are built on","zh":"框架","fr":"cadriciel","ar":"إطار عمل","ko":"프레임워크","ru":"фреймворк"}},{"word":"interface","pos":"noun","meaning":{"ja":"インターフェース","en":"the point where two things connect or interact","zh":"接口／界面","fr":"interface","ar":"واجهة","ko":"인터페이스","ru":"интерфейс"}},{"word":"feature","pos":"noun","meaning":{"ja":"機能","en":"something a product can do","zh":"功能","fr":"fonctionnalité","ar":"ميزة","ko":"기능","ru":"возможность"}},{"word":"release","pos":"noun","meaning":{"ja":"リリース／公開","en":"a version made available to users","zh":"发布","fr":"version publiée","ar":"إصدار","ko":"릴리스/출시","ru":"выпуск"}},{"word":"version","pos":"noun","meaning":{"ja":"バージョン","en":"one particular form of something that changes over time","zh":"版本","fr":"version","ar":"إصدار / نسخة","ko":"버전","ru":"версия"}},{"word":"deploy","pos":"verb","meaning":{"ja":"デプロイする／配備する","en":"to put software into use on a server","zh":"部署","fr":"déployer","ar":"ينشر للتشغيل","ko":"배포하다","ru":"развёртывать"}},{"word":"server-side","pos":"adj","meaning":{"ja":"サーバー側の","en":"happening on the server rather than the user’s device","zh":"服务端的","fr":"côté serveur","ar":"من جهة الخادم","ko":"서버 측의","ru":"серверный"}},{"word":"encrypt","pos":"verb","meaning":{"ja":"暗号化する","en":"to scramble data so only the right person can read it","zh":"加密","fr":"chiffrer","ar":"يشفّر","ko":"암호화하다","ru":"шифровать"}},{"word":"security","pos":"noun","meaning":{"ja":"セキュリティ／安全性","en":"protection against attack or misuse","zh":"安全性","fr":"sécurité","ar":"أمن","ko":"보안","ru":"безопасность"}},{"word":"permission","pos":"noun","meaning":{"ja":"権限／許可","en":"the right to do something in a system","zh":"权限","fr":"autorisation","ar":"إذن / صلاحية","ko":"권한/허가","ru":"разрешение"}},{"word":"access","pos":"noun","meaning":{"ja":"アクセス／利用権","en":"the ability to reach or use something","zh":"访问权","fr":"accès","ar":"وصول","ko":"접근/이용 권한","ru":"доступ"}},{"word":"query","pos":"noun","meaning":{"ja":"問い合わせ／クエリ","en":"a request for information from a database","zh":"查询","fr":"requête","ar":"استعلام","ko":"질의/쿼리","ru":"запрос"}},{"word":"request","pos":"noun","meaning":{"ja":"リクエスト／要求","en":"a message asking a server to do something","zh":"请求","fr":"requête","ar":"طلب","ko":"요청","ru":"запрос"}},{"word":"response","pos":"noun","meaning":{"ja":"レスポンス／応答","en":"what a server sends back","zh":"响应","fr":"réponse","ar":"استجابة","ko":"응답","ru":"ответ"}},{"word":"cache","pos":"noun","meaning":{"ja":"キャッシュ","en":"a temporary store that makes repeat access faster","zh":"缓存","fr":"cache","ar":"ذاكرة مؤقتة","ko":"캐시","ru":"кэш"}},{"word":"latency","pos":"noun","meaning":{"ja":"遅延／レイテンシ","en":"the delay before data arrives","zh":"延迟","fr":"latence","ar":"زمن الاستجابة","ko":"지연 시간","ru":"задержка"}},{"word":"bandwidth","pos":"noun","meaning":{"ja":"帯域幅","en":"how much data a connection can carry","zh":"带宽","fr":"bande passante","ar":"عرض النطاق","ko":"대역폭","ru":"пропускная способность"}},{"word":"scalable","pos":"adj","meaning":{"ja":"拡張性のある","en":"able to handle growth without breaking","zh":"可扩展的","fr":"évolutif","ar":"قابل للتوسّع","ko":"확장 가능한","ru":"масштабируемый"}},{"word":"deprecated","pos":"adj","meaning":{"ja":"非推奨の","en":"kept working for now but no longer recommended","zh":"已弃用的","fr":"obsolète","ar":"مهجور / غير موصى به","ko":"더 이상 권장되지 않는","ru":"устаревший"}},{"word":"repository","pos":"noun","meaning":{"ja":"リポジトリ／保管場所","en":"a store where code and its history are kept","zh":"仓库","fr":"dépôt","ar":"مستودع","ko":"저장소","ru":"репозиторий"}},{"word":"commit","pos":"noun","meaning":{"ja":"コミット／変更の記録","en":"one saved set of changes to code","zh":"提交","fr":"commit","ar":"التزام / حفظ تغييرات","ko":"커밋","ru":"коммит"}}]}
+{
+ "id": "tech_en",
+ "v": 1,
+ "title": {
+  "ja": "IT・テックの英単語",
+  "en": "IT and Tech English Words",
+  "zh": "IT・科技英语单词",
+  "fr": "Vocabulaire anglais de l’informatique",
+  "ar": "مفردات إنجليزية في تقنية المعلومات",
+  "ko": "IT·테크 영단어",
+  "ru": "Английские слова из сферы IT"
+ },
+ "words": [
+  {
+   "word": "server",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サーバー",
+    "en": "a computer that provides data or services to others",
+    "zh": "服务器",
+    "fr": "serveur informatique",
+    "ar": "خادم",
+    "ko": "서버",
+    "ru": "сервер"
+   }
+  },
+  {
+   "word": "client",
+   "pos": "noun",
+   "meaning": {
+    "ja": "クライアント／依頼主",
+    "en": "a computer or person that requests a service",
+    "zh": "客户端／客户",
+    "fr": "machine cliente",
+    "ar": "عميل",
+    "ko": "클라이언트/의뢰인",
+    "ru": "клиент"
+   }
+  },
+  {
+   "word": "database",
+   "pos": "noun",
+   "meaning": {
+    "ja": "データベース",
+    "en": "an organised store of information",
+    "zh": "数据库",
+    "fr": "base de données",
+    "ar": "قاعدة بيانات",
+    "ko": "데이터베이스",
+    "ru": "база данных"
+   }
+  },
+  {
+   "word": "network",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネットワーク",
+    "en": "computers connected so they can share data",
+    "zh": "网络",
+    "fr": "réseau",
+    "ar": "شبكة",
+    "ko": "네트워크",
+    "ru": "сеть"
+   }
+  },
+  {
+   "word": "browser",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ブラウザ",
+    "en": "a program for viewing websites",
+    "zh": "浏览器",
+    "fr": "navigateur",
+    "ar": "متصفّح",
+    "ko": "브라우저",
+    "ru": "браузер"
+   }
+  },
+  {
+   "word": "device",
+   "pos": "noun",
+   "meaning": {
+    "ja": "端末／機器",
+    "en": "a piece of equipment such as a phone or laptop",
+    "zh": "设备",
+    "fr": "appareil",
+    "ar": "جهاز",
+    "ko": "기기/단말",
+    "ru": "устройство"
+   }
+  },
+  {
+   "word": "software",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ソフトウェア",
+    "en": "the programs a computer runs",
+    "zh": "软件",
+    "fr": "logiciel",
+    "ar": "برمجيات",
+    "ko": "소프트웨어",
+    "ru": "программное обеспечение"
+   }
+  },
+  {
+   "word": "hardware",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ハードウェア",
+    "en": "the physical parts of a computer",
+    "zh": "硬件",
+    "fr": "matériel",
+    "ar": "عتاد",
+    "ko": "하드웨어",
+    "ru": "аппаратное обеспечение"
+   }
+  },
+  {
+   "word": "storage",
+   "pos": "noun",
+   "meaning": {
+    "ja": "保存領域／ストレージ",
+    "en": "space where data is kept",
+    "zh": "存储",
+    "fr": "stockage",
+    "ar": "تخزين",
+    "ko": "저장 공간",
+    "ru": "хранилище"
+   }
+  },
+  {
+   "word": "memory",
+   "pos": "noun",
+   "meaning": {
+    "ja": "メモリ",
+    "en": "the part of a computer that holds data while it works",
+    "zh": "内存",
+    "fr": "mémoire",
+    "ar": "ذاكرة",
+    "ko": "메모리",
+    "ru": "память"
+   }
+  },
+  {
+   "word": "file",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ファイル",
+    "en": "a named collection of data",
+    "zh": "电脑文件",
+    "fr": "fichier",
+    "ar": "ملف",
+    "ko": "파일",
+    "ru": "файл"
+   }
+  },
+  {
+   "word": "folder",
+   "pos": "noun",
+   "meaning": {
+    "ja": "フォルダ",
+    "en": "a container that holds files",
+    "zh": "文件夹",
+    "fr": "dossier",
+    "ar": "مجلد",
+    "ko": "폴더",
+    "ru": "папка"
+   }
+  },
+  {
+   "word": "backup",
+   "pos": "noun",
+   "meaning": {
+    "ja": "バックアップ",
+    "en": "a spare copy kept in case the original is lost",
+    "zh": "备份",
+    "fr": "sauvegarde",
+    "ar": "نسخة احتياطية",
+    "ko": "백업",
+    "ru": "резервная копия"
+   }
+  },
+  {
+   "word": "update",
+   "pos": "noun",
+   "meaning": {
+    "ja": "更新／アップデート",
+    "en": "a newer version of software",
+    "zh": "更新",
+    "fr": "mise à jour",
+    "ar": "تحديث",
+    "ko": "업데이트",
+    "ru": "обновление"
+   }
+  },
+  {
+   "word": "install",
+   "pos": "verb",
+   "meaning": {
+    "ja": "インストールする",
+    "en": "to put software onto a device so it can run",
+    "zh": "安装",
+    "fr": "installer",
+    "ar": "يُثبّت",
+    "ko": "프로그램을 설치하다",
+    "ru": "устанавливать"
+   }
+  },
+  {
+   "word": "download",
+   "pos": "verb",
+   "meaning": {
+    "ja": "ダウンロードする",
+    "en": "to copy data from the internet to your device",
+    "zh": "下载",
+    "fr": "télécharger",
+    "ar": "يُنزّل",
+    "ko": "다운로드하다",
+    "ru": "скачивать"
+   }
+  },
+  {
+   "word": "upload",
+   "pos": "verb",
+   "meaning": {
+    "ja": "アップロードする",
+    "en": "to send data from your device to the internet",
+    "zh": "上传",
+    "fr": "téléverser",
+    "ar": "يرفع",
+    "ko": "업로드하다",
+    "ru": "загружать на сервер"
+   }
+  },
+  {
+   "word": "login",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ログイン",
+    "en": "the act of signing in to an account",
+    "zh": "登录账户",
+    "fr": "connexion",
+    "ar": "تسجيل الدخول",
+    "ko": "로그인",
+    "ru": "вход в систему"
+   }
+  },
+  {
+   "word": "password",
+   "pos": "noun",
+   "meaning": {
+    "ja": "パスワード",
+    "en": "a secret word used to prove who you are",
+    "zh": "密码",
+    "fr": "mot de passe",
+    "ar": "كلمة المرور",
+    "ko": "비밀번호",
+    "ru": "пароль"
+   }
+  },
+  {
+   "word": "account",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アカウント",
+    "en": "a personal record that lets you use a service",
+    "zh": "账户",
+    "fr": "compte",
+    "ar": "حساب",
+    "ko": "계정",
+    "ru": "учётная запись"
+   }
+  },
+  {
+   "word": "bug",
+   "pos": "noun",
+   "meaning": {
+    "ja": "バグ／不具合",
+    "en": "a mistake that makes a program behave wrongly",
+    "zh": "缺陷／错误",
+    "fr": "bogue",
+    "ar": "خلل برمجي",
+    "ko": "버그/결함",
+    "ru": "ошибка в программе"
+   }
+  },
+  {
+   "word": "debug",
+   "pos": "verb",
+   "meaning": {
+    "ja": "デバッグする",
+    "en": "to find and remove mistakes in a program",
+    "zh": "调试",
+    "fr": "déboguer",
+    "ar": "ينقّح الأخطاء",
+    "ko": "디버그하다",
+    "ru": "отлаживать"
+   }
+  },
+  {
+   "word": "code",
+   "pos": "noun",
+   "meaning": {
+    "ja": "コード／プログラム",
+    "en": "the instructions that make up a program",
+    "zh": "代码",
+    "fr": "code",
+    "ar": "شيفرة",
+    "ko": "코드",
+    "ru": "код"
+   }
+  },
+  {
+   "word": "function",
+   "pos": "noun",
+   "meaning": {
+    "ja": "関数／機能",
+    "en": "a named piece of code, or what something does",
+    "zh": "函数／功能",
+    "fr": "fonction",
+    "ar": "دالة / وظيفة",
+    "ko": "함수/기능",
+    "ru": "функция"
+   }
+  },
+  {
+   "word": "variable",
+   "pos": "noun",
+   "meaning": {
+    "ja": "変数",
+    "en": "a named place that holds a value",
+    "zh": "变量",
+    "fr": "variable",
+    "ar": "متغيّر",
+    "ko": "변수",
+    "ru": "переменная"
+   }
+  },
+  {
+   "word": "loop",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ループ／繰り返し",
+    "en": "a part of a program that repeats",
+    "zh": "循环",
+    "fr": "boucle",
+    "ar": "حلقة تكرار",
+    "ko": "루프/반복",
+    "ru": "цикл"
+   }
+  },
+  {
+   "word": "array",
+   "pos": "noun",
+   "meaning": {
+    "ja": "配列",
+    "en": "an ordered list of values",
+    "zh": "数组",
+    "fr": "tableau",
+    "ar": "مصفوفة",
+    "ko": "배열",
+    "ru": "массив"
+   }
+  },
+  {
+   "word": "string",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文字列",
+    "en": "a piece of text in a program",
+    "zh": "字符串",
+    "fr": "chaîne de caractères",
+    "ar": "سلسلة نصية",
+    "ko": "문자열",
+    "ru": "строка"
+   }
+  },
+  {
+   "word": "library",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ライブラリ",
+    "en": "ready-made code you can reuse",
+    "zh": "库",
+    "fr": "bibliothèque",
+    "ar": "مكتبة برمجية",
+    "ko": "라이브러리",
+    "ru": "библиотека"
+   }
+  },
+  {
+   "word": "framework",
+   "pos": "noun",
+   "meaning": {
+    "ja": "フレームワーク",
+    "en": "a structure that programs are built on",
+    "zh": "框架",
+    "fr": "cadriciel",
+    "ar": "إطار عمل",
+    "ko": "프레임워크",
+    "ru": "фреймворк"
+   }
+  },
+  {
+   "word": "interface",
+   "pos": "noun",
+   "meaning": {
+    "ja": "インターフェース",
+    "en": "the point where two things connect or interact",
+    "zh": "接口／界面",
+    "fr": "interface",
+    "ar": "واجهة",
+    "ko": "인터페이스",
+    "ru": "интерфейс"
+   }
+  },
+  {
+   "word": "feature",
+   "pos": "noun",
+   "meaning": {
+    "ja": "機能",
+    "en": "something a product can do",
+    "zh": "功能",
+    "fr": "fonctionnalité",
+    "ar": "ميزة",
+    "ko": "기능",
+    "ru": "возможность"
+   }
+  },
+  {
+   "word": "release",
+   "pos": "noun",
+   "meaning": {
+    "ja": "リリース／公開",
+    "en": "a version made available to users",
+    "zh": "发布",
+    "fr": "version publiée",
+    "ar": "إصدار",
+    "ko": "릴리스/출시",
+    "ru": "выпуск"
+   }
+  },
+  {
+   "word": "version",
+   "pos": "noun",
+   "meaning": {
+    "ja": "バージョン",
+    "en": "one particular form of something that changes over time",
+    "zh": "版本",
+    "fr": "version",
+    "ar": "إصدار / نسخة",
+    "ko": "버전",
+    "ru": "версия"
+   }
+  },
+  {
+   "word": "deploy",
+   "pos": "verb",
+   "meaning": {
+    "ja": "デプロイする／配備する",
+    "en": "to put software into use on a server",
+    "zh": "部署",
+    "fr": "déployer",
+    "ar": "ينشر للتشغيل",
+    "ko": "배포하다",
+    "ru": "развёртывать"
+   }
+  },
+  {
+   "word": "server-side",
+   "pos": "adj",
+   "meaning": {
+    "ja": "サーバー側の",
+    "en": "happening on the server rather than the user’s device",
+    "zh": "服务端的",
+    "fr": "côté serveur",
+    "ar": "من جهة الخادم",
+    "ko": "서버 측의",
+    "ru": "серверный"
+   }
+  },
+  {
+   "word": "encrypt",
+   "pos": "verb",
+   "meaning": {
+    "ja": "暗号化する",
+    "en": "to scramble data so only the right person can read it",
+    "zh": "加密",
+    "fr": "chiffrer",
+    "ar": "يشفّر",
+    "ko": "암호화하다",
+    "ru": "шифровать"
+   }
+  },
+  {
+   "word": "security",
+   "pos": "noun",
+   "meaning": {
+    "ja": "セキュリティ／安全性",
+    "en": "protection against attack or misuse",
+    "zh": "安全性",
+    "fr": "sécurité",
+    "ar": "أمن",
+    "ko": "보안",
+    "ru": "безопасность"
+   }
+  },
+  {
+   "word": "permission",
+   "pos": "noun",
+   "meaning": {
+    "ja": "権限／許可",
+    "en": "the right to do something in a system",
+    "zh": "权限",
+    "fr": "autorisation",
+    "ar": "إذن / صلاحية",
+    "ko": "권한/허가",
+    "ru": "право доступа"
+   }
+  },
+  {
+   "word": "access",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アクセス／利用権",
+    "en": "the ability to reach or use something",
+    "zh": "访问权",
+    "fr": "accès",
+    "ar": "صلاحية الوصول",
+    "ko": "접근/이용 권한",
+    "ru": "доступ"
+   }
+  },
+  {
+   "word": "query",
+   "pos": "noun",
+   "meaning": {
+    "ja": "問い合わせ／クエリ",
+    "en": "a request for information from a database",
+    "zh": "查询",
+    "fr": "interrogation de base de données",
+    "ar": "استعلام",
+    "ko": "질의/쿼리",
+    "ru": "запрос к базе данных"
+   }
+  },
+  {
+   "word": "request",
+   "pos": "noun",
+   "meaning": {
+    "ja": "リクエスト／要求",
+    "en": "a message asking a server to do something",
+    "zh": "网络请求",
+    "fr": "requête réseau",
+    "ar": "طلب",
+    "ko": "요청",
+    "ru": "сетевой запрос"
+   }
+  },
+  {
+   "word": "response",
+   "pos": "noun",
+   "meaning": {
+    "ja": "レスポンス／応答",
+    "en": "what a server sends back",
+    "zh": "响应",
+    "fr": "réponse",
+    "ar": "استجابة",
+    "ko": "응답",
+    "ru": "ответ"
+   }
+  },
+  {
+   "word": "cache",
+   "pos": "noun",
+   "meaning": {
+    "ja": "キャッシュ",
+    "en": "a temporary store that makes repeat access faster",
+    "zh": "缓存",
+    "fr": "cache",
+    "ar": "ذاكرة مؤقتة",
+    "ko": "캐시",
+    "ru": "кэш"
+   }
+  },
+  {
+   "word": "latency",
+   "pos": "noun",
+   "meaning": {
+    "ja": "遅延／レイテンシ",
+    "en": "the delay before data arrives",
+    "zh": "延迟",
+    "fr": "latence",
+    "ar": "زمن الاستجابة",
+    "ko": "지연 시간",
+    "ru": "задержка"
+   }
+  },
+  {
+   "word": "bandwidth",
+   "pos": "noun",
+   "meaning": {
+    "ja": "帯域幅",
+    "en": "how much data a connection can carry",
+    "zh": "带宽",
+    "fr": "bande passante",
+    "ar": "عرض النطاق",
+    "ko": "대역폭",
+    "ru": "пропускная способность"
+   }
+  },
+  {
+   "word": "scalable",
+   "pos": "adj",
+   "meaning": {
+    "ja": "拡張性のある",
+    "en": "able to handle growth without breaking",
+    "zh": "可扩展的",
+    "fr": "évolutif",
+    "ar": "قابل للتوسّع",
+    "ko": "확장 가능한",
+    "ru": "масштабируемый"
+   }
+  },
+  {
+   "word": "deprecated",
+   "pos": "adj",
+   "meaning": {
+    "ja": "非推奨の",
+    "en": "kept working for now but no longer recommended",
+    "zh": "已弃用的",
+    "fr": "obsolète",
+    "ar": "مهجور / غير موصى به",
+    "ko": "더 이상 권장되지 않는",
+    "ru": "устаревший"
+   }
+  },
+  {
+   "word": "repository",
+   "pos": "noun",
+   "meaning": {
+    "ja": "リポジトリ／保管場所",
+    "en": "a store where code and its history are kept",
+    "zh": "仓库",
+    "fr": "dépôt",
+    "ar": "مستودع",
+    "ko": "저장소",
+    "ru": "репозиторий"
+   }
+  },
+  {
+   "word": "commit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "コミット／変更の記録",
+    "en": "one saved set of changes to code",
+    "zh": "提交代码",
+    "fr": "commit",
+    "ar": "التزام / حفظ تغييرات",
+    "ko": "커밋",
+    "ru": "коммит"
+   }
+  },
+  {
+   "word": "cloud",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネット上の保管サービス",
+    "en": "storage and services kept on the internet",
+    "zh": "云端",
+    "fr": "cloud",
+    "ar": "الحوسبة السحابية",
+    "ko": "클라우드",
+    "ru": "облако"
+   }
+  },
+  {
+   "word": "app",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アプリ",
+    "en": "a program you use on a phone or computer",
+    "zh": "应用程序",
+    "fr": "application",
+    "ar": "تطبيق",
+    "ko": "앱",
+    "ru": "мобильное приложение"
+   }
+  },
+  {
+   "word": "wifi",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無線のネット接続",
+    "en": "a wireless connection to the internet",
+    "zh": "无线网络",
+    "fr": "wifi",
+    "ar": "شبكة لاسلكية",
+    "ko": "와이파이",
+    "ru": "вайфай"
+   }
+  },
+  {
+   "word": "router",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネット接続の機器",
+    "en": "the box that sends internet to your devices",
+    "zh": "路由器",
+    "fr": "routeur",
+    "ar": "موجه الشبكة",
+    "ko": "공유기",
+    "ru": "роутер"
+   }
+  },
+  {
+   "word": "bluetooth",
+   "pos": "noun",
+   "meaning": {
+    "ja": "近距離の無線通信",
+    "en": "a short-range wireless link between devices",
+    "zh": "蓝牙",
+    "fr": "bluetooth",
+    "ar": "بلوتوث",
+    "ko": "블루투스",
+    "ru": "блютус"
+   }
+  },
+  {
+   "word": "offline",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネットにつながっていない",
+    "en": "not connected to the internet",
+    "zh": "离线的",
+    "fr": "hors ligne",
+    "ar": "غير متصل بالإنترنت",
+    "ko": "오프라인의",
+    "ru": "без подключения к сети"
+   }
+  },
+  {
+   "word": "sync",
+   "pos": "noun",
+   "meaning": {
+    "ja": "複数の端末で内容をそろえる",
+    "en": "to keep the same data on several devices",
+    "zh": "同步",
+    "fr": "synchroniser",
+    "ar": "يزامن البيانات",
+    "ko": "동기화하다",
+    "ru": "синхронизировать"
+   }
+  },
+  {
+   "word": "streaming",
+   "pos": "noun",
+   "meaning": {
+    "ja": "再生しながら受信する方式",
+    "en": "playing video or music as it arrives",
+    "zh": "流媒体播放",
+    "fr": "diffusion en continu",
+    "ar": "البث المباشر للمحتوى",
+    "ko": "스트리밍",
+    "ru": "потоковое воспроизведение"
+   }
+  },
+  {
+   "word": "downtime",
+   "pos": "noun",
+   "meaning": {
+    "ja": "停止している時間",
+    "en": "the time a service is not working",
+    "zh": "停机时间",
+    "fr": "temps d'indisponibilité",
+    "ar": "وقت التوقف",
+    "ko": "서비스 중단 시간",
+    "ru": "время простоя"
+   }
+  },
+  {
+   "word": "operating system",
+   "pos": "noun",
+   "meaning": {
+    "ja": "基本ソフト",
+    "en": "the main software that runs a device",
+    "zh": "操作系统",
+    "fr": "système d'exploitation",
+    "ar": "نظام التشغيل",
+    "ko": "운영 체제",
+    "ru": "операционная система"
+   }
+  },
+  {
+   "word": "notification",
+   "pos": "noun",
+   "meaning": {
+    "ja": "通知",
+    "en": "a message an app shows to get your attention",
+    "zh": "推送通知",
+    "fr": "notification",
+    "ar": "تنبيه من التطبيق",
+    "ko": "알림",
+    "ru": "оповещение приложения"
+   }
+  },
+  {
+   "word": "settings",
+   "pos": "noun",
+   "meaning": {
+    "ja": "設定画面",
+    "en": "where you change how an app behaves",
+    "zh": "设置界面",
+    "fr": "paramètres",
+    "ar": "الإعدادات",
+    "ko": "설정",
+    "ru": "настройки"
+   }
+  },
+  {
+   "word": "subscription",
+   "pos": "noun",
+   "meaning": {
+    "ja": "月額などの継続契約",
+    "en": "paying regularly to keep using a service",
+    "zh": "订阅",
+    "fr": "abonnement",
+    "ar": "اشتراك",
+    "ko": "구독",
+    "ru": "подписка"
+   }
+  },
+  {
+   "word": "free trial",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無料お試し期間",
+    "en": "a period you can use something without paying",
+    "zh": "免费试用",
+    "fr": "essai gratuit",
+    "ar": "تجربة مجانية",
+    "ko": "무료 체험",
+    "ru": "бесплатный пробный период"
+   }
+  },
+  {
+   "word": "terms of service",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サービス利用のきまり",
+    "en": "the rules you agree to when using a service",
+    "zh": "服务条款",
+    "fr": "conditions d'utilisation",
+    "ar": "شروط الخدمة",
+    "ko": "서비스 이용 규정",
+    "ru": "условия использования"
+   }
+  },
+  {
+   "word": "privacy policy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "個人情報の取扱方針",
+    "en": "the statement of how your data is handled",
+    "zh": "隐私政策",
+    "fr": "politique de confidentialité",
+    "ar": "سياسة الخصوصية",
+    "ko": "개인정보 처리방침",
+    "ru": "политика конфиденциальности"
+   }
+  },
+  {
+   "word": "cookie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "閲覧情報の保存ファイル",
+    "en": "a small file a site stores to remember you",
+    "zh": "网站缓存标记",
+    "fr": "cookie de navigation",
+    "ar": "ملف تعريف الارتباط",
+    "ko": "쿠키",
+    "ru": "файл cookie"
+   }
+  },
+  {
+   "word": "attachment",
+   "pos": "noun",
+   "meaning": {
+    "ja": "メールの添付ファイル",
+    "en": "a file sent with an email",
+    "zh": "附件",
+    "fr": "pièce jointe",
+    "ar": "مرفق البريد",
+    "ko": "첨부 파일",
+    "ru": "вложение"
+   }
+  },
+  {
+   "word": "sign out",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サインアウトする",
+    "en": "to leave your account so others cannot use it",
+    "zh": "登出账户",
+    "fr": "fermer sa session",
+    "ar": "ينهي جلسته",
+    "ko": "계정에서 나가다",
+    "ru": "выйти из аккаунта"
+   }
+  },
+  {
+   "word": "crash",
+   "pos": "noun",
+   "meaning": {
+    "ja": "突然落ちる",
+    "en": "to stop working suddenly",
+    "zh": "崩溃闪退",
+    "fr": "planter",
+    "ar": "يتعطل فجأة",
+    "ko": "갑자기 꺼지다",
+    "ru": "аварийно завершиться"
+   }
+  },
+  {
+   "word": "restart",
+   "pos": "noun",
+   "meaning": {
+    "ja": "再起動する",
+    "en": "to turn a device off and on again",
+    "zh": "重启",
+    "fr": "redémarrer",
+    "ar": "يعيد التشغيل",
+    "ko": "재시작하다",
+    "ru": "перезапустить"
+   }
+  },
+  {
+   "word": "QR code",
+   "pos": "noun",
+   "meaning": {
+    "ja": "二次元コード",
+    "en": "the square pattern you scan with a camera",
+    "zh": "二维码",
+    "fr": "code QR",
+    "ar": "رمز الاستجابة السريعة",
+    "ko": "QR 코드",
+    "ru": "QR-код"
+   }
+  },
+  {
+   "word": "e-commerce",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネット上の商取引",
+    "en": "buying and selling online",
+    "zh": "电子商务",
+    "fr": "commerce en ligne",
+    "ar": "التجارة الإلكترونية",
+    "ko": "전자 상거래",
+    "ru": "электронная торговля"
+   }
+  },
+  {
+   "word": "upgrade",
+   "pos": "noun",
+   "meaning": {
+    "ja": "上位のものに変える",
+    "en": "to move to a better or newer version",
+    "zh": "升级",
+    "fr": "passer à une version supérieure",
+    "ar": "يرقّي إلى نسخة أعلى",
+    "ko": "상위 버전으로 바꾸다",
+    "ru": "перейти на версию выше"
+   }
+  },
+  {
+   "word": "patch",
+   "pos": "noun",
+   "meaning": {
+    "ja": "修正プログラム",
+    "en": "a small fix released for a program",
+    "zh": "补丁",
+    "fr": "correctif",
+    "ar": "رقعة إصلاح",
+    "ko": "수정 패치",
+    "ru": "патч"
+   }
+  },
+  {
+   "word": "open source",
+   "pos": "noun",
+   "meaning": {
+    "ja": "公開されていて誰でも使える",
+    "en": "with code anyone can see and use",
+    "zh": "开源的",
+    "fr": "à code ouvert",
+    "ar": "مفتوح المصدر",
+    "ko": "오픈 소스의",
+    "ru": "с открытым исходным кодом"
+   }
+  },
+  {
+   "word": "remote work",
+   "pos": "noun",
+   "meaning": {
+    "ja": "在宅などの遠隔勤務",
+    "en": "working away from the office",
+    "zh": "远程办公",
+    "fr": "travail à distance",
+    "ar": "العمل عن بعد",
+    "ko": "원격 근무",
+    "ru": "удалённая работа"
+   }
+  },
+  {
+   "word": "video call",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ビデオ通話",
+    "en": "a phone call where you can see each other",
+    "zh": "视频通话",
+    "fr": "appel vidéo",
+    "ar": "مكالمة فيديو",
+    "ko": "영상 통화",
+    "ru": "видеозвонок"
+   }
+  },
+  {
+   "word": "screen share",
+   "pos": "noun",
+   "meaning": {
+    "ja": "画面を相手に見せる",
+    "en": "to show your screen to others in a call",
+    "zh": "共享屏幕",
+    "fr": "partage d'écran",
+    "ar": "مشاركة الشاشة",
+    "ko": "화면 공유",
+    "ru": "демонстрация экрана"
+   }
+  },
+  {
+   "word": "AI",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人工知能",
+    "en": "computer systems that imitate human thinking",
+    "zh": "人工智能",
+    "fr": "intelligence artificielle",
+    "ar": "الذكاء الاصطناعي",
+    "ko": "인공지능",
+    "ru": "искусственный интеллект"
+   }
+  },
+  {
+   "word": "machine learning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "データから学ばせる技術",
+    "en": "letting a computer improve from data",
+    "zh": "机器学习",
+    "fr": "apprentissage automatique",
+    "ar": "تعلم الآلة",
+    "ko": "기계 학습",
+    "ru": "машинное обучение"
+   }
+  },
+  {
+   "word": "algorithm",
+   "pos": "noun",
+   "meaning": {
+    "ja": "処理の手順",
+    "en": "the set of steps a computer follows",
+    "zh": "算法",
+    "fr": "algorithme",
+    "ar": "خوارزمية",
+    "ko": "알고리즘",
+    "ru": "алгоритм"
+   }
+  },
+  {
+   "word": "chatbot",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自動応答するプログラム",
+    "en": "a program that answers you in conversation",
+    "zh": "聊天机器人",
+    "fr": "agent conversationnel",
+    "ar": "روبوت محادثة",
+    "ko": "챗봇",
+    "ru": "чат-бот"
+   }
+  },
+  {
+   "word": "prompt",
+   "pos": "noun",
+   "meaning": {
+    "ja": "AIへの指示文",
+    "en": "the instruction you type for an AI",
+    "zh": "提示词",
+    "fr": "instruction donnée à l'IA",
+    "ar": "موجه الأوامر للذكاء الاصطناعي",
+    "ko": "AI 지시문",
+    "ru": "запрос к ИИ"
+   }
+  },
+  {
+   "word": "automation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "作業の自動化",
+    "en": "making a task run without a person",
+    "zh": "自动化",
+    "fr": "automatisation",
+    "ar": "الأتمتة",
+    "ko": "자동화",
+    "ru": "автоматизация"
+   }
+  },
+  {
+   "word": "phishing",
+   "pos": "noun",
+   "meaning": {
+    "ja": "偽サイトへの誘導詐欺",
+    "en": "fake messages that steal your login details",
+    "zh": "网络钓鱼",
+    "fr": "hameçonnage",
+    "ar": "التصيد الاحتيالي",
+    "ko": "피싱",
+    "ru": "фишинг"
+   }
+  },
+  {
+   "word": "malware",
+   "pos": "noun",
+   "meaning": {
+    "ja": "悪意のあるソフト",
+    "en": "software written to damage or steal",
+    "zh": "恶意软件",
+    "fr": "logiciel malveillant",
+    "ar": "برمجيات خبيثة",
+    "ko": "악성 소프트웨어",
+    "ru": "вредоносное ПО"
+   }
+  },
+  {
+   "word": "virus",
+   "pos": "noun",
+   "meaning": {
+    "ja": "感染して広がる不正プログラム",
+    "en": "a harmful program that spreads by copying itself",
+    "zh": "电脑病毒",
+    "fr": "virus informatique",
+    "ar": "فيروس حاسوبي",
+    "ko": "컴퓨터 바이러스",
+    "ru": "компьютерный вирус"
+   }
+  },
+  {
+   "word": "spam",
+   "pos": "noun",
+   "meaning": {
+    "ja": "迷惑メール",
+    "en": "unwanted messages sent to many people",
+    "zh": "垃圾邮件",
+    "fr": "courrier indésirable",
+    "ar": "رسائل مزعجة",
+    "ko": "스팸 메일",
+    "ru": "спам"
+   }
+  },
+  {
+   "word": "firewall",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不正通信を遮断する仕組み",
+    "en": "a barrier that blocks unwanted network traffic",
+    "zh": "防火墙",
+    "fr": "pare-feu",
+    "ar": "جدار حماية",
+    "ko": "방화벽",
+    "ru": "межсетевой экран"
+   }
+  },
+  {
+   "word": "antivirus",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ウイルス対策ソフト",
+    "en": "software that finds and removes harmful programs",
+    "zh": "杀毒软件",
+    "fr": "antivirus",
+    "ar": "برنامج مكافحة الفيروسات",
+    "ko": "백신 프로그램",
+    "ru": "антивирус"
+   }
+  },
+  {
+   "word": "VPN",
+   "pos": "noun",
+   "meaning": {
+    "ja": "通信を保護する接続経路",
+    "en": "a private tunnel that hides your connection",
+    "zh": "虚拟专用网",
+    "fr": "réseau privé virtuel",
+    "ar": "شبكة افتراضية خاصة",
+    "ko": "가상 사설망",
+    "ru": "виртуальная частная сеть"
+   }
+  },
+  {
+   "word": "two-factor authentication",
+   "pos": "noun",
+   "meaning": {
+    "ja": "二段階での本人確認",
+    "en": "checking who you are in two separate ways",
+    "zh": "双重验证",
+    "fr": "authentification à deux facteurs",
+    "ar": "المصادقة الثنائية",
+    "ko": "2단계 인증",
+    "ru": "двухфакторная аутентификация"
+   }
+  },
+  {
+   "word": "verification code",
+   "pos": "noun",
+   "meaning": {
+    "ja": "確認用の番号",
+    "en": "the number sent to prove it is really you",
+    "zh": "验证码",
+    "fr": "code de vérification",
+    "ar": "رمز التحقق",
+    "ko": "인증 번호",
+    "ru": "код подтверждения"
+   }
+  },
+  {
+   "word": "authentication",
+   "pos": "noun",
+   "meaning": {
+    "ja": "本人確認の仕組み",
+    "en": "the process of proving who you are",
+    "zh": "身份验证",
+    "fr": "authentification",
+    "ar": "التحقق من الهوية",
+    "ko": "본인 인증",
+    "ru": "аутентификация"
+   }
+  },
+  {
+   "word": "data breach",
+   "pos": "noun",
+   "meaning": {
+    "ja": "個人情報の流出",
+    "en": "an incident where private data escapes",
+    "zh": "数据泄露",
+    "fr": "fuite de données",
+    "ar": "تسريب البيانات",
+    "ko": "개인정보 유출",
+    "ru": "утечка данных"
+   }
+  },
+  {
+   "word": "ransomware",
+   "pos": "noun",
+   "meaning": {
+    "ja": "身代金を要求するウイルス",
+    "en": "malware that locks your files until you pay",
+    "zh": "勒索软件",
+    "fr": "rançongiciel",
+    "ar": "برنامج الفدية",
+    "ko": "랜섬웨어",
+    "ru": "программа-вымогатель"
+   }
+  },
+  {
+   "word": "hacker",
+   "pos": "noun",
+   "meaning": {
+    "ja": "不正に侵入する人",
+    "en": "someone who breaks into computer systems",
+    "zh": "黑客",
+    "fr": "pirate informatique",
+    "ar": "قرصان معلوماتي",
+    "ko": "해커",
+    "ru": "хакер"
+   }
+  },
+  {
+   "word": "cybersecurity",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サイバー攻撃への備え",
+    "en": "protecting systems from online attack",
+    "zh": "网络安全防护",
+    "fr": "cybersécurité",
+    "ar": "الأمن السيبراني",
+    "ko": "사이버 보안",
+    "ru": "кибербезопасность"
+   }
+  },
+  {
+   "word": "scam",
+   "pos": "noun",
+   "meaning": {
+    "ja": "だまし取る手口",
+    "en": "a dishonest trick to take your money",
+    "zh": "诈骗",
+    "fr": "arnaque",
+    "ar": "عملية احتيال",
+    "ko": "사기 수법",
+    "ru": "мошенническая схема"
+   }
+  }
+ ]
+}

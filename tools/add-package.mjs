@@ -153,6 +153,7 @@ console.log('  total   ' + out.words.length + (before ? '   (was ' + before + ')
 // Each language has a script it is supposed to be written in. A meaning that
 // carries stray Latin letters is almost always a half-typed word -- the kind of
 // slip that survives forever because nobody reads the Russian column.
+const LOANWORDS = ['cookie', 'cookies', 'wifi', 'email', 'web', 'app', 'online', 'offline', 'internet'];
 const SCRIPTS = {
   ru: { re: /[\u0400-\u04ff]/, stray: /[A-Za-z]/, name: 'Cyrillic' },
   ar: { re: /[\u0600-\u06ff]/, stray: /[A-Za-z]/, name: 'Arabic' },
@@ -163,7 +164,12 @@ const SCRIPTS = {
 Object.entries(SCRIPTS).forEach(([lang, sc]) => {
   const bad = out.words.filter(w => {
     const v = String((w.meaning || {})[lang] || '');
-    return sc.stray.test(v) && sc.re.test(v);
+    // Acronyms and a few loanwords are genuinely written in Latin inside these
+    // scripts -- "QR-код" and "файл cookie" are how Russian actually spells
+    // them. Strip those before deciding anything is a typo.
+    const rest = v.replace(/\b[A-Z]{2,6}\b/g, '')
+      .replace(new RegExp('\\b(?:' + LOANWORDS.join('|') + ')\\b', 'gi'), '');
+    return sc.stray.test(rest) && sc.re.test(v);
   });
   if (!bad.length) return;
   console.log('\n  [' + lang + '] ' + bad.length + ' meaning(s) mix Latin letters into ' + sc.name + ':');
