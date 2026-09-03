@@ -1,0 +1,1315 @@
+{
+ "id": "academic_word_list",
+ "v": 1,
+ "title": {
+  "ja": "アカデミック頻出語",
+  "en": "Core Academic Vocabulary",
+  "zh": "学术高频词",
+  "fr": "Vocabulaire académique essentiel",
+  "ar": "المفردات الأكاديمية الأساسية",
+  "ko": "학술 필수 어휘",
+  "ru": "Ключевая академическая лексика"
+ },
+ "words": [
+  {
+   "word": "authority",
+   "pos": "noun",
+   "meaning": {
+    "ja": "その分野の権威",
+    "en": "an expert or body whose word carries weight",
+    "zh": "权威",
+    "fr": "autorité en la matière",
+    "ar": "مرجع موثوق",
+    "ko": "권위 있는 출처",
+    "ru": "авторитет"
+   }
+  },
+  {
+   "word": "benefit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "利点",
+    "en": "a helpful effect of something",
+    "zh": "益处",
+    "fr": "avantage",
+    "ar": "فائدة",
+    "ko": "이점",
+    "ru": "польза"
+   }
+  },
+  {
+   "word": "concept",
+   "pos": "noun",
+   "meaning": {
+    "ja": "概念",
+    "en": "an abstract idea",
+    "zh": "概念",
+    "fr": "concept",
+    "ar": "مفهوم",
+    "ko": "개념",
+    "ru": "понятие"
+   }
+  },
+  {
+   "word": "data",
+   "pos": "noun",
+   "meaning": {
+    "ja": "データ",
+    "en": "facts collected for study",
+    "zh": "数据",
+    "fr": "données",
+    "ar": "بيانات",
+    "ko": "자료 데이터",
+    "ru": "данные"
+   }
+  },
+  {
+   "word": "establish",
+   "pos": "noun",
+   "meaning": {
+    "ja": "確立する",
+    "en": "to prove or set up firmly",
+    "zh": "确立",
+    "fr": "établir",
+    "ar": "يرسي",
+    "ko": "확립하다",
+    "ru": "установить"
+   }
+  },
+  {
+   "word": "estimate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "おおよそ見積もる",
+    "en": "to judge an amount without measuring exactly",
+    "zh": "估算",
+    "fr": "estimer",
+    "ar": "يقدر",
+    "ko": "어림잡다",
+    "ru": "оценивать приблизительно"
+   }
+  },
+  {
+   "word": "evident",
+   "pos": "noun",
+   "meaning": {
+    "ja": "はっきり見て取れる",
+    "en": "easy to see or understand",
+    "zh": "显而易见的",
+    "fr": "manifeste",
+    "ar": "واضح جلي",
+    "ko": "뚜렷이 드러나는",
+    "ru": "очевидный"
+   }
+  },
+  {
+   "word": "factor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "要因",
+    "en": "one thing that helps cause a result",
+    "zh": "因素",
+    "fr": "facteur",
+    "ar": "عامل",
+    "ko": "요인",
+    "ru": "фактор"
+   }
+  },
+  {
+   "word": "identify",
+   "pos": "noun",
+   "meaning": {
+    "ja": "特定する",
+    "en": "to recognise and name something",
+    "zh": "识别出",
+    "fr": "identifier",
+    "ar": "يحدد الهوية",
+    "ko": "식별하다",
+    "ru": "выявить"
+   }
+  },
+  {
+   "word": "indicate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "示す",
+    "en": "to show that something is true",
+    "zh": "表明",
+    "fr": "indiquer",
+    "ar": "يدل على",
+    "ko": "나타내다",
+    "ru": "указывать"
+   }
+  },
+  {
+   "word": "individual",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一人ひとりの",
+    "en": "relating to one person or thing separately",
+    "zh": "个别的",
+    "fr": "individuel",
+    "ar": "فردي",
+    "ko": "개별의",
+    "ru": "отдельный"
+   }
+  },
+  {
+   "word": "interpret",
+   "pos": "noun",
+   "meaning": {
+    "ja": "解釈する",
+    "en": "to explain what something means",
+    "zh": "解读",
+    "fr": "interpréter",
+    "ar": "يفسر",
+    "ko": "해석하다",
+    "ru": "истолковывать"
+   }
+  },
+  {
+   "word": "involve",
+   "pos": "noun",
+   "meaning": {
+    "ja": "必然的に伴う",
+    "en": "to have as a necessary part",
+    "zh": "涉及",
+    "fr": "impliquer",
+    "ar": "ينطوي على",
+    "ko": "수반하다",
+    "ru": "включать в себя"
+   }
+  },
+  {
+   "word": "issue",
+   "pos": "noun",
+   "meaning": {
+    "ja": "争点",
+    "en": "a matter people disagree or worry about",
+    "zh": "议题",
+    "fr": "question débattue",
+    "ar": "قضية مطروحة",
+    "ko": "쟁점",
+    "ru": "спорный вопрос"
+   }
+  },
+  {
+   "word": "legal",
+   "pos": "noun",
+   "meaning": {
+    "ja": "法律上の",
+    "en": "connected with the law",
+    "zh": "法律的",
+    "fr": "juridique",
+    "ar": "قانوني",
+    "ko": "법적인",
+    "ru": "правовой"
+   }
+  },
+  {
+   "word": "major",
+   "pos": "noun",
+   "meaning": {
+    "ja": "主要な",
+    "en": "large and important",
+    "zh": "主要的",
+    "fr": "majeur",
+    "ar": "رئيسي",
+    "ko": "주요한",
+    "ru": "основной"
+   }
+  },
+  {
+   "word": "method",
+   "pos": "noun",
+   "meaning": {
+    "ja": "方法",
+    "en": "a planned way of doing something",
+    "zh": "方法",
+    "fr": "méthode",
+    "ar": "طريقة",
+    "ko": "방법",
+    "ru": "метод"
+   }
+  },
+  {
+   "word": "occur",
+   "pos": "noun",
+   "meaning": {
+    "ja": "生じる",
+    "en": "to happen",
+    "zh": "出现发生",
+    "fr": "survenir",
+    "ar": "يقع",
+    "ko": "발생하다",
+    "ru": "иметь место"
+   }
+  },
+  {
+   "word": "period",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一定の期間",
+    "en": "a length of time",
+    "zh": "时期",
+    "fr": "période",
+    "ar": "فترة زمنية",
+    "ko": "기간",
+    "ru": "период"
+   }
+  },
+  {
+   "word": "policy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "方針",
+    "en": "an official plan of action",
+    "zh": "政策",
+    "fr": "politique adoptée",
+    "ar": "سياسة متبعة",
+    "ko": "방침",
+    "ru": "политика"
+   }
+  },
+  {
+   "word": "principle",
+   "pos": "noun",
+   "meaning": {
+    "ja": "原理",
+    "en": "a basic rule that explains how things work",
+    "zh": "原理",
+    "fr": "principe",
+    "ar": "مبدأ",
+    "ko": "원리",
+    "ru": "принцип"
+   }
+  },
+  {
+   "word": "process",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一連の過程",
+    "en": "a series of steps leading to a result",
+    "zh": "过程",
+    "fr": "processus",
+    "ar": "عملية متسلسلة",
+    "ko": "과정",
+    "ru": "процесс"
+   }
+  },
+  {
+   "word": "research",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研究",
+    "en": "careful study to find new knowledge",
+    "zh": "研究",
+    "fr": "recherche",
+    "ar": "بحث علمي",
+    "ko": "연구",
+    "ru": "исследование"
+   }
+  },
+  {
+   "word": "role",
+   "pos": "noun",
+   "meaning": {
+    "ja": "果たす役割",
+    "en": "the part something plays in a situation",
+    "zh": "作用",
+    "fr": "rôle",
+    "ar": "دور",
+    "ko": "역할",
+    "ru": "роль"
+   }
+  },
+  {
+   "word": "significant",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無視できない大きさの",
+    "en": "large or important enough to matter",
+    "zh": "显著的",
+    "fr": "significatif",
+    "ar": "ذو دلالة معتبرة",
+    "ko": "유의미한",
+    "ru": "значимый"
+   }
+  },
+  {
+   "word": "structure",
+   "pos": "noun",
+   "meaning": {
+    "ja": "構造",
+    "en": "the way parts are arranged",
+    "zh": "结构",
+    "fr": "structure",
+    "ar": "بنية",
+    "ko": "구조",
+    "ru": "структура"
+   }
+  },
+  {
+   "word": "theory",
+   "pos": "noun",
+   "meaning": {
+    "ja": "理論",
+    "en": "an explanation supported by reasoning",
+    "zh": "理论",
+    "fr": "théorie",
+    "ar": "نظرية",
+    "ko": "이론",
+    "ru": "теория"
+   }
+  },
+  {
+   "word": "achieve",
+   "pos": "noun",
+   "meaning": {
+    "ja": "成し遂げる",
+    "en": "to succeed in doing something",
+    "zh": "实现",
+    "fr": "accomplir",
+    "ar": "يحقق",
+    "ko": "이루어 내다",
+    "ru": "достичь"
+   }
+  },
+  {
+   "word": "acquire",
+   "pos": "noun",
+   "meaning": {
+    "ja": "時間をかけて習得する",
+    "en": "to gain a skill or knowledge over time",
+    "zh": "习得",
+    "fr": "acquérir",
+    "ar": "يكتسب",
+    "ko": "습득하다",
+    "ru": "приобретать"
+   }
+  },
+  {
+   "word": "affect",
+   "pos": "noun",
+   "meaning": {
+    "ja": "影響を及ぼす",
+    "en": "to cause a change in something",
+    "zh": "影响",
+    "fr": "affecter",
+    "ar": "يؤثر في",
+    "ko": "영향을 미치다",
+    "ru": "влиять на"
+   }
+  },
+  {
+   "word": "aspect",
+   "pos": "noun",
+   "meaning": {
+    "ja": "側面",
+    "en": "one part of a subject you can look at",
+    "zh": "方面",
+    "fr": "aspect",
+    "ar": "جانب",
+    "ko": "측면",
+    "ru": "аспект"
+   }
+  },
+  {
+   "word": "category",
+   "pos": "noun",
+   "meaning": {
+    "ja": "分類の枠",
+    "en": "a group things are sorted into",
+    "zh": "类别",
+    "fr": "catégorie",
+    "ar": "فئة",
+    "ko": "범주",
+    "ru": "категория"
+   }
+  },
+  {
+   "word": "community",
+   "pos": "noun",
+   "meaning": {
+    "ja": "共同体",
+    "en": "a group of people with something in common",
+    "zh": "群体",
+    "fr": "communauté",
+    "ar": "مجتمع محلي",
+    "ko": "공동체",
+    "ru": "сообщество"
+   }
+  },
+  {
+   "word": "complex",
+   "pos": "noun",
+   "meaning": {
+    "ja": "入り組んだ",
+    "en": "made of many connected parts and hard to follow",
+    "zh": "复杂的",
+    "fr": "complexe",
+    "ar": "معقد",
+    "ko": "복잡한",
+    "ru": "сложный"
+   }
+  },
+  {
+   "word": "conclude",
+   "pos": "noun",
+   "meaning": {
+    "ja": "結論づける",
+    "en": "to decide something after thinking it through",
+    "zh": "得出结论",
+    "fr": "tirer une conclusion",
+    "ar": "يخلص إلى",
+    "ko": "결론짓다",
+    "ru": "заключить"
+   }
+  },
+  {
+   "word": "conduct",
+   "pos": "noun",
+   "meaning": {
+    "ja": "調査などを行う",
+    "en": "to carry out a study or test",
+    "zh": "开展进行",
+    "fr": "mener une étude",
+    "ar": "يجري دراسة",
+    "ko": "조사를 실시하다",
+    "ru": "проводить"
+   }
+  },
+  {
+   "word": "distinct",
+   "pos": "noun",
+   "meaning": {
+    "ja": "明確に別の",
+    "en": "clearly different from something else",
+    "zh": "截然不同的",
+    "fr": "distinct",
+    "ar": "متمايز",
+    "ko": "뚜렷이 구별되는",
+    "ru": "отчётливо иной"
+   }
+  },
+  {
+   "word": "element",
+   "pos": "noun",
+   "meaning": {
+    "ja": "構成要素",
+    "en": "one of the parts something is made of",
+    "zh": "要素",
+    "fr": "élément",
+    "ar": "عنصر",
+    "ko": "요소",
+    "ru": "элемент"
+   }
+  },
+  {
+   "word": "evaluate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "良し悪しを見極める",
+    "en": "to judge how good or useful something is",
+    "zh": "评价",
+    "fr": "apprécier la valeur de",
+    "ar": "يقيّم",
+    "ko": "평가하다",
+    "ru": "давать оценку"
+   }
+  },
+  {
+   "word": "impact",
+   "pos": "noun",
+   "meaning": {
+    "ja": "及ぼす作用の大きさ",
+    "en": "the strong effect one thing has on another",
+    "zh": "冲击影响",
+    "fr": "impact",
+    "ar": "أثر قوي",
+    "ko": "파급 효과",
+    "ru": "воздействие"
+   }
+  },
+  {
+   "word": "maintain",
+   "pos": "noun",
+   "meaning": {
+    "ja": "状態を保つ",
+    "en": "to keep something at the same level",
+    "zh": "维持",
+    "fr": "maintenir",
+    "ar": "يحافظ على",
+    "ko": "유지하다",
+    "ru": "удерживать на прежнем уровне"
+   }
+  },
+  {
+   "word": "obtain",
+   "pos": "noun",
+   "meaning": {
+    "ja": "入手する",
+    "en": "to get something you were seeking",
+    "zh": "获得",
+    "fr": "obtenir",
+    "ar": "يحصل على",
+    "ko": "입수하다",
+    "ru": "получить"
+   }
+  },
+  {
+   "word": "perceive",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そう受け止める",
+    "en": "to understand something in a particular way",
+    "zh": "感知看待",
+    "fr": "percevoir",
+    "ar": "يدرك",
+    "ko": "인식하다",
+    "ru": "воспринимать"
+   }
+  },
+  {
+   "word": "potential",
+   "pos": "noun",
+   "meaning": {
+    "ja": "可能性としての",
+    "en": "possible but not yet actual",
+    "zh": "潜在的",
+    "fr": "potentiel",
+    "ar": "محتمل",
+    "ko": "잠재적인",
+    "ru": "потенциальный"
+   }
+  },
+  {
+   "word": "previous",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一つ前の",
+    "en": "coming before this one",
+    "zh": "先前的",
+    "fr": "précédent",
+    "ar": "سابق",
+    "ko": "이전의",
+    "ru": "предыдущий"
+   }
+  },
+  {
+   "word": "primary",
+   "pos": "noun",
+   "meaning": {
+    "ja": "第一の",
+    "en": "most important, coming first",
+    "zh": "首要的",
+    "fr": "primordial",
+    "ar": "أساسي أول",
+    "ko": "일차적인",
+    "ru": "первостепенный"
+   }
+  },
+  {
+   "word": "range",
+   "pos": "noun",
+   "meaning": {
+    "ja": "広がりの幅",
+    "en": "the spread between the lowest and highest",
+    "zh": "范围",
+    "fr": "éventail",
+    "ar": "مدى",
+    "ko": "범위",
+    "ru": "диапазон"
+   }
+  },
+  {
+   "word": "region",
+   "pos": "noun",
+   "meaning": {
+    "ja": "地域",
+    "en": "a large area of a country or the world",
+    "zh": "地区",
+    "fr": "région",
+    "ar": "منطقة",
+    "ko": "지역",
+    "ru": "регион"
+   }
+  },
+  {
+   "word": "relevant",
+   "pos": "noun",
+   "meaning": {
+    "ja": "論点に関係のある",
+    "en": "connected to what is being discussed",
+    "zh": "相关的",
+    "fr": "pertinent",
+    "ar": "وثيق الصلة",
+    "ko": "관련성 있는",
+    "ru": "относящийся к делу"
+   }
+  },
+  {
+   "word": "resource",
+   "pos": "noun",
+   "meaning": {
+    "ja": "使える資源",
+    "en": "something available to be used",
+    "zh": "资源",
+    "fr": "ressource",
+    "ar": "مورد",
+    "ko": "자원",
+    "ru": "ресурс"
+   }
+  },
+  {
+   "word": "restrict",
+   "pos": "noun",
+   "meaning": {
+    "ja": "範囲を限る",
+    "en": "to keep something within limits",
+    "zh": "限制",
+    "fr": "restreindre",
+    "ar": "يقيد",
+    "ko": "제한하다",
+    "ru": "ограничивать"
+   }
+  },
+  {
+   "word": "seek",
+   "pos": "noun",
+   "meaning": {
+    "ja": "求めようとする",
+    "en": "to try to find or get something",
+    "zh": "寻求",
+    "fr": "chercher à obtenir",
+    "ar": "يسعى إلى",
+    "ko": "추구하다",
+    "ru": "стремиться получить"
+   }
+  },
+  {
+   "word": "strategy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "戦略",
+    "en": "a plan for reaching a goal",
+    "zh": "策略",
+    "fr": "stratégie",
+    "ar": "استراتيجية",
+    "ko": "전략",
+    "ru": "стратегия"
+   }
+  },
+  {
+   "word": "survey",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アンケート調査",
+    "en": "a set of questions asked to many people",
+    "zh": "问卷调查",
+    "fr": "enquête par questionnaire",
+    "ar": "استبيان",
+    "ko": "설문 조사",
+    "ru": "опрос"
+   }
+  },
+  {
+   "word": "alternative",
+   "pos": "noun",
+   "meaning": {
+    "ja": "別の選択肢",
+    "en": "another option you could choose",
+    "zh": "替代方案",
+    "fr": "solution de rechange",
+    "ar": "بديل",
+    "ko": "대안",
+    "ru": "альтернатива"
+   }
+  },
+  {
+   "word": "circumstance",
+   "pos": "noun",
+   "meaning": {
+    "ja": "置かれた状況",
+    "en": "the conditions surrounding an event",
+    "zh": "情况境况",
+    "fr": "circonstance",
+    "ar": "ظرف محيط",
+    "ko": "처한 상황",
+    "ru": "обстоятельство"
+   }
+  },
+  {
+   "word": "component",
+   "pos": "noun",
+   "meaning": {
+    "ja": "構成する部品",
+    "en": "a separate part of a larger whole",
+    "zh": "组成部分",
+    "fr": "composant",
+    "ar": "مكوّن",
+    "ko": "구성 부분",
+    "ru": "составная часть"
+   }
+  },
+  {
+   "word": "consent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "同意を与えること",
+    "en": "permission for something to happen",
+    "zh": "同意授权",
+    "fr": "consentement",
+    "ar": "موافقة",
+    "ko": "동의",
+    "ru": "согласие"
+   }
+  },
+  {
+   "word": "considerable",
+   "pos": "noun",
+   "meaning": {
+    "ja": "かなりの量の",
+    "en": "large in amount or degree",
+    "zh": "相当大的",
+    "fr": "considérable",
+    "ar": "كبير بدرجة ملحوظة",
+    "ko": "상당한",
+    "ru": "значительный по величине"
+   }
+  },
+  {
+   "word": "constant",
+   "pos": "noun",
+   "meaning": {
+    "ja": "変わらず一定の",
+    "en": "staying the same over time",
+    "zh": "恒定的",
+    "fr": "constant",
+    "ar": "ثابت",
+    "ko": "일정한",
+    "ru": "неизменный"
+   }
+  },
+  {
+   "word": "contribute",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一因となる",
+    "en": "to help cause or add to something",
+    "zh": "起到促进作用",
+    "fr": "contribuer",
+    "ar": "يسهم في",
+    "ko": "기여하다",
+    "ru": "способствовать"
+   }
+  },
+  {
+   "word": "core",
+   "pos": "noun",
+   "meaning": {
+    "ja": "中核となる",
+    "en": "the most central and essential part",
+    "zh": "核心的",
+    "fr": "central essentiel",
+    "ar": "جوهري",
+    "ko": "핵심적인",
+    "ru": "ключевой"
+   }
+  },
+  {
+   "word": "demonstrate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "根拠を挙げて示す",
+    "en": "to prove something with evidence",
+    "zh": "论证证明",
+    "fr": "démontrer",
+    "ar": "يبرهن",
+    "ko": "입증하다",
+    "ru": "доказать"
+   }
+  },
+  {
+   "word": "emphasis",
+   "pos": "noun",
+   "meaning": {
+    "ja": "重点の置き方",
+    "en": "special importance given to something",
+    "zh": "侧重强调",
+    "fr": "accent mis sur",
+    "ar": "تركيز على",
+    "ko": "강조점",
+    "ru": "расстановка акцентов"
+   }
+  },
+  {
+   "word": "ensure",
+   "pos": "noun",
+   "meaning": {
+    "ja": "確実にそうする",
+    "en": "to make certain something happens",
+    "zh": "确保无误",
+    "fr": "garantir",
+    "ar": "يضمن",
+    "ko": "반드시 하도록 하다",
+    "ru": "обеспечить"
+   }
+  },
+  {
+   "word": "exclude",
+   "pos": "noun",
+   "meaning": {
+    "ja": "対象から外す",
+    "en": "to leave something out",
+    "zh": "排除在外",
+    "fr": "écarter de l'analyse",
+    "ar": "يخرج من الحساب",
+    "ko": "제외하다",
+    "ru": "исключить"
+   }
+  },
+  {
+   "word": "illustrate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "例を挙げて説明する",
+    "en": "to make something clear with an example",
+    "zh": "举例说明",
+    "fr": "illustrer par un exemple",
+    "ar": "يوضح بمثال",
+    "ko": "예를 들어 설명하다",
+    "ru": "пояснить примером"
+   }
+  },
+  {
+   "word": "imply",
+   "pos": "noun",
+   "meaning": {
+    "ja": "暗に示す",
+    "en": "to suggest without saying directly",
+    "zh": "暗示",
+    "fr": "sous-entendre",
+    "ar": "يلمح إلى",
+    "ko": "암시하다",
+    "ru": "подразумевать"
+   }
+  },
+  {
+   "word": "initial",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最初の段階の",
+    "en": "happening at the beginning",
+    "zh": "最初的",
+    "fr": "initial",
+    "ar": "أولي",
+    "ko": "초기의",
+    "ru": "первоначальный"
+   }
+  },
+  {
+   "word": "instance",
+   "pos": "noun",
+   "meaning": {
+    "ja": "具体例",
+    "en": "a single case of something happening",
+    "zh": "实例",
+    "fr": "cas précis",
+    "ar": "حالة مفردة",
+    "ko": "사례",
+    "ru": "конкретный случай"
+   }
+  },
+  {
+   "word": "interact",
+   "pos": "noun",
+   "meaning": {
+    "ja": "互いに作用し合う",
+    "en": "to affect each other",
+    "zh": "相互作用",
+    "fr": "interagir",
+    "ar": "يتفاعل مع",
+    "ko": "상호 작용하다",
+    "ru": "взаимодействовать"
+   }
+  },
+  {
+   "word": "justify",
+   "pos": "noun",
+   "meaning": {
+    "ja": "根拠を述べて正当化する",
+    "en": "to give good reasons for something",
+    "zh": "论证其合理性",
+    "fr": "justifier",
+    "ar": "يبرر",
+    "ko": "정당성을 밝히다",
+    "ru": "обосновать"
+   }
+  },
+  {
+   "word": "link",
+   "pos": "noun",
+   "meaning": {
+    "ja": "結びつけて考える",
+    "en": "to show a connection between two things",
+    "zh": "联系起来",
+    "fr": "relier",
+    "ar": "يربط بين",
+    "ko": "연결 짓다",
+    "ru": "связывать"
+   }
+  },
+  {
+   "word": "minor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "取るに足りない",
+    "en": "small and not very important",
+    "zh": "次要的",
+    "fr": "mineur",
+    "ar": "طفيف",
+    "ko": "사소한",
+    "ru": "незначительный"
+   }
+  },
+  {
+   "word": "outcome",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最終的に生じた結果",
+    "en": "what finally happens as a result",
+    "zh": "最终结果",
+    "fr": "issue finale",
+    "ar": "نتيجة نهائية",
+    "ko": "최종 결과",
+    "ru": "итог"
+   }
+  },
+  {
+   "word": "proportion",
+   "pos": "noun",
+   "meaning": {
+    "ja": "全体に占める割合",
+    "en": "a part considered against the whole",
+    "zh": "比例",
+    "fr": "proportion",
+    "ar": "نسبة من الكل",
+    "ko": "비율",
+    "ru": "доля"
+   }
+  },
+  {
+   "word": "sequence",
+   "pos": "noun",
+   "meaning": {
+    "ja": "起こる順序",
+    "en": "the order in which things follow",
+    "zh": "顺序",
+    "fr": "séquence",
+    "ar": "تسلسل",
+    "ko": "순서",
+    "ru": "последовательность"
+   }
+  },
+  {
+   "word": "specify",
+   "pos": "noun",
+   "meaning": {
+    "ja": "はっきり指定する",
+    "en": "to state something exactly",
+    "zh": "具体指明",
+    "fr": "préciser",
+    "ar": "يحدد بدقة",
+    "ko": "명시하다",
+    "ru": "точно указать"
+   }
+  },
+  {
+   "word": "sufficient",
+   "pos": "noun",
+   "meaning": {
+    "ja": "足りるだけの",
+    "en": "as much as is needed",
+    "zh": "足够的",
+    "fr": "suffisant",
+    "ar": "كافٍ",
+    "ko": "충분한",
+    "ru": "достаточный"
+   }
+  },
+  {
+   "word": "technique",
+   "pos": "noun",
+   "meaning": {
+    "ja": "具体的なやり方",
+    "en": "a particular skilled way of doing something",
+    "zh": "技巧手法",
+    "fr": "technique",
+    "ar": "أسلوب تقني",
+    "ko": "기법",
+    "ru": "приём"
+   }
+  },
+  {
+   "word": "hypothesis",
+   "pos": "noun",
+   "meaning": {
+    "ja": "検証前の仮説",
+    "en": "an idea you test to see if it is true",
+    "zh": "假设",
+    "fr": "hypothèse",
+    "ar": "فرضية",
+    "ko": "가설",
+    "ru": "гипотеза"
+   }
+  },
+  {
+   "word": "methodology",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研究の進め方全体",
+    "en": "the whole system of methods used in a study",
+    "zh": "研究方法体系",
+    "fr": "méthodologie",
+    "ar": "منهجية البحث",
+    "ko": "연구 방법론",
+    "ru": "методология"
+   }
+  },
+  {
+   "word": "correlation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "二つの間の相関",
+    "en": "a relationship where two things change together",
+    "zh": "相关性",
+    "fr": "corrélation",
+    "ar": "ارتباط بين متغيرين",
+    "ko": "상관관계",
+    "ru": "корреляция"
+   }
+  },
+  {
+   "word": "significance",
+   "pos": "noun",
+   "meaning": {
+    "ja": "持つ意味の重さ",
+    "en": "how important or meaningful something is",
+    "zh": "重要意义",
+    "fr": "portée signification",
+    "ar": "أهمية الدلالة",
+    "ko": "중요성",
+    "ru": "значимость"
+   }
+  },
+  {
+   "word": "sample",
+   "pos": "noun",
+   "meaning": {
+    "ja": "調査対象の抽出集団",
+    "en": "the smaller group chosen to represent the whole",
+    "zh": "样本",
+    "fr": "échantillon",
+    "ar": "عينة",
+    "ko": "표본",
+    "ru": "выборка"
+   }
+  },
+  {
+   "word": "bias",
+   "pos": "noun",
+   "meaning": {
+    "ja": "偏り",
+    "en": "an unfair leaning that distorts results",
+    "zh": "偏差偏见",
+    "fr": "biais",
+    "ar": "تحيز",
+    "ko": "편향",
+    "ru": "систематическое искажение"
+   }
+  },
+  {
+   "word": "limitation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研究の限界点",
+    "en": "a weakness in what a study can show",
+    "zh": "局限性",
+    "fr": "limite de l'étude",
+    "ar": "قيد على البحث",
+    "ko": "연구의 한계",
+    "ru": "ограничение исследования"
+   }
+  },
+  {
+   "word": "implication",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そこから導かれる意味合い",
+    "en": "what a result suggests for the future",
+    "zh": "引申含义",
+    "fr": "implication",
+    "ar": "دلالة ضمنية",
+    "ko": "시사점",
+    "ru": "вытекающее следствие"
+   }
+  },
+  {
+   "word": "finding",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研究で判明したこと",
+    "en": "something a study discovered",
+    "zh": "研究发现",
+    "fr": "résultat de recherche",
+    "ar": "نتيجة توصل إليها البحث",
+    "ko": "연구에서 밝혀진 것",
+    "ru": "полученный результат"
+   }
+  },
+  {
+   "word": "literature",
+   "pos": "noun",
+   "meaning": {
+    "ja": "先行研究の文献",
+    "en": "the published work already written on a topic",
+    "zh": "文献",
+    "fr": "littérature scientifique",
+    "ar": "الأدبيات المنشورة",
+    "ko": "선행 연구 문헌",
+    "ru": "научная литература"
+   }
+  },
+  {
+   "word": "scope",
+   "pos": "noun",
+   "meaning": {
+    "ja": "扱う範囲の広さ",
+    "en": "how much a study covers",
+    "zh": "研究范围",
+    "fr": "portée de l'étude",
+    "ar": "نطاق الدراسة",
+    "ko": "연구 범위",
+    "ru": "охват работы"
+   }
+  },
+  {
+   "word": "rationale",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そうする理由づけ",
+    "en": "the reasoning behind a decision or method",
+    "zh": "理据",
+    "fr": "justification raisonnée",
+    "ar": "مسوغ منطقي",
+    "ko": "근거 논리",
+    "ru": "обоснование выбора"
+   }
+  },
+  {
+   "word": "underlying",
+   "pos": "noun",
+   "meaning": {
+    "ja": "表に出ないが根本にある",
+    "en": "hidden beneath but causing what you see",
+    "zh": "潜在根本的",
+    "fr": "sous-jacent",
+    "ar": "كامن وراء",
+    "ko": "근저에 있는",
+    "ru": "лежащий в основе"
+   }
+  },
+  {
+   "word": "subsequent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "それに続いて起こる",
+    "en": "coming after something else",
+    "zh": "随后的",
+    "fr": "ultérieur",
+    "ar": "لاحق",
+    "ko": "뒤이은",
+    "ru": "последующий"
+   }
+  },
+  {
+   "word": "whereas",
+   "pos": "noun",
+   "meaning": {
+    "ja": "それに対して",
+    "en": "used to contrast two facts",
+    "zh": "然而相比之下",
+    "fr": "tandis que",
+    "ar": "في حين أن",
+    "ko": "~인 반면",
+    "ru": "тогда как"
+   }
+  },
+  {
+   "word": "nevertheless",
+   "pos": "noun",
+   "meaning": {
+    "ja": "それにもかかわらず",
+    "en": "despite what was just said",
+    "zh": "尽管如此",
+    "fr": "néanmoins",
+    "ar": "ومع ذلك",
+    "ko": "그럼에도 불구하고",
+    "ru": "тем не менее"
+   }
+  },
+  {
+   "word": "furthermore",
+   "pos": "noun",
+   "meaning": {
+    "ja": "さらに加えて",
+    "en": "used to add another supporting point",
+    "zh": "此外还应指出",
+    "fr": "de plus",
+    "ar": "علاوة على ذلك",
+    "ko": "더욱이",
+    "ru": "более того"
+   }
+  },
+  {
+   "word": "moreover",
+   "pos": "noun",
+   "meaning": {
+    "ja": "その上さらに重要なことに",
+    "en": "used to add a point that strengthens the argument",
+    "zh": "而且更重要的是",
+    "fr": "qui plus est",
+    "ar": "وفوق ذلك",
+    "ko": "게다가",
+    "ru": "к тому же"
+   }
+  },
+  {
+   "word": "hence",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そのため",
+    "en": "for this reason",
+    "zh": "由此可见",
+    "fr": "d'où",
+    "ar": "ومن ثم",
+    "ko": "그러므로",
+    "ru": "отсюда"
+   }
+  },
+  {
+   "word": "thus",
+   "pos": "noun",
+   "meaning": {
+    "ja": "このようにして",
+    "en": "in this way, leading to what follows",
+    "zh": "如此这般",
+    "fr": "ainsi",
+    "ar": "وهكذا",
+    "ko": "이와 같이",
+    "ru": "таким образом"
+   }
+  }
+ ]
+}
