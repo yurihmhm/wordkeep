@@ -1421,7 +1421,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.52.0';
+const APP_VERSION='5.53.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1434,9 +1434,9 @@ const APP_VERSION='5.52.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.52.0',date:'2026-09-03',keys:['wn1']},
+  {version:'5.53.0',date:'2026-09-03',keys:['wn1']},
+  {version:'5.52.0',date:'2026-09-03',keys:['v5520_1']},
   {version:'5.50.0',date:'2026-09-03',keys:['v5500_1']},
-  {version:'5.46.0',date:'2026-09-02',keys:['v5460_1','v5460_2']},
 ];
 // Days until the next review, indexed by box. The ratios between consecutive
 // steps matter more than the numbers: the old ladder [1,3,5,7,14,20,30,60,90]
@@ -1538,7 +1538,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'新しい単語パッケージ<b>「仕事探しと面接」</b>を追加しました。trial shift、hourly rate、cash in hand、call in sick——応募から初日、そして辞めるまでに実際に口に出す100語です。',en:'A new pack: <b>Job Hunting & Interviews</b>. A hundred words you actually say from applying to your first day and out again — trial shift, hourly rate, cash in hand, call in sick.',zh:'新增单词包<b>「找工作与面试」</b>。trial shift、hourly rate、cash in hand、call in sick——从应聘到入职第一天、再到离职，实际会说出口的100个词。',fr:'Un nouveau pack : <b>« Recherche d’emploi et entretiens »</b>. Cent mots qu’on prononce vraiment, de la candidature au premier jour et jusqu’au départ : trial shift, hourly rate, cash in hand, call in sick.',ar:'حزمة جديدة: <b>«البحث عن عمل والمقابلات»</b>. مئة كلمة تقولها فعلًا من التقديم إلى أول يوم عمل وحتى الاستقالة: trial shift وhourly rate وcash in hand وcall in sick.',ko:'새 단어 패키지 <b>«구직과 면접»</b>을 더했습니다. trial shift, hourly rate, cash in hand, call in sick——지원부터 첫 출근, 그리고 그만둘 때까지 실제로 입에 담는 100단어입니다.',ru:'Новый набор: <b>«Поиск работы и собеседования»</b> — сто слов, которые действительно произносят от подачи заявки до первого дня и до увольнения: trial shift, hourly rate, cash in hand, call in sick.'},
+  wn1:{ja:'日本語以外で使っているとき、4択の選択肢に<b>別の言語が混ざることがあったのを直しました</b>。あわせて、選択肢の元になる語がぐっと増えています——これまでパッケージの語が選択肢に使われていなかったので、日本語以外では候補が乏しくなっていました。',en:'Fixed the four options sometimes <b>mixing in another language</b> when the app is not in Japanese. The pool they are drawn from also grew a lot: package words were never reaching the options at all, which left slim pickings in every other language.',zh:'修复了在非日语界面下，四个选项<b>有时混入其他语言</b>的问题。同时可选词源大幅增加——此前单词包中的词根本没有进入选项，导致其他语言下候选很少。',fr:'Correction : les quatre options <b>mélangeaient parfois une autre langue</b> quand l’app n’est pas en japonais. Le vivier dans lequel elles sont puisées s’est aussi beaucoup élargi — les mots des packs n’y arrivaient jamais, ce qui appauvrissait toutes les autres langues.',ar:'أُصلح <b>اختلاط لغة أخرى</b> أحيانًا في الخيارات الأربعة حين لا يكون التطبيق باليابانية. كما اتّسع المخزون الذي تُسحب منه كثيرًا؛ فكلمات الحزم لم تكن تصل إلى الخيارات أصلًا، ما جعل البدائل شحيحة في بقية اللغات.',ko:'일본어가 아닌 언어로 쓸 때 4택 선택지에 <b>다른 언어가 섞이던 것을 고쳤습니다</b>. 아울러 선택지의 원천이 크게 늘었습니다——그동안 패키지의 단어가 선택지에 전혀 쓰이지 않아 다른 언어에서는 후보가 빈약했습니다.',ru:'Исправлено: в четырёх вариантах <b>иногда появлялся другой язык</b>, когда приложение не на японском. Заодно сильно вырос набор, из которого они берутся, — слова из наборов вообще не попадали в варианты, отчего на других языках выбор был скудным.'},
+  v5520_1:{ja:'新しい単語パッケージ<b>「仕事探しと面接」</b>を追加しました。trial shift、hourly rate、cash in hand、call in sick——応募から初日、そして辞めるまでに実際に口に出す100語です。',en:'A new pack: <b>Job Hunting & Interviews</b>. A hundred words you actually say from applying to your first day and out again — trial shift, hourly rate, cash in hand, call in sick.',zh:'新增单词包<b>「找工作与面试」</b>。trial shift、hourly rate、cash in hand、call in sick——从应聘到入职第一天、再到离职，实际会说出口的100个词。',fr:'Un nouveau pack : <b>« Recherche d’emploi et entretiens »</b>. Cent mots qu’on prononce vraiment, de la candidature au premier jour et jusqu’au départ : trial shift, hourly rate, cash in hand, call in sick.',ar:'حزمة جديدة: <b>«البحث عن عمل والمقابلات»</b>. مئة كلمة تقولها فعلًا من التقديم إلى أول يوم عمل وحتى الاستقالة: trial shift وhourly rate وcash in hand وcall in sick.',ko:'새 단어 패키지 <b>«구직과 면접»</b>을 더했습니다. trial shift, hourly rate, cash in hand, call in sick——지원부터 첫 출근, 그리고 그만둘 때까지 실제로 입에 담는 100단어입니다.',ru:'Новый набор: <b>«Поиск работы и собеседования»</b> — сто слов, которые действительно произносят от подачи заявки до первого дня и до увольнения: trial shift, hourly rate, cash in hand, call in sick.'},
   v5510_1:{ja:'新しい単語パッケージ<b>「住まい・契約・役所」</b>を追加しました。内見、保証金、退去通知、経年劣化——家を借りるときに出てくる100語です。ワーホリで自分で家を探す人向けに、契約書でしか見ない言葉は外して、実際に口に出す言葉に寄せてあります。',en:'A new pack: <b>Housing, Contracts & Government Offices</b>. A hundred words for renting a place — viewing, deposit, notice to vacate, wear and tear. Aimed at working-holiday house hunting, so the terms you only ever read in a contract were dropped in favour of the ones people actually say.',zh:'新增单词包<b>「住房、合同与政府机关」</b>。看房、押金、退租通知、自然磨损——租房时会用到的100个词。面向打工度假自己找房的人，删去了只在合同里出现的词，换成实际会说出口的词。',fr:'Un nouveau pack : <b>« Logement, contrats et démarches »</b>. Cent mots pour louer — visite, caution, congé, usure normale. Pensé pour la recherche de logement en vacances-travail : les termes qu’on ne lit que dans un contrat ont cédé la place à ceux qu’on prononce vraiment.',ar:'حزمة جديدة: <b>«السكن والعقود والدوائر الحكومية»</b>. مئة كلمة لاستئجار مسكن — المعاينة والتأمين وإشعار الإخلاء والتلف الطبيعي. موجَّهة لمن يبحث عن سكن في عطلة العمل، فحُذفت الألفاظ التي لا تُقرأ إلا في العقود لصالح ما يُقال فعلًا.',ko:'새 단어 패키지 <b>«주거·계약·관공서»</b>를 더했습니다. 집 보기, 보증금, 퇴거 통지서, 자연 마모——집을 빌릴 때 나오는 100단어입니다. 워킹홀리데이로 직접 집을 구하는 사람을 위해, 계약서에서만 보는 말은 빼고 실제로 입에 담는 말로 채웠습니다.',ru:'Новый набор: <b>«Жильё, договоры и госучреждения»</b> — сто слов про аренду: просмотр, залог, уведомление о выезде, естественный износ. Он для тех, кто ищет жильё сам на рабочих каникулах, поэтому слова, которые встречаются только в тексте договора, уступили место тем, что действительно произносят.'},
   v5500_1:{ja:'句動詞のパッケージが2つになりました。これまでのものが「初中級編」、新しく<b>「中上級編」</b>が加わります。come down to、live up to、iron out のように、意味が字面から読み取れないものを100語集めています。',en:'There are two phrasal-verb packs now. The existing one is the everyday set; the new one is <b>the advanced set</b> — a hundred like come down to, live up to and iron out, where the meaning cannot be read off the words.',zh:'短语动词单词包现在有两个。原有的是「初中级」，新增<b>「中高级」</b>——收录 come down to、live up to、iron out 等100个从字面看不出意思的短语。',fr:'Il y a désormais deux packs de verbes à particule : l’ancien pour le quotidien, et <b>un nouveau, avancé</b> — cent comme come down to, live up to ou iron out, dont le sens ne se devine pas.',ar:'صار لدينا حزمتان للأفعال المركبة: السابقة للمستوى المبتدئ، و<b>حزمة جديدة متقدمة</b> — مئة منها مثل come down to وlive up to وiron out، مما لا يُفهم معناه من ظاهر الكلمات.',ko:'구동사 패키지가 두 개가 되었습니다. 기존 것이 «초중급», 새로 <b>«중상급»</b>이 더해집니다. come down to, live up to, iron out처럼 글자만 봐서는 뜻을 알 수 없는 100단어입니다.',ru:'Наборов фразовых глаголов теперь два: прежний — повседневный, и <b>новый, продвинутый</b>: сто таких, как come down to, live up to и iron out, где смысл по словам не угадать.'},
   v5490_1:{ja:'新しい単語パッケージ「会話でよく使う句動詞」を追加しました。get along、put up with、come across など100語です。話す速さを決めているのはこの層なので、単語を一つずつ覚えても出てきません。',en:'A new pack: Common Conversational Phrasal Verbs. A hundred of them — get along, put up with, come across. This layer is what sets your speaking speed, and learning single words never reaches it.',zh:'新增单词包「日常会话常用短语动词」。收录 get along、put up with、come across 等100个。说话的流畅度取决于这一层，光背单个单词是练不出来的。',fr:'Un nouveau pack : « Verbes à particule courants ». Cent d’entre eux — get along, put up with, come across. C’est cette couche qui règle votre débit, et apprendre des mots isolés n’y donne jamais accès.',ar:'حزمة جديدة: «أفعال مركبة شائعة في المحادثة». مئة منها — get along وput up with وcome across. هذه الطبقة هي ما يحدد سرعة كلامك، ولا تبلغها بحفظ الكلمات المفردة.',ko:'새 단어 패키지 «대화에서 자주 쓰는 구동사»를 더했습니다. get along, put up with, come across 등 100단어입니다. 말하는 속도를 정하는 것이 이 층이라, 단어를 하나씩 외워서는 나오지 않습니다.',ru:'Новый набор: «Частые фразовые глаголы» — сто штук: get along, put up with, come across. Именно этот слой задаёт скорость речи, и заучиванием отдельных слов до него не добраться.'},
@@ -1547,8 +1548,6 @@ const T={
   v5480_2:{ja:'この「更新しました」を、毎回は出さないようにしました。細かい修正のたびに画面をふさぐのは邪魔なので、お知らせする価値があるときだけ出します。そのあいだの変更も、そのとき一緒にお伝えします。',en:'This “What’s new” box no longer appears every release. Blocking the app for every small fix was a nuisance, so it waits until there is something worth stopping you for — and then it shows everything since you last looked.',zh:'这个「更新内容」不再每次都弹出。每个小修复都挡住画面太打扰了，因此只在值得告知时才出现，届时会一并显示这期间的所有更改。',fr:'Cette fenêtre « Nouveautés » n’apparaît plus à chaque version. Bloquer l’app pour le moindre correctif était pénible : elle attend qu’il y ait de quoi vous arrêter, et montre alors tout ce qui a changé depuis.',ar:'لم تعد نافذة «ما الجديد» تظهر مع كل إصدار. فحجب التطبيق عند كل إصلاح صغير كان مزعجًا؛ صارت تنتظر ما يستحق إيقافك، ثم تعرض كل ما تغيّر منذ آخر مرة.',ko:'이 «업데이트 내용»을 매번 띄우지 않도록 했습니다. 사소한 수정마다 화면을 가리는 건 방해가 되니, 알릴 가치가 있을 때만 나옵니다. 그동안의 변경도 그때 함께 알려 드립니다.',ru:'Окно «Обновление» больше не появляется с каждым выпуском. Загораживать приложение ради каждой мелкой правки было навязчиво: теперь оно ждёт того, ради чего стоит вас остановить, и тогда показывает всё, что изменилось с прошлого раза.'},
   v5470_1:{ja:'単語が少ない単語帳でも4択が出せるようになりました。まちがいの選択肢は、ほかの単語帳やダウンロード済みのパッケージから借りてきます。1語だけの単語帳でも出題できます。',en:'Four-choice works on a small notebook now. The wrong answers are borrowed from your other notebooks and downloaded packs, so even a notebook with one word in it can be studied.',zh:'单词很少的单词本也能出四选一了。错误选项会从你的其他单词本和已下载的单词包中借用，因此只有一个单词的本子也能练习。',fr:'Le QCM fonctionne désormais sur un petit carnet : les mauvaises réponses sont empruntées à vos autres carnets et aux packs téléchargés, si bien qu’un carnet d’un seul mot est jouable.',ar:'صار الاختيار من أربعة يعمل حتى مع دفتر قليل الكلمات؛ إذ تُستعار الإجابات الخاطئة من دفاترك الأخرى ومن الحزم المنزَّلة، فيمكن مذاكرة دفتر فيه كلمة واحدة.',ko:'단어가 적은 단어장에서도 4택을 낼 수 있습니다. 오답 선택지는 다른 단어장과 내려받은 패키지에서 빌려 오므로, 한 단어뿐인 단어장도 출제됩니다.',ru:'Выбор из четырёх работает и на маленьком словаре: неверные варианты берутся из ваших других словарей и загруженных наборов, так что играбелен даже словарь с одним словом.'},
   v5470_2:{ja:'最後の問題のボタンを「学習完了」にして、正解と同じ緑にしました。次に進むボタンと同じ見た目だと、終わった感じがしなかったので。',en:'The button on the last question now says “Done!” and turns the same green as a correct answer. Looking like every other “next” button did not feel like finishing.',zh:'最后一题的按钮改为「学习完成」，并使用与答对相同的绿色。此前与「下一题」长得一样，缺少完成的感觉。',fr:'Le bouton de la dernière question affiche « Terminé ! » et prend le vert d’une bonne réponse. Identique au bouton « suivant », il ne donnait aucune impression d’avoir fini.',ar:'صار زر السؤال الأخير يقول «تمّ!» ويأخذ اللون الأخضر نفسه الذي للإجابة الصحيحة. فتشابهه مع زر «التالي» كان يفقده معنى الإنهاء.',ko:'마지막 문제의 버튼을 «학습 완료»로 바꾸고, 정답과 같은 초록색으로 했습니다. 다음으로 넘어가는 버튼과 같은 모습이면 끝낸 느낌이 나지 않아서요.',ru:'Кнопка на последнем вопросе теперь говорит «Готово!» и становится того же зелёного цвета, что и верный ответ. Выглядя как обычная «дальше», она не давала ощущения завершения.'},
-  v5460_1:{ja:'単語の意味に、まったく的外れな訳が出ることがあったのを直しました。映画字幕から作られた対訳が混ざっていて、それが原因でした。かわりに、確かな意味が見つからないときは何も出しません——まちがった意味を覚えてしまう方が困るからです。',en:'Fixed the wildly wrong meanings that sometimes came back. They were coming from film-subtitle translations mixed into the source. When no reliable meaning is found we now show none, because memorising a wrong one is worse.',zh:'修复了有时出现完全离谱释义的问题，原因是混入了取自电影字幕的对译。若找不到可靠的释义，现在就不显示——记住错误的意思更糟。',fr:'Correction des traductions parfois totalement absurdes : elles provenaient de sous-titres de films mêlés à la source. Quand aucun sens fiable n’est trouvé, nous n’en affichons plus, car mémoriser un sens faux est pire.',ar:'أُصلحت المعاني الشاذة التي كانت تظهر أحيانًا؛ مصدرها ترجمات مأخوذة من ترجمات الأفلام. وحين لا يوجد معنى موثوق لا نعرض شيئًا، فحفظ معنى خاطئ أسوأ.',ko:'단어 뜻에 전혀 엉뚱한 번역이 나오던 것을 고쳤습니다. 영화 자막에서 만들어진 대역이 섞여 있던 것이 원인이었습니다. 대신 확실한 뜻을 찾지 못하면 아무것도 내지 않습니다——틀린 뜻을 외우는 편이 더 곤란하니까요.',ru:'Исправлены совершенно неуместные переводы значений: они приходили из киносубтитров, попавших в источник. Если надёжного значения нет, мы теперь не показываем ничего — выучить неверное хуже.'},
-  v5460_2:{ja:'メールアドレスの打ち間違いに気づけるようにしました。「@gmail.con」のように惜しい入力をすると、正しい形を提案します。タップすれば直ります。',en:'The app now spots a mistyped email address. Type something like “@gmail.con” and it offers the right one — tap to fix it.',zh:'现在能发现邮箱地址的输入错误。输入「@gmail.con」之类时会提示正确写法，点一下即可修正。',fr:'L’application repère désormais une adresse e-mail mal saisie. Tapez « @gmail.con » et elle propose la bonne : touchez pour corriger.',ar:'صار التطبيق ينبّه إلى الخطأ في كتابة البريد. اكتب «gmail.con@» وسيقترح الصيغة الصحيحة — المس لتصحيحها.',ko:'이메일 주소의 오타를 알아차립니다. «@gmail.con»처럼 아깝게 틀리면 올바른 형태를 제안합니다. 누르면 고쳐집니다.',ru:'Приложение замечает опечатку в адресе почты. Наберите «@gmail.con» — оно предложит правильный вариант, нажмите, чтобы исправить.'},
 
   mark_fav:{ja:'お気に入り',en:'Favourite',zh:'收藏',fr:'Favori',ar:'مفضّلة',ko:'즐겨찾기',ru:'Избранное'},
   mark_hard:{ja:'苦手マーク',en:'Tricky',zh:'难记',fr:'Délicat',ar:'صعبة عليّ',ko:'어려움',ru:'Сложное'},
@@ -5081,11 +5080,40 @@ function warmSimilar(items){
 // be a plausible word in the same language.
 function allKnownWords(){
   const out=(DB.words||[]).slice();
+  const lang=S().lang;
   Object.keys(PKGW||{}).forEach(id=>{
     const p=PKGW[id];
-    if(p&&Array.isArray(p.words))out.push.apply(out,p.words);
+    if(!p||!Array.isArray(p.words))return;
+    // The stored form keeps every language at once. Handing those raw objects
+    // out was the bug: primaryMeaning() reads `ja`, which a raw package word
+    // does not have, so they contributed nothing -- and worse, the shape says
+    // nothing about WHICH language a meaning is in. Localise here, exactly as
+    // buildPkgLive does, so a candidate is always in the language on screen.
+    p.words.forEach(pw=>{
+      const m=pw.meaning&&(pw.meaning[lang]||pw.meaning.ja||Object.values(pw.meaning)[0]);
+      if(m)out.push({id:'pkg:'+id+':'+pw.word,word:pw.word,ja:m});
+    });
   });
   return out;
+}
+/* ---- which script a meaning is written in ---------------------------------
+   Reported from a Russian device: the options for "add up" came back
+   вписывать / 結果 / 接続 / сходиться. Two of those are the user's OWN words,
+   saved back when the app was in Japanese -- and a saved word carries no record
+   of the language its meaning was written in, so nothing downstream can tell.
+
+   Comparing scripts is what can be done without that record, and it separates
+   exactly the pairs that look broken: kana/kanji against Cyrillic against
+   Arabic against Latin. It does not tell Japanese from Chinese, or English from
+   French -- both far less jarring, and both rare in one person's data.
+   -------------------------------------------------------------------------- */
+function scriptOf(s){
+  s=String(s||'');
+  if(/[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af]/.test(s))return 'cjk';
+  if(/[\u0400-\u04ff]/.test(s))return 'cyrillic';
+  if(/[\u0600-\u06ff]/.test(s))return 'arabic';
+  if(/[A-Za-z\u00c0-\u024f]/.test(s))return 'latin';
+  return '';
 }
 function pickDistractors(w,correct,showEng,n){
   n=n||3;
@@ -5103,6 +5131,9 @@ function pickDistractors(w,correct,showEng,n){
   // different packages, so no amount of care inside any one package prevents
   // this. Comparing the meanings is what does.
   const answerMeaning=showEng?null:normForCompare(primaryMeaning(w));
+  // When the options are meanings they must all read as one language. The
+  // correct answer sets it.
+  const answerScript=showEng?scriptOf(correct):null;
   const candidates=[...new Set(
     pool.filter(x=>{
       if(!x||x.id===w.id||!primaryMeaning(x))return false;
@@ -5113,7 +5144,7 @@ function pickDistractors(w,correct,showEng,n){
     })
       .map(x=>showEng?primaryMeaning(x):x.word)
       .concat(outside)
-      .filter(tx=>tx&&tx!==correct)
+      .filter(tx=>tx&&tx!==correct&&(!answerScript||scriptOf(tx)===answerScript))
   )];
   const cn=norm(correct);
   const dists=candidates.map(tx=>levenshtein(norm(tx),cn));
