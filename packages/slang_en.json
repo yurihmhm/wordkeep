@@ -1,0 +1,1430 @@
+{
+ "id": "slang_en",
+ "v": 1,
+ "title": {
+  "ja": "英語スラング",
+  "en": "English Slang",
+  "zh": "英语俚语",
+  "fr": "Argot anglais",
+  "ar": "العامية الإنجليزية",
+  "ko": "영어 슬랭",
+  "ru": "Английский сленг"
+ },
+ "words": [
+  {
+   "word": "chill",
+   "pos": "verb",
+   "meaning": {
+    "ja": "のんびり過ごす",
+    "en": "to relax and do nothing much",
+    "zh": "放松待着",
+    "fr": "se poser tranquille",
+    "ar": "يسترخي دون خطط",
+    "ko": "느긋하게 쉬다",
+    "ru": "расслабляться"
+   },
+   "region": "all"
+  },
+  {
+   "word": "vibe",
+   "pos": "noun",
+   "meaning": {
+    "ja": "その場の雰囲気",
+    "en": "the feeling a place or person gives off",
+    "zh": "氛围感觉",
+    "fr": "ambiance dégagée",
+    "ar": "الأجواء المنبعثة",
+    "ko": "분위기",
+    "ru": "атмосфера"
+   },
+   "region": "all"
+  },
+  {
+   "word": "lit",
+   "pos": "adj",
+   "meaning": {
+    "ja": "最高に盛り上がっている",
+    "en": "exciting and full of energy",
+    "zh": "嗨爆的",
+    "fr": "qui déchire",
+    "ar": "مفعم بالحماس",
+    "ko": "엄청 신나는",
+    "ru": "улётный"
+   },
+   "region": "all"
+  },
+  {
+   "word": "salty",
+   "pos": "adj",
+   "meaning": {
+    "ja": "負けて不機嫌な",
+    "en": "bitter and annoyed about losing",
+    "zh": "输不起而闹脾气的",
+    "fr": "vexé d'avoir perdu",
+    "ar": "متضايق من الخسارة",
+    "ko": "삐진",
+    "ru": "обиженный из-за проигрыша"
+   },
+   "region": "all"
+  },
+  {
+   "word": "flex",
+   "pos": "verb",
+   "meaning": {
+    "ja": "持ち物や成果を見せびらかす",
+    "en": "to show off what you have or did",
+    "zh": "炫耀",
+    "fr": "frimer",
+    "ar": "يتباهى",
+    "ko": "과시하다",
+    "ru": "хвастаться"
+   },
+   "region": "all"
+  },
+  {
+   "word": "ghost",
+   "pos": "verb",
+   "meaning": {
+    "ja": "急に連絡を絶つ",
+    "en": "to suddenly stop replying to someone",
+    "zh": "突然玩失踪",
+    "fr": "disparaître sans explication",
+    "ar": "يقطع التواصل فجأة",
+    "ko": "갑자기 연락을 끊다",
+    "ru": "внезапно пропасть"
+   },
+   "region": "all"
+  },
+  {
+   "word": "shady",
+   "pos": "adj",
+   "meaning": {
+    "ja": "裏がありそうな",
+    "en": "dishonest in a way you can sense",
+    "zh": "不正经的",
+    "fr": "louche",
+    "ar": "مريب السلوك",
+    "ko": "수상쩍은",
+    "ru": "мутный"
+   },
+   "region": "all"
+  },
+  {
+   "word": "sketchy",
+   "pos": "adj",
+   "meaning": {
+    "ja": "なんとなく危なそうな",
+    "en": "unsafe or unreliable-looking",
+    "zh": "看着不靠谱的",
+    "fr": "pas net",
+    "ar": "يبدو غير آمن",
+    "ko": "영 미덥지 않은",
+    "ru": "подозрительный на вид"
+   },
+   "region": "all"
+  },
+  {
+   "word": "broke",
+   "pos": "adj",
+   "meaning": {
+    "ja": "金欠の",
+    "en": "with no money at all",
+    "zh": "没钱的",
+    "fr": "fauché",
+    "ar": "مفلس",
+    "ko": "빈털터리인",
+    "ru": "на мели"
+   },
+   "region": "all"
+  },
+  {
+   "word": "wasted",
+   "pos": "adj",
+   "meaning": {
+    "ja": "べろべろに酔った",
+    "en": "very drunk",
+    "zh": "喝断片的",
+    "fr": "complètement bourré",
+    "ar": "ثمل تماما",
+    "ko": "만취한",
+    "ru": "в стельку пьяный"
+   },
+   "region": "all"
+  },
+  {
+   "word": "hungover",
+   "pos": "adj",
+   "meaning": {
+    "ja": "二日酔いの",
+    "en": "feeling ill the day after drinking",
+    "zh": "宿醉的",
+    "fr": "qui a la gueule de bois",
+    "ar": "يعاني آثار الشرب",
+    "ko": "숙취에 시달리는",
+    "ru": "с похмелья"
+   },
+   "region": "all"
+  },
+  {
+   "word": "cringe",
+   "pos": "adj",
+   "meaning": {
+    "ja": "見ていて恥ずかしい",
+    "en": "so awkward it makes you wince",
+    "zh": "尴尬到脚趾抠地",
+    "fr": "gênant à regarder",
+    "ar": "محرج لدرجة الانقباض",
+    "ko": "보기 민망한",
+    "ru": "испанский стыд"
+   },
+   "region": "all"
+  },
+  {
+   "word": "savage",
+   "pos": "adj",
+   "meaning": {
+    "ja": "容赦なく手厳しい",
+    "en": "brutally blunt in a way people admire",
+    "zh": "毒舌又带劲的",
+    "fr": "cash et sans pitié",
+    "ar": "لاذع بلا رحمة",
+    "ko": "거침없이 독한",
+    "ru": "беспощадно резкий"
+   },
+   "region": "all"
+  },
+  {
+   "word": "slay",
+   "pos": "verb",
+   "meaning": {
+    "ja": "完璧に決める",
+    "en": "to do something impressively well",
+    "zh": "美到炸",
+    "fr": "tout déchirer",
+    "ar": "يبدع بشكل مبهر",
+    "ko": "완벽하게 해내다",
+    "ru": "выступить блестяще"
+   },
+   "region": "all"
+  },
+  {
+   "word": "lowkey",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ちょっとだけ、こっそり",
+    "en": "slightly, or without admitting it loudly",
+    "zh": "有点儿偷偷地",
+    "fr": "un peu, discrètement",
+    "ar": "إلى حد ما وبهدوء",
+    "ko": "살짝, 은근히",
+    "ru": "немного, втихаря"
+   },
+   "region": "all"
+  },
+  {
+   "word": "sus",
+   "pos": "adj",
+   "meaning": {
+    "ja": "怪しい",
+    "en": "suspicious",
+    "zh": "可疑的",
+    "fr": "suspect",
+    "ar": "مثير للشك",
+    "ko": "의심스러운",
+    "ru": "подозрительный"
+   },
+   "region": "all"
+  },
+  {
+   "word": "bail",
+   "pos": "verb",
+   "meaning": {
+    "ja": "約束を土壇場で降りる",
+    "en": "to back out of plans at the last minute",
+    "zh": "临时放鸽子",
+    "fr": "se désister au dernier moment",
+    "ar": "ينسحب في اللحظة الأخيرة",
+    "ko": "막판에 빠지다",
+    "ru": "соскочить в последний момент"
+   },
+   "region": "all"
+  },
+  {
+   "word": "wing it",
+   "pos": "verb",
+   "meaning": {
+    "ja": "準備なしで出たとこ勝負でやる",
+    "en": "to do something with no preparation",
+    "zh": "临场发挥",
+    "fr": "improviser totalement",
+    "ar": "يرتجل بلا تحضير",
+    "ko": "준비 없이 즉흥으로 하다",
+    "ru": "действовать без подготовки"
+   },
+   "region": "all"
+  },
+  {
+   "word": "nail it",
+   "pos": "verb",
+   "meaning": {
+    "ja": "見事にやってのける",
+    "en": "to get something exactly right",
+    "zh": "完美搞定",
+    "fr": "réussir haut la main",
+    "ar": "يتقنه تماما",
+    "ko": "제대로 해내다",
+    "ru": "справиться на отлично"
+   },
+   "region": "all"
+  },
+  {
+   "word": "rip off",
+   "pos": "verb",
+   "meaning": {
+    "ja": "法外な値段でぼったくる",
+    "en": "to charge far more than something is worth",
+    "zh": "宰客",
+    "fr": "arnaquer sur le prix",
+    "ar": "يبالغ في السعر بشكل مجحف",
+    "ko": "바가지를 씌우다",
+    "ru": "обдирать на цене"
+   },
+   "region": "all"
+  },
+  {
+   "word": "hit me up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "連絡してね",
+    "en": "get in touch with me",
+    "zh": "联系我",
+    "fr": "fais-moi signe",
+    "ar": "تواصل معي",
+    "ko": "연락해",
+    "ru": "напиши мне"
+   },
+   "region": "all"
+  },
+  {
+   "word": "buzzkill",
+   "pos": "noun",
+   "meaning": {
+    "ja": "場の空気を壊す人や物",
+    "en": "someone or something that ruins the fun",
+    "zh": "扫兴的人",
+    "fr": "rabat-joie",
+    "ar": "مفسد للأجواء",
+    "ko": "흥을 깨는 사람",
+    "ru": "тот, кто портит настрой"
+   },
+   "region": "all"
+  },
+  {
+   "word": "FOMO",
+   "pos": "noun",
+   "meaning": {
+    "ja": "取り残される不安",
+    "en": "the fear that you are missing out on something",
+    "zh": "错失恐惧",
+    "fr": "peur de rater quelque chose",
+    "ar": "الخوف من تفويت الفرصة",
+    "ko": "소외되는 불안",
+    "ru": "страх упустить"
+   },
+   "region": "all"
+  },
+  {
+   "word": "spill the tea",
+   "pos": "verb",
+   "meaning": {
+    "ja": "ここだけの話を漏らす",
+    "en": "to share the juicy gossip",
+    "zh": "爆料",
+    "fr": "balancer les potins",
+    "ar": "يفشي الأخبار المثيرة",
+    "ko": "비밀 얘기를 풀다",
+    "ru": "выложить все сплетни"
+   },
+   "region": "all"
+  },
+  {
+   "word": "throw shade",
+   "pos": "verb",
+   "meaning": {
+    "ja": "遠回しにけなす",
+    "en": "to insult someone indirectly",
+    "zh": "暗讽",
+    "fr": "lancer des piques",
+    "ar": "يوجه إهانة ملمحة",
+    "ko": "은근히 깎아내리다",
+    "ru": "подкалывать исподтишка"
+   },
+   "region": "all"
+  },
+  {
+   "word": "clout",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ネット上の影響力",
+    "en": "online influence and attention",
+    "zh": "网络影响力",
+    "fr": "influence en ligne",
+    "ar": "نفوذ على الإنترنت",
+    "ko": "온라인 영향력",
+    "ru": "влияние в сети"
+   },
+   "region": "all"
+  },
+  {
+   "word": "glow up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "見違えるほど垢抜けること",
+    "en": "a dramatic improvement in looks or life",
+    "zh": "逆袭变美",
+    "fr": "transformation spectaculaire",
+    "ar": "تحول لافت للأفضل",
+    "ko": "환골탈태",
+    "ru": "преображение"
+   },
+   "region": "all"
+  },
+  {
+   "word": "red flag",
+   "pos": "noun",
+   "meaning": {
+    "ja": "避けるべき危険なしるし",
+    "en": "a warning sign you should not ignore",
+    "zh": "危险信号",
+    "fr": "signal d'alarme",
+    "ar": "علامة تحذير",
+    "ko": "위험 신호",
+    "ru": "тревожный признак"
+   },
+   "region": "all"
+  },
+  {
+   "word": "gaslight",
+   "pos": "verb",
+   "meaning": {
+    "ja": "思い込みだと言って相手を惑わす",
+    "en": "to make someone doubt their own memory",
+    "zh": "精神操控",
+    "fr": "manipuler pour faire douter",
+    "ar": "يزعزع ثقة الآخر بذاكرته",
+    "ko": "기억을 의심하게 조종하다",
+    "ru": "внушать сомнение в своей памяти"
+   },
+   "region": "all"
+  },
+  {
+   "word": "banger",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文句なしの名曲",
+    "en": "a really good song",
+    "zh": "神曲",
+    "fr": "morceau qui tue",
+    "ar": "أغنية رائعة",
+    "ko": "명곡",
+    "ru": "забойный трек"
+   },
+   "region": "all"
+  },
+  {
+   "word": "mid",
+   "pos": "adj",
+   "meaning": {
+    "ja": "可もなく不可もない",
+    "en": "mediocre, not worth the hype",
+    "zh": "很一般的",
+    "fr": "quelconque",
+    "ar": "متوسط لا يستحق الضجة",
+    "ko": "그저 그런",
+    "ru": "так себе"
+   },
+   "region": "all"
+  },
+  {
+   "word": "no cap",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "嘘じゃなくて本当に",
+    "en": "seriously, I'm not exaggerating",
+    "zh": "真的不骗你",
+    "fr": "sans mentir",
+    "ar": "بلا مبالغة",
+    "ko": "뻥 안 치고 진짜",
+    "ru": "без преувеличения"
+   },
+   "region": "all"
+  },
+  {
+   "word": "beef",
+   "pos": "noun",
+   "meaning": {
+    "ja": "根に持った揉め事",
+    "en": "an ongoing grudge between people",
+    "zh": "过节",
+    "fr": "embrouille qui dure",
+    "ar": "خلاف مستمر",
+    "ko": "묵은 갈등",
+    "ru": "затяжная вражда"
+   },
+   "region": "all"
+  },
+  {
+   "word": "snitch",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仲間を密告する人",
+    "en": "someone who tells on others",
+    "zh": "告密者",
+    "fr": "balance",
+    "ar": "واشٍ",
+    "ko": "고자질쟁이",
+    "ru": "стукач"
+   },
+   "region": "all"
+  },
+  {
+   "word": "damn",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「ちくしょう」軽い悪態",
+    "en": "a mild swear word showing annoyance or surprise",
+    "zh": "「该死」轻度骂人话",
+    "fr": "juron léger d'agacement",
+    "ar": "لعنة، شتيمة خفيفة",
+    "ko": "«젠장» 가벼운 욕",
+    "ru": "«чёрт» — лёгкое ругательство"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "hell",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「一体全体」強調の乱暴な語",
+    "en": "a rude intensifier, as in “what the hell”",
+    "zh": "「到底」粗鲁的加强语气",
+    "fr": "intensificateur grossier",
+    "ar": "أداة تأكيد فظة",
+    "ko": "«도대체» 거친 강조어",
+    "ru": "грубое усиление, «какого чёрта»"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "crap",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「ひどいもの」下品な語",
+    "en": "rubbish or nonsense, said crudely",
+    "zh": "「垃圾」粗话",
+    "fr": "«merde» au sens de nul",
+    "ar": "كلام أو شيء تافه بلغة سوقية",
+    "ko": "«쓰레기» 저속한 말",
+    "ru": "«дрянь» — грубо"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "shit",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「くそ」かなり下品な悪態",
+    "en": "a strong swear word for anger or bad things",
+    "zh": "「妈的」相当粗俗的脏话",
+    "fr": "juron vulgaire fort",
+    "ar": "شتيمة بذيئة قوية",
+    "ko": "«젠장» 상당히 상스러운 욕",
+    "ru": "крепкое матерное ругательство"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "bullshit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「でたらめ」下品に断じる語",
+    "en": "complete nonsense, said very rudely",
+    "zh": "「胡扯」粗话",
+    "fr": "«n'importe quoi» très grossier",
+    "ar": "هراء، بتعبير بذيء",
+    "ko": "«헛소리» 저속한 표현",
+    "ru": "«чушь» — грубо"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "piss off",
+   "pos": "verb",
+   "meaning": {
+    "ja": "ひどく怒らせる",
+    "en": "to make someone very angry, crudely put",
+    "zh": "把人惹毛",
+    "fr": "foutre en rogne",
+    "ar": "يغيظ بشدة بتعبير فظ",
+    "ko": "열받게 하다",
+    "ru": "жутко разозлить"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "badass",
+   "pos": "adj",
+   "meaning": {
+    "ja": "めちゃくちゃかっこいい",
+    "en": "impressively tough, a crude compliment",
+    "zh": "牛得不行的",
+    "fr": "qui en impose grave",
+    "ar": "جامد ومثير للإعجاب بتعبير خشن",
+    "ko": "엄청 멋진",
+    "ru": "крутой до предела"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "WTF",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「なんだこれ」下品な驚き",
+    "en": "a rude way to express shock or confusion",
+    "zh": "「搞什么」粗俗的惊讶",
+    "fr": "«c'est quoi ce truc» grossier",
+    "ar": "تعبير فظ عن الصدمة",
+    "ko": "«이게 뭐야» 저속한 놀람",
+    "ru": "грубое выражение шока"
+   },
+   "region": "all",
+   "nsfw": true
+  },
+  {
+   "word": "bucks",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ドル（くだけた言い方）",
+    "en": "dollars, casually",
+    "zh": "美元的俗称",
+    "fr": "dollars, familier",
+    "ar": "دولارات بتعبير عامي",
+    "ko": "달러의 구어 표현",
+    "ru": "баксы"
+   },
+   "region": "us"
+  },
+  {
+   "word": "dude",
+   "pos": "noun",
+   "meaning": {
+    "ja": "男性への気軽な呼びかけ",
+    "en": "a casual way to address a man",
+    "zh": "哥们儿",
+    "fr": "mec",
+    "ar": "يا صاح",
+    "ko": "이봐, 친구",
+    "ru": "чувак"
+   },
+   "region": "us"
+  },
+  {
+   "word": "y'all",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「みんな」南部発の言い方",
+    "en": "you all, common in the American South",
+    "zh": "「你们」美国南方说法",
+    "fr": "«vous tous», du Sud américain",
+    "ar": "«يا جماعة» من جنوب أمريكا",
+    "ko": "«너희들» 미국 남부 말투",
+    "ru": "«вы все» — с юга США"
+   },
+   "region": "us"
+  },
+  {
+   "word": "awesome",
+   "pos": "adj",
+   "meaning": {
+    "ja": "すごくいい",
+    "en": "great, said constantly in the US",
+    "zh": "棒极了",
+    "fr": "génial",
+    "ar": "رائع جدا",
+    "ko": "끝내주는",
+    "ru": "классный"
+   },
+   "region": "us"
+  },
+  {
+   "word": "psyched",
+   "pos": "adj",
+   "meaning": {
+    "ja": "わくわくしている",
+    "en": "very excited about something coming",
+    "zh": "超期待的",
+    "fr": "surexcité",
+    "ar": "متحمس جدا",
+    "ko": "잔뜩 신난",
+    "ru": "на взводе от предвкушения"
+   },
+   "region": "us"
+  },
+  {
+   "word": "shotgun",
+   "pos": "noun",
+   "meaning": {
+    "ja": "助手席",
+    "en": "the front passenger seat, claimed by calling it",
+    "zh": "副驾驶座",
+    "fr": "place du passager avant",
+    "ar": "مقعد الراكب الأمامي",
+    "ko": "조수석",
+    "ru": "переднее пассажирское место"
+   },
+   "region": "us"
+  },
+  {
+   "word": "ballpark",
+   "pos": "noun",
+   "meaning": {
+    "ja": "だいたいの見当",
+    "en": "a rough estimate",
+    "zh": "大致范围",
+    "fr": "ordre de grandeur",
+    "ar": "تقدير تقريبي",
+    "ko": "대략적인 어림",
+    "ru": "примерная прикидка"
+   },
+   "region": "us"
+  },
+  {
+   "word": "legit",
+   "pos": "adj",
+   "meaning": {
+    "ja": "本物の、まじで",
+    "en": "genuine, or “seriously”",
+    "zh": "货真价实的",
+    "fr": "authentique, pour de vrai",
+    "ar": "أصلي وحقيقي",
+    "ko": "진짜배기의",
+    "ru": "настоящий, реально"
+   },
+   "region": "us"
+  },
+  {
+   "word": "hella",
+   "pos": "adv",
+   "meaning": {
+    "ja": "めちゃくちゃ（西海岸の言い方）",
+    "en": "very, heard mostly in California",
+    "zh": "超级（美西说法）",
+    "fr": "vachement, côte ouest",
+    "ar": "جدا، تعبير من كاليفورنيا",
+    "ko": "엄청 (미 서부 말투)",
+    "ru": "очень (калифорнийское)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "bougie",
+   "pos": "adj",
+   "meaning": {
+    "ja": "気取って高級ぶった",
+    "en": "pretentiously fancy",
+    "zh": "装高档的",
+    "fr": "bourgeois dans le mauvais sens",
+    "ar": "متصنع للرقي",
+    "ko": "고급인 척하는",
+    "ru": "пафосно-дорогой"
+   },
+   "region": "us"
+  },
+  {
+   "word": "janky",
+   "pos": "adj",
+   "meaning": {
+    "ja": "作りが雑で頼りない",
+    "en": "badly made and barely working",
+    "zh": "做工粗糙的",
+    "fr": "bricolé et bancal",
+    "ar": "رديء الصنع ومتهالك",
+    "ko": "허술하고 조잡한",
+    "ru": "кривой и ненадёжный"
+   },
+   "region": "us"
+  },
+  {
+   "word": "mooch",
+   "pos": "verb",
+   "meaning": {
+    "ja": "人にたかる",
+    "en": "to get things off others without paying",
+    "zh": "蹭吃蹭喝",
+    "fr": "taper les autres",
+    "ar": "يتطفل على الآخرين",
+    "ko": "얻어먹고 다니다",
+    "ru": "стрелять у других"
+   },
+   "region": "us"
+  },
+  {
+   "word": "tailgate",
+   "pos": "verb",
+   "meaning": {
+    "ja": "駐車場で車の後ろを開けてやる宴会",
+    "en": "a party held from car boots before a game",
+    "zh": "赛前停车场聚会",
+    "fr": "apéro au coffre avant un match",
+    "ar": "حفلة في موقف السيارات قبل المباراة",
+    "ko": "경기 전 주차장 파티",
+    "ru": "вечеринка у машин перед матчем"
+   },
+   "region": "us"
+  },
+  {
+   "word": "dive bar",
+   "pos": "noun",
+   "meaning": {
+    "ja": "安くて薄汚い酒場",
+    "en": "a cheap, shabby but much-loved bar",
+    "zh": "便宜的小酒馆",
+    "fr": "rade miteux et attachant",
+    "ar": "حانة رخيصة ومتهالكة",
+    "ko": "허름하고 값싼 술집",
+    "ru": "дешёвый обшарпанный бар"
+   },
+   "region": "us"
+  },
+  {
+   "word": "rain check",
+   "pos": "noun",
+   "meaning": {
+    "ja": "またの機会にお願いすること",
+    "en": "a polite postponement of an invitation",
+    "zh": "改天再约",
+    "fr": "remise à une autre fois",
+    "ar": "تأجيل الدعوة لوقت آخر",
+    "ko": "다음 기회로 미루기",
+    "ru": "перенос приглашения на потом"
+   },
+   "region": "us"
+  },
+  {
+   "word": "cheesy",
+   "pos": "adj",
+   "meaning": {
+    "ja": "わざとらしくて安っぽい",
+    "en": "corny in a try-hard, tacky way",
+    "zh": "俗气做作的",
+    "fr": "kitsch et gnangnan",
+    "ar": "مبتذل ومصطنع",
+    "ko": "느끼하고 촌스러운",
+    "ru": "пошло-слащавый"
+   },
+   "region": "us"
+  },
+  {
+   "word": "corny",
+   "pos": "adj",
+   "meaning": {
+    "ja": "使い古されて寒い",
+    "en": "so old and obvious it falls flat",
+    "zh": "老套无趣的",
+    "fr": "éculé et pas drôle",
+    "ar": "مستهلك وبارد",
+    "ko": "진부해서 썰렁한",
+    "ru": "избитый и несмешной"
+   },
+   "region": "us"
+  },
+  {
+   "word": "flake",
+   "pos": "noun",
+   "meaning": {
+    "ja": "約束を守らない人",
+    "en": "someone who keeps cancelling on you",
+    "zh": "总放鸽子的人",
+    "fr": "personne qui annule sans cesse",
+    "ar": "شخص ينقض المواعيد دائما",
+    "ko": "약속을 잘 어기는 사람",
+    "ru": "тот, кто вечно отменяет"
+   },
+   "region": "us"
+  },
+  {
+   "word": "dumbass",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「まぬけ」下品な罵り",
+    "en": "a crude insult for a stupid person",
+    "zh": "「蠢货」粗俗骂人话",
+    "fr": "insulte grossière pour un idiot",
+    "ar": "شتيمة فظة للأحمق",
+    "ko": "«멍청이» 저속한 욕",
+    "ru": "грубое «тупица»"
+   },
+   "region": "us",
+   "nsfw": true
+  },
+  {
+   "word": "pissed",
+   "pos": "adj",
+   "meaning": {
+    "ja": "かんかんに怒った（米）",
+    "en": "furious, crude; in Britain it means drunk",
+    "zh": "火冒三丈的（美）",
+    "fr": "furieux, grossier (aux USA)",
+    "ar": "غاضب جدا بتعبير فظ (أمريكي)",
+    "ko": "몹시 화난 (미국)",
+    "ru": "взбешённый, грубо (в США)"
+   },
+   "region": "us",
+   "nsfw": true
+  },
+  {
+   "word": "mate",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「おい」友達への呼びかけ",
+    "en": "friend, and a way to address anyone",
+    "zh": "哥们儿（英式）",
+    "fr": "pote",
+    "ar": "يا صديقي",
+    "ko": "친구, 이봐",
+    "ru": "приятель"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "knackered",
+   "pos": "adj",
+   "meaning": {
+    "ja": "へとへとに疲れた",
+    "en": "completely exhausted",
+    "zh": "累瘫了的",
+    "fr": "crevé",
+    "ar": "منهك تماما",
+    "ko": "녹초가 된",
+    "ru": "вымотанный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "gutted",
+   "pos": "adj",
+   "meaning": {
+    "ja": "がっくり落ち込んだ",
+    "en": "bitterly disappointed",
+    "zh": "失望透顶的",
+    "fr": "dégoûté de déception",
+    "ar": "محبط بشدة",
+    "ko": "몹시 낙담한",
+    "ru": "страшно расстроенный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "chuffed",
+   "pos": "adj",
+   "meaning": {
+    "ja": "内心とても嬉しい",
+    "en": "quietly very pleased",
+    "zh": "心里美滋滋的",
+    "fr": "ravi discrètement",
+    "ar": "مسرور جدا في داخله",
+    "ko": "내심 아주 뿌듯한",
+    "ru": "тихо очень довольный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "cheeky",
+   "pos": "adj",
+   "meaning": {
+    "ja": "生意気だが憎めない",
+    "en": "rude in a way that is charming",
+    "zh": "调皮又讨喜的",
+    "fr": "insolent mais charmant",
+    "ar": "وقح بطريقة محببة",
+    "ko": "까불지만 밉지 않은",
+    "ru": "дерзкий, но обаятельный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "dodgy",
+   "pos": "adj",
+   "meaning": {
+    "ja": "信用ならない、あやしい",
+    "en": "unreliable or slightly dishonest",
+    "zh": "靠不住的",
+    "fr": "douteux",
+    "ar": "غير موثوق",
+    "ko": "미심쩍은",
+    "ru": "ненадёжный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "skint",
+   "pos": "adj",
+   "meaning": {
+    "ja": "一文なしの",
+    "en": "with no money left",
+    "zh": "身无分文的",
+    "fr": "à sec",
+    "ar": "بلا نقود",
+    "ko": "돈이 한 푼도 없는",
+    "ru": "без гроша"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "quid",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ポンド（くだけた言い方）",
+    "en": "a pound in money, casually",
+    "zh": "英镑的俗称",
+    "fr": "livre sterling, familier",
+    "ar": "جنيه إسترليني بتعبير عامي",
+    "ko": "파운드의 구어 표현",
+    "ru": "фунт (разговорно)"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "bloke",
+   "pos": "noun",
+   "meaning": {
+    "ja": "男の人",
+    "en": "a man, informally",
+    "zh": "男的（英式）",
+    "fr": "type",
+    "ar": "رجل بتعبير عامي",
+    "ko": "남자 (영국식)",
+    "ru": "мужик"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "naff",
+   "pos": "adj",
+   "meaning": {
+    "ja": "ダサくてしょぼい",
+    "en": "tacky and unimpressive",
+    "zh": "土气没劲的",
+    "fr": "ringard",
+    "ar": "رديء الذوق",
+    "ko": "촌스럽고 별로인",
+    "ru": "безвкусный и убогий"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "nick",
+   "pos": "verb",
+   "meaning": {
+    "ja": "ちょろまかす",
+    "en": "to steal something small",
+    "zh": "顺走",
+    "fr": "piquer",
+    "ar": "يسرق شيئا صغيرا",
+    "ko": "슬쩍하다",
+    "ru": "стянуть"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "gobsmacked",
+   "pos": "adj",
+   "meaning": {
+    "ja": "あっけにとられた",
+    "en": "utterly astonished",
+    "zh": "惊呆了的",
+    "fr": "bouche bée",
+    "ar": "مذهول تماما",
+    "ko": "입이 떡 벌어진",
+    "ru": "ошарашенный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "peckish",
+   "pos": "adj",
+   "meaning": {
+    "ja": "小腹がすいた",
+    "en": "slightly hungry",
+    "zh": "有点饿的",
+    "fr": "un petit creux",
+    "ar": "جائع قليلا",
+    "ko": "출출한",
+    "ru": "слегка голодный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "fancy",
+   "pos": "verb",
+   "meaning": {
+    "ja": "〜したい気分だ",
+    "en": "to feel like having or doing something",
+    "zh": "想要来点",
+    "fr": "avoir envie de",
+    "ar": "يرغب في",
+    "ko": "~하고 싶다",
+    "ru": "хотеться"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "sorted",
+   "pos": "adj",
+   "meaning": {
+    "ja": "もう片づいた",
+    "en": "dealt with, all arranged",
+    "zh": "搞定了的",
+    "fr": "réglé",
+    "ar": "تم ترتيبه",
+    "ko": "다 해결된",
+    "ru": "улажено"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "faff",
+   "pos": "noun",
+   "meaning": {
+    "ja": "手間ばかりかかること",
+    "en": "a fiddly waste of time",
+    "zh": "瞎折腾",
+    "fr": "prise de tête inutile",
+    "ar": "عناء بلا طائل",
+    "ko": "쓸데없이 성가신 일",
+    "ru": "возня на пустом месте"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "bollocks",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「ばかげたこと」下品な語",
+    "en": "nonsense, a coarse British swear word",
+    "zh": "「胡说八道」粗话",
+    "fr": "«conneries», juron britannique",
+    "ar": "«هراء» شتيمة بريطانية بذيئة",
+    "ko": "«말도 안 돼» 영국 비속어",
+    "ru": "«чушь» — грубое британское"
+   },
+   "region": "uk",
+   "nsfw": true
+  },
+  {
+   "word": "bloody",
+   "pos": "adj",
+   "meaning": {
+    "ja": "「くそ〜」強調する乱暴な語",
+    "en": "a British intensifier that counts as swearing",
+    "zh": "「该死的」加强语气的粗话",
+    "fr": "intensificateur grossier britannique",
+    "ar": "أداة تأكيد فظة بريطانية",
+    "ko": "«빌어먹을» 영국식 거친 강조",
+    "ru": "грубое усиление, «чёртов»"
+   },
+   "region": "uk",
+   "nsfw": true
+  },
+  {
+   "word": "wanker",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「嫌なやつ」かなり下品な罵り",
+    "en": "a very rude British insult",
+    "zh": "相当粗俗的英式骂人话",
+    "fr": "insulte britannique très vulgaire",
+    "ar": "شتيمة بريطانية بذيئة جدا",
+    "ko": "«재수 없는 놈» 매우 저속한 욕",
+    "ru": "очень грубое британское ругательство"
+   },
+   "region": "uk",
+   "nsfw": true
+  },
+  {
+   "word": "arse",
+   "pos": "noun",
+   "meaning": {
+    "ja": "「尻」の下品な語（英）",
+    "en": "the British crude word for backside",
+    "zh": "「屁股」的粗话（英式）",
+    "fr": "«cul», version britannique",
+    "ar": "كلمة بذيئة للمؤخرة (بريطانية)",
+    "ko": "«엉덩이»의 영국식 비속어",
+    "ru": "грубое «зад» (британское)"
+   },
+   "region": "uk",
+   "nsfw": true
+  },
+  {
+   "word": "arvo",
+   "pos": "noun",
+   "meaning": {
+    "ja": "午後",
+    "en": "afternoon",
+    "zh": "下午",
+    "fr": "après-midi",
+    "ar": "بعد الظهر",
+    "ko": "오후",
+    "ru": "вторая половина дня"
+   },
+   "region": "au"
+  },
+  {
+   "word": "barbie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "バーベキュー",
+    "en": "a barbecue",
+    "zh": "烧烤",
+    "fr": "barbecue",
+    "ar": "حفلة شواء",
+    "ko": "바비큐",
+    "ru": "барбекю"
+   },
+   "region": "au"
+  },
+  {
+   "word": "brekkie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "朝ごはん",
+    "en": "breakfast",
+    "zh": "早饭",
+    "fr": "petit-déj",
+    "ar": "فطور",
+    "ko": "아침밥",
+    "ru": "завтрак"
+   },
+   "region": "au"
+  },
+  {
+   "word": "servo",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ガソリンスタンド",
+    "en": "a petrol station",
+    "zh": "加油站",
+    "fr": "station-service",
+    "ar": "محطة وقود",
+    "ko": "주유소",
+    "ru": "заправка"
+   },
+   "region": "au"
+  },
+  {
+   "word": "bottle-o",
+   "pos": "noun",
+   "meaning": {
+    "ja": "酒屋",
+    "en": "a shop that sells alcohol",
+    "zh": "酒类专卖店",
+    "fr": "magasin d'alcool",
+    "ar": "متجر مشروبات كحولية",
+    "ko": "주류 판매점",
+    "ru": "алкогольный магазин"
+   },
+   "region": "au"
+  },
+  {
+   "word": "maccas",
+   "pos": "noun",
+   "meaning": {
+    "ja": "マクドナルドの愛称",
+    "en": "what Australians call McDonald's",
+    "zh": "麦当劳的昵称",
+    "fr": "surnom de McDonald's",
+    "ar": "لقب ماكدونالدز",
+    "ko": "맥도날드의 애칭",
+    "ru": "так зовут Макдоналдс"
+   },
+   "region": "au"
+  },
+  {
+   "word": "sunnies",
+   "pos": "noun",
+   "meaning": {
+    "ja": "サングラス",
+    "en": "sunglasses",
+    "zh": "墨镜",
+    "fr": "lunettes de soleil",
+    "ar": "نظارة شمسية",
+    "ko": "선글라스",
+    "ru": "солнечные очки"
+   },
+   "region": "au"
+  },
+  {
+   "word": "thongs",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ビーチサンダル",
+    "en": "flip-flops, not underwear",
+    "zh": "人字拖",
+    "fr": "tongs de plage",
+    "ar": "شبشب بلاستيكي",
+    "ko": "쪼리 샌들",
+    "ru": "пляжные шлёпанцы"
+   },
+   "region": "au"
+  },
+  {
+   "word": "esky",
+   "pos": "noun",
+   "meaning": {
+    "ja": "クーラーボックス",
+    "en": "a cool box for drinks",
+    "zh": "保冷箱",
+    "fr": "glacière",
+    "ar": "صندوق تبريد",
+    "ko": "아이스박스",
+    "ru": "переносной холодильник"
+   },
+   "region": "au"
+  },
+  {
+   "word": "ute",
+   "pos": "noun",
+   "meaning": {
+    "ja": "荷台付きの小型トラック",
+    "en": "a pick-up truck",
+    "zh": "皮卡车",
+    "fr": "pick-up",
+    "ar": "شاحنة صغيرة مكشوفة",
+    "ko": "픽업트럭",
+    "ru": "пикап"
+   },
+   "region": "au"
+  },
+  {
+   "word": "bogan",
+   "pos": "noun",
+   "meaning": {
+    "ja": "品のない粗野な人",
+    "en": "an unrefined, rough-around-the-edges person",
+    "zh": "粗俗的人",
+    "fr": "beauf",
+    "ar": "شخص فظ بلا ذوق",
+    "ko": "촌스럽고 거친 사람",
+    "ru": "деревенщина"
+   },
+   "region": "au"
+  },
+  {
+   "word": "fair dinkum",
+   "pos": "adj",
+   "meaning": {
+    "ja": "本当に、正真正銘",
+    "en": "genuine, honestly true",
+    "zh": "千真万确的",
+    "fr": "authentique, sans blague",
+    "ar": "حقيقي وصادق",
+    "ko": "진짜로, 틀림없이",
+    "ru": "честное слово, взаправду"
+   },
+   "region": "au"
+  },
+  {
+   "word": "heaps",
+   "pos": "adv",
+   "meaning": {
+    "ja": "すごくたくさん",
+    "en": "lots, or very",
+    "zh": "超多",
+    "fr": "plein, vachement",
+    "ar": "كثير جدا",
+    "ko": "엄청 많이",
+    "ru": "куча, очень"
+   },
+   "region": "au"
+  },
+  {
+   "word": "stoked",
+   "pos": "adj",
+   "meaning": {
+    "ja": "大喜びしている",
+    "en": "thrilled and delighted",
+    "zh": "高兴坏了的",
+    "fr": "aux anges",
+    "ar": "سعيد للغاية",
+    "ko": "신이 잔뜩 난",
+    "ru": "в полном восторге"
+   },
+   "region": "au"
+  },
+  {
+   "word": "chuck a sickie",
+   "pos": "verb",
+   "meaning": {
+    "ja": "仮病で仕事を休む",
+    "en": "to take a day off pretending to be ill",
+    "zh": "装病请假",
+    "fr": "se faire porter pâle",
+    "ar": "يتمارض ليأخذ إجازة",
+    "ko": "꾀병으로 결근하다",
+    "ru": "взять выходной, притворившись больным"
+   },
+   "region": "au"
+  },
+  {
+   "word": "mozzie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "蚊",
+    "en": "a mosquito",
+    "zh": "蚊子",
+    "fr": "moustique",
+    "ar": "بعوضة",
+    "ko": "모기",
+    "ru": "комар"
+   },
+   "region": "au"
+  },
+  {
+   "word": "tradie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "職人・現場作業員",
+    "en": "a tradesperson such as a plumber or sparky",
+    "zh": "技工师傅",
+    "fr": "artisan du bâtiment",
+    "ar": "حرفي مهني",
+    "ko": "기능직 기술자",
+    "ru": "рабочий-специалист"
+   },
+   "region": "au"
+  },
+  {
+   "word": "bugger",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "「くそっ」豪英で使う下品な語",
+    "en": "a crude Australian and British exclamation",
+    "zh": "澳英通用的粗话",
+    "fr": "juron grossier australien et britannique",
+    "ar": "تعبير فظ أسترالي وبريطاني",
+    "ko": "호주·영국식 저속한 감탄사",
+    "ru": "грубое австралийско-британское восклицание"
+   },
+   "region": "au",
+   "nsfw": true
+  }
+ ]
+}

@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const LANGS = ['ja', 'en', 'zh', 'fr', 'ar', 'ko', 'ru'];
+const REGIONS = ['all', 'us', 'uk', 'au'];
 const POS = ['noun', 'verb', 'adj', 'adv', 'phrase'];
 const root = new URL('../', import.meta.url);
 const pkgDir = fileURLToPath(new URL('packages/', root));
@@ -123,8 +124,22 @@ d.words.forEach((w, i) => {
   if (w.pos && POS.indexOf(w.pos) === -1) { problems.push('"' + word + '" has pos "' + w.pos + '" (expected one of ' + POS.join(', ') + ')'); return; }
   const miss = LANGS.filter(l => !w.meaning || !String(w.meaning[l] || '').trim());
   if (miss.length) { problems.push('"' + word + '" has no meaning in: ' + miss.join(', ')); return; }
+  // Optional, and only the slang packs use them so far: which English-speaking
+  // country a word belongs to, and whether it is coarse enough that the app
+  // should keep it behind a setting the reader has to turn on.
+  if (w.region && REGIONS.indexOf(w.region) === -1) {
+    problems.push('"' + word + '" has region "' + w.region + '" (expected one of ' + REGIONS.join(', ') + ')');
+    return;
+  }
+  if ('nsfw' in w && typeof w.nsfw !== 'boolean') {
+    problems.push('"' + word + '" has a non-boolean nsfw');
+    return;
+  }
   seen.set(key, true);
-  out.words.push({ word, pos: w.pos || 'noun', meaning: Object.fromEntries(LANGS.map(l => [l, String(w.meaning[l]).trim()])) });
+  const entry = { word, pos: w.pos || 'noun', meaning: Object.fromEntries(LANGS.map(l => [l, String(w.meaning[l]).trim()])) };
+  if (w.region) entry.region = w.region;
+  if (w.nsfw) entry.nsfw = true;
+  out.words.push(entry);
   added++;
 });
 
@@ -176,6 +191,18 @@ Object.entries(SCRIPTS).forEach(([lang, sc]) => {
   bad.slice(0, 8).forEach(w => console.log('    ' + w.word + '  →  ' + w.meaning[lang]));
   console.log('  This is usually a typo. Check them.');
 });
+
+// The mirror of the check above. English has no script rule of its own, so a
+// stray CJK or Cyrillic character sitting in an English gloss -- "a dramatic改
+// improvement" -- sails past everything else.
+const strayInEnglish = out.words.filter(w =>
+  /[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af\u0400-\u04ff\u0600-\u06ff]/
+    .test(String((w.meaning || {}).en || '')));
+if (strayInEnglish.length) {
+  console.log('\n  [en] ' + strayInEnglish.length + ' English meaning(s) contain non-Latin characters:');
+  strayInEnglish.slice(0, 8).forEach(w => console.log('    ' + w.word + '  →  ' + w.meaning.en));
+  console.log('  This is usually a stray keystroke. Check them.');
+}
 
 // Checked in EVERY language, not just Japanese. Someone studying in Korean hits
 // the same broken question as someone studying in Japanese, and until now only

@@ -263,6 +263,61 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\nslang filters (region + explicit)');
+{
+  // A miniature slang package: two words everyone says, one American, one
+  // British, and one coarse word tagged nsfw.
+  const words=[
+    {word:'vibe',region:'all',meaning:{ja:'a'}},
+    {word:'sus',region:'all',meaning:{ja:'b'}},
+    {word:'bucks',region:'us',meaning:{ja:'c'}},
+    {word:'quid',region:'uk',meaning:{ja:'d'}},
+    {word:'bloody',region:'uk',nsfw:true,meaning:{ja:'e'}}
+  ];
+  const setup=(settings,prog)=>{
+    M.__setSettings(settings);
+    M.__setPkg([{id:'p',v:1,count:words.length}],{p:prog||{}},{p:{v:1,words}});
+  };
+  const allowed=()=>words.filter(M.wordAllowed).map(w=>w.word);
+
+  t('coarse words are hidden by default',()=>{
+    setup({}); const a=allowed();
+    return !a.includes('bloody')||'bloody leaked with explicit off'; });
+  t('turning explicit on brings them back',()=>{
+    setup({explicit:true}); return allowed().includes('bloody')||'bloody still hidden'; });
+  t('an unticked country drops only its own words',()=>{
+    setup({regions:{all:true,us:false,uk:true,au:true}});
+    const a=allowed();
+    return (!a.includes('bucks')&&a.includes('quid')&&a.includes('vibe'))||a.join(','); });
+  t('a word with no region is never filtered out by country',()=>{
+    M.__setSettings({regions:{all:false,us:false,uk:false,au:false}});
+    return M.wordAllowed({word:'x'})===true||'a plain word was filtered'; });
+  t('regions missing from settings default to shown',()=>{
+    M.__setSettings({regions:{}});
+    return M.wordAllowed({word:'x',region:'au'})===true||'au was hidden without being switched off'; });
+  t('both filters apply together',()=>{
+    setup({explicit:true,regions:{all:false,us:true,uk:true,au:true}});
+    const a=allowed();
+    return (!a.includes('vibe')&&a.includes('bloody')&&a.includes('bucks'))||a.join(','); });
+
+  // The percentage is the part that misleads if it gets this wrong: a reader
+  // who has learned everything they can see must be told 100%.
+  t('learning every visible word reads 100% with coarse words off',()=>{
+    const prog={}; ['vibe','sus','bucks','quid'].forEach(w=>{prog[w]={box:INTERVALS.length-1};});
+    setup({},prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
+  t('the same progress drops below 100% once coarse words are shown',()=>{
+    const prog={}; ['vibe','sus','bucks','quid'].forEach(w=>{prog[w]={box:INTERVALS.length-1};});
+    setup({explicit:true},prog);
+    const v=M.pkgProgressPct('p'); return (v===80)||('expected 80, got '+v); });
+  t('progress on a hidden word is kept but not counted',()=>{
+    const prog={bloody:{box:INTERVALS.length-1}};
+    setup({},prog); return M.pkgProgressPct('p')===0||M.pkgProgressPct('p'); });
+  t('an unfiltered package still counts against the catalogue total',()=>{
+    M.__setSettings({});
+    M.__setPkg([{id:'q',v:1,count:100}],{q:{a:{box:INTERVALS.length-1}}},null);
+    return M.pkgProgressPct('q')===1||M.pkgProgressPct('q'); });
+}
+
 console.log('\nwordsToPush / tombsToPush (incremental sync)');
 {
   const map=arr=>new Map((arr||[]).map(w=>[w.id,w]));
