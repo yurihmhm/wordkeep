@@ -1,0 +1,665 @@
+{
+ "id": "ai_en",
+ "v": 1,
+ "title": {
+  "ja": "AI・生成AIの英単語",
+  "en": "AI & Generative AI",
+  "zh": "人工智能与生成式AI",
+  "fr": "IA et IA générative",
+  "ar": "الذكاء الاصطناعي والتوليدي",
+  "ko": "AI와 생성형 AI",
+  "ru": "ИИ и генеративный ИИ"
+ },
+ "words": [
+  {
+   "word": "large language model",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大規模言語モデル",
+    "en": "an AI trained on huge amounts of text",
+    "zh": "大语言模型",
+    "fr": "grand modèle de langage",
+    "ar": "نموذج لغوي كبير",
+    "ko": "대규모 언어 모델",
+    "ru": "большая языковая модель"
+   }
+  },
+  {
+   "word": "model",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学習済みのAI本体",
+    "en": "the trained system that produces the answers",
+    "zh": "模型",
+    "fr": "modèle entraîné",
+    "ar": "النموذج المدرَّب",
+    "ko": "학습된 모델",
+    "ru": "обученная модель"
+   }
+  },
+  {
+   "word": "token",
+   "pos": "noun",
+   "meaning": {
+    "ja": "処理単位の文字のかたまり",
+    "en": "the small chunk of text an AI counts and processes",
+    "zh": "词元",
+    "fr": "jeton de texte",
+    "ar": "وحدة نصية للمعالجة",
+    "ko": "토큰",
+    "ru": "токен"
+   }
+  },
+  {
+   "word": "prompt engineering",
+   "pos": "noun",
+   "meaning": {
+    "ja": "指示文を工夫する技術",
+    "en": "the skill of writing instructions that get good answers",
+    "zh": "提示词工程",
+    "fr": "art de rédiger les instructions",
+    "ar": "هندسة الأوامر",
+    "ko": "프롬프트 설계",
+    "ru": "проектирование запросов"
+   }
+  },
+  {
+   "word": "system prompt",
+   "pos": "noun",
+   "meaning": {
+    "ja": "AIの前提を決める設定文",
+    "en": "the hidden instruction that sets how an AI behaves",
+    "zh": "系统提示",
+    "fr": "instruction système",
+    "ar": "التوجيه الأساسي للنظام",
+    "ko": "시스템 프롬프트",
+    "ru": "системная инструкция"
+   }
+  },
+  {
+   "word": "context window",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一度に読み込める分量",
+    "en": "how much text an AI can hold at once",
+    "zh": "上下文窗口",
+    "fr": "fenêtre de contexte",
+    "ar": "نافذة السياق",
+    "ko": "컨텍스트 창",
+    "ru": "окно контекста"
+   }
+  },
+  {
+   "word": "fine-tune",
+   "pos": "noun",
+   "meaning": {
+    "ja": "用途に合わせて追加学習させる",
+    "en": "to train a model further for one particular job",
+    "zh": "微调",
+    "fr": "affiner un modèle",
+    "ar": "يضبط النموذج لمهمة",
+    "ko": "미세 조정하다",
+    "ru": "дообучить"
+   }
+  },
+  {
+   "word": "hallucination",
+   "pos": "noun",
+   "meaning": {
+    "ja": "もっともらしい嘘の生成",
+    "en": "a confident answer that is simply made up",
+    "zh": "幻觉式错误",
+    "fr": "réponse inventée",
+    "ar": "هلوسة النموذج",
+    "ko": "환각 오류",
+    "ru": "выдуманный ответ"
+   }
+  },
+  {
+   "word": "training data",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学習に使われたデータ",
+    "en": "the material a model learned from",
+    "zh": "训练数据",
+    "fr": "données d'entraînement",
+    "ar": "بيانات التدريب",
+    "ko": "학습 데이터",
+    "ru": "обучающие данные"
+   }
+  },
+  {
+   "word": "dataset",
+   "pos": "noun",
+   "meaning": {
+    "ja": "まとまったデータの集合",
+    "en": "an organised collection of data",
+    "zh": "数据集",
+    "fr": "jeu de données",
+    "ar": "مجموعة بيانات",
+    "ko": "데이터셋",
+    "ru": "набор данных"
+   }
+  },
+  {
+   "word": "inference",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学習済みモデルが答えを出す処理",
+    "en": "the act of a trained model producing an answer",
+    "zh": "推理运算",
+    "fr": "phase d'inférence",
+    "ar": "استدلال النموذج",
+    "ko": "추론 실행",
+    "ru": "работа модели на выдачу"
+   }
+  },
+  {
+   "word": "neural network",
+   "pos": "noun",
+   "meaning": {
+    "ja": "脳を模した計算の仕組み",
+    "en": "a computing structure loosely modelled on the brain",
+    "zh": "神经网络",
+    "fr": "réseau de neurones",
+    "ar": "شبكة عصبية",
+    "ko": "신경망",
+    "ru": "нейросеть"
+   }
+  },
+  {
+   "word": "deep learning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "多層で学習させる手法",
+    "en": "training with many stacked layers",
+    "zh": "深度学习",
+    "fr": "apprentissage profond",
+    "ar": "التعلم العميق",
+    "ko": "딥러닝",
+    "ru": "глубокое обучение"
+   }
+  },
+  {
+   "word": "transformer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "今の生成AIの基礎構造",
+    "en": "the architecture behind today's generative models",
+    "zh": "生成式模型的基础架构",
+    "fr": "architecture transformer",
+    "ar": "بنية المحوّل",
+    "ko": "트랜스포머 구조",
+    "ru": "архитектура трансформер"
+   }
+  },
+  {
+   "word": "generative",
+   "pos": "noun",
+   "meaning": {
+    "ja": "新しく作り出す型の",
+    "en": "able to produce new content rather than only sort it",
+    "zh": "生成式的",
+    "fr": "génératif",
+    "ar": "توليدي",
+    "ko": "생성형의",
+    "ru": "генеративный"
+   }
+  },
+  {
+   "word": "multimodal",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文章も画像も音声も扱える",
+    "en": "able to handle text, images and sound together",
+    "zh": "多模态的",
+    "fr": "multimodal",
+    "ar": "متعدد الوسائط",
+    "ko": "멀티모달의",
+    "ru": "мультимодальный"
+   }
+  },
+  {
+   "word": "agent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分で手順を決めて作業するAI",
+    "en": "an AI that plans and carries out steps on its own",
+    "zh": "智能体",
+    "fr": "agent autonome",
+    "ar": "وكيل ذكي مستقل",
+    "ko": "자율 실행 에이전트",
+    "ru": "автономный агент"
+   }
+  },
+  {
+   "word": "embedding",
+   "pos": "noun",
+   "meaning": {
+    "ja": "意味を数値に置き換えたもの",
+    "en": "meaning turned into numbers a computer can compare",
+    "zh": "向量表示",
+    "fr": "représentation vectorielle",
+    "ar": "تمثيل رقمي للمعنى",
+    "ko": "임베딩",
+    "ru": "векторное представление"
+   }
+  },
+  {
+   "word": "temperature",
+   "pos": "noun",
+   "meaning": {
+    "ja": "出力のばらつき具合の設定",
+    "en": "the setting for how varied the answers are",
+    "zh": "随机性参数",
+    "fr": "réglage de variabilité",
+    "ar": "إعداد التنوع في الإجابات",
+    "ko": "출력 다양성 설정",
+    "ru": "настройка разброса ответов"
+   }
+  },
+  {
+   "word": "parameter",
+   "pos": "noun",
+   "meaning": {
+    "ja": "モデルの規模を表す数値",
+    "en": "one of the numbers a model learns, counted in billions",
+    "zh": "参数",
+    "fr": "paramètre du modèle",
+    "ar": "معامل في النموذج",
+    "ko": "모델 파라미터",
+    "ru": "параметр модели"
+   }
+  },
+  {
+   "word": "zero-shot",
+   "pos": "noun",
+   "meaning": {
+    "ja": "例を示さずにやらせる",
+    "en": "asking for a task with no examples given",
+    "zh": "零样本的",
+    "fr": "sans exemple fourni",
+    "ar": "بدون أمثلة مسبقة",
+    "ko": "예시 없이 시키는",
+    "ru": "без примеров"
+   }
+  },
+  {
+   "word": "few-shot",
+   "pos": "noun",
+   "meaning": {
+    "ja": "少数の例を見せてやらせる",
+    "en": "giving a handful of examples first",
+    "zh": "少样本的",
+    "fr": "avec quelques exemples",
+    "ar": "بأمثلة قليلة",
+    "ko": "예시 몇 개를 주는",
+    "ru": "с несколькими примерами"
+   }
+  },
+  {
+   "word": "chain of thought",
+   "pos": "noun",
+   "meaning": {
+    "ja": "考える手順を順に出させる方法",
+    "en": "making a model show its reasoning step by step",
+    "zh": "思维链",
+    "fr": "raisonnement pas à pas",
+    "ar": "سلسلة التفكير",
+    "ko": "사고 사슬",
+    "ru": "цепочка рассуждений"
+   }
+  },
+  {
+   "word": "reasoning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "筋道を立てて考えること",
+    "en": "working towards an answer through logical steps",
+    "zh": "推理能力",
+    "fr": "capacité de raisonnement",
+    "ar": "القدرة على الاستدلال",
+    "ko": "추론 능력",
+    "ru": "способность рассуждать"
+   }
+  },
+  {
+   "word": "knowledge cutoff",
+   "pos": "noun",
+   "meaning": {
+    "ja": "学習データの締め切り時点",
+    "en": "the date after which a model knows nothing",
+    "zh": "知识截止时间",
+    "fr": "date limite des connaissances",
+    "ar": "تاريخ انتهاء المعرفة",
+    "ko": "지식 기준 시점",
+    "ru": "дата отсечения знаний"
+   }
+  },
+  {
+   "word": "retrieval",
+   "pos": "noun",
+   "meaning": {
+    "ja": "外部の資料を検索して使う仕組み",
+    "en": "looking things up outside the model before answering",
+    "zh": "检索增强",
+    "fr": "recherche de documents externes",
+    "ar": "استرجاع مصادر خارجية",
+    "ko": "외부 자료 검색",
+    "ru": "поиск во внешних источниках"
+   }
+  },
+  {
+   "word": "grounding",
+   "pos": "noun",
+   "meaning": {
+    "ja": "実際の資料に基づかせること",
+    "en": "tying answers to real sources",
+    "zh": "依据真实来源",
+    "fr": "ancrage dans des sources réelles",
+    "ar": "الاستناد إلى مصادر حقيقية",
+    "ko": "실제 근거에 기반하기",
+    "ru": "опора на реальные источники"
+   }
+  },
+  {
+   "word": "alignment",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人間の意図に沿わせること",
+    "en": "making a model behave as people intend",
+    "zh": "价值对齐",
+    "fr": "alignement sur les intentions humaines",
+    "ar": "مواءمة السلوك مع نية البشر",
+    "ko": "인간 의도와의 정렬",
+    "ru": "согласование с намерениями людей"
+   }
+  },
+  {
+   "word": "guardrail",
+   "pos": "noun",
+   "meaning": {
+    "ja": "危険な出力を防ぐ歯止め",
+    "en": "a limit that stops harmful output",
+    "zh": "安全护栏",
+    "fr": "garde-fou",
+    "ar": "حاجز أمان",
+    "ko": "안전 장치",
+    "ru": "защитное ограничение"
+   }
+  },
+  {
+   "word": "jailbreak",
+   "pos": "noun",
+   "meaning": {
+    "ja": "制限を回避させる手口",
+    "en": "a trick that gets a model past its own rules",
+    "zh": "越狱绕过",
+    "fr": "contournement des règles",
+    "ar": "التحايل على القيود",
+    "ko": "제한 우회 수법",
+    "ru": "обход ограничений"
+   }
+  },
+  {
+   "word": "red teaming",
+   "pos": "noun",
+   "meaning": {
+    "ja": "わざと攻撃して弱点を探す検証",
+    "en": "deliberately attacking a system to find its weak points",
+    "zh": "红队测试",
+    "fr": "test d'attaque volontaire",
+    "ar": "اختبار الفريق الأحمر",
+    "ko": "레드 팀 점검",
+    "ru": "проверка атакой"
+   }
+  },
+  {
+   "word": "benchmark",
+   "pos": "noun",
+   "meaning": {
+    "ja": "性能を比べる基準テスト",
+    "en": "a standard test used to compare systems",
+    "zh": "基准测试",
+    "fr": "test de référence",
+    "ar": "اختبار مرجعي",
+    "ko": "성능 기준 시험",
+    "ru": "эталонный тест"
+   }
+  },
+  {
+   "word": "accuracy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "正答の割合",
+    "en": "how often the answers are correct",
+    "zh": "准确率",
+    "fr": "taux d'exactitude",
+    "ar": "نسبة الدقة",
+    "ko": "정확도",
+    "ru": "точность"
+   }
+  },
+  {
+   "word": "GPU",
+   "pos": "noun",
+   "meaning": {
+    "ja": "AI計算に使う高速な演算装置",
+    "en": "the chip that does the heavy AI calculations",
+    "zh": "图形处理器",
+    "fr": "processeur graphique",
+    "ar": "وحدة معالجة الرسوميات",
+    "ko": "그래픽 처리 장치",
+    "ru": "графический процессор"
+   }
+  },
+  {
+   "word": "compute",
+   "pos": "noun",
+   "meaning": {
+    "ja": "計算資源",
+    "en": "the processing power a model needs",
+    "zh": "算力",
+    "fr": "puissance de calcul",
+    "ar": "قدرة الحوسبة",
+    "ko": "연산 자원",
+    "ru": "вычислительные мощности"
+   }
+  },
+  {
+   "word": "supervised learning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "正解つきデータで学ばせる方式",
+    "en": "training with examples that have the right answer attached",
+    "zh": "监督学习",
+    "fr": "apprentissage supervisé",
+    "ar": "التعلم الموجه",
+    "ko": "지도 학습",
+    "ru": "обучение с учителем"
+   }
+  },
+  {
+   "word": "reinforcement learning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "試行と報酬で学ばせる方式",
+    "en": "training by rewarding good attempts",
+    "zh": "强化学习",
+    "fr": "apprentissage par renforcement",
+    "ar": "التعلم بالتعزيز",
+    "ko": "강화 학습",
+    "ru": "обучение с подкреплением"
+   }
+  },
+  {
+   "word": "classification",
+   "pos": "noun",
+   "meaning": {
+    "ja": "あてはまる区分に振り分ける処理",
+    "en": "sorting things into the right groups",
+    "zh": "分类任务",
+    "fr": "tâche de classement",
+    "ar": "تصنيف البيانات",
+    "ko": "분류 작업",
+    "ru": "классификация"
+   }
+  },
+  {
+   "word": "computer vision",
+   "pos": "noun",
+   "meaning": {
+    "ja": "画像を認識する技術",
+    "en": "technology that lets machines understand images",
+    "zh": "计算机视觉",
+    "fr": "vision par ordinateur",
+    "ar": "الرؤية الحاسوبية",
+    "ko": "컴퓨터 비전",
+    "ru": "компьютерное зрение"
+   }
+  },
+  {
+   "word": "speech recognition",
+   "pos": "noun",
+   "meaning": {
+    "ja": "話し声を文字にする技術",
+    "en": "turning spoken words into text",
+    "zh": "语音识别",
+    "fr": "reconnaissance vocale",
+    "ar": "التعرف على الكلام",
+    "ko": "음성 인식",
+    "ru": "распознавание речи"
+   }
+  },
+  {
+   "word": "natural language processing",
+   "pos": "noun",
+   "meaning": {
+    "ja": "人の言葉を扱う技術分野",
+    "en": "the field of getting computers to handle human language",
+    "zh": "自然语言处理",
+    "fr": "traitement du langage naturel",
+    "ar": "معالجة اللغة الطبيعية",
+    "ko": "자연어 처리",
+    "ru": "обработка естественного языка"
+   }
+  },
+  {
+   "word": "recommendation system",
+   "pos": "noun",
+   "meaning": {
+    "ja": "おすすめを出す仕組み",
+    "en": "the system that suggests what you might like",
+    "zh": "推荐系统",
+    "fr": "système de recommandation",
+    "ar": "نظام التوصيات",
+    "ko": "추천 시스템",
+    "ru": "рекомендательная система"
+   }
+  },
+  {
+   "word": "deepfake",
+   "pos": "noun",
+   "meaning": {
+    "ja": "本物に見せかけた偽の映像や音声",
+    "en": "fake video or audio made to look real",
+    "zh": "深度伪造",
+    "fr": "hypertrucage",
+    "ar": "تزييف عميق",
+    "ko": "딥페이크",
+    "ru": "дипфейк"
+   }
+  },
+  {
+   "word": "watermark",
+   "pos": "noun",
+   "meaning": {
+    "ja": "AI生成であることを示す印",
+    "en": "a hidden mark showing content was made by AI",
+    "zh": "数字水印",
+    "fr": "filigrane numérique",
+    "ar": "علامة مائية رقمية",
+    "ko": "디지털 워터마크",
+    "ru": "цифровой водяной знак"
+   }
+  },
+  {
+   "word": "copyright",
+   "pos": "noun",
+   "meaning": {
+    "ja": "著作権",
+    "en": "the legal right over creative work",
+    "zh": "版权",
+    "fr": "droit d'auteur",
+    "ar": "حقوق النشر",
+    "ko": "저작권",
+    "ru": "авторское право"
+   }
+  },
+  {
+   "word": "transparency",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕組みを公開する姿勢",
+    "en": "being open about how a system works",
+    "zh": "透明度",
+    "fr": "transparence",
+    "ar": "الشفافية",
+    "ko": "투명성",
+    "ru": "прозрачность"
+   }
+  },
+  {
+   "word": "explainability",
+   "pos": "noun",
+   "meaning": {
+    "ja": "判断の理由を説明できること",
+    "en": "being able to say why a model decided something",
+    "zh": "可解释性",
+    "fr": "explicabilité",
+    "ar": "قابلية التفسير",
+    "ko": "설명 가능성",
+    "ru": "объяснимость"
+   }
+  },
+  {
+   "word": "accountability",
+   "pos": "noun",
+   "meaning": {
+    "ja": "結果に責任を負うこと",
+    "en": "being answerable for what a system does",
+    "zh": "问责",
+    "fr": "responsabilité redevable",
+    "ar": "المساءلة",
+    "ko": "책임 소재",
+    "ru": "подотчётность"
+   }
+  },
+  {
+   "word": "regulation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "法による規制",
+    "en": "rules set by law over how AI may be used",
+    "zh": "监管",
+    "fr": "réglementation",
+    "ar": "تنظيم قانوني",
+    "ko": "규제",
+    "ru": "регулирование"
+   }
+  },
+  {
+   "word": "responsible AI",
+   "pos": "noun",
+   "meaning": {
+    "ja": "責任を持ったAIの使い方",
+    "en": "building and using AI in a way that avoids harm",
+    "zh": "负责任的人工智能",
+    "fr": "IA responsable",
+    "ar": "الذكاء الاصطناعي المسؤول",
+    "ko": "책임 있는 AI",
+    "ru": "ответственный ИИ"
+   }
+  }
+ ]
+}
