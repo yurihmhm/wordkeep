@@ -1,1315 +1,1316 @@
 {
-  "id": "common_phrasal_verbs_part2",
-  "v": 1,
-  "title": {
-    "ja": "会話でよく使う句動詞 中上級編",
-    "en": "Common Phrasal Verbs, Advanced",
-    "zh": "日常会话常用短语动词（中高级）",
-    "fr": "Verbes à particule courants (avancé)",
-    "ar": "أفعال مركبة شائعة في المحادثة (متقدم)",
-    "ko": "대화에서 자주 쓰는 구동사 (중상급)",
-    "ru": "Частые фразовые глаголы (продвинутый)"
+ "id": "common_phrasal_verbs_part2",
+ "v": 1,
+ "title": {
+  "ja": "会話でよく使う句動詞 中上級編",
+  "en": "Common Phrasal Verbs, Advanced",
+  "zh": "日常会话常用短语动词（中高级）",
+  "fr": "Verbes à particule courants (avancé)",
+  "ar": "أفعال مركبة شائعة في المحادثة (متقدم)",
+  "ko": "대화에서 자주 쓰는 구동사 (중상급)",
+  "ru": "Частые фразовые глаголы (продвинутый)"
+ },
+ "cefr": "B2",
+ "words": [
+  {
+   "word": "bring about",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "引き起こす",
+    "en": "to cause something to happen",
+    "zh": "促成",
+    "fr": "provoquer",
+    "ar": "يتسبب في",
+    "ko": "초래하다",
+    "ru": "вызывать"
+   }
   },
-  "words": [
-    {
-      "word": "bring about",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "引き起こす",
-        "en": "to cause something to happen",
-        "zh": "促成",
-        "fr": "provoquer",
-        "ar": "يتسبب في",
-        "ko": "초래하다",
-        "ru": "вызывать"
-      }
-    },
-    {
-      "word": "bring up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "育てる",
-        "en": "to raise a child",
-        "zh": "抚养",
-        "fr": "élever un enfant",
-        "ar": "يربي",
-        "ko": "양육하다",
-        "ru": "воспитывать"
-      }
-    },
-    {
-      "word": "carry out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "実行する",
-        "en": "to perform a task or plan",
-        "zh": "执行",
-        "fr": "exécuter",
-        "ar": "ينفّذ",
-        "ko": "수행하다",
-        "ru": "осуществлять"
-      }
-    },
-    {
-      "word": "come about",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "起こる",
-        "en": "to happen, especially unexpectedly",
-        "zh": "发生",
-        "fr": "se produire",
-        "ar": "يحدث",
-        "ko": "일어나다",
-        "ru": "происходить"
-      }
-    },
-    {
-      "word": "come down to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "結局は～次第だ",
-        "en": "to have something as the main factor",
-        "zh": "归结为",
-        "fr": "se résumer à",
-        "ar": "يعود إلى",
-        "ko": "결국 ~로 귀결되다",
-        "ru": "сводиться к"
-      }
-    },
-    {
-      "word": "come up against",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "直面する",
-        "en": "to encounter a difficulty",
-        "zh": "遭遇",
-        "fr": "se heurter à",
-        "ar": "يواجه",
-        "ko": "부딪히다",
-        "ru": "сталкиваться с"
-      }
-    },
-    {
-      "word": "cut back on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "減らす",
-        "en": "to reduce the amount of something",
-        "zh": "削减",
-        "fr": "réduire",
-        "ar": "يقلل من",
-        "ko": "줄이다",
-        "ru": "сокращать"
-      }
-    },
-    {
-      "word": "cut off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "遮断する",
-        "en": "to stop a supply or connection",
-        "zh": "切断",
-        "fr": "couper",
-        "ar": "يقطع",
-        "ko": "차단하다",
-        "ru": "отключать"
-      }
-    },
-    {
-      "word": "draw up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "作成する",
-        "en": "to prepare a formal document",
-        "zh": "起草",
-        "fr": "rédiger",
-        "ar": "يصيغ",
-        "ko": "작성하다",
-        "ru": "составлять"
-      }
-    },
-    {
-      "word": "drag on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "長引く",
-        "en": "to continue for too long",
-        "zh": "拖延",
-        "fr": "s'éterniser",
-        "ar": "يستمر طويلاً",
-        "ko": "질질 끌다",
-        "ru": "затягиваться"
-      }
-    },
-    {
-      "word": "fall behind",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "遅れをとる",
-        "en": "to fail to keep up with a pace",
-        "zh": "落后",
-        "fr": "prendre du retard",
-        "ar": "يتأخر عن",
-        "ko": "뒤처지다",
-        "ru": "отставать"
-      }
-    },
-    {
-      "word": "fall through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "実現しない",
-        "en": "to fail to happen as planned",
-        "zh": "落空",
-        "fr": "tomber à l'eau",
-        "ar": "يفشل ولا يتم",
-        "ko": "무산되다",
-        "ru": "срываться"
-      }
-    },
-    {
-      "word": "follow through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "最後までやり遂げる",
-        "en": "to complete an action as planned",
-        "zh": "贯彻到底",
-        "fr": "aller jusqu'au bout",
-        "ar": "يتابع حتى النهاية",
-        "ko": "끝까지 이행하다",
-        "ru": "доводить до конца"
-      }
-    },
-    {
-      "word": "follow up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "追跡調査する",
-        "en": "to take further action after something",
-        "zh": "跟进",
-        "fr": "faire un suivi",
-        "ar": "يتابع الأمر",
-        "ko": "후속 조치를 하다",
-        "ru": "следить за развитием"
-      }
-    },
-    {
-      "word": "get ahead",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "先んじる",
-        "en": "to make progress and succeed",
-        "zh": "领先",
-        "fr": "prendre de l'avance",
-        "ar": "يتقدم",
-        "ko": "앞서가다",
-        "ru": "продвигаться вперёд"
-      }
-    },
-    {
-      "word": "get around",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "回避する、移動する",
-        "en": "to avoid a rule, or to travel from place to place",
-        "zh": "绕开，四处走动",
-        "fr": "contourner, se déplacer",
-        "ar": "يتحايل، يتنقل",
-        "ko": "피해가다, 돌아다니다",
-        "ru": "обходить, передвигаться"
-      }
-    },
-    {
-      "word": "get by",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "何とかやっていく",
-        "en": "to manage with limited resources",
-        "zh": "勉强维持",
-        "fr": "se débrouiller",
-        "ar": "يتدبر أمره",
-        "ko": "그럭저럭 지내다",
-        "ru": "перебиваться"
-      }
-    },
-    {
-      "word": "get down to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "本腰を入れる",
-        "en": "to start focusing seriously on something",
-        "zh": "认真开始处理",
-        "fr": "se mettre sérieusement à",
-        "ar": "يبدأ بجدية في",
-        "ko": "진지하게 착수하다",
-        "ru": "взяться всерьёз за"
-      }
-    },
-    {
-      "word": "give away",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "うっかり漏らす、無料であげる",
-        "en": "to reveal a secret, or to give for free",
-        "zh": "泄露，赠送",
-        "fr": "révéler, donner gratuitement",
-        "ar": "يكشف سرًا، يهدي",
-        "ko": "무심코 드러내다, 나눠주다",
-        "ru": "выдавать секрет, отдавать бесплатно"
-      }
-    },
-    {
-      "word": "give in",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "屈する",
-        "en": "to finally agree after resisting",
-        "zh": "屈服",
-        "fr": "céder",
-        "ar": "يستسلم لـ",
-        "ko": "굴복하다",
-        "ru": "уступать"
-      }
-    },
-    {
-      "word": "hold back",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "抑える",
-        "en": "to stop yourself from doing something",
-        "zh": "抑制",
-        "fr": "se retenir",
-        "ar": "يتردد، يكبح",
-        "ko": "억누르다",
-        "ru": "сдерживаться"
-      }
-    },
-    {
-      "word": "iron out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "解決する",
-        "en": "to resolve small problems",
-        "zh": "解决问题",
-        "fr": "aplanir",
-        "ar": "يحل التفاصيل",
-        "ko": "해결하다",
-        "ru": "улаживать"
-      }
-    },
-    {
-      "word": "keep up with",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "遅れずについていく",
-        "en": "to stay updated with something changing",
-        "zh": "跟上…的步伐",
-        "fr": "se tenir au courant de",
-        "ar": "يواكب",
-        "ko": "~에 뒤처지지 않다",
-        "ru": "не отставать от"
-      }
-    },
-    {
-      "word": "knuckle down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "本気で取り組む",
-        "en": "to start working seriously",
-        "zh": "认真努力",
-        "fr": "s'y mettre sérieusement",
-        "ar": "يجتهد بجدية",
-        "ko": "본격적으로 매달리다",
-        "ru": "взяться за дело серьёзно"
-      }
-    },
-    {
-      "word": "lay off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "解雇する",
-        "en": "to dismiss employees from a job",
-        "zh": "裁员",
-        "fr": "licencier",
-        "ar": "يسرّح موظفًا",
-        "ko": "해고하다",
-        "ru": "увольнять"
-      }
-    },
-    {
-      "word": "live up to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "期待に応える",
-        "en": "to be as good as expected",
-        "zh": "不辜负期望",
-        "fr": "être à la hauteur de",
-        "ar": "يرقى إلى مستوى",
-        "ko": "기대에 부응하다",
-        "ru": "оправдывать ожидания"
-      }
-    },
-    {
-      "word": "look down on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "見下す",
-        "en": "to feel superior to someone",
-        "zh": "看不起",
-        "fr": "mépriser",
-        "ar": "يحتقر",
-        "ko": "얕보다",
-        "ru": "смотреть свысока"
-      }
-    },
-    {
-      "word": "look into",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "調査する",
-        "en": "to investigate something carefully",
-        "zh": "调查",
-        "fr": "examiner",
-        "ar": "يحقق في",
-        "ko": "조사하다",
-        "ru": "расследовать"
-      }
-    },
-    {
-      "word": "make up for",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "埋め合わせる",
-        "en": "to compensate for something lost",
-        "zh": "弥补",
-        "fr": "compenser",
-        "ar": "يعوّض عن",
-        "ko": "만회하다",
-        "ru": "компенсировать"
-      }
-    },
-    {
-      "word": "narrow down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "絞り込む",
-        "en": "to reduce the number of options",
-        "zh": "缩小范围",
-        "fr": "réduire le choix",
-        "ar": "يضيّق الخيارات",
-        "ko": "범위를 좁히다",
-        "ru": "сужать"
-      }
-    },
-    {
-      "word": "opt out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "参加しない選択をする",
-        "en": "to choose not to take part",
-        "zh": "选择退出",
-        "fr": "se désengager",
-        "ar": "ينسحب من",
-        "ko": "참여하지 않기로 하다",
-        "ru": "отказываться от участия"
-      }
-    },
-    {
-      "word": "phase out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "段階的に廃止する",
-        "en": "to remove something gradually",
-        "zh": "逐步淘汰",
-        "fr": "supprimer progressivement",
-        "ar": "يلغي تدريجيًا",
-        "ko": "단계적으로 폐지하다",
-        "ru": "постепенно отменять"
-      }
-    },
-    {
-      "word": "pull off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "成功させる",
-        "en": "to succeed at something difficult",
-        "zh": "成功做到",
-        "fr": "réussir un coup difficile",
-        "ar": "ينجح في أمر صعب",
-        "ko": "해내다",
-        "ru": "успешно осуществить"
-      }
-    },
-    {
-      "word": "pull through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "切り抜ける",
-        "en": "to survive a difficult situation",
-        "zh": "渡过难关",
-        "fr": "s'en sortir",
-        "ar": "يتجاوز محنة",
-        "ko": "이겨내다",
-        "ru": "выкарабкаться"
-      }
-    },
-    {
-      "word": "push through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "押し通す",
-        "en": "to force something to be approved",
-        "zh": "强行推动通过",
-        "fr": "faire passer en force",
-        "ar": "يمرر بالقوة",
-        "ko": "강행하다",
-        "ru": "проталкивать"
-      }
-    },
-    {
-      "word": "put forward",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "提案する",
-        "en": "to suggest an idea for consideration",
-        "zh": "提出",
-        "fr": "proposer",
-        "ar": "يطرح فكرة",
-        "ko": "제시하다",
-        "ru": "выдвигать"
-      }
-    },
-    {
-      "word": "rule out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "除外する",
-        "en": "to eliminate a possibility",
-        "zh": "排除",
-        "fr": "exclure",
-        "ar": "يستبعد",
-        "ko": "배제하다",
-        "ru": "исключать"
-      }
-    },
-    {
-      "word": "scale back",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "規模を縮小する",
-        "en": "to reduce the size of something",
-        "zh": "缩减规模",
-        "fr": "réduire l'ampleur",
-        "ar": "يقلص",
-        "ko": "규모를 축소하다",
-        "ru": "сокращать масштаб"
-      }
-    },
-    {
-      "word": "see through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "やり遂げる、見抜く",
-        "en": "to complete something, or to detect deception",
-        "zh": "坚持到底，看穿",
-        "fr": "mener à bien, percer à jour",
-        "ar": "يتم أمرًا، يكتشف الحقيقة",
-        "ko": "끝까지 해내다, 꿰뚫어보다",
-        "ru": "довести до конца, раскусить"
-      }
-    },
-    {
-      "word": "set aside",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "取っておく",
-        "en": "to save something for later use",
-        "zh": "留出",
-        "fr": "mettre de côté",
-        "ar": "يخصص",
-        "ko": "따로 두다",
-        "ru": "откладывать"
-      }
-    },
-    {
-      "word": "set off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "出発する、引き起こす",
-        "en": "to start a journey, or to trigger something",
-        "zh": "出发，引发",
-        "fr": "partir, déclencher",
-        "ar": "ينطلق، يتسبب في",
-        "ko": "출발하다, 유발하다",
-        "ru": "отправляться, вызывать"
-      }
-    },
-    {
-      "word": "single out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "特に取り上げる",
-        "en": "to select one person for special attention",
-        "zh": "特别挑出",
-        "fr": "distinguer particulièrement",
-        "ar": "يخص بالذكر",
-        "ko": "특별히 지목하다",
-        "ru": "выделять особо"
-      }
-    },
-    {
-      "word": "sort out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "解決する、整理する",
-        "en": "to resolve or organize something",
-        "zh": "解决，整理",
-        "fr": "régler, trier",
-        "ar": "يرتب، يحل",
-        "ko": "해결하다, 정리하다",
-        "ru": "улаживать, разбирать"
-      }
-    },
-    {
-      "word": "stem from",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "~に由来する",
-        "en": "to originate from a cause",
-        "zh": "源于",
-        "fr": "découler de",
-        "ar": "ينبع من",
-        "ko": "~에서 비롯되다",
-        "ru": "проистекать из"
-      }
-    },
-    {
-      "word": "take on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "引き受ける",
-        "en": "to accept a responsibility or challenge",
-        "zh": "承担",
-        "fr": "prendre en charge",
-        "ar": "يتولى مهمة",
-        "ko": "떠맡다",
-        "ru": "брать на себя"
-      }
-    },
-    {
-      "word": "tie up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "手一杯にする",
-        "en": "to keep someone busy or occupied",
-        "zh": "占用（时间）",
-        "fr": "occuper (quelqu'un)",
-        "ar": "يشغل الوقت",
-        "ko": "바쁘게 만들다",
-        "ru": "занимать (время)"
-      }
-    },
-    {
-      "word": "touch on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "軽く触れる",
-        "en": "to mention a topic briefly",
-        "zh": "稍微提及",
-        "fr": "aborder brièvement",
-        "ar": "يلمّح إلى",
-        "ko": "간단히 언급하다",
-        "ru": "вскользь упомянуть"
-      }
-    },
-    {
-      "word": "weigh up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "比較検討する",
-        "en": "to consider options carefully before deciding",
-        "zh": "权衡",
-        "fr": "peser le pour et le contre",
-        "ar": "يزن الخيارات",
-        "ko": "저울질하다",
-        "ru": "взвешивать"
-      }
-    },
-    {
-      "word": "work through",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "じっくり取り組む",
-        "en": "to deal with something step by step",
-        "zh": "逐步处理",
-        "fr": "régler étape par étape",
-        "ar": "يعالج تدريجيًا",
-        "ko": "차근차근 해결하다",
-        "ru": "прорабатывать"
-      }
-    },
-    {
-      "word": "account for",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "説明する、割合を占める",
-        "en": "to explain, or to make up a proportion",
-        "zh": "解释，占比",
-        "fr": "expliquer, représenter",
-        "ar": "يفسر، يمثل نسبة",
-        "ko": "설명하다, 차지하다",
-        "ru": "объяснять, составлять долю"
-      }
-    },
-    {
-      "word": "act up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "調子が悪くなる",
-        "en": "to behave badly or malfunction",
-        "zh": "出毛病",
-        "fr": "faire des siennes",
-        "ar": "يتصرف بشكل سيئ",
-        "ko": "말썽을 부리다",
-        "ru": "барахлить"
-      }
-    },
-    {
-      "word": "back down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "譲歩する",
-        "en": "to stop insisting on a position",
-        "zh": "让步",
-        "fr": "reculer, céder",
-        "ar": "يتراجع عن موقفه",
-        "ko": "물러서다",
-        "ru": "уступать в споре"
-      }
-    },
-    {
-      "word": "bank on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "当てにする",
-        "en": "to rely on something happening",
-        "zh": "指望",
-        "fr": "compter sur",
-        "ar": "يعتمد على حدوث شيء",
-        "ko": "기대하다",
-        "ru": "рассчитывать на"
-      }
-    },
-    {
-      "word": "boil down to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "要するに～になる",
-        "en": "to have as the essential point",
-        "zh": "归根结底是",
-        "fr": "se résumer à",
-        "ar": "يختصر إلى",
-        "ko": "결국 ~로 요약되다",
-        "ru": "сводиться к сути"
-      }
-    },
-    {
-      "word": "branch out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "活動範囲を広げる",
-        "en": "to expand into new areas",
-        "zh": "拓展业务",
-        "fr": "se diversifier",
-        "ar": "يتوسع في مجال جديد",
-        "ko": "사업을 확장하다",
-        "ru": "расширять деятельность"
-      }
-    },
-    {
-      "word": "brush up on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "学び直す",
-        "en": "to improve a skill you once had",
-        "zh": "温习",
-        "fr": "se remettre à niveau",
-        "ar": "يجدد معرفته بـ",
-        "ko": "복습하다",
-        "ru": "освежать знания"
-      }
-    },
-    {
-      "word": "burn out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "燃え尽きる",
-        "en": "to become exhausted from overwork",
-        "zh": "精疲力竭",
-        "fr": "s'épuiser",
-        "ar": "يصاب بالإرهاق",
-        "ko": "번아웃되다",
-        "ru": "перегорать"
-      }
-    },
-    {
-      "word": "chip in",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "少しずつ出し合う",
-        "en": "to contribute money or help",
-        "zh": "凑钱，帮忙",
-        "fr": "participer financièrement",
-        "ar": "يساهم بمبلغ",
-        "ko": "조금씩 보태다",
-        "ru": "скидываться"
-      }
-    },
-    {
-      "word": "clamp down on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "取り締まる",
-        "en": "to take strict action against something",
-        "zh": "严厉打击",
-        "fr": "réprimer",
-        "ar": "يشدد الإجراءات ضد",
-        "ko": "단속하다",
-        "ru": "принимать жёсткие меры против"
-      }
-    },
-    {
-      "word": "come off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "うまくいく、外れる",
-        "en": "to succeed, or to detach",
-        "zh": "成功，脱落",
-        "fr": "réussir, se détacher",
-        "ar": "ينجح، ينفصل",
-        "ko": "성공하다, 떨어지다",
-        "ru": "удаваться, отваливаться"
-      }
-    },
-    {
-      "word": "crack down on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "厳しく取り締まる",
-        "en": "to enforce rules more strictly",
-        "zh": "严厉打击",
-        "fr": "sévir contre",
-        "ar": "يشدد على",
-        "ko": "엄중히 단속하다",
-        "ru": "закручивать гайки против"
-      }
-    },
-    {
-      "word": "cross paths with",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "偶然出会う",
-        "en": "to happen to meet someone",
-        "zh": "与…相遇",
-        "fr": "croiser le chemin de",
-        "ar": "يلتقي مصادفة بـ",
-        "ko": "마주치다",
-        "ru": "пересекаться с"
-      }
-    },
-    {
-      "word": "delve into",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "深く掘り下げる",
-        "en": "to research something in detail",
-        "zh": "深入探讨",
-        "fr": "se plonger dans",
-        "ar": "يتعمق في",
-        "ko": "깊이 파고들다",
-        "ru": "углубляться в"
-      }
-    },
-    {
-      "word": "dwell on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "くよくよ考える",
-        "en": "to think too long about something negative",
-        "zh": "老想着",
-        "fr": "s'attarder sur",
-        "ar": "يسترسل في التفكير في",
-        "ko": "오래 곱씹다",
-        "ru": "зацикливаться на"
-      }
-    },
-    {
-      "word": "even out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "平均化する",
-        "en": "to become balanced or equal over time",
-        "zh": "趋于平衡",
-        "fr": "s'équilibrer",
-        "ar": "يتوازن",
-        "ko": "고르게 되다",
-        "ru": "выравниваться"
-      }
-    },
-    {
-      "word": "factor in",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "計算に入れる",
-        "en": "to include as part of a calculation",
-        "zh": "考虑进去",
-        "fr": "prendre en compte",
-        "ar": "يأخذ بعين الاعتبار",
-        "ko": "셈에 넣다",
-        "ru": "учитывать в расчёте"
-      }
-    },
-    {
-      "word": "fend off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "かわす",
-        "en": "to defend against something unwanted",
-        "zh": "抵挡",
-        "fr": "repousser",
-        "ar": "يصد",
-        "ko": "막아내다",
-        "ru": "отражать"
-      }
-    },
-    {
-      "word": "fizzle out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "尻すぼみになる",
-        "en": "to gradually fail or end weakly",
-        "zh": "逐渐消失",
-        "fr": "s'essouffler",
-        "ar": "يخفت تدريجيًا",
-        "ko": "흐지부지되다",
-        "ru": "сходить на нет"
-      }
-    },
-    {
-      "word": "flesh out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "肉付けする",
-        "en": "to add more detail to an idea",
-        "zh": "充实内容",
-        "fr": "étoffer",
-        "ar": "يفصّل الفكرة",
-        "ko": "구체화하다",
-        "ru": "развивать детали"
-      }
-    },
-    {
-      "word": "gear up for",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "準備をする",
-        "en": "to prepare for an event",
-        "zh": "为…做准备",
-        "fr": "se préparer pour",
-        "ar": "يستعد لـ",
-        "ko": "준비하다",
-        "ru": "готовиться к"
-      }
-    },
-    {
-      "word": "get across",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "理解させる",
-        "en": "to make an idea understood",
-        "zh": "讲清楚",
-        "fr": "faire comprendre",
-        "ar": "يوصل فكرة بوضوح",
-        "ko": "이해시키다",
-        "ru": "донести мысль"
-      }
-    },
-    {
-      "word": "get on with",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "仲良くやる、続ける",
-        "en": "to have a good relationship, or continue a task",
-        "zh": "相处好，继续做",
-        "fr": "bien s'entendre, poursuivre",
-        "ar": "ينسجم مع، يواصل",
-        "ko": "잘 지내다, 계속하다",
-        "ru": "ладить, продолжать"
-      }
-    },
-    {
-      "word": "give off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "発する",
-        "en": "to produce a smell, heat, or light",
-        "zh": "散发出",
-        "fr": "dégager (odeur, chaleur)",
-        "ar": "يصدر رائحة أو حرارة",
-        "ko": "발산하다",
-        "ru": "источать"
-      }
-    },
-    {
-      "word": "grow apart",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "疎遠になる",
-        "en": "to gradually stop being close to someone",
-        "zh": "疏远",
-        "fr": "s'éloigner l'un de l'autre",
-        "ar": "يتباعد عن",
-        "ko": "사이가 멀어지다",
-        "ru": "отдаляться друг от друга"
-      }
-    },
-    {
-      "word": "hammer out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "苦労して合意する",
-        "en": "to reach an agreement after effort",
-        "zh": "艰难达成（协议）",
-        "fr": "élaborer avec effort",
-        "ar": "يتوصل إلى اتفاق بجهد",
-        "ko": "애써서 합의를 이끌어내다",
-        "ru": "с трудом выработать"
-      }
-    },
-    {
-      "word": "hinge on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "~次第である",
-        "en": "to depend entirely on one factor",
-        "zh": "取决于",
-        "fr": "dépendre entièrement de",
-        "ar": "يتوقف كليًا على",
-        "ko": "~에 달려 있다",
-        "ru": "полностью зависеть от"
-      }
-    },
-    {
-      "word": "hold up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "持ちこたえる、遅らせる",
-        "en": "to remain valid, or to delay something",
-        "zh": "站得住脚，耽搁",
-        "fr": "tenir bon, retarder",
-        "ar": "يصمد، يؤخر",
-        "ko": "버티다, 지연시키다",
-        "ru": "держаться, задерживать"
-      }
-    },
-    {
-      "word": "kick off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "開始する",
-        "en": "to start an event",
-        "zh": "开始",
-        "fr": "démarrer",
-        "ar": "يبدأ",
-        "ko": "시작하다",
-        "ru": "начинать"
-      }
-    },
-    {
-      "word": "lash out at",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "激しく非難する",
-        "en": "to suddenly criticize angrily",
-        "zh": "猛烈抨击",
-        "fr": "s'en prendre violemment à",
-        "ar": "ينتقد بشدة",
-        "ko": "격렬히 비난하다",
-        "ru": "набрасываться на"
-      }
-    },
-    {
-      "word": "level off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "横ばいになる",
-        "en": "to stop increasing or decreasing",
-        "zh": "趋于平稳",
-        "fr": "se stabiliser",
-        "ar": "يستقر عند مستوى ثابت",
-        "ko": "안정되다",
-        "ru": "стабилизироваться"
-      }
-    },
-    {
-      "word": "linger on",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "長く残る",
-        "en": "to remain longer than expected",
-        "zh": "挥之不去",
-        "fr": "persister",
-        "ar": "يستمر لفترة أطول",
-        "ko": "오래 남아있다",
-        "ru": "затягиваться, оставаться"
-      }
-    },
-    {
-      "word": "live off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "~で生計を立てる",
-        "en": "to survive using a specific resource",
-        "zh": "靠…维生",
-        "fr": "vivre de",
-        "ar": "يعيش على",
-        "ko": "~로 생계를 유지하다",
-        "ru": "жить за счёт"
-      }
-    },
-    {
-      "word": "map out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "計画を立てる",
-        "en": "to plan something in detail",
-        "zh": "规划",
-        "fr": "planifier en détail",
-        "ar": "يخطط بالتفصيل",
-        "ko": "계획을 세우다",
-        "ru": "детально спланировать"
-      }
-    },
-    {
-      "word": "mull over",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "じっくり考える",
-        "en": "to think about something for a long time",
-        "zh": "仔细考虑",
-        "fr": "ruminer une idée",
-        "ar": "يتأمل مليًا",
-        "ko": "곰곰이 생각하다",
-        "ru": "размышлять над"
-      }
-    },
-    {
-      "word": "open up to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "心を開く",
-        "en": "to start sharing feelings honestly",
-        "zh": "敞开心扉",
-        "fr": "s'ouvrir à",
-        "ar": "يفصح بمشاعره لـ",
-        "ko": "마음을 열다",
-        "ru": "открываться кому-то"
-      }
-    },
-    {
-      "word": "pan out",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "結果的にうまくいく",
-        "en": "to develop in a particular way",
-        "zh": "结果如何",
-        "fr": "tourner (bien ou mal)",
-        "ar": "ينتهي بطريقة معينة",
-        "ko": "결과가 나오다",
-        "ru": "складываться (об исходе)"
-      }
-    },
-    {
-      "word": "pass up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "見送る",
-        "en": "to decline an opportunity",
-        "zh": "放弃（机会）",
-        "fr": "laisser passer (une occasion)",
-        "ar": "يفوت فرصة",
-        "ko": "기회를 놓치다",
-        "ru": "упускать возможность"
-      }
-    },
-    {
-      "word": "patch up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "仲直りする、修復する",
-        "en": "to repair a relationship or problem",
-        "zh": "修补关系",
-        "fr": "réparer, se réconcilier",
-        "ar": "يصلح العلاقة",
-        "ko": "관계를 회복하다",
-        "ru": "налаживать отношения"
-      }
-    },
-    {
-      "word": "piece together",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "つなぎ合わせる",
-        "en": "to combine parts to understand something",
-        "zh": "拼凑",
-        "fr": "reconstituer",
-        "ar": "يجمع القطع لفهم",
-        "ko": "짜맞추다",
-        "ru": "собирать по кусочкам"
-      }
-    },
-    {
-      "word": "play down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "軽視する",
-        "en": "to make something seem less important",
-        "zh": "淡化",
-        "fr": "minimiser",
-        "ar": "يقلل من أهمية",
-        "ko": "경시하다",
-        "ru": "преуменьшать"
-      }
-    },
-    {
-      "word": "play up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "誇張する",
-        "en": "to emphasize something more than needed",
-        "zh": "夸大",
-        "fr": "exagérer l'importance",
-        "ar": "يبالغ في",
-        "ko": "과장하다",
-        "ru": "преувеличивать"
-      }
-    },
-    {
-      "word": "press ahead with",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "押し進める",
-        "en": "to continue despite difficulty",
-        "zh": "坚持推进",
-        "fr": "aller de l'avant avec",
-        "ar": "يمضي قدمًا في",
-        "ko": "밀어붙이다",
-        "ru": "продвигаться вперёд, несмотря на трудности"
-      }
-    },
-    {
-      "word": "round off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "締めくくる",
-        "en": "to finish something nicely",
-        "zh": "圆满结束",
-        "fr": "conclure",
-        "ar": "يختتم بشكل جيد",
-        "ko": "마무리 짓다",
-        "ru": "завершать"
-      }
-    },
-    {
-      "word": "shrug off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "気にせず受け流す",
-        "en": "to treat something as unimportant",
-        "zh": "不当回事",
-        "fr": "ne pas se soucier de",
-        "ar": "يتجاهل بلا مبالاة",
-        "ko": "대수롭지 않게 넘기다",
-        "ru": "не придавать значения"
-      }
-    },
-    {
-      "word": "size up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "見極める",
-        "en": "to assess a situation or person",
-        "zh": "评估",
-        "fr": "évaluer",
-        "ar": "يقيّم الموقف",
-        "ko": "가늠하다",
-        "ru": "оценивать"
-      }
-    },
-    {
-      "word": "spring up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "次々と現れる",
-        "en": "to appear suddenly and quickly",
-        "zh": "迅速涌现",
-        "fr": "surgir soudainement",
-        "ar": "يظهر فجأة",
-        "ko": "우후죽순 생겨나다",
-        "ru": "внезапно появляться"
-      }
-    },
-    {
-      "word": "square up to",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "正面から向き合う",
-        "en": "to confront a difficult situation directly",
-        "zh": "正视",
-        "fr": "faire face à",
-        "ar": "يواجه مباشرة",
-        "ko": "정면으로 맞서다",
-        "ru": "смело встречать"
-      }
-    },
-    {
-      "word": "stave off",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "食い止める",
-        "en": "to prevent something bad temporarily",
-        "zh": "暂时阻止",
-        "fr": "repousser (un problème)",
-        "ar": "يؤخر حدوث شيء سيء",
-        "ko": "막아내다",
-        "ru": "отсрочить (плохое)"
-      }
-    },
-    {
-      "word": "tide over",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "急場をしのぐ",
-        "en": "to help someone through a hard period",
-        "zh": "帮助渡过难关",
-        "fr": "aider à passer un cap",
-        "ar": "يساعد على تجاوز فترة صعبة",
-        "ko": "어려운 시기를 넘기게 하다",
-        "ru": "помочь продержаться"
-      }
-    },
-    {
-      "word": "wind down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "徐々に終える、くつろぐ",
-        "en": "to gradually reduce activity, or relax",
-        "zh": "逐渐结束，放松",
-        "fr": "ralentir, se détendre",
-        "ar": "يهدأ تدريجيًا، يسترخي",
-        "ko": "서서히 끝내다, 긴장을 풀다",
-        "ru": "постепенно сворачивать, расслабляться"
-      }
-    }
-  ]
+  {
+   "word": "bring up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "育てる",
+    "en": "to raise a child",
+    "zh": "抚养",
+    "fr": "élever un enfant",
+    "ar": "يربي",
+    "ko": "양육하다",
+    "ru": "воспитывать"
+   }
+  },
+  {
+   "word": "carry out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "実行する",
+    "en": "to perform a task or plan",
+    "zh": "执行",
+    "fr": "exécuter",
+    "ar": "ينفّذ",
+    "ko": "수행하다",
+    "ru": "осуществлять"
+   }
+  },
+  {
+   "word": "come about",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "起こる",
+    "en": "to happen, especially unexpectedly",
+    "zh": "发生",
+    "fr": "se produire",
+    "ar": "يحدث",
+    "ko": "일어나다",
+    "ru": "происходить"
+   }
+  },
+  {
+   "word": "come down to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "結局は～次第だ",
+    "en": "to have something as the main factor",
+    "zh": "归结为",
+    "fr": "se résumer à",
+    "ar": "يعود إلى",
+    "ko": "결국 ~로 귀결되다",
+    "ru": "сводиться к"
+   }
+  },
+  {
+   "word": "come up against",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "直面する",
+    "en": "to encounter a difficulty",
+    "zh": "遭遇",
+    "fr": "se heurter à",
+    "ar": "يواجه",
+    "ko": "부딪히다",
+    "ru": "сталкиваться с"
+   }
+  },
+  {
+   "word": "cut back on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "減らす",
+    "en": "to reduce the amount of something",
+    "zh": "削减",
+    "fr": "réduire",
+    "ar": "يقلل من",
+    "ko": "줄이다",
+    "ru": "сокращать"
+   }
+  },
+  {
+   "word": "cut off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "遮断する",
+    "en": "to stop a supply or connection",
+    "zh": "切断",
+    "fr": "couper",
+    "ar": "يقطع",
+    "ko": "차단하다",
+    "ru": "отключать"
+   }
+  },
+  {
+   "word": "draw up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "作成する",
+    "en": "to prepare a formal document",
+    "zh": "起草",
+    "fr": "rédiger",
+    "ar": "يصيغ",
+    "ko": "작성하다",
+    "ru": "составлять"
+   }
+  },
+  {
+   "word": "drag on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "長引く",
+    "en": "to continue for too long",
+    "zh": "拖延",
+    "fr": "s'éterniser",
+    "ar": "يستمر طويلاً",
+    "ko": "질질 끌다",
+    "ru": "затягиваться"
+   }
+  },
+  {
+   "word": "fall behind",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "遅れをとる",
+    "en": "to fail to keep up with a pace",
+    "zh": "落后",
+    "fr": "prendre du retard",
+    "ar": "يتأخر عن",
+    "ko": "뒤처지다",
+    "ru": "отставать"
+   }
+  },
+  {
+   "word": "fall through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "実現しない",
+    "en": "to fail to happen as planned",
+    "zh": "落空",
+    "fr": "tomber à l'eau",
+    "ar": "يفشل ولا يتم",
+    "ko": "무산되다",
+    "ru": "срываться"
+   }
+  },
+  {
+   "word": "follow through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "最後までやり遂げる",
+    "en": "to complete an action as planned",
+    "zh": "贯彻到底",
+    "fr": "aller jusqu'au bout",
+    "ar": "يتابع حتى النهاية",
+    "ko": "끝까지 이행하다",
+    "ru": "доводить до конца"
+   }
+  },
+  {
+   "word": "follow up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "追跡調査する",
+    "en": "to take further action after something",
+    "zh": "跟进",
+    "fr": "faire un suivi",
+    "ar": "يتابع الأمر",
+    "ko": "후속 조치를 하다",
+    "ru": "следить за развитием"
+   }
+  },
+  {
+   "word": "get ahead",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "先んじる",
+    "en": "to make progress and succeed",
+    "zh": "领先",
+    "fr": "prendre de l'avance",
+    "ar": "يتقدم",
+    "ko": "앞서가다",
+    "ru": "продвигаться вперёд"
+   }
+  },
+  {
+   "word": "get around",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "回避する、移動する",
+    "en": "to avoid a rule, or to travel from place to place",
+    "zh": "绕开，四处走动",
+    "fr": "contourner, se déplacer",
+    "ar": "يتحايل، يتنقل",
+    "ko": "피해가다, 돌아다니다",
+    "ru": "обходить, передвигаться"
+   }
+  },
+  {
+   "word": "get by",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "何とかやっていく",
+    "en": "to manage with limited resources",
+    "zh": "勉强维持",
+    "fr": "se débrouiller",
+    "ar": "يتدبر أمره",
+    "ko": "그럭저럭 지내다",
+    "ru": "перебиваться"
+   }
+  },
+  {
+   "word": "get down to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "本腰を入れる",
+    "en": "to start focusing seriously on something",
+    "zh": "认真开始处理",
+    "fr": "se mettre sérieusement à",
+    "ar": "يبدأ بجدية في",
+    "ko": "진지하게 착수하다",
+    "ru": "взяться всерьёз за"
+   }
+  },
+  {
+   "word": "give away",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "うっかり漏らす、無料であげる",
+    "en": "to reveal a secret, or to give for free",
+    "zh": "泄露，赠送",
+    "fr": "révéler, donner gratuitement",
+    "ar": "يكشف سرًا، يهدي",
+    "ko": "무심코 드러내다, 나눠주다",
+    "ru": "выдавать секрет, отдавать бесплатно"
+   }
+  },
+  {
+   "word": "give in",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "屈する",
+    "en": "to finally agree after resisting",
+    "zh": "屈服",
+    "fr": "céder",
+    "ar": "يستسلم لـ",
+    "ko": "굴복하다",
+    "ru": "уступать"
+   }
+  },
+  {
+   "word": "hold back",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "抑える",
+    "en": "to stop yourself from doing something",
+    "zh": "抑制",
+    "fr": "se retenir",
+    "ar": "يتردد، يكبح",
+    "ko": "억누르다",
+    "ru": "сдерживаться"
+   }
+  },
+  {
+   "word": "iron out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "解決する",
+    "en": "to resolve small problems",
+    "zh": "解决问题",
+    "fr": "aplanir",
+    "ar": "يحل التفاصيل",
+    "ko": "해결하다",
+    "ru": "улаживать"
+   }
+  },
+  {
+   "word": "keep up with",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "遅れずについていく",
+    "en": "to stay updated with something changing",
+    "zh": "跟上…的步伐",
+    "fr": "se tenir au courant de",
+    "ar": "يواكب",
+    "ko": "~에 뒤처지지 않다",
+    "ru": "не отставать от"
+   }
+  },
+  {
+   "word": "knuckle down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "本気で取り組む",
+    "en": "to start working seriously",
+    "zh": "认真努力",
+    "fr": "s'y mettre sérieusement",
+    "ar": "يجتهد بجدية",
+    "ko": "본격적으로 매달리다",
+    "ru": "взяться за дело серьёзно"
+   }
+  },
+  {
+   "word": "lay off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "解雇する",
+    "en": "to dismiss employees from a job",
+    "zh": "裁员",
+    "fr": "licencier",
+    "ar": "يسرّح موظفًا",
+    "ko": "해고하다",
+    "ru": "увольнять"
+   }
+  },
+  {
+   "word": "live up to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "期待に応える",
+    "en": "to be as good as expected",
+    "zh": "不辜负期望",
+    "fr": "être à la hauteur de",
+    "ar": "يرقى إلى مستوى",
+    "ko": "기대에 부응하다",
+    "ru": "оправдывать ожидания"
+   }
+  },
+  {
+   "word": "look down on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "見下す",
+    "en": "to feel superior to someone",
+    "zh": "看不起",
+    "fr": "mépriser",
+    "ar": "يحتقر",
+    "ko": "얕보다",
+    "ru": "смотреть свысока"
+   }
+  },
+  {
+   "word": "look into",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "調査する",
+    "en": "to investigate something carefully",
+    "zh": "调查",
+    "fr": "examiner",
+    "ar": "يحقق في",
+    "ko": "조사하다",
+    "ru": "расследовать"
+   }
+  },
+  {
+   "word": "make up for",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "埋め合わせる",
+    "en": "to compensate for something lost",
+    "zh": "弥补",
+    "fr": "compenser",
+    "ar": "يعوّض عن",
+    "ko": "만회하다",
+    "ru": "компенсировать"
+   }
+  },
+  {
+   "word": "narrow down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "絞り込む",
+    "en": "to reduce the number of options",
+    "zh": "缩小范围",
+    "fr": "réduire le choix",
+    "ar": "يضيّق الخيارات",
+    "ko": "범위를 좁히다",
+    "ru": "сужать"
+   }
+  },
+  {
+   "word": "opt out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "参加しない選択をする",
+    "en": "to choose not to take part",
+    "zh": "选择退出",
+    "fr": "se désengager",
+    "ar": "ينسحب من",
+    "ko": "참여하지 않기로 하다",
+    "ru": "отказываться от участия"
+   }
+  },
+  {
+   "word": "phase out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "段階的に廃止する",
+    "en": "to remove something gradually",
+    "zh": "逐步淘汰",
+    "fr": "supprimer progressivement",
+    "ar": "يلغي تدريجيًا",
+    "ko": "단계적으로 폐지하다",
+    "ru": "постепенно отменять"
+   }
+  },
+  {
+   "word": "pull off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "成功させる",
+    "en": "to succeed at something difficult",
+    "zh": "成功做到",
+    "fr": "réussir un coup difficile",
+    "ar": "ينجح في أمر صعب",
+    "ko": "해내다",
+    "ru": "успешно осуществить"
+   }
+  },
+  {
+   "word": "pull through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "切り抜ける",
+    "en": "to survive a difficult situation",
+    "zh": "渡过难关",
+    "fr": "s'en sortir",
+    "ar": "يتجاوز محنة",
+    "ko": "이겨내다",
+    "ru": "выкарабкаться"
+   }
+  },
+  {
+   "word": "push through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "押し通す",
+    "en": "to force something to be approved",
+    "zh": "强行推动通过",
+    "fr": "faire passer en force",
+    "ar": "يمرر بالقوة",
+    "ko": "강행하다",
+    "ru": "проталкивать"
+   }
+  },
+  {
+   "word": "put forward",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "提案する",
+    "en": "to suggest an idea for consideration",
+    "zh": "提出",
+    "fr": "proposer",
+    "ar": "يطرح فكرة",
+    "ko": "제시하다",
+    "ru": "выдвигать"
+   }
+  },
+  {
+   "word": "rule out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "除外する",
+    "en": "to eliminate a possibility",
+    "zh": "排除",
+    "fr": "exclure",
+    "ar": "يستبعد",
+    "ko": "배제하다",
+    "ru": "исключать"
+   }
+  },
+  {
+   "word": "scale back",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "規模を縮小する",
+    "en": "to reduce the size of something",
+    "zh": "缩减规模",
+    "fr": "réduire l'ampleur",
+    "ar": "يقلص",
+    "ko": "규모를 축소하다",
+    "ru": "сокращать масштаб"
+   }
+  },
+  {
+   "word": "see through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "やり遂げる、見抜く",
+    "en": "to complete something, or to detect deception",
+    "zh": "坚持到底，看穿",
+    "fr": "mener à bien, percer à jour",
+    "ar": "يتم أمرًا، يكتشف الحقيقة",
+    "ko": "끝까지 해내다, 꿰뚫어보다",
+    "ru": "довести до конца, раскусить"
+   }
+  },
+  {
+   "word": "set aside",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "取っておく",
+    "en": "to save something for later use",
+    "zh": "留出",
+    "fr": "mettre de côté",
+    "ar": "يخصص",
+    "ko": "따로 두다",
+    "ru": "откладывать"
+   }
+  },
+  {
+   "word": "set off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "出発する、引き起こす",
+    "en": "to start a journey, or to trigger something",
+    "zh": "出发，引发",
+    "fr": "partir, déclencher",
+    "ar": "ينطلق، يتسبب في",
+    "ko": "출발하다, 유발하다",
+    "ru": "отправляться, вызывать"
+   }
+  },
+  {
+   "word": "single out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "特に取り上げる",
+    "en": "to select one person for special attention",
+    "zh": "特别挑出",
+    "fr": "distinguer particulièrement",
+    "ar": "يخص بالذكر",
+    "ko": "특별히 지목하다",
+    "ru": "выделять особо"
+   }
+  },
+  {
+   "word": "sort out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "解決する、整理する",
+    "en": "to resolve or organize something",
+    "zh": "解决，整理",
+    "fr": "régler, trier",
+    "ar": "يرتب، يحل",
+    "ko": "해결하다, 정리하다",
+    "ru": "улаживать, разбирать"
+   }
+  },
+  {
+   "word": "stem from",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "~に由来する",
+    "en": "to originate from a cause",
+    "zh": "源于",
+    "fr": "découler de",
+    "ar": "ينبع من",
+    "ko": "~에서 비롯되다",
+    "ru": "проистекать из"
+   }
+  },
+  {
+   "word": "take on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "引き受ける",
+    "en": "to accept a responsibility or challenge",
+    "zh": "承担",
+    "fr": "prendre en charge",
+    "ar": "يتولى مهمة",
+    "ko": "떠맡다",
+    "ru": "брать на себя"
+   }
+  },
+  {
+   "word": "tie up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "手一杯にする",
+    "en": "to keep someone busy or occupied",
+    "zh": "占用（时间）",
+    "fr": "occuper (quelqu'un)",
+    "ar": "يشغل الوقت",
+    "ko": "바쁘게 만들다",
+    "ru": "занимать (время)"
+   }
+  },
+  {
+   "word": "touch on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "軽く触れる",
+    "en": "to mention a topic briefly",
+    "zh": "稍微提及",
+    "fr": "aborder brièvement",
+    "ar": "يلمّح إلى",
+    "ko": "간단히 언급하다",
+    "ru": "вскользь упомянуть"
+   }
+  },
+  {
+   "word": "weigh up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "比較検討する",
+    "en": "to consider options carefully before deciding",
+    "zh": "权衡",
+    "fr": "peser le pour et le contre",
+    "ar": "يزن الخيارات",
+    "ko": "저울질하다",
+    "ru": "взвешивать"
+   }
+  },
+  {
+   "word": "work through",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "じっくり取り組む",
+    "en": "to deal with something step by step",
+    "zh": "逐步处理",
+    "fr": "régler étape par étape",
+    "ar": "يعالج تدريجيًا",
+    "ko": "차근차근 해결하다",
+    "ru": "прорабатывать"
+   }
+  },
+  {
+   "word": "account for",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "説明する、割合を占める",
+    "en": "to explain, or to make up a proportion",
+    "zh": "解释，占比",
+    "fr": "expliquer, représenter",
+    "ar": "يفسر، يمثل نسبة",
+    "ko": "설명하다, 차지하다",
+    "ru": "объяснять, составлять долю"
+   }
+  },
+  {
+   "word": "act up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "調子が悪くなる",
+    "en": "to behave badly or malfunction",
+    "zh": "出毛病",
+    "fr": "faire des siennes",
+    "ar": "يتصرف بشكل سيئ",
+    "ko": "말썽을 부리다",
+    "ru": "барахлить"
+   }
+  },
+  {
+   "word": "back down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "譲歩する",
+    "en": "to stop insisting on a position",
+    "zh": "让步",
+    "fr": "reculer, céder",
+    "ar": "يتراجع عن موقفه",
+    "ko": "물러서다",
+    "ru": "уступать в споре"
+   }
+  },
+  {
+   "word": "bank on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "当てにする",
+    "en": "to rely on something happening",
+    "zh": "指望",
+    "fr": "compter sur",
+    "ar": "يعتمد على حدوث شيء",
+    "ko": "기대하다",
+    "ru": "рассчитывать на"
+   }
+  },
+  {
+   "word": "boil down to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "要するに～になる",
+    "en": "to have as the essential point",
+    "zh": "归根结底是",
+    "fr": "se résumer à",
+    "ar": "يختصر إلى",
+    "ko": "결국 ~로 요약되다",
+    "ru": "сводиться к сути"
+   }
+  },
+  {
+   "word": "branch out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "活動範囲を広げる",
+    "en": "to expand into new areas",
+    "zh": "拓展业务",
+    "fr": "se diversifier",
+    "ar": "يتوسع في مجال جديد",
+    "ko": "사업을 확장하다",
+    "ru": "расширять деятельность"
+   }
+  },
+  {
+   "word": "brush up on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "学び直す",
+    "en": "to improve a skill you once had",
+    "zh": "温习",
+    "fr": "se remettre à niveau",
+    "ar": "يجدد معرفته بـ",
+    "ko": "복습하다",
+    "ru": "освежать знания"
+   }
+  },
+  {
+   "word": "burn out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "燃え尽きる",
+    "en": "to become exhausted from overwork",
+    "zh": "精疲力竭",
+    "fr": "s'épuiser",
+    "ar": "يصاب بالإرهاق",
+    "ko": "번아웃되다",
+    "ru": "перегорать"
+   }
+  },
+  {
+   "word": "chip in",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "少しずつ出し合う",
+    "en": "to contribute money or help",
+    "zh": "凑钱，帮忙",
+    "fr": "participer financièrement",
+    "ar": "يساهم بمبلغ",
+    "ko": "조금씩 보태다",
+    "ru": "скидываться"
+   }
+  },
+  {
+   "word": "clamp down on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "取り締まる",
+    "en": "to take strict action against something",
+    "zh": "严厉打击",
+    "fr": "réprimer",
+    "ar": "يشدد الإجراءات ضد",
+    "ko": "단속하다",
+    "ru": "принимать жёсткие меры против"
+   }
+  },
+  {
+   "word": "come off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "うまくいく、外れる",
+    "en": "to succeed, or to detach",
+    "zh": "成功，脱落",
+    "fr": "réussir, se détacher",
+    "ar": "ينجح، ينفصل",
+    "ko": "성공하다, 떨어지다",
+    "ru": "удаваться, отваливаться"
+   }
+  },
+  {
+   "word": "crack down on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "厳しく取り締まる",
+    "en": "to enforce rules more strictly",
+    "zh": "严厉打击",
+    "fr": "sévir contre",
+    "ar": "يشدد على",
+    "ko": "엄중히 단속하다",
+    "ru": "закручивать гайки против"
+   }
+  },
+  {
+   "word": "cross paths with",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "偶然出会う",
+    "en": "to happen to meet someone",
+    "zh": "与…相遇",
+    "fr": "croiser le chemin de",
+    "ar": "يلتقي مصادفة بـ",
+    "ko": "마주치다",
+    "ru": "пересекаться с"
+   }
+  },
+  {
+   "word": "delve into",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "深く掘り下げる",
+    "en": "to research something in detail",
+    "zh": "深入探讨",
+    "fr": "se plonger dans",
+    "ar": "يتعمق في",
+    "ko": "깊이 파고들다",
+    "ru": "углубляться в"
+   }
+  },
+  {
+   "word": "dwell on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "くよくよ考える",
+    "en": "to think too long about something negative",
+    "zh": "老想着",
+    "fr": "s'attarder sur",
+    "ar": "يسترسل في التفكير في",
+    "ko": "오래 곱씹다",
+    "ru": "зацикливаться на"
+   }
+  },
+  {
+   "word": "even out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "平均化する",
+    "en": "to become balanced or equal over time",
+    "zh": "趋于平衡",
+    "fr": "s'équilibrer",
+    "ar": "يتوازن",
+    "ko": "고르게 되다",
+    "ru": "выравниваться"
+   }
+  },
+  {
+   "word": "factor in",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "計算に入れる",
+    "en": "to include as part of a calculation",
+    "zh": "考虑进去",
+    "fr": "prendre en compte",
+    "ar": "يأخذ بعين الاعتبار",
+    "ko": "셈에 넣다",
+    "ru": "учитывать в расчёте"
+   }
+  },
+  {
+   "word": "fend off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "かわす",
+    "en": "to defend against something unwanted",
+    "zh": "抵挡",
+    "fr": "repousser",
+    "ar": "يصد",
+    "ko": "막아내다",
+    "ru": "отражать"
+   }
+  },
+  {
+   "word": "fizzle out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "尻すぼみになる",
+    "en": "to gradually fail or end weakly",
+    "zh": "逐渐消失",
+    "fr": "s'essouffler",
+    "ar": "يخفت تدريجيًا",
+    "ko": "흐지부지되다",
+    "ru": "сходить на нет"
+   }
+  },
+  {
+   "word": "flesh out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "肉付けする",
+    "en": "to add more detail to an idea",
+    "zh": "充实内容",
+    "fr": "étoffer",
+    "ar": "يفصّل الفكرة",
+    "ko": "구체화하다",
+    "ru": "развивать детали"
+   }
+  },
+  {
+   "word": "gear up for",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "準備をする",
+    "en": "to prepare for an event",
+    "zh": "为…做准备",
+    "fr": "se préparer pour",
+    "ar": "يستعد لـ",
+    "ko": "준비하다",
+    "ru": "готовиться к"
+   }
+  },
+  {
+   "word": "get across",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "理解させる",
+    "en": "to make an idea understood",
+    "zh": "讲清楚",
+    "fr": "faire comprendre",
+    "ar": "يوصل فكرة بوضوح",
+    "ko": "이해시키다",
+    "ru": "донести мысль"
+   }
+  },
+  {
+   "word": "get on with",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "仲良くやる、続ける",
+    "en": "to have a good relationship, or continue a task",
+    "zh": "相处好，继续做",
+    "fr": "bien s'entendre, poursuivre",
+    "ar": "ينسجم مع، يواصل",
+    "ko": "잘 지내다, 계속하다",
+    "ru": "ладить, продолжать"
+   }
+  },
+  {
+   "word": "give off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "発する",
+    "en": "to produce a smell, heat, or light",
+    "zh": "散发出",
+    "fr": "dégager (odeur, chaleur)",
+    "ar": "يصدر رائحة أو حرارة",
+    "ko": "발산하다",
+    "ru": "источать"
+   }
+  },
+  {
+   "word": "grow apart",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "疎遠になる",
+    "en": "to gradually stop being close to someone",
+    "zh": "疏远",
+    "fr": "s'éloigner l'un de l'autre",
+    "ar": "يتباعد عن",
+    "ko": "사이가 멀어지다",
+    "ru": "отдаляться друг от друга"
+   }
+  },
+  {
+   "word": "hammer out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "苦労して合意する",
+    "en": "to reach an agreement after effort",
+    "zh": "艰难达成（协议）",
+    "fr": "élaborer avec effort",
+    "ar": "يتوصل إلى اتفاق بجهد",
+    "ko": "애써서 합의를 이끌어내다",
+    "ru": "с трудом выработать"
+   }
+  },
+  {
+   "word": "hinge on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "~次第である",
+    "en": "to depend entirely on one factor",
+    "zh": "取决于",
+    "fr": "dépendre entièrement de",
+    "ar": "يتوقف كليًا على",
+    "ko": "~에 달려 있다",
+    "ru": "полностью зависеть от"
+   }
+  },
+  {
+   "word": "hold up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "持ちこたえる、遅らせる",
+    "en": "to remain valid, or to delay something",
+    "zh": "站得住脚，耽搁",
+    "fr": "tenir bon, retarder",
+    "ar": "يصمد، يؤخر",
+    "ko": "버티다, 지연시키다",
+    "ru": "держаться, задерживать"
+   }
+  },
+  {
+   "word": "kick off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "開始する",
+    "en": "to start an event",
+    "zh": "开始",
+    "fr": "démarrer",
+    "ar": "يبدأ",
+    "ko": "시작하다",
+    "ru": "начинать"
+   }
+  },
+  {
+   "word": "lash out at",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "激しく非難する",
+    "en": "to suddenly criticize angrily",
+    "zh": "猛烈抨击",
+    "fr": "s'en prendre violemment à",
+    "ar": "ينتقد بشدة",
+    "ko": "격렬히 비난하다",
+    "ru": "набрасываться на"
+   }
+  },
+  {
+   "word": "level off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "横ばいになる",
+    "en": "to stop increasing or decreasing",
+    "zh": "趋于平稳",
+    "fr": "se stabiliser",
+    "ar": "يستقر عند مستوى ثابت",
+    "ko": "안정되다",
+    "ru": "стабилизироваться"
+   }
+  },
+  {
+   "word": "linger on",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "長く残る",
+    "en": "to remain longer than expected",
+    "zh": "挥之不去",
+    "fr": "persister",
+    "ar": "يستمر لفترة أطول",
+    "ko": "오래 남아있다",
+    "ru": "затягиваться, оставаться"
+   }
+  },
+  {
+   "word": "live off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "~で生計を立てる",
+    "en": "to survive using a specific resource",
+    "zh": "靠…维生",
+    "fr": "vivre de",
+    "ar": "يعيش على",
+    "ko": "~로 생계를 유지하다",
+    "ru": "жить за счёт"
+   }
+  },
+  {
+   "word": "map out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "計画を立てる",
+    "en": "to plan something in detail",
+    "zh": "规划",
+    "fr": "planifier en détail",
+    "ar": "يخطط بالتفصيل",
+    "ko": "계획을 세우다",
+    "ru": "детально спланировать"
+   }
+  },
+  {
+   "word": "mull over",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "じっくり考える",
+    "en": "to think about something for a long time",
+    "zh": "仔细考虑",
+    "fr": "ruminer une idée",
+    "ar": "يتأمل مليًا",
+    "ko": "곰곰이 생각하다",
+    "ru": "размышлять над"
+   }
+  },
+  {
+   "word": "open up to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "心を開く",
+    "en": "to start sharing feelings honestly",
+    "zh": "敞开心扉",
+    "fr": "s'ouvrir à",
+    "ar": "يفصح بمشاعره لـ",
+    "ko": "마음을 열다",
+    "ru": "открываться кому-то"
+   }
+  },
+  {
+   "word": "pan out",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "結果的にうまくいく",
+    "en": "to develop in a particular way",
+    "zh": "结果如何",
+    "fr": "tourner (bien ou mal)",
+    "ar": "ينتهي بطريقة معينة",
+    "ko": "결과가 나오다",
+    "ru": "складываться (об исходе)"
+   }
+  },
+  {
+   "word": "pass up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "見送る",
+    "en": "to decline an opportunity",
+    "zh": "放弃（机会）",
+    "fr": "laisser passer (une occasion)",
+    "ar": "يفوت فرصة",
+    "ko": "기회를 놓치다",
+    "ru": "упускать возможность"
+   }
+  },
+  {
+   "word": "patch up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "仲直りする、修復する",
+    "en": "to repair a relationship or problem",
+    "zh": "修补关系",
+    "fr": "réparer, se réconcilier",
+    "ar": "يصلح العلاقة",
+    "ko": "관계를 회복하다",
+    "ru": "налаживать отношения"
+   }
+  },
+  {
+   "word": "piece together",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "つなぎ合わせる",
+    "en": "to combine parts to understand something",
+    "zh": "拼凑",
+    "fr": "reconstituer",
+    "ar": "يجمع القطع لفهم",
+    "ko": "짜맞추다",
+    "ru": "собирать по кусочкам"
+   }
+  },
+  {
+   "word": "play down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "軽視する",
+    "en": "to make something seem less important",
+    "zh": "淡化",
+    "fr": "minimiser",
+    "ar": "يقلل من أهمية",
+    "ko": "경시하다",
+    "ru": "преуменьшать"
+   }
+  },
+  {
+   "word": "play up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "誇張する",
+    "en": "to emphasize something more than needed",
+    "zh": "夸大",
+    "fr": "exagérer l'importance",
+    "ar": "يبالغ في",
+    "ko": "과장하다",
+    "ru": "преувеличивать"
+   }
+  },
+  {
+   "word": "press ahead with",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "押し進める",
+    "en": "to continue despite difficulty",
+    "zh": "坚持推进",
+    "fr": "aller de l'avant avec",
+    "ar": "يمضي قدمًا في",
+    "ko": "밀어붙이다",
+    "ru": "продвигаться вперёд, несмотря на трудности"
+   }
+  },
+  {
+   "word": "round off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "締めくくる",
+    "en": "to finish something nicely",
+    "zh": "圆满结束",
+    "fr": "conclure",
+    "ar": "يختتم بشكل جيد",
+    "ko": "마무리 짓다",
+    "ru": "завершать"
+   }
+  },
+  {
+   "word": "shrug off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "気にせず受け流す",
+    "en": "to treat something as unimportant",
+    "zh": "不当回事",
+    "fr": "ne pas se soucier de",
+    "ar": "يتجاهل بلا مبالاة",
+    "ko": "대수롭지 않게 넘기다",
+    "ru": "не придавать значения"
+   }
+  },
+  {
+   "word": "size up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "見極める",
+    "en": "to assess a situation or person",
+    "zh": "评估",
+    "fr": "évaluer",
+    "ar": "يقيّم الموقف",
+    "ko": "가늠하다",
+    "ru": "оценивать"
+   }
+  },
+  {
+   "word": "spring up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "次々と現れる",
+    "en": "to appear suddenly and quickly",
+    "zh": "迅速涌现",
+    "fr": "surgir soudainement",
+    "ar": "يظهر فجأة",
+    "ko": "우후죽순 생겨나다",
+    "ru": "внезапно появляться"
+   }
+  },
+  {
+   "word": "square up to",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "正面から向き合う",
+    "en": "to confront a difficult situation directly",
+    "zh": "正视",
+    "fr": "faire face à",
+    "ar": "يواجه مباشرة",
+    "ko": "정면으로 맞서다",
+    "ru": "смело встречать"
+   }
+  },
+  {
+   "word": "stave off",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "食い止める",
+    "en": "to prevent something bad temporarily",
+    "zh": "暂时阻止",
+    "fr": "repousser (un problème)",
+    "ar": "يؤخر حدوث شيء سيء",
+    "ko": "막아내다",
+    "ru": "отсрочить (плохое)"
+   }
+  },
+  {
+   "word": "tide over",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "急場をしのぐ",
+    "en": "to help someone through a hard period",
+    "zh": "帮助渡过难关",
+    "fr": "aider à passer un cap",
+    "ar": "يساعد على تجاوز فترة صعبة",
+    "ko": "어려운 시기를 넘기게 하다",
+    "ru": "помочь продержаться"
+   }
+  },
+  {
+   "word": "wind down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "徐々に終える、くつろぐ",
+    "en": "to gradually reduce activity, or relax",
+    "zh": "逐渐结束，放松",
+    "fr": "ralentir, se détendre",
+    "ar": "يهدأ تدريجيًا، يسترخي",
+    "ko": "서서히 끝내다, 긴장을 풀다",
+    "ru": "постепенно сворачивать, расслабляться"
+   }
+  }
+ ]
 }

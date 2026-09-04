@@ -288,12 +288,42 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .stp-labs span.on{color:var(--tab-on)}
 .set-row.stack .stepper{width:100%}
 .mk-chips{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
-.mk-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
+.mk-chip,.rg-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
   background:var(--surface);color:var(--muted);border-radius:99px;padding:5px 11px;
   font-size:12.5px;font-weight:600;cursor:pointer}
 .mk-chip svg{width:13px;height:13px}
 .mk-chip.on.m-fav{color:var(--mk-fav);border-color:var(--mk-fav);background:var(--mk-fav-bg)}
 .mk-chip.on.m-hard{color:var(--mk-hard);border-color:var(--mk-hard);background:var(--mk-hard-bg)}
+.rg-chips{margin-bottom:6px}
+.rg-chip .rf{font-size:13px;line-height:1}
+.rg-chip.on{color:var(--ink-strong);border-color:var(--fill);background:var(--surface-2)}
+.rg-chip:not(.on){opacity:.45;border-style:dashed}
+/* Three colours, not six: the letter already says the step, and the band --
+   A getting by, B holding your own, C reading the literature -- is the part
+   worth seeing at a glance. Reuses the mode accents so the app keeps one
+   palette. */
+.lv-A1,.lv-A2{--lv:var(--acc-teal);--lv-bg:var(--acc-teal-bg)}
+.lv-B1,.lv-B2{--lv:var(--acc-blue);--lv-bg:var(--acc-blue-bg)}
+.lv-C1,.lv-C2{--lv:var(--acc-violet);--lv-bg:var(--acc-violet-bg)}
+.cefr-badge{position:absolute;top:10px;inset-inline-end:12px;
+  font-size:10.5px;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:6px;
+  color:var(--lv);background:var(--lv-bg);border:1px solid var(--lv)}
+.deck-sec-row{display:flex;align-items:center;gap:6px}
+.cefr-i{border:0;background:none;padding:2px;margin:0;line-height:0;cursor:pointer;color:var(--muted)}
+.cefr-i svg{width:15px;height:15px;display:block}
+.cefr-i:hover{color:var(--ink-strong)}
+.cefr-tbl{display:flex;flex-direction:column;gap:8px}
+.cefr-row{display:flex;gap:11px;align-items:flex-start;padding:10px 11px;border-radius:11px;
+  border:1px solid var(--line);background:var(--surface);opacity:.55}
+.cefr-row.has{opacity:1;border-color:var(--lv);background:var(--lv-bg)}
+.cefr-k{flex:none;width:34px;text-align:center;font-size:13px;font-weight:800;letter-spacing:.5px;
+  padding:4px 0;border-radius:7px;color:#fff;background:var(--lv)}
+.cefr-t{font-size:12.5px;line-height:1.55;color:var(--muted)}
+.cefr-t b{display:block;font-size:13.5px;color:var(--ink-strong);margin-bottom:1px}
+.cefr-n{display:inline-block;margin-top:4px;font-style:normal;font-size:11px;font-weight:700;color:var(--lv)}
+.pts-row{--lv:var(--accent);--lv-bg:var(--surface-2)}
+.pts-k{width:42px;font-size:14px}
+.rk-i{margin-inline-start:2px;align-self:center}
 .tag-mark{display:inline-flex;align-items:center;gap:3px;background:var(--ghost-bg);color:var(--muted)}
 .tag-mark svg{width:11px;height:11px}
 .tag-mark.m-fav{color:var(--mk-fav);background:var(--mk-fav-bg)}
@@ -1062,7 +1092,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 .deck-item{position:relative;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;
   padding:13px 15px;font-family:inherit;cursor:pointer}
 .deck-item.on{border-color:var(--ink-strong);background:var(--surface-2)}
-.deck-item .dp-title{font-size:15px;font-weight:600;color:var(--ink-strong)}
+.deck-item .dp-title{font-size:15px;font-weight:600;color:var(--ink-strong);padding-inline-end:46px}
 /* Marks a package whose words are not on this device. Deliberately quiet: it
    says "this will be fetched", not "something is wrong". */
 .dp-dl{display:inline-flex;vertical-align:middle;margin-left:7px;opacity:.5;line-height:0}
@@ -1195,6 +1225,12 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <h3 id="wnTitle" style="text-align:center"></h3>
   <ul class="whatsnew-list" id="wnList"></ul>
   <button class="btn btn-primary" id="wnOk"></button>
+</div></div>
+<div class="overlay" id="overlayCefr"><div class="sheet sheet-wide">
+  <h3 id="cefrTitle" style="text-align:center;margin-bottom:4px"></h3>
+  <p class="hint" id="cefrLead" style="text-align:center;margin:0 0 14px"></p>
+  <div id="cefrBody"></div>
+  <button class="btn btn-primary" id="cefrOk" style="margin-top:16px;width:100%"></button>
 </div></div>
 <div class="overlay" id="overlayMenu"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="menu_title">メニュー</h3><button class="sheet-x" id="menuClose" type="button" aria-label="close">×</button></div>
@@ -1440,7 +1476,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.56.0';
+const APP_VERSION='5.57.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1453,7 +1489,8 @@ const APP_VERSION='5.56.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.56.0',date:'2026-09-04',keys:['wn1'],show:true},
+  {version:'5.57.0',date:'2026-09-04',keys:['wn1'],show:true},
+  {version:'5.56.0',date:'2026-09-04',keys:['v5560_1'],show:true},
   {version:'5.55.0',date:'2026-09-04',keys:['v5550_1'],show:true},
   {version:'5.54.0',date:'2026-09-03',keys:['v5540_1']},
   {version:'5.53.0',date:'2026-09-03',keys:['v5530_1']},
@@ -1467,6 +1504,17 @@ const CHANGELOG=[
 // days land on 1/3/7/14/26/47/82/142/232. Same length as before, so existing
 // box indices stay valid and nothing needs migrating.
 const INTERVALS=[1,2,4,7,12,21,35,60,90]; // days
+// What one answered question is worth on the board. Four-choice is the easiest
+// format and the fastest to grind, so a board counting raw answers just ranked
+// whoever tapped through the most multiple choice. These weights follow how
+// much work the format actually is, and how much of the word it makes you
+// produce: recognising one meaning out of four is worth least, spelling it out
+// from nothing is worth most.
+const QUIZ_PTS={choice:1,listen:1.5,spell:2,dictation:2};
+// An entry written before this existed has no format on it. Those count as 1,
+// which is exactly what the board was already counting them as -- so nobody's
+// standing moves the day this ships.
+function histPts(h){const v=QUIZ_PTS[h&&h.q];return typeof v==='number'?v:1;}
 const MARKS=['fav','hard'];
 // The stops on the round-size slider. 0 means "everything due".
 const LEN_STEPS=()=>[{v:5,n:'5'},{v:10,n:'10'},{v:20,n:'20'},{v:0,n:t('len_all')}];
@@ -1559,7 +1607,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語パッケージを2つ追加しました。<b>「AI・生成AIの英単語」</b>と<b>「英語スラング」</b>です。スラングは<b>アメリカ・イギリス・オーストラリア</b>の国旗で分かれていて、出題する国を選べます。<b>きつい言葉は最初は出てきません</b>。設定か出題前の画面でオンにできます。',en:'Two new packs: <b>AI and Generative AI</b>, plus <b>English Slang</b>. The slang is split by flag into <b>American, British and Australian</b>, and you can pick which countries to be quizzed on. <b>Coarse words stay hidden until you ask for them</b> — the switch is in Settings, or on the screen before a round.',zh:'新增两个单词包：<b>「人工智能与生成式AI」</b>和<b>「英语俚语」</b>。俚语按国旗分为<b>美国、英国、澳大利亚</b>，可以选择出题的国家。<b>粗俗用语默认不出现</b>，可在设置或出题前的画面打开。',fr:'Deux nouveaux packs : <b>« IA et IA générative »</b> et <b>« Argot anglais »</b>. L\'argot est trié par drapeau entre <b>États-Unis, Royaume-Uni et Australie</b>, et vous choisissez les pays à réviser. <b>Le langage cru reste masqué</b> jusqu\'à ce que vous l\'activiez, dans les réglages ou juste avant une série.',ar:'حزمتان جديدتان: <b>«الذكاء الاصطناعي والتوليدي»</b> و<b>«العامية الإنجليزية»</b>. العامية مقسمة بالأعلام إلى <b>أمريكية وبريطانية وأسترالية</b>، ويمكنك اختيار الدول التي تُختبر فيها. <b>الألفاظ النابية مخفية</b> حتى تطلبها من الإعدادات أو من شاشة ما قبل الجولة.',ko:'단어 패키지를 2개 추가했습니다. <b>«AI와 생성형 AI»</b>와 <b>«영어 슬랭»</b>입니다. 슬랭은 <b>미국·영국·호주</b> 국기로 나뉘어 있어 출제할 나라를 고를 수 있습니다. <b>거친 말은 처음에는 나오지 않습니다</b>. 설정이나 출제 전 화면에서 켤 수 있습니다.',ru:'Два новых набора: <b>«ИИ и генеративный ИИ»</b> и <b>«Английский сленг»</b>. Сленг разделён флагами на <b>американский, британский и австралийский</b> — можно выбрать, какие страны спрашивать. <b>Грубые слова спрятаны</b>, пока вы их не включите: в настройках или на экране перед раундом.'},
+  wn1:{ja:'スラングを<b>国別に絞って</b>学べるようになりました。単語一覧の国旗を押すと、その国だけ／その国を外して覚えられます。パッケージには<b>CEFRの難易度</b>が付きました。ⓘを押すと各レベルの説明が出ます。ランキングは<b>ポイント制</b>になり、スペル入力やディクテーションなど難しい形式ほど高く入ります。これまでの記録は1問1ptとして引き継がれます。',en:'Slang can now be studied <b>one country at a time</b> — tap a flag in the word list to keep or drop it. Every pack shows a <b>CEFR level</b>, and the ⓘ beside the heading explains what each level means. The board is now scored in <b>points</b>: harder formats like spelling and dictation are worth more than multiple choice. Everything you answered before counts as 1 point each.',zh:'俚语现在可以<b>按国家筛选</b>学习了——在单词列表点国旗即可只留或排除该国。每个单词包都标注了<b>CEFR 难度</b>，点标题旁的 ⓘ 可看各等级说明。排行榜改为<b>积分制</b>，拼写输入、听写等较难题型得分更高。此前的记录一律按每题 1 分计入。',fr:'L\'argot se révise maintenant <b>pays par pays</b> : touchez un drapeau dans la liste pour le garder ou l\'écarter. Chaque pack affiche un <b>niveau CECR</b>, et le ⓘ à côté du titre explique ce que chacun signifie. Le classement se compte désormais en <b>points</b> : l\'orthographe et la dictée valent plus que le choix multiple. Tout ce que vous avez déjà répondu compte 1 point.',ar:'يمكنك الآن دراسة العامية <b>حسب الدولة</b>: اضغط على العلم في قائمة الكلمات لإبقائه أو استبعاده. كل حزمة تعرض <b>مستوى الإطار الأوروبي</b>، وزر ⓘ بجانب العنوان يشرح كل مستوى. وصارت اللوحة تُحتسب بـ<b>النقاط</b>: الإملاء والديكتيه أعلى من الاختيار من متعدد. وكل ما أجبت عنه سابقًا يُحتسب بنقطة واحدة.',ko:'슬랭을 <b>나라별로 골라</b> 학습할 수 있게 됐습니다. 단어 목록의 국기를 누르면 그 나라만 남기거나 뺄 수 있습니다. 각 패키지에는 <b>CEFR 난이도</b>가 붙었고, 제목 옆 ⓘ를 누르면 레벨 설명이 나옵니다. 랭킹은 <b>포인트제</b>가 되어 스펠링 입력이나 딕테이션처럼 어려운 형식일수록 높게 들어갑니다. 이전 기록은 문제당 1pt로 이어집니다.',ru:'Сленг теперь можно учить <b>по странам</b>: нажмите флаг в списке слов, чтобы оставить или убрать её. У каждого набора появился <b>уровень CEFR</b>, а ⓘ рядом с заголовком объясняет, что каждый уровень значит. Рейтинг считается в <b>очках</b>: написание и диктант весят больше, чем выбор из четырёх. Всё отвеченное раньше засчитано по 1 очку.'},
+  v5560_1:{ja:'単語パッケージを2つ追加しました。<b>「AI・生成AIの英単語」</b>と<b>「英語スラング」</b>です。スラングは<b>アメリカ・イギリス・オーストラリア</b>の国旗で分かれていて、出題する国を選べます。<b>きつい言葉は最初は出てきません</b>。設定か出題前の画面でオンにできます。',en:'Two new packs: <b>AI and Generative AI</b>, plus <b>English Slang</b>. The slang is split by flag into <b>American, British and Australian</b>, and you can pick which countries to be quizzed on. <b>Coarse words stay hidden until you ask for them</b> — the switch is in Settings, or on the screen before a round.',zh:'新增两个单词包：<b>「人工智能与生成式AI」</b>和<b>「英语俚语」</b>。俚语按国旗分为<b>美国、英国、澳大利亚</b>，可以选择出题的国家。<b>粗俗用语默认不出现</b>，可在设置或出题前的画面打开。',fr:'Deux nouveaux packs : <b>« IA et IA générative »</b> et <b>« Argot anglais »</b>. L\'argot est trié par drapeau entre <b>États-Unis, Royaume-Uni et Australie</b>, et vous choisissez les pays à réviser. <b>Le langage cru reste masqué</b> jusqu\'à ce que vous l\'activiez, dans les réglages ou juste avant une série.',ar:'حزمتان جديدتان: <b>«الذكاء الاصطناعي والتوليدي»</b> و<b>«العامية الإنجليزية»</b>. العامية مقسمة بالأعلام إلى <b>أمريكية وبريطانية وأسترالية</b>، ويمكنك اختيار الدول التي تُختبر فيها. <b>الألفاظ النابية مخفية</b> حتى تطلبها من الإعدادات أو من شاشة ما قبل الجولة.',ko:'단어 패키지를 2개 추가했습니다. <b>«AI와 생성형 AI»</b>와 <b>«영어 슬랭»</b>입니다. 슬랭은 <b>미국·영국·호주</b> 국기로 나뉘어 있어 출제할 나라를 고를 수 있습니다. <b>거친 말은 처음에는 나오지 않습니다</b>. 설정이나 출제 전 화면에서 켤 수 있습니다.',ru:'Два новых набора: <b>«ИИ и генеративный ИИ»</b> и <b>«Английский сленг»</b>. Сленг разделён флагами на <b>американский, британский и австралийский</b> — можно выбрать, какие страны спрашивать. <b>Грубые слова спрятаны</b>, пока вы их не включите: в настройках или на экране перед раундом.'},
   v5550_1:{ja:'単語パッケージを<b>4つ追加</b>しました。「職場での会話とトラブル」「大学の授業と課題」「寮とキャンパス生活」「アカデミック頻出語」、それぞれ100語です。「IT・テックの英単語」も50語から<b>100語</b>に増えました。',en:'Four new packs: <b>Workplace Talk & Problems</b>, <b>University Classes & Coursework</b>, <b>Dorm & Campus Life</b> and <b>Core Academic Vocabulary</b> — a hundred words each. The tech pack has doubled to <b>100 words</b> as well.',zh:'新增<b>4个单词包</b>：「职场沟通与问题」「大学课程与作业」「宿舍与校园生活」「学术高频词」，每个100词。「IT科技英语」也从50词增加到<b>100词</b>。',fr:'<b>Quatre nouveaux packs</b> : « Communication et problèmes au travail », « Cours et travaux universitaires », « Vie en résidence et sur le campus » et « Vocabulaire académique essentiel », cent mots chacun. Le pack tech passe lui aussi à <b>100 mots</b>.',ar:'<b>أربع حزم جديدة</b>: «التواصل والمشكلات في العمل» و«المحاضرات والواجبات الجامعية» و«الحياة في السكن الجامعي والحرم» و«المفردات الأكاديمية الأساسية»، مئة كلمة لكل منها. وحزمة التقنية صارت <b>100 كلمة</b> أيضًا.',ko:'단어 패키지를 <b>4개 추가</b>했습니다. «직장 대화와 문제 상황» «대학 수업과 과제» «기숙사와 캠퍼스 생활» «학술 필수 어휘», 각각 100단어입니다. «IT·테크 영단어»도 50단어에서 <b>100단어</b>로 늘었습니다.',ru:'<b>Четыре новых набора</b>: «Общение и проблемы на работе», «Учёба и задания в университете», «Общежитие и жизнь в кампусе» и «Ключевая академическая лексика» — по сто слов в каждом. Набор про технологии тоже вырос до <b>100 слов</b>.'},
   v5540_1:{ja:'新しい単語パッケージ<b>「カフェ・レストランで働く」</b>を追加しました。「ご注文はお決まりですか」「店内で？お持ち帰りで？」から、うしろ通ります、まかない、締め作業まで100語。ワーホリで一番多い職種の、勤務中に実際に飛び交う言葉です。',en:'A new pack: <b>Working in Cafés & Restaurants</b>. A hundred words from “are you ready to order” and “for here or takeaway” through “behind you”, staff meals and closing duties — the language actually flying around during a shift, in the job most people on a working holiday end up doing.',zh:'新增单词包<b>「在咖啡馆和餐厅工作」</b>。从「可以点单了吗」「堂食还是外带」到「我在你后面」、员工餐、打烊工作，共100个词——打工度假最常见工种在上班时真正会用到的话。',fr:'Un nouveau pack : <b>« Travailler en café et restaurant »</b>. Cent mots, de « vous avez choisi ? » et « sur place ou à emporter ? » à « derrière toi ! », au repas du personnel et aux tâches de fermeture : la langue qui circule vraiment pendant un service.',ar:'حزمة جديدة: <b>«العمل في المقاهي والمطاعم»</b>. مئة كلمة، من «هل أنت مستعد للطلب؟» و«هنا أم للأخذ؟» إلى «خلفك» ووجبة الموظفين ومهام الإغلاق — اللغة التي تتردد فعلًا أثناء المناوبة.',ko:'새 단어 패키지 <b>«카페·레스토랑에서 일하기»</b>를 더했습니다. «주문하시겠어요?» «드시고 가시나요?»부터 «뒤에 지나갑니다», 직원 식사, 마감 업무까지 100단어. 워킹홀리데이에서 가장 흔한 직종에서 근무 중 실제로 오가는 말입니다.',ru:'Новый набор: <b>«Работа в кафе и ресторанах»</b>. Сто слов — от «готовы сделать заказ?» и «здесь или с собой?» до «я сзади», питания для персонала и обязанностей при закрытии: та речь, что действительно звучит в смену.'},
   v5530_1:{ja:'日本語以外で使っているとき、4択の選択肢に<b>別の言語が混ざることがあったのを直しました</b>。あわせて、選択肢の元になる語がぐっと増えています——これまでパッケージの語が選択肢に使われていなかったので、日本語以外では候補が乏しくなっていました。',en:'Fixed the four options sometimes <b>mixing in another language</b> when the app is not in Japanese. The pool they are drawn from also grew a lot: package words were never reaching the options at all, which left slim pickings in every other language.',zh:'修复了在非日语界面下，四个选项<b>有时混入其他语言</b>的问题。同时可选词源大幅增加——此前单词包中的词根本没有进入选项，导致其他语言下候选很少。',fr:'Correction : les quatre options <b>mélangeaient parfois une autre langue</b> quand l’app n’est pas en japonais. Le vivier dans lequel elles sont puisées s’est aussi beaucoup élargi — les mots des packs n’y arrivaient jamais, ce qui appauvrissait toutes les autres langues.',ar:'أُصلح <b>اختلاط لغة أخرى</b> أحيانًا في الخيارات الأربعة حين لا يكون التطبيق باليابانية. كما اتّسع المخزون الذي تُسحب منه كثيرًا؛ فكلمات الحزم لم تكن تصل إلى الخيارات أصلًا، ما جعل البدائل شحيحة في بقية اللغات.',ko:'일본어가 아닌 언어로 쓸 때 4택 선택지에 <b>다른 언어가 섞이던 것을 고쳤습니다</b>. 아울러 선택지의 원천이 크게 늘었습니다——그동안 패키지의 단어가 선택지에 전혀 쓰이지 않아 다른 언어에서는 후보가 빈약했습니다.',ru:'Исправлено: в четырёх вариантах <b>иногда появлялся другой язык</b>, когда приложение не на японском. Заодно сильно вырос набор, из которого они берутся, — слова из наборов вообще не попадали в варианты, отчего на других языках выбор был скудным.'},
@@ -1899,6 +1948,23 @@ const T={
   btn_reshuffle:{ja:'シャッフルし直す',en:'Reshuffle',zh:'重新洗牌',fr:'Remélanger',ar:'إعادة الخلط',ko:'다시 섞기',ru:'Перемешать заново'},
   no_meaning:{ja:'意味メモがありません',en:'No meaning saved',zh:'没有意思备注',fr:'Aucun sens enregistré',ar:'لا يوجد معنى محفوظ',ko:'저장된 뜻이 없습니다',ru:'Значение не сохранено'},
 
+  n_packages:{ja:'このアプリに{0}個',en:'{0} pack(s) here',zh:'本应用有 {0} 个',fr:'{0} pack(s) ici',ar:'{0} حزمة هنا',ko:'이 앱에 {0}개',ru:'{0} набор(ов) здесь'},
+  cefr_title:{ja:'CEFRレベルとは',en:'What the CEFR levels mean',zh:'CEFR等级是什么',fr:'Que signifient les niveaux CECR',ar:'ما معنى مستويات الإطار الأوروبي',ko:'CEFR 레벨이란',ru:'Что означают уровни CEFR'},
+  cefr_lead:{ja:'ヨーロッパで作られた、世界共通の語学レベルの目安です。A1がいちばんやさしく、C2がいちばん上です。',en:'A worldwide scale for language ability, made in Europe. A1 is the easiest, C2 the highest.',zh:'源自欧洲、通行世界的语言水平标准。A1 最简单，C2 最高。',fr:'Une échelle internationale du niveau de langue, née en Europe. A1 est le plus simple, C2 le plus élevé.',ar:'مقياس عالمي لمستوى اللغة نشأ في أوروبا. A1 هو الأسهل وC2 هو الأعلى.',ko:'유럽에서 만들어져 세계에서 쓰이는 어학 수준 기준입니다. A1이 가장 쉽고 C2가 가장 높습니다.',ru:'Международная шкала владения языком, созданная в Европе. A1 — самый простой уровень, C2 — самый высокий.'},
+  cefr_col_can:{ja:'できるようになること',en:'What you can do',zh:'能做到什么',fr:'Ce que vous savez faire',ar:'ما تستطيع فعله',ko:'할 수 있는 것',ru:'Что вы можете'},
+  cefr_A1:{ja:'入門',en:'Beginner',zh:'入门',fr:'Débutant',ar:'مبتدئ',ko:'입문',ru:'Начальный'},
+  cefr_A2:{ja:'初級',en:'Elementary',zh:'初级',fr:'Élémentaire',ar:'أساسي',ko:'초급',ru:'Базовый'},
+  cefr_B1:{ja:'中級',en:'Intermediate',zh:'中级',fr:'Intermédiaire',ar:'متوسط',ko:'중급',ru:'Средний'},
+  cefr_B2:{ja:'中上級',en:'Upper intermediate',zh:'中高级',fr:'Intermédiaire supérieur',ar:'فوق المتوسط',ko:'중상급',ru:'Выше среднего'},
+  cefr_C1:{ja:'上級',en:'Advanced',zh:'高级',fr:'Avancé',ar:'متقدم',ko:'고급',ru:'Продвинутый'},
+  cefr_C2:{ja:'最上級',en:'Mastery',zh:'精通',fr:'Maîtrise',ar:'إتقان',ko:'최상급',ru:'В совершенстве'},
+  cefr_A1_d:{ja:'あいさつや自己紹介など、決まった言い方が使える。',en:'Greetings, introductions and set phrases.',zh:'会打招呼、自我介绍等固定说法。',fr:'Salutations, présentations et phrases toutes faites.',ar:'التحيات والتعريف بالنفس والعبارات الجاهزة.',ko:'인사와 자기소개 등 정해진 표현을 쓸 수 있습니다.',ru:'Приветствия, знакомство и готовые фразы.'},
+  cefr_A2_d:{ja:'買い物や道案内など、身近な場面のやりとりができる。',en:'Everyday exchanges like shopping and directions.',zh:'能应付购物、问路等日常场景。',fr:'Échanges quotidiens : achats, indications.',ar:'التعاملات اليومية كالتسوق والسؤال عن الطريق.',ko:'쇼핑이나 길 묻기 등 일상적인 대화가 가능합니다.',ru:'Бытовое общение: покупки, дорога.'},
+  cefr_B1_d:{ja:'旅行や職場でのたいていの場面を、自分の言葉で切り抜けられる。',en:'You can get through most situations at work or while travelling.',zh:'旅行和工作中的多数场面都能应付。',fr:'Vous vous débrouillez dans la plupart des situations, au travail ou en voyage.',ar:'تتدبر معظم المواقف في العمل أو السفر.',ko:'여행이나 직장에서 대부분의 상황을 넘길 수 있습니다.',ru:'Справляетесь с большинством ситуаций на работе и в поездках.'},
+  cefr_B2_d:{ja:'込み入った話題でも議論でき、母語話者とふつうに話が続く。',en:'You can argue a complex point and hold a natural conversation.',zh:'能讨论复杂话题，与母语者自然交谈。',fr:'Vous argumentez sur des sujets complexes et conversez naturellement.',ar:'تناقش موضوعات معقدة وتحاور الناطقين بطلاقة.',ko:'복잡한 주제도 논할 수 있고 원어민과 자연스럽게 대화합니다.',ru:'Обсуждаете сложные темы и свободно говорите с носителями.'},
+  cefr_C1_d:{ja:'論文や仕事の文書を、言葉に詰まらずに読み書きできる。',en:'You read and write academic or professional texts without stalling.',zh:'能顺畅读写论文与工作文件。',fr:'Vous lisez et rédigez des textes universitaires ou professionnels sans bloquer.',ar:'تقرأ وتكتب النصوص الأكاديمية والمهنية بسلاسة.',ko:'논문이나 업무 문서를 막힘없이 읽고 씁니다.',ru:'Читаете и пишете научные и рабочие тексты без запинок.'},
+  cefr_C2_d:{ja:'細かいニュアンスまで含めて、母語話者と変わらず扱える。',en:'You handle fine shades of meaning like a native speaker.',zh:'能像母语者一样把握细微差别。',fr:'Vous maniez les nuances comme un locuteur natif.',ar:'تتعامل مع أدق الفروق كالناطق الأصلي.',ko:'미묘한 뉘앙스까지 원어민처럼 다룹니다.',ru:'Владеете тончайшими оттенками, как носитель.'},
+  cefr_here:{ja:'このアプリのパッケージがある範囲',en:'Where this app\'s packages sit',zh:'本应用单词包所在的范围',fr:'Où se situent les packs de cette app',ar:'نطاق حزم هذا التطبيق',ko:'이 앱의 패키지가 있는 범위',ru:'Где находятся наборы этого приложения'},
   qs_filters:{ja:'スラングの絞り込み',en:'Slang filters',zh:'俚语筛选',fr:'Filtres d\'argot',ar:'تصفية العامية',ko:'슬랭 필터',ru:'Фильтры сленга'},
   qs_regions:{ja:'出題する国',en:'Which countries',zh:'出题国家',fr:'Quels pays',ar:'أي الدول',ko:'출제할 나라',ru:'Какие страны'},
   reg_all:{ja:'英語圏共通',en:'Everywhere',zh:'通用',fr:'Partout',ar:'مشترك',ko:'공통',ru:'Везде'},
@@ -1932,11 +1998,15 @@ const T={
   btn_next_q:{ja:'次の問題',en:'Next',zh:'下一题',fr:'Suivant',ar:'التالي',ko:'다음 문제',ru:'Далее'},
   rank_tab_mine:{ja:'わたしの記録',en:'My record',zh:'我的记录',fr:'Mon suivi',ar:'سجلّي',ko:'내 기록',ru:'Мои данные'},
   rank_tab_board:{ja:'ランキング',en:'Ranking',zh:'排行榜',fr:'Classement',ar:'الترتيب',ko:'랭킹',ru:'Рейтинг'},
-  rank_m_today:{ja:'今日の復習',en:'Today',zh:'今日复习',fr:'Aujourd’hui',ar:'اليوم',ko:'오늘 복습',ru:'Сегодня'},
-  rank_m_total:{ja:'総復習数',en:'Total reviews',zh:'累计复习',fr:'Total révisé',ar:'إجمالي المراجعات',ko:'총 복습 수',ru:'Всего повторов'},
+  rank_m_today:{ja:'今日のpt',en:'Today',zh:'今日积分',fr:'Aujourd’hui',ar:'اليوم',ko:'오늘 pt',ru:'Сегодня'},
+  rank_m_total:{ja:'総復習pt',en:'Total points',zh:'累计积分',fr:'Points au total',ar:'إجمالي النقاط',ko:'총 복습 pt',ru:'Всего очков'},
   rank_m_words:{ja:'単語数',en:'Words',zh:'单词数',fr:'Mots',ar:'الكلمات',ko:'단어 수',ru:'Слова'},
   rank_m_streak:{ja:'連続日数',en:'Streak',zh:'连续天数',fr:'Série',ar:'أيام متتالية',ko:'연속 일수',ru:'Серия'},
   rank_m_days:{ja:'学習日数',en:'Days studied',zh:'学习天数',fr:'Jours étudiés',ar:'أيام الدراسة',ko:'학습 일수',ru:'Дней занятий'},
+  rank_u_pts:{ja:'{0}pt',en:'{0} pts',zh:'{0} 分',fr:'{0} pts',ar:'{0} نقطة',ko:'{0}pt',ru:'{0} очк.'},
+  pts_title:{ja:'ポイントの決まり',en:'How points are counted',zh:'积分怎么算',fr:'Comment les points sont comptés',ar:'كيف تُحتسب النقاط',ko:'포인트 계산 방식',ru:'Как считаются очки'},
+  pts_lead:{ja:'1問あたりのポイントは出題形式で変わります。むずかしい形式ほど高く、思い出す量が多いほど高くなります。',en:'A question is worth more when the format is harder and makes you produce more of the word.',zh:'每题积分随题型而变：越难、需要自己想出得越多，分数越高。',fr:'Une question vaut plus quand le format est plus exigeant et vous fait produire davantage.',ar:'تزداد قيمة السؤال كلما كان النمط أصعب واستدعى إنتاج المزيد من الكلمة.',ko:'한 문제의 점수는 출제 형식에 따라 다릅니다. 어렵고 더 많이 떠올려야 할수록 높아집니다.',ru:'Вопрос стоит больше, когда формат сложнее и заставляет воспроизвести больше.'},
+  pts_why:{ja:'以前の記録は1問1ptとして数えているので、順位はそのまま引き継がれます。',en:'Everything answered before this counts as 1 point each, so nobody\'s standing moved.',zh:'此前的记录一律按每题 1 分计算，排名不受影响。',fr:'Tout ce qui a été répondu avant compte 1 point, donc aucun classement n\'a bougé.',ar:'كل ما أُجيب قبل ذلك يُحتسب بنقطة واحدة، فلم يتغير ترتيب أحد.',ko:'이전 기록은 문제당 1pt로 계산하므로 순위는 그대로 이어집니다.',ru:'Всё, отвеченное раньше, считается по 1 очку, поэтому места не сдвинулись.'},
   rank_u_times:{ja:'{0}回',en:'{0}',zh:'{0} 次',fr:'{0}',ar:'{0}',ko:'{0}회',ru:'{0}'},
   rank_u_words:{ja:'{0}語',en:'{0}',zh:'{0} 词',fr:'{0}',ar:'{0}',ko:'{0}개',ru:'{0}'},
   rank_u_days:{ja:'{0}日',en:'{0}d',zh:'{0} 天',fr:'{0} j',ar:'{0} ي',ko:'{0}일',ru:'{0} дн.'},
@@ -2608,21 +2678,21 @@ function playAnswerSound(ok){
 // `v` is the content version. Bumping it makes the app re-fetch, and progress
 // survives because it is keyed by the word itself rather than by position.
 const PKG_CATALOG=[
-  {id:'academic_word_list',v:1,count:100,title:{ja:'アカデミック頻出語',en:'Core Academic Vocabulary',zh:'学术高频词',fr:'Vocabulaire académique essentiel',ar:'المفردات الأكاديمية الأساسية',ko:'학술 필수 어휘',ru:'Ключевая академическая лексика'}},
-  {id:'ai_en',v:1,count:50,title:{ja:'AI・生成AIの英単語',en:'AI & Generative AI',zh:'人工智能与生成式AI',fr:'IA et IA générative',ar:'الذكاء الاصطناعي والتوليدي',ko:'AI와 생성형 AI',ru:'ИИ и генеративный ИИ'}},
-  {id:'campus_and_dorm',v:1,count:100,title:{ja:'寮とキャンパス生活',en:'Dorm & Campus Life',zh:'宿舍与校园生活',fr:'Vie en résidence et sur le campus',ar:'الحياة في السكن الجامعي والحرم',ko:'기숙사와 캠퍼스 생활',ru:'Общежитие и жизнь в кампусе'}},
-  {id:'common_phrasal_verbs',v:1,count:100,title:{ja:'会話でよく使う句動詞 初中級編',en:'Common Phrasal Verbs, Everyday',zh:'日常会话常用短语动词（初中级）',fr:'Verbes à particule courants (débutant)',ar:'أفعال مركبة شائعة في المحادثة (مبتدئ)',ko:'대화에서 자주 쓰는 구동사 (초중급)',ru:'Частые фразовые глаголы (начальный)'}},
-  {id:'common_phrasal_verbs_part2',v:1,count:100,title:{ja:'会話でよく使う句動詞 中上級編',en:'Common Phrasal Verbs, Advanced',zh:'日常会话常用短语动词（中高级）',fr:'Verbes à particule courants (avancé)',ar:'أفعال مركبة شائعة في المحادثة (متقدم)',ko:'대화에서 자주 쓰는 구동사 (중상급)',ru:'Частые фразовые глаголы (продвинутый)'}},
-  {id:'conversation_fillers_reactions',v:1,count:100,title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
-  {id:'housing_and_official_procedures',v:1,count:100,title:{ja:'住まい・契約・役所',en:'Housing, Contracts & Government Offices',zh:'住房、合同与政府机关',fr:'Logement, contrats et démarches administratives',ar:'السكن والعقود والدوائر الحكومية',ko:'주거·계약·관공서',ru:'Жильё, договоры и госучреждения'}},
-  {id:'job_hunting_interviews',v:1,count:100,title:{ja:'仕事探しと面接',en:'Job Hunting & Interviews',zh:'找工作与面试',fr:'Recherche d\'emploi et entretiens',ar:'البحث عن عمل والمقابلات',ko:'구직과 면접',ru:'Поиск работы и собеседования'}},
-  {id:'slang_en',v:1,count:100,title:{ja:'英語スラング',en:'English Slang',zh:'英语俚语',fr:'Argot anglais',ar:'العامية الإنجليزية',ko:'영어 슬랭',ru:'Английский сленг'}},
-  {id:'studyabroad',v:1,count:148,title:{ja:'語学留学の英単語',en:'Study Abroad English',zh:'留学英语单词',fr:'Vocabulaire anglais pour étudier à l’étranger',ar:'مفردات إنجليزية للدراسة في الخارج',ko:'어학연수 영단어',ru:'Английская лексика для учёбы за рубежом'}},
-  {id:'tech_en',v:1,count:100,title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
-  {id:'university_coursework',v:1,count:100,title:{ja:'大学の授業と課題',en:'University Classes & Coursework',zh:'大学课程与作业',fr:'Cours et travaux universitaires',ar:'المحاضرات والواجبات الجامعية',ko:'대학 수업과 과제',ru:'Учёба и задания в университете'}},
-  {id:'working_in_hospitality',v:1,count:100,title:{ja:'カフェ・レストランで働く',en:'Working in Cafés & Restaurants',zh:'在咖啡馆和餐厅工作',fr:'Travailler en café et restaurant',ar:'العمل في المقاهي والمطاعم',ko:'카페·레스토랑에서 일하기',ru:'Работа в кафе и ресторанах'}},
-  {id:'workingholiday_en',v:1,count:106,title:{ja:'ワーホリで使える英単語 Part1',en:'Working Holiday English Words Part1',zh:'打工度假英语单词 Part1',fr:'Vocabulaire anglais pour un visa vacances-travail',ar:'مفردات إنجليزية لعطلة العمل',ko:'워킹홀리데이 영단어',ru:'Английские слова для рабочей поездки'}},
-  {id:'workplace_issues',v:1,count:100,title:{ja:'職場での会話とトラブル',en:'Workplace Talk & Problems',zh:'职场沟通与问题',fr:'Communication et problèmes au travail',ar:'التواصل والمشكلات في العمل',ko:'직장 대화와 문제 상황',ru:'Общение и проблемы на работе'}},
+  {id:'academic_word_list',v:1,count:100,cefr:'C1',title:{ja:'アカデミック頻出語',en:'Core Academic Vocabulary',zh:'学术高频词',fr:'Vocabulaire académique essentiel',ar:'المفردات الأكاديمية الأساسية',ko:'학술 필수 어휘',ru:'Ключевая академическая лексика'}},
+  {id:'ai_en',v:1,count:50,cefr:'B2',title:{ja:'AI・生成AIの英単語',en:'AI & Generative AI',zh:'人工智能与生成式AI',fr:'IA et IA générative',ar:'الذكاء الاصطناعي والتوليدي',ko:'AI와 생성형 AI',ru:'ИИ и генеративный ИИ'}},
+  {id:'campus_and_dorm',v:1,count:100,cefr:'B1',title:{ja:'寮とキャンパス生活',en:'Dorm & Campus Life',zh:'宿舍与校园生活',fr:'Vie en résidence et sur le campus',ar:'الحياة في السكن الجامعي والحرم',ko:'기숙사와 캠퍼스 생활',ru:'Общежитие и жизнь в кампусе'}},
+  {id:'common_phrasal_verbs',v:1,count:100,cefr:'A2',title:{ja:'会話でよく使う句動詞 初中級編',en:'Common Phrasal Verbs, Everyday',zh:'日常会话常用短语动词（初中级）',fr:'Verbes à particule courants (débutant)',ar:'أفعال مركبة شائعة في المحادثة (مبتدئ)',ko:'대화에서 자주 쓰는 구동사 (초중급)',ru:'Частые фразовые глаголы (начальный)'}},
+  {id:'common_phrasal_verbs_part2',v:1,count:100,cefr:'B2',title:{ja:'会話でよく使う句動詞 中上級編',en:'Common Phrasal Verbs, Advanced',zh:'日常会话常用短语动词（中高级）',fr:'Verbes à particule courants (avancé)',ar:'أفعال مركبة شائعة في المحادثة (متقدم)',ko:'대화에서 자주 쓰는 구동사 (중상급)',ru:'Частые фразовые глаголы (продвинутый)'}},
+  {id:'conversation_fillers_reactions',v:1,count:100,cefr:'A2',title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
+  {id:'housing_and_official_procedures',v:1,count:100,cefr:'B1',title:{ja:'住まい・契約・役所',en:'Housing, Contracts & Government Offices',zh:'住房、合同与政府机关',fr:'Logement, contrats et démarches administratives',ar:'السكن والعقود والدوائر الحكومية',ko:'주거·계약·관공서',ru:'Жильё, договоры и госучреждения'}},
+  {id:'job_hunting_interviews',v:1,count:100,cefr:'B1',title:{ja:'仕事探しと面接',en:'Job Hunting & Interviews',zh:'找工作与面试',fr:'Recherche d\'emploi et entretiens',ar:'البحث عن عمل والمقابلات',ko:'구직과 면접',ru:'Поиск работы и собеседования'}},
+  {id:'slang_en',v:1,count:100,cefr:'B2',title:{ja:'英語スラング',en:'English Slang',zh:'英语俚语',fr:'Argot anglais',ar:'العامية الإنجليزية',ko:'영어 슬랭',ru:'Английский сленг'}},
+  {id:'studyabroad',v:1,count:148,cefr:'A2',title:{ja:'語学留学の英単語',en:'Study Abroad English',zh:'留学英语单词',fr:'Vocabulaire anglais pour étudier à l’étranger',ar:'مفردات إنجليزية للدراسة في الخارج',ko:'어학연수 영단어',ru:'Английская лексика для учёбы за рубежом'}},
+  {id:'tech_en',v:1,count:100,cefr:'B2',title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
+  {id:'university_coursework',v:1,count:100,cefr:'B2',title:{ja:'大学の授業と課題',en:'University Classes & Coursework',zh:'大学课程与作业',fr:'Cours et travaux universitaires',ar:'المحاضرات والواجبات الجامعية',ko:'대학 수업과 과제',ru:'Учёба и задания в университете'}},
+  {id:'working_in_hospitality',v:1,count:100,cefr:'B1',title:{ja:'カフェ・レストランで働く',en:'Working in Cafés & Restaurants',zh:'在咖啡馆和餐厅工作',fr:'Travailler en café et restaurant',ar:'العمل في المقاهي والمطاعم',ko:'카페·레스토랑에서 일하기',ru:'Работа в кафе и ресторанах'}},
+  {id:'workingholiday_en',v:1,count:106,cefr:'A2',title:{ja:'ワーホリで使える英単語 Part1',en:'Working Holiday English Words Part1',zh:'打工度假英语单词 Part1',fr:'Vocabulaire anglais pour un visa vacances-travail',ar:'مفردات إنجليزية لعطلة العمل',ko:'워킹홀리데이 영단어',ru:'Английские слова для рабочей поездки'}},
+  {id:'workplace_issues',v:1,count:100,cefr:'B2',title:{ja:'職場での会話とトラブル',en:'Workplace Talk & Problems',zh:'职场沟通与问题',fr:'Communication et problèmes au travail',ar:'التواصل والمشكلات في العمل',ko:'직장 대화와 문제 상황',ru:'Общение и проблемы на работе'}},
 ];
 /* ---- shared decks ---------------------------------------------------------
    A deck somebody published is a package whose author is a user rather than
@@ -3063,6 +3133,7 @@ function renderDeckPicker(){
     return '<button class="deck-item'+(CTX.type==='pkg'&&CTX.id===p.id?' on':'')+(busy?' busy':'')+
       '" data-src="'+p.id+'" data-pkg="'+esc(p.id)+'"'+(busy?' disabled':'')+'>'+
       '<div class="dp-title">'+esc(pkgTitle(p))+(ready?'':'<span class="dp-dl">'+DOWNLOAD_SVG+'</span>')+'</div>'+
+      (p.cefr?'<span class="cefr-badge lv-'+p.cefr+'">'+p.cefr+'</span>':'')+
       '<div class="dp-sub">'+(busy?esc(t('pkg_getting')):t('n_words',p.count|0)+' · '+pct+'%'+esc(state))+'</div>'+
       '<div class="dp-bar"><i style="width:'+pct+'%"></i></div>'+
       (isShared(p.id)?'<span class="dp-x" data-drop="'+esc(p.id)+'" role="button" aria-label="'+esc(t('sh_remove'))+'">&times;</span>':'')+
@@ -3079,9 +3150,14 @@ function renderDeckPicker(){
         '<div class="dp-title">＋ '+esc(t('deck_new'))+'</div>'+
         '<div class="dp-sub">'+esc(t('deck_new_sub'))+'</div></button>'+
       shared+
-      '<div class="deck-sec">'+t('deck_packages')+'</div>'+pkgs+'</div>'+
+      '<div class="deck-sec deck-sec-row">'+t('deck_packages')+
+        '<button class="cefr-i" id="cefrInfo" type="button" aria-label="'+esc(t('cefr_title'))+'">'+
+          INFO_SVG+'</button></div>'+pkgs+'</div>'+
     '<button class="btn btn-ghost" id="deckClose" style="width:100%;margin-top:14px">'+t('close')+'</button>';
   $('#deckNew').onclick=()=>{deckEditing='new';renderDeckPicker();};
+  const ci=$('#cefrInfo');
+  // Stop the click reaching the row behind it, which would switch decks.
+  if(ci)ci.onclick=e=>{e.stopPropagation();openCefrInfo();};
   $$('#deckBody .deck-edit').forEach(b=>b.onclick=e=>{
     e.stopPropagation();
     deckEditing=b.dataset.edit;renderDeckPicker();
@@ -3244,6 +3320,55 @@ function renderDeckEdit(){
     deckEditing=null;renderDeckPicker();renderActiveView();renderCount();
     toast(t('deck_deleted'));
   };
+}
+const INFO_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="0.6" fill="currentColor" stroke="none"/></svg>';
+const CEFR_ORDER=['A1','A2','B1','B2','C1','C2'];
+// A2 to C1 is the range the packages actually cover. The two ends are still
+// listed, because the point of the table is to place those four on a scale --
+// showing only the rows we use would leave "is B2 high or low?" unanswered.
+function cefrLevels(){
+  const have={};
+  PKG_CATALOG.forEach(p=>{if(p.cefr)have[p.cefr]=(have[p.cefr]|0)+1;});
+  return CEFR_ORDER.map(k=>({k,n:have[k]|0}));
+}
+function bindPtsInfo(){
+  const b=$('#ptsInfo');
+  if(b)b.onclick=e=>{e.stopPropagation();openPtsInfo();};
+}
+function openPtsInfo(){
+  $('#cefrTitle').textContent=t('pts_title');
+  $('#cefrLead').textContent=t('pts_lead');
+  $('#cefrOk').textContent=t('close');
+  // Ordered by what a question is worth, so the ranking reads down the page.
+  const rows=[['choice','opt_choice'],['listen','opt_listen'],['spell','opt_spell'],['dictation','opt_dict']]
+    .filter(([k])=>quizModeOk(k))
+    .sort((a,b)=>QUIZ_PTS[a[0]]-QUIZ_PTS[b[0]]);
+  $('#cefrBody').innerHTML='<div class="cefr-tbl">'+rows.map(([k,lab])=>
+    '<div class="cefr-row has pts-row">'+
+      '<div class="cefr-k pts-k">'+QUIZ_PTS[k]+'</div>'+
+      '<div class="cefr-t"><b>'+esc(t(lab))+'</b><span>'+esc(t(lab+'_d'))+'</span></div>'+
+    '</div>').join('')+'</div>'+
+    '<p class="hint" style="margin:12px 2px 0">'+esc(t('pts_why'))+'</p>';
+  $('#cefrOk').onclick=()=>$('#overlayCefr').classList.remove('show');
+  showOverlay('#overlayCefr');
+}
+function openCefrInfo(){
+  $('#cefrTitle').textContent=t('cefr_title');
+  $('#cefrLead').textContent=t('cefr_lead');
+  $('#cefrOk').textContent=t('close');
+  $('#cefrBody').innerHTML='<div class="cefr-tbl">'+cefrLevels().map(({k,n})=>
+    '<div class="cefr-row'+(n?' has':'')+'">'+
+      '<div class="cefr-k lv-'+k+'">'+k+'</div>'+
+      '<div class="cefr-t"><b>'+esc(t('cefr_'+k))+'</b>'+
+        '<span>'+esc(t('cefr_'+k+'_d'))+'</span>'+
+        (n?'<i class="cefr-n">'+esc(t('n_packages',n))+'</i>':'')+
+      '</div>'+
+    '</div>').join('')+'</div>';
+  // Bound here rather than at the top level: $ is declared further down the
+  // file, so touching it while the script is still evaluating throws and takes
+  // the whole app with it.
+  $('#cefrOk').onclick=()=>$('#overlayCefr').classList.remove('show');
+  showOverlay('#overlayCefr');
 }
 function closeDeckPicker(){deckEditing=null;$('#overlayDeck').classList.remove('show');}
 
@@ -4301,6 +4426,33 @@ function bindMarkChips(){
     renderList();
   });
 }
+// The same S().regions the round setup writes, surfaced where the words are.
+// One state rather than a second list-only filter: narrowing to 🇬🇧 here and
+// then tapping through to a round should study 🇬🇧, which is what "filter and
+// learn" means. Only drawn for a package that carries regions, so no other
+// package ever grows a country filter.
+function regionChipsHTML(){
+  if(CTX.type!=='pkg')return '';
+  const regs=pkgRegions(CTX.id);
+  if(!regs.length)return '';
+  const n=r=>(pkgWords(CTX.id)||[]).filter(w=>w.region===r&&wordAllowed(w)).length;
+  return '<div class="mk-chips rg-chips">'+regs.map(r=>
+    '<button class="rg-chip'+(regionOn(r)?' on':'')+'" data-reg="'+r+'" '+
+      'aria-pressed="'+regionOn(r)+'">'+
+      '<span class="rf">'+REGION_FLAGS[r]+'</span>'+esc(t('reg_'+r))+' '+n(r)+
+    '</button>').join('')+'</div>';
+}
+function bindRegionChips(){
+  $$('#listMarks .rg-chip').forEach(b=>b.onclick=()=>{
+    const r=b.dataset.reg, next=Object.assign({},S().regions||{});
+    next[r]=!regionOn(r);
+    // Same guard as the round setup: switching the last country off would empty
+    // the list with no obvious way back.
+    if(!pkgRegions(CTX.id).some(k=>next[k]!==false)){toast(t('reg_none'));return;}
+    S().regions=next;save();
+    buildPkgLive(CTX.id);renderCount();renderList();
+  });
+}
 // Search alone stops being enough once a vocabulary is large -- and bulk paste
 // plus custom notebooks exist precisely to make it large. Filtering by state
 // answers the questions actually being asked: what have I not started, what is
@@ -4420,7 +4572,7 @@ function renderList(){
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
   const mk=$('#listMarks');
-  if(mk){mk.innerHTML=markChipsHTML();bindMarkChips();}
+  if(mk){mk.innerHTML=regionChipsHTML()+markChipsHTML();bindRegionChips();bindMarkChips();}
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
   if(listMark)arr=arr.filter(w=>markOf(w)===listMark);
   $('#listCount').textContent=t('n_words',arr.length);
@@ -6372,7 +6524,7 @@ function grade(w,ok,correctText,isInput){
       rec.nextDue=Date.now(); // re-drill in this session
       nextInText=t('again_soon');
     }
-    rec.hist.push({t:Date.now(),ok});
+    rec.hist.push({t:Date.now(),ok,q:S().quizType});
     if(rec.hist.length>50)rec.hist=rec.hist.slice(-50);
     touchWord(rec);
   }
@@ -6792,8 +6944,9 @@ function dailyCounts(){
   const map=new Map();
   allHistEntries().forEach(h=>{
     const d=localDayIndex(h.t);
-    const cur=map.get(d)||{n:0,ok:0};
+    const cur=map.get(d)||{n:0,ok:0,pts:0};
     cur.n++; if(h.ok)cur.ok++;
+    cur.pts+=histPts(h);
     map.set(d,cur);
   });
   return map;
@@ -6820,8 +6973,8 @@ const RANK_LIMIT=50;
 // and filtering on two fields at once would need a composite index.
 const RANK_FETCH=200;
 const RANK_METRICS=[
-  {k:'todayN', label:'rank_m_today',  unit:'rank_u_times'},
-  {k:'totalN', label:'rank_m_total',  unit:'rank_u_times'},
+  {k:'todayN', label:'rank_m_today',  unit:'rank_u_pts'},
+  {k:'totalN', label:'rank_m_total',  unit:'rank_u_pts'},
   {k:'words',  label:'rank_m_words',  unit:'rank_u_words'},
   {k:'streak', label:'rank_m_streak', unit:'rank_u_days'},
   {k:'days',   label:'rank_m_days',   unit:'rank_u_days'},
@@ -6844,10 +6997,14 @@ function myBoardStats(){
   const counts=dailyCounts();
   const today=localDayIndex(Date.now());
   let totalN=0,days=0;
-  counts.forEach(v=>{totalN+=v.n;if(v.n>0)days++;});
+  // The board counts points; the stats tab still counts answers, because "how
+  // many questions have I done" is a different question from "who has put the
+  // most work in". Floored at the last moment so halves accumulate first: two
+  // listening rounds are 3 points, not 2.
+  counts.forEach(v=>{totalN+=v.pts;if(v.n>0)days++;});
   const st=S().streak||{};
   return {
-    todayN:boardNum((counts.get(today)||{}).n,100000),
+    todayN:boardNum((counts.get(today)||{}).pts,100000),
     todayIdx:boardNum(today,1000000),
     totalN:boardNum(totalN,100000000),
     words:boardNum(DB.words.length,1000000),
@@ -6979,8 +7136,10 @@ function renderBoard(){
   const body=$('#statsBody');
   if(!body)return;
   const chips='<div class="rk-metrics">'+orderedMetrics().map(m=>
-    '<button data-m="'+m.k+'"'+(m.k===rankMetric?' class="on"':'')+'>'+esc(t(m.label))+'</button>').join('')+'</div>';
-  const shell=b=>{body.innerHTML=chips+'<div id="rkBody">'+b+'</div>';bindRankChips();};
+    '<button data-m="'+m.k+'"'+(m.k===rankMetric?' class="on"':'')+'>'+esc(t(m.label))+'</button>').join('')+
+    '<button class="cefr-i rk-i" id="ptsInfo" type="button" aria-label="'+esc(t('pts_title'))+'">'+INFO_SVG+'</button>'+
+    '</div>';
+  const shell=b=>{body.innerHTML=chips+'<div id="rkBody">'+b+'</div>';bindRankChips();bindPtsInfo();};
 
   if(!navigator.onLine){shell(rankStateHTML(t('rank_offline'),t('rank_retry')));
     const a=$('#rkAct');if(a)a.onclick=renderBoard;return;}

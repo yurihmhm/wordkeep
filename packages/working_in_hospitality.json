@@ -1,1315 +1,1316 @@
 {
-  "id": "working_in_hospitality",
-  "v": 1,
-  "title": {
-    "ja": "カフェ・レストランで働く",
-    "en": "Working in Cafés & Restaurants",
-    "zh": "在咖啡馆和餐厅工作",
-    "fr": "Travailler en café et restaurant",
-    "ar": "العمل في المقاهي والمطاعم",
-    "ko": "카페·레스토랑에서 일하기",
-    "ru": "Работа в кафе и ресторанах"
+ "id": "working_in_hospitality",
+ "v": 1,
+ "title": {
+  "ja": "カフェ・レストランで働く",
+  "en": "Working in Cafés & Restaurants",
+  "zh": "在咖啡馆和餐厅工作",
+  "fr": "Travailler en café et restaurant",
+  "ar": "العمل في المقاهي والمطاعم",
+  "ko": "카페·레스토랑에서 일하기",
+  "ru": "Работа в кафе и ресторанах"
+ },
+ "cefr": "B1",
+ "words": [
+  {
+   "word": "take an order",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "注文を受ける",
+    "en": "to write down what a customer wants",
+    "zh": "点单",
+    "fr": "prendre une commande",
+    "ar": "يأخذ الطلب",
+    "ko": "주문을 받다",
+    "ru": "принять заказ"
+   }
   },
-  "words": [
-    {
-      "word": "take an order",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "注文を受ける",
-        "en": "to write down what a customer wants",
-        "zh": "点单",
-        "fr": "prendre une commande",
-        "ar": "يأخذ الطلب",
-        "ko": "주문을 받다",
-        "ru": "принять заказ"
-      }
-    },
-    {
-      "word": "are you ready to order",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "ご注文はお決まりですか",
-        "en": "asking if a customer has chosen",
-        "zh": "可以点单了吗",
-        "fr": "vous avez choisi ?",
-        "ar": "هل أنت مستعد للطلب؟",
-        "ko": "주문하시겠어요?",
-        "ru": "готовы сделать заказ?"
-      }
-    },
-    {
-      "word": "for here or takeaway",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "店内でお召し上がりですか",
-        "en": "asking if food is eaten in or taken out",
-        "zh": "堂食还是外带",
-        "fr": "sur place ou à emporter ?",
-        "ar": "للتناول هنا أم للأخذ؟",
-        "ko": "드시고 가시나요, 포장인가요?",
-        "ru": "здесь или с собой?"
-      }
-    },
-    {
-      "word": "anything else",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "ほかにご注文は",
-        "en": "asking if the customer wants more",
-        "zh": "还需要别的吗",
-        "fr": "avec ceci ?",
-        "ar": "أي شيء آخر؟",
-        "ko": "더 필요하신 건 없나요?",
-        "ru": "что-нибудь ещё?"
-      }
-    },
-    {
-      "word": "menu",
-      "pos": "noun",
-      "meaning": {
-        "ja": "お品書き",
-        "en": "the list of food and drinks offered",
-        "zh": "菜单",
-        "fr": "carte",
-        "ar": "قائمة الطعام",
-        "ko": "메뉴판",
-        "ru": "меню"
-      }
-    },
-    {
-      "word": "special",
-      "pos": "noun",
-      "meaning": {
-        "ja": "本日のおすすめ",
-        "en": "a dish offered only today",
-        "zh": "今日特餐",
-        "fr": "plat du jour",
-        "ar": "طبق اليوم",
-        "ko": "오늘의 추천 메뉴",
-        "ru": "блюдо дня"
-      }
-    },
-    {
-      "word": "side dish",
-      "pos": "noun",
-      "meaning": {
-        "ja": "付け合わせ",
-        "en": "a small dish served with the main one",
-        "zh": "配菜",
-        "fr": "accompagnement",
-        "ar": "طبق جانبي",
-        "ko": "곁들임 요리",
-        "ru": "гарнир"
-      }
-    },
-    {
-      "word": "main course",
-      "pos": "noun",
-      "meaning": {
-        "ja": "主菜",
-        "en": "the largest dish of a meal",
-        "zh": "主菜",
-        "fr": "plat principal",
-        "ar": "الطبق الرئيسي",
-        "ko": "메인 요리",
-        "ru": "основное блюдо"
-      }
-    },
-    {
-      "word": "starter",
-      "pos": "noun",
-      "meaning": {
-        "ja": "前菜",
-        "en": "a small dish eaten before the main one",
-        "zh": "前菜",
-        "fr": "entrée",
-        "ar": "مقبلات",
-        "ko": "애피타이저",
-        "ru": "закуска"
-      }
-    },
-    {
-      "word": "serving size",
-      "pos": "noun",
-      "meaning": {
-        "ja": "一人前の量",
-        "en": "how much food one portion holds",
-        "zh": "份量",
-        "fr": "taille de la portion",
-        "ar": "حجم الحصة",
-        "ko": "1인분 양",
-        "ru": "размер порции"
-      }
-    },
-    {
-      "word": "refill",
-      "pos": "noun",
-      "meaning": {
-        "ja": "おかわり",
-        "en": "a free second serving of a drink",
-        "zh": "续杯",
-        "fr": "resservi gratuit",
-        "ar": "إعادة تعبئة",
-        "ko": "리필",
-        "ru": "добавка напитка"
-      }
-    },
-    {
-      "word": "to go",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "持ち帰りで",
-        "en": "taken away rather than eaten in",
-        "zh": "外带",
-        "fr": "à emporter",
-        "ar": "للأخذ خارجًا",
-        "ko": "테이크아웃으로",
-        "ru": "на вынос"
-      }
-    },
-    {
-      "word": "dine in",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "店内で食べる",
-        "en": "to eat at the restaurant itself",
-        "zh": "堂食",
-        "fr": "manger sur place",
-        "ar": "يتناول في المطعم",
-        "ko": "매장에서 먹다",
-        "ru": "есть в заведении"
-      }
-    },
-    {
-      "word": "allergy",
-      "pos": "noun",
-      "meaning": {
-        "ja": "アレルギー",
-        "en": "a harmful reaction to a certain food",
-        "zh": "过敏",
-        "fr": "allergie",
-        "ar": "حساسية",
-        "ko": "알레르기",
-        "ru": "аллергия"
-      }
-    },
-    {
-      "word": "dietary requirement",
-      "pos": "noun",
-      "meaning": {
-        "ja": "食事上の制限",
-        "en": "a rule about what a person can eat",
-        "zh": "饮食要求",
-        "fr": "régime particulier",
-        "ar": "متطلبات غذائية",
-        "ko": "식이 제한",
-        "ru": "диетическое требование"
-      }
-    },
-    {
-      "word": "vegetarian",
-      "pos": "adj",
-      "meaning": {
-        "ja": "肉を食べない",
-        "en": "eating no meat",
-        "zh": "素食的",
-        "fr": "végétarien",
-        "ar": "نباتي",
-        "ko": "채식의",
-        "ru": "вегетарианский"
-      }
-    },
-    {
-      "word": "gluten-free",
-      "pos": "adj",
-      "meaning": {
-        "ja": "小麦を含まない",
-        "en": "made without wheat protein",
-        "zh": "无麸质的",
-        "fr": "sans gluten",
-        "ar": "خالٍ من الغلوتين",
-        "ko": "글루텐 프리의",
-        "ru": "без глютена"
-      }
-    },
-    {
-      "word": "dairy",
-      "pos": "noun",
-      "meaning": {
-        "ja": "乳製品",
-        "en": "milk, cheese and similar foods",
-        "zh": "乳制品",
-        "fr": "produits laitiers",
-        "ar": "منتجات الألبان",
-        "ko": "유제품",
-        "ru": "молочные продукты"
-      }
-    },
-    {
-      "word": "oat milk",
-      "pos": "noun",
-      "meaning": {
-        "ja": "オーツミルク",
-        "en": "a milk substitute made from oats",
-        "zh": "燕麦奶",
-        "fr": "lait d'avoine",
-        "ar": "حليب الشوفان",
-        "ko": "귀리 우유",
-        "ru": "овсяное молоко"
-      }
-    },
-    {
-      "word": "espresso shot",
-      "pos": "noun",
-      "meaning": {
-        "ja": "エスプレッソ一杯分",
-        "en": "one small serving of strong coffee",
-        "zh": "一份浓缩咖啡",
-        "fr": "dose d'espresso",
-        "ar": "جرعة إسبريسو",
-        "ko": "에스프레소 한 샷",
-        "ru": "порция эспрессо"
-      }
-    },
-    {
-      "word": "steam the milk",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "ミルクを泡立てる",
-        "en": "to heat and froth milk with steam",
-        "zh": "打奶泡",
-        "fr": "faire mousser le lait",
-        "ar": "يبخّر الحليب",
-        "ko": "우유를 스팀하다",
-        "ru": "взбить молоко паром"
-      }
-    },
-    {
-      "word": "latte art",
-      "pos": "noun",
-      "meaning": {
-        "ja": "ラテアート",
-        "en": "a pattern drawn in the milk foam",
-        "zh": "拉花",
-        "fr": "latte art",
-        "ar": "فن اللاتيه",
-        "ko": "라테 아트",
-        "ru": "латте-арт"
-      }
-    },
-    {
-      "word": "grind",
-      "pos": "verb",
-      "meaning": {
-        "ja": "豆を挽く",
-        "en": "to crush coffee beans into powder",
-        "zh": "研磨",
-        "fr": "moudre",
-        "ar": "يطحن",
-        "ko": "원두를 갈다",
-        "ru": "молоть"
-      }
-    },
-    {
-      "word": "brew",
-      "pos": "verb",
-      "meaning": {
-        "ja": "淹れる",
-        "en": "to make coffee or tea with hot water",
-        "zh": "冲泡",
-        "fr": "infuser",
-        "ar": "يخمّر القهوة",
-        "ko": "내리다",
-        "ru": "заваривать"
-      }
-    },
-    {
-      "word": "barista",
-      "pos": "noun",
-      "meaning": {
-        "ja": "コーヒーを淹れる人",
-        "en": "a person who makes coffee for a living",
-        "zh": "咖啡师",
-        "fr": "barista",
-        "ar": "معدّ القهوة",
-        "ko": "바리스타",
-        "ru": "бариста"
-      }
-    },
-    {
-      "word": "chef",
-      "pos": "noun",
-      "meaning": {
-        "ja": "料理長",
-        "en": "the person in charge of the cooking",
-        "zh": "厨师长",
-        "fr": "chef cuisinier",
-        "ar": "رئيس الطهاة",
-        "ko": "셰프",
-        "ru": "шеф-повар"
-      }
-    },
-    {
-      "word": "kitchen hand",
-      "pos": "noun",
-      "meaning": {
-        "ja": "厨房の手伝い",
-        "en": "someone who helps with basic kitchen work",
-        "zh": "后厨帮工",
-        "fr": "aide de cuisine",
-        "ar": "مساعد مطبخ",
-        "ko": "주방 보조",
-        "ru": "помощник на кухне"
-      }
-    },
-    {
-      "word": "waiter",
-      "pos": "noun",
-      "meaning": {
-        "ja": "接客する人",
-        "en": "a person who serves customers at tables",
-        "zh": "服务员",
-        "fr": "serveur",
-        "ar": "نادل",
-        "ko": "종업원",
-        "ru": "официант"
-      }
-    },
-    {
-      "word": "front of house",
-      "pos": "noun",
-      "meaning": {
-        "ja": "客席側の担当",
-        "en": "the part of the business customers see",
-        "zh": "前场",
-        "fr": "salle (côté clients)",
-        "ar": "قسم الصالة",
-        "ko": "홀 담당",
-        "ru": "зал (для гостей)"
-      }
-    },
-    {
-      "word": "back of house",
-      "pos": "noun",
-      "meaning": {
-        "ja": "厨房側の担当",
-        "en": "the kitchen and areas customers never see",
-        "zh": "后场",
-        "fr": "cuisine (côté personnel)",
-        "ar": "قسم المطبخ",
-        "ko": "주방 담당",
-        "ru": "кухонная зона"
-      }
-    },
-    {
-      "word": "table number",
-      "pos": "noun",
-      "meaning": {
-        "ja": "テーブルの番号",
-        "en": "the number identifying where a customer sits",
-        "zh": "桌号",
-        "fr": "numéro de table",
-        "ar": "رقم الطاولة",
-        "ko": "테이블 번호",
-        "ru": "номер столика"
-      }
-    },
-    {
-      "word": "book a table",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "席を予約する",
-        "en": "to reserve a place to sit in advance",
-        "zh": "订位",
-        "fr": "réserver une table",
-        "ar": "يحجز طاولة",
-        "ko": "자리를 예약하다",
-        "ru": "забронировать столик"
-      }
-    },
-    {
-      "word": "walk-in",
-      "pos": "noun",
-      "meaning": {
-        "ja": "予約なしの客",
-        "en": "a customer arriving without a booking",
-        "zh": "无预约客人",
-        "fr": "client sans réservation",
-        "ar": "زبون بلا حجز",
-        "ko": "예약 없는 손님",
-        "ru": "гость без брони"
-      }
-    },
-    {
-      "word": "fully booked",
-      "pos": "adj",
-      "meaning": {
-        "ja": "満席の",
-        "en": "with no free places left",
-        "zh": "已订满",
-        "fr": "complet",
-        "ar": "محجوز بالكامل",
-        "ko": "예약이 꽉 찬",
-        "ru": "мест нет"
-      }
-    },
-    {
-      "word": "seat a customer",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "客を席へ案内する",
-        "en": "to show a guest to their table",
-        "zh": "带客入座",
-        "fr": "installer un client",
-        "ar": "يرشد الزبون إلى مقعده",
-        "ko": "손님을 자리로 안내하다",
-        "ru": "проводить гостя к столику"
-      }
-    },
-    {
-      "word": "clear the table",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "食器を下げる",
-        "en": "to take away used plates and glasses",
-        "zh": "收桌",
-        "fr": "débarrasser la table",
-        "ar": "يرفع أطباق الطاولة",
-        "ko": "테이블을 치우다",
-        "ru": "убрать со стола"
-      }
-    },
-    {
-      "word": "wipe down",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "拭いてきれいにする",
-        "en": "to clean a surface with a cloth",
-        "zh": "擦拭",
-        "fr": "essuyer",
-        "ar": "يمسح السطح",
-        "ko": "닦아내다",
-        "ru": "протереть"
-      }
-    },
-    {
-      "word": "set the table",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "食器を並べる",
-        "en": "to lay out cutlery and glasses before service",
-        "zh": "摆台",
-        "fr": "dresser la table",
-        "ar": "يجهّز الطاولة",
-        "ko": "상을 차리다",
-        "ru": "сервировать стол"
-      }
-    },
-    {
-      "word": "cutlery",
-      "pos": "noun",
-      "meaning": {
-        "ja": "ナイフやフォーク類",
-        "en": "knives, forks and spoons",
-        "zh": "餐具",
-        "fr": "couverts",
-        "ar": "أدوات المائدة",
-        "ko": "수저류",
-        "ru": "столовые приборы"
-      }
-    },
-    {
-      "word": "tray",
-      "pos": "noun",
-      "meaning": {
-        "ja": "お盆",
-        "en": "a flat board for carrying food",
-        "zh": "托盘",
-        "fr": "plateau",
-        "ar": "صينية",
-        "ko": "쟁반",
-        "ru": "поднос"
-      }
-    },
-    {
-      "word": "apron",
-      "pos": "noun",
-      "meaning": {
-        "ja": "エプロン",
-        "en": "cloth worn to protect your clothes",
-        "zh": "围裙",
-        "fr": "tablier",
-        "ar": "مريلة",
-        "ko": "앞치마",
-        "ru": "фартук"
-      }
-    },
-    {
-      "word": "till",
-      "pos": "noun",
-      "meaning": {
-        "ja": "レジ",
-        "en": "the machine that holds money and records sales",
-        "zh": "收银机",
-        "fr": "caisse",
-        "ar": "صندوق النقد",
-        "ko": "계산대",
-        "ru": "касса"
-      }
-    },
-    {
-      "word": "card only",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "カードのみ利用可",
-        "en": "cash is not accepted here",
-        "zh": "仅限刷卡",
-        "fr": "paiement par carte uniquement",
-        "ar": "بالبطاقة فقط",
-        "ko": "카드만 가능",
-        "ru": "только картой"
-      }
-    },
-    {
-      "word": "split the bill",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "会計を分ける",
-        "en": "to divide the payment between customers",
-        "zh": "分开结账",
-        "fr": "partager l'addition",
-        "ar": "يقسم الحساب",
-        "ko": "계산을 나누다",
-        "ru": "разделить счёт"
-      }
-    },
-    {
-      "word": "keep the change",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "お釣りは取っておいて",
-        "en": "what a customer says to leave a tip",
-        "zh": "不用找了",
-        "fr": "gardez la monnaie",
-        "ar": "احتفظ بالباقي",
-        "ko": "거스름돈은 됐어요",
-        "ru": "сдачи не надо"
-      }
-    },
-    {
-      "word": "peak time",
-      "pos": "noun",
-      "meaning": {
-        "ja": "最も忙しい時間",
-        "en": "the busiest period of the day",
-        "zh": "高峰期",
-        "fr": "coup de feu",
-        "ar": "وقت الذروة",
-        "ko": "가장 바쁜 시간",
-        "ru": "самое загруженное время"
-      }
-    },
-    {
-      "word": "in the weeds",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "手が回らない状態",
-        "en": "so busy you cannot keep up",
-        "zh": "忙得不可开交",
-        "fr": "complètement débordé",
-        "ar": "غارق في العمل",
-        "ko": "일이 감당이 안 되는",
-        "ru": "зашиваться"
-      }
-    },
-    {
-      "word": "prep",
-      "pos": "noun",
-      "meaning": {
-        "ja": "仕込み",
-        "en": "getting ingredients ready before service",
-        "zh": "备料",
-        "fr": "mise en place",
-        "ar": "التحضير المسبق",
-        "ko": "밑준비",
-        "ru": "подготовка продуктов"
-      }
-    },
-    {
-      "word": "closing duties",
-      "pos": "noun",
-      "meaning": {
-        "ja": "閉店作業",
-        "en": "the tasks done before locking up",
-        "zh": "打烊工作",
-        "fr": "tâches de fermeture",
-        "ar": "مهام الإغلاق",
-        "ko": "마감 업무",
-        "ru": "обязанности при закрытии"
-      }
-    },
-    {
-      "word": "stocktake",
-      "pos": "noun",
-      "meaning": {
-        "ja": "在庫の確認",
-        "en": "counting what supplies are left",
-        "zh": "盘点",
-        "fr": "inventaire",
-        "ar": "جرد المخزون",
-        "ko": "재고 조사",
-        "ru": "инвентаризация"
-      }
-    },
-    {
-      "word": "run out of stock",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "品切れになる",
-        "en": "to have none of an item left",
-        "zh": "卖完了",
-        "fr": "être en rupture",
-        "ar": "ينفد المخزون",
-        "ko": "품절되다",
-        "ru": "закончиться на складе"
-      }
-    },
-    {
-      "word": "health and safety",
-      "pos": "noun",
-      "meaning": {
-        "ja": "衛生と安全の決まり",
-        "en": "the rules that keep workers and food safe",
-        "zh": "卫生与安全",
-        "fr": "hygiène et sécurité",
-        "ar": "الصحة والسلامة",
-        "ko": "위생 및 안전",
-        "ru": "охрана труда и гигиена"
-      }
-    },
-    {
-      "word": "food safety",
-      "pos": "noun",
-      "meaning": {
-        "ja": "食品の安全管理",
-        "en": "handling food so it does not make people ill",
-        "zh": "食品安全",
-        "fr": "sécurité alimentaire",
-        "ar": "سلامة الغذاء",
-        "ko": "식품 안전",
-        "ru": "безопасность пищи"
-      }
-    },
-    {
-      "word": "use-by date",
-      "pos": "noun",
-      "meaning": {
-        "ja": "消費期限",
-        "en": "the last day food may safely be eaten",
-        "zh": "食用期限",
-        "fr": "date limite de consommation",
-        "ar": "تاريخ انتهاء الصلاحية",
-        "ko": "소비 기한",
-        "ru": "срок годности"
-      }
-    },
-    {
-      "word": "cross-contamination",
-      "pos": "noun",
-      "meaning": {
-        "ja": "食材同士の汚染",
-        "en": "harmful transfer between different foods",
-        "zh": "交叉污染",
-        "fr": "contamination croisée",
-        "ar": "التلوث المتبادل",
-        "ko": "교차 오염",
-        "ru": "перекрёстное загрязнение"
-      }
-    },
-    {
-      "word": "wash your hands",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "手を洗う",
-        "en": "to clean your hands before handling food",
-        "zh": "洗手",
-        "fr": "se laver les mains",
-        "ar": "يغسل يديه",
-        "ko": "손을 씻다",
-        "ru": "мыть руки"
-      }
-    },
-    {
-      "word": "hairnet",
-      "pos": "noun",
-      "meaning": {
-        "ja": "髪をおおう網",
-        "en": "a covering that keeps hair out of food",
-        "zh": "发网",
-        "fr": "charlotte (filet à cheveux)",
-        "ar": "شبكة الشعر",
-        "ko": "위생모",
-        "ru": "сеточка для волос"
-      }
-    },
-    {
-      "word": "spill",
-      "pos": "noun",
-      "meaning": {
-        "ja": "こぼれたもの",
-        "en": "liquid that has fallen on the floor",
-        "zh": "洒出的液体",
-        "fr": "liquide renversé",
-        "ar": "سائل مسكوب",
-        "ko": "쏟아진 것",
-        "ru": "пролитое"
-      }
-    },
-    {
-      "word": "mop",
-      "pos": "verb",
-      "meaning": {
-        "ja": "モップでふく",
-        "en": "to clean a floor with a wet mop",
-        "zh": "拖地",
-        "fr": "passer la serpillière",
-        "ar": "يمسح الأرض",
-        "ko": "대걸레질하다",
-        "ru": "мыть пол шваброй"
-      }
-    },
-    {
-      "word": "bin",
-      "pos": "noun",
-      "meaning": {
-        "ja": "ごみ入れ",
-        "en": "a container for rubbish",
-        "zh": "垃圾桶",
-        "fr": "poubelle",
-        "ar": "سلة المهملات",
-        "ko": "쓰레기통",
-        "ru": "мусорное ведро"
-      }
-    },
-    {
-      "word": "dishwasher",
-      "pos": "noun",
-      "meaning": {
-        "ja": "食器洗い機",
-        "en": "a machine that washes plates",
-        "zh": "洗碗机",
-        "fr": "lave-vaisselle",
-        "ar": "غسالة الأطباق",
-        "ko": "식기세척기",
-        "ru": "посудомоечная машина"
-      }
-    },
-    {
-      "word": "fridge",
-      "pos": "noun",
-      "meaning": {
-        "ja": "冷蔵庫",
-        "en": "a cold cupboard for keeping food",
-        "zh": "冰箱",
-        "fr": "réfrigérateur",
-        "ar": "ثلاجة",
-        "ko": "냉장고",
-        "ru": "холодильник"
-      }
-    },
-    {
-      "word": "freezer",
-      "pos": "noun",
-      "meaning": {
-        "ja": "冷凍庫",
-        "en": "a very cold store for frozen food",
-        "zh": "冷冻柜",
-        "fr": "congélateur",
-        "ar": "مجمّد",
-        "ko": "냉동고",
-        "ru": "морозильник"
-      }
-    },
-    {
-      "word": "defrost",
-      "pos": "verb",
-      "meaning": {
-        "ja": "解凍する",
-        "en": "to let frozen food become soft again",
-        "zh": "解冻",
-        "fr": "décongeler",
-        "ar": "يذيب المجمد",
-        "ko": "해동하다",
-        "ru": "размораживать"
-      }
-    },
-    {
-      "word": "reheat",
-      "pos": "verb",
-      "meaning": {
-        "ja": "温め直す",
-        "en": "to warm food that has gone cold",
-        "zh": "再加热",
-        "fr": "réchauffer",
-        "ar": "يعيد التسخين",
-        "ko": "다시 데우다",
-        "ru": "разогревать"
-      }
-    },
-    {
-      "word": "deep fryer",
-      "pos": "noun",
-      "meaning": {
-        "ja": "揚げ物用の機械",
-        "en": "a machine that cooks food in hot oil",
-        "zh": "油炸锅",
-        "fr": "friteuse",
-        "ar": "مقلاة عميقة",
-        "ko": "튀김기",
-        "ru": "фритюрница"
-      }
-    },
-    {
-      "word": "grill",
-      "pos": "verb",
-      "meaning": {
-        "ja": "焼く",
-        "en": "to cook over direct heat",
-        "zh": "烤",
-        "fr": "griller",
-        "ar": "يشوي",
-        "ko": "굽다",
-        "ru": "жарить на гриле"
-      }
-    },
-    {
-      "word": "well done",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "よく焼いた状態",
-        "en": "meat cooked all the way through",
-        "zh": "全熟",
-        "fr": "bien cuit",
-        "ar": "مطهو جيدًا",
-        "ko": "완전히 익힌",
-        "ru": "хорошо прожаренный"
-      }
-    },
-    {
-      "word": "medium rare",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "中が赤い焼き加減",
-        "en": "meat still pink in the middle",
-        "zh": "三分熟",
-        "fr": "saignant à point",
-        "ar": "نصف استواء",
-        "ko": "미디엄 레어",
-        "ru": "средней прожарки"
-      }
-    },
-    {
-      "word": "on the side",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "別添えで",
-        "en": "served separately, not on the food",
-        "zh": "另外装",
-        "fr": "à part",
-        "ar": "على جانب الطبق",
-        "ko": "따로 담아",
-        "ru": "отдельно"
-      }
-    },
-    {
-      "word": "no ice",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "氷なしで",
-        "en": "a drink served without ice",
-        "zh": "去冰",
-        "fr": "sans glaçons",
-        "ar": "بدون ثلج",
-        "ko": "얼음 없이",
-        "ru": "без льда"
-      }
-    },
-    {
-      "word": "extra hot",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "熱めで",
-        "en": "a drink made hotter than usual",
-        "zh": "要更烫",
-        "fr": "très chaud",
-        "ar": "ساخن جدًا",
-        "ko": "더 뜨겁게",
-        "ru": "погорячее"
-      }
-    },
-    {
-      "word": "double shot",
-      "pos": "noun",
-      "meaning": {
-        "ja": "エスプレッソ二杯分",
-        "en": "two servings of espresso in one drink",
-        "zh": "双份浓缩",
-        "fr": "double dose",
-        "ar": "جرعة مزدوجة",
-        "ko": "투 샷",
-        "ru": "двойная порция"
-      }
-    },
-    {
-      "word": "decaf",
-      "pos": "noun",
-      "meaning": {
-        "ja": "カフェイン抜き",
-        "en": "coffee with the caffeine removed",
-        "zh": "低因咖啡",
-        "fr": "déca",
-        "ar": "قهوة منزوعة الكافيين",
-        "ko": "디카페인",
-        "ru": "без кофеина"
-      }
-    },
-    {
-      "word": "loyalty card",
-      "pos": "noun",
-      "meaning": {
-        "ja": "ポイントカード",
-        "en": "a card that rewards repeat customers",
-        "zh": "会员卡",
-        "fr": "carte de fidélité",
-        "ar": "بطاقة ولاء",
-        "ko": "적립 카드",
-        "ru": "карта постоянного клиента"
-      }
-    },
-    {
-      "word": "staff discount",
-      "pos": "noun",
-      "meaning": {
-        "ja": "従業員割引",
-        "en": "a lower price for people who work there",
-        "zh": "员工折扣",
-        "fr": "réduction employé",
-        "ar": "خصم الموظفين",
-        "ko": "직원 할인",
-        "ru": "скидка для сотрудников"
-      }
-    },
-    {
-      "word": "staff meal",
-      "pos": "noun",
-      "meaning": {
-        "ja": "まかない",
-        "en": "food given free to workers on shift",
-        "zh": "员工餐",
-        "fr": "repas du personnel",
-        "ar": "وجبة الموظفين",
-        "ko": "직원 식사",
-        "ru": "питание для персонала"
-      }
-    },
-    {
-      "word": "tip jar",
-      "pos": "noun",
-      "meaning": {
-        "ja": "チップ入れ",
-        "en": "a container customers drop coins into",
-        "zh": "小费罐",
-        "fr": "pot à pourboires",
-        "ar": "وعاء البقشيش",
-        "ko": "팁 통",
-        "ru": "банка для чаевых"
-      }
-    },
-    {
-      "word": "complaint about food",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "料理への苦情",
-        "en": "a customer saying the food is wrong",
-        "zh": "对食物的投诉",
-        "fr": "réclamation sur un plat",
-        "ar": "شكوى بشأن الطعام",
-        "ko": "음식에 대한 항의",
-        "ru": "жалоба на еду"
-      }
-    },
-    {
-      "word": "apologize",
-      "pos": "verb",
-      "meaning": {
-        "ja": "謝る",
-        "en": "to say you are sorry",
-        "zh": "道歉",
-        "fr": "présenter ses excuses",
-        "ar": "يعتذر",
-        "ko": "사과하다",
-        "ru": "извиняться"
-      }
-    },
-    {
-      "word": "remake",
-      "pos": "verb",
-      "meaning": {
-        "ja": "作り直す",
-        "en": "to prepare an order again",
-        "zh": "重做",
-        "fr": "refaire",
-        "ar": "يعيد التحضير",
-        "ko": "다시 만들다",
-        "ru": "переделать"
-      }
-    },
-    {
-      "word": "comp",
-      "pos": "verb",
-      "meaning": {
-        "ja": "無料にする",
-        "en": "to give something free to settle a problem",
-        "zh": "免单",
-        "fr": "offrir (ne pas facturer)",
-        "ar": "يقدّمه مجانًا",
-        "ko": "무료로 처리하다",
-        "ru": "не брать плату"
-      }
-    },
-    {
-      "word": "refund",
-      "pos": "noun",
-      "meaning": {
-        "ja": "返金",
-        "en": "money given back to a customer",
-        "zh": "退款",
-        "fr": "remboursement",
-        "ar": "استرداد المبلغ",
-        "ko": "환불",
-        "ru": "возврат денег"
-      }
-    },
-    {
-      "word": "take it up with the manager",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "店長に伝える",
-        "en": "to pass a problem to the person in charge",
-        "zh": "交给经理处理",
-        "fr": "en référer au responsable",
-        "ar": "يحيل الأمر إلى المدير",
-        "ko": "매니저에게 넘기다",
-        "ru": "передать управляющему"
-      }
-    },
-    {
-      "word": "rude customer",
-      "pos": "noun",
-      "meaning": {
-        "ja": "失礼な客",
-        "en": "a guest who behaves badly to staff",
-        "zh": "无礼的客人",
-        "fr": "client désagréable",
-        "ar": "زبون وقح",
-        "ko": "무례한 손님",
-        "ru": "грубый посетитель"
-      }
-    },
-    {
-      "word": "stay calm",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "落ち着いて対応する",
-        "en": "to keep control of yourself under stress",
-        "zh": "保持冷静",
-        "fr": "garder son calme",
-        "ar": "يحافظ على هدوئه",
-        "ko": "침착함을 유지하다",
-        "ru": "сохранять спокойствие"
-      }
-    },
-    {
-      "word": "order up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "料理ができた合図",
-        "en": "what the kitchen calls when a dish is ready",
-        "zh": "出餐了",
-        "fr": "ça part !",
-        "ar": "الطلب جاهز",
-        "ko": "음식 나왔습니다",
-        "ru": "заказ готов"
-      }
-    },
-    {
-      "word": "behind you",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "うしろ通ります",
-        "en": "warning that you are passing behind someone",
-        "zh": "我在你后面",
-        "fr": "derrière toi !",
-        "ar": "خلفك",
-        "ko": "뒤에 지나갑니다",
-        "ru": "я сзади"
-      }
-    },
-    {
-      "word": "hot pan",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "熱いもの通ります",
-        "en": "a warning that you carry something hot",
-        "zh": "小心烫",
-        "fr": "attention, chaud !",
-        "ar": "مقلاة ساخنة",
-        "ko": "뜨거운 것 지나갑니다",
-        "ru": "осторожно, горячее"
-      }
-    },
-    {
-      "word": "section",
-      "pos": "noun",
-      "meaning": {
-        "ja": "担当の区画",
-        "en": "the group of tables you look after",
-        "zh": "负责区域",
-        "fr": "rang (zone de tables)",
-        "ar": "القسم المسؤول عنه",
-        "ko": "담당 구역",
-        "ru": "закреплённая зона"
-      }
-    },
-    {
-      "word": "double shift",
-      "pos": "noun",
-      "meaning": {
-        "ja": "連続の二交代",
-        "en": "two shifts worked back to back",
-        "zh": "连上两班",
-        "fr": "double service",
-        "ar": "مناوبتان متتاليتان",
-        "ko": "연속 두 타임 근무",
-        "ru": "двойная смена"
-      }
-    },
-    {
-      "word": "split shift",
-      "pos": "noun",
-      "meaning": {
-        "ja": "間があく勤務",
-        "en": "a shift with a long unpaid gap in the middle",
-        "zh": "分段班",
-        "fr": "service coupé",
-        "ar": "مناوبة مقسمة",
-        "ko": "분할 근무",
-        "ru": "смена с большим перерывом"
-      }
-    },
-    {
-      "word": "open the store",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "開店の準備をする",
-        "en": "to get a shop ready before customers come",
-        "zh": "开店",
-        "fr": "faire l'ouverture",
-        "ar": "يفتح المحل",
-        "ko": "오픈 준비를 하다",
-        "ru": "открывать заведение"
-      }
-    },
-    {
-      "word": "cash up",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "レジを締める",
-        "en": "to count the money at the end of the day",
-        "zh": "结算营业款",
-        "fr": "faire la caisse",
-        "ar": "يجرد النقد",
-        "ko": "시재를 정산하다",
-        "ru": "снимать кассу"
-      }
-    },
-    {
-      "word": "trainee",
-      "pos": "noun",
-      "meaning": {
-        "ja": "研修中の人",
-        "en": "someone still learning the job",
-        "zh": "实习生",
-        "fr": "stagiaire en formation",
-        "ar": "متدرب",
-        "ko": "수습생",
-        "ru": "стажёр"
-      }
-    },
-    {
-      "word": "shadow someone",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "付いて見て学ぶ",
-        "en": "to follow a worker to learn from them",
-        "zh": "跟岗学习",
-        "fr": "suivre un collègue pour apprendre",
-        "ar": "يرافق زميلًا للتعلم",
-        "ko": "따라다니며 배우다",
-        "ru": "учиться, наблюдая за коллегой"
-      }
-    },
-    {
-      "word": "pick up the pace",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "手を速める",
-        "en": "to start working faster",
-        "zh": "加快速度",
-        "fr": "accélérer le rythme",
-        "ar": "يسرّع الوتيرة",
-        "ko": "속도를 올리다",
-        "ru": "ускориться"
-      }
-    },
-    {
-      "word": "regular",
-      "pos": "noun",
-      "meaning": {
-        "ja": "常連の客",
-        "en": "a customer who comes often",
-        "zh": "常客",
-        "fr": "habitué",
-        "ar": "زبون دائم",
-        "ko": "단골손님",
-        "ru": "постоянный клиент"
-      }
-    },
-    {
-      "word": "the usual",
-      "pos": "phrase",
-      "meaning": {
-        "ja": "いつものやつ",
-        "en": "what a regular customer always orders",
-        "zh": "老样子",
-        "fr": "comme d'habitude",
-        "ar": "الطلب المعتاد",
-        "ko": "늘 드시던 걸로",
-        "ru": "как обычно"
-      }
-    },
-    {
-      "word": "last orders",
-      "pos": "noun",
-      "meaning": {
-        "ja": "最後の注文の受付",
-        "en": "the final chance to order before closing",
-        "zh": "最后点单",
-        "fr": "dernières commandes",
-        "ar": "آخر الطلبات",
-        "ko": "마지막 주문",
-        "ru": "последние заказы"
-      }
-    }
-  ]
+  {
+   "word": "are you ready to order",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "ご注文はお決まりですか",
+    "en": "asking if a customer has chosen",
+    "zh": "可以点单了吗",
+    "fr": "vous avez choisi ?",
+    "ar": "هل أنت مستعد للطلب؟",
+    "ko": "주문하시겠어요?",
+    "ru": "готовы сделать заказ?"
+   }
+  },
+  {
+   "word": "for here or takeaway",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "店内でお召し上がりですか",
+    "en": "asking if food is eaten in or taken out",
+    "zh": "堂食还是外带",
+    "fr": "sur place ou à emporter ?",
+    "ar": "للتناول هنا أم للأخذ؟",
+    "ko": "드시고 가시나요, 포장인가요?",
+    "ru": "здесь или с собой?"
+   }
+  },
+  {
+   "word": "anything else",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "ほかにご注文は",
+    "en": "asking if the customer wants more",
+    "zh": "还需要别的吗",
+    "fr": "avec ceci ?",
+    "ar": "أي شيء آخر؟",
+    "ko": "더 필요하신 건 없나요?",
+    "ru": "что-нибудь ещё?"
+   }
+  },
+  {
+   "word": "menu",
+   "pos": "noun",
+   "meaning": {
+    "ja": "お品書き",
+    "en": "the list of food and drinks offered",
+    "zh": "菜单",
+    "fr": "carte",
+    "ar": "قائمة الطعام",
+    "ko": "메뉴판",
+    "ru": "меню"
+   }
+  },
+  {
+   "word": "special",
+   "pos": "noun",
+   "meaning": {
+    "ja": "本日のおすすめ",
+    "en": "a dish offered only today",
+    "zh": "今日特餐",
+    "fr": "plat du jour",
+    "ar": "طبق اليوم",
+    "ko": "오늘의 추천 메뉴",
+    "ru": "блюдо дня"
+   }
+  },
+  {
+   "word": "side dish",
+   "pos": "noun",
+   "meaning": {
+    "ja": "付け合わせ",
+    "en": "a small dish served with the main one",
+    "zh": "配菜",
+    "fr": "accompagnement",
+    "ar": "طبق جانبي",
+    "ko": "곁들임 요리",
+    "ru": "гарнир"
+   }
+  },
+  {
+   "word": "main course",
+   "pos": "noun",
+   "meaning": {
+    "ja": "主菜",
+    "en": "the largest dish of a meal",
+    "zh": "主菜",
+    "fr": "plat principal",
+    "ar": "الطبق الرئيسي",
+    "ko": "메인 요리",
+    "ru": "основное блюдо"
+   }
+  },
+  {
+   "word": "starter",
+   "pos": "noun",
+   "meaning": {
+    "ja": "前菜",
+    "en": "a small dish eaten before the main one",
+    "zh": "前菜",
+    "fr": "entrée",
+    "ar": "مقبلات",
+    "ko": "애피타이저",
+    "ru": "закуска"
+   }
+  },
+  {
+   "word": "serving size",
+   "pos": "noun",
+   "meaning": {
+    "ja": "一人前の量",
+    "en": "how much food one portion holds",
+    "zh": "份量",
+    "fr": "taille de la portion",
+    "ar": "حجم الحصة",
+    "ko": "1인분 양",
+    "ru": "размер порции"
+   }
+  },
+  {
+   "word": "refill",
+   "pos": "noun",
+   "meaning": {
+    "ja": "おかわり",
+    "en": "a free second serving of a drink",
+    "zh": "续杯",
+    "fr": "resservi gratuit",
+    "ar": "إعادة تعبئة",
+    "ko": "리필",
+    "ru": "добавка напитка"
+   }
+  },
+  {
+   "word": "to go",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "持ち帰りで",
+    "en": "taken away rather than eaten in",
+    "zh": "外带",
+    "fr": "à emporter",
+    "ar": "للأخذ خارجًا",
+    "ko": "테이크아웃으로",
+    "ru": "на вынос"
+   }
+  },
+  {
+   "word": "dine in",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "店内で食べる",
+    "en": "to eat at the restaurant itself",
+    "zh": "堂食",
+    "fr": "manger sur place",
+    "ar": "يتناول في المطعم",
+    "ko": "매장에서 먹다",
+    "ru": "есть в заведении"
+   }
+  },
+  {
+   "word": "allergy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アレルギー",
+    "en": "a harmful reaction to a certain food",
+    "zh": "过敏",
+    "fr": "allergie",
+    "ar": "حساسية",
+    "ko": "알레르기",
+    "ru": "аллергия"
+   }
+  },
+  {
+   "word": "dietary requirement",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食事上の制限",
+    "en": "a rule about what a person can eat",
+    "zh": "饮食要求",
+    "fr": "régime particulier",
+    "ar": "متطلبات غذائية",
+    "ko": "식이 제한",
+    "ru": "диетическое требование"
+   }
+  },
+  {
+   "word": "vegetarian",
+   "pos": "adj",
+   "meaning": {
+    "ja": "肉を食べない",
+    "en": "eating no meat",
+    "zh": "素食的",
+    "fr": "végétarien",
+    "ar": "نباتي",
+    "ko": "채식의",
+    "ru": "вегетарианский"
+   }
+  },
+  {
+   "word": "gluten-free",
+   "pos": "adj",
+   "meaning": {
+    "ja": "小麦を含まない",
+    "en": "made without wheat protein",
+    "zh": "无麸质的",
+    "fr": "sans gluten",
+    "ar": "خالٍ من الغلوتين",
+    "ko": "글루텐 프리의",
+    "ru": "без глютена"
+   }
+  },
+  {
+   "word": "dairy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "乳製品",
+    "en": "milk, cheese and similar foods",
+    "zh": "乳制品",
+    "fr": "produits laitiers",
+    "ar": "منتجات الألبان",
+    "ko": "유제품",
+    "ru": "молочные продукты"
+   }
+  },
+  {
+   "word": "oat milk",
+   "pos": "noun",
+   "meaning": {
+    "ja": "オーツミルク",
+    "en": "a milk substitute made from oats",
+    "zh": "燕麦奶",
+    "fr": "lait d'avoine",
+    "ar": "حليب الشوفان",
+    "ko": "귀리 우유",
+    "ru": "овсяное молоко"
+   }
+  },
+  {
+   "word": "espresso shot",
+   "pos": "noun",
+   "meaning": {
+    "ja": "エスプレッソ一杯分",
+    "en": "one small serving of strong coffee",
+    "zh": "一份浓缩咖啡",
+    "fr": "dose d'espresso",
+    "ar": "جرعة إسبريسو",
+    "ko": "에스프레소 한 샷",
+    "ru": "порция эспрессо"
+   }
+  },
+  {
+   "word": "steam the milk",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "ミルクを泡立てる",
+    "en": "to heat and froth milk with steam",
+    "zh": "打奶泡",
+    "fr": "faire mousser le lait",
+    "ar": "يبخّر الحليب",
+    "ko": "우유를 스팀하다",
+    "ru": "взбить молоко паром"
+   }
+  },
+  {
+   "word": "latte art",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ラテアート",
+    "en": "a pattern drawn in the milk foam",
+    "zh": "拉花",
+    "fr": "latte art",
+    "ar": "فن اللاتيه",
+    "ko": "라테 아트",
+    "ru": "латте-арт"
+   }
+  },
+  {
+   "word": "grind",
+   "pos": "verb",
+   "meaning": {
+    "ja": "豆を挽く",
+    "en": "to crush coffee beans into powder",
+    "zh": "研磨",
+    "fr": "moudre",
+    "ar": "يطحن",
+    "ko": "원두를 갈다",
+    "ru": "молоть"
+   }
+  },
+  {
+   "word": "brew",
+   "pos": "verb",
+   "meaning": {
+    "ja": "淹れる",
+    "en": "to make coffee or tea with hot water",
+    "zh": "冲泡",
+    "fr": "infuser",
+    "ar": "يخمّر القهوة",
+    "ko": "내리다",
+    "ru": "заваривать"
+   }
+  },
+  {
+   "word": "barista",
+   "pos": "noun",
+   "meaning": {
+    "ja": "コーヒーを淹れる人",
+    "en": "a person who makes coffee for a living",
+    "zh": "咖啡师",
+    "fr": "barista",
+    "ar": "معدّ القهوة",
+    "ko": "바리스타",
+    "ru": "бариста"
+   }
+  },
+  {
+   "word": "chef",
+   "pos": "noun",
+   "meaning": {
+    "ja": "料理長",
+    "en": "the person in charge of the cooking",
+    "zh": "厨师长",
+    "fr": "chef cuisinier",
+    "ar": "رئيس الطهاة",
+    "ko": "셰프",
+    "ru": "шеф-повар"
+   }
+  },
+  {
+   "word": "kitchen hand",
+   "pos": "noun",
+   "meaning": {
+    "ja": "厨房の手伝い",
+    "en": "someone who helps with basic kitchen work",
+    "zh": "后厨帮工",
+    "fr": "aide de cuisine",
+    "ar": "مساعد مطبخ",
+    "ko": "주방 보조",
+    "ru": "помощник на кухне"
+   }
+  },
+  {
+   "word": "waiter",
+   "pos": "noun",
+   "meaning": {
+    "ja": "接客する人",
+    "en": "a person who serves customers at tables",
+    "zh": "服务员",
+    "fr": "serveur",
+    "ar": "نادل",
+    "ko": "종업원",
+    "ru": "официант"
+   }
+  },
+  {
+   "word": "front of house",
+   "pos": "noun",
+   "meaning": {
+    "ja": "客席側の担当",
+    "en": "the part of the business customers see",
+    "zh": "前场",
+    "fr": "salle (côté clients)",
+    "ar": "قسم الصالة",
+    "ko": "홀 담당",
+    "ru": "зал (для гостей)"
+   }
+  },
+  {
+   "word": "back of house",
+   "pos": "noun",
+   "meaning": {
+    "ja": "厨房側の担当",
+    "en": "the kitchen and areas customers never see",
+    "zh": "后场",
+    "fr": "cuisine (côté personnel)",
+    "ar": "قسم المطبخ",
+    "ko": "주방 담당",
+    "ru": "кухонная зона"
+   }
+  },
+  {
+   "word": "table number",
+   "pos": "noun",
+   "meaning": {
+    "ja": "テーブルの番号",
+    "en": "the number identifying where a customer sits",
+    "zh": "桌号",
+    "fr": "numéro de table",
+    "ar": "رقم الطاولة",
+    "ko": "테이블 번호",
+    "ru": "номер столика"
+   }
+  },
+  {
+   "word": "book a table",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "席を予約する",
+    "en": "to reserve a place to sit in advance",
+    "zh": "订位",
+    "fr": "réserver une table",
+    "ar": "يحجز طاولة",
+    "ko": "자리를 예약하다",
+    "ru": "забронировать столик"
+   }
+  },
+  {
+   "word": "walk-in",
+   "pos": "noun",
+   "meaning": {
+    "ja": "予約なしの客",
+    "en": "a customer arriving without a booking",
+    "zh": "无预约客人",
+    "fr": "client sans réservation",
+    "ar": "زبون بلا حجز",
+    "ko": "예약 없는 손님",
+    "ru": "гость без брони"
+   }
+  },
+  {
+   "word": "fully booked",
+   "pos": "adj",
+   "meaning": {
+    "ja": "満席の",
+    "en": "with no free places left",
+    "zh": "已订满",
+    "fr": "complet",
+    "ar": "محجوز بالكامل",
+    "ko": "예약이 꽉 찬",
+    "ru": "мест нет"
+   }
+  },
+  {
+   "word": "seat a customer",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "客を席へ案内する",
+    "en": "to show a guest to their table",
+    "zh": "带客入座",
+    "fr": "installer un client",
+    "ar": "يرشد الزبون إلى مقعده",
+    "ko": "손님을 자리로 안내하다",
+    "ru": "проводить гостя к столику"
+   }
+  },
+  {
+   "word": "clear the table",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "食器を下げる",
+    "en": "to take away used plates and glasses",
+    "zh": "收桌",
+    "fr": "débarrasser la table",
+    "ar": "يرفع أطباق الطاولة",
+    "ko": "테이블을 치우다",
+    "ru": "убрать со стола"
+   }
+  },
+  {
+   "word": "wipe down",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "拭いてきれいにする",
+    "en": "to clean a surface with a cloth",
+    "zh": "擦拭",
+    "fr": "essuyer",
+    "ar": "يمسح السطح",
+    "ko": "닦아내다",
+    "ru": "протереть"
+   }
+  },
+  {
+   "word": "set the table",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "食器を並べる",
+    "en": "to lay out cutlery and glasses before service",
+    "zh": "摆台",
+    "fr": "dresser la table",
+    "ar": "يجهّز الطاولة",
+    "ko": "상을 차리다",
+    "ru": "сервировать стол"
+   }
+  },
+  {
+   "word": "cutlery",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ナイフやフォーク類",
+    "en": "knives, forks and spoons",
+    "zh": "餐具",
+    "fr": "couverts",
+    "ar": "أدوات المائدة",
+    "ko": "수저류",
+    "ru": "столовые приборы"
+   }
+  },
+  {
+   "word": "tray",
+   "pos": "noun",
+   "meaning": {
+    "ja": "お盆",
+    "en": "a flat board for carrying food",
+    "zh": "托盘",
+    "fr": "plateau",
+    "ar": "صينية",
+    "ko": "쟁반",
+    "ru": "поднос"
+   }
+  },
+  {
+   "word": "apron",
+   "pos": "noun",
+   "meaning": {
+    "ja": "エプロン",
+    "en": "cloth worn to protect your clothes",
+    "zh": "围裙",
+    "fr": "tablier",
+    "ar": "مريلة",
+    "ko": "앞치마",
+    "ru": "фартук"
+   }
+  },
+  {
+   "word": "till",
+   "pos": "noun",
+   "meaning": {
+    "ja": "レジ",
+    "en": "the machine that holds money and records sales",
+    "zh": "收银机",
+    "fr": "caisse",
+    "ar": "صندوق النقد",
+    "ko": "계산대",
+    "ru": "касса"
+   }
+  },
+  {
+   "word": "card only",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "カードのみ利用可",
+    "en": "cash is not accepted here",
+    "zh": "仅限刷卡",
+    "fr": "paiement par carte uniquement",
+    "ar": "بالبطاقة فقط",
+    "ko": "카드만 가능",
+    "ru": "только картой"
+   }
+  },
+  {
+   "word": "split the bill",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "会計を分ける",
+    "en": "to divide the payment between customers",
+    "zh": "分开结账",
+    "fr": "partager l'addition",
+    "ar": "يقسم الحساب",
+    "ko": "계산을 나누다",
+    "ru": "разделить счёт"
+   }
+  },
+  {
+   "word": "keep the change",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "お釣りは取っておいて",
+    "en": "what a customer says to leave a tip",
+    "zh": "不用找了",
+    "fr": "gardez la monnaie",
+    "ar": "احتفظ بالباقي",
+    "ko": "거스름돈은 됐어요",
+    "ru": "сдачи не надо"
+   }
+  },
+  {
+   "word": "peak time",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最も忙しい時間",
+    "en": "the busiest period of the day",
+    "zh": "高峰期",
+    "fr": "coup de feu",
+    "ar": "وقت الذروة",
+    "ko": "가장 바쁜 시간",
+    "ru": "самое загруженное время"
+   }
+  },
+  {
+   "word": "in the weeds",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "手が回らない状態",
+    "en": "so busy you cannot keep up",
+    "zh": "忙得不可开交",
+    "fr": "complètement débordé",
+    "ar": "غارق في العمل",
+    "ko": "일이 감당이 안 되는",
+    "ru": "зашиваться"
+   }
+  },
+  {
+   "word": "prep",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕込み",
+    "en": "getting ingredients ready before service",
+    "zh": "备料",
+    "fr": "mise en place",
+    "ar": "التحضير المسبق",
+    "ko": "밑준비",
+    "ru": "подготовка продуктов"
+   }
+  },
+  {
+   "word": "closing duties",
+   "pos": "noun",
+   "meaning": {
+    "ja": "閉店作業",
+    "en": "the tasks done before locking up",
+    "zh": "打烊工作",
+    "fr": "tâches de fermeture",
+    "ar": "مهام الإغلاق",
+    "ko": "마감 업무",
+    "ru": "обязанности при закрытии"
+   }
+  },
+  {
+   "word": "stocktake",
+   "pos": "noun",
+   "meaning": {
+    "ja": "在庫の確認",
+    "en": "counting what supplies are left",
+    "zh": "盘点",
+    "fr": "inventaire",
+    "ar": "جرد المخزون",
+    "ko": "재고 조사",
+    "ru": "инвентаризация"
+   }
+  },
+  {
+   "word": "run out of stock",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "品切れになる",
+    "en": "to have none of an item left",
+    "zh": "卖完了",
+    "fr": "être en rupture",
+    "ar": "ينفد المخزون",
+    "ko": "품절되다",
+    "ru": "закончиться на складе"
+   }
+  },
+  {
+   "word": "health and safety",
+   "pos": "noun",
+   "meaning": {
+    "ja": "衛生と安全の決まり",
+    "en": "the rules that keep workers and food safe",
+    "zh": "卫生与安全",
+    "fr": "hygiène et sécurité",
+    "ar": "الصحة والسلامة",
+    "ko": "위생 및 안전",
+    "ru": "охрана труда и гигиена"
+   }
+  },
+  {
+   "word": "food safety",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食品の安全管理",
+    "en": "handling food so it does not make people ill",
+    "zh": "食品安全",
+    "fr": "sécurité alimentaire",
+    "ar": "سلامة الغذاء",
+    "ko": "식품 안전",
+    "ru": "безопасность пищи"
+   }
+  },
+  {
+   "word": "use-by date",
+   "pos": "noun",
+   "meaning": {
+    "ja": "消費期限",
+    "en": "the last day food may safely be eaten",
+    "zh": "食用期限",
+    "fr": "date limite de consommation",
+    "ar": "تاريخ انتهاء الصلاحية",
+    "ko": "소비 기한",
+    "ru": "срок годности"
+   }
+  },
+  {
+   "word": "cross-contamination",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食材同士の汚染",
+    "en": "harmful transfer between different foods",
+    "zh": "交叉污染",
+    "fr": "contamination croisée",
+    "ar": "التلوث المتبادل",
+    "ko": "교차 오염",
+    "ru": "перекрёстное загрязнение"
+   }
+  },
+  {
+   "word": "wash your hands",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "手を洗う",
+    "en": "to clean your hands before handling food",
+    "zh": "洗手",
+    "fr": "se laver les mains",
+    "ar": "يغسل يديه",
+    "ko": "손을 씻다",
+    "ru": "мыть руки"
+   }
+  },
+  {
+   "word": "hairnet",
+   "pos": "noun",
+   "meaning": {
+    "ja": "髪をおおう網",
+    "en": "a covering that keeps hair out of food",
+    "zh": "发网",
+    "fr": "charlotte (filet à cheveux)",
+    "ar": "شبكة الشعر",
+    "ko": "위생모",
+    "ru": "сеточка для волос"
+   }
+  },
+  {
+   "word": "spill",
+   "pos": "noun",
+   "meaning": {
+    "ja": "こぼれたもの",
+    "en": "liquid that has fallen on the floor",
+    "zh": "洒出的液体",
+    "fr": "liquide renversé",
+    "ar": "سائل مسكوب",
+    "ko": "쏟아진 것",
+    "ru": "пролитое"
+   }
+  },
+  {
+   "word": "mop",
+   "pos": "verb",
+   "meaning": {
+    "ja": "モップでふく",
+    "en": "to clean a floor with a wet mop",
+    "zh": "拖地",
+    "fr": "passer la serpillière",
+    "ar": "يمسح الأرض",
+    "ko": "대걸레질하다",
+    "ru": "мыть пол шваброй"
+   }
+  },
+  {
+   "word": "bin",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ごみ入れ",
+    "en": "a container for rubbish",
+    "zh": "垃圾桶",
+    "fr": "poubelle",
+    "ar": "سلة المهملات",
+    "ko": "쓰레기통",
+    "ru": "мусорное ведро"
+   }
+  },
+  {
+   "word": "dishwasher",
+   "pos": "noun",
+   "meaning": {
+    "ja": "食器洗い機",
+    "en": "a machine that washes plates",
+    "zh": "洗碗机",
+    "fr": "lave-vaisselle",
+    "ar": "غسالة الأطباق",
+    "ko": "식기세척기",
+    "ru": "посудомоечная машина"
+   }
+  },
+  {
+   "word": "fridge",
+   "pos": "noun",
+   "meaning": {
+    "ja": "冷蔵庫",
+    "en": "a cold cupboard for keeping food",
+    "zh": "冰箱",
+    "fr": "réfrigérateur",
+    "ar": "ثلاجة",
+    "ko": "냉장고",
+    "ru": "холодильник"
+   }
+  },
+  {
+   "word": "freezer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "冷凍庫",
+    "en": "a very cold store for frozen food",
+    "zh": "冷冻柜",
+    "fr": "congélateur",
+    "ar": "مجمّد",
+    "ko": "냉동고",
+    "ru": "морозильник"
+   }
+  },
+  {
+   "word": "defrost",
+   "pos": "verb",
+   "meaning": {
+    "ja": "解凍する",
+    "en": "to let frozen food become soft again",
+    "zh": "解冻",
+    "fr": "décongeler",
+    "ar": "يذيب المجمد",
+    "ko": "해동하다",
+    "ru": "размораживать"
+   }
+  },
+  {
+   "word": "reheat",
+   "pos": "verb",
+   "meaning": {
+    "ja": "温め直す",
+    "en": "to warm food that has gone cold",
+    "zh": "再加热",
+    "fr": "réchauffer",
+    "ar": "يعيد التسخين",
+    "ko": "다시 데우다",
+    "ru": "разогревать"
+   }
+  },
+  {
+   "word": "deep fryer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "揚げ物用の機械",
+    "en": "a machine that cooks food in hot oil",
+    "zh": "油炸锅",
+    "fr": "friteuse",
+    "ar": "مقلاة عميقة",
+    "ko": "튀김기",
+    "ru": "фритюрница"
+   }
+  },
+  {
+   "word": "grill",
+   "pos": "verb",
+   "meaning": {
+    "ja": "焼く",
+    "en": "to cook over direct heat",
+    "zh": "烤",
+    "fr": "griller",
+    "ar": "يشوي",
+    "ko": "굽다",
+    "ru": "жарить на гриле"
+   }
+  },
+  {
+   "word": "well done",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "よく焼いた状態",
+    "en": "meat cooked all the way through",
+    "zh": "全熟",
+    "fr": "bien cuit",
+    "ar": "مطهو جيدًا",
+    "ko": "완전히 익힌",
+    "ru": "хорошо прожаренный"
+   }
+  },
+  {
+   "word": "medium rare",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "中が赤い焼き加減",
+    "en": "meat still pink in the middle",
+    "zh": "三分熟",
+    "fr": "saignant à point",
+    "ar": "نصف استواء",
+    "ko": "미디엄 레어",
+    "ru": "средней прожарки"
+   }
+  },
+  {
+   "word": "on the side",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "別添えで",
+    "en": "served separately, not on the food",
+    "zh": "另外装",
+    "fr": "à part",
+    "ar": "على جانب الطبق",
+    "ko": "따로 담아",
+    "ru": "отдельно"
+   }
+  },
+  {
+   "word": "no ice",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "氷なしで",
+    "en": "a drink served without ice",
+    "zh": "去冰",
+    "fr": "sans glaçons",
+    "ar": "بدون ثلج",
+    "ko": "얼음 없이",
+    "ru": "без льда"
+   }
+  },
+  {
+   "word": "extra hot",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "熱めで",
+    "en": "a drink made hotter than usual",
+    "zh": "要更烫",
+    "fr": "très chaud",
+    "ar": "ساخن جدًا",
+    "ko": "더 뜨겁게",
+    "ru": "погорячее"
+   }
+  },
+  {
+   "word": "double shot",
+   "pos": "noun",
+   "meaning": {
+    "ja": "エスプレッソ二杯分",
+    "en": "two servings of espresso in one drink",
+    "zh": "双份浓缩",
+    "fr": "double dose",
+    "ar": "جرعة مزدوجة",
+    "ko": "투 샷",
+    "ru": "двойная порция"
+   }
+  },
+  {
+   "word": "decaf",
+   "pos": "noun",
+   "meaning": {
+    "ja": "カフェイン抜き",
+    "en": "coffee with the caffeine removed",
+    "zh": "低因咖啡",
+    "fr": "déca",
+    "ar": "قهوة منزوعة الكافيين",
+    "ko": "디카페인",
+    "ru": "без кофеина"
+   }
+  },
+  {
+   "word": "loyalty card",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ポイントカード",
+    "en": "a card that rewards repeat customers",
+    "zh": "会员卡",
+    "fr": "carte de fidélité",
+    "ar": "بطاقة ولاء",
+    "ko": "적립 카드",
+    "ru": "карта постоянного клиента"
+   }
+  },
+  {
+   "word": "staff discount",
+   "pos": "noun",
+   "meaning": {
+    "ja": "従業員割引",
+    "en": "a lower price for people who work there",
+    "zh": "员工折扣",
+    "fr": "réduction employé",
+    "ar": "خصم الموظفين",
+    "ko": "직원 할인",
+    "ru": "скидка для сотрудников"
+   }
+  },
+  {
+   "word": "staff meal",
+   "pos": "noun",
+   "meaning": {
+    "ja": "まかない",
+    "en": "food given free to workers on shift",
+    "zh": "员工餐",
+    "fr": "repas du personnel",
+    "ar": "وجبة الموظفين",
+    "ko": "직원 식사",
+    "ru": "питание для персонала"
+   }
+  },
+  {
+   "word": "tip jar",
+   "pos": "noun",
+   "meaning": {
+    "ja": "チップ入れ",
+    "en": "a container customers drop coins into",
+    "zh": "小费罐",
+    "fr": "pot à pourboires",
+    "ar": "وعاء البقشيش",
+    "ko": "팁 통",
+    "ru": "банка для чаевых"
+   }
+  },
+  {
+   "word": "complaint about food",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "料理への苦情",
+    "en": "a customer saying the food is wrong",
+    "zh": "对食物的投诉",
+    "fr": "réclamation sur un plat",
+    "ar": "شكوى بشأن الطعام",
+    "ko": "음식에 대한 항의",
+    "ru": "жалоба на еду"
+   }
+  },
+  {
+   "word": "apologize",
+   "pos": "verb",
+   "meaning": {
+    "ja": "謝る",
+    "en": "to say you are sorry",
+    "zh": "道歉",
+    "fr": "présenter ses excuses",
+    "ar": "يعتذر",
+    "ko": "사과하다",
+    "ru": "извиняться"
+   }
+  },
+  {
+   "word": "remake",
+   "pos": "verb",
+   "meaning": {
+    "ja": "作り直す",
+    "en": "to prepare an order again",
+    "zh": "重做",
+    "fr": "refaire",
+    "ar": "يعيد التحضير",
+    "ko": "다시 만들다",
+    "ru": "переделать"
+   }
+  },
+  {
+   "word": "comp",
+   "pos": "verb",
+   "meaning": {
+    "ja": "無料にする",
+    "en": "to give something free to settle a problem",
+    "zh": "免单",
+    "fr": "offrir (ne pas facturer)",
+    "ar": "يقدّمه مجانًا",
+    "ko": "무료로 처리하다",
+    "ru": "не брать плату"
+   }
+  },
+  {
+   "word": "refund",
+   "pos": "noun",
+   "meaning": {
+    "ja": "返金",
+    "en": "money given back to a customer",
+    "zh": "退款",
+    "fr": "remboursement",
+    "ar": "استرداد المبلغ",
+    "ko": "환불",
+    "ru": "возврат денег"
+   }
+  },
+  {
+   "word": "take it up with the manager",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "店長に伝える",
+    "en": "to pass a problem to the person in charge",
+    "zh": "交给经理处理",
+    "fr": "en référer au responsable",
+    "ar": "يحيل الأمر إلى المدير",
+    "ko": "매니저에게 넘기다",
+    "ru": "передать управляющему"
+   }
+  },
+  {
+   "word": "rude customer",
+   "pos": "noun",
+   "meaning": {
+    "ja": "失礼な客",
+    "en": "a guest who behaves badly to staff",
+    "zh": "无礼的客人",
+    "fr": "client désagréable",
+    "ar": "زبون وقح",
+    "ko": "무례한 손님",
+    "ru": "грубый посетитель"
+   }
+  },
+  {
+   "word": "stay calm",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "落ち着いて対応する",
+    "en": "to keep control of yourself under stress",
+    "zh": "保持冷静",
+    "fr": "garder son calme",
+    "ar": "يحافظ على هدوئه",
+    "ko": "침착함을 유지하다",
+    "ru": "сохранять спокойствие"
+   }
+  },
+  {
+   "word": "order up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "料理ができた合図",
+    "en": "what the kitchen calls when a dish is ready",
+    "zh": "出餐了",
+    "fr": "ça part !",
+    "ar": "الطلب جاهز",
+    "ko": "음식 나왔습니다",
+    "ru": "заказ готов"
+   }
+  },
+  {
+   "word": "behind you",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "うしろ通ります",
+    "en": "warning that you are passing behind someone",
+    "zh": "我在你后面",
+    "fr": "derrière toi !",
+    "ar": "خلفك",
+    "ko": "뒤에 지나갑니다",
+    "ru": "я сзади"
+   }
+  },
+  {
+   "word": "hot pan",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "熱いもの通ります",
+    "en": "a warning that you carry something hot",
+    "zh": "小心烫",
+    "fr": "attention, chaud !",
+    "ar": "مقلاة ساخنة",
+    "ko": "뜨거운 것 지나갑니다",
+    "ru": "осторожно, горячее"
+   }
+  },
+  {
+   "word": "section",
+   "pos": "noun",
+   "meaning": {
+    "ja": "担当の区画",
+    "en": "the group of tables you look after",
+    "zh": "负责区域",
+    "fr": "rang (zone de tables)",
+    "ar": "القسم المسؤول عنه",
+    "ko": "담당 구역",
+    "ru": "закреплённая зона"
+   }
+  },
+  {
+   "word": "double shift",
+   "pos": "noun",
+   "meaning": {
+    "ja": "連続の二交代",
+    "en": "two shifts worked back to back",
+    "zh": "连上两班",
+    "fr": "double service",
+    "ar": "مناوبتان متتاليتان",
+    "ko": "연속 두 타임 근무",
+    "ru": "двойная смена"
+   }
+  },
+  {
+   "word": "split shift",
+   "pos": "noun",
+   "meaning": {
+    "ja": "間があく勤務",
+    "en": "a shift with a long unpaid gap in the middle",
+    "zh": "分段班",
+    "fr": "service coupé",
+    "ar": "مناوبة مقسمة",
+    "ko": "분할 근무",
+    "ru": "смена с большим перерывом"
+   }
+  },
+  {
+   "word": "open the store",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "開店の準備をする",
+    "en": "to get a shop ready before customers come",
+    "zh": "开店",
+    "fr": "faire l'ouverture",
+    "ar": "يفتح المحل",
+    "ko": "오픈 준비를 하다",
+    "ru": "открывать заведение"
+   }
+  },
+  {
+   "word": "cash up",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "レジを締める",
+    "en": "to count the money at the end of the day",
+    "zh": "结算营业款",
+    "fr": "faire la caisse",
+    "ar": "يجرد النقد",
+    "ko": "시재를 정산하다",
+    "ru": "снимать кассу"
+   }
+  },
+  {
+   "word": "trainee",
+   "pos": "noun",
+   "meaning": {
+    "ja": "研修中の人",
+    "en": "someone still learning the job",
+    "zh": "实习生",
+    "fr": "stagiaire en formation",
+    "ar": "متدرب",
+    "ko": "수습생",
+    "ru": "стажёр"
+   }
+  },
+  {
+   "word": "shadow someone",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "付いて見て学ぶ",
+    "en": "to follow a worker to learn from them",
+    "zh": "跟岗学习",
+    "fr": "suivre un collègue pour apprendre",
+    "ar": "يرافق زميلًا للتعلم",
+    "ko": "따라다니며 배우다",
+    "ru": "учиться, наблюдая за коллегой"
+   }
+  },
+  {
+   "word": "pick up the pace",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "手を速める",
+    "en": "to start working faster",
+    "zh": "加快速度",
+    "fr": "accélérer le rythme",
+    "ar": "يسرّع الوتيرة",
+    "ko": "속도를 올리다",
+    "ru": "ускориться"
+   }
+  },
+  {
+   "word": "regular",
+   "pos": "noun",
+   "meaning": {
+    "ja": "常連の客",
+    "en": "a customer who comes often",
+    "zh": "常客",
+    "fr": "habitué",
+    "ar": "زبون دائم",
+    "ko": "단골손님",
+    "ru": "постоянный клиент"
+   }
+  },
+  {
+   "word": "the usual",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "いつものやつ",
+    "en": "what a regular customer always orders",
+    "zh": "老样子",
+    "fr": "comme d'habitude",
+    "ar": "الطلب المعتاد",
+    "ko": "늘 드시던 걸로",
+    "ru": "как обычно"
+   }
+  },
+  {
+   "word": "last orders",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最後の注文の受付",
+    "en": "the final chance to order before closing",
+    "zh": "最后点单",
+    "fr": "dernières commandes",
+    "ar": "آخر الطلبات",
+    "ko": "마지막 주문",
+    "ru": "последние заказы"
+   }
+  }
+ ]
 }

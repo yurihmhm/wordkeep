@@ -36,6 +36,15 @@ node --check /tmp/wk-precommit.js || {
   exit 1
 }
 
+echo "pre-commit: checking interface strings..."
+node tools/i18n-check.mjs || {
+  echo ""
+  echo "BLOCKED: an interface string is missing a language, has the wrong"
+  echo "placeholders, or carries the wrong alphabet. Fix it, or add the word to"
+  echo "the allowlist in tools/i18n-check.mjs if it is a product name."
+  exit 1
+}
+
 echo "pre-commit: running logic tests..."
 # extract.mjs regenerates the tested code from index.html, so the suite can
 # never pass against a stale copy.

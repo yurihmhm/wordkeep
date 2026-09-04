@@ -15,6 +15,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'node:url';
 
 const LANGS = ['ja','en','zh','fr','ar','ko','ru'];
+const CEFR = ['A1','A2','B1','B2','C1','C2'];
 const CHECK = process.argv.includes('--check');
 const root = new URL('../', import.meta.url);
 const htmlPath = fileURLToPath(new URL('index.html', root));
@@ -42,6 +43,7 @@ for (const f of files) {
   if (!d.title || typeof d.title !== 'object') err('no "title"');
   else { const miss = LANGS.filter(l => !d.title[l]); if (miss.length) err('title missing: ' + miss.join(', ')); }
   if (!Array.isArray(d.words) || !d.words.length) { err('no "words"'); continue; }
+  if (!CEFR.includes(d.cefr)) err('"cefr" must be one of ' + CEFR.join(', ') + ' (got ' + JSON.stringify(d.cefr) + ')');
 
   const seen = new Set();
   for (const w of d.words) {
@@ -51,7 +53,7 @@ for (const f of files) {
     const miss = LANGS.filter(l => !w.meaning || !String(w.meaning[l] || '').trim());
     if (miss.length) { err('"' + w.word + '" has no meaning in: ' + miss.join(', ')); break; }
   }
-  entries.push({ id, v: d.v, count: d.words.length, title: d.title });
+  entries.push({ id, v: d.v, count: d.words.length, cefr: d.cefr, title: d.title });
 }
 
 // A file that vanished is not removed automatically: people have progress in it,
@@ -61,13 +63,13 @@ for (const c of current)
   if (!entries.some(e => e.id === c.id))
     console.warn('note: "' + c.id + '" is in the catalogue but has no file. Its entry was left alone '
                + '-- delete it by hand if the package is really retired (people may have progress in it).');
-for (const c of current) if (!entries.some(e => e.id === c.id)) entries.push(c);
+for (const c of current) if (!entries.some(e => e.id === c.id)) entries.push({ cefr: 'B1', ...c });
 
 if (bad) { console.error('\n' + bad + ' problem(s). Nothing was written.'); process.exit(1); }
 
 const esc = s => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 const block = 'const PKG_CATALOG=[\n' + entries.map(e =>
-  "  {id:'" + e.id + "',v:" + e.v + ",count:" + e.count + ",title:{" +
+  "  {id:'" + e.id + "',v:" + e.v + ",count:" + e.count + ",cefr:'" + e.cefr + "',title:{" +
   LANGS.map(l => l + ":'" + esc(e.title[l]) + "'").join(',') + "}},").join('\n') + '\n];';
 
 const before = m[0];

@@ -263,6 +263,48 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\nreview points');
+{
+  const {QUIZ_PTS}=M;
+  // The whole point of the change: four-choice must not be the cheapest way to
+  // the top of the board.
+  t('four-choice is worth the least',()=>{
+    const min=Math.min(...Object.values(QUIZ_PTS));
+    return QUIZ_PTS.choice===min||'choice is '+QUIZ_PTS.choice+', min is '+min; });
+  t('producing the spelling is worth more than picking it',()=>
+    QUIZ_PTS.spell>QUIZ_PTS.choice||'spell '+QUIZ_PTS.spell+' vs choice '+QUIZ_PTS.choice);
+  t('listening sits between the two',()=>
+    (QUIZ_PTS.listen>QUIZ_PTS.choice&&QUIZ_PTS.listen<QUIZ_PTS.spell)||'listen is '+QUIZ_PTS.listen);
+  t('dictation is worth as much as spelling',()=>
+    QUIZ_PTS.dictation===QUIZ_PTS.spell||'dictation '+QUIZ_PTS.dictation);
+
+  t('an entry from before the change counts as one point',()=>
+    M.histPts({t:1,ok:true})===1||M.histPts({t:1,ok:true}));
+  t('an unknown format counts as one point rather than zero',()=>
+    M.histPts({t:1,ok:true,q:'telepathy'})===1||M.histPts({t:1,ok:true,q:'telepathy'}));
+  t('null does not throw',()=>M.histPts(null)===1||M.histPts(null));
+  t('each format scores its own weight',()=>{
+    const got=Object.keys(QUIZ_PTS).map(k=>M.histPts({q:k}));
+    const want=Object.keys(QUIZ_PTS).map(k=>QUIZ_PTS[k]);
+    return JSON.stringify(got)===JSON.stringify(want)||got.join(',')+' vs '+want.join(','); });
+
+  // Halves have to survive being added up before anything rounds, or two
+  // listening answers would be worth 2 points instead of 3.
+  t('halves add up before rounding',()=>{
+    const total=[{q:'listen'},{q:'listen'}].reduce((a,h)=>a+M.histPts(h),0);
+    return total===3||'got '+total; });
+  t('a mixed day totals what the weights say',()=>{
+    const hist=[...Array(4)].map(()=>({q:'choice'}))
+      .concat([...Array(2)].map(()=>({q:'listen'})))
+      .concat([...Array(3)].map(()=>({q:'spell'})))
+      .concat([{q:'dictation'}])
+      .concat([{t:1,ok:true}]);
+    const total=hist.reduce((a,h)=>a+M.histPts(h),0);
+    return total===16||'expected 16, got '+total; });
+  t('the board floors rather than rounds up',()=>
+    M.boardNum(7.5,100000)===7||M.boardNum(7.5,100000));
+}
+
 console.log('\nslang filters (region + explicit)');
 {
   // A miniature slang package: two words everyone says, one American, one
