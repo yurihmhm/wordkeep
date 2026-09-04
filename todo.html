@@ -755,6 +755,13 @@ footer a{color:var(--ink-2)}
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
+          <div class="t">プロジェクトをiCloud同期の外に移す</div>
+          <div class="d">作業中に .git/objects まで iCloud に退避（dataless）され、git と node がファイル読み込みで無限に固まった。パッケージ6件とテスト用スクリプト数件も同じ状態で、HEADから書き戻して復旧した。/Users/yuri_hmhm/Desktop 配下は「デスクトップと書類」の同期対象。システム設定 → Apple ID → iCloud で「Macストレージを最適化」を切るか、リポジトリを ~/ 直下など同期外へ移すのが根治。今回は ~/wk-build/wordkeep に一時クローンして作業した。ローカルの Desktop 側は git fetch &amp;&amp; git reset --hard origin/main か、クローンし直しで揃う。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
           <div class="t">既存パッケージの非日本語訳の重複を見直す</div>
           <div class="d">全13パッケージを7言語で照合したところ、日本語以外で同じ訳が2語に付いている組み合わせが57件あった。多くは言語として避けられないもの（get up と stand up はフランス語でどちらも se lever）で、四択の類義語ガードが表示中の言語で比較するため問題は壊れない。ただし学習者から見ると同じ訳が二度出るので、別の訳が立つものだけ書き分ける価値がある。node tools/cross-check.mjs で一覧が出る。</div>
         </div>
