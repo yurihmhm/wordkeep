@@ -10,7 +10,8 @@
   "ko": "학술 필수 어휘",
   "ru": "Ключевая академическая лексика"
  },
- "cefr": "C1",
+ "cefr": "B2-C1",
+ "group": "study",
  "words": [
   {
    "word": "authority",

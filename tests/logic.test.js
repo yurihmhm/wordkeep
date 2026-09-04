@@ -263,6 +263,69 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\nCEFR ranges');
+{
+  t('a single level parses as itself',()=>M.cefrLabel('B1')==='B1'||M.cefrLabel('B1'));
+  t('a range renders with an en dash, not a hyphen',()=>
+    M.cefrLabel('A2-B1')==='A2\u2013B1'||M.cefrLabel('A2-B1'));
+  t('nonsense produces nothing rather than throwing',()=>
+    (M.cefrLabel('')===''&&M.cefrLabel('Z9')===''&&M.cefrLabel(null)==='')||'got '+M.cefrLabel('Z9'));
+  t('a range covers both ends and everything between',()=>
+    (M.cefrCovers('A2-C1','A2')&&M.cefrCovers('A2-C1','B2')&&M.cefrCovers('A2-C1','C1'))||'gap in range');
+  t('a range does not cover outside itself',()=>
+    (!M.cefrCovers('B1-B2','A2')&&!M.cefrCovers('B1-B2','C1'))||'range leaks');
+  // The colour is the one distinction someone picking a next pack relies on.
+  t('anything starting in A keeps the A band',()=>
+    (M.cefrBand('A2-B1')==='A2'&&M.cefrBand('A2-C1')==='A2')||M.cefrBand('A2-C1'));
+  t('a B range takes its harder end so B1-B2 and B2-C1 differ',()=>
+    (M.cefrBand('B1-B2')==='B2'&&M.cefrBand('B2-C1')==='C1')||
+    M.cefrBand('B1-B2')+' / '+M.cefrBand('B2-C1'));
+}
+
+console.log('\npackage recommendations');
+{
+  const cat=[
+    {id:'starter', cefr:'A2-B1', group:'work',  count:100, title:{ja:'starter'}},
+    {id:'midwork', cefr:'B1-B2', group:'work',  count:100, title:{ja:'midwork'}},
+    {id:'hardwork',cefr:'B2-C1', group:'work',  count:100, title:{ja:'hardwork'}},
+    {id:'chat',    cefr:'A2-B1', group:'daily', count:100, title:{ja:'chat'}},
+    {id:'paper',   cefr:'B2-C1', group:'study', count:100, title:{ja:'paper'}}
+  ];
+  const setup=(level,purpose)=>{ M.__setSettings({level,purpose}); M.__setPkg(cat,{},null); };
+  const ids=()=>M.recommendedPkgs().map(p=>p.id);
+
+  t('skipping both questions recommends nothing',()=>{
+    setup('',''); return M.recommendedPkgs().length===0||ids().join(','); });
+  t('the chosen purpose leads the list',()=>{
+    setup('B1','work'); const r=ids();
+    return (r[0]==='starter'&&r.indexOf('chat')>r.indexOf('midwork'))||r.join(','); });
+  t('a beginner is started on the pack that begins lowest',()=>{
+    setup('A2','work'); return ids()[0]==='starter'||ids().join(','); });
+  // The bug this replaced: sorting by absolute easiness put café-shift basics
+  // at the top of an advanced speaker's list.
+  t('an advanced learner is not led with beginner material',()=>{
+    setup('C1','work'); const r=ids();
+    return r[0]!=='starter'||'C1 was offered '+r.join(','); });
+  t('a pack two steps above the learner is pushed down',()=>{
+    setup('A2','study'); const r=ids();
+    return (r.indexOf('paper')<0||r.indexOf('paper')>0)||'paper led an A2 list'; });
+  t('answering only the level still returns something',()=>{
+    setup('B1',''); return M.recommendedPkgs().length>0||'empty'; });
+  t('answering only the purpose still returns something',()=>{
+    setup('','study'); return ids()[0]==='paper'||ids().join(','); });
+  t('never more than four',()=>{
+    setup('B1','work'); return M.recommendedPkgs().length<=4||M.recommendedPkgs().length; });
+}
+
+console.log('\npoint formatting');
+{
+  t('a whole number has no decimal',()=>M.fmtPts(16)==='16'||M.fmtPts(16));
+  t('a half keeps its half',()=>M.fmtPts(4.5)==='4.5'||M.fmtPts(4.5));
+  t('float noise still lands on a half',()=>M.fmtPts(1.5000000000000002)==='1.5'||M.fmtPts(1.5000000000000002));
+  t('thousands are still separated',()=>M.fmtPts(1234.5)==='1,234.5'||M.fmtPts(1234.5));
+  t('zero reads as zero',()=>M.fmtPts(0)==='0'||M.fmtPts(0));
+}
+
 console.log('\nreview points');
 {
   const {QUIZ_PTS}=M;

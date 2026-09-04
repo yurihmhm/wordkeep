@@ -10,7 +10,8 @@
   "ko": "IT·테크 영단어",
   "ru": "Английские слова из сферы IT"
  },
- "cefr": "B2",
+ "cefr": "B1-B2",
+ "group": "field",
  "words": [
   {
    "word": "server",
