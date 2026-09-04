@@ -1247,11 +1247,30 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <div id="cefrBody"></div>
   <button class="btn btn-primary" id="cefrOk" style="margin-top:16px;width:100%"></button>
 </div></div>
+<div class="overlay" id="overlayInstall"><div class="sheet">
+  <div class="step-emoji">📱</div>
+  <h3 id="instTitle" style="text-align:center"></h3>
+  <p class="hint" id="instBody" style="text-align:center;margin:8px 0 4px"></p>
+  <div id="instSteps"></div>
+  <button class="btn btn-primary" id="instDone" style="margin-top:16px;width:100%"></button>
+  <button class="btn btn-ghost" id="instLater" style="margin-top:10px;width:100%"></button>
+</div></div>
+<div class="overlay" id="overlayProfile"><div class="sheet">
+  <div class="step-emoji">✨</div>
+  <h3 id="profTitle" style="text-align:center"></h3>
+  <p class="hint" id="profBody" style="text-align:center;margin:8px 0 0"></p>
+  <button class="btn btn-gold" id="profYes" style="margin-top:16px;width:100%"></button>
+  <button class="btn btn-ghost" id="profNo" style="margin-top:10px;width:100%"></button>
+</div></div>
 <div class="overlay" id="overlayMenu"><div class="sheet">
   <div class="sheet-head"><h3 data-i18n="menu_title">メニュー</h3><button class="sheet-x" id="menuClose" type="button" aria-label="close">×</button></div>
   <button class="menu-item" id="miAccount" type="button">
     <svg class="mi-ic" viewBox="0.17 0.27 23.66 23.66" fill="currentColor" aria-hidden="true"><path d="M12 2.2a4.7 4.7 0 1 1 0 9.4 4.7 4.7 0 0 1 0-9.4ZM4 19.4c0-3.7 3.58-6.3 8-6.3s8 2.6 8 6.3v.4A2.2 2.2 0 0 1 17.8 22H6.2A2.2 2.2 0 0 1 4 19.8v-.4Z"/></svg>
     <span class="mi-txt"><span class="mi-t" id="miAcctT" data-i18n="profile_title">プロフィール</span><span class="mi-s" id="miAcctS" data-i18n="menu_profile_sub">ニックネーム・同期・アカウント</span></span>
+  </button>
+  <button class="menu-item" id="miInstall" type="button" hidden>
+    <svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 6.5v7"/><path d="M9 10.5l3 3 3-3"/></svg>
+    <span class="mi-txt"><span class="mi-t" data-i18n="menu_install">ホーム画面に追加</span><span class="mi-s" data-i18n="menu_install_sub">通知と保存がきちんと動くようになります</span></span>
   </button>
   <button class="menu-item" id="miFeedback" type="button">
     <svg class="mi-ic" viewBox="0.16 -0.01 23.69 23.69" fill="currentColor" aria-hidden="true"><path d="M12 3.2c-5.08 0-9.2 3.36-9.2 7.5 0 2.3 1.28 4.36 3.28 5.73v3.13a.9.9 0 0 0 1.4.75l3.02-2a10.7 10.7 0 0 0 1.5.1c5.08 0 9.2-3.36 9.2-7.71S17.08 3.2 12 3.2ZM8.3 9.6a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Zm3.7 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/></svg>
@@ -1491,7 +1510,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.58.0';
+const APP_VERSION='5.59.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1504,7 +1523,8 @@ const APP_VERSION='5.58.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.58.0',date:'2026-09-04',keys:['wn1'],show:true},
+  {version:'5.59.0',date:'2026-09-04',keys:['wn1'],show:true},
+  {version:'5.58.0',date:'2026-09-04',keys:['v5580_1'],show:true},
   {version:'5.57.0',date:'2026-09-04',keys:['v5570_1'],show:true},
   {version:'5.56.0',date:'2026-09-04',keys:['v5560_1'],show:true},
   {version:'5.55.0',date:'2026-09-04',keys:['v5550_1'],show:true},
@@ -1623,7 +1643,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'はじめに<b>3つの質問</b>に答えると、あなたに合う単語パッケージが一覧の上に出るようになりました。パッケージは<b>日常会話・留学・ワーホリ・専門分野</b>に分かれ、難易度も<b>A2〜B1</b>のように幅で表示されます。学習完了の画面の数字も<b>pt</b>にそろえました。',en:'Answer <b>three quick questions</b> and the packs that suit you appear at the top of the list. Packs are now grouped into <b>everyday, studying abroad, work</b> and <b>specialist fields</b>, and each shows a level range like <b>A2–B1</b>. The number on the end-of-round screen is now in <b>points</b> too.',zh:'回答<b>3个问题</b>后，适合你的单词包会排在列表最上面。单词包现已分为<b>日常会话・留学・打工度假・专业领域</b>，难度也以 <b>A2–B1</b> 这样的区间显示。学习完成页面的数字也统一为<b>积分</b>。',fr:'Répondez à <b>trois questions</b> et les packs qui vous conviennent passent en haut de la liste. Les packs sont regroupés en <b>quotidien, études, travail</b> et <b>domaines spécialisés</b>, chacun avec une fourchette de niveau comme <b>A2–B1</b>. L\'écran de fin de série compte lui aussi en <b>points</b>.',ar:'أجب عن <b>ثلاثة أسئلة</b> وستظهر الحزم المناسبة لك في أعلى القائمة. صارت الحزم مقسمة إلى <b>الحياة اليومية والدراسة بالخارج والعمل</b> و<b>المجالات المتخصصة</b>، ولكل منها نطاق مستوى مثل <b>A2–B1</b>. وشاشة نهاية الجولة تعد بـ<b>النقاط</b> أيضًا.',ko:'<b>세 가지 질문</b>에 답하면 나에게 맞는 단어 패키지가 목록 위쪽에 나옵니다. 패키지는 <b>일상 회화·유학·워홀·전문 분야</b>로 나뉘었고, 난이도도 <b>A2–B1</b>처럼 범위로 표시됩니다. 학습 완료 화면의 숫자도 <b>pt</b>로 맞췄습니다.',ru:'Ответьте на <b>три вопроса</b> — и подходящие наборы окажутся вверху списка. Наборы теперь разделены на <b>повседневное общение, учёбу, работу</b> и <b>специальные области</b>, а уровень показан диапазоном вроде <b>A2–B1</b>. Экран после раунда тоже считает в <b>очках</b>.'},
+  wn1:{ja:'モーダルの<b>外側を押すと閉じる</b>ようになりました。まだ質問に答えていない方には、<b>あなたに合う単語パッケージを選ぶ3つの質問</b>をご案内します（パッケージ一覧の↺からいつでもやり直せます）。スマホのブラウザでお使いの方には<b>ホーム画面への追加</b>をご案内します。追加すると通知が届き、単語が消えたように見えることもなくなります。1日の目標が<b>15語や100語、自分で決めた数</b>にしても20語のままだった問題も直しました。',en:'Sheets now <b>close when you tap outside them</b>. If you have not answered them yet, we will offer the <b>three questions</b> that put the right packs at the top of your list — the ↺ in the package list reruns them any time. On a phone browser we now show how to <b>add Wordkeep to your home screen</b>, which is what makes reminders arrive and stops saved words looking lost. Also fixed: a daily target of <b>15, 100 or your own number</b> was quietly staying at 20.',zh:'弹窗现在<b>点击外侧即可关闭</b>。还没回答过的用户，我们会邀请你回答<b>3个问题</b>，把合适的单词包排到最上面（单词包列表的 ↺ 可随时重答）。在手机浏览器上会提示<b>添加到主屏幕</b>，这样才能收到提醒，单词也不会看起来消失。另外修复了每日目标设为 <b>15、100 或自定义数字</b>时仍停留在 20 的问题。',fr:'Les fenêtres <b>se ferment en touchant à l\'extérieur</b>. Si vous n\'y avez pas encore répondu, nous proposons les <b>trois questions</b> qui remontent les bons packs en haut de la liste — le ↺ de la liste les relance quand vous voulez. Sur navigateur mobile, nous expliquons comment <b>ajouter Wordkeep à l\'écran d\'accueil</b> : c\'est ce qui fait arriver les rappels. Corrigé aussi : un objectif de <b>15, 100 ou un nombre libre</b> restait à 20.',ar:'صارت النوافذ <b>تُغلق عند النقر خارجها</b>. ومن لم يجب بعد، نعرض عليه <b>الأسئلة الثلاثة</b> التي ترفع الحزم المناسبة إلى أعلى القائمة (زر ↺ في قائمة الحزم يعيدها متى شئت). وعلى متصفح الهاتف نوضح كيفية <b>الإضافة إلى الشاشة الرئيسية</b>، فبها تصل التذكيرات. وأُصلح أيضًا: هدف يومي بـ<b>15 أو 100 أو رقم تختاره</b> كان يبقى 20.',ko:'창이 <b>바깥쪽을 누르면 닫히도록</b> 바뀌었습니다. 아직 답하지 않으셨다면 <b>세 가지 질문</b>을 안내해 드립니다. 답하면 맞는 패키지가 목록 위로 옵니다(패키지 목록의 ↺로 언제든 다시 할 수 있습니다). 휴대폰 브라우저에서는 <b>홈 화면에 추가</b>하는 방법을 안내합니다. 추가해야 알림이 오고 단어가 사라진 것처럼 보이지 않습니다. 하루 목표를 <b>15개나 100개, 직접 정한 수</b>로 해도 20개로 남던 문제도 고쳤습니다.',ru:'Окна теперь <b>закрываются по нажатию снаружи</b>. Тем, кто ещё не отвечал, предложим <b>три вопроса</b> — после них нужные наборы окажутся вверху списка (кнопка ↺ в списке наборов повторит их когда угодно). В мобильном браузере покажем, как <b>добавить Wordkeep на главный экран</b>: без этого не приходят напоминания. Исправлено: дневная цель в <b>15, 100 или своё число</b> молча оставалась 20.'},
+  v5580_1:{ja:'はじめに<b>3つの質問</b>に答えると、あなたに合う単語パッケージが一覧の上に出るようになりました。パッケージは<b>日常会話・留学・ワーホリ・専門分野</b>に分かれ、難易度も<b>A2〜B1</b>のように幅で表示されます。学習完了の画面の数字も<b>pt</b>にそろえました。',en:'Answer <b>three quick questions</b> and the packs that suit you appear at the top of the list. Packs are now grouped into <b>everyday, studying abroad, work</b> and <b>specialist fields</b>, and each shows a level range like <b>A2–B1</b>. The number on the end-of-round screen is now in <b>points</b> too.',zh:'回答<b>3个问题</b>后，适合你的单词包会排在列表最上面。单词包现已分为<b>日常会话・留学・打工度假・专业领域</b>，难度也以 <b>A2–B1</b> 这样的区间显示。学习完成页面的数字也统一为<b>积分</b>。',fr:'Répondez à <b>trois questions</b> et les packs qui vous conviennent passent en haut de la liste. Les packs sont regroupés en <b>quotidien, études, travail</b> et <b>domaines spécialisés</b>, chacun avec une fourchette de niveau comme <b>A2–B1</b>. L\'écran de fin de série compte lui aussi en <b>points</b>.',ar:'أجب عن <b>ثلاثة أسئلة</b> وستظهر الحزم المناسبة لك في أعلى القائمة. صارت الحزم مقسمة إلى <b>الحياة اليومية والدراسة بالخارج والعمل</b> و<b>المجالات المتخصصة</b>، ولكل منها نطاق مستوى مثل <b>A2–B1</b>. وشاشة نهاية الجولة تعد بـ<b>النقاط</b> أيضًا.',ko:'<b>세 가지 질문</b>에 답하면 나에게 맞는 단어 패키지가 목록 위쪽에 나옵니다. 패키지는 <b>일상 회화·유학·워홀·전문 분야</b>로 나뉘었고, 난이도도 <b>A2–B1</b>처럼 범위로 표시됩니다. 학습 완료 화면의 숫자도 <b>pt</b>로 맞췄습니다.',ru:'Ответьте на <b>три вопроса</b> — и подходящие наборы окажутся вверху списка. Наборы теперь разделены на <b>повседневное общение, учёбу, работу</b> и <b>специальные области</b>, а уровень показан диапазоном вроде <b>A2–B1</b>. Экран после раунда тоже считает в <b>очках</b>.'},
   v5570_1:{ja:'スラングを<b>国別に絞って</b>学べるようになりました。単語一覧の国旗を押すと、その国だけ／その国を外して覚えられます。パッケージには<b>CEFRの難易度</b>が付きました。ⓘを押すと各レベルの説明が出ます。ランキングは<b>ポイント制</b>になり、スペル入力やディクテーションなど難しい形式ほど高く入ります。これまでの記録は1問1ptとして引き継がれます。',en:'Slang can now be studied <b>one country at a time</b> — tap a flag in the word list to keep or drop it. Every pack shows a <b>CEFR level</b>, and the ⓘ beside the heading explains what each level means. The board is now scored in <b>points</b>: harder formats like spelling and dictation are worth more than multiple choice. Everything you answered before counts as 1 point each.',zh:'俚语现在可以<b>按国家筛选</b>学习了——在单词列表点国旗即可只留或排除该国。每个单词包都标注了<b>CEFR 难度</b>，点标题旁的 ⓘ 可看各等级说明。排行榜改为<b>积分制</b>，拼写输入、听写等较难题型得分更高。此前的记录一律按每题 1 分计入。',fr:'L\'argot se révise maintenant <b>pays par pays</b> : touchez un drapeau dans la liste pour le garder ou l\'écarter. Chaque pack affiche un <b>niveau CECR</b>, et le ⓘ à côté du titre explique ce que chacun signifie. Le classement se compte désormais en <b>points</b> : l\'orthographe et la dictée valent plus que le choix multiple. Tout ce que vous avez déjà répondu compte 1 point.',ar:'يمكنك الآن دراسة العامية <b>حسب الدولة</b>: اضغط على العلم في قائمة الكلمات لإبقائه أو استبعاده. كل حزمة تعرض <b>مستوى الإطار الأوروبي</b>، وزر ⓘ بجانب العنوان يشرح كل مستوى. وصارت اللوحة تُحتسب بـ<b>النقاط</b>: الإملاء والديكتيه أعلى من الاختيار من متعدد. وكل ما أجبت عنه سابقًا يُحتسب بنقطة واحدة.',ko:'슬랭을 <b>나라별로 골라</b> 학습할 수 있게 됐습니다. 단어 목록의 국기를 누르면 그 나라만 남기거나 뺄 수 있습니다. 각 패키지에는 <b>CEFR 난이도</b>가 붙었고, 제목 옆 ⓘ를 누르면 레벨 설명이 나옵니다. 랭킹은 <b>포인트제</b>가 되어 스펠링 입력이나 딕테이션처럼 어려운 형식일수록 높게 들어갑니다. 이전 기록은 문제당 1pt로 이어집니다.',ru:'Сленг теперь можно учить <b>по странам</b>: нажмите флаг в списке слов, чтобы оставить или убрать её. У каждого набора появился <b>уровень CEFR</b>, а ⓘ рядом с заголовком объясняет, что каждый уровень значит. Рейтинг считается в <b>очках</b>: написание и диктант весят больше, чем выбор из четырёх. Всё отвеченное раньше засчитано по 1 очку.'},
   v5560_1:{ja:'単語パッケージを2つ追加しました。<b>「AI・生成AIの英単語」</b>と<b>「英語スラング」</b>です。スラングは<b>アメリカ・イギリス・オーストラリア</b>の国旗で分かれていて、出題する国を選べます。<b>きつい言葉は最初は出てきません</b>。設定か出題前の画面でオンにできます。',en:'Two new packs: <b>AI and Generative AI</b>, plus <b>English Slang</b>. The slang is split by flag into <b>American, British and Australian</b>, and you can pick which countries to be quizzed on. <b>Coarse words stay hidden until you ask for them</b> — the switch is in Settings, or on the screen before a round.',zh:'新增两个单词包：<b>「人工智能与生成式AI」</b>和<b>「英语俚语」</b>。俚语按国旗分为<b>美国、英国、澳大利亚</b>，可以选择出题的国家。<b>粗俗用语默认不出现</b>，可在设置或出题前的画面打开。',fr:'Deux nouveaux packs : <b>« IA et IA générative »</b> et <b>« Argot anglais »</b>. L\'argot est trié par drapeau entre <b>États-Unis, Royaume-Uni et Australie</b>, et vous choisissez les pays à réviser. <b>Le langage cru reste masqué</b> jusqu\'à ce que vous l\'activiez, dans les réglages ou juste avant une série.',ar:'حزمتان جديدتان: <b>«الذكاء الاصطناعي والتوليدي»</b> و<b>«العامية الإنجليزية»</b>. العامية مقسمة بالأعلام إلى <b>أمريكية وبريطانية وأسترالية</b>، ويمكنك اختيار الدول التي تُختبر فيها. <b>الألفاظ النابية مخفية</b> حتى تطلبها من الإعدادات أو من شاشة ما قبل الجولة.',ko:'단어 패키지를 2개 추가했습니다. <b>«AI와 생성형 AI»</b>와 <b>«영어 슬랭»</b>입니다. 슬랭은 <b>미국·영국·호주</b> 국기로 나뉘어 있어 출제할 나라를 고를 수 있습니다. <b>거친 말은 처음에는 나오지 않습니다</b>. 설정이나 출제 전 화면에서 켤 수 있습니다.',ru:'Два новых набора: <b>«ИИ и генеративный ИИ»</b> и <b>«Английский сленг»</b>. Сленг разделён флагами на <b>американский, британский и австралийский</b> — можно выбрать, какие страны спрашивать. <b>Грубые слова спрятаны</b>, пока вы их не включите: в настройках или на экране перед раундом.'},
   v5550_1:{ja:'単語パッケージを<b>4つ追加</b>しました。「職場での会話とトラブル」「大学の授業と課題」「寮とキャンパス生活」「アカデミック頻出語」、それぞれ100語です。「IT・テックの英単語」も50語から<b>100語</b>に増えました。',en:'Four new packs: <b>Workplace Talk & Problems</b>, <b>University Classes & Coursework</b>, <b>Dorm & Campus Life</b> and <b>Core Academic Vocabulary</b> — a hundred words each. The tech pack has doubled to <b>100 words</b> as well.',zh:'新增<b>4个单词包</b>：「职场沟通与问题」「大学课程与作业」「宿舍与校园生活」「学术高频词」，每个100词。「IT科技英语」也从50词增加到<b>100词</b>。',fr:'<b>Quatre nouveaux packs</b> : « Communication et problèmes au travail », « Cours et travaux universitaires », « Vie en résidence et sur le campus » et « Vocabulaire académique essentiel », cent mots chacun. Le pack tech passe lui aussi à <b>100 mots</b>.',ar:'<b>أربع حزم جديدة</b>: «التواصل والمشكلات في العمل» و«المحاضرات والواجبات الجامعية» و«الحياة في السكن الجامعي والحرم» و«المفردات الأكاديمية الأساسية»، مئة كلمة لكل منها. وحزمة التقنية صارت <b>100 كلمة</b> أيضًا.',ko:'단어 패키지를 <b>4개 추가</b>했습니다. «직장 대화와 문제 상황» «대학 수업과 과제» «기숙사와 캠퍼스 생활» «학술 필수 어휘», 각각 100단어입니다. «IT·테크 영단어»도 50단어에서 <b>100단어</b>로 늘었습니다.',ru:'<b>Четыре новых набора</b>: «Общение и проблемы на работе», «Учёба и задания в университете», «Общежитие и жизнь в кампусе» и «Ключевая академическая лексика» — по сто слов в каждом. Набор про технологии тоже вырос до <b>100 слов</b>.'},
@@ -1979,6 +2000,16 @@ const T={
   q_words_unit:{ja:'{0}語',en:'{0} words',zh:'{0} 词',fr:'{0} mots',ar:'{0} كلمة',ko:'{0}단어',ru:'{0} слов'},
   reco_sec:{ja:'あなたへのおすすめ',en:'Recommended for you',zh:'为你推荐',fr:'Recommandé pour vous',ar:'مقترح لك',ko:'추천 패키지',ru:'Рекомендуем вам'},
   reco_redo:{ja:'質問に答え直す',en:'Answer the questions again',zh:'重新回答问题',fr:'Répondre à nouveau',ar:'أعد الإجابة عن الأسئلة',ko:'질문 다시 답하기',ru:'Ответить заново'},
+  inst_t:{ja:'ホーム画面に追加してください',en:'Add Wordkeep to your home screen',zh:'请添加到主屏幕',fr:'Ajoutez Wordkeep à votre écran d\'accueil',ar:'أضف التطبيق إلى الشاشة الرئيسية',ko:'홈 화면에 추가해 주세요',ru:'Добавьте Wordkeep на главный экран'},
+  inst_b:{ja:'ブラウザのままだと通知が届かず、別のブラウザで開いたときに単語が見えないことがあります。ホーム画面から開けば、その両方がなくなります。',en:'In a browser you get no reminders, and words saved here can look missing when you open a different browser. Launching from the home screen ends both.',zh:'停留在浏览器里收不到提醒，换一个浏览器打开时单词也可能看不到。从主屏幕启动就没有这些问题。',fr:'Dans un navigateur, pas de rappels, et vos mots peuvent sembler disparus depuis un autre navigateur. Lancer depuis l\'écran d\'accueil règle les deux.',ar:'في المتصفح لا تصلك التذكيرات، وقد تبدو كلماتك مفقودة عند فتح متصفح آخر. التشغيل من الشاشة الرئيسية ينهي الأمرين.',ko:'브라우저로 쓰면 알림이 오지 않고, 다른 브라우저로 열면 단어가 안 보일 수 있습니다. 홈 화면에서 열면 둘 다 해결됩니다.',ru:'В браузере не приходят напоминания, а слова могут «пропасть» при открытии в другом браузере. Запуск с главного экрана снимает и то, и другое.'},
+  inst_done:{ja:'追加しました',en:'I have added it',zh:'我已添加',fr:'C\'est fait',ar:'أضفته بالفعل',ko:'추가했습니다',ru:'Я добавил'},
+  inst_later:{ja:'あとで',en:'Later',zh:'稍后再说',fr:'Plus tard',ar:'لاحقًا',ko:'나중에',ru:'Позже'},
+  menu_install:{ja:'ホーム画面に追加',en:'Add to home screen',zh:'添加到主屏幕',fr:'Ajouter à l\'écran d\'accueil',ar:'إضافة إلى الشاشة الرئيسية',ko:'홈 화면에 추가',ru:'Добавить на главный экран'},
+  menu_install_sub:{ja:'通知と保存がきちんと動くようになります',en:'Makes reminders and saving work properly',zh:'让提醒与保存正常运作',fr:'Pour que rappels et sauvegarde fonctionnent',ar:'لتعمل التذكيرات والحفظ كما ينبغي',ko:'알림과 저장이 제대로 작동합니다',ru:'Чтобы напоминания и сохранение работали'},
+  prof_ask_t:{ja:'あなたに合う単語パッケージを出します',en:'We can put the right packs in front of you',zh:'为你挑出合适的单词包',fr:'Nous pouvons mettre les bons packs en avant',ar:'يمكننا عرض الحزم المناسبة لك',ko:'나에게 맞는 단어 패키지를 보여 드립니다',ru:'Покажем наборы, которые вам подходят'},
+  prof_ask_b:{ja:'3つの質問に答えるだけで、いまの英語力と目的に合ったパッケージが一覧の上に並びます。30秒もかかりません。',en:'Three questions, and the packs that match your level and your reason for learning move to the top of the list. It takes under a minute.',zh:'只要回答 3 个问题，符合你水平与目的的单词包就会排到最上面。用不了一分钟。',fr:'Trois questions, et les packs adaptés à votre niveau et à votre objectif remontent en haut de la liste. Moins d\'une minute.',ar:'ثلاثة أسئلة فقط، وستتصدر القائمة الحزم المناسبة لمستواك وهدفك. لن يستغرق الأمر دقيقة.',ko:'질문 세 개만 답하면 지금의 실력과 목적에 맞는 패키지가 목록 위쪽에 옵니다. 1분도 걸리지 않습니다.',ru:'Три вопроса — и наборы под ваш уровень и вашу цель окажутся вверху списка. Меньше минуты.'},
+  prof_ask_yes:{ja:'質問に答える',en:'Answer the questions',zh:'回答问题',fr:'Répondre aux questions',ar:'أجب عن الأسئلة',ko:'질문에 답하기',ru:'Ответить на вопросы'},
+  prof_ask_no:{ja:'あとで',en:'Later',zh:'稍后再说',fr:'Plus tard',ar:'لاحقًا',ko:'나중에',ru:'Позже'},
   grp_daily:{ja:'日常会話',en:'Everyday conversation',zh:'日常会话',fr:'Conversation courante',ar:'المحادثة اليومية',ko:'일상 회화',ru:'Повседневная речь'},
   grp_study:{ja:'留学',en:'Studying abroad',zh:'留学',fr:'Études à l\'étranger',ar:'الدراسة بالخارج',ko:'유학',ru:'Учёба за рубежом'},
   grp_work:{ja:'ワーホリ・仕事',en:'Work & working holiday',zh:'打工度假与工作',fr:'Travail et PVT',ar:'العمل وإجازة العمل',ko:'워홀·직장',ru:'Работа и рабочие каникулы'},
@@ -2312,7 +2343,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,level:'',purpose:'',shuffle:false,explicit:false,regions:{all:true,us:true,uk:true,au:true},notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,level:'',purpose:'',askedProfile:false,installSnoozed:0,shuffle:false,explicit:false,regions:{all:true,us:true,uk:true,au:true},notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -3212,8 +3243,9 @@ function renderDeckPicker(){
   if(rr)rr.onclick=e=>{
     e.stopPropagation();
     closeDeckPicker();
-    tutIsFirstRun=false;tutSkipped=false;tutSeen={};tutStep=1;tutOnlyProfile=true;
-    renderTutorial();$('#overlayTut').classList.add('show');
+    // One place decides how that flow starts, so the two entry points cannot
+    // drift apart.
+    startProfileQuestions();
   };
   const ci=$('#cefrInfo');
   // Stop the click reaching the row behind it, which would switch decks.
@@ -4340,10 +4372,20 @@ function studiedToday(){
 // This hides nothing that matters: the words are still due, the schedule is
 // unchanged, and the true total is on the record screen. It is the difference
 // between "you owe 210" and "do 20 today".
-const GOAL_CHOICES=[10,20,30,50,0];   // 0 = no cap, show everything
+const GOAL_CHOICES=[10,20,30,50,0];   // the settings segment's presets; 0 = no cap
+// Any sane number, not one of a fixed five. The onboarding question offers 15
+// and 100 and a free number, and the old whitelist silently turned every one of
+// those into 20 -- the question looked answered and did nothing. Still bounded,
+// because a corrupt stored value must not become somebody's daily target.
 function dailyGoal(){
-  const g=S().dailyGoal;
-  return GOAL_CHOICES.includes(g)?g:20;
+  const raw=S().dailyGoal;
+  // Blank is missing, not zero. Number('') is 0 and 0 means "no cap", so a
+  // stored empty string would have quietly switched the daily limit off -- and
+  // v5.58.0 could write one, so this repairs those installs on read.
+  if(raw===''||raw===null||raw===undefined)return 20;
+  const g=Number(raw);
+  if(!Number.isFinite(g)||g<0)return 20;
+  return Math.min(500,Math.floor(g));
 }
 // What to show as today's job.
 function todayTarget(){
@@ -7577,11 +7619,22 @@ function renderFeedback(){
 function openFeedback(){$('#overlayFb').classList.add('show');renderFeedback();gaScreen('feedback');}
 function closeFeedback(){$('#overlayFb').classList.remove('show');}
 $('#miFeedback').onclick=()=>{closeMenu();openFeedback();};
+$('#instDone').onclick=()=>closeInstallTip(true);
+$('#instLater').onclick=()=>closeInstallTip(false);
+$('#profYes').onclick=()=>{closeProfileAsk();startProfileQuestions();};
+$('#profNo').onclick=()=>closeProfileAsk();
 $('#fbClose').onclick=closeFeedback;
 $('#overlayFb').addEventListener('click',e=>{if(e.target===$('#overlayFb'))closeFeedback();});
 
 /* ---------- header menu + settings modal ---------- */
-function openMenu(){$('#overlayMenu').classList.add('show');gaScreen('menu');}
+function openMenu(){
+  // Hidden on a desktop browser and once the app is already installed: an entry
+  // whose instructions do not apply is worse than no entry.
+  const mi=$('#miInstall');
+  if(mi)mi.hidden=!canInstall();
+  $('#overlayMenu').classList.add('show');gaScreen('menu');
+}
+$('#miInstall').onclick=()=>{closeMenu();openInstallTip();};
 function closeMenu(){$('#overlayMenu').classList.remove('show');}
 function settingsOpen(){return $('#overlaySet').classList.contains('show');}
 // One sheet whose content swaps, rather than a stack of modals or a separate
@@ -7760,6 +7813,10 @@ let tutIsFirstRun=false;
 // Re-entered from the package picker: ask the three questions again and stop,
 // rather than replaying the whole tour to change one answer.
 let tutOnlyProfile=false;
+// Whether the goal question is in free-entry mode. Tracked separately from the
+// value, because a custom number that happens to equal a preset would otherwise
+// snap the question back to the buttons under the user's finger.
+let tutGoalCustom=false;
 // Three questions before the tour. They are taps, not reading, and they buy
 // something concrete: the package list opens with the packs that match instead
 // of fifteen rows in alphabetical order.
@@ -7797,7 +7854,66 @@ function isStandalone(){
   return window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches
     || navigator.standalone===true;
 }
-function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutOnlyProfile=false;tutStep=0;tutSkipped=false;tutSeen={};renderTutorial();$('#overlayTut').classList.add('show');}
+/* ---------- home-screen install, and the profile questions ----------------
+   Both are things a browser session is missing rather than things that have
+   gone wrong, so they are offered rather than enforced, and never more than one
+   per launch. ------------------------------------------------------------ */
+const INSTALL_SNOOZE=3*DAY;          // asked again after this, until installed
+const INSTALL_DONE_SNOOZE=365*DAY;   // "I added it" -- we cannot verify, so trust it
+function isMobileBrowser(){return /iPad|iPhone|iPod|Android/.test(navigator.userAgent||'');}
+// Only where we can actually say HOW. installStepsHTML() is empty on anything
+// that is not iOS or Android, and an instruction-free "install this" helps
+// nobody.
+function canInstall(){return isMobileBrowser()&&!isStandalone()&&!!installStepsHTML();}
+function installShouldAsk(){
+  if(!canInstall())return false;
+  const t0=Number(S().installSnoozed)||0;
+  return Date.now()-t0>INSTALL_SNOOZE;
+}
+function openInstallTip(){
+  $('#instTitle').textContent=t('inst_t');
+  $('#instBody').textContent=t('inst_b');
+  $('#instSteps').innerHTML=installStepsHTML();
+  $('#instDone').textContent=t('inst_done');
+  $('#instLater').textContent=t('inst_later');
+  showOverlay('#overlayInstall');
+  gaScreen('install_tip');
+}
+function closeInstallTip(done){
+  S().installSnoozed=Date.now()+(done?INSTALL_DONE_SNOOZE-INSTALL_SNOOZE:0);
+  save();
+  gaEvent('install_tip',{answer:done?'added':'later'});
+  $('#overlayInstall').classList.remove('show');
+}
+// Everyone who was already using the app when the questions arrived: they never
+// saw the tutorial version, so the picker would have stayed unsorted for them
+// forever.
+function profileMissing(){return !!S().onboarded&&!S().level&&!S().purpose;}
+function openProfileAsk(){
+  $('#profTitle').textContent=t('prof_ask_t');
+  $('#profBody').textContent=t('prof_ask_b');
+  $('#profYes').textContent=t('prof_ask_yes');
+  $('#profNo').textContent=t('prof_ask_no');
+  showOverlay('#overlayProfile');
+  gaScreen('profile_ask');
+}
+function closeProfileAsk(){
+  S().askedProfile=true;save();
+  $('#overlayProfile').classList.remove('show');
+}
+function startProfileQuestions(){
+  tutIsFirstRun=false;tutSkipped=false;tutSeen={};tutStep=1;tutOnlyProfile=true;tutGoalCustom=false;
+  renderTutorial();showOverlay('#overlayTut');
+}
+// One per launch, in the order of what it costs to miss: losing words beats
+// missing a feature, which beats an unsorted list.
+function afterNotices(){
+  if(!S().seenStorageTip){openStorageTip();return;}
+  if(installShouldAsk()){openInstallTip();return;}
+  if(ntfShouldAsk()){openNotifyAsk();return;}
+  if(!S().askedProfile&&profileMissing())openProfileAsk();
+}
+function openTutorial(firstRun){tutIsFirstRun=!!firstRun;tutOnlyProfile=false;tutGoalCustom=false;tutStep=0;tutSkipped=false;tutSeen={};renderTutorial();$('#overlayTut').classList.add('show');}
 function closeTutorial(){$('#overlayTut').classList.remove('show');}
 function finishTutorial(){
   // Only the questions were being redone: nothing about onboarding has changed,
@@ -7851,18 +7967,19 @@ function renderTutorial(){
   const dots=steps.map((_,i)=>'<i class="'+(i===tutStep-1?'on':'')+'"></i>').join('');
   const last=tutStep===total;
   const cur=s.pick?S()[s.pick.key]:null;
-  const picked=s.pick?s.pick.opts.some(o=>String(o.v)===String(cur)):true;
+  const onPreset=s.pick?s.pick.opts.some(o=>String(o.v)===String(cur)):true;
+  const isCustom=!!(s.pick&&s.pick.custom&&(tutGoalCustom||!onPreset));
   const pickHTML=s.pick
     ? '<div class="q-opts" id="tutPick">'+s.pick.opts.map(o=>
         '<button class="q-opt'+(String(o.v)===String(cur)?' on':'')+'" data-v="'+esc(String(o.v))+'">'+
           '<span>'+esc(o.n)+'</span>'+(o.tag?'<i class="q-tag lv-'+o.tag+'">'+o.tag+'</i>':'')+
         '</button>').join('')+
         (s.pick.custom
-          ? '<button class="q-opt q-custom'+(picked?'':' on')+'" data-custom="1">'+
+          ? '<button class="q-opt q-custom'+(isCustom?' on':'')+'" data-custom="1">'+
               '<span>'+esc(t('q_goal_custom'))+'</span></button>'
           : '')+
       '</div>'+
-      (s.pick.custom&&!picked
+      (isCustom
         ? '<input class="field q-num" id="tutNum" type="number" inputmode="numeric" min="1" max="500" '+
           'value="'+(Number(cur)||20)+'" style="margin-top:10px;text-align:center">'
         : '')
@@ -7883,7 +8000,14 @@ function renderTutorial(){
     // Answering moves you on. A question that needs a tap and then a second tap
     // on Continue is a question people abandon.
     $$('#tutPick .q-opt').forEach(b=>b.onclick=()=>{
-      if(b.dataset.custom){S()[s.pick.key]='';save();renderTutorial();return;}
+      if(b.dataset.custom){
+        // Keep a usable number rather than blanking it: leaving without typing
+        // used to store an empty string as the daily goal.
+        tutGoalCustom=true;
+        if(!Number(S()[s.pick.key]))S()[s.pick.key]=20;
+        save();renderTutorial();return;
+      }
+      tutGoalCustom=false;
       const raw=b.dataset.v;
       S()[s.pick.key]=/^\d+$/.test(raw)?Number(raw):raw;
       save();
@@ -7892,8 +8016,8 @@ function renderTutorial(){
     });
     const num=$('#tutNum');
     if(num)num.oninput=()=>{
-      const v=Math.max(1,Math.min(500,Number(num.value)||0));
-      if(v)  {S()[s.pick.key]=v;save();}
+      const v=Math.max(1,Math.min(500,Math.floor(Number(num.value)||0)));
+      if(v){S()[s.pick.key]=v;save();}
     };
   }
   $('#tutBack').onclick=()=>{tutStep--;renderTutorial();};
@@ -7986,8 +8110,7 @@ function openWhatsNew(entries){
 $('#wnOk').onclick=()=>{
   S().seenVersion=APP_VERSION;save();
   $('#overlayWn').classList.remove('show');
-  if(!S().seenStorageTip)openStorageTip();
-  else if(ntfShouldAsk())openNotifyAsk();
+  afterNotices();
 };
 
 
@@ -9345,21 +9468,46 @@ if(cloudSaved()){
    sheet offers a way out at all. The gate and the first-run welcome screen
    deliberately have no close control, and they stay un-dismissable for the same
    reason they were built that way. -------------------------------------------- */
-function sheetDismissible(ov){
-  return !!ov && !!ov.querySelector('.sheet-x,.ntf-x');
+// Which sheets close when you tap the dark area, and what does the closing.
+//
+// The rule used to be "dismissible if it has a close X in the corner", which
+// quietly meant the package picker and the update notice -- the two people meet
+// most -- were the two that ignored the tap. Listed explicitly now.
+//
+// Each entry goes through the sheet's own close path so whatever it settles on
+// the way out still happens: the update notice records the version it showed,
+// the storage tip records that it was read. Dismissing around that would bring
+// the same sheet back on the next launch.
+const SHEET_CLOSE={
+  overlayDeck:()=>closeDeckPicker(),
+  overlayWn:()=>{const b=$('#wnOk');if(b)b.click();},
+  overlayCefr:()=>{const b=$('#cefrOk');if(b)b.click();},
+  overlayStorageTip:()=>{const b=$('#stOk');if(b)b.click();},
+  // A tap outside reads as "not now" for both of these, and both record that
+  // so the same sheet does not open again on the next launch.
+  overlayInstall:()=>closeInstallTip(false),
+  overlayProfile:()=>closeProfileAsk()
+};
+function sheetCloser(ov){
+  if(!ov)return null;
+  // Signing in is not optional, and neither is picking a nickname for the board.
+  if(ov.classList.contains('gate'))return null;
+  // The first-run tour explains the app; tapping past it by accident leaves
+  // somebody in an app nobody explained. Re-runs later are free to close.
+  if(ov.id==='overlayTut')return (!tutIsFirstRun||tutOnlyProfile)?closeTutorial:null;
+  if(SHEET_CLOSE[ov.id])return SHEET_CLOSE[ov.id];
+  const x=ov.querySelector('.sheet-x,.ntf-x');
+  return x?()=>x.click():null;
 }
+function sheetDismissible(ov){return !!sheetCloser(ov);}
 function topOverlay(){
   const open=$$('.overlay.show');
   return open.length?open[open.length-1]:null;
 }
 function dismissSheet(ov){
-  if(!sheetDismissible(ov))return false;
-  // Route through the sheet's own close button so whatever it cleans up still
-  // happens -- the notification prompt records that it was answered, the deck
-  // picker resets its editing state.
-  const x=ov.querySelector('.sheet-x,.ntf-x');
-  if(x){x.click();return true;}
-  ov.classList.remove('show');
+  const close=sheetCloser(ov);
+  if(!close)return false;
+  close();
   return true;
 }
 $$('.overlay').forEach(ov=>{
@@ -9385,9 +9533,11 @@ else if(S().seenVersion!==APP_VERSION){
   // they ride along with the next release that earns the modal.
   const due=whatsNewDue();
   if(due)openWhatsNew(due);
-  else{S().seenVersion=APP_VERSION;save();}
+  // A quiet release shows nothing, so nothing is occupying the screen and the
+  // rest of the queue can run now rather than waiting for the next launch.
+  else{S().seenVersion=APP_VERSION;save();afterNotices();}
 }
-else if(!S().seenStorageTip){openStorageTip();}
+else{afterNotices();}
 // After the first-run overlays, so it doesn't bury the tutorial. Signed-in
 // sessions are handled by the auth listener instead; this covers the case
 // where there is nothing to restore and the answer is already known.

@@ -263,6 +263,29 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\ndaily goal');
+{
+  const g=v=>{M.__setSettings({dailyGoal:v});return M.dailyGoal();};
+  // Every option the onboarding question offers has to survive the round trip.
+  // It used to accept only [10,20,30,50,0], so 15, 100 and every custom number
+  // silently became 20 -- the question looked answered and changed nothing.
+  t('15 from the question is kept',()=>g(15)===15||g(15));
+  t('100 from the question is kept',()=>g(100)===100||g(100));
+  t('a typed number is kept',()=>g(7)===7||g(7));
+  t('the settings presets still work',()=>
+    ([10,20,30,50].every(v=>g(v)===v))||'a preset changed');
+  t('zero still means no cap',()=>g(0)===0||g(0));
+  // Blank is the dangerous one: Number('') is 0, and 0 means "show everything".
+  t('blank falls back rather than removing the cap',()=>g('')===20||g('')); 
+  t('null falls back',()=>g(null)===20||g(null));
+  t('undefined falls back',()=>g(undefined)===20||g(undefined));
+  t('NaN falls back',()=>g(NaN)===20||g(NaN));
+  t('negative falls back',()=>g(-5)===20||g(-5));
+  t('an absurd number is capped, not accepted',()=>g(99999)===500||g(99999));
+  t('a fraction is floored',()=>g(12.7)===12||g(12.7));
+  t('a numeric string is accepted',()=>g('30')===30||g('30'));
+}
+
 console.log('\nCEFR ranges');
 {
   t('a single level parses as itself',()=>M.cefrLabel('B1')==='B1'||M.cefrLabel('B1'));
