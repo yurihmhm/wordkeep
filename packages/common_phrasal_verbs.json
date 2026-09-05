@@ -1,6 +1,6 @@
 {
  "id": "common_phrasal_verbs",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "会話でよく使う句動詞 初中級編",
   "en": "Common Phrasal Verbs, Everyday",
@@ -1103,32 +1103,6 @@
     "ar": "ينتقل إلى",
     "ko": "넘어가다",
     "ru": "двигаться дальше"
-   }
-  },
-  {
-   "word": "move in",
-   "pos": "phrase",
-   "meaning": {
-    "ja": "引っ越してくる",
-    "en": "to start living in a new home",
-    "zh": "搬进来",
-    "fr": "emménager",
-    "ar": "ينتقل للسكن",
-    "ko": "이사 오다",
-    "ru": "въезжать"
-   }
-  },
-  {
-   "word": "move out",
-   "pos": "phrase",
-   "meaning": {
-    "ja": "引っ越して出る",
-    "en": "to leave a home permanently",
-    "zh": "搬出去",
-    "fr": "déménager",
-    "ar": "ينتقل للسكن في مكان آخر",
-    "ko": "이사 나가다",
-    "ru": "съезжать"
    }
   },
   {

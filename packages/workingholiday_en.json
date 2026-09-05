@@ -1,17 +1,17 @@
 {
  "id": "workingholiday_en",
- "v": 1,
- "title": {
-  "ja": "ワーホリで使える英単語 Part1",
-  "en": "Working Holiday English Words Part1",
-  "zh": "打工度假英语单词 Part1",
-  "fr": "Vocabulaire anglais pour un visa vacances-travail",
-  "ar": "مفردات إنجليزية لعطلة العمل",
-  "ko": "워킹홀리데이 영단어",
-  "ru": "Английские слова для рабочей поездки"
- },
+ "v": 4,
  "cefr": "A2-B1",
  "group": "work",
+ "title": {
+  "ja": "ワーホリの手続きと仕事さがし",
+  "en": "Working Holiday: Paperwork & Finding Work",
+  "zh": "打工度假：手续与找工作",
+  "fr": "PVT : démarches et recherche d'emploi",
+  "ar": "إجازة العمل: الإجراءات والبحث عن عمل",
+  "ko": "워홀 절차와 일자리 찾기",
+  "ru": "Рабочие каникулы: документы и поиск работы"
+ },
  "words": [
   {
    "word": "apply",
@@ -40,19 +40,6 @@
    }
   },
   {
-   "word": "accommodation",
-   "pos": "noun",
-   "meaning": {
-    "ja": "宿泊施設／住居",
-    "en": "a place where you stay or live temporarily",
-    "zh": "住宿",
-    "fr": "hébergement",
-    "ar": "إقامة / سكن",
-    "ko": "숙소",
-    "ru": "жильё / размещение"
-   }
-  },
-  {
    "word": "availability",
    "pos": "noun",
    "meaning": {
@@ -66,45 +53,6 @@
    }
   },
   {
-   "word": "bank",
-   "pos": "noun",
-   "meaning": {
-    "ja": "銀行",
-    "en": "a place that keeps and manages money",
-    "zh": "银行",
-    "fr": "banque",
-    "ar": "بنك",
-    "ko": "은행",
-    "ru": "банк"
-   }
-  },
-  {
-   "word": "budget",
-   "pos": "noun",
-   "meaning": {
-    "ja": "予算",
-    "en": "an amount of money planned for spending",
-    "zh": "预算",
-    "fr": "budget",
-    "ar": "ميزانية",
-    "ko": "예산",
-    "ru": "бюджет"
-   }
-  },
-  {
-   "word": "cash",
-   "pos": "noun",
-   "meaning": {
-    "ja": "現金",
-    "en": "money in coins or notes",
-    "zh": "现金",
-    "fr": "espèces",
-    "ar": "نقد",
-    "ko": "현금",
-    "ru": "наличные"
-   }
-  },
-  {
    "word": "change",
    "pos": "noun",
    "meaning": {
@@ -115,19 +63,6 @@
     "ar": "فكة / الباقي",
     "ko": "거스름돈",
     "ru": "сдача"
-   }
-  },
-  {
-   "word": "commute",
-   "pos": "verb",
-   "meaning": {
-    "ja": "通勤する",
-    "en": "to travel regularly between home and work",
-    "zh": "通勤",
-    "fr": "faire la navette",
-    "ar": "يتنقل إلى العمل",
-    "ko": "통근하다",
-    "ru": "ездить на работу"
    }
   },
   {
@@ -167,45 +102,6 @@
     "ar": "زبون / عميل",
     "ko": "고객",
     "ru": "клиент / покупатель"
-   }
-  },
-  {
-   "word": "deadline",
-   "pos": "noun",
-   "meaning": {
-    "ja": "締め切り",
-    "en": "the latest time something must be finished",
-    "zh": "截止日期",
-    "fr": "date limite",
-    "ar": "الموعد النهائي",
-    "ko": "마감일",
-    "ru": "крайний срок"
-   }
-  },
-  {
-   "word": "deposit",
-   "pos": "noun",
-   "meaning": {
-    "ja": "保証金／預け金",
-    "en": "money paid in advance as security or part payment",
-    "zh": "押金／存款",
-    "fr": "dépôt / caution",
-    "ar": "وديعة / تأمين",
-    "ko": "보증금 / 예금",
-    "ru": "депозит / залог"
-   }
-  },
-  {
-   "word": "discount",
-   "pos": "noun",
-   "meaning": {
-    "ja": "割引",
-    "en": "a reduction in the usual price",
-    "zh": "折扣",
-    "fr": "réduction",
-    "ar": "خصم",
-    "ko": "할인",
-    "ru": "скидка"
    }
   },
   {
@@ -274,84 +170,6 @@
    }
   },
   {
-   "word": "expense",
-   "pos": "noun",
-   "meaning": {
-    "ja": "費用／出費",
-    "en": "money spent on something",
-    "zh": "费用",
-    "fr": "dépense",
-    "ar": "مصروف / تكلفة",
-    "ko": "비용 / 지출",
-    "ru": "расход"
-   }
-  },
-  {
-   "word": "fee",
-   "pos": "noun",
-   "meaning": {
-    "ja": "料金／手数料",
-    "en": "money paid for a service",
-    "zh": "费用／手续费",
-    "fr": "frais",
-    "ar": "رسوم",
-    "ko": "수수료 / 요금",
-    "ru": "сбор / плата"
-   }
-  },
-  {
-   "word": "food",
-   "pos": "noun",
-   "meaning": {
-    "ja": "食べ物",
-    "en": "things people eat",
-    "zh": "食物",
-    "fr": "nourriture",
-    "ar": "طعام",
-    "ko": "음식",
-    "ru": "еда"
-   }
-  },
-  {
-   "word": "hostel",
-   "pos": "noun",
-   "meaning": {
-    "ja": "ホステル",
-    "en": "a low-cost place to stay, often with shared rooms",
-    "zh": "青年旅舍",
-    "fr": "auberge de jeunesse",
-    "ar": "نُزل شبابي",
-    "ko": "호스텔",
-    "ru": "хостел"
-   }
-  },
-  {
-   "word": "housing",
-   "pos": "noun",
-   "meaning": {
-    "ja": "住居／住宅",
-    "en": "places where people live",
-    "zh": "住房",
-    "fr": "logement",
-    "ar": "سكن",
-    "ko": "주거",
-    "ru": "жильё"
-   }
-  },
-  {
-   "word": "insurance",
-   "pos": "noun",
-   "meaning": {
-    "ja": "保険",
-    "en": "financial protection against loss, damage, or illness",
-    "zh": "保险",
-    "fr": "assurance",
-    "ar": "تأمين",
-    "ko": "보험",
-    "ru": "страхование"
-   }
-  },
-  {
    "word": "interview",
    "pos": "noun",
    "meaning": {
@@ -378,32 +196,6 @@
    }
   },
   {
-   "word": "landlord",
-   "pos": "noun",
-   "meaning": {
-    "ja": "大家／家主",
-    "en": "a person who rents property to others",
-    "zh": "房东",
-    "fr": "propriétaire",
-    "ar": "مالك العقار",
-    "ko": "집주인",
-    "ru": "арендодатель"
-   }
-  },
-  {
-   "word": "laundry",
-   "pos": "noun",
-   "meaning": {
-    "ja": "洗濯物／洗濯",
-    "en": "clothes to be washed or the act of washing them",
-    "zh": "洗衣／待洗衣物",
-    "fr": "lessive / linge",
-    "ar": "غسيل",
-    "ko": "세탁 / 빨래",
-    "ru": "стирка / бельё"
-   }
-  },
-  {
    "word": "manager",
    "pos": "noun",
    "meaning": {
@@ -427,19 +219,6 @@
     "ar": "اجتماع",
     "ko": "회의",
     "ru": "встреча / собрание"
-   }
-  },
-  {
-   "word": "minimum",
-   "pos": "noun",
-   "meaning": {
-    "ja": "最低限／最小値",
-    "en": "the smallest amount allowed or possible",
-    "zh": "最低限度",
-    "fr": "minimum",
-    "ar": "الحد الأدنى",
-    "ko": "최소",
-    "ru": "минимум"
    }
   },
   {
@@ -482,19 +261,6 @@
    }
   },
   {
-   "word": "payment",
-   "pos": "noun",
-   "meaning": {
-    "ja": "支払い",
-    "en": "money that is paid or the act of paying",
-    "zh": "付款",
-    "fr": "paiement",
-    "ar": "دفع",
-    "ko": "지불",
-    "ru": "платёж"
-   }
-  },
-  {
    "word": "permit",
    "pos": "noun",
    "meaning": {
@@ -518,58 +284,6 @@
     "ar": "منصب / وظيفة",
     "ko": "직책 / 포지션",
     "ru": "должность"
-   }
-  },
-  {
-   "word": "public",
-   "pos": "adjective",
-   "meaning": {
-    "ja": "公共の／一般向けの",
-    "en": "open or available to everyone",
-    "zh": "公共的",
-    "fr": "public / publique",
-    "ar": "عام",
-    "ko": "공공의",
-    "ru": "общественный"
-   }
-  },
-  {
-   "word": "receipt",
-   "pos": "noun",
-   "meaning": {
-    "ja": "レシート／領収書",
-    "en": "a written record showing that payment was made",
-    "zh": "收据",
-    "fr": "reçu",
-    "ar": "إيصال",
-    "ko": "영수증",
-    "ru": "чек / квитанция"
-   }
-  },
-  {
-   "word": "reference",
-   "pos": "noun",
-   "meaning": {
-    "ja": "推薦人／照会先",
-    "en": "a person who can describe your character or work ability",
-    "zh": "推荐人／证明人",
-    "fr": "référence",
-    "ar": "مرجع / مُزكٍّ",
-    "ko": "추천인 / 참고인",
-    "ru": "рекомендатель"
-   }
-  },
-  {
-   "word": "rent",
-   "pos": "noun",
-   "meaning": {
-    "ja": "家賃",
-    "en": "money paid regularly to use a room, house, or property",
-    "zh": "房租",
-    "fr": "loyer",
-    "ar": "إيجار",
-    "ko": "월세 / 임대료",
-    "ru": "арендная плата"
    }
   },
   {
@@ -599,45 +313,6 @@
    }
   },
   {
-   "word": "roommate",
-   "pos": "noun",
-   "meaning": {
-    "ja": "ルームメイト",
-    "en": "a person who shares a room or home with you",
-    "zh": "室友",
-    "fr": "colocataire",
-    "ar": "زميل سكن",
-    "ko": "룸메이트",
-    "ru": "сосед по комнате"
-   }
-  },
-  {
-   "word": "salary",
-   "pos": "noun",
-   "meaning": {
-    "ja": "給料／月給",
-    "en": "a fixed amount of money paid regularly for work",
-    "zh": "工资／薪水",
-    "fr": "salaire",
-    "ar": "راتب",
-    "ko": "급여 / 월급",
-    "ru": "зарплата"
-   }
-  },
-  {
-   "word": "schedule",
-   "pos": "noun",
-   "meaning": {
-    "ja": "予定表／シフト表",
-    "en": "a plan showing when activities or work happen",
-    "zh": "时间表",
-    "fr": "horaire / emploi du temps",
-    "ar": "جدول",
-    "ko": "일정 / 시간표",
-    "ru": "расписание"
-   }
-  },
-  {
    "word": "shift",
    "pos": "noun",
    "meaning": {
@@ -664,45 +339,6 @@
    }
   },
   {
-   "word": "tax",
-   "pos": "noun",
-   "meaning": {
-    "ja": "税金",
-    "en": "money paid to the government from income or purchases",
-    "zh": "税",
-    "fr": "impôt / taxe",
-    "ar": "ضريبة",
-    "ko": "세금",
-    "ru": "налог"
-   }
-  },
-  {
-   "word": "tenant",
-   "pos": "noun",
-   "meaning": {
-    "ja": "借主／入居者",
-    "en": "a person who rents a home or property",
-    "zh": "租户",
-    "fr": "locataire",
-    "ar": "مستأجر",
-    "ko": "세입자",
-    "ru": "арендатор"
-   }
-  },
-  {
-   "word": "ticket",
-   "pos": "noun",
-   "meaning": {
-    "ja": "切符／チケット",
-    "en": "a pass that allows travel or entry",
-    "zh": "票",
-    "fr": "billet",
-    "ar": "تذكرة",
-    "ko": "표 / 티켓",
-    "ru": "билет"
-   }
-  },
-  {
    "word": "training",
    "pos": "noun",
    "meaning": {
@@ -716,19 +352,6 @@
    }
   },
   {
-   "word": "transport",
-   "pos": "noun",
-   "meaning": {
-    "ja": "交通／輸送",
-    "en": "a system or means of moving people or goods",
-    "zh": "交通／运输",
-    "fr": "transport",
-    "ar": "نقل / مواصلات",
-    "ko": "교통 / 운송",
-    "ru": "транспорт"
-   }
-  },
-  {
    "word": "visa",
    "pos": "noun",
    "meaning": {
@@ -739,32 +362,6 @@
     "ar": "تأشيرة",
     "ko": "비자",
     "ru": "виза"
-   }
-  },
-  {
-   "word": "wage",
-   "pos": "noun",
-   "meaning": {
-    "ja": "賃金／時給",
-    "en": "money paid for work, often by the hour",
-    "zh": "工资",
-    "fr": "salaire horaire",
-    "ar": "أجر",
-    "ko": "임금 / 시급",
-    "ru": "заработная плата"
-   }
-  },
-  {
-   "word": "withdraw",
-   "pos": "verb",
-   "meaning": {
-    "ja": "引き出す",
-    "en": "to take money out of a bank account",
-    "zh": "取款",
-    "fr": "retirer",
-    "ar": "يسحب",
-    "ko": "인출하다",
-    "ru": "снимать деньги"
    }
   },
   {
@@ -794,32 +391,6 @@
    }
   },
   {
-   "word": "application",
-   "pos": "noun",
-   "meaning": {
-    "ja": "応募／申請書",
-    "en": "a formal request, especially for a job, visa, or service",
-    "zh": "申请",
-    "fr": "candidature / demande",
-    "ar": "طلب / استمارة",
-    "ko": "지원서 / 신청",
-    "ru": "заявление"
-   }
-  },
-  {
-   "word": "appointment",
-   "pos": "noun",
-   "meaning": {
-    "ja": "予約／約束",
-    "en": "a planned time to meet someone, especially for a service",
-    "zh": "预约",
-    "fr": "rendez-vous",
-    "ar": "موعد",
-    "ko": "예약 / 약속",
-    "ru": "назначенная встреча"
-   }
-  },
-  {
    "word": "available",
    "pos": "adjective",
    "meaning": {
@@ -843,19 +414,6 @@
     "ar": "يلغي",
     "ko": "취소하다",
     "ru": "отменять"
-   }
-  },
-  {
-   "word": "charge",
-   "pos": "verb",
-   "meaning": {
-    "ja": "請求する",
-    "en": "to ask someone to pay a particular amount",
-    "zh": "收费",
-    "fr": "facturer",
-    "ar": "يفرض رسوماً",
-    "ko": "청구하다",
-    "ru": "взимать плату"
    }
   },
   {
@@ -885,45 +443,6 @@
    }
   },
   {
-   "word": "deliver",
-   "pos": "verb",
-   "meaning": {
-    "ja": "配達する／届ける",
-    "en": "to take goods or a package to a person or place",
-    "zh": "递送",
-    "fr": "livrer",
-    "ar": "يوصل / يسلّم",
-    "ko": "배달하다",
-    "ru": "доставлять"
-   }
-  },
-  {
-   "word": "earn",
-   "pos": "verb",
-   "meaning": {
-    "ja": "稼ぐ",
-    "en": "to receive money for work",
-    "zh": "赚取",
-    "fr": "gagner",
-    "ar": "يكسب",
-    "ko": "벌다",
-    "ru": "зарабатывать"
-   }
-  },
-  {
-   "word": "exchange",
-   "pos": "verb",
-   "meaning": {
-    "ja": "交換する／両替する",
-    "en": "to give one thing or currency and receive another",
-    "zh": "交换／兑换",
-    "fr": "échanger",
-    "ar": "يبدّل / يصرف",
-    "ko": "교환하다 / 환전하다",
-    "ru": "обменивать"
-   }
-  },
-  {
    "word": "extend",
    "pos": "verb",
    "meaning": {
@@ -950,32 +469,6 @@
    }
   },
   {
-   "word": "improve",
-   "pos": "verb",
-   "meaning": {
-    "ja": "改善する／上達する",
-    "en": "to make or become better",
-    "zh": "提高／改善",
-    "fr": "améliorer",
-    "ar": "يحسّن",
-    "ko": "향상시키다",
-    "ru": "улучшать"
-   }
-  },
-  {
-   "word": "include",
-   "pos": "verb",
-   "meaning": {
-    "ja": "含む",
-    "en": "to contain something as part of a whole",
-    "zh": "包括",
-    "fr": "inclure",
-    "ar": "يتضمن",
-    "ko": "포함하다",
-    "ru": "включать"
-   }
-  },
-  {
    "word": "manage",
    "pos": "verb",
    "meaning": {
@@ -986,58 +479,6 @@
     "ar": "يدير / يتمكن من",
     "ko": "관리하다 / 해내다",
     "ru": "управлять / справляться"
-   }
-  },
-  {
-   "word": "move",
-   "pos": "verb",
-   "meaning": {
-    "ja": "引っ越す／移動する",
-    "en": "to change where you live or where something is",
-    "zh": "搬家／移动",
-    "fr": "déménager / déplacer",
-    "ar": "ينتقل",
-    "ko": "이사하다 / 이동하다",
-    "ru": "переезжать / перемещать"
-   }
-  },
-  {
-   "word": "pay",
-   "pos": "verb",
-   "meaning": {
-    "ja": "支払う",
-    "en": "to give money for something",
-    "zh": "支付",
-    "fr": "payer",
-    "ar": "يدفع",
-    "ko": "지불하다",
-    "ru": "платить"
-   }
-  },
-  {
-   "word": "provide",
-   "pos": "verb",
-   "meaning": {
-    "ja": "提供する",
-    "en": "to give something that is needed",
-    "zh": "提供",
-    "fr": "fournir",
-    "ar": "يوفر",
-    "ko": "제공하다",
-    "ru": "предоставлять"
-   }
-  },
-  {
-   "word": "receive",
-   "pos": "verb",
-   "meaning": {
-    "ja": "受け取る",
-    "en": "to get something that is sent or given to you",
-    "zh": "接收",
-    "fr": "recevoir",
-    "ar": "يستلم",
-    "ko": "받다",
-    "ru": "получать"
    }
   },
   {
@@ -1054,32 +495,6 @@
    }
   },
   {
-   "word": "renew",
-   "pos": "verb",
-   "meaning": {
-    "ja": "更新する",
-    "en": "to make a contract, visa, or service valid for another period",
-    "zh": "续签／更新",
-    "fr": "renouveler",
-    "ar": "يجدد",
-    "ko": "갱신하다",
-    "ru": "продлевать / обновлять"
-   }
-  },
-  {
-   "word": "request",
-   "pos": "verb",
-   "meaning": {
-    "ja": "依頼する／要求する",
-    "en": "to formally ask for something",
-    "zh": "请求",
-    "fr": "demander",
-    "ar": "يطلب",
-    "ko": "요청하다",
-    "ru": "запрашивать"
-   }
-  },
-  {
    "word": "require",
    "pos": "verb",
    "meaning": {
@@ -1090,32 +505,6 @@
     "ar": "يتطلب",
     "ko": "요구하다 / 필요로 하다",
     "ru": "требовать"
-   }
-  },
-  {
-   "word": "save",
-   "pos": "verb",
-   "meaning": {
-    "ja": "貯金する／節約する",
-    "en": "to keep money for future use or avoid wasting it",
-    "zh": "储蓄／节省",
-    "fr": "économiser",
-    "ar": "يدخر / يوفر",
-    "ko": "저축하다 / 절약하다",
-    "ru": "копить / экономить"
-   }
-  },
-  {
-   "word": "share",
-   "pos": "verb",
-   "meaning": {
-    "ja": "共有する／分け合う",
-    "en": "to use, have, or give something together with others",
-    "zh": "分享",
-    "fr": "partager",
-    "ar": "يشارك",
-    "ko": "공유하다",
-    "ru": "делиться"
    }
   },
   {
@@ -1132,45 +521,6 @@
    }
   },
   {
-   "word": "spend",
-   "pos": "verb",
-   "meaning": {
-    "ja": "使う／費やす",
-    "en": "to use money or time",
-    "zh": "花费",
-    "fr": "dépenser / passer",
-    "ar": "ينفق / يقضي",
-    "ko": "쓰다 / 보내다",
-    "ru": "тратить"
-   }
-  },
-  {
-   "word": "stay",
-   "pos": "verb",
-   "meaning": {
-    "ja": "滞在する",
-    "en": "to remain in a place for a period of time",
-    "zh": "停留／住宿",
-    "fr": "rester / séjourner",
-    "ar": "يقيم / يبقى",
-    "ko": "머무르다",
-    "ru": "оставаться / проживать"
-   }
-  },
-  {
-   "word": "submit",
-   "pos": "verb",
-   "meaning": {
-    "ja": "提出する",
-    "en": "to formally send or hand in a document or application",
-    "zh": "提交",
-    "fr": "soumettre",
-    "ar": "يقدّم",
-    "ko": "제출하다",
-    "ru": "подавать / сдавать"
-   }
-  },
-  {
    "word": "transfer",
    "pos": "verb",
    "meaning": {
@@ -1181,149 +531,6 @@
     "ar": "يحوّل",
     "ko": "송금하다 / 옮기다",
     "ru": "переводить"
-   }
-  },
-  {
-   "word": "travel",
-   "pos": "verb",
-   "meaning": {
-    "ja": "旅行する",
-    "en": "to go from one place to another, especially over a distance",
-    "zh": "旅行",
-    "fr": "voyager",
-    "ar": "يسافر",
-    "ko": "여행하다",
-    "ru": "путешествовать"
-   }
-  },
-  {
-   "word": "book",
-   "pos": "verb",
-   "meaning": {
-    "ja": "予約する",
-    "en": "to reserve a room, ticket, or service in advance",
-    "zh": "预订",
-    "fr": "réserver",
-    "ar": "يحجز",
-    "ko": "예약하다",
-    "ru": "бронировать"
-   }
-  },
-  {
-   "word": "clean",
-   "pos": "verb",
-   "meaning": {
-    "ja": "掃除する",
-    "en": "to remove dirt and make something clean",
-    "zh": "打扫",
-    "fr": "nettoyer",
-    "ar": "ينظف",
-    "ko": "청소하다",
-    "ru": "убирать / чистить"
-   }
-  },
-  {
-   "word": "cook",
-   "pos": "verb",
-   "meaning": {
-    "ja": "料理する",
-    "en": "to prepare food by heating or combining ingredients",
-    "zh": "做饭",
-    "fr": "cuisiner",
-    "ar": "يطبخ",
-    "ko": "요리하다",
-    "ru": "готовить"
-   }
-  },
-  {
-   "word": "drive",
-   "pos": "verb",
-   "meaning": {
-    "ja": "運転する",
-    "en": "to control and operate a car or other vehicle",
-    "zh": "开车",
-    "fr": "conduire",
-    "ar": "يقود",
-    "ko": "운전하다",
-    "ru": "водить"
-   }
-  },
-  {
-   "word": "explore",
-   "pos": "verb",
-   "meaning": {
-    "ja": "探索する／見て回る",
-    "en": "to travel around and discover a place",
-    "zh": "探索",
-    "fr": "explorer",
-    "ar": "يستكشف",
-    "ko": "탐험하다 / 둘러보다",
-    "ru": "исследовать"
-   }
-  },
-  {
-   "word": "pack",
-   "pos": "verb",
-   "meaning": {
-    "ja": "荷造りする",
-    "en": "to put things into a bag or suitcase for travel",
-    "zh": "打包",
-    "fr": "faire ses bagages",
-    "ar": "يحزم أمتعته",
-    "ko": "짐을 싸다",
-    "ru": "паковать вещи"
-   }
-  },
-  {
-   "word": "recommend",
-   "pos": "verb",
-   "meaning": {
-    "ja": "おすすめする",
-    "en": "to suggest something as good or suitable",
-    "zh": "推荐",
-    "fr": "recommander",
-    "ar": "يوصي",
-    "ko": "추천하다",
-    "ru": "рекомендовать"
-   }
-  },
-  {
-   "word": "replace",
-   "pos": "verb",
-   "meaning": {
-    "ja": "交換する／取り替える",
-    "en": "to put something new in place of something old or broken",
-    "zh": "更换",
-    "fr": "remplacer",
-    "ar": "يستبدل",
-    "ko": "교체하다",
-    "ru": "заменять"
-   }
-  },
-  {
-   "word": "return",
-   "pos": "verb",
-   "meaning": {
-    "ja": "戻る／返す",
-    "en": "to go back or give something back",
-    "zh": "返回／归还",
-    "fr": "retourner / rendre",
-    "ar": "يعود / يعيد",
-    "ko": "돌아가다 / 돌려주다",
-    "ru": "возвращаться / возвращать"
-   }
-  },
-  {
-   "word": "support",
-   "pos": "verb",
-   "meaning": {
-    "ja": "支援する／助ける",
-    "en": "to help someone or something",
-    "zh": "支持／帮助",
-    "fr": "soutenir",
-    "ar": "يدعم",
-    "ko": "지원하다 / 돕다",
-    "ru": "поддерживать"
    }
   },
   {
@@ -1340,55 +547,120 @@
    }
   },
   {
-   "word": "weekly",
-   "pos": "adjective",
+   "word": "form",
+   "pos": "noun",
    "meaning": {
-    "ja": "毎週の",
-    "en": "happening once every week or relating to a week",
-    "zh": "每周的",
-    "fr": "hebdomadaire",
-    "ar": "أسبوعي",
-    "ko": "매주의",
-    "ru": "еженедельный"
+    "ja": "記入する用紙",
+    "en": "a printed sheet you fill in",
+    "zh": "表格",
+    "fr": "formulaire",
+    "ar": "استمارة",
+    "ko": "서식 용지",
+    "ru": "бланк"
    }
   },
   {
-   "word": "monthly",
-   "pos": "adjective",
+   "word": "proof",
+   "pos": "noun",
    "meaning": {
-    "ja": "毎月の",
-    "en": "happening once every month or relating to a month",
-    "zh": "每月的",
-    "fr": "mensuel",
-    "ar": "شهري",
-    "ko": "매월의",
-    "ru": "ежемесячный"
+    "ja": "証明となるもの",
+    "en": "something that shows a fact is true",
+    "zh": "证明材料",
+    "fr": "justificatif",
+    "ar": "إثبات",
+    "ko": "증빙",
+    "ru": "подтверждение"
    }
   },
   {
-   "word": "local",
-   "pos": "adjective",
+   "word": "applicant",
+   "pos": "noun",
    "meaning": {
-    "ja": "地元の／現地の",
-    "en": "related to the nearby area or community",
-    "zh": "当地的",
-    "fr": "local / locale",
-    "ar": "محلي",
-    "ko": "현지의",
-    "ru": "местный"
+    "ja": "申し込んだ本人",
+    "en": "the person who applied",
+    "zh": "申请人",
+    "fr": "candidat",
+    "ar": "مقدم الطلب",
+    "ko": "신청자",
+    "ru": "заявитель"
    }
   },
   {
-   "word": "abroad",
-   "pos": "adverb",
+   "word": "eligible",
+   "pos": "adj",
    "meaning": {
-    "ja": "海外で／海外へ",
-    "en": "in or to a foreign country",
-    "zh": "在国外／到国外",
-    "fr": "à l'étranger",
-    "ar": "في الخارج / إلى الخارج",
-    "ko": "해외에서 / 해외로",
-    "ru": "за границей"
+    "ja": "条件を満たしている",
+    "en": "allowed to have or do something",
+    "zh": "符合资格的",
+    "fr": "éligible",
+    "ar": "مستوفٍ للشروط",
+    "ko": "자격이 되는",
+    "ru": "имеющий право"
+   }
+  },
+  {
+   "word": "sponsor",
+   "pos": "noun",
+   "meaning": {
+    "ja": "就労を後押しする雇用主",
+    "en": "an employer who backs your visa",
+    "zh": "担保雇主",
+    "fr": "employeur garant",
+    "ar": "كفيل التأشيرة",
+    "ko": "비자 후원 고용주",
+    "ru": "работодатель-спонсор"
+   }
+  },
+  {
+   "word": "work rights",
+   "pos": "noun",
+   "meaning": {
+    "ja": "働くことが認められる範囲",
+    "en": "what your visa lets you do for work",
+    "zh": "工作权限",
+    "fr": "droit de travailler",
+    "ar": "حقوق العمل الممنوحة",
+    "ko": "취업 허용 범위",
+    "ru": "право на работу"
+   }
+  },
+  {
+   "word": "police check",
+   "pos": "noun",
+   "meaning": {
+    "ja": "無犯罪証明",
+    "en": "a certificate showing you have no record",
+    "zh": "无犯罪证明",
+    "fr": "extrait de casier judiciaire",
+    "ar": "شهادة عدم محكومية",
+    "ko": "범죄 경력 증명",
+    "ru": "справка о несудимости"
+   }
+  },
+  {
+   "word": "medical check",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ビザ用の健康診断",
+    "en": "the health examination a visa requires",
+    "zh": "体检",
+    "fr": "visite médicale",
+    "ar": "الفحص الطبي",
+    "ko": "비자용 건강검진",
+    "ru": "медосмотр для визы"
+   }
+  },
+  {
+   "word": "bank statement",
+   "pos": "noun",
+   "meaning": {
+    "ja": "残高の証明書",
+    "en": "a record of your account, used as proof",
+    "zh": "银行流水",
+    "fr": "relevé bancaire",
+    "ar": "كشف حساب بنكي",
+    "ko": "잔고 증명",
+    "ru": "выписка со счёта"
    }
   }
  ]

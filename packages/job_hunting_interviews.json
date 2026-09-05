@@ -1,6 +1,6 @@
 {
  "id": "job_hunting_interviews",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "仕事探しと面接",
   "en": "Job Hunting & Interviews",
@@ -1129,19 +1129,6 @@
     "ar": "تقييم فترة التجربة",
     "ko": "수습 평가 면담",
     "ru": "оценка по итогам испытательного срока"
-   }
-  },
-  {
-   "word": "feedback",
-   "pos": "noun",
-   "meaning": {
-    "ja": "評価の言葉",
-    "en": "comments on how you are performing",
-    "zh": "反馈",
-    "fr": "retour d'évaluation",
-    "ar": "ملاحظات تقييمية",
-    "ko": "피드백",
-    "ru": "обратная связь"
    }
   },
   {

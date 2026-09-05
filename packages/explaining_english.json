@@ -1,0 +1,667 @@
+{
+ "id": "explaining_english",
+ "v": 2,
+ "cefr": "B1-B2",
+ "group": "study",
+ "title": {
+  "ja": "考えを説明する英語",
+  "en": "Explaining What You Think",
+  "zh": "表达想法时的英语",
+  "fr": "Expliquer ce que vous pensez",
+  "ar": "شرح ما تفكر فيه",
+  "ko": "생각을 설명하는 영어",
+  "ru": "Как объяснить свою мысль"
+ },
+ "words": [
+  {
+   "word": "mistake",
+   "pos": "noun",
+   "meaning": {
+    "ja": "間違い",
+    "en": "an error",
+    "zh": "错误",
+    "fr": "erreur / faute",
+    "ar": "خطأ",
+    "ko": "실수",
+    "ru": "ошибка"
+   }
+  },
+  {
+   "word": "discuss",
+   "pos": "verb",
+   "meaning": {
+    "ja": "話し合う",
+    "en": "to talk about something with others",
+    "zh": "讨论",
+    "fr": "discuter",
+    "ar": "يناقش",
+    "ko": "논의하다",
+    "ru": "обсуждать"
+   }
+  },
+  {
+   "word": "answer",
+   "pos": "verb",
+   "meaning": {
+    "ja": "答える",
+    "en": "to reply to a question",
+    "zh": "回答",
+    "fr": "répondre",
+    "ar": "يجيب",
+    "ko": "대답하다",
+    "ru": "отвечать"
+   }
+  },
+  {
+   "word": "probably",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "おそらく",
+    "en": "most likely",
+    "zh": "可能",
+    "fr": "probablement",
+    "ar": "على الأرجح",
+    "ko": "아마도",
+    "ru": "вероятно"
+   }
+  },
+  {
+   "word": "instead",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "代わりに",
+    "en": "in place of something else",
+    "zh": "而是",
+    "fr": "à la place / au lieu de cela",
+    "ar": "بدلاً من ذلك",
+    "ko": "대신에",
+    "ru": "вместо (этого)"
+   }
+  },
+  {
+   "word": "although",
+   "pos": "conjunction",
+   "meaning": {
+    "ja": "〜だけれども",
+    "en": "despite the fact that",
+    "zh": "虽然",
+    "fr": "bien que",
+    "ar": "على الرغم من أن",
+    "ko": "비록 ~이지만",
+    "ru": "хотя"
+   }
+  },
+  {
+   "word": "during",
+   "pos": "preposition",
+   "meaning": {
+    "ja": "〜の間に",
+    "en": "throughout a period of time",
+    "zh": "在…期间",
+    "fr": "pendant",
+    "ar": "خلال",
+    "ko": "~동안",
+    "ru": "во время"
+   }
+  },
+  {
+   "word": "clear",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "明確な、分かりやすい",
+    "en": "easy to understand",
+    "zh": "清楚的",
+    "fr": "clair(e)",
+    "ar": "واضح",
+    "ko": "명확한",
+    "ru": "понятный / ясный"
+   }
+  },
+  {
+   "word": "unclear",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "不明確な、分かりにくい",
+    "en": "not easy to understand",
+    "zh": "不清楚的",
+    "fr": "peu clair(e)",
+    "ar": "غير واضح",
+    "ko": "불명확한",
+    "ru": "неясный"
+   }
+  },
+  {
+   "word": "difficult",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "難しい",
+    "en": "hard to do or understand",
+    "zh": "难的",
+    "fr": "difficile",
+    "ar": "صعب",
+    "ko": "어려운",
+    "ru": "трудный"
+   }
+  },
+  {
+   "word": "easy",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "簡単な",
+    "en": "not difficult",
+    "zh": "容易的",
+    "fr": "facile",
+    "ar": "سهل",
+    "ko": "쉬운",
+    "ru": "лёгкий / простой"
+   }
+  },
+  {
+   "word": "important",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "重要な",
+    "en": "having great value or significance",
+    "zh": "重要的",
+    "fr": "important(e)",
+    "ar": "مهم",
+    "ko": "중요한",
+    "ru": "важный"
+   }
+  },
+  {
+   "word": "common",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "一般的な、よく使われる",
+    "en": "happening often, widely used",
+    "zh": "常见的",
+    "fr": "courant(e) / commun(e)",
+    "ar": "شائع",
+    "ko": "흔한/일반적인",
+    "ru": "обычный / распространённый"
+   }
+  },
+  {
+   "word": "unfamiliar",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "なじみのない、知らない",
+    "en": "not known to you",
+    "zh": "不熟悉的",
+    "fr": "peu familier / inconnu(e)",
+    "ar": "غير مألوف",
+    "ko": "낯선/생소한",
+    "ru": "незнакомый"
+   }
+  },
+  {
+   "word": "appropriate",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "適切な",
+    "en": "suitable for the situation",
+    "zh": "合适的",
+    "fr": "approprié(e)",
+    "ar": "مناسب",
+    "ko": "적절한",
+    "ru": "подходящий"
+   }
+  },
+  {
+   "word": "necessary",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "必要な",
+    "en": "needed",
+    "zh": "必要的",
+    "fr": "nécessaire",
+    "ar": "ضروري",
+    "ko": "필요한",
+    "ru": "необходимый"
+   }
+  },
+  {
+   "word": "especially",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "特に",
+    "en": "more than usual, particularly",
+    "zh": "尤其是",
+    "fr": "surtout / particulièrement",
+    "ar": "خصوصًا/بشكل خاص",
+    "ko": "특히",
+    "ru": "особенно"
+   }
+  },
+  {
+   "word": "generally",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "一般的に",
+    "en": "usually, in most cases",
+    "zh": "一般来说",
+    "fr": "généralement",
+    "ar": "عمومًا",
+    "ko": "일반적으로",
+    "ru": "как правило"
+   }
+  },
+  {
+   "word": "however",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "しかしながら",
+    "en": "used to introduce a contrasting idea",
+    "zh": "然而",
+    "fr": "cependant",
+    "ar": "لكن/ومع ذلك",
+    "ko": "하지만/그러나",
+    "ru": "однако"
+   }
+  },
+  {
+   "word": "therefore",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "したがって",
+    "en": "for that reason",
+    "zh": "因此",
+    "fr": "donc / par conséquent",
+    "ar": "لذلك",
+    "ko": "그러므로/따라서",
+    "ru": "следовательно / поэтому"
+   }
+  },
+  {
+   "word": "for example",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "例えば",
+    "en": "used to introduce an example",
+    "zh": "例如",
+    "fr": "par exemple",
+    "ar": "على سبيل المثال",
+    "ko": "예를 들어",
+    "ru": "например"
+   }
+  },
+  {
+   "word": "in addition",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "さらに、加えて",
+    "en": "used to add another point",
+    "zh": "此外",
+    "fr": "de plus / en outre",
+    "ar": "بالإضافة إلى ذلك",
+    "ko": "게다가/추가로",
+    "ru": "кроме того"
+   }
+  },
+  {
+   "word": "firstly",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "第一に、まず",
+    "en": "used to introduce the first point",
+    "zh": "首先",
+    "fr": "premièrement / d'abord",
+    "ar": "أولاً",
+    "ko": "첫째로",
+    "ru": "во-первых"
+   }
+  },
+  {
+   "word": "finally",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "最後に",
+    "en": "used to introduce the last point",
+    "zh": "最后",
+    "fr": "finalement / enfin",
+    "ar": "أخيرًا",
+    "ko": "마지막으로",
+    "ru": "наконец"
+   }
+  },
+  {
+   "word": "absent",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "欠席している",
+    "en": "not present",
+    "zh": "缺席的",
+    "fr": "absent(e)",
+    "ar": "غائب",
+    "ko": "결석한",
+    "ru": "отсутствующий"
+   }
+  },
+  {
+   "word": "present",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "出席している",
+    "en": "being there, attending",
+    "zh": "出席的",
+    "fr": "présent(e)",
+    "ar": "حاضر",
+    "ko": "출석한",
+    "ru": "присутствующий"
+   }
+  },
+  {
+   "word": "ready",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "準備ができている",
+    "en": "prepared for something",
+    "zh": "准备好的",
+    "fr": "prêt(e)",
+    "ar": "جاهز",
+    "ko": "준비된",
+    "ru": "готовый"
+   }
+  },
+  {
+   "word": "confident",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "自信がある",
+    "en": "feeling sure of yourself",
+    "zh": "自信的",
+    "fr": "confiant(e)",
+    "ar": "واثق",
+    "ko": "자신감 있는",
+    "ru": "уверенный (в себе)"
+   }
+  },
+  {
+   "word": "nervous",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "緊張している",
+    "en": "feeling worried or anxious",
+    "zh": "紧张的",
+    "fr": "nerveux/nerveuse",
+    "ar": "متوتر",
+    "ko": "긴장한",
+    "ru": "нервный/взволнованный"
+   }
+  },
+  {
+   "word": "comfortable",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "気楽な、快適な",
+    "en": "feeling relaxed and at ease",
+    "zh": "舒适的/自在的",
+    "fr": "à l'aise / confortable",
+    "ar": "مرتاح",
+    "ko": "편안한",
+    "ru": "комфортный/удобный"
+   }
+  },
+  {
+   "word": "helpful",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "役に立つ",
+    "en": "giving useful help",
+    "zh": "有帮助的",
+    "fr": "utile / serviable",
+    "ar": "مفيد",
+    "ko": "도움이 되는",
+    "ru": "полезный (о помощи)"
+   }
+  },
+  {
+   "word": "useful",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "有用な",
+    "en": "able to be used for a practical purpose",
+    "zh": "有用的",
+    "fr": "utile",
+    "ar": "مفيد",
+    "ko": "유용한",
+    "ru": "полезный"
+   }
+  },
+  {
+   "word": "accurate",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "正確な",
+    "en": "correct and exact",
+    "zh": "准确的",
+    "fr": "précis(e) / exact(e)",
+    "ar": "دقيق",
+    "ko": "정확한",
+    "ru": "точный"
+   }
+  },
+  {
+   "word": "usually",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "普段は",
+    "en": "most of the time, normally",
+    "zh": "通常",
+    "fr": "habituellement",
+    "ar": "عادةً",
+    "ko": "보통/대개",
+    "ru": "обычно"
+   }
+  },
+  {
+   "word": "sometimes",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "ときどき",
+    "en": "on some occasions, not always",
+    "zh": "有时",
+    "fr": "parfois",
+    "ar": "أحيانًا",
+    "ko": "가끔",
+    "ru": "иногда"
+   }
+  },
+  {
+   "word": "rarely",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "めったに〜ない",
+    "en": "not often",
+    "zh": "很少",
+    "fr": "rarement",
+    "ar": "نادرًا",
+    "ko": "좀처럼 ~않다",
+    "ru": "редко"
+   }
+  },
+  {
+   "word": "recently",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "最近",
+    "en": "not long ago",
+    "zh": "最近",
+    "fr": "récemment",
+    "ar": "مؤخرًا",
+    "ko": "최근에",
+    "ru": "недавно"
+   }
+  },
+  {
+   "word": "currently",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "現在",
+    "en": "at this time, now",
+    "zh": "目前",
+    "fr": "actuellement",
+    "ar": "حاليًا",
+    "ko": "현재",
+    "ru": "в настоящее время"
+   }
+  },
+  {
+   "word": "maybe",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "たぶん、もしかすると",
+    "en": "possibly",
+    "zh": "也许",
+    "fr": "peut-être",
+    "ar": "ربما",
+    "ko": "아마",
+    "ru": "может быть"
+   }
+  },
+  {
+   "word": "perhaps",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "ひょっとすると",
+    "en": "possibly, maybe",
+    "zh": "或许",
+    "fr": "peut-être",
+    "ar": "ربما",
+    "ko": "아마도",
+    "ru": "возможно"
+   }
+  },
+  {
+   "word": "otherwise",
+   "pos": "adverb",
+   "meaning": {
+    "ja": "そうでなければ",
+    "en": "if not, under other circumstances",
+    "zh": "否则",
+    "fr": "sinon / autrement",
+    "ar": "وإلا",
+    "ko": "그렇지 않으면",
+    "ru": "иначе"
+   }
+  },
+  {
+   "word": "at least",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "少なくとも",
+    "en": "not less than",
+    "zh": "至少",
+    "fr": "au moins",
+    "ar": "على الأقل",
+    "ko": "적어도",
+    "ru": "по крайней мере"
+   }
+  },
+  {
+   "word": "on the other hand",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "一方で",
+    "en": "looking at it from the other side",
+    "zh": "另一方面",
+    "fr": "d'un autre côté",
+    "ar": "من ناحية أخرى",
+    "ko": "다른 한편으로",
+    "ru": "с другой стороны"
+   }
+  },
+  {
+   "word": "as a result",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "そのせいで",
+    "en": "because of that",
+    "zh": "因而",
+    "fr": "par suite",
+    "ar": "نتيجة لذلك",
+    "ko": "그 결과로",
+    "ru": "в результате"
+   }
+  },
+  {
+   "word": "in fact",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "それどころか",
+    "en": "used to correct or sharpen what was said",
+    "zh": "其实",
+    "fr": "en réalité",
+    "ar": "في الواقع",
+    "ko": "사실은",
+    "ru": "на самом деле"
+   }
+  },
+  {
+   "word": "in short",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "つまり一言でいうと",
+    "en": "putting it briefly",
+    "zh": "简而言之",
+    "fr": "en bref",
+    "ar": "باختصار شديد",
+    "ko": "요컨대",
+    "ru": "одним словом"
+   }
+  },
+  {
+   "word": "for instance",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "たとえば",
+    "en": "here is one case of it",
+    "zh": "举例来说",
+    "fr": "par exemple",
+    "ar": "على سبيل المثال",
+    "ko": "예를 들면",
+    "ru": "к примеру"
+   }
+  },
+  {
+   "word": "in particular",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "なかでも特に",
+    "en": "this one more than the rest",
+    "zh": "尤其是",
+    "fr": "en particulier",
+    "ar": "وبخاصة",
+    "ko": "그중에서도",
+    "ru": "в частности"
+   }
+  },
+  {
+   "word": "above all",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "何よりもまず",
+    "en": "more important than anything else",
+    "zh": "最重要的是",
+    "fr": "avant tout",
+    "ar": "وقبل كل شيء",
+    "ko": "무엇보다도",
+    "ru": "прежде всего"
+   }
+  },
+  {
+   "word": "at the same time",
+   "pos": "phrase",
+   "meaning": {
+    "ja": "そうは言っても",
+    "en": "while that is true, also this",
+    "zh": "话虽如此",
+    "fr": "cela dit",
+    "ar": "ومع ذلك في الوقت نفسه",
+    "ko": "그러면서도",
+    "ru": "вместе с тем"
+   }
+  }
+ ]
+}

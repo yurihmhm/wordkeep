@@ -1,6 +1,6 @@
 {
  "id": "conversation_fillers_reactions",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "日常のつなぎ言葉・相づち",
   "en": "Everyday Fillers & Reactions",
@@ -1129,19 +1129,6 @@
     "ar": "يا للخسارة",
     "ko": "안타깝네",
     "ru": "жаль"
-   }
-  },
-  {
-   "word": "cheer up",
-   "pos": "phrase",
-   "meaning": {
-    "ja": "元気出して",
-    "en": "used to tell someone to feel happier",
-    "zh": "打起精神",
-    "fr": "remonte-toi le moral",
-    "ar": "ابتهج",
-    "ko": "기운 내",
-    "ru": "не грусти"
    }
   },
   {

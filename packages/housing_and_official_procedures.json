@@ -1,6 +1,6 @@
 {
  "id": "housing_and_official_procedures",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "住まい・契約・役所",
   "en": "Housing, Contracts & Government Offices",
@@ -339,19 +339,6 @@
    }
   },
   {
-   "word": "submit",
-   "pos": "verb",
-   "meaning": {
-    "ja": "提出する",
-    "en": "to hand in a document or form",
-    "zh": "提交",
-    "fr": "soumettre",
-    "ar": "يقدم",
-    "ko": "제출하다",
-    "ru": "подавать (документы)"
-   }
-  },
-  {
    "word": "fill out a form",
    "pos": "phrase",
    "meaning": {
@@ -427,19 +414,6 @@
     "ar": "مدة معالجة الطلب",
     "ko": "처리 기간",
     "ru": "срок обработки"
-   }
-  },
-  {
-   "word": "deadline",
-   "pos": "noun",
-   "meaning": {
-    "ja": "締め切り",
-    "en": "the latest time something must be done",
-    "zh": "截止日期",
-    "fr": "date limite",
-    "ar": "الموعد النهائي",
-    "ko": "마감일",
-    "ru": "крайний срок"
    }
   },
   {

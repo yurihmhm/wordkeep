@@ -1,0 +1,654 @@
+{
+ "id": "english_grammar_talk",
+ "v": 2,
+ "cefr": "A2-B1",
+ "group": "study",
+ "title": {
+  "ja": "文法・発音を説明する英語",
+  "en": "Talking About English Itself",
+  "zh": "谈论英语本身的词汇",
+  "fr": "Parler de l'anglais lui-même",
+  "ar": "الحديث عن الإنجليزية نفسها",
+  "ko": "문법·발음을 설명하는 영어",
+  "ru": "Слова о самом английском"
+ },
+ "words": [
+  {
+   "word": "noun",
+   "pos": "noun",
+   "meaning": {
+    "ja": "名詞",
+    "en": "a word that names a person, place, or thing",
+    "zh": "名词",
+    "fr": "nom",
+    "ar": "اسم",
+    "ko": "명사",
+    "ru": "существительное"
+   }
+  },
+  {
+   "word": "verb",
+   "pos": "noun",
+   "meaning": {
+    "ja": "動詞",
+    "en": "a word that describes an action or state",
+    "zh": "动词",
+    "fr": "verbe",
+    "ar": "فعل",
+    "ko": "동사",
+    "ru": "глагол"
+   }
+  },
+  {
+   "word": "adjective",
+   "pos": "noun",
+   "meaning": {
+    "ja": "形容詞",
+    "en": "a word that describes a noun",
+    "zh": "形容词",
+    "fr": "adjectif",
+    "ar": "صفة",
+    "ko": "형용사",
+    "ru": "прилагательное"
+   }
+  },
+  {
+   "word": "adverb",
+   "pos": "noun",
+   "meaning": {
+    "ja": "副詞",
+    "en": "a word that describes a verb, adjective, or another adverb",
+    "zh": "副词",
+    "fr": "adverbe",
+    "ar": "ظرف",
+    "ko": "부사",
+    "ru": "наречие"
+   }
+  },
+  {
+   "word": "preposition",
+   "pos": "noun",
+   "meaning": {
+    "ja": "前置詞",
+    "en": "a word that shows the relation between a noun and other words",
+    "zh": "介词",
+    "fr": "préposition",
+    "ar": "حرف جر",
+    "ko": "전치사",
+    "ru": "предлог"
+   }
+  },
+  {
+   "word": "pronoun",
+   "pos": "noun",
+   "meaning": {
+    "ja": "代名詞",
+    "en": "a word used in place of a noun",
+    "zh": "代词",
+    "fr": "pronom",
+    "ar": "ضمير",
+    "ko": "대명사",
+    "ru": "местоимение"
+   }
+  },
+  {
+   "word": "conjunction",
+   "pos": "noun",
+   "meaning": {
+    "ja": "接続詞",
+    "en": "a word that connects words, phrases, or clauses",
+    "zh": "连词",
+    "fr": "conjonction",
+    "ar": "حرف عطف",
+    "ko": "접속사",
+    "ru": "союз"
+   }
+  },
+  {
+   "word": "subject",
+   "pos": "noun",
+   "meaning": {
+    "ja": "主語／科目／話題",
+    "en": "the person or thing a sentence is about, or a school topic",
+    "zh": "主语／科目／话题",
+    "fr": "sujet",
+    "ar": "الفاعل / الموضوع",
+    "ko": "주어/과목",
+    "ru": "подлежащее / предмет"
+   }
+  },
+  {
+   "word": "object",
+   "pos": "noun",
+   "meaning": {
+    "ja": "目的語／物",
+    "en": "the thing affected by the action, or a physical item",
+    "zh": "宾语／物体",
+    "fr": "objet / complément",
+    "ar": "المفعول به / الشيء",
+    "ko": "목적어/사물",
+    "ru": "дополнение / предмет"
+   }
+  },
+  {
+   "word": "sentence",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文",
+    "en": "a group of words that expresses a complete thought",
+    "zh": "句子",
+    "fr": "phrase",
+    "ar": "جملة",
+    "ko": "문장",
+    "ru": "предложение"
+   }
+  },
+  {
+   "word": "phrase",
+   "pos": "noun",
+   "meaning": {
+    "ja": "句／フレーズ",
+    "en": "a small group of words that go together",
+    "zh": "短语",
+    "fr": "expression / groupe de mots",
+    "ar": "عبارة",
+    "ko": "구/어구",
+    "ru": "фраза"
+   }
+  },
+  {
+   "word": "expression",
+   "pos": "noun",
+   "meaning": {
+    "ja": "表現",
+    "en": "a way of saying something",
+    "zh": "表达",
+    "fr": "expression",
+    "ar": "تعبير",
+    "ko": "표현",
+    "ru": "выражение"
+   }
+  },
+  {
+   "word": "meaning",
+   "pos": "noun",
+   "meaning": {
+    "ja": "意味",
+    "en": "what a word or phrase refers to",
+    "zh": "意思",
+    "fr": "sens / signification",
+    "ar": "معنى",
+    "ko": "의미",
+    "ru": "значение"
+   }
+  },
+  {
+   "word": "pronunciation",
+   "pos": "noun",
+   "meaning": {
+    "ja": "発音",
+    "en": "the way a word is spoken",
+    "zh": "发音",
+    "fr": "prononciation",
+    "ar": "نطق",
+    "ko": "발음",
+    "ru": "произношение"
+   }
+  },
+  {
+   "word": "grammar",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文法",
+    "en": "the rules for how words are used in a language",
+    "zh": "语法",
+    "fr": "grammaire",
+    "ar": "قواعد اللغة",
+    "ko": "문법",
+    "ru": "грамматика"
+   }
+  },
+  {
+   "word": "vocabulary",
+   "pos": "noun",
+   "meaning": {
+    "ja": "語彙、単語力",
+    "en": "the words a person knows or uses",
+    "zh": "词汇量",
+    "fr": "vocabulaire",
+    "ar": "مفردات",
+    "ko": "어휘",
+    "ru": "словарный запас"
+   }
+  },
+  {
+   "word": "accent",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アクセント／なまり",
+    "en": "a distinctive way of pronouncing words",
+    "zh": "口音",
+    "fr": "accent",
+    "ar": "لكنة",
+    "ko": "억양/발음 특징",
+    "ru": "акцент"
+   }
+  },
+  {
+   "word": "syllable",
+   "pos": "noun",
+   "meaning": {
+    "ja": "音節",
+    "en": "a unit of sound in a word",
+    "zh": "音节",
+    "fr": "syllabe",
+    "ar": "مقطع لفظي",
+    "ko": "음절",
+    "ru": "слог"
+   }
+  },
+  {
+   "word": "example",
+   "pos": "noun",
+   "meaning": {
+    "ja": "例",
+    "en": "something that shows what is meant",
+    "zh": "例子",
+    "fr": "exemple",
+    "ar": "مثال",
+    "ko": "예시",
+    "ru": "пример"
+   }
+  },
+  {
+   "word": "definition",
+   "pos": "noun",
+   "meaning": {
+    "ja": "定義、意味の説明",
+    "en": "an explanation of what a word means",
+    "zh": "定义",
+    "fr": "définition",
+    "ar": "تعريف",
+    "ko": "정의",
+    "ru": "определение"
+   }
+  },
+  {
+   "word": "context",
+   "pos": "noun",
+   "meaning": {
+    "ja": "文脈",
+    "en": "the situation or words around something",
+    "zh": "上下文",
+    "fr": "contexte",
+    "ar": "سياق",
+    "ko": "맥락/문맥",
+    "ru": "контекст"
+   }
+  },
+  {
+   "word": "fluent",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "流暢な",
+    "en": "able to speak smoothly and easily",
+    "zh": "流利的",
+    "fr": "courant(e)",
+    "ar": "طلق/بطلاقة",
+    "ko": "유창한",
+    "ru": "свободно владеющий (языком)"
+   }
+  },
+  {
+   "word": "formal",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "フォーマルな、改まった",
+    "en": "proper and following set rules, not casual",
+    "zh": "正式的",
+    "fr": "formel(le)",
+    "ar": "رسمي",
+    "ko": "격식 있는",
+    "ru": "формальный / официальный"
+   }
+  },
+  {
+   "word": "natural",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "自然な",
+    "en": "normal, not forced",
+    "zh": "自然的",
+    "fr": "naturel(le)",
+    "ar": "طبيعي",
+    "ko": "자연스러운",
+    "ru": "естественный"
+   }
+  },
+  {
+   "word": "specific",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "具体的な、特定の",
+    "en": "exact and particular",
+    "zh": "具体的",
+    "fr": "spécifique",
+    "ar": "محدد",
+    "ko": "구체적인",
+    "ru": "конкретный"
+   }
+  },
+  {
+   "word": "confusing",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "分かりにくい、混乱させる",
+    "en": "hard to understand",
+    "zh": "令人困惑的",
+    "fr": "déroutant(e)",
+    "ar": "مربك",
+    "ko": "헷갈리는",
+    "ru": "запутанный"
+   }
+  },
+  {
+   "word": "translate",
+   "pos": "verb",
+   "meaning": {
+    "ja": "翻訳する",
+    "en": "to change words from one language to another",
+    "zh": "翻译",
+    "fr": "traduire",
+    "ar": "يترجم",
+    "ko": "번역하다",
+    "ru": "переводить"
+   }
+  },
+  {
+   "word": "pronounce",
+   "pos": "verb",
+   "meaning": {
+    "ja": "発音する",
+    "en": "to say a word in a certain way",
+    "zh": "读出/发音",
+    "fr": "prononcer",
+    "ar": "ينطق",
+    "ko": "발음하다",
+    "ru": "произносить"
+   }
+  },
+  {
+   "word": "describe",
+   "pos": "verb",
+   "meaning": {
+    "ja": "説明する、描写する",
+    "en": "to say what something is like",
+    "zh": "描述",
+    "fr": "décrire",
+    "ar": "يصف",
+    "ko": "묘사하다/설명하다",
+    "ru": "описывать"
+   }
+  },
+  {
+   "word": "compare",
+   "pos": "verb",
+   "meaning": {
+    "ja": "比較する",
+    "en": "to look at how things are similar or different",
+    "zh": "比较",
+    "fr": "comparer",
+    "ar": "يقارن",
+    "ko": "비교하다",
+    "ru": "сравнивать"
+   }
+  },
+  {
+   "word": "define",
+   "pos": "verb",
+   "meaning": {
+    "ja": "定義する",
+    "en": "to explain the exact meaning of a word",
+    "zh": "定义",
+    "fr": "définir",
+    "ar": "يُعرّف",
+    "ko": "정의하다",
+    "ru": "определять (значение)"
+   }
+  },
+  {
+   "word": "summarize",
+   "pos": "verb",
+   "meaning": {
+    "ja": "要約する",
+    "en": "to give the main points briefly",
+    "zh": "总结",
+    "fr": "résumer",
+    "ar": "يلخّص",
+    "ko": "요약하다",
+    "ru": "суммировать / резюмировать"
+   }
+  },
+  {
+   "word": "clarify",
+   "pos": "verb",
+   "meaning": {
+    "ja": "明確にする、分かりやすく説明する",
+    "en": "to make something easier to understand",
+    "zh": "澄清",
+    "fr": "clarifier",
+    "ar": "يوضّح",
+    "ko": "명확히 하다",
+    "ru": "уточнять / прояснять"
+   }
+  },
+  {
+   "word": "underline",
+   "pos": "verb",
+   "meaning": {
+    "ja": "下線を引く",
+    "en": "to draw a line under words",
+    "zh": "划下划线",
+    "fr": "souligner",
+    "ar": "يضع خطًا تحت",
+    "ko": "밑줄을 긋다",
+    "ru": "подчёркивать"
+   }
+  },
+  {
+   "word": "highlight",
+   "pos": "verb",
+   "meaning": {
+    "ja": "強調する、マーカーを引く",
+    "en": "to mark something to make it stand out",
+    "zh": "标出重点",
+    "fr": "surligner / mettre en évidence",
+    "ar": "يُبرز/يُظلّل",
+    "ko": "강조하다/형광펜으로 표시하다",
+    "ru": "выделять"
+   }
+  },
+  {
+   "word": "correct",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "正しい",
+    "en": "right or accurate",
+    "zh": "正确的",
+    "fr": "correct(e)",
+    "ar": "صحيح",
+    "ko": "맞는/정확한",
+    "ru": "правильный"
+   }
+  },
+  {
+   "word": "incorrect",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "間違っている",
+    "en": "wrong",
+    "zh": "不正确的",
+    "fr": "incorrect(e)",
+    "ar": "غير صحيح",
+    "ko": "틀린",
+    "ru": "неправильный"
+   }
+  },
+  {
+   "word": "similar",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "似ている",
+    "en": "alike in some way",
+    "zh": "相似的",
+    "fr": "similaire",
+    "ar": "مشابه",
+    "ko": "비슷한",
+    "ru": "похожий"
+   }
+  },
+  {
+   "word": "different",
+   "pos": "adjective",
+   "meaning": {
+    "ja": "異なる",
+    "en": "not the same",
+    "zh": "不同的",
+    "fr": "différent(e)",
+    "ar": "مختلف",
+    "ko": "다른",
+    "ru": "другой / отличающийся"
+   }
+  },
+  {
+   "word": "mention",
+   "pos": "verb",
+   "meaning": {
+    "ja": "言及する",
+    "en": "to talk about something briefly",
+    "zh": "提到",
+    "fr": "mentionner",
+    "ar": "يذكر",
+    "ko": "언급하다",
+    "ru": "упоминать"
+   }
+  },
+  {
+   "word": "repeat",
+   "pos": "verb",
+   "meaning": {
+    "ja": "繰り返す",
+    "en": "to say or do something again",
+    "zh": "重复",
+    "fr": "répéter",
+    "ar": "يكرر",
+    "ko": "반복하다",
+    "ru": "повторять"
+   }
+  },
+  {
+   "word": "guess",
+   "pos": "verb",
+   "meaning": {
+    "ja": "推測する",
+    "en": "to give an answer without being sure",
+    "zh": "猜测",
+    "fr": "deviner",
+    "ar": "يخمن",
+    "ko": "추측하다",
+    "ru": "угадывать"
+   }
+  },
+  {
+   "word": "memorize",
+   "pos": "verb",
+   "meaning": {
+    "ja": "暗記する",
+    "en": "to learn something so you can remember it",
+    "zh": "记住",
+    "fr": "mémoriser",
+    "ar": "يحفظ",
+    "ko": "암기하다",
+    "ru": "запоминать"
+   }
+  },
+  {
+   "word": "improve",
+   "pos": "verb",
+   "meaning": {
+    "ja": "改善する、上達させる",
+    "en": "to make or become better",
+    "zh": "提高",
+    "fr": "améliorer",
+    "ar": "يحسّن",
+    "ko": "향상시키다",
+    "ru": "улучшать"
+   }
+  },
+  {
+   "word": "explain",
+   "pos": "verb",
+   "meaning": {
+    "ja": "説明する",
+    "en": "to make something clear",
+    "zh": "解释",
+    "fr": "expliquer",
+    "ar": "يشرح",
+    "ko": "설명하다",
+    "ru": "объяснять"
+   }
+  },
+  {
+   "word": "understand",
+   "pos": "verb",
+   "meaning": {
+    "ja": "理解する",
+    "en": "to know the meaning of something",
+    "zh": "理解",
+    "fr": "comprendre",
+    "ar": "يفهم",
+    "ko": "이해하다",
+    "ru": "понимать"
+   }
+  },
+  {
+   "word": "recognize",
+   "pos": "verb",
+   "meaning": {
+    "ja": "見分ける、認識する",
+    "en": "to identify someone or something you've seen before",
+    "zh": "认出/识别",
+    "fr": "reconnaître",
+    "ar": "يتعرّف على",
+    "ko": "알아보다/인식하다",
+    "ru": "узнавать/распознавать"
+   }
+  },
+  {
+   "word": "remember",
+   "pos": "verb",
+   "meaning": {
+    "ja": "覚えている",
+    "en": "to keep something in your memory",
+    "zh": "记得",
+    "fr": "se souvenir",
+    "ar": "يتذكر",
+    "ko": "기억하다",
+    "ru": "помнить"
+   }
+  },
+  {
+   "word": "forget",
+   "pos": "verb",
+   "meaning": {
+    "ja": "忘れる",
+    "en": "to fail to remember",
+    "zh": "忘记",
+    "fr": "oublier",
+    "ar": "ينسى",
+    "ko": "잊다",
+    "ru": "забывать"
+   }
+  }
+ ]
+}

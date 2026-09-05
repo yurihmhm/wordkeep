@@ -1,6 +1,6 @@
 {
  "id": "common_phrasal_verbs_part2",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "会話でよく使う句動詞 中上級編",
   "en": "Common Phrasal Verbs, Advanced",
@@ -24,19 +24,6 @@
     "ar": "يتسبب في",
     "ko": "초래하다",
     "ru": "вызывать"
-   }
-  },
-  {
-   "word": "bring up",
-   "pos": "phrase",
-   "meaning": {
-    "ja": "育てる",
-    "en": "to raise a child",
-    "zh": "抚养",
-    "fr": "élever un enfant",
-    "ar": "يربي",
-    "ko": "양육하다",
-    "ru": "воспитывать"
    }
   },
   {
