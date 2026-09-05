@@ -18,7 +18,8 @@ const LANGS = ['ja', 'en', 'zh', 'fr', 'ar', 'ko', 'ru'];
 const LOANWORDS = ['cookie', 'cookies', 'wifi', 'email', 'web', 'app', 'online', 'offline', 'internet', 'pt', 'pts'];
 // Product names and keyboard keys are written in Latin in every language.
 const PROPER = ['firestore', 'firebase', 'google', 'apple', 'safari', 'chrome', 'line',
-  'enter', 'backspace', 'wordkeep', 'duolingo', 'ios', 'android', 'iphone', 'password'];
+  'enter', 'backspace', 'wordkeep', 'duolingo', 'ios', 'android', 'iphone', 'password',
+  'yuri'];   // the developer, named in the tour so people know who they are writing to
 // Two strings are English by design: the bulk-import prompt and its example
 // input. Flagging the English inside them would be flagging the feature.
 const SKIP_KEYS = ['bulk_prompt_body', 'bulk_ph', 'leech_ph'];
