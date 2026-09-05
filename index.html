@@ -336,6 +336,33 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .q-custom{justify-content:center}
 .q-custom span{flex:none}
 .q-num{font-size:17px;font-weight:700}
+/* The tour runs on the real screens rather than on pictures of them, so the
+   app has to stay visible. A single element with an enormous shadow spread is
+   the whole dimming effect: everything outside the box is covered, the box
+   itself is a window onto the live UI. */
+#coach[hidden]{display:none}
+.coach-block{position:fixed;inset:0;z-index:198}
+.coach-hole{position:fixed;border-radius:14px;z-index:199;pointer-events:none;
+  box-shadow:0 0 0 9999px rgba(8,16,38,.74);
+  transition:top .28s cubic-bezier(.4,0,.2,1),left .28s cubic-bezier(.4,0,.2,1),
+             width .28s cubic-bezier(.4,0,.2,1),height .28s cubic-bezier(.4,0,.2,1)}
+/* No target: a zero-sized box in the middle of the screen. Parking it off-screen
+   seemed tidier but put the shadow's 9999px spread entirely outside the
+   viewport, so the dimming vanished on exactly the steps that have no
+   highlight. */
+.coach-hole.blank{top:50%;left:50%;width:0;height:0;border-radius:0}
+.coach-bub{position:fixed;z-index:200;left:50%;transform:translateX(-50%);
+  width:min(340px,calc(100vw - 32px));background:var(--surface);color:var(--ink-strong);
+  border:1px solid var(--line);border-radius:16px;padding:15px 16px 12px;
+  box-shadow:0 18px 46px rgba(0,0,0,.4);transition:top .28s cubic-bezier(.4,0,.2,1)}
+.coach-say{display:flex;gap:11px;align-items:flex-start}
+.coach-av{flex:none;font-size:22px;line-height:1.25}
+.coach-bub p{margin:0;font-size:14px;line-height:1.7}
+.coach-nav{display:flex;align-items:center;gap:10px;margin-top:13px}
+.coach-n{flex:1;text-align:center;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.5px}
+.coach-skip{border:0;background:none;padding:6px 2px;font:inherit;font-size:12.5px;
+  color:var(--muted);cursor:pointer}
+.coach-next{padding:9px 18px;font-size:14px;width:auto}
 .pts-row{--lv:var(--accent);--lv-bg:var(--surface-2)}
 .pts-k{width:42px;font-size:14px}
 .rk-i{margin-inline-start:2px;align-self:center}
@@ -1247,6 +1274,18 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
   <div id="cefrBody"></div>
   <button class="btn btn-primary" id="cefrOk" style="margin-top:16px;width:100%"></button>
 </div></div>
+<div id="coach" hidden>
+  <div class="coach-block" id="coachBlock"></div>
+  <div class="coach-hole" id="coachHole"></div>
+  <div class="coach-bub" id="coachBub">
+    <div class="coach-say"><span class="coach-av">📖</span><p id="coachText"></p></div>
+    <div class="coach-nav">
+      <button class="coach-skip" id="coachSkip" type="button"></button>
+      <span class="coach-n" id="coachN"></span>
+      <button class="btn btn-primary coach-next" id="coachNext" type="button"></button>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="overlayInstall"><div class="sheet">
   <div class="step-emoji">📱</div>
   <h3 id="instTitle" style="text-align:center"></h3>
@@ -1510,7 +1549,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.59.0';
+const APP_VERSION='5.60.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1523,7 +1562,8 @@ const APP_VERSION='5.59.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.59.0',date:'2026-09-04',keys:['wn1'],show:true},
+  {version:'5.60.0',date:'2026-09-05',keys:['wn1'],show:true},
+  {version:'5.59.0',date:'2026-09-04',keys:['v5590_1'],show:true},
   {version:'5.58.0',date:'2026-09-04',keys:['v5580_1'],show:true},
   {version:'5.57.0',date:'2026-09-04',keys:['v5570_1'],show:true},
   {version:'5.56.0',date:'2026-09-04',keys:['v5560_1'],show:true},
@@ -1643,7 +1683,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'モーダルの<b>外側を押すと閉じる</b>ようになりました。まだ質問に答えていない方には、<b>あなたに合う単語パッケージを選ぶ3つの質問</b>をご案内します（パッケージ一覧の↺からいつでもやり直せます）。スマホのブラウザでお使いの方には<b>ホーム画面への追加</b>をご案内します。追加すると通知が届き、単語が消えたように見えることもなくなります。1日の目標が<b>15語や100語、自分で決めた数</b>にしても20語のままだった問題も直しました。',en:'Sheets now <b>close when you tap outside them</b>. If you have not answered them yet, we will offer the <b>three questions</b> that put the right packs at the top of your list — the ↺ in the package list reruns them any time. On a phone browser we now show how to <b>add Wordkeep to your home screen</b>, which is what makes reminders arrive and stops saved words looking lost. Also fixed: a daily target of <b>15, 100 or your own number</b> was quietly staying at 20.',zh:'弹窗现在<b>点击外侧即可关闭</b>。还没回答过的用户，我们会邀请你回答<b>3个问题</b>，把合适的单词包排到最上面（单词包列表的 ↺ 可随时重答）。在手机浏览器上会提示<b>添加到主屏幕</b>，这样才能收到提醒，单词也不会看起来消失。另外修复了每日目标设为 <b>15、100 或自定义数字</b>时仍停留在 20 的问题。',fr:'Les fenêtres <b>se ferment en touchant à l\'extérieur</b>. Si vous n\'y avez pas encore répondu, nous proposons les <b>trois questions</b> qui remontent les bons packs en haut de la liste — le ↺ de la liste les relance quand vous voulez. Sur navigateur mobile, nous expliquons comment <b>ajouter Wordkeep à l\'écran d\'accueil</b> : c\'est ce qui fait arriver les rappels. Corrigé aussi : un objectif de <b>15, 100 ou un nombre libre</b> restait à 20.',ar:'صارت النوافذ <b>تُغلق عند النقر خارجها</b>. ومن لم يجب بعد، نعرض عليه <b>الأسئلة الثلاثة</b> التي ترفع الحزم المناسبة إلى أعلى القائمة (زر ↺ في قائمة الحزم يعيدها متى شئت). وعلى متصفح الهاتف نوضح كيفية <b>الإضافة إلى الشاشة الرئيسية</b>، فبها تصل التذكيرات. وأُصلح أيضًا: هدف يومي بـ<b>15 أو 100 أو رقم تختاره</b> كان يبقى 20.',ko:'창이 <b>바깥쪽을 누르면 닫히도록</b> 바뀌었습니다. 아직 답하지 않으셨다면 <b>세 가지 질문</b>을 안내해 드립니다. 답하면 맞는 패키지가 목록 위로 옵니다(패키지 목록의 ↺로 언제든 다시 할 수 있습니다). 휴대폰 브라우저에서는 <b>홈 화면에 추가</b>하는 방법을 안내합니다. 추가해야 알림이 오고 단어가 사라진 것처럼 보이지 않습니다. 하루 목표를 <b>15개나 100개, 직접 정한 수</b>로 해도 20개로 남던 문제도 고쳤습니다.',ru:'Окна теперь <b>закрываются по нажатию снаружи</b>. Тем, кто ещё не отвечал, предложим <b>три вопроса</b> — после них нужные наборы окажутся вверху списка (кнопка ↺ в списке наборов повторит их когда угодно). В мобильном браузере покажем, как <b>добавить Wordkeep на главный экран</b>: без этого не приходят напоминания. Исправлено: дневная цель в <b>15, 100 или своё число</b> молча оставалась 20.'},
+  wn1:{ja:'はじめての方の流れを作り直しました。ホーム画面に追加してから、<b>あなたのことを2つだけ質問</b>して、アカウントを作り、そのあとに<b>実際の画面を一緒に触りながら</b>使い方をご案内します。説明だけの画面はやめました。ツアーは<b>設定＞ヘルプ</b>からいつでも見直せます。単語パッケージに<b>「よく使う副詞」初中級編と中上級編</b>を追加しました。',en:'The first-run flow is rebuilt. Add Wordkeep to your home screen, answer <b>just two questions</b> about yourself, make an account, and then we walk you through the app <b>on the real screens</b> rather than showing you pictures of them. The tour replays any time from <b>Settings ▸ Help</b>. Two new packs as well: <b>Everyday Adverbs</b>, core and advanced.',zh:'新用户的流程重做了。先添加到主屏幕，只问<b>两个关于你的问题</b>，创建账号，然后<b>在真实界面上边操作边讲解</b>，不再只看说明页。导览可随时从<b>设置 ▸ 帮助</b>重看。另外新增<b>「常用副词」初中级与中高级</b>两个单词包。',fr:'Le parcours de démarrage est refait. Ajoutez l\'app à l\'écran d\'accueil, répondez à <b>deux questions</b> sur vous, créez un compte, puis nous vous guidons <b>sur les vrais écrans</b> plutôt qu\'avec des images. Le tour se rejoue depuis <b>Réglages ▸ Aide</b>. Deux nouveaux packs : <b>adverbes courants</b>, niveau de base et avancé.',ar:'أُعيد بناء مسار البداية. أضف التطبيق إلى الشاشة الرئيسية، وأجب عن <b>سؤالين فقط</b> عنك، وأنشئ حسابًا، ثم نرافقك <b>على الشاشات الحقيقية</b> بدل صور توضيحية. ويمكن إعادة الجولة من <b>الإعدادات ▸ مساعدة</b>. وأضفنا حزمتين: <b>الظروف الشائعة</b> للمبتدئ وللمتقدم.',ko:'첫 사용 흐름을 다시 만들었습니다. 홈 화면에 추가한 뒤 <b>당신에 대한 질문 두 개</b>만 답하고, 계정을 만들고, 그다음 <b>실제 화면을 함께 만지면서</b> 사용법을 안내합니다. 설명만 있는 화면은 없앴습니다. 투어는 <b>설정 ▸ 도움말</b>에서 언제든 다시 볼 수 있습니다. 단어 패키지에 <b>«자주 쓰는 부사» 초중급·중상급</b>을 더했습니다.',ru:'Начало работы переделано. Добавьте приложение на главный экран, ответьте на <b>два вопроса</b> о себе, создайте аккаунт — и мы проведём вас <b>по настоящим экранам</b>, а не по их описаниям. Тур повторяется из <b>«Настройки ▸ Помощь»</b>. Ещё два набора: <b>частые наречия</b>, базовые и продвинутые.'},
+  v5590_1:{ja:'モーダルの<b>外側を押すと閉じる</b>ようになりました。まだ質問に答えていない方には、<b>あなたに合う単語パッケージを選ぶ3つの質問</b>をご案内します（パッケージ一覧の↺からいつでもやり直せます）。スマホのブラウザでお使いの方には<b>ホーム画面への追加</b>をご案内します。追加すると通知が届き、単語が消えたように見えることもなくなります。1日の目標が<b>15語や100語、自分で決めた数</b>にしても20語のままだった問題も直しました。',en:'Sheets now <b>close when you tap outside them</b>. If you have not answered them yet, we will offer the <b>three questions</b> that put the right packs at the top of your list — the ↺ in the package list reruns them any time. On a phone browser we now show how to <b>add Wordkeep to your home screen</b>, which is what makes reminders arrive and stops saved words looking lost. Also fixed: a daily target of <b>15, 100 or your own number</b> was quietly staying at 20.',zh:'弹窗现在<b>点击外侧即可关闭</b>。还没回答过的用户，我们会邀请你回答<b>3个问题</b>，把合适的单词包排到最上面（单词包列表的 ↺ 可随时重答）。在手机浏览器上会提示<b>添加到主屏幕</b>，这样才能收到提醒，单词也不会看起来消失。另外修复了每日目标设为 <b>15、100 或自定义数字</b>时仍停留在 20 的问题。',fr:'Les fenêtres <b>se ferment en touchant à l\'extérieur</b>. Si vous n\'y avez pas encore répondu, nous proposons les <b>trois questions</b> qui remontent les bons packs en haut de la liste — le ↺ de la liste les relance quand vous voulez. Sur navigateur mobile, nous expliquons comment <b>ajouter Wordkeep à l\'écran d\'accueil</b> : c\'est ce qui fait arriver les rappels. Corrigé aussi : un objectif de <b>15, 100 ou un nombre libre</b> restait à 20.',ar:'صارت النوافذ <b>تُغلق عند النقر خارجها</b>. ومن لم يجب بعد، نعرض عليه <b>الأسئلة الثلاثة</b> التي ترفع الحزم المناسبة إلى أعلى القائمة (زر ↺ في قائمة الحزم يعيدها متى شئت). وعلى متصفح الهاتف نوضح كيفية <b>الإضافة إلى الشاشة الرئيسية</b>، فبها تصل التذكيرات. وأُصلح أيضًا: هدف يومي بـ<b>15 أو 100 أو رقم تختاره</b> كان يبقى 20.',ko:'창이 <b>바깥쪽을 누르면 닫히도록</b> 바뀌었습니다. 아직 답하지 않으셨다면 <b>세 가지 질문</b>을 안내해 드립니다. 답하면 맞는 패키지가 목록 위로 옵니다(패키지 목록의 ↺로 언제든 다시 할 수 있습니다). 휴대폰 브라우저에서는 <b>홈 화면에 추가</b>하는 방법을 안내합니다. 추가해야 알림이 오고 단어가 사라진 것처럼 보이지 않습니다. 하루 목표를 <b>15개나 100개, 직접 정한 수</b>로 해도 20개로 남던 문제도 고쳤습니다.',ru:'Окна теперь <b>закрываются по нажатию снаружи</b>. Тем, кто ещё не отвечал, предложим <b>три вопроса</b> — после них нужные наборы окажутся вверху списка (кнопка ↺ в списке наборов повторит их когда угодно). В мобильном браузере покажем, как <b>добавить Wordkeep на главный экран</b>: без этого не приходят напоминания. Исправлено: дневная цель в <b>15, 100 или своё число</b> молча оставалась 20.'},
   v5580_1:{ja:'はじめに<b>3つの質問</b>に答えると、あなたに合う単語パッケージが一覧の上に出るようになりました。パッケージは<b>日常会話・留学・ワーホリ・専門分野</b>に分かれ、難易度も<b>A2〜B1</b>のように幅で表示されます。学習完了の画面の数字も<b>pt</b>にそろえました。',en:'Answer <b>three quick questions</b> and the packs that suit you appear at the top of the list. Packs are now grouped into <b>everyday, studying abroad, work</b> and <b>specialist fields</b>, and each shows a level range like <b>A2–B1</b>. The number on the end-of-round screen is now in <b>points</b> too.',zh:'回答<b>3个问题</b>后，适合你的单词包会排在列表最上面。单词包现已分为<b>日常会话・留学・打工度假・专业领域</b>，难度也以 <b>A2–B1</b> 这样的区间显示。学习完成页面的数字也统一为<b>积分</b>。',fr:'Répondez à <b>trois questions</b> et les packs qui vous conviennent passent en haut de la liste. Les packs sont regroupés en <b>quotidien, études, travail</b> et <b>domaines spécialisés</b>, chacun avec une fourchette de niveau comme <b>A2–B1</b>. L\'écran de fin de série compte lui aussi en <b>points</b>.',ar:'أجب عن <b>ثلاثة أسئلة</b> وستظهر الحزم المناسبة لك في أعلى القائمة. صارت الحزم مقسمة إلى <b>الحياة اليومية والدراسة بالخارج والعمل</b> و<b>المجالات المتخصصة</b>، ولكل منها نطاق مستوى مثل <b>A2–B1</b>. وشاشة نهاية الجولة تعد بـ<b>النقاط</b> أيضًا.',ko:'<b>세 가지 질문</b>에 답하면 나에게 맞는 단어 패키지가 목록 위쪽에 나옵니다. 패키지는 <b>일상 회화·유학·워홀·전문 분야</b>로 나뉘었고, 난이도도 <b>A2–B1</b>처럼 범위로 표시됩니다. 학습 완료 화면의 숫자도 <b>pt</b>로 맞췄습니다.',ru:'Ответьте на <b>три вопроса</b> — и подходящие наборы окажутся вверху списка. Наборы теперь разделены на <b>повседневное общение, учёбу, работу</b> и <b>специальные области</b>, а уровень показан диапазоном вроде <b>A2–B1</b>. Экран после раунда тоже считает в <b>очках</b>.'},
   v5570_1:{ja:'スラングを<b>国別に絞って</b>学べるようになりました。単語一覧の国旗を押すと、その国だけ／その国を外して覚えられます。パッケージには<b>CEFRの難易度</b>が付きました。ⓘを押すと各レベルの説明が出ます。ランキングは<b>ポイント制</b>になり、スペル入力やディクテーションなど難しい形式ほど高く入ります。これまでの記録は1問1ptとして引き継がれます。',en:'Slang can now be studied <b>one country at a time</b> — tap a flag in the word list to keep or drop it. Every pack shows a <b>CEFR level</b>, and the ⓘ beside the heading explains what each level means. The board is now scored in <b>points</b>: harder formats like spelling and dictation are worth more than multiple choice. Everything you answered before counts as 1 point each.',zh:'俚语现在可以<b>按国家筛选</b>学习了——在单词列表点国旗即可只留或排除该国。每个单词包都标注了<b>CEFR 难度</b>，点标题旁的 ⓘ 可看各等级说明。排行榜改为<b>积分制</b>，拼写输入、听写等较难题型得分更高。此前的记录一律按每题 1 分计入。',fr:'L\'argot se révise maintenant <b>pays par pays</b> : touchez un drapeau dans la liste pour le garder ou l\'écarter. Chaque pack affiche un <b>niveau CECR</b>, et le ⓘ à côté du titre explique ce que chacun signifie. Le classement se compte désormais en <b>points</b> : l\'orthographe et la dictée valent plus que le choix multiple. Tout ce que vous avez déjà répondu compte 1 point.',ar:'يمكنك الآن دراسة العامية <b>حسب الدولة</b>: اضغط على العلم في قائمة الكلمات لإبقائه أو استبعاده. كل حزمة تعرض <b>مستوى الإطار الأوروبي</b>، وزر ⓘ بجانب العنوان يشرح كل مستوى. وصارت اللوحة تُحتسب بـ<b>النقاط</b>: الإملاء والديكتيه أعلى من الاختيار من متعدد. وكل ما أجبت عنه سابقًا يُحتسب بنقطة واحدة.',ko:'슬랭을 <b>나라별로 골라</b> 학습할 수 있게 됐습니다. 단어 목록의 국기를 누르면 그 나라만 남기거나 뺄 수 있습니다. 각 패키지에는 <b>CEFR 난이도</b>가 붙었고, 제목 옆 ⓘ를 누르면 레벨 설명이 나옵니다. 랭킹은 <b>포인트제</b>가 되어 스펠링 입력이나 딕테이션처럼 어려운 형식일수록 높게 들어갑니다. 이전 기록은 문제당 1pt로 이어집니다.',ru:'Сленг теперь можно учить <b>по странам</b>: нажмите флаг в списке слов, чтобы оставить или убрать её. У каждого набора появился <b>уровень CEFR</b>, а ⓘ рядом с заголовком объясняет, что каждый уровень значит. Рейтинг считается в <b>очках</b>: написание и диктант весят больше, чем выбор из четырёх. Всё отвеченное раньше засчитано по 1 очку.'},
   v5560_1:{ja:'単語パッケージを2つ追加しました。<b>「AI・生成AIの英単語」</b>と<b>「英語スラング」</b>です。スラングは<b>アメリカ・イギリス・オーストラリア</b>の国旗で分かれていて、出題する国を選べます。<b>きつい言葉は最初は出てきません</b>。設定か出題前の画面でオンにできます。',en:'Two new packs: <b>AI and Generative AI</b>, plus <b>English Slang</b>. The slang is split by flag into <b>American, British and Australian</b>, and you can pick which countries to be quizzed on. <b>Coarse words stay hidden until you ask for them</b> — the switch is in Settings, or on the screen before a round.',zh:'新增两个单词包：<b>「人工智能与生成式AI」</b>和<b>「英语俚语」</b>。俚语按国旗分为<b>美国、英国、澳大利亚</b>，可以选择出题的国家。<b>粗俗用语默认不出现</b>，可在设置或出题前的画面打开。',fr:'Deux nouveaux packs : <b>« IA et IA générative »</b> et <b>« Argot anglais »</b>. L\'argot est trié par drapeau entre <b>États-Unis, Royaume-Uni et Australie</b>, et vous choisissez les pays à réviser. <b>Le langage cru reste masqué</b> jusqu\'à ce que vous l\'activiez, dans les réglages ou juste avant une série.',ar:'حزمتان جديدتان: <b>«الذكاء الاصطناعي والتوليدي»</b> و<b>«العامية الإنجليزية»</b>. العامية مقسمة بالأعلام إلى <b>أمريكية وبريطانية وأسترالية</b>، ويمكنك اختيار الدول التي تُختبر فيها. <b>الألفاظ النابية مخفية</b> حتى تطلبها من الإعدادات أو من شاشة ما قبل الجولة.',ko:'단어 패키지를 2개 추가했습니다. <b>«AI와 생성형 AI»</b>와 <b>«영어 슬랭»</b>입니다. 슬랭은 <b>미국·영국·호주</b> 국기로 나뉘어 있어 출제할 나라를 고를 수 있습니다. <b>거친 말은 처음에는 나오지 않습니다</b>. 설정이나 출제 전 화면에서 켤 수 있습니다.',ru:'Два новых набора: <b>«ИИ и генеративный ИИ»</b> и <b>«Английский сленг»</b>. Сленг разделён флагами на <b>американский, британский и австралийский</b> — можно выбрать, какие страны спрашивать. <b>Грубые слова спрятаны</b>, пока вы их не включите: в настройках или на экране перед раундом.'},
@@ -2000,6 +2041,19 @@ const T={
   q_words_unit:{ja:'{0}語',en:'{0} words',zh:'{0} 词',fr:'{0} mots',ar:'{0} كلمة',ko:'{0}단어',ru:'{0} слов'},
   reco_sec:{ja:'あなたへのおすすめ',en:'Recommended for you',zh:'为你推荐',fr:'Recommandé pour vous',ar:'مقترح لك',ko:'추천 패키지',ru:'Рекомендуем вам'},
   reco_redo:{ja:'質問に答え直す',en:'Answer the questions again',zh:'重新回答问题',fr:'Répondre à nouveau',ar:'أعد الإجابة عن الأسئلة',ko:'질문 다시 답하기',ru:'Ответить заново'},
+  co_welcome:{ja:'Wordkeepは、自分だけの単語帳を作って、あなたに合った単語を最短で覚えるためのアプリです。まずは一緒に一周してみましょう。',en:'Wordkeep is for building your own wordbook and learning the words that suit you by the shortest route. Let us walk through it together first.',zh:'Wordkeep 用来打造属于你自己的单词本，用最短的路径记住适合你的词。先一起走一遍吧。',fr:'Wordkeep sert à construire votre propre carnet de mots et à apprendre par le chemin le plus court ceux qui vous conviennent. Faisons d\'abord un tour ensemble.',ar:'وردكيب لبناء دفتر كلماتك الخاص وتعلّم ما يناسبك بأقصر طريق. لنتجول فيه معًا أولًا.',ko:'Wordkeep은 나만의 단어장을 만들고, 나에게 맞는 단어를 가장 빠른 길로 익히기 위한 앱입니다. 먼저 함께 한 바퀴 돌아볼까요.',ru:'Wordkeep — чтобы собрать собственный словарь и учить подходящие вам слова самым коротким путём. Давайте сначала пройдёмся вместе.'},
+  co_home:{ja:'ここがホームです。今日やることがまとまっていて、ボタンを1回押せば復習が始まります。',en:'This is home. Today\'s work is gathered here, and one button starts the review.',zh:'这里是主页。今天要做的都在这里，按一下按钮就能开始复习。',fr:'Voici l\'accueil. Le travail du jour est rassemblé ici, et un bouton lance la révision.',ar:'هذه الصفحة الرئيسية. مهام اليوم مجمعة هنا، وزر واحد يبدأ المراجعة.',ko:'여기가 홈입니다. 오늘 할 일이 모여 있고, 버튼 한 번이면 복습이 시작됩니다.',ru:'Это главная. Здесь собрано, что делать сегодня, и одна кнопка запускает повторение.'},
+  co_add:{ja:'単語の追加はここです。英単語を入れて「調べる」を押すと、意味が自動で入ります。',en:'Words are added here. Type an English word, press Look up, and the meaning fills itself in.',zh:'在这里添加单词。输入英文单词后按「查询」，意思会自动填好。',fr:'C\'est ici qu\'on ajoute un mot. Tapez-le, appuyez sur Rechercher, et le sens se remplit tout seul.',ar:'من هنا تضيف الكلمات. اكتب الكلمة واضغط «بحث» فيُملأ المعنى تلقائيًا.',ko:'단어 추가는 여기입니다. 영단어를 넣고 «찾기»를 누르면 뜻이 자동으로 채워집니다.',ru:'Слова добавляются здесь. Введите слово, нажмите «Найти» — значение подставится само.'},
+  co_packs:{ja:'ここから単語パッケージを選べます。さきほどの質問に合わせて、おすすめが上に出ています。',en:'Word packs are chosen here. Based on your answers, the ones that suit you sit at the top.',zh:'从这里选择单词包。根据你刚才的回答，合适的会排在最上面。',fr:'Les packs se choisissent ici. D\'après vos réponses, ceux qui vous conviennent sont en haut.',ar:'من هنا تختار حزم الكلمات. وبحسب إجاباتك، تظهر المناسبة لك في الأعلى.',ko:'여기서 단어 패키지를 고릅니다. 방금 답변에 맞춰 추천이 위쪽에 나와 있습니다.',ru:'Здесь выбираются наборы слов. По вашим ответам подходящие стоят вверху.'},
+  co_cards:{ja:'「カード」に切り替えると、タップでめくる暗記カードになります。',en:'Switch to Cards and you get flashcards you flip with a tap.',zh:'切换到「卡片」，就变成点一下翻面的记忆卡。',fr:'Passez sur Cartes et vous obtenez des fiches qu\'on retourne d\'une touche.',ar:'بالتبديل إلى «البطاقات» تحصل على بطاقات تقلبها بلمسة.',ko:'«카드»로 바꾸면 탭해서 넘기는 암기 카드가 됩니다.',ru:'Переключитесь на «Карточки» — их переворачивают касанием.'},
+  co_modes:{ja:'復習は4つの形式から選べます。難しい形式ほど、もらえるptが高くなります。',en:'Reviews come in four formats. The harder the format, the more points it is worth.',zh:'复习有四种形式。越难的形式，得到的积分越高。',fr:'La révision existe en quatre formats. Plus le format est exigeant, plus il rapporte de points.',ar:'المراجعة بأربعة أنماط. وكلما صعب النمط زادت نقاطه.',ko:'복습은 네 가지 형식 중에서 고릅니다. 어려운 형식일수록 받는 pt가 높습니다.',ru:'Повторение бывает четырёх форматов. Чем сложнее формат, тем больше очков.'},
+  co_start:{ja:'このボタンで始まります。正解するほど、次に出てくる間隔が延びていきます。',en:'This button starts it. The more often you get a word right, the longer until it comes back.',zh:'按这个按钮开始。答对得越多，下次出现的间隔就越长。',fr:'Ce bouton lance la série. Plus vous répondez juste, plus le mot revient tard.',ar:'هذا الزر يبدأ الجولة. وكلما أجبت صحيحًا تباعدت مواعيد عودة الكلمة.',ko:'이 버튼으로 시작합니다. 맞힐수록 다음에 나오는 간격이 길어집니다.',ru:'Эта кнопка запускает раунд. Чем чаще отвечаете верно, тем позже слово вернётся.'},
+  co_record:{ja:'続けた記録と、みんなとのランキングはここで見られます。',en:'Your streak, your history and the board against everyone else live here.',zh:'坚持的记录和大家的排行榜都在这里。',fr:'Votre série, votre historique et le classement se trouvent ici.',ar:'سجل مواظبتك وترتيبك بين الجميع تجده هنا.',ko:'이어온 기록과 다른 사람들과의 랭킹은 여기서 볼 수 있습니다.',ru:'Ваша серия, история и общий рейтинг — здесь.'},
+  co_done:{ja:'ひととおりです。わからないことがあれば、設定＞ヘルプからこのツアーをもう一度見られます。メニューのフィードバックから、開発者に直接きくこともできます。',en:'That is the tour. If anything is unclear, Settings ▸ Help replays it, and Feedback in the menu reaches the developer directly.',zh:'这就是全部。如有不明白的地方，可在「设置 ▸ 帮助」重看本导览，也可用菜单里的「反馈」直接询问开发者。',fr:'Voilà le tour. En cas de doute, Réglages ▸ Aide le rejoue, et Retour d\'expérience dans le menu écrit directement au développeur.',ar:'هذه هي الجولة. إن أشكل شيء، أعِد تشغيلها من الإعدادات ▸ مساعدة، ويمكنك مراسلة المطوّر مباشرة من «ملاحظات» في القائمة.',ko:'여기까지입니다. 모르는 것이 있으면 설정 ▸ 도움말에서 이 투어를 다시 볼 수 있고, 메뉴의 피드백으로 개발자에게 바로 물어볼 수도 있습니다.',ru:'Вот и весь тур. Если что-то непонятно, «Настройки ▸ Помощь» повторит его, а «Обратная связь» в меню напишет разработчику напрямую.'},
+  co_next:{ja:'次へ',en:'Next',zh:'下一步',fr:'Suivant',ar:'التالي',ko:'다음',ru:'Далее'},
+  co_finish:{ja:'はじめる',en:'Start using it',zh:'开始使用',fr:'Commencer',ar:'لنبدأ',ko:'시작하기',ru:'Начать'},
+  co_skip:{ja:'スキップ',en:'Skip',zh:'跳过',fr:'Passer',ar:'تخطي',ko:'건너뛰기',ru:'Пропустить'},
+  q_intro:{ja:'あなただけの単語帳をつくるために、まずあなたのことを教えてください。',en:'To build a wordbook that is yours, tell us about you first.',zh:'为了做出只属于你的单词本，先告诉我们一些关于你的事。',fr:'Pour bâtir un carnet qui soit vraiment le vôtre, parlez-nous d\'abord de vous.',ar:'لنصنع دفتر كلمات خاصًا بك، أخبرنا عن نفسك أولًا.',ko:'나만의 단어장을 만들기 위해, 먼저 당신에 대해 알려 주세요.',ru:'Чтобы собрать словарь именно под вас, расскажите сначала о себе.'},
   inst_t:{ja:'ホーム画面に追加してください',en:'Add Wordkeep to your home screen',zh:'请添加到主屏幕',fr:'Ajoutez Wordkeep à votre écran d\'accueil',ar:'أضف التطبيق إلى الشاشة الرئيسية',ko:'홈 화면에 추가해 주세요',ru:'Добавьте Wordkeep на главный экран'},
   inst_b:{ja:'ブラウザのままだと通知が届かず、別のブラウザで開いたときに単語が見えないことがあります。ホーム画面から開けば、その両方がなくなります。',en:'In a browser you get no reminders, and words saved here can look missing when you open a different browser. Launching from the home screen ends both.',zh:'停留在浏览器里收不到提醒，换一个浏览器打开时单词也可能看不到。从主屏幕启动就没有这些问题。',fr:'Dans un navigateur, pas de rappels, et vos mots peuvent sembler disparus depuis un autre navigateur. Lancer depuis l\'écran d\'accueil règle les deux.',ar:'في المتصفح لا تصلك التذكيرات، وقد تبدو كلماتك مفقودة عند فتح متصفح آخر. التشغيل من الشاشة الرئيسية ينهي الأمرين.',ko:'브라우저로 쓰면 알림이 오지 않고, 다른 브라우저로 열면 단어가 안 보일 수 있습니다. 홈 화면에서 열면 둘 다 해결됩니다.',ru:'В браузере не приходят напоминания, а слова могут «пропасть» при открытии в другом браузере. Запуск с главного экрана снимает и то, и другое.'},
   inst_done:{ja:'追加しました',en:'I have added it',zh:'我已添加',fr:'C\'est fait',ar:'أضفته بالفعل',ko:'추가했습니다',ru:'Я добавил'},
@@ -2287,20 +2341,8 @@ const T={
   ok:{ja:'OK',en:'OK',zh:'知道了',fr:'OK',ar:'حسنًا',ko:'확인',ru:'ОК'},
   streak_chip:{ja:'{0}日連続',en:'{0}-day streak',zh:'连续{0}天',fr:'{0} jours d’affilée',ar:'{0} يوم متتالٍ',ko:'{0}일 연속',ru:'{0} дн. подряд'},
 
-  tut_home_t:{ja:'ホーム画面に追加',en:'Add to your home screen',zh:'添加到主屏幕',fr:'Ajouter à l’écran d’accueil',ar:'أضِف إلى الشاشة الرئيسية',ko:'홈 화면에 추가',ru:'Добавьте на главный экран'},
-  tut_home_b:{ja:'ホーム画面に追加すると、普通のアプリと同じように一発で開けます。ブラウザが勝手にデータを消すことも防げるので、続けやすくなります。',en:'Adding it to your home screen opens the app in one tap, like any other app — and it stops the browser from clearing your data on its own, which makes it far easier to keep going.',zh:'添加到主屏幕后，就能像普通应用一样一键打开，还能防止浏览器自行清除数据，更容易坚持下去。',fr:'Sur l’écran d’accueil, l’app s’ouvre en un geste comme n’importe quelle autre — et le navigateur cesse d’effacer vos données de lui-même, ce qui aide beaucoup à tenir dans la durée.',ar:'بإضافته إلى الشاشة الرئيسية يفتح التطبيق بلمسة واحدة كأي تطبيق آخر، ويمنع المتصفح من مسح بياناتك من تلقاء نفسه، مما يسهّل الاستمرار.',ko:'홈 화면에 추가하면 일반 앱처럼 한 번에 열 수 있고, 브라우저가 임의로 데이터를 지우는 것도 막을 수 있어 꾸준히 이어가기 쉬워집니다.',ru:'На главном экране приложение открывается одним касанием, как любое другое, а браузер перестаёт сам удалять ваши данные — так продолжать заниматься гораздо проще.'},
   tut_pick_title:{ja:'言語を選択',en:'Choose your language',zh:'选择语言',fr:'Choisissez votre langue',ar:'اختر لغتك',ko:'언어 선택',ru:'Выберите язык'},
   tut_pick_body:{ja:'アプリの表示と、意味の訳に使う言語です。あとで設定からいつでも変えられます。',en:'This sets the app language and the language of the meanings. You can change it anytime in Settings.',zh:'用于界面显示和意思翻译的语言。之后可随时在设置中更改。',fr:'Définit la langue de l’app et des sens. Modifiable à tout moment dans les Réglages.',ar:'يحدد لغة التطبيق والمعاني. يمكنك تغييرها في أي وقت من الإعدادات.',ko:'앱 화면과 뜻 번역에 사용할 언어입니다. 설정에서 언제든 변경할 수 있어요.',ru:'Это язык приложения и перевода значений. Вы можете изменить его в любое время в настройках.'},
-  tut0_t:{ja:'ホームから始める',en:'Start from Home',zh:'从首页开始',fr:'Commencez par l’accueil',ar:'ابدأ من الرئيسية',ko:'홈에서 시작',ru:'Начните с главной'},
-  tut0_b:{ja:'ホームには「今日やること」がまとまっています。開いてボタンを1回押せば復習が始まります。',en:'Home gathers what to do today. Open the app, tap one button, and your review starts.',zh:'首页汇总了「今天要做的事」。打开应用后点一下按钮就能开始复习。',fr:'L’accueil rassemble ce qu’il y a à faire aujourd’hui : ouvrez l’app, un bouton, et la révision commence.',ar:'تجمع الصفحة الرئيسية ما عليك فعله اليوم: افتح التطبيق، اضغط زرًا واحدًا، وتبدأ المراجعة.',ko:'홈에는 «오늘 할 일»이 모여 있습니다. 앱을 열고 버튼 한 번이면 복습이 시작됩니다.',ru:'На главной собрано всё на сегодня: откройте приложение, одно нажатие — и повторение началось.'},
-  tut1_t:{ja:'単語を追加',en:'Add words',zh:'添加单词',fr:'Ajouter des mots',ar:'إضافة كلمات',ko:'단어 추가',ru:'Добавляйте слова'},
-  tut1_b:{ja:'「＋」で英単語を入力し『調べる』で意味を自動取得、『リストに追加』で保存します。',en:'Tap ＋, type an English word, hit Look up to auto-fetch the meaning, then Add to list.',zh:'点 ＋ 输入英文单词，点『查询』自动获取意思，再『添加到列表』。',fr:'Appuyez sur ＋, saisissez un mot anglais, touchez Rechercher pour récupérer le sens, puis Ajouter à la liste.',ar:'اضغط ＋، اكتب كلمة إنجليزية، اضغط بحث لجلب المعنى، ثم أضف إلى القائمة.',ko:'＋를 누르고 영어 단어를 입력, 검색으로 뜻을 자동 가져온 뒤 목록에 추가하세요.',ru:'Нажмите ＋, введите английское слово, нажмите «Найти» для автозаполнения значения, затем «Добавить в список».'},
-  tut2_t:{ja:'リストで管理',en:'Manage your list',zh:'管理列表',fr:'Gérer votre liste',ar:'إدارة قائمتك',ko:'목록 관리',ru:'Управляйте списком'},
-  tut2_b:{ja:'追加した単語は『単語』タブで確認・編集・削除できます。',en:'See, edit, and delete your words under the Words tab.',zh:'在「单词」标签页可以查看、编辑和删除已添加的单词。',fr:'Consultez, modifiez et supprimez vos mots dans l’onglet Mots.',ar:'يمكنك عرض كلماتك وتعديلها وحذفها من تبويب «الكلمات».',ko:'추가한 단어는 「단어」 탭에서 확인·편집·삭제할 수 있습니다.',ru:'Просматривайте, редактируйте и удаляйте слова во вкладке «Слова».'},
-  tut3_t:{ja:'復習（間隔反復）',en:'Review (spaced repetition)',zh:'复习（间隔重复）',fr:'Révision (répétition espacée)',ar:'المراجعة (تكرار متباعد)',ko:'복습 (간격 반복)',ru:'Повторение (интервальное)'},
-  tut3_b:{ja:'『復習』で4択や入力クイズ。正解するほど次の出題が先に延びて、記憶が定着します。',en:'Quiz yourself under Review. The more you get right, the further out the next review — locking in memory.',zh:'在『复习』中做选择或输入测验。答对越多，下次出现越晚，帮助记忆。',fr:'Testez-vous dans Révision. Plus vous réussissez, plus la prochaine révision s’éloigne — pour ancrer la mémoire.',ar:'اختبر نفسك في المراجعة. كلما أجبت صحيحًا تباعدت المراجعة التالية لترسيخ الحفظ.',ko:'복습에서 문제를 풀어요. 맞힐수록 다음 복습이 뒤로 미뤄져 기억에 남습니다.',ru:'Проверяйте себя в разделе «Повтор». Чем больше верных ответов, тем дальше следующий повтор — так знания закрепляются.'},
-  tut4_t:{ja:'単語帳で暗記',en:'Flashcards',zh:'单词卡',fr:'Cartes mémo',ar:'البطاقات',ko:'단어 카드',ru:'Карточки'},
-  tut4_b:{ja:'『単語』タブの「カードで覚える」から、タップでめくる暗記カードを開けます。スキマ時間にどうぞ。',en:'Open flashcards from “Flashcards” in the Words tab — flip them with a tap, perfect for spare moments.',zh:'在「单词」标签页点击「用卡片记忆」即可打开单词卡，轻点翻面，适合碎片时间。',fr:'Ouvrez les cartes mémo via « Cartes mémoire » dans l’onglet Mots — retournez-les d’un toucher.',ar:'افتح بطاقات الحفظ من «بطاقات الحفظ» في تبويب الكلمات — اقلبها بلمسة، مثالية للأوقات القصيرة.',ko:'「단어」 탭의 «카드로 외우기»에서 탭으로 넘기는 암기 카드를 열 수 있습니다.',ru:'Откройте карточки через «Карточки» во вкладке «Слова» — переворачивайте касанием.'},
 
   // Translated fully into ja/en only for now; other languages fall back to
   // the en copy (not a real translation) to keep this addition lightweight.
@@ -2343,7 +2385,7 @@ function applyStaticI18n(){
 /* ---------- storage ---------- */
 const KEY='wordkeep.v2';
 const OLDKEY='wordkeep.v1';
-const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,level:'',purpose:'',askedProfile:false,installSnoozed:0,shuffle:false,explicit:false,regions:{all:true,us:true,uk:true,au:true},notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
+const DEFAULTS={words:[],decks:[],tombs:{},ownerUid:null,settings:{quizType:'choice',dir:'e2j',len:5,weak:true,lang:navigatorLang(),theme:'system',onboarded:false,seenVersion:'',seenStorageTip:false,dailyGoal:20,level:'',purpose:'',askedProfile:false,installSnoozed:0,coachDone:false,shuffle:false,explicit:false,regions:{all:true,us:true,uk:true,au:true},notify:false,notifyAsked:false,rankOptIn:true,rankPublished:false,
   autoSpeak:false,accent:'us',speechRate:'normal',sound:true,volume:0.7,
   lastBackupAt:null,lastBackupWords:0,
   streak:{current:0,longest:0,lastActiveDate:null,freezesAvailable:1,freezeMonthGranted:null}}};
@@ -7042,7 +7084,7 @@ $('#rngVolume').addEventListener('input',()=>{
   previewVolume();
 });
 $('#swWeak').onclick=()=>{S().weak=!S().weak;save();renderSettings();applySettingsNow('weak');};
-$('#btnTutorial').onclick=()=>{closeSettings();openTutorial(false);};
+$('#btnTutorial').onclick=()=>{closeSettings();startCoach();};
 
 function doExport(){
   // Package progress lives under its own localStorage key, so serialising DB
@@ -7621,6 +7663,8 @@ function renderFeedback(){
 function openFeedback(){$('#overlayFb').classList.add('show');renderFeedback();gaScreen('feedback');}
 function closeFeedback(){$('#overlayFb').classList.remove('show');}
 $('#miFeedback').onclick=()=>{closeMenu();openFeedback();};
+$('#coachNext').onclick=()=>{coachStep++;renderCoach();};
+$('#coachSkip').onclick=()=>endCoach(true);
 $('#instDone').onclick=()=>closeInstallTip(true);
 $('#instLater').onclick=()=>closeInstallTip(false);
 $('#profYes').onclick=()=>{closeProfileAsk();startProfileQuestions();};
@@ -7824,37 +7868,119 @@ let tutGoalCustom=false;
 // of fifteen rows in alphabetical order.
 function profileSteps(){
   return [
-    {emoji:'📊',id:'level',title:t('q_level_t'),body:t('q_level_b'),
+    {emoji:'📊',id:'level',title:t('q_level_t'),body:t('q_intro')+' '+t('q_level_b'),
      pick:{key:'level',opts:['A2','B1','B2','C1'].map(v=>({v,n:t('q_lv_'+v),tag:v}))}},
     {emoji:'🎯',id:'purpose',title:t('q_use_t'),body:t('q_use_b'),
-     pick:{key:'purpose',opts:PKG_GROUPS.map(v=>({v,n:t('grp_'+v)}))}},
-    {emoji:'📅',id:'goal',title:t('q_goal_t'),body:t('q_goal_b'),
-     pick:{key:'dailyGoal',custom:true,opts:[15,30,50,100].map(v=>({v,n:t('q_words_unit',v)}))}}
+     pick:{key:'purpose',opts:PKG_GROUPS.map(v=>({v,n:t('grp_'+v)}))}}
   ];
 }
+// Opening the app is now: pick a language, put it on the home screen, say who
+// you are, make an account, and then be shown around the real thing. The five
+// screens that used to describe the app from the outside are gone -- the tour
+// does that job on the live UI, after there is an account to keep the words in.
 function tutSteps(){
   if(tutOnlyProfile)return profileSteps();
-  const steps=profileSteps().concat([
-    {emoji:'🏠',title:t('tut0_t'),body:t('tut0_b')},
-    {emoji:'➕',title:t('tut1_t'),body:t('tut1_b')},
-    {emoji:'📚',title:t('tut2_t'),body:t('tut2_b')},
-    {emoji:'🔁',title:t('tut3_t'),body:t('tut3_b')},
-    {emoji:'🗂️',title:t('tut4_t'),body:t('tut4_b')}
-  ]);
-  // No account step here. Signing in is mandatory and the gate opens
-  // the moment the tutorial ends, so an *optional* offer followed immediately
-  // by a wall just reads as the app going back on its word.
+  const steps=[];
   const install=installStepsHTML();
-  if(install&&!isStandalone()){
-    steps.push({emoji:'📱',id:'install',title:t('tut_home_t'),
-      html:'<span style="display:block">'+esc(t('tut_home_b'))+'</span>'+install});
-  }
-  return steps;
+  // First, because everything after it works better once the app is installed:
+  // reminders arrive, and words stop looking lost in another browser.
+  if(install&&!isStandalone())
+    steps.push({emoji:'📱',id:'install',title:t('inst_t'),
+      html:'<span style="display:block">'+esc(t('inst_b'))+'</span>'+install});
+  return steps.concat(profileSteps());
 }
 // Already launched from a home-screen icon: nothing to install.
 function isStandalone(){
   return window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches
     || navigator.standalone===true;
+}
+/* ---------- the guided tour -----------------------------------------------
+   Runs on the live app rather than on five screens describing it. Each step
+   moves the app to where the thing being talked about actually is, lights it
+   up, and says one sentence about it. The reader taps through; the app does
+   the driving, because asking somebody to find the right button is how a tour
+   turns into a test.
+   ------------------------------------------------------------------------- */
+let coachStep=0, coachOn=false, coachTimer=null;
+function coachSteps(){
+  return [
+    {id:'welcome', text:t('co_welcome')},
+    {id:'home',    text:t('co_home'),  view:'v-home',  sel:'.home-acts'},
+    {id:'add',     text:t('co_add'),   view:'v-add',   sel:'#inWord'},
+    {id:'packs',   text:t('co_packs'), view:'v-list',  sel:'#src-list'},
+    {id:'cards',   text:t('co_cards'), view:'v-list',  sel:'#listModes'},
+    {id:'modes',   text:t('co_modes'), view:'v-quiz',  sel:'.qs-modes'},
+    {id:'start',   text:t('co_start'), view:'v-quiz',  sel:'#qsStart'},
+    {id:'record',  text:t('co_record'),view:'v-stats', sel:'#rkSwitch'},
+    {id:'done',    text:t('co_done')}
+  ];
+}
+function startCoach(){
+  coachOn=true;coachStep=0;
+  $('#coach').hidden=false;
+  document.body.classList.add('coaching');
+  gaScreen('tour');
+  renderCoach();
+}
+function endCoach(skipped){
+  coachOn=false;
+  clearTimeout(coachTimer);
+  $('#coach').hidden=true;
+  document.body.classList.remove('coaching');
+  S().coachDone=true;save();
+  gaEvent('tour_done',{skipped:!!skipped,last_step:coachStep,total:coachSteps().length});
+  go('v-home');
+}
+// Measured after the view has actually rendered and settled, or the box lands
+// where the old screen used to be.
+function placeCoach(sel){
+  const hole=$('#coachHole'), bub=$('#coachBub');
+  const el=sel?$(sel):null;
+  if(!el){
+    // Clear the geometry as well as adding the class. Inline styles beat the
+    // class, so leaving the last step's numbers behind kept its cut-out open on
+    // a step that is supposed to have none.
+    hole.classList.add('blank');
+    hole.style.top=hole.style.left=hole.style.width=hole.style.height='';
+    bub.style.top=Math.max(16,(window.innerHeight-bub.offsetHeight)/2)+'px';
+    return;
+  }
+  hole.classList.remove('blank');
+  const r=el.getBoundingClientRect();
+  const pad=8;
+  hole.style.top=(r.top-pad)+'px';
+  hole.style.left=(r.left-pad)+'px';
+  hole.style.width=(r.width+pad*2)+'px';
+  hole.style.height=(r.height+pad*2)+'px';
+  // Below the highlight if it fits, above it if not. The tab bar owns the
+  // bottom of the screen, so leave it room.
+  const bh=bub.offsetHeight, gap=14, bottomSafe=96;
+  const below=r.bottom+gap;
+  bub.style.top=(below+bh<window.innerHeight-bottomSafe ? below : Math.max(16,r.top-gap-bh))+'px';
+}
+function renderCoach(){
+  const steps=coachSteps(), s=steps[coachStep];
+  if(!s){endCoach(false);return;}
+  $('#coachText').textContent=s.text;
+  $('#coachN').textContent=(coachStep+1)+' / '+steps.length;
+  $('#coachSkip').textContent=t('co_skip');
+  $('#coachNext').textContent=coachStep===steps.length-1?t('co_finish'):t('co_next');
+  if(s.view&&!$('#'+s.view).classList.contains('active'))go(s.view);
+  // Two frames plus a beat: go() renders, then scrolls on a rAF of its own.
+  // One placement per step. Doing it synchronously as well as on the timer
+  // meant the two could land in either order, and the synchronous one -- which
+  // runs before the view has rendered -- sometimes won.
+  clearTimeout(coachTimer);
+  const settle=()=>{
+    const el=s.sel?$(s.sel):null;
+    if(el)el.scrollIntoView({block:'center',behavior:'auto'});
+    // Placed straight away and again on the next frame. requestAnimationFrame
+    // does not fire while the page is hidden, so putting the only placement
+    // inside one left the tour with no spotlight at all on a backgrounded tab.
+    placeCoach(s.sel||null);
+    requestAnimationFrame(()=>{if(coachOn)placeCoach(s.sel||null);});
+  };
+  if(s.view)coachTimer=setTimeout(settle,220); else settle();
 }
 /* ---------- home-screen install, and the profile questions ----------------
    Both are things a browser session is missing rather than things that have
@@ -7909,6 +8035,12 @@ function startProfileQuestions(){
 }
 // One per launch, in the order of what it costs to miss: losing words beats
 // missing a feature, which beats an unsorted list.
+// Never on top of something else, and never twice.
+function maybeStartTour(){
+  if(S().coachDone||coachOn||!S().onboarded)return;
+  if($$('.overlay.show').length)return;
+  startCoach();
+}
 function afterNotices(){
   if(!S().seenStorageTip){openStorageTip();return;}
   if(installShouldAsk()){openInstallTip();return;}
@@ -9258,6 +9390,10 @@ function maybeGate(){
     if(!nickShown()){showOverlay('#overlayNick');renderNick(true);gaScreen('nickname');}
   }else if(nickLoaded){
     closeNickPrompt();
+    // Signed in and named: onboarding is finished, so show them around. Done
+    // here rather than at the end of the questions because the tour ends by
+    // saying "start using it", and that should not be followed by a wall.
+    maybeStartTour();
   }
 }
 function showOverlay(sel){$(sel).classList.add('show');}
