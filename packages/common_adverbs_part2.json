@@ -1,0 +1,667 @@
+{
+ "id": "common_adverbs_part2",
+ "v": 1,
+ "cefr": "B2-C1",
+ "group": "daily",
+ "title": {
+  "ja": "よく使う副詞 中上級編",
+  "en": "Everyday Adverbs, Advanced",
+  "zh": "常用副词（中高级）",
+  "fr": "Adverbes courants (avancé)",
+  "ar": "ظروف شائعة (متقدم)",
+  "ko": "자주 쓰는 부사 (중상급)",
+  "ru": "Частые наречия (продвинутый)"
+ },
+ "words": [
+  {
+   "word": "barely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "かろうじて",
+    "en": "only just managing to",
+    "zh": "勉强",
+    "fr": "tout juste",
+    "ar": "بالكاد يتمكن",
+    "ko": "간신히",
+    "ru": "еле-еле"
+   }
+  },
+  {
+   "word": "occasionally",
+   "pos": "adv",
+   "meaning": {
+    "ja": "たまに",
+    "en": "now and then",
+    "zh": "偶尔",
+    "fr": "de temps en temps",
+    "ar": "من حين لآخر",
+    "ko": "이따금",
+    "ru": "время от времени"
+   }
+  },
+  {
+   "word": "frequently",
+   "pos": "adv",
+   "meaning": {
+    "ja": "頻繁に",
+    "en": "at short intervals, again and again",
+    "zh": "频繁地",
+    "fr": "fréquemment",
+    "ar": "بشكل متكرر",
+    "ko": "빈번하게",
+    "ru": "часто и регулярно"
+   }
+  },
+  {
+   "word": "constantly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ひっきりなしに",
+    "en": "all the time, without stopping",
+    "zh": "不断地",
+    "fr": "sans arrêt",
+    "ar": "بلا انقطاع",
+    "ko": "끊임없이",
+    "ru": "непрерывно"
+   }
+  },
+  {
+   "word": "gradually",
+   "pos": "adv",
+   "meaning": {
+    "ja": "少しずつ",
+    "en": "in small stages over time",
+    "zh": "逐渐地",
+    "fr": "peu à peu",
+    "ar": "تدريجيا",
+    "ko": "조금씩",
+    "ru": "постепенно"
+   }
+  },
+  {
+   "word": "steadily",
+   "pos": "adv",
+   "meaning": {
+    "ja": "着実に",
+    "en": "at an even, unbroken pace",
+    "zh": "稳步地",
+    "fr": "régulièrement",
+    "ar": "بثبات",
+    "ko": "꾸준히",
+    "ru": "неуклонно"
+   }
+  },
+  {
+   "word": "slightly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "わずかに",
+    "en": "by a small amount",
+    "zh": "略微",
+    "fr": "légèrement",
+    "ar": "قليلا جدا",
+    "ko": "조금만",
+    "ru": "чуть-чуть"
+   }
+  },
+  {
+   "word": "roughly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "おおまかに",
+    "en": "not exactly, in round terms",
+    "zh": "大致",
+    "fr": "grossièrement",
+    "ar": "تقريبا بشكل عام",
+    "ko": "어림잡아",
+    "ru": "грубо говоря"
+   }
+  },
+  {
+   "word": "approximately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "およそ",
+    "en": "close to a stated number",
+    "zh": "约",
+    "fr": "environ",
+    "ar": "ما يقارب",
+    "ko": "약",
+    "ru": "приблизительно"
+   }
+  },
+  {
+   "word": "precisely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "寸分たがわず",
+    "en": "exactly, with no margin",
+    "zh": "精确地",
+    "fr": "précisément",
+    "ar": "بدقة تامة",
+    "ko": "한 치 오차 없이",
+    "ru": "в точности"
+   }
+  },
+  {
+   "word": "arguably",
+   "pos": "adv",
+   "meaning": {
+    "ja": "議論の余地はあるが",
+    "en": "you could reasonably argue that",
+    "zh": "可以说",
+    "fr": "sans doute peut-on dire",
+    "ar": "يمكن القول",
+    "ko": "논란의 여지는 있지만",
+    "ru": "пожалуй, можно сказать"
+   }
+  },
+  {
+   "word": "presumably",
+   "pos": "adv",
+   "meaning": {
+    "ja": "おそらく〜だろう",
+    "en": "probably, judging from what is known",
+    "zh": "想必",
+    "fr": "vraisemblablement",
+    "ar": "يفترض أن",
+    "ko": "짐작건대",
+    "ru": "предположительно"
+   }
+  },
+  {
+   "word": "seemingly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一見したところ",
+    "en": "as it appears, though maybe not so",
+    "zh": "看似",
+    "fr": "en apparence",
+    "ar": "في الظاهر",
+    "ko": "겉보기에는",
+    "ru": "на первый взгляд"
+   }
+  },
+  {
+   "word": "allegedly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "〜とされている",
+    "en": "said to be so, though unproven",
+    "zh": "据说未经证实",
+    "fr": "selon les allégations",
+    "ar": "بحسب المزاعم",
+    "ko": "~라고 알려진",
+    "ru": "по утверждениям"
+   }
+  },
+  {
+   "word": "admittedly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "確かに〜ではあるが",
+    "en": "granting that this is true",
+    "zh": "诚然",
+    "fr": "il est vrai que",
+    "ar": "لا بد من الإقرار",
+    "ko": "인정하건대",
+    "ru": "надо признать"
+   }
+  },
+  {
+   "word": "undoubtedly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "疑いなく",
+    "en": "beyond any question",
+    "zh": "毫无疑问",
+    "fr": "indubitablement",
+    "ar": "بلا شك",
+    "ko": "의심할 여지 없이",
+    "ru": "несомненно"
+   }
+  },
+  {
+   "word": "inevitably",
+   "pos": "adv",
+   "meaning": {
+    "ja": "必然的に",
+    "en": "in a way that could not be avoided",
+    "zh": "必然地",
+    "fr": "inévitablement",
+    "ar": "حتما",
+    "ko": "필연적으로",
+    "ru": "неизбежно"
+   }
+  },
+  {
+   "word": "ultimately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "最終的には",
+    "en": "in the end, after everything",
+    "zh": "最终",
+    "fr": "en fin de compte",
+    "ar": "في نهاية المطاف",
+    "ko": "궁극적으로",
+    "ru": "в конечном счёте"
+   }
+  },
+  {
+   "word": "largely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "大部分は",
+    "en": "mostly, though not entirely",
+    "zh": "很大程度上",
+    "fr": "en grande partie",
+    "ar": "إلى حد بعيد",
+    "ko": "대체로",
+    "ru": "в значительной мере"
+   }
+  },
+  {
+   "word": "partly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一部には",
+    "en": "to some extent but not all",
+    "zh": "部分地",
+    "fr": "en partie",
+    "ar": "جزئيا",
+    "ko": "부분적으로",
+    "ru": "отчасти"
+   }
+  },
+  {
+   "word": "entirely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まるごと全部",
+    "en": "completely, with nothing left out",
+    "zh": "完全地",
+    "fr": "entièrement",
+    "ar": "كليا",
+    "ko": "전적으로",
+    "ru": "целиком"
+   }
+  },
+  {
+   "word": "thoroughly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "徹底的に",
+    "en": "carefully and completely",
+    "zh": "彻底地",
+    "fr": "à fond",
+    "ar": "بشكل شامل",
+    "ko": "철저히",
+    "ru": "досконально"
+   }
+  },
+  {
+   "word": "deliberately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "意図的に",
+    "en": "on purpose",
+    "zh": "有意为之地",
+    "fr": "délibérément",
+    "ar": "عن عمد",
+    "ko": "의도적으로",
+    "ru": "намеренно"
+   }
+  },
+  {
+   "word": "accidentally",
+   "pos": "adv",
+   "meaning": {
+    "ja": "偶然に",
+    "en": "by chance, not on purpose",
+    "zh": "意外地",
+    "fr": "accidentellement",
+    "ar": "مصادفة",
+    "ko": "우연히",
+    "ru": "нечаянно"
+   }
+  },
+  {
+   "word": "reluctantly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "しぶしぶ",
+    "en": "unwillingly, after hesitating",
+    "zh": "不情愿地",
+    "fr": "à contrecœur",
+    "ar": "على مضض",
+    "ko": "마지못해",
+    "ru": "неохотно"
+   }
+  },
+  {
+   "word": "willingly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "進んで",
+    "en": "gladly, without being pushed",
+    "zh": "心甘情愿地",
+    "fr": "volontiers",
+    "ar": "عن طيب خاطر",
+    "ko": "기꺼이",
+    "ru": "охотно"
+   }
+  },
+  {
+   "word": "eagerly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "待ちきれない様子で",
+    "en": "with keen anticipation",
+    "zh": "急切地",
+    "fr": "avec impatience",
+    "ar": "بلهفة",
+    "ko": "몹시 기대하며",
+    "ru": "с нетерпением"
+   }
+  },
+  {
+   "word": "desperately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "必死に",
+    "en": "with urgent, almost hopeless effort",
+    "zh": "拼命地",
+    "fr": "désespérément",
+    "ar": "بيأس شديد",
+    "ko": "필사적으로",
+    "ru": "отчаянно"
+   }
+  },
+  {
+   "word": "genuinely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "本心から",
+    "en": "truly, not pretending",
+    "zh": "真心地",
+    "fr": "sincèrement au fond",
+    "ar": "بصدق داخلي",
+    "ko": "속마음에서 우러나",
+    "ru": "искренне, по-настоящему"
+   }
+  },
+  {
+   "word": "sincerely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "誠意をもって",
+    "en": "with honest, respectful feeling",
+    "zh": "诚挚地",
+    "fr": "avec sincérité formelle",
+    "ar": "بإخلاص واحترام",
+    "ko": "정중하고 성실하게",
+    "ru": "с уважением и честностью"
+   }
+  },
+  {
+   "word": "briefly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "手短に",
+    "en": "for a short time, in few words",
+    "zh": "简短地",
+    "fr": "brièvement",
+    "ar": "بإيجاز ولوقت قصير",
+    "ko": "짧게",
+    "ru": "кратко"
+   }
+  },
+  {
+   "word": "temporarily",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一時的に",
+    "en": "for a limited time only",
+    "zh": "暂时地",
+    "fr": "temporairement",
+    "ar": "مؤقتا",
+    "ko": "일시적으로",
+    "ru": "временно"
+   }
+  },
+  {
+   "word": "permanently",
+   "pos": "adv",
+   "meaning": {
+    "ja": "永続的に",
+    "en": "for good, with no end planned",
+    "zh": "永久地",
+    "fr": "définitivement",
+    "ar": "بشكل دائم",
+    "ko": "영구적으로",
+    "ru": "навсегда"
+   }
+  },
+  {
+   "word": "consequently",
+   "pos": "adv",
+   "meaning": {
+    "ja": "その結果として",
+    "en": "as a result of that",
+    "zh": "其结果是",
+    "fr": "par conséquent",
+    "ar": "وبناء عليه",
+    "ko": "그 결과",
+    "ru": "вследствие этого"
+   }
+  },
+  {
+   "word": "accordingly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "それに合わせて",
+    "en": "in a way that fits what happened",
+    "zh": "相应地",
+    "fr": "en conséquence",
+    "ar": "وفقا لذلك",
+    "ko": "그에 맞게",
+    "ru": "соответственно"
+   }
+  },
+  {
+   "word": "nonetheless",
+   "pos": "adv",
+   "meaning": {
+    "ja": "それでもなお",
+    "en": "in spite of that",
+    "zh": "话虽如此仍",
+    "fr": "quoi qu'il en soit malgré tout",
+    "ar": "ومع ذلك رغم هذا",
+    "ko": "그럼에도",
+    "ru": "тем не менее всё же"
+   }
+  },
+  {
+   "word": "regardless",
+   "pos": "adv",
+   "meaning": {
+    "ja": "おかまいなしに",
+    "en": "without caring about it",
+    "zh": "毫不理会地",
+    "fr": "sans s'en soucier",
+    "ar": "بصرف النظر",
+    "ko": "아랑곳없이",
+    "ru": "невзирая ни на что"
+   }
+  },
+  {
+   "word": "alternatively",
+   "pos": "adv",
+   "meaning": {
+    "ja": "別のやり方としては",
+    "en": "as another option",
+    "zh": "或者",
+    "fr": "sinon, autre option",
+    "ar": "كخيار بديل",
+    "ko": "다른 방법으로는",
+    "ru": "как вариант"
+   }
+  },
+  {
+   "word": "similarly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "似たように",
+    "en": "in a comparable way",
+    "zh": "类似地",
+    "fr": "de façon semblable",
+    "ar": "على نحو مشابه",
+    "ko": "비슷하게",
+    "ru": "сходным образом"
+   }
+  },
+  {
+   "word": "likewise",
+   "pos": "adv",
+   "meaning": {
+    "ja": "こちらも同じく",
+    "en": "the same goes for this",
+    "zh": "同样地",
+    "fr": "de même",
+    "ar": "وكذلك الأمر",
+    "ko": "이쪽도 마찬가지로",
+    "ru": "равным образом"
+   }
+  },
+  {
+   "word": "conversely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "逆に言えば",
+    "en": "the opposite way round",
+    "zh": "反过来说",
+    "fr": "inversement",
+    "ar": "وعلى العكس",
+    "ko": "반대로 말하면",
+    "ru": "наоборот"
+   }
+  },
+  {
+   "word": "notably",
+   "pos": "adv",
+   "meaning": {
+    "ja": "とりわけ目立って",
+    "en": "in a way worth pointing out",
+    "zh": "尤其显著地",
+    "fr": "notamment",
+    "ar": "بشكل لافت",
+    "ko": "눈에 띄게",
+    "ru": "заметно, в особенности"
+   }
+  },
+  {
+   "word": "particularly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "とりわけ",
+    "en": "more than the others",
+    "zh": "特别是",
+    "fr": "particulièrement",
+    "ar": "على وجه الخصوص",
+    "ko": "그중에서도 특히",
+    "ru": "в особенности среди прочих"
+   }
+  },
+  {
+   "word": "specifically",
+   "pos": "adv",
+   "meaning": {
+    "ja": "具体的に言うと",
+    "en": "to name the exact thing",
+    "zh": "具体来说",
+    "fr": "plus précisément",
+    "ar": "وتحديدا",
+    "ko": "구체적으로",
+    "ru": "а именно"
+   }
+  },
+  {
+   "word": "essentially",
+   "pos": "adv",
+   "meaning": {
+    "ja": "つまるところ",
+    "en": "in its most basic nature",
+    "zh": "本质上",
+    "fr": "essentiellement",
+    "ar": "في جوهره",
+    "ko": "본질적으로",
+    "ru": "в своей основе"
+   }
+  },
+  {
+   "word": "virtually",
+   "pos": "adv",
+   "meaning": {
+    "ja": "事実上",
+    "en": "nearly so, for all practical purposes",
+    "zh": "实际上几乎",
+    "fr": "quasiment",
+    "ar": "عمليا تقريبا",
+    "ko": "사실상",
+    "ru": "фактически"
+   }
+  },
+  {
+   "word": "literally",
+   "pos": "adv",
+   "meaning": {
+    "ja": "文字どおり",
+    "en": "in the exact sense of the words",
+    "zh": "字面上",
+    "fr": "littéralement",
+    "ar": "حرفيا",
+    "ko": "문자 그대로",
+    "ru": "буквально"
+   }
+  },
+  {
+   "word": "merely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ほんの、単に",
+    "en": "nothing more than",
+    "zh": "仅仅",
+    "fr": "simplement rien de plus",
+    "ar": "مجرد لا أكثر",
+    "ko": "한낱, 그저",
+    "ru": "всего лишь"
+   }
+  },
+  {
+   "word": "solely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "もっぱら",
+    "en": "and no other thing or reason",
+    "zh": "完全出于",
+    "fr": "uniquement",
+    "ar": "حصريا",
+    "ko": "오로지",
+    "ru": "исключительно"
+   }
+  },
+  {
+   "word": "somewhat",
+   "pos": "adv",
+   "meaning": {
+    "ja": "いくぶん",
+    "en": "to a moderate degree",
+    "zh": "有些",
+    "fr": "quelque peu",
+    "ar": "بدرجة متوسطة",
+    "ko": "다소",
+    "ru": "несколько"
+   }
+  }
+ ]
+}

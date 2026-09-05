@@ -21,6 +21,9 @@ import { execFileSync } from 'node:child_process';
 
 const LANGS = ['ja', 'en', 'zh', 'fr', 'ar', 'ko', 'ru'];
 const REGIONS = ['all', 'us', 'uk', 'au'];
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const CEFR_RE = new RegExp('^(' + CEFR.join('|') + ')(-(' + CEFR.join('|') + '))?$');
+const GROUPS = ['daily', 'study', 'work', 'field'];
 const POS = ['noun', 'verb', 'adj', 'adv', 'phrase'];
 const root = new URL('../', import.meta.url);
 const pkgDir = fileURLToPath(new URL('packages/', root));
@@ -97,7 +100,16 @@ if (!exists) {
   if (!d.title || typeof d.title !== 'object') die('"' + d.id + '" is new, so this reply needs a "title" with all seven languages.');
   const miss = LANGS.filter(l => !String(d.title[l] || '').trim());
   if (miss.length) die('The title is missing: ' + miss.join(', '));
-  out = { id: d.id, v: Number.isInteger(d.v) && d.v >= 1 ? d.v : 1, title: d.title, words: [] };
+  // Both are required on a new package and both were being silently dropped,
+  // so the very next step -- syncing the catalogue -- refused the file this
+  // tool had just written.
+  if (typeof d.cefr !== 'string' || !CEFR_RE.test(d.cefr))
+    die('"' + d.id + '" is new, so it needs a "cefr" level or range, e.g. "B1" or "A2-B1" (got ' + JSON.stringify(d.cefr) + ')');
+  if (d.cefr.includes('-') && CEFR.indexOf(d.cefr.split('-')[0]) >= CEFR.indexOf(d.cefr.split('-')[1]))
+    die('That "cefr" range runs backwards: ' + d.cefr);
+  if (GROUPS.indexOf(d.group) === -1)
+    die('"' + d.id + '" is new, so it needs a "group": one of ' + GROUPS.join(', ') + ' (got ' + JSON.stringify(d.group) + ')');
+  out = { id: d.id, v: Number.isInteger(d.v) && d.v >= 1 ? d.v : 1, cefr: d.cefr, group: d.group, title: d.title, words: [] };
 } else {
   out = JSON.parse(fs.readFileSync(file, 'utf8'));
   // A second reply may repeat the title; the file already has one and is the

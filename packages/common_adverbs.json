@@ -1,0 +1,667 @@
+{
+ "id": "common_adverbs",
+ "v": 1,
+ "cefr": "A2-B1",
+ "group": "daily",
+ "title": {
+  "ja": "よく使う副詞 初中級編",
+  "en": "Everyday Adverbs, Core",
+  "zh": "常用副词（初中级）",
+  "fr": "Adverbes courants (débutant)",
+  "ar": "ظروف شائعة (مبتدئ)",
+  "ko": "자주 쓰는 부사 (초중급)",
+  "ru": "Частые наречия (начальный)"
+ },
+ "words": [
+  {
+   "word": "always",
+   "pos": "adv",
+   "meaning": {
+    "ja": "いつも",
+    "en": "every time, without exception",
+    "zh": "总是",
+    "fr": "toujours",
+    "ar": "دائما",
+    "ko": "항상",
+    "ru": "всегда"
+   }
+  },
+  {
+   "word": "often",
+   "pos": "adv",
+   "meaning": {
+    "ja": "よく、たびたび",
+    "en": "many times, repeatedly",
+    "zh": "经常",
+    "fr": "souvent",
+    "ar": "غالبا",
+    "ko": "자주",
+    "ru": "часто"
+   }
+  },
+  {
+   "word": "never",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一度も〜ない",
+    "en": "at no time at all",
+    "zh": "从不",
+    "fr": "jamais",
+    "ar": "أبدا",
+    "ko": "한 번도 ~않다",
+    "ru": "никогда"
+   }
+  },
+  {
+   "word": "already",
+   "pos": "adv",
+   "meaning": {
+    "ja": "もう、すでに",
+    "en": "before now, sooner than expected",
+    "zh": "已经",
+    "fr": "déjà",
+    "ar": "بالفعل",
+    "ko": "이미",
+    "ru": "уже"
+   }
+  },
+  {
+   "word": "still",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まだ続いて",
+    "en": "continuing up to now",
+    "zh": "仍然",
+    "fr": "encore",
+    "ar": "لا يزال",
+    "ko": "아직도",
+    "ru": "всё ещё"
+   }
+  },
+  {
+   "word": "yet",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まだ〜していない",
+    "en": "not up to now, in questions and negatives",
+    "zh": "还（没）",
+    "fr": "pas encore",
+    "ar": "لم ... بعد",
+    "ko": "아직 ~않다",
+    "ru": "ещё не"
+   }
+  },
+  {
+   "word": "just",
+   "pos": "adv",
+   "meaning": {
+    "ja": "たった今",
+    "en": "a moment ago",
+    "zh": "刚刚",
+    "fr": "à l'instant",
+    "ar": "للتو",
+    "ko": "방금",
+    "ru": "только что"
+   }
+  },
+  {
+   "word": "soon",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まもなく",
+    "en": "in a short time from now",
+    "zh": "很快",
+    "fr": "bientôt",
+    "ar": "قريبا",
+    "ko": "곧",
+    "ru": "скоро"
+   }
+  },
+  {
+   "word": "later",
+   "pos": "adv",
+   "meaning": {
+    "ja": "あとで",
+    "en": "at a time after now",
+    "zh": "稍后",
+    "fr": "plus tard",
+    "ar": "لاحقا",
+    "ko": "나중에",
+    "ru": "позже"
+   }
+  },
+  {
+   "word": "early",
+   "pos": "adv",
+   "meaning": {
+    "ja": "早い時間に",
+    "en": "before the usual time",
+    "zh": "早早地",
+    "fr": "tôt",
+    "ar": "باكرا",
+    "ko": "일찍",
+    "ru": "рано"
+   }
+  },
+  {
+   "word": "late",
+   "pos": "adv",
+   "meaning": {
+    "ja": "遅い時間に",
+    "en": "after the usual time",
+    "zh": "很晚地",
+    "fr": "tard",
+    "ar": "متأخرا",
+    "ko": "늦게",
+    "ru": "поздно"
+   }
+  },
+  {
+   "word": "again",
+   "pos": "adv",
+   "meaning": {
+    "ja": "もう一度",
+    "en": "one more time",
+    "zh": "再一次",
+    "fr": "de nouveau",
+    "ar": "مرة أخرى",
+    "ko": "다시",
+    "ru": "снова"
+   }
+  },
+  {
+   "word": "once",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一回だけ",
+    "en": "a single time",
+    "zh": "一次",
+    "fr": "une fois",
+    "ar": "مرة واحدة",
+    "ko": "한 번",
+    "ru": "один раз"
+   }
+  },
+  {
+   "word": "quickly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "手早く",
+    "en": "taking little time",
+    "zh": "迅速地",
+    "fr": "rapidement",
+    "ar": "بسرعة في الإنجاز",
+    "ko": "재빨리",
+    "ru": "быстро справляясь"
+   }
+  },
+  {
+   "word": "slowly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ゆっくりと",
+    "en": "at a low speed",
+    "zh": "慢慢地",
+    "fr": "lentement",
+    "ar": "ببطء",
+    "ko": "천천히",
+    "ru": "медленно"
+   }
+  },
+  {
+   "word": "fast",
+   "pos": "adv",
+   "meaning": {
+    "ja": "スピードを出して",
+    "en": "moving at high speed",
+    "zh": "快速地",
+    "fr": "à vive allure",
+    "ar": "بسرعة عالية",
+    "ko": "빠른 속도로",
+    "ru": "на большой скорости"
+   }
+  },
+  {
+   "word": "carefully",
+   "pos": "adv",
+   "meaning": {
+    "ja": "注意深く",
+    "en": "paying close attention",
+    "zh": "仔细地",
+    "fr": "avec soin",
+    "ar": "بعناية",
+    "ko": "주의 깊게",
+    "ru": "внимательно"
+   }
+  },
+  {
+   "word": "easily",
+   "pos": "adv",
+   "meaning": {
+    "ja": "楽々と",
+    "en": "without difficulty",
+    "zh": "轻松地",
+    "fr": "facilement",
+    "ar": "بسهولة",
+    "ko": "수월하게",
+    "ru": "легко"
+   }
+  },
+  {
+   "word": "loudly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "大きな声で",
+    "en": "making a lot of noise",
+    "zh": "大声地",
+    "fr": "fort",
+    "ar": "بصوت عال",
+    "ko": "큰 소리로",
+    "ru": "громко"
+   }
+  },
+  {
+   "word": "quietly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "静かに",
+    "en": "making little noise",
+    "zh": "安静地",
+    "fr": "doucement",
+    "ar": "بهدوء",
+    "ko": "조용히",
+    "ru": "тихо"
+   }
+  },
+  {
+   "word": "politely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "礼儀正しく",
+    "en": "in a well-mannered way",
+    "zh": "有礼貌地",
+    "fr": "poliment",
+    "ar": "بأدب",
+    "ko": "공손하게",
+    "ru": "вежливо"
+   }
+  },
+  {
+   "word": "badly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "下手に、ひどく",
+    "en": "not well, or to a severe degree",
+    "zh": "糟糕地",
+    "fr": "mal",
+    "ar": "بشكل سيئ",
+    "ko": "서투르게",
+    "ru": "плохо"
+   }
+  },
+  {
+   "word": "hard",
+   "pos": "adv",
+   "meaning": {
+    "ja": "熱心に、力を入れて",
+    "en": "with a lot of effort",
+    "zh": "努力地",
+    "fr": "dur",
+    "ar": "بجد",
+    "ko": "열심히",
+    "ru": "усердно"
+   }
+  },
+  {
+   "word": "almost",
+   "pos": "adv",
+   "meaning": {
+    "ja": "もう少しで",
+    "en": "very nearly but not quite",
+    "zh": "差一点",
+    "fr": "presque",
+    "ar": "يكاد",
+    "ko": "거의 다",
+    "ru": "почти"
+   }
+  },
+  {
+   "word": "hardly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ほとんど〜ない",
+    "en": "only just, almost not at all",
+    "zh": "几乎不",
+    "fr": "à peine",
+    "ar": "بالكاد",
+    "ko": "거의 ~않다",
+    "ru": "едва ли"
+   }
+  },
+  {
+   "word": "quite",
+   "pos": "adv",
+   "meaning": {
+    "ja": "かなり",
+    "en": "to a fair degree",
+    "zh": "相当",
+    "fr": "assez",
+    "ar": "إلى حد كبير",
+    "ko": "꽤",
+    "ru": "довольно"
+   }
+  },
+  {
+   "word": "pretty",
+   "pos": "adv",
+   "meaning": {
+    "ja": "わりと",
+    "en": "fairly, in casual speech",
+    "zh": "挺",
+    "fr": "plutôt",
+    "ar": "نوعا ما",
+    "ko": "제법",
+    "ru": "весьма"
+   }
+  },
+  {
+   "word": "enough",
+   "pos": "adv",
+   "meaning": {
+    "ja": "十分に",
+    "en": "to the degree that is needed",
+    "zh": "足够地",
+    "fr": "suffisamment",
+    "ar": "بما يكفي",
+    "ko": "충분히",
+    "ru": "достаточно"
+   }
+  },
+  {
+   "word": "too",
+   "pos": "adv",
+   "meaning": {
+    "ja": "〜すぎる",
+    "en": "more than is wanted",
+    "zh": "太",
+    "fr": "trop",
+    "ar": "أكثر من اللازم",
+    "ko": "너무",
+    "ru": "слишком"
+   }
+  },
+  {
+   "word": "very",
+   "pos": "adv",
+   "meaning": {
+    "ja": "とても",
+    "en": "to a high degree",
+    "zh": "很",
+    "fr": "très",
+    "ar": "جدا",
+    "ko": "매우",
+    "ru": "очень"
+   }
+  },
+  {
+   "word": "only",
+   "pos": "adv",
+   "meaning": {
+    "ja": "〜だけ",
+    "en": "and nothing more",
+    "zh": "只",
+    "fr": "seulement",
+    "ar": "فقط",
+    "ko": "~만",
+    "ru": "только"
+   }
+  },
+  {
+   "word": "even",
+   "pos": "adv",
+   "meaning": {
+    "ja": "〜でさえ",
+    "en": "used to stress something surprising",
+    "zh": "甚至",
+    "fr": "même",
+    "ar": "حتى",
+    "ko": "~조차",
+    "ru": "даже"
+   }
+  },
+  {
+   "word": "also",
+   "pos": "adv",
+   "meaning": {
+    "ja": "〜も同様に",
+    "en": "in addition",
+    "zh": "也",
+    "fr": "aussi",
+    "ar": "أيضا",
+    "ko": "~도",
+    "ru": "также"
+   }
+  },
+  {
+   "word": "together",
+   "pos": "adv",
+   "meaning": {
+    "ja": "一緒に",
+    "en": "with each other",
+    "zh": "一起",
+    "fr": "ensemble",
+    "ar": "معا",
+    "ko": "함께",
+    "ru": "вместе"
+   }
+  },
+  {
+   "word": "alone",
+   "pos": "adv",
+   "meaning": {
+    "ja": "ひとりで",
+    "en": "with nobody else",
+    "zh": "独自",
+    "fr": "seul",
+    "ar": "وحده",
+    "ko": "혼자서",
+    "ru": "в одиночку"
+   }
+  },
+  {
+   "word": "everywhere",
+   "pos": "adv",
+   "meaning": {
+    "ja": "どこにでも",
+    "en": "in all places",
+    "zh": "到处",
+    "fr": "partout",
+    "ar": "في كل مكان",
+    "ko": "어디에나",
+    "ru": "везде"
+   }
+  },
+  {
+   "word": "anywhere",
+   "pos": "adv",
+   "meaning": {
+    "ja": "どこへでも",
+    "en": "in or to any place at all",
+    "zh": "任何地方",
+    "fr": "n'importe où",
+    "ar": "في أي مكان",
+    "ko": "어디든지",
+    "ru": "куда угодно"
+   }
+  },
+  {
+   "word": "somewhere",
+   "pos": "adv",
+   "meaning": {
+    "ja": "どこかに",
+    "en": "in a place you cannot name",
+    "zh": "某处",
+    "fr": "quelque part",
+    "ar": "في مكان ما",
+    "ko": "어딘가에",
+    "ru": "где-то"
+   }
+  },
+  {
+   "word": "nowhere",
+   "pos": "adv",
+   "meaning": {
+    "ja": "どこにも〜ない",
+    "en": "in no place",
+    "zh": "哪儿也不",
+    "fr": "nulle part",
+    "ar": "في لا مكان",
+    "ko": "어디에도 ~없다",
+    "ru": "нигде"
+   }
+  },
+  {
+   "word": "outside",
+   "pos": "adv",
+   "meaning": {
+    "ja": "外で",
+    "en": "not indoors",
+    "zh": "在外面",
+    "fr": "dehors",
+    "ar": "في الخارج",
+    "ko": "밖에서",
+    "ru": "снаружи"
+   }
+  },
+  {
+   "word": "inside",
+   "pos": "adv",
+   "meaning": {
+    "ja": "中で",
+    "en": "indoors, within something",
+    "zh": "在里面",
+    "fr": "à l'intérieur",
+    "ar": "في الداخل",
+    "ko": "안에서",
+    "ru": "внутри"
+   }
+  },
+  {
+   "word": "nearby",
+   "pos": "adv",
+   "meaning": {
+    "ja": "すぐ近くに",
+    "en": "a short distance away",
+    "zh": "在附近",
+    "fr": "tout près",
+    "ar": "على مقربة",
+    "ko": "바로 근처에",
+    "ru": "поблизости"
+   }
+  },
+  {
+   "word": "far",
+   "pos": "adv",
+   "meaning": {
+    "ja": "遠くに",
+    "en": "a long distance away",
+    "zh": "远",
+    "fr": "loin",
+    "ar": "بعيدا",
+    "ko": "멀리",
+    "ru": "далеко"
+   }
+  },
+  {
+   "word": "ahead",
+   "pos": "adv",
+   "meaning": {
+    "ja": "前方に",
+    "en": "in front, further on",
+    "zh": "在前方",
+    "fr": "devant",
+    "ar": "إلى الأمام",
+    "ko": "앞쪽에",
+    "ru": "впереди"
+   }
+  },
+  {
+   "word": "straight",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まっすぐに",
+    "en": "in a direct line",
+    "zh": "笔直地",
+    "fr": "tout droit",
+    "ar": "مباشرة في خط",
+    "ko": "곧장",
+    "ru": "прямо"
+   }
+  },
+  {
+   "word": "suddenly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "突然",
+    "en": "quickly and without warning",
+    "zh": "突然",
+    "fr": "soudain",
+    "ar": "فجأة",
+    "ko": "갑자기",
+    "ru": "внезапно"
+   }
+  },
+  {
+   "word": "immediately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "直ちに",
+    "en": "without any delay",
+    "zh": "立即",
+    "fr": "immédiatement",
+    "ar": "فورا",
+    "ko": "즉시",
+    "ru": "немедленно"
+   }
+  },
+  {
+   "word": "definitely",
+   "pos": "adv",
+   "meaning": {
+    "ja": "まず確実に",
+    "en": "without any doubt",
+    "zh": "肯定",
+    "fr": "à coup sûr",
+    "ar": "بالتأكيد قطعا",
+    "ko": "틀림없이",
+    "ru": "наверняка"
+   }
+  },
+  {
+   "word": "clearly",
+   "pos": "adv",
+   "meaning": {
+    "ja": "はっきりと",
+    "en": "in a way that is easy to see or hear",
+    "zh": "清楚地",
+    "fr": "clairement",
+    "ar": "بوضوح",
+    "ko": "뚜렷하게",
+    "ru": "чётко"
+   }
+  },
+  {
+   "word": "unfortunately",
+   "pos": "adv",
+   "meaning": {
+    "ja": "あいにく",
+    "en": "sadly, as bad luck would have it",
+    "zh": "不巧",
+    "fr": "malheureusement",
+    "ar": "للأسف",
+    "ko": "공교롭게도",
+    "ru": "к сожалению"
+   }
+  }
+ ]
+}
