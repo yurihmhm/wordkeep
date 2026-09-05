@@ -1427,6 +1427,1126 @@
    },
    "region": "au",
    "nsfw": true
+  },
+  {
+   "word": "snag",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ソーセージ",
+    "en": "a sausage, especially on a barbecue",
+    "zh": "香肠",
+    "fr": "saucisse",
+    "ar": "نقانق",
+    "ko": "소시지",
+    "ru": "сосиска"
+   },
+   "region": "au"
+  },
+  {
+   "word": "cuppa",
+   "pos": "noun",
+   "meaning": {
+    "ja": "お茶いっぱい",
+    "en": "a cup of tea or coffee",
+    "zh": "一杯茶",
+    "fr": "une tasse de thé",
+    "ar": "فنجان شاي",
+    "ko": "차 한 잔",
+    "ru": "чашка чая"
+   },
+   "region": "au"
+  },
+  {
+   "word": "sickie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "病欠の1日",
+    "en": "a day off taken as sick leave",
+    "zh": "病假一天",
+    "fr": "journée d'arrêt maladie",
+    "ar": "يوم إجازة مرضية",
+    "ko": "병가 하루",
+    "ru": "день по болезни"
+   },
+   "region": "au"
+  },
+  {
+   "word": "smoko",
+   "pos": "noun",
+   "meaning": {
+    "ja": "仕事中の休憩",
+    "en": "a short break during work",
+    "zh": "工间休息",
+    "fr": "pause au boulot",
+    "ar": "استراحة أثناء العمل",
+    "ko": "작업 중 쉬는 시간",
+    "ru": "перекур на работе"
+   },
+   "region": "au"
+  },
+  {
+   "word": "rego",
+   "pos": "noun",
+   "meaning": {
+    "ja": "車の登録",
+    "en": "vehicle registration",
+    "zh": "车辆注册",
+    "fr": "carte grise",
+    "ar": "تسجيل المركبة",
+    "ko": "차량 등록",
+    "ru": "регистрация машины"
+   },
+   "region": "au"
+  },
+  {
+   "word": "ambo",
+   "pos": "noun",
+   "meaning": {
+    "ja": "救急隊員",
+    "en": "an ambulance officer",
+    "zh": "急救人员",
+    "fr": "ambulancier",
+    "ar": "مسعف",
+    "ko": "구급대원",
+    "ru": "фельдшер скорой"
+   },
+   "region": "au"
+  },
+  {
+   "word": "postie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "郵便配達の人",
+    "en": "the postal worker who delivers",
+    "zh": "邮递员",
+    "fr": "préposé au courrier",
+    "ar": "ساعي البريد",
+    "ko": "우편배달부",
+    "ru": "почтальон"
+   },
+   "region": "au"
+  },
+  {
+   "word": "bikkie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ビスケット",
+    "en": "a biscuit",
+    "zh": "饼干",
+    "fr": "biscuit",
+    "ar": "بسكويت",
+    "ko": "비스킷",
+    "ru": "печенье"
+   },
+   "region": "au"
+  },
+  {
+   "word": "chrissie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "クリスマス",
+    "en": "Christmas",
+    "zh": "圣诞节",
+    "fr": "Noël",
+    "ar": "عيد الميلاد",
+    "ko": "크리스마스",
+    "ru": "Рождество"
+   },
+   "region": "au"
+  },
+  {
+   "word": "prezzie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "プレゼント",
+    "en": "a present",
+    "zh": "礼物",
+    "fr": "cadeau",
+    "ar": "هدية",
+    "ko": "선물",
+    "ru": "подарок"
+   },
+   "region": "au"
+  },
+  {
+   "word": "trackies",
+   "pos": "noun",
+   "meaning": {
+    "ja": "スウェットの上下",
+    "en": "tracksuit pants",
+    "zh": "运动裤",
+    "fr": "jogging",
+    "ar": "بنطال رياضي",
+    "ko": "트레이닝복 바지",
+    "ru": "спортивные штаны"
+   },
+   "region": "au"
+  },
+  {
+   "word": "togs",
+   "pos": "noun",
+   "meaning": {
+    "ja": "水着",
+    "en": "swimwear",
+    "zh": "泳衣",
+    "fr": "maillot de bain",
+    "ar": "ملابس السباحة",
+    "ko": "수영복",
+    "ru": "купальник"
+   },
+   "region": "au"
+  },
+  {
+   "word": "doona",
+   "pos": "noun",
+   "meaning": {
+    "ja": "掛け布団",
+    "en": "a duvet",
+    "zh": "羽绒被",
+    "fr": "couette",
+    "ar": "لحاف",
+    "ko": "이불",
+    "ru": "одеяло"
+   },
+   "region": "au"
+  },
+  {
+   "word": "dunny",
+   "pos": "noun",
+   "meaning": {
+    "ja": "トイレ",
+    "en": "the toilet",
+    "zh": "厕所",
+    "fr": "toilettes",
+    "ar": "مرحاض",
+    "ko": "화장실",
+    "ru": "туалет"
+   },
+   "region": "au"
+  },
+  {
+   "word": "tinnie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "缶ビール",
+    "en": "a can of beer",
+    "zh": "罐装啤酒",
+    "fr": "canette de bière",
+    "ar": "علبة بيرة",
+    "ko": "캔맥주",
+    "ru": "банка пива"
+   },
+   "region": "au"
+  },
+  {
+   "word": "stubby",
+   "pos": "noun",
+   "meaning": {
+    "ja": "小瓶のビール",
+    "en": "a small bottle of beer",
+    "zh": "小瓶啤酒",
+    "fr": "petite bouteille de bière",
+    "ar": "زجاجة بيرة صغيرة",
+    "ko": "작은 병맥주",
+    "ru": "маленькая бутылка пива"
+   },
+   "region": "au"
+  },
+  {
+   "word": "slab",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ビール24本入り",
+    "en": "a case of twenty-four beers",
+    "zh": "一箱啤酒",
+    "fr": "pack de 24 bières",
+    "ar": "صندوق 24 علبة بيرة",
+    "ko": "맥주 24캔 한 박스",
+    "ru": "ящик пива на 24"
+   },
+   "region": "au"
+  },
+  {
+   "word": "shout",
+   "pos": "noun",
+   "meaning": {
+    "ja": "自分がおごる番",
+    "en": "your turn to buy the round",
+    "zh": "轮到你请客",
+    "fr": "ta tournée",
+    "ar": "دورك في الدفع",
+    "ko": "한턱낼 차례",
+    "ru": "твоя очередь угощать"
+   },
+   "region": "au"
+  },
+  {
+   "word": "rock up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ふらっと現れる",
+    "en": "to turn up somewhere casually",
+    "zh": "随意现身",
+    "fr": "rappliquer",
+    "ar": "يظهر دون ترتيب",
+    "ko": "슬그머니 나타나다",
+    "ru": "заявиться"
+   },
+   "region": "au"
+  },
+  {
+   "word": "no dramas",
+   "pos": "noun",
+   "meaning": {
+    "ja": "問題ないよ",
+    "en": "that is no trouble at all",
+    "zh": "没问题",
+    "fr": "aucun souci",
+    "ar": "لا مشكلة إطلاقا",
+    "ko": "문제없어",
+    "ru": "никаких хлопот"
+   },
+   "region": "au"
+  },
+  {
+   "word": "too easy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "お安いご用",
+    "en": "consider it done",
+    "zh": "小事一桩",
+    "fr": "c'est comme si c'était fait",
+    "ar": "أمر هين",
+    "ko": "식은 죽 먹기",
+    "ru": "проще простого"
+   },
+   "region": "au"
+  },
+  {
+   "word": "good on ya",
+   "pos": "noun",
+   "meaning": {
+    "ja": "えらいぞ",
+    "en": "well done, good for you",
+    "zh": "干得好",
+    "fr": "chapeau",
+    "ar": "برافو عليك",
+    "ko": "장하다",
+    "ru": "красава"
+   },
+   "region": "au"
+  },
+  {
+   "word": "reckon",
+   "pos": "noun",
+   "meaning": {
+    "ja": "〜だと思う",
+    "en": "to think or suppose",
+    "zh": "觉得",
+    "fr": "penser que",
+    "ar": "يظن أن",
+    "ko": "~라고 생각하다",
+    "ru": "полагать"
+   },
+   "region": "au"
+  },
+  {
+   "word": "keen",
+   "pos": "noun",
+   "meaning": {
+    "ja": "乗り気で",
+    "en": "eager and up for it",
+    "zh": "很有兴致的",
+    "fr": "partant",
+    "ar": "متحمس للمشاركة",
+    "ko": "할 마음이 있는",
+    "ru": "настроенный поучаствовать"
+   },
+   "region": "au"
+  },
+  {
+   "word": "deadset",
+   "pos": "noun",
+   "meaning": {
+    "ja": "冗談抜きで",
+    "en": "genuinely, no joke",
+    "zh": "真的",
+    "fr": "juré craché",
+    "ar": "جاد تماما",
+    "ko": "진심 레알",
+    "ru": "без шуток"
+   },
+   "region": "au"
+  },
+  {
+   "word": "ripper",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最高のもの",
+    "en": "something excellent",
+    "zh": "棒极了的东西",
+    "fr": "truc génial",
+    "ar": "شيء ممتاز",
+    "ko": "끝내주는 것",
+    "ru": "нечто отличное"
+   },
+   "region": "au"
+  },
+  {
+   "word": "sweet as",
+   "pos": "noun",
+   "meaning": {
+    "ja": "それでばっちり",
+    "en": "all good, that works",
+    "zh": "这样就很好",
+    "fr": "nickel",
+    "ar": "تمام كده",
+    "ko": "그럼 딱 좋아",
+    "ru": "отлично, годится"
+   },
+   "region": "au"
+  },
+  {
+   "word": "yeah nah",
+   "pos": "noun",
+   "meaning": {
+    "ja": "うーん、やめとく",
+    "en": "a soft no dressed as a yes",
+    "zh": "嗯…还是算了",
+    "fr": "ouais non, plutôt pas",
+    "ar": "نعم... لا، أفضّل الرفض",
+    "ko": "음, 아니 됐어",
+    "ru": "ну... нет, пожалуй"
+   },
+   "region": "au"
+  },
+  {
+   "word": "hard yakka",
+   "pos": "noun",
+   "meaning": {
+    "ja": "きつい肉体労働",
+    "en": "hard physical work",
+    "zh": "辛苦的体力活",
+    "fr": "boulot physique éreintant",
+    "ar": "عمل بدني شاق",
+    "ko": "고된 육체노동",
+    "ru": "тяжёлый физический труд"
+   },
+   "region": "au"
+  },
+  {
+   "word": "bludger",
+   "pos": "noun",
+   "meaning": {
+    "ja": "働かずに人に頼る人",
+    "en": "someone who avoids work and leans on others",
+    "zh": "游手好闲的人",
+    "fr": "parasite qui évite le travail",
+    "ar": "متهرب من العمل يعتمد على غيره",
+    "ko": "일 안 하고 얹혀사는 사람",
+    "ru": "бездельник за чужой счёт"
+   },
+   "region": "au"
+  },
+  {
+   "word": "larrikin",
+   "pos": "noun",
+   "meaning": {
+    "ja": "陽気ないたずら者",
+    "en": "a cheerful troublemaker people like",
+    "zh": "爱胡闹但讨喜的人",
+    "fr": "joyeux chenapan",
+    "ar": "مشاغب مرح محبوب",
+    "ko": "유쾌한 장난꾸러기",
+    "ru": "весёлый озорник"
+   },
+   "region": "au"
+  },
+  {
+   "word": "drongo",
+   "pos": "noun",
+   "meaning": {
+    "ja": "間の抜けた人",
+    "en": "a fool, said with a grin",
+    "zh": "傻瓜",
+    "fr": "andouille",
+    "ar": "أحمق بمزاح",
+    "ko": "멍청이",
+    "ru": "балда"
+   },
+   "region": "au"
+  },
+  {
+   "word": "sook",
+   "pos": "noun",
+   "meaning": {
+    "ja": "すぐいじける人",
+    "en": "someone who sulks easily",
+    "zh": "爱闹别扭的人",
+    "fr": "pleurnichard",
+    "ar": "سريع الزعل",
+    "ko": "금방 삐치는 사람",
+    "ru": "нытик"
+   },
+   "region": "au"
+  },
+  {
+   "word": "whinge",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ぐちぐち言う",
+    "en": "to complain in a nagging way",
+    "zh": "抱怨个不停",
+    "fr": "râler sans cesse",
+    "ar": "يتذمر باستمرار",
+    "ko": "칭얼대며 불평하다",
+    "ru": "канючить"
+   },
+   "region": "au"
+  },
+  {
+   "word": "crook",
+   "pos": "noun",
+   "meaning": {
+    "ja": "具合が悪い",
+    "en": "unwell, sick",
+    "zh": "身体不舒服的",
+    "fr": "patraque",
+    "ar": "متوعك الصحة",
+    "ko": "몸이 안 좋은",
+    "ru": "приболевший"
+   },
+   "region": "au"
+  },
+  {
+   "word": "rapt",
+   "pos": "noun",
+   "meaning": {
+    "ja": "すごく喜んでいる",
+    "en": "delighted about something",
+    "zh": "高兴极了的",
+    "fr": "ravi",
+    "ar": "مسرور للغاية",
+    "ko": "무척 기뻐하는",
+    "ru": "в восторге"
+   },
+   "region": "au"
+  },
+  {
+   "word": "woop woop",
+   "pos": "noun",
+   "meaning": {
+    "ja": "とんでもない田舎",
+    "en": "the middle of nowhere",
+    "zh": "鸟不生蛋的地方",
+    "fr": "le trou du bout du monde",
+    "ar": "مكان ناءٍ جدا",
+    "ko": "엄청 외진 곳",
+    "ru": "глухомань"
+   },
+   "region": "au"
+  },
+  {
+   "word": "op shop",
+   "pos": "noun",
+   "meaning": {
+    "ja": "チャリティー古着店",
+    "en": "a charity second-hand shop",
+    "zh": "慈善二手店",
+    "fr": "friperie caritative",
+    "ar": "متجر خيري مستعمل",
+    "ko": "자선 중고 가게",
+    "ru": "благотворительный секонд-хенд"
+   },
+   "region": "au"
+  },
+  {
+   "word": "she'll be right",
+   "pos": "noun",
+   "meaning": {
+    "ja": "なんとかなるさ",
+    "en": "it will work out, do not worry",
+    "zh": "会没事的",
+    "fr": "ça va bien se passer",
+    "ar": "ستكون الأمور بخير",
+    "ko": "어떻게든 될 거야",
+    "ru": "всё образуется"
+   },
+   "region": "au"
+  },
+  {
+   "word": "footy",
+   "pos": "noun",
+   "meaning": {
+    "ja": "フットボール",
+    "en": "football, whichever code is local",
+    "zh": "橄榄球/足球",
+    "fr": "le foot local",
+    "ar": "كرة القدم المحلية",
+    "ko": "풋볼",
+    "ru": "местный футбол"
+   },
+   "region": "au"
+  },
+  {
+   "word": "lorry",
+   "pos": "noun",
+   "meaning": {
+    "ja": "トラック",
+    "en": "a truck",
+    "zh": "卡车",
+    "fr": "camion",
+    "ar": "شاحنة",
+    "ko": "트럭",
+    "ru": "грузовик"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "flat",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アパートの一室",
+    "en": "an apartment",
+    "zh": "公寓",
+    "fr": "appartement",
+    "ar": "شقة",
+    "ko": "아파트 한 채",
+    "ru": "квартира"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "queue",
+   "pos": "noun",
+   "meaning": {
+    "ja": "順番待ちの列",
+    "en": "a line of people waiting",
+    "zh": "排队的队伍",
+    "fr": "file d'attente",
+    "ar": "طابور انتظار",
+    "ko": "줄, 대기열",
+    "ru": "очередь"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "trainers",
+   "pos": "noun",
+   "meaning": {
+    "ja": "スニーカー",
+    "en": "sports shoes",
+    "zh": "运动鞋",
+    "fr": "baskets",
+    "ar": "حذاء رياضي",
+    "ko": "운동화",
+    "ru": "кроссовки"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "jumper",
+   "pos": "noun",
+   "meaning": {
+    "ja": "セーター",
+    "en": "a knitted pullover",
+    "zh": "毛衣",
+    "fr": "pull",
+    "ar": "كنزة صوفية",
+    "ko": "스웨터",
+    "ru": "свитер"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "trousers",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ズボン",
+    "en": "trousers, not underwear",
+    "zh": "长裤",
+    "fr": "pantalon",
+    "ar": "بنطال",
+    "ko": "바지",
+    "ru": "брюки"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "biscuit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "クッキー",
+    "en": "what Americans call a cookie",
+    "zh": "曲奇饼干",
+    "fr": "biscuit sec",
+    "ar": "بسكويت حلو",
+    "ko": "비스킷 과자",
+    "ru": "печенье к чаю"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "crisps",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ポテトチップス",
+    "en": "potato chips from a packet",
+    "zh": "薯片",
+    "fr": "chips",
+    "ar": "رقائق البطاطس",
+    "ko": "감자칩",
+    "ru": "чипсы"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "telly",
+   "pos": "noun",
+   "meaning": {
+    "ja": "テレビ",
+    "en": "the television",
+    "zh": "电视",
+    "fr": "télé",
+    "ar": "التلفاز",
+    "ko": "텔레비전",
+    "ru": "телек"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "motorway",
+   "pos": "noun",
+   "meaning": {
+    "ja": "高速道路",
+    "en": "a motorway or highway",
+    "zh": "高速公路",
+    "fr": "autoroute",
+    "ar": "طريق سريع",
+    "ko": "고속도로",
+    "ru": "автомагистраль"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "petrol",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ガソリン",
+    "en": "fuel for a car",
+    "zh": "汽油",
+    "fr": "essence",
+    "ar": "بنزين",
+    "ko": "휘발유",
+    "ru": "бензин"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "uni",
+   "pos": "noun",
+   "meaning": {
+    "ja": "大学",
+    "en": "university",
+    "zh": "大学",
+    "fr": "fac",
+    "ar": "الجامعة",
+    "ko": "대학",
+    "ru": "универ"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "fortnight",
+   "pos": "noun",
+   "meaning": {
+    "ja": "2週間",
+    "en": "two weeks",
+    "zh": "两周",
+    "fr": "quinze jours",
+    "ar": "أسبوعان",
+    "ko": "2주",
+    "ru": "две недели"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "brolly",
+   "pos": "noun",
+   "meaning": {
+    "ja": "傘",
+    "en": "an umbrella",
+    "zh": "雨伞",
+    "fr": "parapluie",
+    "ar": "مظلة",
+    "ko": "우산",
+    "ru": "зонт"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "take the mickey",
+   "pos": "noun",
+   "meaning": {
+    "ja": "からかう",
+    "en": "to tease someone",
+    "zh": "取笑",
+    "fr": "se moquer gentiment",
+    "ar": "يسخر مازحا",
+    "ko": "놀리다",
+    "ru": "подтрунивать"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "cracking",
+   "pos": "noun",
+   "meaning": {
+    "ja": "すばらしい",
+    "en": "excellent",
+    "zh": "极好的",
+    "fr": "excellent",
+    "ar": "ممتاز",
+    "ko": "훌륭한",
+    "ru": "отменный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "ace",
+   "pos": "noun",
+   "meaning": {
+    "ja": "最高の",
+    "en": "brilliant, top-notch",
+    "zh": "顶呱呱的",
+    "fr": "au top",
+    "ar": "ممتاز للغاية",
+    "ko": "최고의",
+    "ru": "первоклассный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "buzzing",
+   "pos": "noun",
+   "meaning": {
+    "ja": "うきうきしている",
+    "en": "thrilled and excited",
+    "zh": "兴奋不已的",
+    "fr": "surexcité de joie",
+    "ar": "في غاية الحماس",
+    "ko": "들떠 있는",
+    "ru": "на подъёме"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "innit",
+   "pos": "noun",
+   "meaning": {
+    "ja": "だよね",
+    "en": "isn't it, tagged onto a sentence",
+    "zh": "是吧",
+    "fr": "pas vrai",
+    "ar": "صح كده",
+    "ko": "그치",
+    "ru": "да ведь"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "lush",
+   "pos": "noun",
+   "meaning": {
+    "ja": "たまらなくいい",
+    "en": "lovely, delicious",
+    "zh": "好得很",
+    "fr": "trop bon",
+    "ar": "جميل ولذيذ",
+    "ko": "아주 좋은",
+    "ru": "шикарный"
+   },
+   "region": "uk"
+  },
+  {
+   "word": "soda",
+   "pos": "noun",
+   "meaning": {
+    "ja": "炭酸飲料",
+    "en": "a fizzy soft drink",
+    "zh": "汽水",
+    "fr": "soda",
+    "ar": "مشروب غازي",
+    "ko": "탄산음료",
+    "ru": "газировка"
+   },
+   "region": "us"
+  },
+  {
+   "word": "sneakers",
+   "pos": "noun",
+   "meaning": {
+    "ja": "スニーカー（米）",
+    "en": "sports shoes, in America",
+    "zh": "运动鞋（美）",
+    "fr": "baskets, aux USA",
+    "ar": "حذاء رياضي أمريكي",
+    "ko": "운동화 (미국)",
+    "ru": "кроссовки (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "freshman",
+   "pos": "noun",
+   "meaning": {
+    "ja": "1年生",
+    "en": "a first-year student",
+    "zh": "一年级学生",
+    "fr": "étudiant de première année",
+    "ar": "طالب السنة الأولى",
+    "ko": "1학년",
+    "ru": "первокурсник"
+   },
+   "region": "us"
+  },
+  {
+   "word": "sophomore",
+   "pos": "noun",
+   "meaning": {
+    "ja": "2年生",
+    "en": "a second-year student",
+    "zh": "二年级学生",
+    "fr": "étudiant de deuxième année",
+    "ar": "طالب السنة الثانية",
+    "ko": "2학년",
+    "ru": "второкурсник"
+   },
+   "region": "us"
+  },
+  {
+   "word": "gas",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ガソリン（米）",
+    "en": "petrol, in America",
+    "zh": "汽油（美）",
+    "fr": "essence, aux USA",
+    "ar": "بنزين بالتعبير الأمريكي",
+    "ko": "휘발유 (미국)",
+    "ru": "бензин (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "line",
+   "pos": "noun",
+   "meaning": {
+    "ja": "順番待ちの列（米）",
+    "en": "a queue, in America",
+    "zh": "排队（美）",
+    "fr": "file d'attente, aux USA",
+    "ar": "طابور بالتعبير الأمريكي",
+    "ko": "줄 (미국)",
+    "ru": "очередь (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "apartment",
+   "pos": "noun",
+   "meaning": {
+    "ja": "アパート（米）",
+    "en": "a flat, in America",
+    "zh": "公寓（美）",
+    "fr": "appartement, aux USA",
+    "ar": "شقة بالتعبير الأمريكي",
+    "ko": "아파트 (미국)",
+    "ru": "квартира (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "fall",
+   "pos": "noun",
+   "meaning": {
+    "ja": "秋",
+    "en": "autumn",
+    "zh": "秋天",
+    "fr": "automne",
+    "ar": "الخريف",
+    "ko": "가을",
+    "ru": "осень"
+   },
+   "region": "us"
+  },
+  {
+   "word": "trash",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ごみ",
+    "en": "rubbish",
+    "zh": "垃圾",
+    "fr": "ordures",
+    "ar": "قمامة",
+    "ko": "쓰레기",
+    "ru": "мусор"
+   },
+   "region": "us"
+  },
+  {
+   "word": "elevator",
+   "pos": "noun",
+   "meaning": {
+    "ja": "エレベーター（米）",
+    "en": "a lift, in America",
+    "zh": "电梯（美）",
+    "fr": "ascenseur, aux USA",
+    "ar": "مصعد بالتعبير الأمريكي",
+    "ko": "엘리베이터 (미국)",
+    "ru": "лифт (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "downtown",
+   "pos": "noun",
+   "meaning": {
+    "ja": "街の中心部",
+    "en": "the city centre",
+    "zh": "市中心",
+    "fr": "centre-ville",
+    "ar": "وسط المدينة",
+    "ko": "시내 중심가",
+    "ru": "центр города"
+   },
+   "region": "us"
+  },
+  {
+   "word": "mall",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ショッピングモール",
+    "en": "a shopping centre",
+    "zh": "购物中心",
+    "fr": "centre commercial",
+    "ar": "مركز تسوق",
+    "ko": "쇼핑몰",
+    "ru": "торговый центр"
+   },
+   "region": "us"
+  },
+  {
+   "word": "takeout",
+   "pos": "noun",
+   "meaning": {
+    "ja": "持ち帰りの食事（米）",
+    "en": "takeaway food, in America",
+    "zh": "外带（美）",
+    "fr": "plats à emporter, aux USA",
+    "ar": "طعام للأخذ بالتعبير الأمريكي",
+    "ko": "포장 음식 (미국)",
+    "ru": "еда навынос (США)"
+   },
+   "region": "us"
+  },
+  {
+   "word": "homie",
+   "pos": "noun",
+   "meaning": {
+    "ja": "気心の知れた仲間",
+    "en": "a close friend from your circle",
+    "zh": "铁哥们",
+    "fr": "pote de toujours",
+    "ar": "صديق مقرب من الحي",
+    "ko": "절친",
+    "ru": "кореш"
+   },
+   "region": "us"
+  },
+  {
+   "word": "bro",
+   "pos": "noun",
+   "meaning": {
+    "ja": "男友達への呼びかけ",
+    "en": "a casual way to address a male friend",
+    "zh": "兄弟",
+    "fr": "frérot",
+    "ar": "يا أخي",
+    "ko": "형, 야",
+    "ru": "бро"
+   },
+   "region": "us"
+  },
+  {
+   "word": "bail on",
+   "pos": "noun",
+   "meaning": {
+    "ja": "約束をすっぽかす",
+    "en": "to let someone down by not turning up",
+    "zh": "放某人鸽子",
+    "fr": "poser un lapin",
+    "ar": "يخلف الموعد",
+    "ko": "약속을 펑크 내다",
+    "ru": "кинуть с встречей"
+   },
+   "region": "us"
+  },
+  {
+   "word": "hang tight",
+   "pos": "noun",
+   "meaning": {
+    "ja": "そのまま待ってて",
+    "en": "wait where you are for a moment",
+    "zh": "稍等一下",
+    "fr": "attends là",
+    "ar": "انتظر مكانك قليلا",
+    "ko": "거기서 잠깐 기다려",
+    "ru": "побудь на месте"
+   },
+   "region": "us"
+  },
+  {
+   "word": "my treat",
+   "pos": "noun",
+   "meaning": {
+    "ja": "ここは私が出す",
+    "en": "I am paying for this",
+    "zh": "我请客",
+    "fr": "c'est moi qui offre",
+    "ar": "الحساب علي",
+    "ko": "내가 낼게",
+    "ru": "я угощаю"
+   },
+   "region": "us"
+  },
+  {
+   "word": "knock it off",
+   "pos": "noun",
+   "meaning": {
+    "ja": "いい加減にして",
+    "en": "stop doing that",
+    "zh": "别闹了",
+    "fr": "arrête ça",
+    "ar": "كف عن ذلك",
+    "ko": "그만 좀 해",
+    "ru": "прекрати"
+   },
+   "region": "us"
+  },
+  {
+   "word": "what's up",
+   "pos": "noun",
+   "meaning": {
+    "ja": "どうしたの",
+    "en": "a greeting, or asking what is wrong",
+    "zh": "怎么了",
+    "fr": "quoi de neuf",
+    "ar": "ما الأخبار",
+    "ko": "무슨 일이야",
+    "ru": "чё как"
+   },
+   "region": "us"
   }
  ]
 }

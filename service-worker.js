@@ -2,9 +2,9 @@
 // Exists mainly so Chrome/Android treats the app as installable (the install
 // banner needs a registered SW with a fetch handler), and as a bonus caches
 // the app shell so it opens offline. Cache strategy is deliberately
-// simple: cache the shell on install, serve navigations from cache when the
-// network is unavailable.
-const CACHE = 'wordkeep-v7';
+// simple: cache the shell on install and serve navigations from it, refreshing
+// the copy in the background.
+const CACHE = 'wordkeep-v8';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
@@ -26,18 +26,32 @@ self.addEventListener('fetch', e => {
   // For page navigations, try the network first (so updates land), fall back
   // to the cached page when offline.
   if (req.mode === 'navigate') {
+    // Cache first, refresh behind it. Network-first meant every single launch
+    // waited on a round trip to GitHub before anything was drawn -- offline was
+    // handled, but a slow connection just hung, which is the case people
+    // actually meet. The page is 730KB, so that wait was the whole complaint.
+    //
+    // Serving a stale shell is safe here because staleness is already somebody
+    // else's job: the app fetches version.json a few seconds after boot and
+    // reloads itself once if the build moved. So the worst case is that the
+    // launch you are in the middle of is one version behind for four seconds.
+    //
+    // Everything is keyed on './index.html' rather than on the request, or a
+    // shared link like /?share=abc would miss the cache and reintroduce the
+    // wait it is meant to remove.
     e.respondWith(
-      // GitHub Pages sends Cache-Control: max-age=600, so a plain fetch()
-      // here could silently replay a stale index.html for up to 10 minutes
-      // after a deploy -- 'no-cache' forces the browser to revalidate with
-      // the server (a cheap conditional request) instead of trusting that.
-      fetch(req, { cache: 'no-cache' })
-        .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
-          return res;
-        })
-        .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
+      caches.match('./index.html').then(cached => {
+        const fresh = fetch(req, { cache: 'no-cache' })
+          .then(res => {
+            if (res && res.ok) {
+              const copy = res.clone();
+              caches.open(CACHE).then(c => c.put('./index.html', copy)).catch(() => {});
+            }
+            return res;
+          })
+          .catch(() => null);
+        return cached || fresh.then(r => r || caches.match('./index.html'));
+      })
     );
     return;
   }
