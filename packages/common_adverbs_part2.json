@@ -1,15 +1,15 @@
 {
  "id": "common_adverbs_part2",
- "v": 1,
+ "v": 2,
  "cefr": "B2-C1",
  "group": "daily",
  "title": {
-  "ja": "よく使う副詞 中上級編",
+  "ja": "よく使う副詞 上級編",
   "en": "Everyday Adverbs, Advanced",
-  "zh": "常用副词（中高级）",
+  "zh": "常用副词（高级）",
   "fr": "Adverbes courants (avancé)",
   "ar": "ظروف شائعة (متقدم)",
-  "ko": "자주 쓰는 부사 (중상급)",
+  "ko": "자주 쓰는 부사 (고급)",
   "ru": "Частые наречия (продвинутый)"
  },
  "words": [

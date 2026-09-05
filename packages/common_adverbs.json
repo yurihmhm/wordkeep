@@ -1,16 +1,16 @@
 {
  "id": "common_adverbs",
- "v": 1,
- "cefr": "A2-B1",
+ "v": 2,
+ "cefr": "A2",
  "group": "daily",
  "title": {
-  "ja": "よく使う副詞 初中級編",
-  "en": "Everyday Adverbs, Core",
-  "zh": "常用副词（初中级）",
+  "ja": "よく使う副詞 初級編",
+  "en": "Everyday Adverbs, Beginner",
+  "zh": "常用副词（初级）",
   "fr": "Adverbes courants (débutant)",
   "ar": "ظروف شائعة (مبتدئ)",
-  "ko": "자주 쓰는 부사 (초중급)",
-  "ru": "Частые наречия (начальный)"
+  "ko": "자주 쓰는 부사 (초급)",
+  "ru": "Частые наречия (базовый)"
  },
  "words": [
   {
@@ -274,19 +274,6 @@
    }
   },
   {
-   "word": "politely",
-   "pos": "adv",
-   "meaning": {
-    "ja": "礼儀正しく",
-    "en": "in a well-mannered way",
-    "zh": "有礼貌地",
-    "fr": "poliment",
-    "ar": "بأدب",
-    "ko": "공손하게",
-    "ru": "вежливо"
-   }
-  },
-  {
    "word": "badly",
    "pos": "adv",
    "meaning": {
@@ -326,19 +313,6 @@
    }
   },
   {
-   "word": "hardly",
-   "pos": "adv",
-   "meaning": {
-    "ja": "ほとんど〜ない",
-    "en": "only just, almost not at all",
-    "zh": "几乎不",
-    "fr": "à peine",
-    "ar": "بالكاد",
-    "ko": "거의 ~않다",
-    "ru": "едва ли"
-   }
-  },
-  {
    "word": "quite",
    "pos": "adv",
    "meaning": {
@@ -349,19 +323,6 @@
     "ar": "إلى حد كبير",
     "ko": "꽤",
     "ru": "довольно"
-   }
-  },
-  {
-   "word": "pretty",
-   "pos": "adv",
-   "meaning": {
-    "ja": "わりと",
-    "en": "fairly, in casual speech",
-    "zh": "挺",
-    "fr": "plutôt",
-    "ar": "نوعا ما",
-    "ko": "제법",
-    "ru": "весьма"
    }
   },
   {
@@ -599,68 +560,107 @@
    }
   },
   {
-   "word": "suddenly",
+   "word": "now",
    "pos": "adv",
    "meaning": {
-    "ja": "突然",
-    "en": "quickly and without warning",
-    "zh": "突然",
-    "fr": "soudain",
-    "ar": "فجأة",
-    "ko": "갑자기",
-    "ru": "внезапно"
+    "ja": "今",
+    "en": "at this moment",
+    "zh": "现在",
+    "fr": "maintenant",
+    "ar": "الآن",
+    "ko": "지금",
+    "ru": "сейчас"
    }
   },
   {
-   "word": "immediately",
+   "word": "then",
    "pos": "adv",
    "meaning": {
-    "ja": "直ちに",
-    "en": "without any delay",
-    "zh": "立即",
-    "fr": "immédiatement",
-    "ar": "فورا",
-    "ko": "즉시",
-    "ru": "немедленно"
+    "ja": "そのとき",
+    "en": "at that moment, or next",
+    "zh": "那时",
+    "fr": "à ce moment-là",
+    "ar": "حينئذ",
+    "ko": "그때",
+    "ru": "тогда"
    }
   },
   {
-   "word": "definitely",
+   "word": "here",
    "pos": "adv",
    "meaning": {
-    "ja": "まず確実に",
-    "en": "without any doubt",
-    "zh": "肯定",
-    "fr": "à coup sûr",
-    "ar": "بالتأكيد قطعا",
-    "ko": "틀림없이",
-    "ru": "наверняка"
+    "ja": "ここに",
+    "en": "in this place",
+    "zh": "这里",
+    "fr": "ici",
+    "ar": "هنا",
+    "ko": "여기에",
+    "ru": "здесь"
    }
   },
   {
-   "word": "clearly",
+   "word": "there",
    "pos": "adv",
    "meaning": {
-    "ja": "はっきりと",
-    "en": "in a way that is easy to see or hear",
-    "zh": "清楚地",
-    "fr": "clairement",
-    "ar": "بوضوح",
-    "ko": "뚜렷하게",
-    "ru": "чётко"
+    "ja": "そこに",
+    "en": "in that place",
+    "zh": "那里",
+    "fr": "là",
+    "ar": "هناك",
+    "ko": "거기에",
+    "ru": "там"
    }
   },
   {
-   "word": "unfortunately",
+   "word": "back",
    "pos": "adv",
    "meaning": {
-    "ja": "あいにく",
-    "en": "sadly, as bad luck would have it",
-    "zh": "不巧",
-    "fr": "malheureusement",
-    "ar": "للأسف",
-    "ko": "공교롭게도",
-    "ru": "к сожалению"
+    "ja": "もとの場所へ",
+    "en": "to the place you came from",
+    "zh": "回原处",
+    "fr": "de retour",
+    "ar": "عائدا إلى",
+    "ko": "원래 자리로",
+    "ru": "обратно"
+   }
+  },
+  {
+   "word": "away",
+   "pos": "adv",
+   "meaning": {
+    "ja": "離れたところへ",
+    "en": "to or at a distance",
+    "zh": "离开",
+    "fr": "au loin",
+    "ar": "بعيدا عن المكان",
+    "ko": "멀리 떨어져",
+    "ru": "прочь"
+   }
+  },
+  {
+   "word": "twice",
+   "pos": "adv",
+   "meaning": {
+    "ja": "二回",
+    "en": "two times",
+    "zh": "两次",
+    "fr": "deux fois",
+    "ar": "مرتين",
+    "ko": "두 번",
+    "ru": "дважды"
+   }
+  },
+  {
+   "word": "daily",
+   "pos": "adv",
+   "meaning": {
+    "ja": "毎日",
+    "en": "every day",
+    "zh": "每天",
+    "fr": "quotidiennement",
+    "ar": "يوميا",
+    "ko": "매일",
+    "ru": "ежедневно"
    }
   }
  ]
