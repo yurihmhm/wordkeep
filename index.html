@@ -1553,7 +1553,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.62.0';
+const APP_VERSION='5.62.1';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -7946,7 +7946,9 @@ let coachTypeTimer=null;
 // The line types itself in. It is there to make the sentence get read rather
 // than skipped, so it runs fast -- a couple of characters a frame -- and the
 // height is reserved before it starts, or the bubble would grow under the
-// spotlight it was just positioned against.
+// spotlight it was just positioned against. Around 55 characters a second:
+// fast enough not to be a wait, slow enough that it reads as typing rather
+// than as the text simply appearing.
 function typeCoachText(text){
   const el=$('#coachText'), bub=$('#coachBub');
   clearInterval(coachTypeTimer);
@@ -7962,7 +7964,7 @@ function typeCoachText(text){
   // Driven by elapsed time, not by counting ticks. A backgrounded tab throttles
   // timers to about one a second, and a per-tick counter turned a half-second
   // line into a minute of watching it crawl.
-  const CPS=110, t0=Date.now();
+  const CPS=55, t0=Date.now();
   coachTypeTimer=setInterval(()=>{
     const n=Math.floor((Date.now()-t0)/1000*CPS);
     el.textContent=text.slice(0,n);
