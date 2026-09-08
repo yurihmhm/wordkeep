@@ -1570,7 +1570,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.63.1';
+const APP_VERSION='5.64.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1583,7 +1583,8 @@ const APP_VERSION='5.63.1';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.63.0',date:'2026-09-05',keys:['wn1'],show:true},
+  {version:'5.64.0',date:'2026-09-08',keys:['wn1'],show:true},
+  {version:'5.63.0',date:'2026-09-05',keys:['v5630_1'],show:true},
   {version:'5.62.0',date:'2026-09-05',keys:['v5620_1'],show:true},
   {version:'5.61.0',date:'2026-09-05',keys:['v5610_1'],show:true},
   {version:'5.60.0',date:'2026-09-05',keys:['v5600_1'],show:true},
@@ -1707,7 +1708,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'アプリの<b>起動が速くなりました</b>。毎回サーバーの返事を待ってから画面を出していたのをやめ、すぐ表示して裏で更新するようにしました。<b>英語スラングを180語に増量</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42）。ワーホリ向けにオーストラリアを厚めにしています。設定の<b>発音の自動再生を最初からオン</b>にしました。',en:'The app <b>opens faster</b>. It used to wait for the server every single launch before drawing anything; now it shows immediately and refreshes behind you. <b>Slang grown to 180 words</b> — 58 Australian, 40 American, 40 British, 42 heard everywhere — weighted towards Australia for working-holiday folk. <b>Pronunciation now plays automatically</b> out of the box.',zh:'应用<b>启动更快了</b>。以前每次都要等服务器回应才显示，现在会立刻打开并在后台更新。<b>英语俚语增加到180词</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42），为打工度假者加重了澳洲部分。设置里的<b>自动发音默认开启</b>。',fr:'L\'app <b>s\'ouvre plus vite</b> : elle attendait le serveur à chaque lancement avant d\'afficher quoi que ce soit ; elle s\'affiche maintenant tout de suite et se met à jour derrière. <b>L\'argot passe à 180 mots</b> — 58 australiens, 40 américains, 40 britanniques, 42 partout — avec l\'Australie renforcée pour les PVTistes. <b>La prononciation se joue automatiquement</b> par défaut.',ar:'صار التطبيق <b>يفتح أسرع</b>. كان ينتظر الخادم في كل تشغيل قبل أن يرسم شيئا، وصار يظهر فورا ويحدّث نفسه في الخلفية. و<b>العامية صارت 180 كلمة</b>: 58 أسترالية و40 أمريكية و40 بريطانية و42 مشتركة، مع ترجيح أستراليا لمن يسافر بإجازة عمل. و<b>النطق يُشغَّل تلقائيا</b> افتراضيا.',ko:'앱이 <b>더 빨리 열립니다</b>. 매번 서버 응답을 기다린 뒤에 화면을 그리던 것을 그만두고, 바로 보여 주고 뒤에서 갱신합니다. <b>영어 슬랭을 180단어로 늘렸습니다</b>(🇦🇺58·🇺🇸40·🇬🇧40·🌐42). 워홀 가는 분들을 위해 호주를 두껍게 했습니다. 설정의 <b>발음 자동 재생을 기본으로 켰습니다</b>.',ru:'Приложение <b>открывается быстрее</b>: раньше каждый запуск ждал ответа сервера, прежде чем что-то нарисовать, — теперь показывает сразу и обновляется позади. <b>Сленг вырос до 180 слов</b>: 58 австралийских, 40 американских, 40 британских, 42 общих — с упором на Австралию для тех, кто едет по рабочей визе. <b>Произношение теперь озвучивается автоматически</b> по умолчанию.'},
+  wn1:{ja:'単語を追加するときに<b>「意味が見つかりません」と出る場面を減らしました</b>。辞書に載っていない語（syncing など）でも、候補に出ていた説明をそのまま使えるようになっています。候補をタップしたときに、いま見えている説明が消えてしまう問題も直しました。翻訳サービスがつながらないときは、そう書くようにしました。',en:'Adding a word says <b>“no meaning found” far less often</b>. Words the dictionary does not carry — syncing, for one — now use the explanation that was already showing on the suggestion beneath them. Tapping a suggestion no longer throws away the definition you could see. And when the translation service is down, it now says so instead of blaming the word.',zh:'添加单词时<b>「找不到意思」的情况大幅减少</b>。词典里没有的词（如 syncing）现在会直接使用下方候选里已经显示的解释。点击候选时解释被丢弃的问题也已修复。翻译服务连不上时，会如实说明。',fr:'L\'ajout d\'un mot affiche <b>bien moins souvent « sens introuvable »</b>. Les mots absents du dictionnaire — syncing, par exemple — utilisent désormais l\'explication déjà affichée sur la suggestion en dessous. Toucher une suggestion ne jette plus la définition que vous aviez sous les yeux. Et quand le service de traduction ne répond pas, c\'est ce qui est écrit.',ar:'صارت رسالة <b>«لم يُعثر على معنى» أقل بكثير</b> عند إضافة كلمة. الكلمات غير الموجودة في القاموس — مثل syncing — تستخدم الآن الشرح الظاهر أصلا في الاقتراح أسفلها. والضغط على اقتراح لم يعد يُلقي بالتعريف الذي كنت تراه. وإن تعذّر الوصول إلى خدمة الترجمة، يُقال ذلك صراحة.',ko:'단어를 추가할 때 <b>«뜻을 찾지 못했습니다»가 나오는 경우를 크게 줄였습니다</b>. 사전에 없는 단어(syncing 등)도 아래 후보에 이미 보이던 설명을 그대로 쓰게 했습니다. 후보를 눌렀을 때 보이던 설명이 사라지던 문제도 고쳤습니다. 번역 서비스가 연결되지 않을 때는 그렇게 안내합니다.',ru:'При добавлении слова <b>«значение не найдено» появляется гораздо реже</b>. Слова, которых нет в словаре — например syncing, — теперь берут то самое объяснение, что уже показывалось в подсказке ниже. Нажатие на подсказку больше не выбрасывает определение, которое вы видели. А если сервис перевода недоступен, так и написано.'},
+  v5630_1:{ja:'アプリの<b>起動が速くなりました</b>。毎回サーバーの返事を待ってから画面を出していたのをやめ、すぐ表示して裏で更新するようにしました。<b>英語スラングを180語に増量</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42）。ワーホリ向けにオーストラリアを厚めにしています。設定の<b>発音の自動再生を最初からオン</b>にしました。',en:'The app <b>opens faster</b>. It used to wait for the server every single launch before drawing anything; now it shows immediately and refreshes behind you. <b>Slang grown to 180 words</b> — 58 Australian, 40 American, 40 British, 42 heard everywhere — weighted towards Australia for working-holiday folk. <b>Pronunciation now plays automatically</b> out of the box.',zh:'应用<b>启动更快了</b>。以前每次都要等服务器回应才显示，现在会立刻打开并在后台更新。<b>英语俚语增加到180词</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42），为打工度假者加重了澳洲部分。设置里的<b>自动发音默认开启</b>。',fr:'L\'app <b>s\'ouvre plus vite</b> : elle attendait le serveur à chaque lancement avant d\'afficher quoi que ce soit ; elle s\'affiche maintenant tout de suite et se met à jour derrière. <b>L\'argot passe à 180 mots</b> — 58 australiens, 40 américains, 40 britanniques, 42 partout — avec l\'Australie renforcée pour les PVTistes. <b>La prononciation se joue automatiquement</b> par défaut.',ar:'صار التطبيق <b>يفتح أسرع</b>. كان ينتظر الخادم في كل تشغيل قبل أن يرسم شيئا، وصار يظهر فورا ويحدّث نفسه في الخلفية. و<b>العامية صارت 180 كلمة</b>: 58 أسترالية و40 أمريكية و40 بريطانية و42 مشتركة، مع ترجيح أستراليا لمن يسافر بإجازة عمل. و<b>النطق يُشغَّل تلقائيا</b> افتراضيا.',ko:'앱이 <b>더 빨리 열립니다</b>. 매번 서버 응답을 기다린 뒤에 화면을 그리던 것을 그만두고, 바로 보여 주고 뒤에서 갱신합니다. <b>영어 슬랭을 180단어로 늘렸습니다</b>(🇦🇺58·🇺🇸40·🇬🇧40·🌐42). 워홀 가는 분들을 위해 호주를 두껍게 했습니다. 설정의 <b>발음 자동 재생을 기본으로 켰습니다</b>.',ru:'Приложение <b>открывается быстрее</b>: раньше каждый запуск ждал ответа сервера, прежде чем что-то нарисовать, — теперь показывает сразу и обновляется позади. <b>Сленг вырос до 180 слов</b>: 58 австралийских, 40 американских, 40 британских, 42 общих — с упором на Австралию для тех, кто едет по рабочей визе. <b>Произношение теперь озвучивается автоматически</b> по умолчанию.'},
   v5620_1:{ja:'大きすぎた2つのパッケージを分けました。「語学留学の英単語」148語は<b>授業と課題／文法・発音を説明する英語／考えを説明する英語</b>の3つに、「ワーホリ」106語は<b>手続きと仕事さがし／お金と暮らし</b>の2つになりました。あわせて、2つのパッケージに同じ単語が入っていたところを整理しました。<b>全21パッケージ・1,691語</b>です。',en:'Two packs had grown too big to be one thing. The 148-word study-abroad pack is now three — <b>class and coursework, talking about English itself, and explaining what you think</b> — and the 106-word working-holiday pack is two: <b>paperwork and job hunting</b>, and <b>money and daily life</b>. Words that sat in two packs at once were sorted out at the same time. <b>21 packs, 1,691 words</b>.',zh:'两个过大的单词包已拆分。148词的「语言学校」拆成<b>课堂与作业／谈论英语本身／表达想法</b>三个，106词的「打工度假」拆成<b>手续与找工作／钱与生活</b>两个。同时整理了同一个词出现在两个包里的情况。<b>共21个单词包、1,691词</b>。',fr:'Deux packs étaient devenus trop gros. Les 148 mots de l\'école de langue se divisent en trois — <b>cours et devoirs, parler de l\'anglais, expliquer sa pensée</b> — et les 106 du PVT en deux : <b>démarches et recherche d\'emploi</b>, et <b>argent et vie quotidienne</b>. Les mots présents dans deux packs à la fois ont été démêlés. <b>21 packs, 1 691 mots</b>.',ar:'حزمتان كبرتا أكثر من اللازم فقُسمتا. حزمة مدرسة اللغة (148 كلمة) صارت ثلاثًا: <b>الحصص والواجبات، والحديث عن الإنجليزية، وشرح ما تفكر فيه</b>. وحزمة إجازة العمل (106) صارت اثنتين: <b>الإجراءات والبحث عن عمل</b> و<b>المال والحياة اليومية</b>. وعولجت الكلمات التي كانت في حزمتين معًا. <b>21 حزمة و1691 كلمة</b>.',ko:'너무 커진 두 패키지를 나눴습니다. 148단어짜리 «어학연수»는 <b>수업과 과제 / 문법·발음을 설명하는 영어 / 생각을 설명하는 영어</b> 셋으로, 106단어짜리 «워홀»은 <b>절차와 일자리 찾기 / 돈과 생활</b> 둘로 나뉘었습니다. 두 패키지에 같은 단어가 들어 있던 부분도 함께 정리했습니다. <b>총 21개 패키지 1,691단어</b>입니다.',ru:'Два набора разрослись сверх меры и разделены. Набор языковой школы (148 слов) стал тремя — <b>занятия и задания, слова о самом английском, объяснение своей мысли</b>, — а набор рабочих каникул (106) стал двумя: <b>документы и поиск работы</b> и <b>деньги и быт</b>. Заодно разобраны слова, стоявшие сразу в двух наборах. <b>21 набор, 1691 слово</b>.'},
   v5610_1:{ja:'副詞を<b>初級50・中級100・上級50</b>の3段階に分け直しました。中級は<b>実用的な〜ly系</b>を中心に100語です。チュートリアルは、<b>指していた場所が違っていたのを直し</b>、単語帳がどの画面からでも切り替えられることも案内するようにしました。説明文は<b>タイピング風</b>に出ます。',en:'The adverbs are now three tiers — <b>50 beginner, 100 intermediate, 50 advanced</b> — with the middle hundred built around the <b>practical -ly words</b>. In the tour, <b>the step that pointed at the wrong thing is fixed</b>, and it now shows that your wordbook can be switched from any screen. The lines <b>type themselves in</b>.',zh:'副词重新分成<b>初级50・中级100・高级50</b>三档，中级一百个以<b>实用的 -ly 副词</b>为主。导览里<b>指错位置的那一步已修正</b>，并会说明单词本在任何页面都能切换。说明文字改为<b>打字机效果</b>呈现。',fr:'Les adverbes sont désormais sur trois niveaux — <b>50 débutant, 100 intermédiaire, 50 avancé</b> — les cent du milieu bâtis autour des <b>adverbes en -ly utiles</b>. Dans le tour, <b>l\'étape qui désignait la mauvaise chose est corrigée</b>, et il montre que le carnet se change depuis n\'importe quel écran. Les phrases <b>s\'écrivent à la machine</b>.',ar:'صارت الظروف على ثلاث مراتب: <b>50 للمبتدئ و100 للمتوسط و50 للمتقدم</b>، ومئة المتوسط مبنية على <b>ظروف -ly العملية</b>. وفي الجولة <b>صُححت الخطوة التي كانت تشير إلى المكان الخطأ</b>، وصارت تبيّن أن الدفتر يمكن تبديله من أي شاشة. والجمل <b>تُكتب أمامك حرفًا حرفًا</b>.',ko:'부사를 <b>초급 50・중급 100・고급 50</b>의 세 단계로 다시 나눴습니다. 중급 100단어는 <b>실용적인 -ly 부사</b> 중심입니다. 투어에서는 <b>엉뚱한 곳을 가리키던 단계를 고쳤고</b>, 단어장을 어느 화면에서든 바꿀 수 있다는 것도 안내합니다. 설명 문구는 <b>타이핑되는 연출</b>로 나옵니다.',ru:'Наречия разделены на три ступени — <b>50 начальных, 100 средних, 50 продвинутых</b>, — и средняя сотня построена вокруг <b>полезных наречий на -ly</b>. В туре <b>исправлен шаг, указывавший не туда</b>, и добавлено, что словарь переключается с любого экрана. Реплики <b>печатаются на глазах</b>.'},
   v5600_1:{ja:'はじめての方の流れを作り直しました。ホーム画面に追加してから、<b>あなたのことを2つだけ質問</b>して、アカウントを作り、そのあとに<b>実際の画面を一緒に触りながら</b>使い方をご案内します。説明だけの画面はやめました。ツアーは<b>設定＞ヘルプ</b>からいつでも見直せます。単語パッケージに<b>「よく使う副詞」初中級編と中上級編</b>を追加しました。',en:'The first-run flow is rebuilt. Add Wordkeep to your home screen, answer <b>just two questions</b> about yourself, make an account, and then we walk you through the app <b>on the real screens</b> rather than showing you pictures of them. The tour replays any time from <b>Settings ▸ Help</b>. Two new packs as well: <b>Everyday Adverbs</b>, core and advanced.',zh:'新用户的流程重做了。先添加到主屏幕，只问<b>两个关于你的问题</b>，创建账号，然后<b>在真实界面上边操作边讲解</b>，不再只看说明页。导览可随时从<b>设置 ▸ 帮助</b>重看。另外新增<b>「常用副词」初中级与中高级</b>两个单词包。',fr:'Le parcours de démarrage est refait. Ajoutez l\'app à l\'écran d\'accueil, répondez à <b>deux questions</b> sur vous, créez un compte, puis nous vous guidons <b>sur les vrais écrans</b> plutôt qu\'avec des images. Le tour se rejoue depuis <b>Réglages ▸ Aide</b>. Deux nouveaux packs : <b>adverbes courants</b>, niveau de base et avancé.',ar:'أُعيد بناء مسار البداية. أضف التطبيق إلى الشاشة الرئيسية، وأجب عن <b>سؤالين فقط</b> عنك، وأنشئ حسابًا، ثم نرافقك <b>على الشاشات الحقيقية</b> بدل صور توضيحية. ويمكن إعادة الجولة من <b>الإعدادات ▸ مساعدة</b>. وأضفنا حزمتين: <b>الظروف الشائعة</b> للمبتدئ وللمتقدم.',ko:'첫 사용 흐름을 다시 만들었습니다. 홈 화면에 추가한 뒤 <b>당신에 대한 질문 두 개</b>만 답하고, 계정을 만들고, 그다음 <b>실제 화면을 함께 만지면서</b> 사용법을 안내합니다. 설명만 있는 화면은 없앴습니다. 투어는 <b>설정 ▸ 도움말</b>에서 언제든 다시 볼 수 있습니다. 단어 패키지에 <b>«자주 쓰는 부사» 초중급·중상급</b>을 더했습니다.',ru:'Начало работы переделано. Добавьте приложение на главный экран, ответьте на <b>два вопроса</b> о себе, создайте аккаунт — и мы проведём вас <b>по настоящим экранам</b>, а не по их описаниям. Тур повторяется из <b>«Настройки ▸ Помощь»</b>. Ещё два набора: <b>частые наречия</b>, базовые и продвинутые.'},
@@ -2018,6 +2020,7 @@ const T={
   hint_confirm:{ja:'内容を確認して「リストに追加」へ。',en:'Check it, then Add to list.',zh:'确认后点「添加到列表」。',fr:'Vérifiez, puis Ajouter à la liste.',ar:'تحقق ثم أضف إلى القائمة.',ko:'확인 후 목록에 추가하세요.',ru:'Проверьте и нажмите «Добавить в список».'},
   looking_up:{ja:'辞書・翻訳で検索中…',en:'Looking up…',zh:'查询中…',fr:'Recherche…',ar:'جارٍ البحث…',ko:'검색 중…',ru:'Ищем в словаре и переводе…'},
   dup_here:{ja:'この単語はすでに「{0}」にあります。',en:'This word is already in {0}.',zh:'这个单词已在「{0}」中。',fr:'Ce mot est déjà dans « {0} ».',ar:'هذه الكلمة موجودة بالفعل في «{0}».',ko:'이 단어는 이미 «{0}»에 있습니다.',ru:'Это слово уже есть в «{0}».'},
+  tr_unavailable:{ja:'単語は見つかりましたが、いま翻訳がつながりません。下の英語の説明を見ながら「意味」に書くか、少し時間をおいてもう一度お試しください。',en:'We found the word, but the translation service is not responding. Write the meaning yourself from the English below, or try again shortly.',zh:'已找到这个词，但翻译服务暂时无法连接。可参考下面的英文说明自行填写「意思」，或稍后再试。',fr:'Le mot est trouvé, mais le service de traduction ne répond pas. Écrivez le sens à partir de l\'anglais ci-dessous, ou réessayez dans un moment.',ar:'وجدنا الكلمة، لكن خدمة الترجمة لا تستجيب الآن. اكتب المعنى بنفسك من الشرح الإنجليزي أدناه، أو أعد المحاولة بعد قليل.',ko:'단어는 찾았지만 지금 번역이 연결되지 않습니다. 아래 영어 설명을 보고 «뜻»에 직접 쓰거나, 잠시 후 다시 시도해 주세요.',ru:'Слово найдено, но сервис перевода сейчас не отвечает. Впишите значение сами по английскому описанию ниже или повторите чуть позже.'},
   maybe_mean:{ja:'もしかして：',en:'Did you mean:',zh:'你是不是想输入：',fr:'Vouliez-vous dire :',ar:'هل تقصد:',ko:'혹시 이거였나요:',ru:'Возможно, вы имели в виду:'},
   meaning_src:{ja:'MyMemory 翻訳（自動・編集可）',en:'MyMemory translation (auto, editable)',zh:'MyMemory 翻译（自动、可编辑）',fr:'Traduction MyMemory (auto, modifiable)',ar:'ترجمة MyMemory (تلقائية، قابلة للتعديل)',ko:'MyMemory 번역 (자동, 수정 가능)',ru:'Перевод MyMemory (авто, можно редактировать)'},
   not_found_meaning:{ja:'自動では確かな意味が見つかりませんでした。下の「意味」に自分で書けば、そのまま登録できます。',en:'No reliable meaning found automatically. Write one in the meaning field below and it saves just the same.',zh:'未能自动找到可靠的释义。在下面的「意思」栏自行填写即可照常保存。',fr:'Aucun sens fiable trouvé automatiquement. Écrivez-le dans le champ ci-dessous : l’enregistrement fonctionne pareil.',ar:'لم يُعثر تلقائيًا على معنى موثوق. اكتبه في حقل المعنى بالأسفل وسيُحفظ كالمعتاد.',ko:'자동으로는 확실한 뜻을 찾지 못했습니다. 아래 «뜻»에 직접 적으면 그대로 저장됩니다.',ru:'Надёжное значение автоматически не нашлось. Впишите его в поле ниже — сохранится так же.'},
@@ -3833,6 +3836,18 @@ async function fetchDatamuseSuggest(q){
   if(!r.ok)throw new Error('datamuse_fail');
   return await r.json();
 }
+// Datamuse packs the part of speech into the definition string: "v\tto do
+// something". Split it back out so the result reads like a dictionary entry
+// rather than like raw API output.
+const DM_POS={n:'noun',v:'verb',adj:'adjective',adv:'adverb',u:''};
+function dmSelfMeanings(entry){
+  return (entry.defs||[]).slice(0,3).map(d=>{
+    const i=d.indexOf('\t');
+    const tag=i>0?d.slice(0,i):'';
+    const def=i>0?d.slice(i+1):d;
+    return {pos:DM_POS[tag]||'',def:def.trim(),ex:'',syn:[]};
+  }).filter(m=>m.def);
+}
 async function fetchDatamuseSpellFallback(q){
   const r=await fetchWithTimeout('https://api.datamuse.com/words?sp='+encodeURIComponent(q)+'&max=5&md=d',5000);
   if(!r.ok)throw new Error('datamuse_fail');
@@ -3945,7 +3960,10 @@ async function fetchTranslation(text){
   return out;
 }
 
-async function lookup(){
+// `seed` is a Datamuse entry the caller already has -- the chip you just
+// tapped carried its own definition, and re-deriving it from scratch was how
+// tapping a suggestion could land you back on "nothing found".
+async function lookup(seed){
   const raw=inWord.value.trim();
   if(!raw)return;
   const w=raw.toLowerCase();
@@ -3962,34 +3980,47 @@ async function lookup(){
   const dictOk=dictRes.status==='fulfilled';
   const trOk=trRes.status==='fulfilled';
 
+  // The dictionary is missing plenty of ordinary words -- "syncing" is not in
+  // it -- and it also times out under load. Datamuse knows those words and
+  // returns definitions, and it was already being called for spelling
+  // suggestions; it just was not being asked about the word itself. So the app
+  // was showing a definition on a suggestion chip while telling the reader
+  // nothing had been found.
+  let spellSuggestions=[], dmSelf=seed&&seed.defs&&seed.defs.length?seed:null;
+  if(!dictOk&&!dmSelf){
+    try{
+      const dm=await fetchDatamuseSpellFallback(w);
+      dmSelf=dm.find(x=>x.word.toLowerCase()===w&&x.defs&&x.defs.length)||null;
+      spellSuggestions=dm.filter(x=>x.word.toLowerCase()!==w);
+    }catch(e){}
+  }else if(!dictOk){
+    try{spellSuggestions=(await fetchDatamuseSpellFallback(w)).filter(x=>x.word.toLowerCase()!==w);}catch(e){}
+  }
+
   // Translate each English definition into the target language too, instead
   // of showing raw English-English dictionary text (skipped in English mode).
-  let meanings=dictOk?dictRes.value.meanings:[];
+  let meanings=dictOk?dictRes.value.meanings:(dmSelf?dmSelfMeanings(dmSelf):[]);
   if(meanings.length&&needTr){
     const defTr=await Promise.allSettled(meanings.map(m=>fetchTranslation(m.def)));
     meanings=meanings.map((m,i)=>({...m,defJa:defTr[i].status==='fulfilled'?defTr[i].value:''}));
   }
 
-  // The stored "meaning": translation if we have one; in English mode use the
-  // first dictionary definition.
-  const meaningVal=trOk?trRes.value:(!needTr&&meanings[0]?meanings[0].def:'');
-  const lookupSource=dictOk?'dict_api_success':(meaningVal?'translate_fallback':'lookup_failed_manual_entry');
+  // The stored "meaning": the word's own translation when there is one, then
+  // the translated first definition, then the English definition itself. An
+  // editable rough meaning beats an empty box and a warning.
+  const meaningVal=trOk?trRes.value
+    :(meanings[0]?(needTr?(meanings[0].defJa||''):meanings[0].def):'');
+  const haveDef=dictOk||!!dmSelf;
+  const lookupSource=dictOk?'dict_api_success'
+    :(dmSelf?'datamuse_definition':(meaningVal?'translate_fallback':'lookup_failed_manual_entry'));
   pending={word:dictOk?dictRes.value.word:w,phon:dictOk?dictRes.value.phon:'',meanings,ja:meaningVal,examples:[],source:lookupSource};
   if(meaningVal)$('#inJa').value=meaningVal;
   $('#btnSave').disabled=false;
 
-  // Typo-tolerant fallback: if the dictionary genuinely has no entry, ask
-  // Datamuse for spelling-close alternatives (with definitions via md=d)
-  // instead of just giving up.
-  let spellSuggestions=[];
-  if(!dictOk){
-    try{spellSuggestions=(await fetchDatamuseSpellFallback(w)).filter(s=>s.word.toLowerCase()!==w);}catch(e){}
-  }
-
   let html='<div class="preview">';
   if(dup)html+='<div class="dup">'+esc(t('dup_here',dup.name))+'</div>';
   if(meaningVal)html+='<div class="ja-big">'+esc(meaningVal)+'</div>'+(trOk?'<div class="ja-src">'+t('meaning_src')+'</div>':'');
-  if(dictOk){
+  if(haveDef){
     html+='<div style="margin-top:8px"><span class="pw">'+esc(pending.word)+'</span>'+(pending.phon?'<span class="phon">'+esc(pending.phon)+'</span>':'')+spkBtn(pending.word)+'</div>'+
       pending.meanings.map(m=>'<div class="pos">'+esc(posLabel(m.pos))+'</div><div class="def">'+esc(m.defJa||m.def)+'</div>'+
         (m.defJa&&m.defJa!==m.def?'<div class="hint" style="margin:2px 0 0">'+esc(m.def)+'</div>':'')+
@@ -3998,6 +4029,14 @@ async function lookup(){
   }else if(!meaningVal){
     html+='<div class="warn" style="margin-top:8px">'+t('not_found_meaning')+'</div>';
   }
+  // Found the word but could not translate it: two different failures that
+  // used to share one message. Saying "no meaning found" when the definition
+  // is printed directly underneath reads as the app not trusting its own eyes.
+  if(haveDef&&needTr&&!meaningVal){
+    html+='<div class="warn" style="margin-top:8px">'+t('tr_unavailable')+'</div>';
+  }
+  // Alternatives are still worth offering when the word resolved only through
+  // Datamuse -- a near-miss spelling is exactly the case that lands there.
   if(!dictOk&&spellSuggestions.length){
     html+='<div class="hint" style="margin-top:10px">'+t('maybe_mean')+'</div>'+
       '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">'+
@@ -4014,7 +4053,7 @@ async function lookup(){
       const s=window._spellSuggestions[parseInt(chip.dataset.i)];
       if(!s)return;
       inWord.value=s.word;
-      lookup();
+      lookup(s);
     });
   }
   $('#saveHint').textContent=t('hint_confirm');

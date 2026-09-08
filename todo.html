@@ -762,6 +762,20 @@ footer a{color:var(--ink-2)}
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
+          <div class="t">辞書APIが不安定</div>
+          <div class="d">api.dictionaryapi.dev は語によって 200 と 15秒タイムアウトが混ざる（apple は通り run は落ちる）。v5.64.0 から辞書が落ちても Datamuse の定義で補えるようになったので実害は下がったが、発音記号は辞書からしか取れないので、辞書が落ちた語は phon が空のまま登録される。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">翻訳が MyMemory 一本なのをどうするか</div>
+          <div class="d">2026-09-08 に MyMemory が 504 を返し続け、通る時も18秒かかる状態になった（アプリ側のタイムアウトは7秒）。この間、意味欄は全単語で空になる。定義は v5.64.0 で Datamuse から取れるようにしたので「単語が引けない」状態は解消したが、訳語は依然 MyMemory だけに依存している。代替を1つ足すか、失敗時に英語定義を意味欄へ入れてしまうか（学習データの質は下がる）、現状維持で正直なメッセージを出すだけにするかの判断が要る。いまは3つ目を選んでいる。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
           <div class="t">100語を割ったパッケージを埋めるか</div>
           <div class="d">重複語を抜いた結果 common_phrasal_verbs 98／conversation_fillers_reactions 99／common_phrasal_verbs_part2 99／housing_and_official_procedures 98／job_hunting_interviews 99 になっている。english_grammar_talk と studyabroad は分割の結果 49。学習上どうでもいい差だが、一覧に並ぶ数字としては揃っていない方が気になるかもしれない。</div>
         </div>
