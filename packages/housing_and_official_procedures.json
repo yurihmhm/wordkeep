@@ -1,6 +1,6 @@
 {
  "id": "housing_and_official_procedures",
- "v": 2,
+ "v": 3,
  "title": {
   "ja": "住まい・契約・役所",
   "en": "Housing, Contracts & Government Offices",
@@ -171,7 +171,7 @@
   },
   {
    "word": "furnished",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "家具付きの",
     "en": "already having furniture inside",
@@ -184,7 +184,7 @@
   },
   {
    "word": "vacant",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "空いている",
     "en": "empty and available to move into",
@@ -418,7 +418,7 @@
   },
   {
    "word": "valid",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "有効な",
     "en": "legally acceptable at this time",
@@ -548,7 +548,7 @@
   },
   {
    "word": "broken",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "壊れている",
     "en": "not working or damaged",
@@ -652,7 +652,7 @@
   },
   {
    "word": "refundable",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "返金可能な",
     "en": "able to be paid back",
@@ -925,7 +925,7 @@
   },
   {
    "word": "pending",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "審査中の",
     "en": "waiting for a decision or approval",

@@ -1,6 +1,6 @@
 {
  "id": "ai_en",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "AI・生成AIの英単語",
   "en": "AI & Generative AI",
@@ -93,7 +93,7 @@
   },
   {
    "word": "fine-tune",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "用途に合わせて追加学習させる",
     "en": "to train a model further for one particular job",
@@ -197,7 +197,7 @@
   },
   {
    "word": "generative",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "新しく作り出す型の",
     "en": "able to produce new content rather than only sort it",
@@ -210,7 +210,7 @@
   },
   {
    "word": "multimodal",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "文章も画像も音声も扱える",
     "en": "able to handle text, images and sound together",
@@ -275,7 +275,7 @@
   },
   {
    "word": "zero-shot",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "例を示さずにやらせる",
     "en": "asking for a task with no examples given",
@@ -288,7 +288,7 @@
   },
   {
    "word": "few-shot",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "少数の例を見せてやらせる",
     "en": "giving a handful of examples first",

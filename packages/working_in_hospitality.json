@@ -1,6 +1,6 @@
 {
  "id": "working_in_hospitality",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "カフェ・レストランで働く",
   "en": "Working in Cafés & Restaurants",
@@ -210,7 +210,7 @@
   },
   {
    "word": "vegetarian",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "肉を食べない",
     "en": "eating no meat",
@@ -223,7 +223,7 @@
   },
   {
    "word": "gluten-free",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "小麦を含まない",
     "en": "made without wheat protein",
@@ -444,7 +444,7 @@
   },
   {
    "word": "fully booked",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "満席の",
     "en": "with no free places left",

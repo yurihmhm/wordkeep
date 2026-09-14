@@ -288,13 +288,17 @@ label.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);
 .stp-labs span.on{color:var(--tab-on)}
 .set-row.stack .stepper{width:100%}
 .mk-chips{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}
-.mk-chip,.rg-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
+.mk-chip,.rg-chip,.ps-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);
   background:var(--surface);color:var(--muted);border-radius:99px;padding:5px 11px;
   font-size:12.5px;font-weight:600;cursor:pointer}
 .mk-chip svg{width:13px;height:13px}
 .mk-chip.on.m-fav{color:var(--mk-fav);border-color:var(--mk-fav);background:var(--mk-fav-bg)}
 .mk-chip.on.m-hard{color:var(--mk-hard);border-color:var(--mk-hard);background:var(--mk-hard-bg)}
 .rg-chips{margin-bottom:6px}
+.ps-chip{padding:5px 9px}
+.ps-chip.on{color:#fff;background:var(--fill);border-color:var(--fill)}
+.ps-chip .ps-n{font-weight:600;opacity:.7}
+.ps-chip.on .ps-n{opacity:.85}
 .rg-chip .rf{font-size:13px;line-height:1}
 .rg-chip.on{color:var(--ink-strong);border-color:var(--fill);background:var(--surface-2)}
 .rg-chip:not(.on){opacity:.45;border-style:dashed}
@@ -1570,7 +1574,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.64.0';
+const APP_VERSION='5.65.0';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -1583,7 +1587,8 @@ const APP_VERSION='5.64.0';
 // older versions get their own dedicated keys so their text survives being
 // overwritten each release. `date` (optional) shows next to the version.
 const CHANGELOG=[
-  {version:'5.64.0',date:'2026-09-08',keys:['wn1'],show:true},
+  {version:'5.65.0',date:'2026-09-14',keys:['wn1'],show:true},
+  {version:'5.64.0',date:'2026-09-08',keys:['v5640_1'],show:true},
   {version:'5.63.0',date:'2026-09-05',keys:['v5630_1'],show:true},
   {version:'5.62.0',date:'2026-09-05',keys:['v5620_1'],show:true},
   {version:'5.61.0',date:'2026-09-05',keys:['v5610_1'],show:true},
@@ -1708,7 +1713,8 @@ function navigatorLang(){
 
 /* ---------- i18n ---------- */
 const T={
-  wn1:{ja:'単語を追加するときに<b>「意味が見つかりません」と出る場面を減らしました</b>。辞書に載っていない語（syncing など）でも、候補に出ていた説明をそのまま使えるようになっています。候補をタップしたときに、いま見えている説明が消えてしまう問題も直しました。翻訳サービスがつながらないときは、そう書くようにしました。',en:'Adding a word says <b>“no meaning found” far less often</b>. Words the dictionary does not carry — syncing, for one — now use the explanation that was already showing on the suggestion beneath them. Tapping a suggestion no longer throws away the definition you could see. And when the translation service is down, it now says so instead of blaming the word.',zh:'添加单词时<b>「找不到意思」的情况大幅减少</b>。词典里没有的词（如 syncing）现在会直接使用下方候选里已经显示的解释。点击候选时解释被丢弃的问题也已修复。翻译服务连不上时，会如实说明。',fr:'L\'ajout d\'un mot affiche <b>bien moins souvent « sens introuvable »</b>. Les mots absents du dictionnaire — syncing, par exemple — utilisent désormais l\'explication déjà affichée sur la suggestion en dessous. Toucher une suggestion ne jette plus la définition que vous aviez sous les yeux. Et quand le service de traduction ne répond pas, c\'est ce qui est écrit.',ar:'صارت رسالة <b>«لم يُعثر على معنى» أقل بكثير</b> عند إضافة كلمة. الكلمات غير الموجودة في القاموس — مثل syncing — تستخدم الآن الشرح الظاهر أصلا في الاقتراح أسفلها. والضغط على اقتراح لم يعد يُلقي بالتعريف الذي كنت تراه. وإن تعذّر الوصول إلى خدمة الترجمة، يُقال ذلك صراحة.',ko:'단어를 추가할 때 <b>«뜻을 찾지 못했습니다»가 나오는 경우를 크게 줄였습니다</b>. 사전에 없는 단어(syncing 등)도 아래 후보에 이미 보이던 설명을 그대로 쓰게 했습니다. 후보를 눌렀을 때 보이던 설명이 사라지던 문제도 고쳤습니다. 번역 서비스가 연결되지 않을 때는 그렇게 안내합니다.',ru:'При добавлении слова <b>«значение не найдено» появляется гораздо реже</b>. Слова, которых нет в словаре — например syncing, — теперь берут то самое объяснение, что уже показывалось в подсказке ниже. Нажатие на подсказку больше не выбрасывает определение, которое вы видели. А если сервис перевода недоступен, так и написано.'},
+  wn1:{ja:'単語リストを<b>品詞（名・動・形・副・句など）でも絞り込める</b>ようになりました。お気に入り・苦手マークや検索と組み合わせて使えます。あわせて単語パッケージの<b>品詞の付け間違いを約520語ぶん直しました</b>。形容詞が「Adj」と表示されていた問題も直っています。',en:'The word list can now be <b>filtered by part of speech</b> — noun, verb, adjective, adverb, phrase and more — and it combines with favourites, trouble words and search. We also <b>corrected the part of speech on about 520 package words</b> that had been filed under the wrong one.',zh:'单词列表现在可以<b>按词性（名・动・形・副・短语等）筛选</b>，并能与收藏、难词标记和搜索组合使用。同时<b>修正了单词包中约520个词的词性标注</b>。',fr:'La liste de mots se <b>filtre désormais par nature</b> — nom, verbe, adjectif, adverbe, locution… — en combinaison avec les favoris, les mots difficiles et la recherche. Nous avons aussi <b>corrigé la nature d\'environ 520 mots</b> des packs, classés au mauvais endroit.',ar:'صار بالإمكان <b>تصفية قائمة الكلمات حسب نوع الكلمة</b> — اسم وفعل وصفة وظرف وعبارة وغيرها — مع الجمع بينها وبين المفضلة والكلمات الصعبة والبحث. كما <b>صحّحنا نوع نحو 520 كلمة</b> في الحزم كانت مصنّفة خطأ.',ko:'단어 목록을 <b>품사(명・동・형・부・구 등)로도 좁혀 볼 수</b> 있게 됐습니다. 즐겨찾기・어려움 표시나 검색과 함께 쓸 수 있습니다. 아울러 단어 패키지의 <b>잘못 붙은 품사를 약 520단어 고쳤습니다</b>.',ru:'Список слов теперь <b>фильтруется по части речи</b> — сущ., гл., прил., нар., фраза и другие — вместе с избранным, трудными словами и поиском. Заодно <b>исправлена часть речи примерно у 520 слов</b> в наборах.'},
+  v5640_1:{ja:'単語を追加するときに<b>「意味が見つかりません」と出る場面を減らしました</b>。辞書に載っていない語（syncing など）でも、候補に出ていた説明をそのまま使えるようになっています。候補をタップしたときに、いま見えている説明が消えてしまう問題も直しました。翻訳サービスがつながらないときは、そう書くようにしました。',en:'Adding a word says <b>“no meaning found” far less often</b>. Words the dictionary does not carry — syncing, for one — now use the explanation that was already showing on the suggestion beneath them. Tapping a suggestion no longer throws away the definition you could see. And when the translation service is down, it now says so instead of blaming the word.',zh:'添加单词时<b>「找不到意思」的情况大幅减少</b>。词典里没有的词（如 syncing）现在会直接使用下方候选里已经显示的解释。点击候选时解释被丢弃的问题也已修复。翻译服务连不上时，会如实说明。',fr:'L\'ajout d\'un mot affiche <b>bien moins souvent « sens introuvable »</b>. Les mots absents du dictionnaire — syncing, par exemple — utilisent désormais l\'explication déjà affichée sur la suggestion en dessous. Toucher une suggestion ne jette plus la définition que vous aviez sous les yeux. Et quand le service de traduction ne répond pas, c\'est ce qui est écrit.',ar:'صارت رسالة <b>«لم يُعثر على معنى» أقل بكثير</b> عند إضافة كلمة. الكلمات غير الموجودة في القاموس — مثل syncing — تستخدم الآن الشرح الظاهر أصلا في الاقتراح أسفلها. والضغط على اقتراح لم يعد يُلقي بالتعريف الذي كنت تراه. وإن تعذّر الوصول إلى خدمة الترجمة، يُقال ذلك صراحة.',ko:'단어를 추가할 때 <b>«뜻을 찾지 못했습니다»가 나오는 경우를 크게 줄였습니다</b>. 사전에 없는 단어(syncing 등)도 아래 후보에 이미 보이던 설명을 그대로 쓰게 했습니다. 후보를 눌렀을 때 보이던 설명이 사라지던 문제도 고쳤습니다. 번역 서비스가 연결되지 않을 때는 그렇게 안내합니다.',ru:'При добавлении слова <b>«значение не найдено» появляется гораздо реже</b>. Слова, которых нет в словаре — например syncing, — теперь берут то самое объяснение, что уже показывалось в подсказке ниже. Нажатие на подсказку больше не выбрасывает определение, которое вы видели. А если сервис перевода недоступен, так и написано.'},
   v5630_1:{ja:'アプリの<b>起動が速くなりました</b>。毎回サーバーの返事を待ってから画面を出していたのをやめ、すぐ表示して裏で更新するようにしました。<b>英語スラングを180語に増量</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42）。ワーホリ向けにオーストラリアを厚めにしています。設定の<b>発音の自動再生を最初からオン</b>にしました。',en:'The app <b>opens faster</b>. It used to wait for the server every single launch before drawing anything; now it shows immediately and refreshes behind you. <b>Slang grown to 180 words</b> — 58 Australian, 40 American, 40 British, 42 heard everywhere — weighted towards Australia for working-holiday folk. <b>Pronunciation now plays automatically</b> out of the box.',zh:'应用<b>启动更快了</b>。以前每次都要等服务器回应才显示，现在会立刻打开并在后台更新。<b>英语俚语增加到180词</b>（🇦🇺58・🇺🇸40・🇬🇧40・🌐42），为打工度假者加重了澳洲部分。设置里的<b>自动发音默认开启</b>。',fr:'L\'app <b>s\'ouvre plus vite</b> : elle attendait le serveur à chaque lancement avant d\'afficher quoi que ce soit ; elle s\'affiche maintenant tout de suite et se met à jour derrière. <b>L\'argot passe à 180 mots</b> — 58 australiens, 40 américains, 40 britanniques, 42 partout — avec l\'Australie renforcée pour les PVTistes. <b>La prononciation se joue automatiquement</b> par défaut.',ar:'صار التطبيق <b>يفتح أسرع</b>. كان ينتظر الخادم في كل تشغيل قبل أن يرسم شيئا، وصار يظهر فورا ويحدّث نفسه في الخلفية. و<b>العامية صارت 180 كلمة</b>: 58 أسترالية و40 أمريكية و40 بريطانية و42 مشتركة، مع ترجيح أستراليا لمن يسافر بإجازة عمل. و<b>النطق يُشغَّل تلقائيا</b> افتراضيا.',ko:'앱이 <b>더 빨리 열립니다</b>. 매번 서버 응답을 기다린 뒤에 화면을 그리던 것을 그만두고, 바로 보여 주고 뒤에서 갱신합니다. <b>영어 슬랭을 180단어로 늘렸습니다</b>(🇦🇺58·🇺🇸40·🇬🇧40·🌐42). 워홀 가는 분들을 위해 호주를 두껍게 했습니다. 설정의 <b>발음 자동 재생을 기본으로 켰습니다</b>.',ru:'Приложение <b>открывается быстрее</b>: раньше каждый запуск ждал ответа сервера, прежде чем что-то нарисовать, — теперь показывает сразу и обновляется позади. <b>Сленг вырос до 180 слов</b>: 58 австралийских, 40 американских, 40 британских, 42 общих — с упором на Австралию для тех, кто едет по рабочей визе. <b>Произношение теперь озвучивается автоматически</b> по умолчанию.'},
   v5620_1:{ja:'大きすぎた2つのパッケージを分けました。「語学留学の英単語」148語は<b>授業と課題／文法・発音を説明する英語／考えを説明する英語</b>の3つに、「ワーホリ」106語は<b>手続きと仕事さがし／お金と暮らし</b>の2つになりました。あわせて、2つのパッケージに同じ単語が入っていたところを整理しました。<b>全21パッケージ・1,691語</b>です。',en:'Two packs had grown too big to be one thing. The 148-word study-abroad pack is now three — <b>class and coursework, talking about English itself, and explaining what you think</b> — and the 106-word working-holiday pack is two: <b>paperwork and job hunting</b>, and <b>money and daily life</b>. Words that sat in two packs at once were sorted out at the same time. <b>21 packs, 1,691 words</b>.',zh:'两个过大的单词包已拆分。148词的「语言学校」拆成<b>课堂与作业／谈论英语本身／表达想法</b>三个，106词的「打工度假」拆成<b>手续与找工作／钱与生活</b>两个。同时整理了同一个词出现在两个包里的情况。<b>共21个单词包、1,691词</b>。',fr:'Deux packs étaient devenus trop gros. Les 148 mots de l\'école de langue se divisent en trois — <b>cours et devoirs, parler de l\'anglais, expliquer sa pensée</b> — et les 106 du PVT en deux : <b>démarches et recherche d\'emploi</b>, et <b>argent et vie quotidienne</b>. Les mots présents dans deux packs à la fois ont été démêlés. <b>21 packs, 1 691 mots</b>.',ar:'حزمتان كبرتا أكثر من اللازم فقُسمتا. حزمة مدرسة اللغة (148 كلمة) صارت ثلاثًا: <b>الحصص والواجبات، والحديث عن الإنجليزية، وشرح ما تفكر فيه</b>. وحزمة إجازة العمل (106) صارت اثنتين: <b>الإجراءات والبحث عن عمل</b> و<b>المال والحياة اليومية</b>. وعولجت الكلمات التي كانت في حزمتين معًا. <b>21 حزمة و1691 كلمة</b>.',ko:'너무 커진 두 패키지를 나눴습니다. 148단어짜리 «어학연수»는 <b>수업과 과제 / 문법·발음을 설명하는 영어 / 생각을 설명하는 영어</b> 셋으로, 106단어짜리 «워홀»은 <b>절차와 일자리 찾기 / 돈과 생활</b> 둘로 나뉘었습니다. 두 패키지에 같은 단어가 들어 있던 부분도 함께 정리했습니다. <b>총 21개 패키지 1,691단어</b>입니다.',ru:'Два набора разрослись сверх меры и разделены. Набор языковой школы (148 слов) стал тремя — <b>занятия и задания, слова о самом английском, объяснение своей мысли</b>, — а набор рабочих каникул (106) стал двумя: <b>документы и поиск работы</b> и <b>деньги и быт</b>. Заодно разобраны слова, стоявшие сразу в двух наборах. <b>21 набор, 1691 слово</b>.'},
   v5610_1:{ja:'副詞を<b>初級50・中級100・上級50</b>の3段階に分け直しました。中級は<b>実用的な〜ly系</b>を中心に100語です。チュートリアルは、<b>指していた場所が違っていたのを直し</b>、単語帳がどの画面からでも切り替えられることも案内するようにしました。説明文は<b>タイピング風</b>に出ます。',en:'The adverbs are now three tiers — <b>50 beginner, 100 intermediate, 50 advanced</b> — with the middle hundred built around the <b>practical -ly words</b>. In the tour, <b>the step that pointed at the wrong thing is fixed</b>, and it now shows that your wordbook can be switched from any screen. The lines <b>type themselves in</b>.',zh:'副词重新分成<b>初级50・中级100・高级50</b>三档，中级一百个以<b>实用的 -ly 副词</b>为主。导览里<b>指错位置的那一步已修正</b>，并会说明单词本在任何页面都能切换。说明文字改为<b>打字机效果</b>呈现。',fr:'Les adverbes sont désormais sur trois niveaux — <b>50 débutant, 100 intermédiaire, 50 avancé</b> — les cent du milieu bâtis autour des <b>adverbes en -ly utiles</b>. Dans le tour, <b>l\'étape qui désignait la mauvaise chose est corrigée</b>, et il montre que le carnet se change depuis n\'importe quel écran. Les phrases <b>s\'écrivent à la machine</b>.',ar:'صارت الظروف على ثلاث مراتب: <b>50 للمبتدئ و100 للمتوسط و50 للمتقدم</b>، ومئة المتوسط مبنية على <b>ظروف -ly العملية</b>. وفي الجولة <b>صُححت الخطوة التي كانت تشير إلى المكان الخطأ</b>، وصارت تبيّن أن الدفتر يمكن تبديله من أي شاشة. والجمل <b>تُكتب أمامك حرفًا حرفًا</b>.',ko:'부사를 <b>초급 50・중급 100・고급 50</b>의 세 단계로 다시 나눴습니다. 중급 100단어는 <b>실용적인 -ly 부사</b> 중심입니다. 투어에서는 <b>엉뚱한 곳을 가리키던 단계를 고쳤고</b>, 단어장을 어느 화면에서든 바꿀 수 있다는 것도 안내합니다. 설명 문구는 <b>타이핑되는 연출</b>로 나옵니다.',ru:'Наречия разделены на три ступени — <b>50 начальных, 100 средних, 50 продвинутых</b>, — и средняя сотня построена вокруг <b>полезных наречий на -ly</b>. В туре <b>исправлен шаг, указывавший не туда</b>, и добавлено, что словарь переключается с любого экрана. Реплики <b>печатаются на глазах</b>.'},
@@ -2818,27 +2824,27 @@ function playAnswerSound(ok){
 // `v` is the content version. Bumping it makes the app re-fetch, and progress
 // survives because it is keyed by the word itself rather than by position.
 const PKG_CATALOG=[
-  {id:'academic_word_list',v:1,count:100,cefr:'B2-C1',group:'study',title:{ja:'アカデミック頻出語',en:'Core Academic Vocabulary',zh:'学术高频词',fr:'Vocabulaire académique essentiel',ar:'المفردات الأكاديمية الأساسية',ko:'학술 필수 어휘',ru:'Ключевая академическая лексика'}},
-  {id:'ai_en',v:1,count:50,cefr:'B2-C1',group:'field',title:{ja:'AI・生成AIの英単語',en:'AI & Generative AI',zh:'人工智能与生成式AI',fr:'IA et IA générative',ar:'الذكاء الاصطناعي والتوليدي',ko:'AI와 생성형 AI',ru:'ИИ и генеративный ИИ'}},
-  {id:'campus_and_dorm',v:1,count:100,cefr:'A2-B1',group:'study',title:{ja:'寮とキャンパス生活',en:'Dorm & Campus Life',zh:'宿舍与校园生活',fr:'Vie en résidence et sur le campus',ar:'الحياة في السكن الجامعي والحرم',ko:'기숙사와 캠퍼스 생활',ru:'Общежитие и жизнь в кампусе'}},
-  {id:'common_adverbs',v:2,count:50,cefr:'A2',group:'daily',title:{ja:'よく使う副詞 初級編',en:'Everyday Adverbs, Beginner',zh:'常用副词（初级）',fr:'Adverbes courants (débutant)',ar:'ظروف شائعة (مبتدئ)',ko:'자주 쓰는 부사 (초급)',ru:'Частые наречия (базовый)'}},
-  {id:'common_adverbs_mid',v:1,count:100,cefr:'B1-B2',group:'daily',title:{ja:'よく使う副詞 中級編',en:'Everyday Adverbs, Practical',zh:'常用副词（中级）',fr:'Adverbes courants (intermédiaire)',ar:'ظروف شائعة (متوسط)',ko:'자주 쓰는 부사 (중급)',ru:'Частые наречия (средний)'}},
-  {id:'common_adverbs_part2',v:2,count:50,cefr:'B2-C1',group:'daily',title:{ja:'よく使う副詞 上級編',en:'Everyday Adverbs, Advanced',zh:'常用副词（高级）',fr:'Adverbes courants (avancé)',ar:'ظروف شائعة (متقدم)',ko:'자주 쓰는 부사 (고급)',ru:'Частые наречия (продвинутый)'}},
+  {id:'academic_word_list',v:2,count:100,cefr:'B2-C1',group:'study',title:{ja:'アカデミック頻出語',en:'Core Academic Vocabulary',zh:'学术高频词',fr:'Vocabulaire académique essentiel',ar:'المفردات الأكاديمية الأساسية',ko:'학술 필수 어휘',ru:'Ключевая академическая лексика'}},
+  {id:'ai_en',v:2,count:50,cefr:'B2-C1',group:'field',title:{ja:'AI・生成AIの英単語',en:'AI & Generative AI',zh:'人工智能与生成式AI',fr:'IA et IA générative',ar:'الذكاء الاصطناعي والتوليدي',ko:'AI와 생성형 AI',ru:'ИИ и генеративный ИИ'}},
+  {id:'campus_and_dorm',v:2,count:100,cefr:'A2-B1',group:'study',title:{ja:'寮とキャンパス生活',en:'Dorm & Campus Life',zh:'宿舍与校园生活',fr:'Vie en résidence et sur le campus',ar:'الحياة في السكن الجامعي والحرم',ko:'기숙사와 캠퍼스 생활',ru:'Общежитие и жизнь в кампусе'}},
+  {id:'common_adverbs',v:3,count:50,cefr:'A2',group:'daily',title:{ja:'よく使う副詞 初級編',en:'Everyday Adverbs, Beginner',zh:'常用副词（初级）',fr:'Adverbes courants (débutant)',ar:'ظروف شائعة (مبتدئ)',ko:'자주 쓰는 부사 (초급)',ru:'Частые наречия (базовый)'}},
+  {id:'common_adverbs_mid',v:2,count:100,cefr:'B1-B2',group:'daily',title:{ja:'よく使う副詞 中級編',en:'Everyday Adverbs, Practical',zh:'常用副词（中级）',fr:'Adverbes courants (intermédiaire)',ar:'ظروف شائعة (متوسط)',ko:'자주 쓰는 부사 (중급)',ru:'Частые наречия (средний)'}},
+  {id:'common_adverbs_part2',v:3,count:50,cefr:'B2-C1',group:'daily',title:{ja:'よく使う副詞 上級編',en:'Everyday Adverbs, Advanced',zh:'常用副词（高级）',fr:'Adverbes courants (avancé)',ar:'ظروف شائعة (متقدم)',ko:'자주 쓰는 부사 (고급)',ru:'Частые наречия (продвинутый)'}},
   {id:'common_phrasal_verbs',v:2,count:98,cefr:'A2-B1',group:'daily',title:{ja:'会話でよく使う句動詞 初中級編',en:'Common Phrasal Verbs, Everyday',zh:'日常会话常用短语动词（初中级）',fr:'Verbes à particule courants (débutant)',ar:'أفعال مركبة شائعة في المحادثة (مبتدئ)',ko:'대화에서 자주 쓰는 구동사 (초중급)',ru:'Частые фразовые глаголы (начальный)'}},
   {id:'common_phrasal_verbs_part2',v:2,count:99,cefr:'B2-C1',group:'daily',title:{ja:'会話でよく使う句動詞 中上級編',en:'Common Phrasal Verbs, Advanced',zh:'日常会话常用短语动词（中高级）',fr:'Verbes à particule courants (avancé)',ar:'أفعال مركبة شائعة في المحادثة (متقدم)',ko:'대화에서 자주 쓰는 구동사 (중상급)',ru:'Частые фразовые глаголы (продвинутый)'}},
-  {id:'conversation_fillers_reactions',v:2,count:99,cefr:'A2-B1',group:'daily',title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
+  {id:'conversation_fillers_reactions',v:4,count:99,cefr:'A2-B1',group:'daily',title:{ja:'日常のつなぎ言葉・相づち',en:'Everyday Fillers & Reactions',zh:'日常口头禅与附和语',fr:'Mots de liaison et réactions',ar:'عبارات ربط وردود يومية',ko:'일상 연결어·맞장구',ru:'Слова-связки и реакции'}},
   {id:'english_grammar_talk',v:2,count:49,cefr:'A2-B1',group:'study',title:{ja:'文法・発音を説明する英語',en:'Talking About English Itself',zh:'谈论英语本身的词汇',fr:'Parler de l\'anglais lui-même',ar:'الحديث عن الإنجليزية نفسها',ko:'문법·발음을 설명하는 영어',ru:'Слова о самом английском'}},
   {id:'explaining_english',v:2,count:50,cefr:'B1-B2',group:'study',title:{ja:'考えを説明する英語',en:'Explaining What You Think',zh:'表达想法时的英语',fr:'Expliquer ce que vous pensez',ar:'شرح ما تفكر فيه',ko:'생각을 설명하는 영어',ru:'Как объяснить свою мысль'}},
-  {id:'housing_and_official_procedures',v:2,count:98,cefr:'B1-B2',group:'work',title:{ja:'住まい・契約・役所',en:'Housing, Contracts & Government Offices',zh:'住房、合同与政府机关',fr:'Logement, contrats et démarches administratives',ar:'السكن والعقود والدوائر الحكومية',ko:'주거·계약·관공서',ru:'Жильё, договоры и госучреждения'}},
-  {id:'job_hunting_interviews',v:2,count:99,cefr:'B1-B2',group:'work',title:{ja:'仕事探しと面接',en:'Job Hunting & Interviews',zh:'找工作与面试',fr:'Recherche d\'emploi et entretiens',ar:'البحث عن عمل والمقابلات',ko:'구직과 면접',ru:'Поиск работы и собеседования'}},
-  {id:'slang_en',v:1,count:180,cefr:'B1-B2',group:'daily',title:{ja:'英語スラング',en:'English Slang',zh:'英语俚语',fr:'Argot anglais',ar:'العامية الإنجليزية',ko:'영어 슬랭',ru:'Английский сленг'}},
+  {id:'housing_and_official_procedures',v:3,count:98,cefr:'B1-B2',group:'work',title:{ja:'住まい・契約・役所',en:'Housing, Contracts & Government Offices',zh:'住房、合同与政府机关',fr:'Logement, contrats et démarches administratives',ar:'السكن والعقود والدوائر الحكومية',ko:'주거·계약·관공서',ru:'Жильё, договоры и госучреждения'}},
+  {id:'job_hunting_interviews',v:3,count:99,cefr:'B1-B2',group:'work',title:{ja:'仕事探しと面接',en:'Job Hunting & Interviews',zh:'找工作与面试',fr:'Recherche d\'emploi et entretiens',ar:'البحث عن عمل والمقابلات',ko:'구직과 면접',ru:'Поиск работы и собеседования'}},
+  {id:'slang_en',v:3,count:180,cefr:'B1-B2',group:'daily',title:{ja:'英語スラング',en:'English Slang',zh:'英语俚语',fr:'Argot anglais',ar:'العامية الإنجليزية',ko:'영어 슬랭',ru:'Английский сленг'}},
   {id:'studyabroad',v:5,count:49,cefr:'A2-B1',group:'study',title:{ja:'語学学校の授業と課題',en:'Language School: Class & Coursework',zh:'语言学校的课堂与作业',fr:'École de langue : cours et devoirs',ar:'مدرسة اللغة: الحصص والواجبات',ko:'어학원 수업과 과제',ru:'Языковая школа: занятия и задания'}},
-  {id:'tech_en',v:1,count:100,cefr:'B1-B2',group:'field',title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
-  {id:'university_coursework',v:1,count:100,cefr:'B2-C1',group:'study',title:{ja:'大学の授業と課題',en:'University Classes & Coursework',zh:'大学课程与作业',fr:'Cours et travaux universitaires',ar:'المحاضرات والواجبات الجامعية',ko:'대학 수업과 과제',ru:'Учёба и задания в университете'}},
+  {id:'tech_en',v:2,count:100,cefr:'B1-B2',group:'field',title:{ja:'IT・テックの英単語',en:'IT and Tech English Words',zh:'IT・科技英语单词',fr:'Vocabulaire anglais de l’informatique',ar:'مفردات إنجليزية في تقنية المعلومات',ko:'IT·테크 영단어',ru:'Английские слова из сферы IT'}},
+  {id:'university_coursework',v:2,count:100,cefr:'B2-C1',group:'study',title:{ja:'大学の授業と課題',en:'University Classes & Coursework',zh:'大学课程与作业',fr:'Cours et travaux universitaires',ar:'المحاضرات والواجبات الجامعية',ko:'대학 수업과 과제',ru:'Учёба и задания в университете'}},
   {id:'wh_money_housing',v:2,count:50,cefr:'A2-B1',group:'work',title:{ja:'ワーホリのお金と暮らし',en:'Working Holiday: Money & Daily Life',zh:'打工度假：钱与生活',fr:'PVT : argent et vie quotidienne',ar:'إجازة العمل: المال والحياة اليومية',ko:'워홀의 돈과 생활',ru:'Рабочие каникулы: деньги и быт'}},
-  {id:'working_in_hospitality',v:1,count:100,cefr:'A2-B1',group:'work',title:{ja:'カフェ・レストランで働く',en:'Working in Cafés & Restaurants',zh:'在咖啡馆和餐厅工作',fr:'Travailler en café et restaurant',ar:'العمل في المقاهي والمطاعم',ko:'카페·레스토랑에서 일하기',ru:'Работа в кафе и ресторанах'}},
-  {id:'workingholiday_en',v:4,count:50,cefr:'A2-B1',group:'work',title:{ja:'ワーホリの手続きと仕事さがし',en:'Working Holiday: Paperwork & Finding Work',zh:'打工度假：手续与找工作',fr:'PVT : démarches et recherche d\'emploi',ar:'إجازة العمل: الإجراءات والبحث عن عمل',ko:'워홀 절차와 일자리 찾기',ru:'Рабочие каникулы: документы и поиск работы'}},
-  {id:'workplace_issues',v:1,count:100,cefr:'B1-B2',group:'work',title:{ja:'職場での会話とトラブル',en:'Workplace Talk & Problems',zh:'职场沟通与问题',fr:'Communication et problèmes au travail',ar:'التواصل والمشكلات في العمل',ko:'직장 대화와 문제 상황',ru:'Общение и проблемы на работе'}},
+  {id:'working_in_hospitality',v:2,count:100,cefr:'A2-B1',group:'work',title:{ja:'カフェ・レストランで働く',en:'Working in Cafés & Restaurants',zh:'在咖啡馆和餐厅工作',fr:'Travailler en café et restaurant',ar:'العمل في المقاهي والمطاعم',ko:'카페·레스토랑에서 일하기',ru:'Работа в кафе и ресторанах'}},
+  {id:'workingholiday_en',v:5,count:50,cefr:'A2-B1',group:'work',title:{ja:'ワーホリの手続きと仕事さがし',en:'Working Holiday: Paperwork & Finding Work',zh:'打工度假：手续与找工作',fr:'PVT : démarches et recherche d\'emploi',ar:'إجازة العمل: الإجراءات والبحث عن عمل',ko:'워홀 절차와 일자리 찾기',ru:'Рабочие каникулы: документы и поиск работы'}},
+  {id:'workplace_issues',v:2,count:100,cefr:'B1-B2',group:'work',title:{ja:'職場での会話とトラブル',en:'Workplace Talk & Problems',zh:'职场沟通与问题',fr:'Communication et problèmes au travail',ar:'التواصل والمشكلات في العمل',ko:'직장 대화와 문제 상황',ru:'Общение и проблемы на работе'}},
 ];
 /* ---- shared decks ---------------------------------------------------------
    A deck somebody published is a package whose author is a user rather than
@@ -4439,7 +4445,7 @@ const POS_LABEL={
   article:{ja:'冠',en:'Art',zh:'冠',fr:'Art',ar:'أداة تعريف',ko:'관',ru:'артикль'}
 };
 function posLabel(pos){
-  const key=(pos||'').toLowerCase().trim();
+  const key=bulkPosKey(pos);
   const m=POS_LABEL[key];
   if(m)return m[S().lang]||m.en;
   return pos?pos.charAt(0).toUpperCase()+pos.slice(1,4):'';
@@ -4700,14 +4706,48 @@ function renderListModes(){
 // are not that row coming back: they appear only once the user has marked
 // something themselves, so they are never noise on a list that has no marks.
 let listMark=null;
-function markChipsHTML(){
+function markChipButtons(){
   const avail=MARKS.filter(m=>markCount(m));
   if(!avail.length){listMark=null;return '';}
   if(listMark&&!avail.includes(listMark))listMark=null;
-  return '<div class="mk-chips">'+avail.map(m=>
+  return avail.map(m=>
     '<button class="mk-chip m-'+m+(listMark===m?' on':'')+'" data-mk="'+m+'">'+
-      (m==='fav'?FAV_SVG:HARD_SVG)+esc(t('mark_'+m))+' '+markCount(m)+'</button>').join('')+
-  '</div>';
+      (m==='fav'?FAV_SVG:HARD_SVG)+esc(t('mark_'+m))+' '+markCount(m)+'</button>').join('');
+}
+/* Part of speech, alongside the marks. One tap narrows to 名 or 動 and a
+   second tap lets go, the same way the marks behave, and the two combine.
+
+   Keyed through bulkPosKey so "adj", "形容詞" and "adjective" are one chip --
+   packages used the short form for months while the labels only knew the
+   long one, which is why adjectives in the slang list read "Adj" in Japanese.
+
+   Only drawn when there are at least two parts of speech to choose between:
+   the adverb packs are all adverbs, and a filter with one option is a label
+   pretending to be a control. */
+let listPos=null;
+const POS_ORDER=['noun','verb','adjective','adverb','phrase','preposition','conjunction','pronoun','interjection','numeral','determiner','article'];
+function posKey(w){
+  const k=bulkPosKey(w&&w.meanings&&w.meanings[0]&&w.meanings[0].pos);
+  return POS_LABEL[k]?k:'';
+}
+function posChipButtons(words){
+  const counts={};
+  (words||[]).forEach(w=>{const k=posKey(w);if(k)counts[k]=(counts[k]|0)+1;});
+  const avail=POS_ORDER.filter(k=>counts[k]);
+  if(listPos&&!avail.includes(listPos))listPos=null;
+  if(avail.length<2)return '';
+  return avail.map(k=>
+    '<button class="ps-chip'+(listPos===k?' on':'')+'" data-pos="'+k+'" aria-pressed="'+(listPos===k)+'">'+
+      esc(posLabel(k))+' <span class="ps-n">'+counts[k]+'</span></button>').join('');
+}
+function bindPosChips(){
+  // Its own class on purpose: bindMarkChips claims every .mk-chip in this box,
+  // and borrowing that class once already left chips that looked right and
+  // did nothing.
+  $$('#listMarks .ps-chip').forEach(b=>b.onclick=()=>{
+    listPos=listPos===b.dataset.pos?null:b.dataset.pos;
+    renderList();
+  });
 }
 function bindMarkChips(){
   $$('#listMarks .mk-chip').forEach(b=>b.onclick=()=>{
@@ -4861,9 +4901,18 @@ function renderList(){
   const q=$('#search').value.trim().toLowerCase();
   let arr=curWords();
   const mk=$('#listMarks');
-  if(mk){mk.innerHTML=regionChipsHTML()+markChipsHTML();bindRegionChips();bindMarkChips();}
+  if(mk){
+    const mb=markChipButtons(), pb=posChipButtons(arr);
+    // Marks and parts of speech on separate rows: sharing one row put a single
+    // 名 chip after the divider and wrapped the rest, which read as a mistake.
+    mk.innerHTML=regionChipsHTML()+
+      (mb?'<div class="mk-chips">'+mb+'</div>':'')+
+      (pb?'<div class="mk-chips ps-chips">'+pb+'</div>':'');
+    bindRegionChips();bindMarkChips();bindPosChips();
+  }
   if(q)arr=arr.filter(w=>searchText(w).includes(q));
   if(listMark)arr=arr.filter(w=>markOf(w)===listMark);
+  if(listPos)arr=arr.filter(w=>posKey(w)===listPos);
   $('#listCount').textContent=t('n_words',arr.length);
   const p=$('#listPanel');
   const sel=$('#listSel');

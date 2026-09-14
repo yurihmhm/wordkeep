@@ -1,6 +1,6 @@
 {
  "id": "university_coursework",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "大学の授業と課題",
   "en": "University Classes & Coursework",
@@ -171,7 +171,7 @@
   },
   {
    "word": "compulsory",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "必修の",
     "en": "which you are required to take",
@@ -184,7 +184,7 @@
   },
   {
    "word": "enrol",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "履修登録する",
     "en": "to officially join a course",
@@ -197,7 +197,7 @@
   },
   {
    "word": "drop a subject",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "履修をやめる",
     "en": "to stop taking a course you signed up for",
@@ -249,7 +249,7 @@
   },
   {
    "word": "take notes",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "ノートを取る",
     "en": "to write down what is said in class",
@@ -262,7 +262,7 @@
   },
   {
    "word": "revise",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "試験に向けて復習する",
     "en": "to study again before an exam",
@@ -275,7 +275,7 @@
   },
   {
    "word": "cram",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "一夜漬けする",
     "en": "to study very hard just before an exam",
@@ -366,7 +366,7 @@
   },
   {
    "word": "recap",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "要点をおさらいする",
     "en": "to go over the main points again",
@@ -379,7 +379,7 @@
   },
   {
    "word": "miss a class",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "授業を欠席する",
     "en": "to not go to a lesson",
@@ -392,7 +392,7 @@
   },
   {
    "word": "skim",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "ざっと目を通す",
     "en": "to read quickly to get the general idea",
@@ -405,7 +405,7 @@
   },
   {
    "word": "annotate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "書き込みを入れる",
     "en": "to add notes to a text as you read",
@@ -509,7 +509,7 @@
   },
   {
    "word": "marked down",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "減点された",
     "en": "given a lower score because of a fault",
@@ -522,7 +522,7 @@
   },
   {
    "word": "pass",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "合格する",
     "en": "to reach the score needed to succeed",
@@ -535,7 +535,7 @@
   },
   {
    "word": "fail",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "不合格になる",
     "en": "to score below what is needed",
@@ -626,7 +626,7 @@
   },
   {
    "word": "sit an exam",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "試験を受ける",
     "en": "to take a test in the exam room",
@@ -639,7 +639,7 @@
   },
   {
    "word": "open book",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "資料持ち込み可の",
     "en": "allowing you to use your notes during the test",
@@ -652,7 +652,7 @@
   },
   {
    "word": "multiple choice",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "選択肢から選ぶ形式",
     "en": "a question where you pick one of several answers",
@@ -665,7 +665,7 @@
   },
   {
    "word": "short answer",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "短文で答える形式",
     "en": "a question answered in a sentence or two",
@@ -704,7 +704,7 @@
   },
   {
    "word": "cheat",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "不正行為をする",
     "en": "to break the rules to get a better score",
@@ -977,7 +977,7 @@
   },
   {
    "word": "cite",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "出典として挙げる",
     "en": "to name the source you used",
@@ -1016,7 +1016,7 @@
   },
   {
    "word": "quote",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "そのまま引用する",
     "en": "to use someone's exact words",
@@ -1029,7 +1029,7 @@
   },
   {
    "word": "paraphrase",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "自分の言葉で言い換える",
     "en": "to say the same idea in your own words",
@@ -1068,7 +1068,7 @@
   },
   {
    "word": "proofread",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "誤字脱字を直す",
     "en": "to check writing for small mistakes",
@@ -1094,7 +1094,7 @@
   },
   {
    "word": "hand in",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "課題を出す",
     "en": "to give completed work to a teacher",
@@ -1120,7 +1120,7 @@
   },
   {
    "word": "overdue",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "期限を過ぎた",
     "en": "later than the date it should have been in",
@@ -1159,7 +1159,7 @@
   },
   {
    "word": "resubmit",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "出し直す",
     "en": "to hand the work in again after changes",
@@ -1172,7 +1172,7 @@
   },
   {
    "word": "resit",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "追試を受ける",
     "en": "to take an exam again after failing",
@@ -1185,7 +1185,7 @@
   },
   {
    "word": "retake",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "科目を取り直す",
     "en": "to study a whole subject again",
@@ -1198,7 +1198,7 @@
   },
   {
    "word": "defer",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "受験や提出を延期する",
     "en": "to officially postpone an exam or assessment",
@@ -1211,7 +1211,7 @@
   },
   {
    "word": "appeal",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "成績に異議を申し立てる",
     "en": "to formally ask for a decision to be reviewed",
@@ -1276,7 +1276,7 @@
   },
   {
    "word": "catch up on",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "遅れを取り戻す",
     "en": "to do work you did not do earlier",
@@ -1289,7 +1289,7 @@
   },
   {
    "word": "fall behind on",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "進度に遅れる",
     "en": "to fail to keep up with the work",
@@ -1310,7 +1310,8 @@
     "ar": "المرشد الأكاديمي",
     "ko": "학업 지도 교수",
     "ru": "научный руководитель по учёбе"
-   }
+   },
+   "pos": "noun"
   }
  ]
 }

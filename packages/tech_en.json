@@ -1,6 +1,6 @@
 {
  "id": "tech_en",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "IT・テックの英単語",
   "en": "IT and Tech English Words",
@@ -470,7 +470,7 @@
   },
   {
    "word": "server-side",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "サーバー側の",
     "en": "happening on the server rather than the user’s device",
@@ -613,7 +613,7 @@
   },
   {
    "word": "scalable",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "拡張性のある",
     "en": "able to handle growth without breaking",
@@ -626,7 +626,7 @@
   },
   {
    "word": "deprecated",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "非推奨の",
     "en": "kept working for now but no longer recommended",
@@ -730,7 +730,7 @@
   },
   {
    "word": "offline",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "ネットにつながっていない",
     "en": "not connected to the internet",
@@ -743,7 +743,7 @@
   },
   {
    "word": "sync",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "複数の端末で内容をそろえる",
     "en": "to keep the same data on several devices",
@@ -899,7 +899,7 @@
   },
   {
    "word": "sign out",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "サインアウトする",
     "en": "to leave your account so others cannot use it",
@@ -912,7 +912,7 @@
   },
   {
    "word": "crash",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "突然落ちる",
     "en": "to stop working suddenly",
@@ -925,7 +925,7 @@
   },
   {
    "word": "restart",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "再起動する",
     "en": "to turn a device off and on again",
@@ -964,7 +964,7 @@
   },
   {
    "word": "upgrade",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "上位のものに変える",
     "en": "to move to a better or newer version",
@@ -990,7 +990,7 @@
   },
   {
    "word": "open source",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "公開されていて誰でも使える",
     "en": "with code anyone can see and use",
@@ -1029,7 +1029,7 @@
   },
   {
    "word": "screen share",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "画面を相手に見せる",
     "en": "to show your screen to others in a call",

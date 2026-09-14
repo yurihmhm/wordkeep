@@ -1,6 +1,6 @@
 {
  "id": "job_hunting_interviews",
- "v": 2,
+ "v": 3,
  "title": {
   "ja": "仕事探しと面接",
   "en": "Job Hunting & Interviews",
@@ -106,7 +106,7 @@
   },
   {
    "word": "full-time",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "常勤の",
     "en": "working the full standard number of hours",
@@ -119,7 +119,7 @@
   },
   {
    "word": "part-time",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "非常勤の",
     "en": "working fewer than full hours",
@@ -132,7 +132,7 @@
   },
   {
    "word": "casual",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "不定期雇用の",
     "en": "employed with no guaranteed hours",
@@ -184,7 +184,7 @@
   },
   {
    "word": "entry-level",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "初心者向けの",
     "en": "suitable for someone starting out",
@@ -704,7 +704,7 @@
   },
   {
    "word": "fortnightly",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "2週間ごとの",
     "en": "happening once every two weeks",
@@ -743,7 +743,7 @@
   },
   {
    "word": "underpaid",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "賃金が不足している",
     "en": "paid less than you should be",
@@ -860,7 +860,7 @@
   },
   {
    "word": "short-staffed",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "人手が足りない",
     "en": "having fewer workers than needed",
@@ -925,7 +925,7 @@
   },
   {
    "word": "punctual",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "時間を守る",
     "en": "arriving at the right time",
@@ -938,7 +938,7 @@
   },
   {
    "word": "reliable",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "あてにできる",
     "en": "able to be trusted to do what you said",
@@ -951,7 +951,7 @@
   },
   {
    "word": "hardworking",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "よく働く",
     "en": "putting real effort into your work",

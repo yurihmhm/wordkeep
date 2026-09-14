@@ -263,6 +263,21 @@ console.log('\npkgProgressPct (works before the words are downloaded)');
     setup(50,prog); return M.pkgProgressPct('p')===100||M.pkgProgressPct('p'); });
 }
 
+console.log('\npart-of-speech filter');
+{
+  const k=pos=>M.posKey({meanings:[{pos}]});
+  // Packages wrote "adj" for months while the labels only knew "adjective",
+  // so the two have to land on the same chip.
+  t('adj and adjective are one key',()=>(k('adj')==='adjective'&&k('adjective')==='adjective')||k('adj'));
+  t('adv and adverb are one key',()=>(k('adv')==='adverb'&&k('adverb')==='adverb')||k('adv'));
+  t('Japanese names from bulk import map across',()=>
+    (k('形容詞')==='adjective'&&k('動詞')==='verb'&&k('句')==='phrase')||[k('形容詞'),k('動詞'),k('句')].join(','));
+  t('case and spaces do not matter',()=>k('  Noun ')==='noun'||k('  Noun '));
+  t('an unknown label gets no chip rather than a junk one',()=>k('abbreviation')===''||k('abbreviation'));
+  t('a word with no meanings does not throw',()=>M.posKey({})===''||M.posKey({}));
+  t('null does not throw',()=>M.posKey(null)===''||M.posKey(null));
+}
+
 console.log('\ndaily goal');
 {
   const g=v=>{M.__setSettings({dailyGoal:v});return M.dailyGoal();};

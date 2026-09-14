@@ -1,6 +1,6 @@
 {
  "id": "common_adverbs",
- "v": 2,
+ "v": 3,
  "cefr": "A2",
  "group": "daily",
  "title": {
@@ -15,7 +15,7 @@
  "words": [
   {
    "word": "always",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "いつも",
     "en": "every time, without exception",
@@ -28,7 +28,7 @@
   },
   {
    "word": "often",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "よく、たびたび",
     "en": "many times, repeatedly",
@@ -41,7 +41,7 @@
   },
   {
    "word": "never",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一度も〜ない",
     "en": "at no time at all",
@@ -54,7 +54,7 @@
   },
   {
    "word": "already",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "もう、すでに",
     "en": "before now, sooner than expected",
@@ -67,7 +67,7 @@
   },
   {
    "word": "still",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まだ続いて",
     "en": "continuing up to now",
@@ -80,7 +80,7 @@
   },
   {
    "word": "yet",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まだ〜していない",
     "en": "not up to now, in questions and negatives",
@@ -93,7 +93,7 @@
   },
   {
    "word": "just",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "たった今",
     "en": "a moment ago",
@@ -106,7 +106,7 @@
   },
   {
    "word": "soon",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まもなく",
     "en": "in a short time from now",
@@ -119,7 +119,7 @@
   },
   {
    "word": "later",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "あとで",
     "en": "at a time after now",
@@ -132,7 +132,7 @@
   },
   {
    "word": "early",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "早い時間に",
     "en": "before the usual time",
@@ -145,7 +145,7 @@
   },
   {
    "word": "late",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "遅い時間に",
     "en": "after the usual time",
@@ -158,7 +158,7 @@
   },
   {
    "word": "again",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "もう一度",
     "en": "one more time",
@@ -171,7 +171,7 @@
   },
   {
    "word": "once",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一回だけ",
     "en": "a single time",
@@ -184,7 +184,7 @@
   },
   {
    "word": "quickly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "手早く",
     "en": "taking little time",
@@ -197,7 +197,7 @@
   },
   {
    "word": "slowly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ゆっくりと",
     "en": "at a low speed",
@@ -210,7 +210,7 @@
   },
   {
    "word": "fast",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "スピードを出して",
     "en": "moving at high speed",
@@ -223,7 +223,7 @@
   },
   {
    "word": "carefully",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "注意深く",
     "en": "paying close attention",
@@ -236,7 +236,7 @@
   },
   {
    "word": "easily",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "楽々と",
     "en": "without difficulty",
@@ -249,7 +249,7 @@
   },
   {
    "word": "loudly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "大きな声で",
     "en": "making a lot of noise",
@@ -262,7 +262,7 @@
   },
   {
    "word": "quietly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "静かに",
     "en": "making little noise",
@@ -275,7 +275,7 @@
   },
   {
    "word": "badly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "下手に、ひどく",
     "en": "not well, or to a severe degree",
@@ -288,7 +288,7 @@
   },
   {
    "word": "hard",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "熱心に、力を入れて",
     "en": "with a lot of effort",
@@ -301,7 +301,7 @@
   },
   {
    "word": "almost",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "もう少しで",
     "en": "very nearly but not quite",
@@ -314,7 +314,7 @@
   },
   {
    "word": "quite",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "かなり",
     "en": "to a fair degree",
@@ -327,7 +327,7 @@
   },
   {
    "word": "enough",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "十分に",
     "en": "to the degree that is needed",
@@ -340,7 +340,7 @@
   },
   {
    "word": "too",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "〜すぎる",
     "en": "more than is wanted",
@@ -353,7 +353,7 @@
   },
   {
    "word": "very",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "とても",
     "en": "to a high degree",
@@ -366,7 +366,7 @@
   },
   {
    "word": "only",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "〜だけ",
     "en": "and nothing more",
@@ -379,7 +379,7 @@
   },
   {
    "word": "even",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "〜でさえ",
     "en": "used to stress something surprising",
@@ -392,7 +392,7 @@
   },
   {
    "word": "also",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "〜も同様に",
     "en": "in addition",
@@ -405,7 +405,7 @@
   },
   {
    "word": "together",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一緒に",
     "en": "with each other",
@@ -418,7 +418,7 @@
   },
   {
    "word": "alone",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ひとりで",
     "en": "with nobody else",
@@ -431,7 +431,7 @@
   },
   {
    "word": "everywhere",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "どこにでも",
     "en": "in all places",
@@ -444,7 +444,7 @@
   },
   {
    "word": "anywhere",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "どこへでも",
     "en": "in or to any place at all",
@@ -457,7 +457,7 @@
   },
   {
    "word": "somewhere",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "どこかに",
     "en": "in a place you cannot name",
@@ -470,7 +470,7 @@
   },
   {
    "word": "nowhere",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "どこにも〜ない",
     "en": "in no place",
@@ -483,7 +483,7 @@
   },
   {
    "word": "outside",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "外で",
     "en": "not indoors",
@@ -496,7 +496,7 @@
   },
   {
    "word": "inside",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "中で",
     "en": "indoors, within something",
@@ -509,7 +509,7 @@
   },
   {
    "word": "nearby",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "すぐ近くに",
     "en": "a short distance away",
@@ -522,7 +522,7 @@
   },
   {
    "word": "far",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "遠くに",
     "en": "a long distance away",
@@ -535,7 +535,7 @@
   },
   {
    "word": "ahead",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "前方に",
     "en": "in front, further on",
@@ -548,7 +548,7 @@
   },
   {
    "word": "straight",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まっすぐに",
     "en": "in a direct line",
@@ -561,7 +561,7 @@
   },
   {
    "word": "now",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "今",
     "en": "at this moment",
@@ -574,7 +574,7 @@
   },
   {
    "word": "then",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "そのとき",
     "en": "at that moment, or next",
@@ -587,7 +587,7 @@
   },
   {
    "word": "here",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ここに",
     "en": "in this place",
@@ -600,7 +600,7 @@
   },
   {
    "word": "there",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "そこに",
     "en": "in that place",
@@ -613,7 +613,7 @@
   },
   {
    "word": "back",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "もとの場所へ",
     "en": "to the place you came from",
@@ -626,7 +626,7 @@
   },
   {
    "word": "away",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "離れたところへ",
     "en": "to or at a distance",
@@ -639,7 +639,7 @@
   },
   {
    "word": "twice",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "二回",
     "en": "two times",
@@ -652,7 +652,7 @@
   },
   {
    "word": "daily",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "毎日",
     "en": "every day",

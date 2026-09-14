@@ -1,6 +1,6 @@
 {
  "id": "workingholiday_en",
- "v": 4,
+ "v": 5,
  "cefr": "A2-B1",
  "group": "work",
  "title": {
@@ -587,7 +587,7 @@
   },
   {
    "word": "eligible",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "条件を満たしている",
     "en": "allowed to have or do something",

@@ -1,6 +1,6 @@
 {
  "id": "conversation_fillers_reactions",
- "v": 2,
+ "v": 4,
  "title": {
   "ja": "日常のつなぎ言葉・相づち",
   "en": "Everyday Fillers & Reactions",
@@ -15,7 +15,7 @@
  "words": [
   {
    "word": "well",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ええと",
     "en": "used to pause before speaking",
@@ -28,7 +28,7 @@
   },
   {
    "word": "so",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "それで",
     "en": "used to start explaining something",
@@ -41,7 +41,7 @@
   },
   {
    "word": "anyway",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "とにかく",
     "en": "used to return to a topic",
@@ -54,7 +54,7 @@
   },
   {
    "word": "actually",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "実は",
     "en": "used to say something surprising or true",
@@ -67,7 +67,7 @@
   },
   {
    "word": "basically",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "要するに",
     "en": "used to explain the main point simply",
@@ -106,7 +106,7 @@
   },
   {
    "word": "like",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "なんか",
     "en": "used casually before an example or pause",
@@ -119,7 +119,7 @@
   },
   {
    "word": "right",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "でしょ",
     "en": "used to check agreement",
@@ -132,7 +132,7 @@
   },
   {
    "word": "okay",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "じゃあ",
     "en": "used to show agreement or move on",
@@ -145,7 +145,7 @@
   },
   {
    "word": "sure",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "いいよ",
     "en": "used to agree readily",
@@ -158,7 +158,7 @@
   },
   {
    "word": "totally",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まったくその通り",
     "en": "used to agree strongly",
@@ -171,7 +171,7 @@
   },
   {
    "word": "exactly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "その通り",
     "en": "used to say something is completely correct",
@@ -184,7 +184,7 @@
   },
   {
    "word": "absolutely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "間違いなく",
     "en": "used to agree very strongly",
@@ -210,7 +210,7 @@
   },
   {
    "word": "really",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "本当に？",
     "en": "used to show surprise",
@@ -223,7 +223,7 @@
   },
   {
    "word": "seriously",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "マジで",
     "en": "used to show surprise or emphasis",
@@ -314,7 +314,7 @@
   },
   {
    "word": "honestly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "正直なところ",
     "en": "used to say you are being truthful",
@@ -340,7 +340,7 @@
   },
   {
    "word": "anyhow",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "いずれにせよ",
     "en": "used to return to the main topic",
@@ -379,7 +379,7 @@
   },
   {
    "word": "anyways",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ともかく",
     "en": "casual way to change or return to topic",
@@ -392,7 +392,7 @@
   },
   {
    "word": "hmm",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "うーん",
     "en": "used while thinking",
@@ -405,7 +405,7 @@
   },
   {
    "word": "oh",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "あっ",
     "en": "used to show surprise or realization",
@@ -418,7 +418,7 @@
   },
   {
    "word": "wow",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "うわあ",
     "en": "used to show amazement",
@@ -444,7 +444,7 @@
   },
   {
    "word": "oops",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "おっと",
     "en": "used after a small mistake",
@@ -483,7 +483,7 @@
   },
   {
    "word": "anytime",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "いつでもどうぞ",
     "en": "used to reply to thanks",
@@ -613,7 +613,7 @@
   },
   {
    "word": "whatever",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "どうでもいい",
     "en": "used to show you don't mind or care",
@@ -938,7 +938,7 @@
   },
   {
    "word": "apparently",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "どうやら",
     "en": "used when something seems true but is unconfirmed",
@@ -951,7 +951,7 @@
   },
   {
    "word": "supposedly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "うわさでは",
     "en": "used to say something is claimed but not certain",
@@ -1107,7 +1107,7 @@
   },
   {
    "word": "bummer",
-   "pos": "phrase",
+   "pos": "noun",
    "meaning": {
     "ja": "がっかりだね",
     "en": "used casually when something is disappointing",

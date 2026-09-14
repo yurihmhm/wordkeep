@@ -1,6 +1,6 @@
 {
  "id": "common_adverbs_part2",
- "v": 2,
+ "v": 3,
  "cefr": "B2-C1",
  "group": "daily",
  "title": {
@@ -15,7 +15,7 @@
  "words": [
   {
    "word": "barely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "かろうじて",
     "en": "only just managing to",
@@ -28,7 +28,7 @@
   },
   {
    "word": "occasionally",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "たまに",
     "en": "now and then",
@@ -41,7 +41,7 @@
   },
   {
    "word": "frequently",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "頻繁に",
     "en": "at short intervals, again and again",
@@ -54,7 +54,7 @@
   },
   {
    "word": "constantly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ひっきりなしに",
     "en": "all the time, without stopping",
@@ -67,7 +67,7 @@
   },
   {
    "word": "gradually",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "少しずつ",
     "en": "in small stages over time",
@@ -80,7 +80,7 @@
   },
   {
    "word": "steadily",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "着実に",
     "en": "at an even, unbroken pace",
@@ -93,7 +93,7 @@
   },
   {
    "word": "slightly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "わずかに",
     "en": "by a small amount",
@@ -106,7 +106,7 @@
   },
   {
    "word": "roughly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "おおまかに",
     "en": "not exactly, in round terms",
@@ -119,7 +119,7 @@
   },
   {
    "word": "approximately",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "およそ",
     "en": "close to a stated number",
@@ -132,7 +132,7 @@
   },
   {
    "word": "precisely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "寸分たがわず",
     "en": "exactly, with no margin",
@@ -145,7 +145,7 @@
   },
   {
    "word": "arguably",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "議論の余地はあるが",
     "en": "you could reasonably argue that",
@@ -158,7 +158,7 @@
   },
   {
    "word": "presumably",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "おそらく〜だろう",
     "en": "probably, judging from what is known",
@@ -171,7 +171,7 @@
   },
   {
    "word": "seemingly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一見したところ",
     "en": "as it appears, though maybe not so",
@@ -184,7 +184,7 @@
   },
   {
    "word": "allegedly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "〜とされている",
     "en": "said to be so, though unproven",
@@ -197,7 +197,7 @@
   },
   {
    "word": "admittedly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "確かに〜ではあるが",
     "en": "granting that this is true",
@@ -210,7 +210,7 @@
   },
   {
    "word": "undoubtedly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "疑いなく",
     "en": "beyond any question",
@@ -223,7 +223,7 @@
   },
   {
    "word": "inevitably",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "必然的に",
     "en": "in a way that could not be avoided",
@@ -236,7 +236,7 @@
   },
   {
    "word": "ultimately",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "最終的には",
     "en": "in the end, after everything",
@@ -249,7 +249,7 @@
   },
   {
    "word": "largely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "大部分は",
     "en": "mostly, though not entirely",
@@ -262,7 +262,7 @@
   },
   {
    "word": "partly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一部には",
     "en": "to some extent but not all",
@@ -275,7 +275,7 @@
   },
   {
    "word": "entirely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "まるごと全部",
     "en": "completely, with nothing left out",
@@ -288,7 +288,7 @@
   },
   {
    "word": "thoroughly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "徹底的に",
     "en": "carefully and completely",
@@ -301,7 +301,7 @@
   },
   {
    "word": "deliberately",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "意図的に",
     "en": "on purpose",
@@ -314,7 +314,7 @@
   },
   {
    "word": "accidentally",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "偶然に",
     "en": "by chance, not on purpose",
@@ -327,7 +327,7 @@
   },
   {
    "word": "reluctantly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "しぶしぶ",
     "en": "unwillingly, after hesitating",
@@ -340,7 +340,7 @@
   },
   {
    "word": "willingly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "進んで",
     "en": "gladly, without being pushed",
@@ -353,7 +353,7 @@
   },
   {
    "word": "eagerly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "待ちきれない様子で",
     "en": "with keen anticipation",
@@ -366,7 +366,7 @@
   },
   {
    "word": "desperately",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "必死に",
     "en": "with urgent, almost hopeless effort",
@@ -379,7 +379,7 @@
   },
   {
    "word": "genuinely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "本心から",
     "en": "truly, not pretending",
@@ -392,7 +392,7 @@
   },
   {
    "word": "sincerely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "誠意をもって",
     "en": "with honest, respectful feeling",
@@ -405,7 +405,7 @@
   },
   {
    "word": "briefly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "手短に",
     "en": "for a short time, in few words",
@@ -418,7 +418,7 @@
   },
   {
    "word": "temporarily",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "一時的に",
     "en": "for a limited time only",
@@ -431,7 +431,7 @@
   },
   {
    "word": "permanently",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "永続的に",
     "en": "for good, with no end planned",
@@ -444,7 +444,7 @@
   },
   {
    "word": "consequently",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "その結果として",
     "en": "as a result of that",
@@ -457,7 +457,7 @@
   },
   {
    "word": "accordingly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "それに合わせて",
     "en": "in a way that fits what happened",
@@ -470,7 +470,7 @@
   },
   {
    "word": "nonetheless",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "それでもなお",
     "en": "in spite of that",
@@ -483,7 +483,7 @@
   },
   {
    "word": "regardless",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "おかまいなしに",
     "en": "without caring about it",
@@ -496,7 +496,7 @@
   },
   {
    "word": "alternatively",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "別のやり方としては",
     "en": "as another option",
@@ -509,7 +509,7 @@
   },
   {
    "word": "similarly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "似たように",
     "en": "in a comparable way",
@@ -522,7 +522,7 @@
   },
   {
    "word": "likewise",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "こちらも同じく",
     "en": "the same goes for this",
@@ -535,7 +535,7 @@
   },
   {
    "word": "conversely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "逆に言えば",
     "en": "the opposite way round",
@@ -548,7 +548,7 @@
   },
   {
    "word": "notably",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "とりわけ目立って",
     "en": "in a way worth pointing out",
@@ -561,7 +561,7 @@
   },
   {
    "word": "particularly",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "とりわけ",
     "en": "more than the others",
@@ -574,7 +574,7 @@
   },
   {
    "word": "specifically",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "具体的に言うと",
     "en": "to name the exact thing",
@@ -587,7 +587,7 @@
   },
   {
    "word": "essentially",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "つまるところ",
     "en": "in its most basic nature",
@@ -600,7 +600,7 @@
   },
   {
    "word": "virtually",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "事実上",
     "en": "nearly so, for all practical purposes",
@@ -613,7 +613,7 @@
   },
   {
    "word": "literally",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "文字どおり",
     "en": "in the exact sense of the words",
@@ -626,7 +626,7 @@
   },
   {
    "word": "merely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ほんの、単に",
     "en": "nothing more than",
@@ -639,7 +639,7 @@
   },
   {
    "word": "solely",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "もっぱら",
     "en": "and no other thing or reason",
@@ -652,7 +652,7 @@
   },
   {
    "word": "somewhat",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "いくぶん",
     "en": "to a moderate degree",

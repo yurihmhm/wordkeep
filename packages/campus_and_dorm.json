@@ -1,6 +1,6 @@
 {
  "id": "campus_and_dorm",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "寮とキャンパス生活",
   "en": "Dorm & Campus Life",
@@ -67,7 +67,7 @@
   },
   {
    "word": "share a room",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "部屋を共同で使う",
     "en": "to sleep in the same room as another person",
@@ -132,7 +132,7 @@
   },
   {
    "word": "communal",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "みんなで使う",
     "en": "shared by all the residents",
@@ -145,7 +145,7 @@
   },
   {
    "word": "ensuite",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "部屋に浴室が付いた",
     "en": "with its own private bathroom",
@@ -327,7 +327,7 @@
   },
   {
    "word": "lock out",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "鍵を中に置いたまま閉め出される",
     "en": "to be shut out because you left your key inside",
@@ -353,7 +353,7 @@
   },
   {
    "word": "report a fault",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "故障を届け出る",
     "en": "to tell staff something is broken",
@@ -379,7 +379,7 @@
   },
   {
    "word": "damp",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "じめじめした",
     "en": "slightly wet in a way that feels unpleasant",
@@ -405,7 +405,7 @@
   },
   {
    "word": "stuffy",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "空気がこもった",
     "en": "with air that feels heavy and unfresh",
@@ -509,7 +509,7 @@
   },
   {
    "word": "sign in",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "入館記録をつける",
     "en": "to write your name when entering a building",
@@ -574,7 +574,7 @@
   },
   {
    "word": "next door",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "隣の部屋の",
     "en": "in the room right beside yours",
@@ -678,7 +678,7 @@
   },
   {
    "word": "take out the rubbish",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "ごみを出す",
     "en": "to carry the waste outside",
@@ -691,7 +691,7 @@
   },
   {
    "word": "do the dishes",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "皿を洗う",
     "en": "to wash the plates and cups",
@@ -704,7 +704,7 @@
   },
   {
    "word": "tidy up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "片づける",
     "en": "to put things back where they belong",
@@ -730,7 +730,7 @@
   },
   {
    "word": "clean up after yourself",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "自分の後始末をする",
     "en": "to clear away your own mess",
@@ -847,7 +847,7 @@
   },
   {
    "word": "label your food",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "食品に名前を書く",
     "en": "to write your name on what you put in the fridge",
@@ -951,7 +951,7 @@
   },
   {
    "word": "join a club",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "サークルに入る",
     "en": "to become a member of a student group",
@@ -1029,7 +1029,7 @@
   },
   {
    "word": "book a room",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "部屋を予約する",
     "en": "to reserve a room in advance",
@@ -1185,7 +1185,7 @@
   },
   {
    "word": "make friends",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "友達をつくる",
     "en": "to get to know people and become close",
@@ -1198,7 +1198,7 @@
   },
   {
    "word": "invite over",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "自分の部屋に招く",
     "en": "to ask someone to come to where you live",
@@ -1211,7 +1211,7 @@
   },
   {
    "word": "settle in",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "新しい環境に慣れる",
     "en": "to get comfortable in a new place",
@@ -1224,7 +1224,7 @@
   },
   {
    "word": "fit in",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "周囲になじむ",
     "en": "to feel accepted by the people around you",
@@ -1237,7 +1237,7 @@
   },
   {
    "word": "homesick",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "故郷が恋しい",
     "en": "sad because you miss your home",
@@ -1297,7 +1297,8 @@
     "ar": "سهرة بالخارج",
     "ko": "밤에 놀러 나가기",
     "ru": "вечерняя вылазка"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "fridge space",
@@ -1309,7 +1310,8 @@
     "ar": "مساحتك في الثلاجة",
     "ko": "냉장고 자리",
     "ru": "место в общем холодильнике"
-   }
+   },
+   "pos": "noun"
   }
  ]
 }

@@ -1,6 +1,6 @@
 {
  "id": "workplace_issues",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "職場での会話とトラブル",
   "en": "Workplace Talk & Problems",
@@ -15,7 +15,7 @@
  "words": [
   {
    "word": "complain",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "文句を言う",
     "en": "to say you are unhappy about something",
@@ -28,7 +28,7 @@
   },
   {
    "word": "speak up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "声を上げる",
     "en": "to say what you think, especially about a problem",
@@ -54,7 +54,7 @@
   },
   {
    "word": "on purpose",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "わざと",
     "en": "intentionally",
@@ -67,7 +67,7 @@
   },
   {
    "word": "by accident",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "うっかり",
     "en": "not intentionally",
@@ -80,7 +80,7 @@
   },
   {
    "word": "own up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "自分の非を認める",
     "en": "to admit you did something wrong",
@@ -93,7 +93,7 @@
   },
   {
    "word": "let it slide",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "大目に見る",
     "en": "to choose not to react to something wrong",
@@ -106,7 +106,7 @@
   },
   {
    "word": "fed up",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "うんざりして",
     "en": "annoyed and tired of a situation",
@@ -119,7 +119,7 @@
   },
   {
    "word": "unfair",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "不公平な",
     "en": "not treating people equally",
@@ -145,7 +145,7 @@
   },
   {
    "word": "entitled to",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "〜を受ける資格がある",
     "en": "having the legal right to something",
@@ -171,7 +171,7 @@
   },
   {
    "word": "owe",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "支払う義務がある",
     "en": "to have to pay someone money",
@@ -184,7 +184,7 @@
   },
   {
    "word": "cover for",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "代わりを務める",
     "en": "to do someone's work while they are away",
@@ -197,7 +197,7 @@
   },
   {
    "word": "swap",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "交換する",
     "en": "to exchange one thing for another",
@@ -236,7 +236,7 @@
   },
   {
    "word": "unpaid",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "無給の",
     "en": "with no money paid for it",
@@ -249,7 +249,7 @@
   },
   {
    "word": "pile up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "どんどんたまる",
     "en": "to increase in amount until there is too much",
@@ -262,7 +262,7 @@
   },
   {
    "word": "slack off",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "サボる",
     "en": "to work less hard than you should",
@@ -275,7 +275,7 @@
   },
   {
    "word": "pull your weight",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "自分の分を果たす",
     "en": "to do your fair share of the work",
@@ -288,7 +288,7 @@
   },
   {
    "word": "step up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "進んで引き受ける",
     "en": "to take responsibility when it is needed",
@@ -301,7 +301,7 @@
   },
   {
    "word": "take it personally",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "個人攻撃と受け取る",
     "en": "to feel that criticism is an attack on you",
@@ -314,7 +314,7 @@
   },
   {
    "word": "blow up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "突然激怒する",
     "en": "to suddenly become very angry",
@@ -327,7 +327,7 @@
   },
   {
    "word": "fall out",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "仲たがいする",
     "en": "to argue and stop being friendly",
@@ -340,7 +340,7 @@
   },
   {
    "word": "awkward",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "気まずい",
     "en": "uncomfortable and embarrassing",
@@ -366,7 +366,7 @@
   },
   {
    "word": "behind your back",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "本人のいないところで",
     "en": "without the person knowing",
@@ -379,7 +379,7 @@
   },
   {
    "word": "pick on",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "目の敵にする",
     "en": "to treat one person unfairly again and again",
@@ -405,7 +405,7 @@
   },
   {
    "word": "discriminate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "差別する",
     "en": "to treat someone worse because of who they are",
@@ -483,7 +483,7 @@
   },
   {
    "word": "permanent",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "無期雇用の",
     "en": "with no end date on the contract",
@@ -522,7 +522,7 @@
   },
   {
    "word": "disciplinary",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "懲戒の",
     "en": "relating to punishment for breaking rules",
@@ -535,7 +535,7 @@
   },
   {
    "word": "fired",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "解雇された",
     "en": "made to leave a job because of your behaviour",
@@ -548,7 +548,7 @@
   },
   {
    "word": "laid off",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "人員削減で職を失った",
     "en": "made to leave because the job no longer exists",
@@ -561,7 +561,7 @@
   },
   {
    "word": "walk out",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "職場を放棄して出ていく",
     "en": "to leave a job or meeting suddenly in protest",
@@ -574,7 +574,7 @@
   },
   {
    "word": "hand over",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "業務を引き渡す",
     "en": "to give your work to the next person",
@@ -587,7 +587,7 @@
   },
   {
    "word": "in charge of",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "〜を任されている",
     "en": "having control of something or someone",
@@ -600,7 +600,7 @@
   },
   {
    "word": "delegate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "人に任せる",
     "en": "to give a task to someone else to do",
@@ -613,7 +613,7 @@
   },
   {
    "word": "micromanage",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "細かく口を出す",
     "en": "to control every small detail of someone's work",
@@ -639,7 +639,7 @@
   },
   {
    "word": "urgent",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "緊急の",
     "en": "needing to be dealt with immediately",
@@ -652,7 +652,7 @@
   },
   {
    "word": "stressed out",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "ストレスで参った",
     "en": "worn down by worry and pressure",
@@ -665,7 +665,7 @@
   },
   {
    "word": "overworked",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "働きすぎの",
     "en": "made to work too much",
@@ -704,7 +704,7 @@
   },
   {
    "word": "hectic",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "てんてこ舞いの",
     "en": "very busy and full of activity",
@@ -717,7 +717,7 @@
   },
   {
    "word": "knock off",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "仕事を切り上げる",
     "en": "to stop working for the day",
@@ -808,7 +808,7 @@
   },
   {
    "word": "demote",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "降格させる",
     "en": "to move someone to a lower position",
@@ -834,7 +834,7 @@
   },
   {
    "word": "exploit",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "不当に働かせる",
     "en": "to treat workers unfairly for profit",
@@ -847,7 +847,7 @@
   },
   {
    "word": "cut corners",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "手を抜く",
     "en": "to do something badly to save time or money",
@@ -860,7 +860,7 @@
   },
   {
    "word": "put in writing",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "書面に残す",
     "en": "to record something on paper or in a message",
@@ -873,7 +873,7 @@
   },
   {
    "word": "breach",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "契約に違反する",
     "en": "to break the terms of an agreement",
@@ -894,7 +894,8 @@
     "ar": "شكوى رسمية",
     "ko": "공식 고충 제기",
     "ru": "официальная жалоба"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "retaliate",
@@ -906,7 +907,8 @@
     "ar": "ينتقم",
     "ko": "보복하다",
     "ru": "мстить"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "escalate",
@@ -918,7 +920,8 @@
     "ar": "يحيل إلى مستوى أعلى",
     "ko": "상부에 보고하다",
     "ru": "передать выше"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "flag",
@@ -930,7 +933,8 @@
     "ar": "ينبه إلى",
     "ko": "문제로 지적하다",
     "ru": "обозначить проблему"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "resolve",
@@ -942,7 +946,8 @@
     "ar": "يحسم النزاع",
     "ko": "매듭짓다",
     "ru": "урегулировать"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "compromise",
@@ -954,7 +959,8 @@
     "ar": "يتوصل لحل وسط",
     "ko": "타협하다",
     "ru": "пойти на компромисс"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "stand your ground",
@@ -966,7 +972,8 @@
     "ar": "يتمسك بموقفه",
     "ko": "입장을 굽히지 않다",
     "ru": "стоять на своём"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "blame",
@@ -978,7 +985,8 @@
     "ar": "يلقي اللوم على",
     "ko": "탓하다",
     "ru": "винить"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "scapegoat",
@@ -990,7 +998,8 @@
     "ar": "كبش فداء",
     "ko": "희생양",
     "ru": "козёл отпущения"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "cover up",
@@ -1002,7 +1011,8 @@
     "ar": "يتستر على",
     "ko": "은폐하다",
     "ru": "замять"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "professional",
@@ -1014,7 +1024,8 @@
     "ar": "مهني في تصرفه",
     "ko": "프로다운",
     "ru": "профессиональный в поведении"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "attitude",
@@ -1026,7 +1037,8 @@
     "ar": "موقف من العمل",
     "ko": "업무 태도",
     "ru": "отношение к работе"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "rude",
@@ -1038,7 +1050,8 @@
     "ar": "وقح",
     "ko": "무례한",
     "ru": "грубый"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "patronising",
@@ -1050,7 +1063,8 @@
     "ar": "متعال في الحديث",
     "ko": "깔보는 듯한",
     "ru": "снисходительный"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "snap at",
@@ -1062,7 +1076,8 @@
     "ar": "ينهر بحدة",
     "ko": "쏘아붙이다",
     "ru": "огрызнуться на"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "vent",
@@ -1074,7 +1089,8 @@
     "ar": "يفرغ غضبه بالكلام",
     "ko": "불만을 털어놓다",
     "ru": "выплеснуть недовольство"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "clear the air",
@@ -1086,7 +1102,8 @@
     "ar": "يزيل سوء التفاهم",
     "ko": "응어리를 풀다",
     "ru": "разрядить обстановку"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "hold a grudge",
@@ -1098,7 +1115,8 @@
     "ar": "يحمل ضغينة",
     "ko": "앙심을 품다",
     "ru": "держать обиду"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "favouritism",
@@ -1110,7 +1128,8 @@
     "ar": "محاباة",
     "ko": "편애",
     "ru": "фаворитизм"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "left out",
@@ -1122,7 +1141,8 @@
     "ar": "مستبعد من المجموعة",
     "ko": "따돌림당한",
     "ru": "оставленный в стороне"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "minutes",
@@ -1134,7 +1154,8 @@
     "ar": "محضر اجتماع",
     "ko": "회의록",
     "ru": "протокол собрания"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "payroll",
@@ -1146,7 +1167,8 @@
     "ar": "قسم الرواتب",
     "ko": "급여 담당 부서",
     "ru": "расчётный отдел"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "back pay",
@@ -1158,7 +1180,8 @@
     "ar": "أجور متأخرة",
     "ko": "체불 임금",
     "ru": "задолженность по зарплате"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "confidential",
@@ -1170,7 +1193,8 @@
     "ar": "سري",
     "ko": "기밀의",
     "ru": "конфиденциальный"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "verbal",
@@ -1182,7 +1206,8 @@
     "ar": "شفهي",
     "ko": "구두의",
     "ru": "устный"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "go the extra mile",
@@ -1194,7 +1219,8 @@
     "ar": "يبذل جهدا إضافيا",
     "ko": "기대 이상으로 애쓰다",
     "ru": "сделать больше требуемого"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "offload",
@@ -1206,7 +1232,8 @@
     "ar": "يلقي عملا على غيره",
     "ko": "떠넘기다",
     "ru": "спихнуть работу"
-   }
+   },
+   "pos": "verb"
   },
   {
    "word": "swamped",
@@ -1218,7 +1245,8 @@
     "ar": "مثقل بكم هائل من العمل",
     "ko": "일에 파묻힌",
     "ru": "заваленный работой"
-   }
+   },
+   "pos": "adjective"
   },
   {
    "word": "drop the ball",
@@ -1230,7 +1258,8 @@
     "ar": "يقصر في مهمته",
     "ko": "일을 그르치다",
     "ru": "провалить дело"
-   }
+   },
+   "pos": "phrase"
   },
   {
    "word": "heads up",
@@ -1242,7 +1271,8 @@
     "ar": "تنبيه مسبق",
     "ko": "미리 알려 주는 것",
     "ru": "предупреждение заранее"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "sick note",
@@ -1254,7 +1284,8 @@
     "ar": "تقرير طبي",
     "ko": "진단서",
     "ru": "справка от врача"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "pushback",
@@ -1266,7 +1297,8 @@
     "ar": "اعتراض على قرار",
     "ko": "반발",
     "ru": "сопротивление решению"
-   }
+   },
+   "pos": "noun"
   },
   {
    "word": "walk someone through",
@@ -1278,7 +1310,8 @@
     "ar": "يشرح خطوة بخطوة",
     "ko": "차근차근 설명해 주다",
     "ru": "объяснить по шагам"
-   }
+   },
+   "pos": "phrase"
   }
  ]
 }

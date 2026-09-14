@@ -1,6 +1,6 @@
 {
  "id": "slang_en",
- "v": 1,
+ "v": 3,
  "title": {
   "ja": "英語スラング",
   "en": "English Slang",
@@ -43,7 +43,7 @@
   },
   {
    "word": "lit",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "最高に盛り上がっている",
     "en": "exciting and full of energy",
@@ -57,7 +57,7 @@
   },
   {
    "word": "salty",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "負けて不機嫌な",
     "en": "bitter and annoyed about losing",
@@ -99,7 +99,7 @@
   },
   {
    "word": "shady",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "裏がありそうな",
     "en": "dishonest in a way you can sense",
@@ -113,7 +113,7 @@
   },
   {
    "word": "sketchy",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "なんとなく危なそうな",
     "en": "unsafe or unreliable-looking",
@@ -127,7 +127,7 @@
   },
   {
    "word": "broke",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "金欠の",
     "en": "with no money at all",
@@ -141,7 +141,7 @@
   },
   {
    "word": "wasted",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "べろべろに酔った",
     "en": "very drunk",
@@ -155,7 +155,7 @@
   },
   {
    "word": "hungover",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "二日酔いの",
     "en": "feeling ill the day after drinking",
@@ -169,7 +169,7 @@
   },
   {
    "word": "cringe",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "見ていて恥ずかしい",
     "en": "so awkward it makes you wince",
@@ -183,7 +183,7 @@
   },
   {
    "word": "savage",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "容赦なく手厳しい",
     "en": "brutally blunt in a way people admire",
@@ -211,7 +211,7 @@
   },
   {
    "word": "lowkey",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "ちょっとだけ、こっそり",
     "en": "slightly, or without admitting it loudly",
@@ -225,7 +225,7 @@
   },
   {
    "word": "sus",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "怪しい",
     "en": "suspicious",
@@ -253,7 +253,7 @@
   },
   {
    "word": "wing it",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "準備なしで出たとこ勝負でやる",
     "en": "to do something with no preparation",
@@ -267,7 +267,7 @@
   },
   {
    "word": "nail it",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "見事にやってのける",
     "en": "to get something exactly right",
@@ -281,7 +281,7 @@
   },
   {
    "word": "rip off",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "法外な値段でぼったくる",
     "en": "to charge far more than something is worth",
@@ -337,7 +337,7 @@
   },
   {
    "word": "spill the tea",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "ここだけの話を漏らす",
     "en": "to share the juicy gossip",
@@ -351,7 +351,7 @@
   },
   {
    "word": "throw shade",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "遠回しにけなす",
     "en": "to insult someone indirectly",
@@ -435,7 +435,7 @@
   },
   {
    "word": "mid",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "可もなく不可もない",
     "en": "mediocre, not worth the hype",
@@ -491,7 +491,7 @@
   },
   {
    "word": "damn",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「ちくしょう」軽い悪態",
     "en": "a mild swear word showing annoyance or surprise",
@@ -506,7 +506,7 @@
   },
   {
    "word": "hell",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「一体全体」強調の乱暴な語",
     "en": "a rude intensifier, as in “what the hell”",
@@ -536,7 +536,7 @@
   },
   {
    "word": "shit",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「くそ」かなり下品な悪態",
     "en": "a strong swear word for anger or bad things",
@@ -566,7 +566,7 @@
   },
   {
    "word": "piss off",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "ひどく怒らせる",
     "en": "to make someone very angry, crudely put",
@@ -581,7 +581,7 @@
   },
   {
    "word": "badass",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "めちゃくちゃかっこいい",
     "en": "impressively tough, a crude compliment",
@@ -596,7 +596,7 @@
   },
   {
    "word": "WTF",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「なんだこれ」下品な驚き",
     "en": "a rude way to express shock or confusion",
@@ -639,7 +639,7 @@
   },
   {
    "word": "y'all",
-   "pos": "phrase",
+   "pos": "pronoun",
    "meaning": {
     "ja": "「みんな」南部発の言い方",
     "en": "you all, common in the American South",
@@ -653,7 +653,7 @@
   },
   {
    "word": "awesome",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "すごくいい",
     "en": "great, said constantly in the US",
@@ -667,7 +667,7 @@
   },
   {
    "word": "psyched",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "わくわくしている",
     "en": "very excited about something coming",
@@ -709,7 +709,7 @@
   },
   {
    "word": "legit",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "本物の、まじで",
     "en": "genuine, or “seriously”",
@@ -723,7 +723,7 @@
   },
   {
    "word": "hella",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "めちゃくちゃ（西海岸の言い方）",
     "en": "very, heard mostly in California",
@@ -737,7 +737,7 @@
   },
   {
    "word": "bougie",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "気取って高級ぶった",
     "en": "pretentiously fancy",
@@ -751,7 +751,7 @@
   },
   {
    "word": "janky",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "作りが雑で頼りない",
     "en": "badly made and barely working",
@@ -821,7 +821,7 @@
   },
   {
    "word": "cheesy",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "わざとらしくて安っぽい",
     "en": "corny in a try-hard, tacky way",
@@ -835,7 +835,7 @@
   },
   {
    "word": "corny",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "使い古されて寒い",
     "en": "so old and obvious it falls flat",
@@ -878,7 +878,7 @@
   },
   {
    "word": "pissed",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "かんかんに怒った（米）",
     "en": "furious, crude; in Britain it means drunk",
@@ -907,7 +907,7 @@
   },
   {
    "word": "knackered",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "へとへとに疲れた",
     "en": "completely exhausted",
@@ -921,7 +921,7 @@
   },
   {
    "word": "gutted",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "がっくり落ち込んだ",
     "en": "bitterly disappointed",
@@ -935,7 +935,7 @@
   },
   {
    "word": "chuffed",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "内心とても嬉しい",
     "en": "quietly very pleased",
@@ -949,7 +949,7 @@
   },
   {
    "word": "cheeky",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "生意気だが憎めない",
     "en": "rude in a way that is charming",
@@ -963,7 +963,7 @@
   },
   {
    "word": "dodgy",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "信用ならない、あやしい",
     "en": "unreliable or slightly dishonest",
@@ -977,7 +977,7 @@
   },
   {
    "word": "skint",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "一文なしの",
     "en": "with no money left",
@@ -1019,7 +1019,7 @@
   },
   {
    "word": "naff",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "ダサくてしょぼい",
     "en": "tacky and unimpressive",
@@ -1047,7 +1047,7 @@
   },
   {
    "word": "gobsmacked",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "あっけにとられた",
     "en": "utterly astonished",
@@ -1061,7 +1061,7 @@
   },
   {
    "word": "peckish",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "小腹がすいた",
     "en": "slightly hungry",
@@ -1089,7 +1089,7 @@
   },
   {
    "word": "sorted",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "もう片づいた",
     "en": "dealt with, all arranged",
@@ -1117,7 +1117,7 @@
   },
   {
    "word": "bollocks",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「ばかげたこと」下品な語",
     "en": "nonsense, a coarse British swear word",
@@ -1132,7 +1132,7 @@
   },
   {
    "word": "bloody",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "「くそ〜」強調する乱暴な語",
     "en": "a British intensifier that counts as swearing",
@@ -1331,7 +1331,7 @@
   },
   {
    "word": "fair dinkum",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "本当に、正真正銘",
     "en": "genuine, honestly true",
@@ -1345,7 +1345,7 @@
   },
   {
    "word": "heaps",
-   "pos": "adv",
+   "pos": "adverb",
    "meaning": {
     "ja": "すごくたくさん",
     "en": "lots, or very",
@@ -1359,7 +1359,7 @@
   },
   {
    "word": "stoked",
-   "pos": "adj",
+   "pos": "adjective",
    "meaning": {
     "ja": "大喜びしている",
     "en": "thrilled and delighted",
@@ -1373,7 +1373,7 @@
   },
   {
    "word": "chuck a sickie",
-   "pos": "verb",
+   "pos": "phrase",
    "meaning": {
     "ja": "仮病で仕事を休む",
     "en": "to take a day off pretending to be ill",
@@ -1415,7 +1415,7 @@
   },
   {
    "word": "bugger",
-   "pos": "phrase",
+   "pos": "interjection",
    "meaning": {
     "ja": "「くそっ」豪英で使う下品な語",
     "en": "a crude Australian and British exclamation",
@@ -1682,7 +1682,7 @@
   },
   {
    "word": "rock up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "ふらっと現れる",
     "en": "to turn up somewhere casually",
@@ -1696,7 +1696,7 @@
   },
   {
    "word": "no dramas",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "問題ないよ",
     "en": "that is no trouble at all",
@@ -1710,7 +1710,7 @@
   },
   {
    "word": "too easy",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "お安いご用",
     "en": "consider it done",
@@ -1724,7 +1724,7 @@
   },
   {
    "word": "good on ya",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "えらいぞ",
     "en": "well done, good for you",
@@ -1738,7 +1738,7 @@
   },
   {
    "word": "reckon",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "〜だと思う",
     "en": "to think or suppose",
@@ -1752,7 +1752,7 @@
   },
   {
    "word": "keen",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "乗り気で",
     "en": "eager and up for it",
@@ -1766,7 +1766,7 @@
   },
   {
    "word": "deadset",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "冗談抜きで",
     "en": "genuinely, no joke",
@@ -1794,7 +1794,7 @@
   },
   {
    "word": "sweet as",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "それでばっちり",
     "en": "all good, that works",
@@ -1808,7 +1808,7 @@
   },
   {
    "word": "yeah nah",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "うーん、やめとく",
     "en": "a soft no dressed as a yes",
@@ -1892,7 +1892,7 @@
   },
   {
    "word": "whinge",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "ぐちぐち言う",
     "en": "to complain in a nagging way",
@@ -1906,7 +1906,7 @@
   },
   {
    "word": "crook",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "具合が悪い",
     "en": "unwell, sick",
@@ -1920,7 +1920,7 @@
   },
   {
    "word": "rapt",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "すごく喜んでいる",
     "en": "delighted about something",
@@ -1962,7 +1962,7 @@
   },
   {
    "word": "she'll be right",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "なんとかなるさ",
     "en": "it will work out, do not worry",
@@ -2186,7 +2186,7 @@
   },
   {
    "word": "take the mickey",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "からかう",
     "en": "to tease someone",
@@ -2200,7 +2200,7 @@
   },
   {
    "word": "cracking",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "すばらしい",
     "en": "excellent",
@@ -2214,7 +2214,7 @@
   },
   {
    "word": "ace",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "最高の",
     "en": "brilliant, top-notch",
@@ -2228,7 +2228,7 @@
   },
   {
    "word": "buzzing",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "うきうきしている",
     "en": "thrilled and excited",
@@ -2242,7 +2242,7 @@
   },
   {
    "word": "innit",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "だよね",
     "en": "isn't it, tagged onto a sentence",
@@ -2256,7 +2256,7 @@
   },
   {
    "word": "lush",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "たまらなくいい",
     "en": "lovely, delicious",
@@ -2480,7 +2480,7 @@
   },
   {
    "word": "bail on",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "約束をすっぽかす",
     "en": "to let someone down by not turning up",
@@ -2494,7 +2494,7 @@
   },
   {
    "word": "hang tight",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "そのまま待ってて",
     "en": "wait where you are for a moment",
@@ -2508,7 +2508,7 @@
   },
   {
    "word": "my treat",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "ここは私が出す",
     "en": "I am paying for this",
@@ -2522,7 +2522,7 @@
   },
   {
    "word": "knock it off",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "いい加減にして",
     "en": "stop doing that",
@@ -2536,7 +2536,7 @@
   },
   {
    "word": "what's up",
-   "pos": "noun",
+   "pos": "phrase",
    "meaning": {
     "ja": "どうしたの",
     "en": "a greeting, or asking what is wrong",

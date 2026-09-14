@@ -1,6 +1,6 @@
 {
  "id": "academic_word_list",
- "v": 1,
+ "v": 2,
  "title": {
   "ja": "アカデミック頻出語",
   "en": "Core Academic Vocabulary",
@@ -67,7 +67,7 @@
   },
   {
    "word": "establish",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "確立する",
     "en": "to prove or set up firmly",
@@ -80,7 +80,7 @@
   },
   {
    "word": "estimate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "おおよそ見積もる",
     "en": "to judge an amount without measuring exactly",
@@ -93,7 +93,7 @@
   },
   {
    "word": "evident",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "はっきり見て取れる",
     "en": "easy to see or understand",
@@ -119,7 +119,7 @@
   },
   {
    "word": "identify",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "特定する",
     "en": "to recognise and name something",
@@ -132,7 +132,7 @@
   },
   {
    "word": "indicate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "示す",
     "en": "to show that something is true",
@@ -145,7 +145,7 @@
   },
   {
    "word": "individual",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "一人ひとりの",
     "en": "relating to one person or thing separately",
@@ -158,7 +158,7 @@
   },
   {
    "word": "interpret",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "解釈する",
     "en": "to explain what something means",
@@ -171,7 +171,7 @@
   },
   {
    "word": "involve",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "必然的に伴う",
     "en": "to have as a necessary part",
@@ -197,7 +197,7 @@
   },
   {
    "word": "legal",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "法律上の",
     "en": "connected with the law",
@@ -210,7 +210,7 @@
   },
   {
    "word": "major",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "主要な",
     "en": "large and important",
@@ -236,7 +236,7 @@
   },
   {
    "word": "occur",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "生じる",
     "en": "to happen",
@@ -327,7 +327,7 @@
   },
   {
    "word": "significant",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "無視できない大きさの",
     "en": "large or important enough to matter",
@@ -366,7 +366,7 @@
   },
   {
    "word": "achieve",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "成し遂げる",
     "en": "to succeed in doing something",
@@ -379,7 +379,7 @@
   },
   {
    "word": "acquire",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "時間をかけて習得する",
     "en": "to gain a skill or knowledge over time",
@@ -392,7 +392,7 @@
   },
   {
    "word": "affect",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "影響を及ぼす",
     "en": "to cause a change in something",
@@ -444,7 +444,7 @@
   },
   {
    "word": "complex",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "入り組んだ",
     "en": "made of many connected parts and hard to follow",
@@ -457,7 +457,7 @@
   },
   {
    "word": "conclude",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "結論づける",
     "en": "to decide something after thinking it through",
@@ -470,7 +470,7 @@
   },
   {
    "word": "conduct",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "調査などを行う",
     "en": "to carry out a study or test",
@@ -483,7 +483,7 @@
   },
   {
    "word": "distinct",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "明確に別の",
     "en": "clearly different from something else",
@@ -509,7 +509,7 @@
   },
   {
    "word": "evaluate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "良し悪しを見極める",
     "en": "to judge how good or useful something is",
@@ -535,7 +535,7 @@
   },
   {
    "word": "maintain",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "状態を保つ",
     "en": "to keep something at the same level",
@@ -548,7 +548,7 @@
   },
   {
    "word": "obtain",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "入手する",
     "en": "to get something you were seeking",
@@ -561,7 +561,7 @@
   },
   {
    "word": "perceive",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "そう受け止める",
     "en": "to understand something in a particular way",
@@ -574,7 +574,7 @@
   },
   {
    "word": "potential",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "可能性としての",
     "en": "possible but not yet actual",
@@ -587,7 +587,7 @@
   },
   {
    "word": "previous",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "一つ前の",
     "en": "coming before this one",
@@ -600,7 +600,7 @@
   },
   {
    "word": "primary",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "第一の",
     "en": "most important, coming first",
@@ -639,7 +639,7 @@
   },
   {
    "word": "relevant",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "論点に関係のある",
     "en": "connected to what is being discussed",
@@ -665,7 +665,7 @@
   },
   {
    "word": "restrict",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "範囲を限る",
     "en": "to keep something within limits",
@@ -678,7 +678,7 @@
   },
   {
    "word": "seek",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "求めようとする",
     "en": "to try to find or get something",
@@ -769,7 +769,7 @@
   },
   {
    "word": "considerable",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "かなりの量の",
     "en": "large in amount or degree",
@@ -782,7 +782,7 @@
   },
   {
    "word": "constant",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "変わらず一定の",
     "en": "staying the same over time",
@@ -795,7 +795,7 @@
   },
   {
    "word": "contribute",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "一因となる",
     "en": "to help cause or add to something",
@@ -808,7 +808,7 @@
   },
   {
    "word": "core",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "中核となる",
     "en": "the most central and essential part",
@@ -821,7 +821,7 @@
   },
   {
    "word": "demonstrate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "根拠を挙げて示す",
     "en": "to prove something with evidence",
@@ -847,7 +847,7 @@
   },
   {
    "word": "ensure",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "確実にそうする",
     "en": "to make certain something happens",
@@ -860,7 +860,7 @@
   },
   {
    "word": "exclude",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "対象から外す",
     "en": "to leave something out",
@@ -873,7 +873,7 @@
   },
   {
    "word": "illustrate",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "例を挙げて説明する",
     "en": "to make something clear with an example",
@@ -886,7 +886,7 @@
   },
   {
    "word": "imply",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "暗に示す",
     "en": "to suggest without saying directly",
@@ -899,7 +899,7 @@
   },
   {
    "word": "initial",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "最初の段階の",
     "en": "happening at the beginning",
@@ -925,7 +925,7 @@
   },
   {
    "word": "interact",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "互いに作用し合う",
     "en": "to affect each other",
@@ -938,7 +938,7 @@
   },
   {
    "word": "justify",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "根拠を述べて正当化する",
     "en": "to give good reasons for something",
@@ -951,7 +951,7 @@
   },
   {
    "word": "link",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "結びつけて考える",
     "en": "to show a connection between two things",
@@ -964,7 +964,7 @@
   },
   {
    "word": "minor",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "取るに足りない",
     "en": "small and not very important",
@@ -1016,7 +1016,7 @@
   },
   {
    "word": "specify",
-   "pos": "noun",
+   "pos": "verb",
    "meaning": {
     "ja": "はっきり指定する",
     "en": "to state something exactly",
@@ -1029,7 +1029,7 @@
   },
   {
    "word": "sufficient",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "足りるだけの",
     "en": "as much as is needed",
@@ -1211,7 +1211,7 @@
   },
   {
    "word": "underlying",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "表に出ないが根本にある",
     "en": "hidden beneath but causing what you see",
@@ -1224,7 +1224,7 @@
   },
   {
    "word": "subsequent",
-   "pos": "noun",
+   "pos": "adjective",
    "meaning": {
     "ja": "それに続いて起こる",
     "en": "coming after something else",
@@ -1237,7 +1237,7 @@
   },
   {
    "word": "whereas",
-   "pos": "noun",
+   "pos": "conjunction",
    "meaning": {
     "ja": "それに対して",
     "en": "used to contrast two facts",
@@ -1250,7 +1250,7 @@
   },
   {
    "word": "nevertheless",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "それにもかかわらず",
     "en": "despite what was just said",
@@ -1263,7 +1263,7 @@
   },
   {
    "word": "furthermore",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "さらに加えて",
     "en": "used to add another supporting point",
@@ -1276,7 +1276,7 @@
   },
   {
    "word": "moreover",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "その上さらに重要なことに",
     "en": "used to add a point that strengthens the argument",
@@ -1289,7 +1289,7 @@
   },
   {
    "word": "hence",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "そのため",
     "en": "for this reason",
@@ -1302,7 +1302,7 @@
   },
   {
    "word": "thus",
-   "pos": "noun",
+   "pos": "adverb",
    "meaning": {
     "ja": "このようにして",
     "en": "in this way, leading to what follows",

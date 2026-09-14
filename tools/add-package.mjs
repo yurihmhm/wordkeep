@@ -24,7 +24,12 @@ const REGIONS = ['all', 'us', 'uk', 'au'];
 const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const CEFR_RE = new RegExp('^(' + CEFR.join('|') + ')(-(' + CEFR.join('|') + '))?$');
 const GROUPS = ['daily', 'study', 'work', 'field'];
-const POS = ['noun', 'verb', 'adj', 'adv', 'phrase'];
+// The word list can be filtered by part of speech, so a wrong tag is a word
+// that vanishes from the filter it belongs in. Short forms are accepted and
+// written out in full, which is what the app's labels are keyed on.
+const POS = ['noun', 'verb', 'adjective', 'adverb', 'phrase', 'preposition', 'conjunction', 'pronoun', 'interjection'];
+const POS_ALIAS = { adj: 'adjective', adv: 'adverb', n: 'noun', v: 'verb' };
+const missingPos = [];
 const root = new URL('../', import.meta.url);
 const pkgDir = fileURLToPath(new URL('packages/', root));
 
@@ -133,7 +138,8 @@ d.words.forEach((w, i) => {
   // one schedule. Dropped here, and named, because a repeat usually means the
   // second reply forgot what the first one covered.
   if (seen.has(key)) { dupes.push(word); return; }
-  if (w.pos && POS.indexOf(w.pos) === -1) { problems.push('"' + word + '" has pos "' + w.pos + '" (expected one of ' + POS.join(', ') + ')'); return; }
+  const pos = w.pos ? (POS_ALIAS[String(w.pos).toLowerCase()] || String(w.pos).toLowerCase()) : '';
+  if (pos && POS.indexOf(pos) === -1) { problems.push('"' + word + '" has pos "' + w.pos + '" (expected one of ' + POS.join(', ') + ')'); return; }
   const miss = LANGS.filter(l => !w.meaning || !String(w.meaning[l] || '').trim());
   if (miss.length) { problems.push('"' + word + '" has no meaning in: ' + miss.join(', ')); return; }
   // Optional, and only the slang packs use them so far: which English-speaking
@@ -148,7 +154,10 @@ d.words.forEach((w, i) => {
     return;
   }
   seen.set(key, true);
-  const entry = { word, pos: w.pos || 'noun', meaning: Object.fromEntries(LANGS.map(l => [l, String(w.meaning[l]).trim()])) };
+  // No silent default. Every untagged word used to become a noun, which is how
+  // "establish" and "significant" ended up filed under 名.
+  if (!pos) missingPos.push(word);
+  const entry = { word, pos, meaning: Object.fromEntries(LANGS.map(l => [l, String(w.meaning[l]).trim()])) };
   if (w.region) entry.region = w.region;
   if (w.nsfw) entry.nsfw = true;
   out.words.push(entry);
@@ -214,6 +223,11 @@ if (strayInEnglish.length) {
   console.log('\n  [en] ' + strayInEnglish.length + ' English meaning(s) contain non-Latin characters:');
   strayInEnglish.slice(0, 8).forEach(w => console.log('    ' + w.word + '  →  ' + w.meaning.en));
   console.log('  This is usually a stray keystroke. Check them.');
+}
+
+if (missingPos.length) {
+  console.log('\n  ' + missingPos.length + ' word(s) have no "pos", so they will not appear under any part-of-speech filter:');
+  console.log('    ' + missingPos.slice(0, 12).join(', ') + (missingPos.length > 12 ? ', ...' : ''));
 }
 
 // Checked in EVERY language, not just Japanese. Someone studying in Korean hits
