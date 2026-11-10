@@ -59,10 +59,10 @@ echo "pre-commit: running logic tests..."
 # working on it -- it renders on a locked phone, hours later, from state that
 # has to be simulated. So it is the part that most needs a test.
 echo "pre-commit: running notification tests..."
-node tests/notify.test.mjs >/dev/null && node tests/slots.test.mjs >/dev/null || {
+node tests/notify.test.mjs >/dev/null && node tests/slots.test.mjs >/dev/null && node tests/update.test.mjs >/dev/null || {
   echo ""
   echo "BLOCKED: notification tests failed. Run them directly to see which:"
-  echo "  node tests/notify.test.mjs && node tests/slots.test.mjs"
+  echo "  node tests/notify.test.mjs && node tests/slots.test.mjs && node tests/update.test.mjs"
   exit 1
 }
 

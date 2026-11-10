@@ -1574,7 +1574,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.65.1';
+const APP_VERSION='5.65.2';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -2878,7 +2878,16 @@ refreshPackages();
 // user's own words (wordkeep.v2). Shape: { [pkgId]: { [word]: {box,nextDue,hist,seen,correct,wrong} } }
 const PKGKEY='wordkeep.packages.v1';
 function loadPkg(){try{return JSON.parse(localStorage.getItem(PKGKEY))||{};}catch(e){return {};}}
-function savePkg(){try{localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}catch(e){}}
+function savePkg(){
+  try{localStorage.setItem(PKGKEY,JSON.stringify(PKGDB));}
+  catch(e){
+    // This is the progress on every package. It used to fail without a word,
+    // which on a full store meant answers that looked saved and were gone on
+    // the next launch -- the one write that most needs the warning save() and
+    // savePkgWords() already give.
+    if(!saveFailed){saveFailed=true;toast(t('toast_save_fail'));}
+  }
+}
 let PKGDB=loadPkg();
 
 // Current data source for the shared list/study/quiz views.
@@ -9269,15 +9278,29 @@ function flushCloud(){
    after long enough that this is a new visit rather than a glance elsewhere --
    and never out of a round in progress or from under an open sheet. */
 const RESUME_HOME_AFTER=30*60000;
-let hiddenAt=0;
+let hiddenAt=0,hiddenDay=0;
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){hiddenAt=Date.now();return;}
-  if(!hiddenAt||Date.now()-hiddenAt<RESUME_HOME_AFTER)return;
+  if(document.hidden){hiddenAt=Date.now();hiddenDay=localDayIndex(hiddenAt);return;}
+  if(!hiddenAt)return;
+  const longAway=Date.now()-hiddenAt>=RESUME_HOME_AFTER;
+  const newDay=localDayIndex(Date.now())!==hiddenDay;
+  if(!longAway&&!newDay)return;
   hiddenAt=0;
   if(document.body.classList.contains('in-round'))return;
   if(topOverlay())return;
-  if($('#v-home').classList.contains('active'))return;
-  go('v-home');
+  const onHome=$('#v-home').classList.contains('active');
+  // Home that was left open has to be redrawn, not just left alone: it used to
+  // return here, so somebody who closed the app on Home last night opened it
+  // this morning to yesterday's "done for today" and yesterday's counts, and
+  // nothing short of leaving the screen and coming back would correct it.
+  if(onHome)renderHome();
+  else if(longAway)go('v-home');
+  else return;   // past midnight but only a glance away: leave the screen be
+  // Everything else a fresh launch would have done. A page iOS keeps alive for
+  // a week is never launched again, so without these it ran last week's build
+  // and never saw a word added on another device.
+  checkForUpdate();
+  if(cloudUser&&navigator.onLine&&!syncing)cloudSync('resume');
 });
 
 // Leaving the page: visibilitychange covers tab switches and app backgrounding,
@@ -9935,18 +9958,25 @@ if('serviceWorker'in navigator){
 async function checkForUpdate(){
   if(!window.fetch||!window.sessionStorage)return;
   try{
-    if(sessionStorage.getItem('wk.reloaded'))return;
     const r=await fetch('version.json',{cache:'no-store'});
     if(!r.ok)return;
     const d=await r.json();
     if(!d||typeof d.v!=='string'||d.v===APP_VERSION)return;
+    // One reload per VERSION, not one per session. The guard is against a
+    // loop -- a reload that still comes back stale -- and it used to be a
+    // plain flag, which also meant a page kept alive across two releases
+    // could take the first and never the second.
+    if(sessionStorage.getItem('wk.reloaded')===d.v)return;
+    // The answer took a moment, and a round may have started in it. Reloading
+    // would throw the question away; the next launch or return picks this up.
+    if(document.body.classList.contains('in-round'))return;
     // Drop the shell the worker is holding, so the reload cannot be answered
     // from the same stale copy that got us here.
     if(window.caches){
       const keys=await caches.keys();
       await Promise.all(keys.map(k=>caches.delete(k)));
     }
-    sessionStorage.setItem('wk.reloaded','1');
+    sessionStorage.setItem('wk.reloaded',d.v);
     console.warn('stale build '+APP_VERSION+', server has '+d.v+' -- reloading');
     location.reload();
   }catch(e){/* offline, or no such file: keep running what we have */}
