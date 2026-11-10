@@ -1574,7 +1574,7 @@ nav.tabbar .add-dot{background:var(--accent);color:var(--navy);border-radius:50%
 
 <script>
 /* ---------- config ---------- */
-const APP_VERSION='5.65.0';
+const APP_VERSION='5.65.1';
 // HOW TO WRITE A NOTE: these are read by whoever opens the app, not by whoever
 // wrote the code. One or two plain sentences -- what changed, and what it means
 // for the person reading it. No internals: no viewports, no selectors, no CSS,
@@ -8761,14 +8761,51 @@ function urlB64ToU8(s){
   return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
 }
 
+/* Keeps the sender's copy of this account current, and repairs the
+   subscription when it has quietly gone away.
+
+   The sender decides everything from the push document: whether today is
+   already done (lastDay), whether a streak ends tonight (hasStreak), what the
+   local time is (tzOffset) and when this person usually studies (studyMin).
+   Until v5.65.1 this function was only called when the NICKNAME was saved, so
+   the document stayed exactly as it was on the day notifications were turned
+   on: the 22:00 last call could fire once and never again, "already studied"
+   was never true, and somebody who flew to another timezone kept getting
+   reminders on the old clock.
+
+   Two other things die silently and are mended here too. A browser can drop
+   its subscription (reinstalling the home-screen app does it), and the sender
+   deletes a document whose endpoint answers 404/410 -- either way the switch
+   in Settings went on saying "on" while nothing could ever arrive. Asking the
+   browser for its current subscription, re-subscribing if it has none, and
+   writing the whole document covers both.
+   -------------------------------------------------------------------------- */
+let pushSig='';
 async function refreshPushTime(){
-  if(!notifyOn()||!cloudUser||!fbDb)return;
+  if(!notifyOn()||!cloudUser||!fbDb||!pushSupported())return;
   try{
-    await fbDb.collection('push').doc(cloudUser.uid)
-      .set({studyMin:lastStudyMinute(),eveningHour:NOTIFY_EVENING,
-            lastCallHour:NOTIFY_LASTCALL,...pushState(),
-            tzOffset:-new Date().getTimezoneOffset(),at:Date.now()},{merge:true});
-  }catch(e){ /* the reminder still works on the old time */ }
+    // Taken away in the system settings: the switch must not go on claiming
+    // reminders are coming.
+    if(Notification.permission==='denied'){S().notify=false;save();return;}
+    if(Notification.permission!=='granted')return;
+    const uid=cloudUser.uid;
+    const reg=await navigator.serviceWorker.ready;
+    let sub=await reg.pushManager.getSubscription();
+    if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,
+      applicationServerKey:urlB64ToU8(VAPID_PUBLIC)});
+    const j=sub.toJSON();
+    const doc={endpoint:j.endpoint,p256dh:(j.keys||{}).p256dh||'',auth:(j.keys||{}).auth||'',
+      studyMin:lastStudyMinute(),eveningHour:NOTIFY_EVENING,lastCallHour:NOTIFY_LASTCALL,
+      ...pushState(),tzOffset:-new Date().getTimezoneOffset()};
+    // Once per launch, and again only when something the sender reads has
+    // changed -- not on every sync.
+    const sig=uid+'|'+localDayIndex(Date.now())+'|'+JSON.stringify(doc);
+    if(sig===pushSig||!cloudUser||cloudUser.uid!==uid)return;
+    // A merge, so the sender's own sentDay/sentMin survive and today's slot is
+    // not sent a second time.
+    await fbDb.collection('push').doc(uid).set({...doc,at:Date.now()},{merge:true});
+    pushSig=sig;
+  }catch(e){ /* the reminder still works on what the sender already has */ }
 }
 async function enableNotify(){
   if(!pushSupported())return {ok:false,msg:t('ntf_unsupported')};
@@ -8918,9 +8955,6 @@ async function saveNickname(nick){
     // one until the next sync -- which could be a long time, and is exactly
     // wrong for someone renaming themselves to get a bad name off the board.
     publishBoard();
-    // The time somebody studies drifts, so the subscription is refreshed with
-    // it -- a reminder aimed at last month's routine is a fixed hour again.
-    refreshPushTime();
     return {ok:true};
   }catch(e){return {ok:false,msg:authErrMsg(e)};}
 }
@@ -9182,6 +9216,11 @@ async function cloudSync(reason){
     // Deliberately not awaited: the board is a nicety, and a failure writing it
     // must not make a word sync that already succeeded look like it failed.
     publishBoard();
+    // Same reasoning, and for the same reason not awaited. A sync runs at
+    // launch and a few seconds after any answer, which are exactly the two
+    // moments the sender's copy goes stale. Not on the way out: signing out
+    // removes the subscription, and this must not write it back behind it.
+    if(reason!=='logout')refreshPushTime();
     renderCount();
     renderList();
     // Home is the landing view, so words pulled from another device used to

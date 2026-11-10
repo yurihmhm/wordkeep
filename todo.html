@@ -172,6 +172,20 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>追加を検討したい機能</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">2026-08-22にClaudeから提案したもの。<b>一括追加(v4.9.0)と自作の単語帳(v5.0.0)は実装済み。</b>「タグで分類」は単語帳が満たしたので取り下げた。<b>絞り込み(v5.1.0)と苦手検出(v5.2.0)も実装済み。</b><b>出題形式は v5.3.0 の「スペル入力」で解決した。</b>残るなかでは、パッケージの中身を増やすのが次に効くと思う。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">週に一度のまとめ通知</div>
+          <div class="d">日曜の夜に「今週は◯pt・◯日学習、先週より+◯」を1通。毎日の催促とは別に、続けている人が成果を見られる通知。文面は今の通知と同じく端末側で組み立てるのでサーバーに学習内容は渡らない。</div>
+        </div>
+      </li>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">4択の選択肢を同じ品詞から優先して選ぶ</div>
+          <div class="d">いまは意味の文字列が近いものを選ぶだけなので、形容詞の問題に名詞や「〜する」が並び、品詞だけで消去できてしまう。品詞タグは全パッケージに入ったので、同じ品詞の重みを上げるだけで難度が上がる。</div>
+        </div>
+      </li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
@@ -278,6 +292,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>次にやる</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">小さく効くもの、または他の作業を止めているもの。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">通知の実行間隔を数日後に確認する</div>
+          <div class="d">毎時17分・47分に変えた結果、1日に何回走っているかを gh run list で見る。まだ間引かれるなら外部スケジューラ（cron-job.org や Cloudflare Workers Cron から workflow_dispatch を叩く）に切り替える。間隔が安定したら「3時間以上遅れた通知は送らない」上限も入れる。</div>
+        </div>
+      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -398,6 +419,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>機能</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">効果は大きいが、どれも一日仕事ではない。</p>
     <ul>
+      <li data-s="done">
+        <span class="chip done">完了</span>
+        <div>
+          <div class="t">通知の判断材料が登録した日のまま更新されていなかった</div>
+          <div class="d">学習済みかどうか・連続記録・タイムゾーン・いつも勉強する時刻をサーバーに送り直す処理が、ニックネーム保存のときにしか呼ばれていなかった（v5.23.0から）。そのため 22時の最終通知は登録翌日しか出ず、学習済みの日にも催促が届き、国をまたいでも時刻が元のまま。購読が切れても設定はオンのままで復旧しなかった。 <b>→ v5.65.1で対応：</b>同期が成功するたび（起動時と学習の数秒後）に送り直すようにし、購読が消えていれば取り直す。OS側で通知を拒否された場合は設定のスイッチもオフに戻す。テスト4件追加。</div>
+        </div>
+      <div class="ver">v5.65.1</div></li>
       <li data-s="done">
         <span class="chip done">完了</span>
         <div>
@@ -685,6 +713,20 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>コードと配信</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">転送量は実測済み。分割は当面やらないと判断した。</p>
     <ul>
+      <li data-s="done">
+        <span class="chip done">完了</span>
+        <div>
+          <div class="t">通知の実行が1日4〜5回しか走っていなかった</div>
+          <div class="d">cron を毎時0分にしていたが、GitHub の混雑時間帯で大半が間引かれ、20時の通知が深夜に届く・届かない日があった。 <b>→ 2026-11-10で対応：</b>毎時17分・47分の2回に変更（送信済みの枠は記録しているので二重には届かない）。同時実行も禁止。改善したかは数日分の実行履歴で確認する。</div>
+        </div>
+      <div class="ver">2026-11-10</div></li>
+      <li data-s="done">
+        <span class="chip done">完了</span>
+        <div>
+          <div class="t">通知ジョブが4日間止まっていた（web-push 4.0.0）</div>
+          <div class="d">11/6〜11/10、毎時の送信がすべて失敗し、誰にも通知が届いていなかった。ワークフローがバージョン指定なしで npm install していて、11/6 に出た web-push 4.0.0 を拾って読み込めなくなったのが原因。 <b>→ 2026-11-10で対応：</b>tools/package.json と package-lock.json でバージョンを固定し、npm ci --ignore-scripts で入れるようにした。Node 20→24、actions v4→v7。手動実行で成功を確認（3件送信）。</div>
+        </div>
+      <div class="ver">2026-11-10</div></li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>
@@ -738,6 +780,13 @@ footer a{color:var(--ink-2)}
     <div class="sec-head"><h2>開発の足回り</h2><span class="sec-n" data-count></span></div>
     <p class="sec-note">「作る」側は足りているが、「壊れたことに気づく」側が手薄。友達に配って使ってもらう段階で効いてくる。</p>
     <ul>
+      <li data-s="open">
+        <span class="chip open">未完了</span>
+        <div>
+          <div class="t">週1の自動ヘルスチェック</div>
+          <div class="d">通知ジョブ・辞書API・翻訳API・配信中のバージョンをまとめて確認し、壊れていたときだけ知らせる。今回は失敗メールが届くまで4日間気づけなかった。Claude の定期タスクか GitHub Actions のどちらかで。</div>
+        </div>
+      </li>
       <li data-s="open">
         <span class="chip open">未完了</span>
         <div>

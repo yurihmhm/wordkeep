@@ -170,6 +170,32 @@ t('only the last call re-alerts', () => {
   return compose(hint({streak:9,nextMs:30,lastStudied:today()-1}), at(22)).renotify === true || 'last call did not';
 });
 
+// The sender can only be as right as the document the app last wrote. For 42
+// versions the refresh was wired to the nickname form instead of to study, and
+// nothing failed -- the reminders simply went on using the first day's data.
+console.log('\nthe sender is kept up to date');
+{
+  const app = fs.readFileSync('index.html', 'utf8');
+  const body = (name) => {
+    const a = app.indexOf('async function ' + name + '(');
+    if (a < 0) return '';
+    const b = app.indexOf('\nasync function ', a + 10), c = app.indexOf('\nfunction ', a + 10);
+    return app.slice(a, Math.min(b < 0 ? 1e9 : b, c < 0 ? 1e9 : c));
+  };
+  t('a finished sync refreshes the push document', () =>
+    /refreshPushTime\(\)/.test(body('cloudSync')) || 'cloudSync no longer calls refreshPushTime()');
+  t('...but not on the way out of an account', () =>
+    /reason!=='logout'\)refreshPushTime\(\)/.test(body('cloudSync')) || 'the logout guard is gone');
+  t('the refresh writes the endpoint, not just the hours', () => {
+    const b = body('refreshPushTime');
+    return (/endpoint:j\.endpoint/.test(b) && /getSubscription\(\)/.test(b) && /merge:true/.test(b)) || 'refreshPushTime no longer repairs the subscription';
+  });
+  t('the refresh carries what the sender decides from', () => {
+    const b = body('refreshPushTime');
+    return (/pushState\(\)/.test(b) && /tzOffset/.test(b) && /studyMin/.test(b)) || 'a field the sender reads is missing';
+  });
+}
+
 await Promise.all(pending);
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);
