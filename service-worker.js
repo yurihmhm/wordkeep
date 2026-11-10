@@ -125,6 +125,8 @@ function dayIndex(ts) {
 // The slot is inferred from the clock rather than from the payload there isn't
 // one of. That is enough: the sender only ever fires at the habit hour, at 20,
 // and at 22, and the three want different things said.
+// (For somebody who has stopped it fires at the habit hour only, on a few
+// chosen days -- see the block on being away, below.)
 const HABIT_UNTIL = 7;
 function compose(hint, now) {
   const T = (hint && hint.t) || {};
@@ -175,6 +177,31 @@ function compose(hint, now) {
       return out(say('freeze_t', ''), fill('freeze_b', freezes), 'wordkeep', true);
     return out(fill('last_t', Math.max(1, 24 - now.getHours()), streak),
                say('last_b', ''), 'wordkeep', true);
+  }
+
+  // Stopped: two days or more since the last answer, and no run left alive to
+  // talk about. The sender has thinned these out to a handful of days and
+  // then stops altogether, so each one has to be worth having sent -- and the
+  // one thing they must not be is the same sentence again. What changes is
+  // how long it has been, so that is what picks the words:
+  //   2 days     start again, today is day one
+  //   3-4        no pressure, whenever you have a minute
+  //   5-6        a word of their own, asked as a question
+  //   7-13       how long it has been, said plainly
+  //   14 on      these are stopping now -- and they do
+  // Only when the app has handed over the strings for it. A mirror written by
+  // an older build has none, and falls through to what it always said.
+  const gap = last != null ? today - last : 0;
+  if (gap >= 2 && streak === 0 && T.again_t) {
+    if (gap >= 14) return out(say('pause_t', ''), say('pause_b', ''), 'wordkeep');
+    if (gap >= 7) return out(fill('away_t', gap), say('away_b', ''), 'wordkeep');
+    const mine = hint.words || [];
+    if (gap >= 5 && mine.length) {
+      const w = mine[Math.floor(Math.random() * mine.length)];
+      return out(fill('word_t', w.w), say('word_b', ''), 'word');
+    }
+    if (gap >= 3) return out(say('wait_t', ''), say('wait_b', ''), 'wordkeep');
+    return out(say('again_t', ''), say('again_b', ''), 'wordkeep');
   }
 
   // One or two days from a milestone. This is the strongest thing that can be

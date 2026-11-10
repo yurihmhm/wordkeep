@@ -33,13 +33,21 @@ const FORCE = (process.env.FORCE || '').trim() === 'true';
 // The workflow fires on a UTC clock; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
 //
-// Three possible slots:
+// Three possible slots on a day somebody is still in the habit:
 //   habit      ~30 min before the hour they usually study, only if not studied
 //   evening    20:00, always -- a nudge if the day is open, a receipt if it is
 //              already done
 //   last call  22:00, and ONLY when a streak really ends tonight
 // So somebody keeping their streak hears once, in the evening, and somebody
 // about to break one hears three escalating things.
+//
+// Somebody who has STOPPED is a different case, and used to be treated as the
+// same one: two reminders a day, every day, for ever, saying the same thing.
+// That is how an app gets its notifications switched off -- or gets deleted.
+// From the second day away there is one message on a few chosen days, each
+// saying something different (the service worker picks the words from how long
+// it has been), the last of them says the reminders are stopping, and then
+// they stop. Studying again starts the ordinary slots the same day.
 const nowUtcMin = new Date().getUTCHours() * 60 + new Date().getUTCMinutes();
 const clamp = (v, lo, hi, dflt) =>
   Number.isFinite(v) && v >= lo && v <= hi ? v : dflt;
@@ -64,6 +72,27 @@ for (const doc of snap.docs) {
     const lastDay = Number.isFinite(d.lastDay) ? d.lastDay : -1;
     const studied = lastDay === localDay;
 
+    // Days since they last studied -- or, for somebody who never has, since
+    // the app last wrote this document (it does so on every launch).
+    //
+    // Documents last written before v5.65.1 cannot be trusted for this: the
+    // app only refreshed them when the nickname was saved, so `lastDay` is
+    // the day notifications were switched on, whatever has happened since.
+    // All that is known about those accounts is that the app has not been
+    // opened since the fix shipped, so that is the day they are counted from,
+    // and they get one more message rather than the whole sequence -- the
+    // device, which does know how long it has been, may already be saying
+    // goodbye in it. The first launch on a current build rewrites the
+    // document and they are an ordinary account again.
+    const TRUST_FROM = Date.UTC(2026, 10, 10, 9, 45);   // v5.65.1 went live
+    const dayOf = ms => Math.floor((ms + tz * 60000) / 86400000);
+    const fresh = Number.isFinite(d.at) && d.at >= TRUST_FROM;
+    const anchor = !fresh ? dayOf(TRUST_FROM) : lastDay >= 0 ? lastDay : dayOf(d.at);
+    const away = localDay - anchor;
+    // Close together while coming back is still easy, then a week, then a
+    // last one a week after that. Five messages in a fortnight, then silence.
+    const LAPSE_DAYS = fresh ? [2, 3, 5, 7, 14] : [2];
+
     // Aimed 30 minutes BEFORE the hour they usually study, so the reminder
     // stays in front of the habit rather than arriving after it.
     const aim = (clamp(d.studyMin, 0, 1439, 9 * 60) - 30 + 1440) % 1440;
@@ -71,14 +100,21 @@ for (const doc of snap.docs) {
     const lastCall = clamp(d.lastCallHour, 0, 23, 22) * 60;
 
     const slots = [];
-    if (!studied) slots.push(aim);
-    // The evening slot fires either way. On a day that is already done it is a
-    // receipt rather than a nudge -- which is the only notification somebody
-    // who never misses a day would ever see, and without it the app is silent
-    // for exactly the people who use it most.
-    slots.push(evening);
-    // Only when a live run really ends tonight.
-    if (!studied && d.hasStreak === true && lastDay === localDay - 1) slots.push(lastCall);
+    if (away >= 2) {
+      // Stopped. One message, at the hour they used to study, and only on the
+      // chosen days. No evening receipt and no last call: there is nothing to
+      // confirm and nothing left to lose.
+      if (LAPSE_DAYS.includes(away)) slots.push(aim);
+    } else {
+      if (!studied) slots.push(aim);
+      // The evening slot fires either way. On a day that is already done it is
+      // a receipt rather than a nudge -- which is the only notification
+      // somebody who never misses a day would ever see, and without it the app
+      // is silent for exactly the people who use it most.
+      slots.push(evening);
+      // Only when a live run really ends tonight.
+      if (!studied && d.hasStreak === true && lastDay === localDay - 1) slots.push(lastCall);
+    }
 
     // The latest slot whose time has already passed. Matching the exact hour
     // was the bug: GitHub's scheduler is best-effort and skips hours -- there

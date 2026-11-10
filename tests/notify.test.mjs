@@ -170,6 +170,61 @@ t('only the last call re-alerts', () => {
   return compose(hint({streak:9,nextMs:30,lastStudied:today()-1}), at(22)).renotify === true || 'last call did not';
 });
 
+// Somebody who has stopped. The sender thins these to five in a fortnight; the
+// point of the test is that no two of the five read the same, and that the
+// last one is the only one that says goodbye.
+console.log('\nsomebody who has stopped');
+{
+  const TL = { ...T, again_t:'again', again_b:'ab', wait_t:'wait', wait_b:'wtb',
+               away_t:'away{0}', away_b:'awb', pause_t:'pause', pause_b:'pb' };
+  const gone = (days, o) => compose({ ...hint({ lastStudied: today() - days, ...o }), t: TL }, at(9));
+  t('two days away: start again', () => gone(2).title === 'again' || JSON.stringify(gone(2)));
+  t('three and four days: no pressure', () =>
+    (gone(3).title === 'wait' && gone(4).title === 'wait') || gone(3).title + '/' + gone(4).title);
+  t('five days: a word of their own, asked as a question', () => {
+    const m = gone(5, { words: [{ w:'resilient', m:'x' }] });
+    return (m.title === 'word:resilient' && m.tag === 'word') || JSON.stringify(m);
+  });
+  t('five days with no words saved falls back rather than asking about nothing', () =>
+    gone(5).title === 'wait' || JSON.stringify(gone(5)));
+  t('a week: says how long, with the real number', () =>
+    (gone(7).title === 'away7' && gone(9).title === 'away9') || gone(7).title + '/' + gone(9).title);
+  t('a fortnight: the reminders are stopping', () =>
+    (gone(14).title === 'pause' && gone(40).title === 'pause') || gone(14).title + '/' + gone(40).title);
+  t('the five the sender actually sends are five different messages', () => {
+    const five = [2, 3, 5, 7, 14].map(d => gone(d, { words: [{ w:'resilient', m:'x' }] }).title);
+    return new Set(five).size === 5 || five.join(' | ');
+  });
+  t('a past best does not turn every one of them back into the same line', () => {
+    const five = [2, 3, 5, 7, 14].map(d => gone(d, { longest: 30, words: [{ w:'resilient', m:'x' }] }).title);
+    return (new Set(five).size === 5 && !five.includes('best30')) || five.join(' | ');
+  });
+  t('goodbye is never said to somebody who can still save a run', () => {
+    // Missed yesterday, but a freeze covers it: the run is alive, so this is a
+    // streak message, not a lapse one.
+    const m = gone(2, { streak: 12, longest: 12, freezes: 1, nextMs: 14 });
+    return !['again', 'wait', 'pause'].includes(m.title) || JSON.stringify(m);
+  });
+  t('one day away is still an ordinary reminder', () =>
+    !['again', 'wait', 'pause'].includes(gone(1).title) || JSON.stringify(gone(1)));
+  t('somebody who studied today is never told they have been away', () =>
+    gone(0, { streak: 3 }).title === 'done3!' || JSON.stringify(gone(0, { streak: 3 })));
+  t('a mirror from an older build keeps its old wording', () => {
+    const m = compose(hint({ lastStudied: today() - 9, longest: 5 }), at(9));
+    return m.title === 'best5' || JSON.stringify(m);
+  });
+  t('no raw placeholder reaches the lock screen', () => {
+    const all = [2, 3, 5, 7, 14].map(d => gone(d)).map(m => m.title + m.body).join(' ');
+    return !/\{\d\}/.test(all) || all;
+  });
+  t('the app hands the worker every string this needs', () => {
+    const app = fs.readFileSync('index.html', 'utf8');
+    const missing = ['again_t','again_b','wait_t','wait_b','away_t','away_b','pause_t','pause_b']
+      .filter(k => !new RegExp(k + ":t\\('ntf_" + k + "'\\)").test(app));
+    return missing.length === 0 || 'buildHint() is missing ' + missing.join(', ');
+  });
+}
+
 // The sender can only be as right as the document the app last wrote. For 42
 // versions the refresh was wired to the nickname form instead of to study, and
 // nothing failed -- the reminders simply went on using the first day's data.
