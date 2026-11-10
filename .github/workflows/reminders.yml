@@ -1,13 +1,17 @@
 name: reminders
 
-# Hourly, because each subscription stores the LOCAL hours it wants and the
-# script matches against them -- one cron job covers every timezone.
+# Each subscription stores the LOCAL hours it wants and the script picks the
+# latest slot that has already passed -- one cron job covers every timezone.
 #
-# GitHub's scheduled runs are best-effort and can be minutes late. For a study
-# reminder that is fine; do not use this pattern for anything time-critical.
+# Twice an hour, and deliberately NOT on the hour. GitHub's scheduler is
+# best-effort and the top of the hour is when it is busiest: with
+# '0 * * * *' this repo was getting four or five runs a day instead of
+# twenty-four, so a 20:00 reminder could arrive at midnight or not at all.
+# Running twice costs nothing -- the script records the slot it sent and
+# skips it the second time.
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '17,47 * * * *'
   workflow_dispatch:        # so it can be fired by hand to test
     inputs:
       test_uid:
@@ -24,15 +28,29 @@ on:
 permissions:
   contents: read
 
+# Never two at once: both would read "not sent yet" and both would send.
+concurrency:
+  group: reminders
+  cancel-in-progress: false
+
 jobs:
   send:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20'
-      - run: npm install web-push firebase-admin --no-save
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: tools/package-lock.json
+      # `npm ci` installs exactly what tools/package-lock.json names, checked
+      # against its hashes, and runs no install scripts. This step used to be
+      # `npm install web-push firebase-admin`, which took whatever was newest:
+      # web-push 4.0.0 came out on 2026-11-06 with a different export shape and
+      # every run failed for four days. This job holds the service account and
+      # the VAPID key -- it should never run a release nobody has looked at.
+      - run: npm ci --ignore-scripts
+        working-directory: tools
       - run: node tools/send-reminders.mjs
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}

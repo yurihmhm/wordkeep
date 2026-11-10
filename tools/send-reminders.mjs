@@ -1,4 +1,4 @@
-// Sends the daily reminders. Run by .github/workflows/reminders.yml on the hour.
+// Sends the daily reminders. Run by .github/workflows/reminders.yml twice an hour.
 //
 // The push carries NO payload. The service worker composes the text from data
 // that never leaves the device, so this script -- and the machine it runs on --
@@ -30,7 +30,7 @@ const TEST_UID = (process.env.TEST_UID || '').trim();
 // the wrong hour because of this.
 const FORCE = (process.env.FORCE || '').trim() === 'true';
 
-// The workflow fires hourly in UTC; each subscription says which LOCAL hours it
+// The workflow fires on a UTC clock; each subscription says which LOCAL hours it
 // wants. Matching here rather than scheduling per timezone keeps one cron job.
 //
 // Three possible slots:

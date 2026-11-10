@@ -1,0 +1,9 @@
+{
+  "name": "wordkeep-reminders",
+  "private": true,
+  "description": "Dependencies for tools/send-reminders.mjs only. The app itself has no build step and no dependencies. Versions are exact and package-lock.json pins everything underneath them: this job holds the Firebase service account and the VAPID private key, so it must never run a release nobody has looked at. To upgrade, change the version here, run `npm install --package-lock-only --ignore-scripts` in tools/, run the script once without secrets (it should stop at 'missing VAPID_PRIVATE_KEY'), and commit both files.",
+  "dependencies": {
+    "firebase-admin": "14.5.0",
+    "web-push": "3.6.7"
+  }
+}
