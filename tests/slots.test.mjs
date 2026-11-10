@@ -20,12 +20,12 @@ function decide(d, localHourNow, minute, day) {
   const nowUtcMin = (localMin - tz + 1440 * 2) % 1440;
   const localDayNow = day != null ? day : Math.floor((Date.now() + tz * 60000) / 86400000);
   const FakeDate = { now: () => (localDayNow * 86400000) - tz * 60000 + localMin * 60000, UTC: Date.UTC };
-  const fn = new Function('d', 'nowUtcMin', 'clamp', 'Date', `
+  const fn = new Function('d', 'nowUtcMin', 'clamp', 'Date', 'note', `
     let skipped = 0;
     ${body.replace(/\{ skipped\+\+; continue; \}/g, '{ return "skip"; }')}
     return due;
   `);
-  return fn(d, nowUtcMin, clamp, FakeDate);
+  return fn(d, nowUtcMin, clamp, FakeDate, () => {});
 }
 const TODAY = tz => Math.floor((Date.now() + (tz || 0) * 60000) / 86400000);
 

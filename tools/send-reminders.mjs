@@ -57,6 +57,11 @@ const snap = TEST_UID
   : await db.collection('push').get();
 if (TEST_UID && !snap.docs.length) { console.log('no subscription for ' + TEST_UID); process.exit(0); }
 let sent = 0, skipped = 0, dropped = 0;
+// Why each account was or was not sent to, as counts. This log is public, so
+// it says how many and never who -- but without it a run that skips everyone
+// is indistinguishable from a run that is broken.
+const why = {};
+const note = k => { why[k] = (why[k] || 0) + 1; };
 
 for (const doc of snap.docs) {
   const d = doc.data();
@@ -122,11 +127,16 @@ for (const doc of snap.docs) {
     // missed was simply lost. Taking the latest passed slot instead means a
     // missed hour is picked up by whatever run comes next.
     const due = slots.filter(m => localMin >= m).sort((a, b) => b - a)[0];
+    if (due === undefined) note(away < 2 ? 'nothing due yet' : slots.length ? 'away, waiting for the hour'
+      : away > LAPSE_DAYS[LAPSE_DAYS.length - 1] ? 'away, reminders ended' : 'away, not one of the days');
     if (due === undefined) { skipped++; continue; }
     // ...and never twice for the same slot. `sentMin` is the slot's own time,
     // not the send time, so it stays monotonic even when a habit hour lands
     // after the evening one.
+    if (d.sentDay === localDay && Number.isFinite(d.sentMin) && d.sentMin >= due) note('already sent today');
     if (d.sentDay === localDay && Number.isFinite(d.sentMin) && d.sentMin >= due) { skipped++; continue; }
+    note(away >= 2 ? 'sending: away ' + away + ' days' : 'sending: ordinary');
+    note(fresh ? 'document current' : 'document from before v5.65.1');
     mark = { sentDay: localDay, sentMin: due };
   }
 
@@ -152,3 +162,4 @@ for (const doc of snap.docs) {
   }
 }
 console.log(`sent=${sent} skipped=${skipped} dropped=${dropped} total=${snap.size}`);
+for (const k of Object.keys(why).sort()) console.log(`  ${why[k]} x ${k}`);
